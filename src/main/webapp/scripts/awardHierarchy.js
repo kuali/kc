@@ -71,13 +71,13 @@
           
           var idDiv;
           if ( jQuery.browser.msie ) { 
-               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+               idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
 																					// later
 																					// change
 																					// RA
 																					// description
           } else {
-               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+               idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(builduUi(item_text, racode, 1)); // for
 																			// later
 																			// change
 																			// RA
@@ -134,7 +134,7 @@
     	   return retStr; 
     }
     
-    function builduUi(item_text, racode) { 
+    function builduUi(item_text, racode, level) { 
     	var original_item_text = item_text; 
         var text1 = item_text.substring(0,item_text.indexOf("%3A")).trim();
         item_text = item_text.substring(item_text.indexOf("%3A")+3, item_text.length).trim();
@@ -194,16 +194,16 @@
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
         var racode2 = racode.substring(i2,12); 
+        var tblWidth = 100-(parseInt(level)+1);
         
-      	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
+      	var abc = "<table style=\"border: medium none ; width: " + tblWidth + "%; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
       				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
       				+ "<a href='kew/DocHandler.do?docId=" + text15 + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
       				+ "</td></tr></tbody></table>"; 
-        
       	return abc; 
     }
   
-  function tbodyTag2(name, id) {
+  function tbodyTag2(name, id, level) {
 	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       text1 = text1.substr(0,12);
@@ -212,9 +212,9 @@
       var index = text1reverse.indexOf("0");
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
+      var tblWidth = 100-parseInt(level);
       
-      
-	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
+	  var tblTag = $('<table id="tbody2_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
 	    
 	  	var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="5" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Award Copy");
@@ -239,12 +239,12 @@
 	    var thTag2=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 60px; vertical-align: middle;">').html('<b>Copy as:</b>');
 	    thTag2.appendTo(trTag);
 	    
-	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 505px;"></table>')
+	    var subTblTag = $('<table align="right" cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;"></table>')
 	    var subTrTag = $('<tr></tr>');
 	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;">');
 	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 100px;">');
-	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;">');
-	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;">');
+	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 125px;">');
+	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 20px;">');
 	    	    
 	    if($("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyAwardRadio").attr("value") == "a"){
 	    	var radio1 = $('<input class="nobord" type="radio" name="awardHierarchyTempObject['+indexForHiddenField+'].copyAwardRadio" />').attr("id","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardRadio").attr("value","a").attr("checked",true);
@@ -293,11 +293,11 @@
 	    
 	    subTrTag.appendTo(subTblTag);
 	    
-	    var tdTag2=$('<td></td>').html(subTblTag);
+	    var tdTag2=$('<td align="left" width="305px"></td>').html(subTblTag);
 	    tdTag2.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
 	    
-	    var tdTag3=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
+	    var tdTag3=$('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;">');
 	    var copyButton = $('<input type="image" title="Copy" alt="copy" style="border: medium none ;" src="static/images/tinybutton-copy2.gif"/>').attr("property","methodToCall.copyAward.awardNumber"+text1).attr("name","methodToCall.copyAward.awardNumber"+text1);;
 	    copyButton.appendTo(tdTag3);	    
 	    tdTag3.appendTo(trTag);	    
@@ -306,7 +306,7 @@
 	    return tblTag;
   }
   
-  function tbodyTag3(name, id) {
+  function tbodyTag3(name, id, level) {
 	  
 	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
@@ -316,8 +316,9 @@
       var index = text1reverse.indexOf("0");
       var i2 = 12 - index;
       var indexForHiddenField = text1.substring(i2,12);
+      var tblWidth = 100-parseInt(level);
       
-	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
+	  var tblTag = $('<table id="tbody3_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
 
 	    var trTag0 = $('<tr></tr>');
 	    var thTag0 = $('<th colspan="3" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("New Child");
@@ -329,13 +330,13 @@
 	    var thTag1=$('<th style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(230, 230, 230); background-image: none; width: 70px; vertical-align: middle;"></th>').html('<b>Based on:</b>');
 	    trTag.html(thTag1);
 	
-	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 505px;"></table>')
+	    var subTblTag = $('<table cellspacing="0" cellpadding="0" style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 475px;"></table>')
 	    var subTrTag = $('<tr></tr>');
 	    var subTdTag1 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; text-align: left; width: 60px;"></td>');
 	    var subTdTag2 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 140px;"></td>');
 	    var subTdTag3 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 130px;"></td>');
-	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 325px;"></td>');
-	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: center; width: 20px;"></td>');
+	    var subTdTag4 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 125px;"></td>');
+	    var subTdTag5 = $('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 20px;"></td>');
 	    	    
 	    
 	    
@@ -391,12 +392,12 @@
 	    
 	    subTrTag.appendTo(subTblTag);
 	    
-	    var tdTag1=$('<td></td>').html(subTblTag);
+	    var tdTag1=$('<td align="left"></td>').html(subTblTag);
 	    tdTag1.appendTo(trTag);	    
 	    trTag.appendTo(tblTag);
 	    
 	    
-	    var tdTag2=$('<td style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
+	    var tdTag2=$('<td align="left" style="border: 1px solid rgb(147, 147, 147); padding: 3px; border-collapse: collapse; background-color: rgb(255, 255, 255); vertical-align: middle; text-align: center; width: 65px;"></td>');
 	    var createButton = $('<input type="image" title="Create" alt="create" style="border: medium none ;" src="static/images/tinybutton-create.gif"/>').attr("property","methodToCall.create.awardNumber"+text1).attr("name","methodToCall.create.awardNumber"+text1);	    
 	    createButton.appendTo(tdTag2);	    
 	    tdTag2.appendTo(trTag);
@@ -406,7 +407,7 @@
 	    return tblTag;
   }
 
-  function tbodyTag1(name, id) {
+  function tbodyTag1(name, id, level) {
 	  
 	  var text1 = name.substring(0,name.indexOf("%3A")).trim();
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
@@ -446,11 +447,12 @@
       name = name.substring(name.indexOf("%3A")+3, name.length).trim();
       var text13 = name.substring(0,name.indexOf("%3A")).trim();
     
-    var idx = id.substring(4);  
-    var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); padding: 0px; border-collapse: collapse;"></table>')
+    var idx = id.substring(4); 
+    var tblWidth = 100-parseInt(level);
+    var tblTag = $('<table id="tbody1_1" style="border: 1px solid rgb(147, 147, 147); width: ' + tblWidth + '%; padding: 0px; border-collapse: collapse;"></table>')
     
     var trTag0 = $('<tr></tr>');
-	var thTag0 = $('<th colspan="8" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Detail: " + text1);
+	var thTag0 = $('<th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;"></th>').attr("id","raHeader"+id.substring(4)).html("Detail: " + text1);
 	trTag0.html(thTag0);
 	trTag0.appendTo(tblTag);
 	
@@ -460,11 +462,11 @@
     var trTag = $('<tr></tr>');
     var thTag1=$('<th style="text-align:right;width:160px;"></th>').html('<b>Project Start Date</b>');
     trTag.html(thTag1);
-    var tdTag1=$('<td></td>').html(text12);
+    var tdTag1=$('<td style="width:200px;"></td>').html(text12);
     tdTag1.appendTo(trTag);
     var thTag2=$('<th style="text-align:right;width:160px;"></th>').html('<b>Obligation Start Date</b>');
     thTag2.appendTo(trTag);    
-    var tdTag2=$('<td></td>').html(text2);
+    var tdTag2=$('<td style="width:200px;"></td>').html(text2);
     tdTag2.appendTo(trTag);
     
     // 2nd tr
@@ -515,13 +517,13 @@
             var divId = "listcontent"+i;
             var idDiv;
             if ( jQuery.browser.msie ) { 
-                idDiv = $('<div></div>').attr("id","itemText"+i).html(code +" : "+name); // for
+                idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(code +" : "+name); // for
 																				// later
 																				// change
 																				// RA
 																				// description
             } else {
-                idDiv = $('<span>').attr("id","itemText"+i).html(code +" : "+name); // for
+                idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(code +" : "+name); // for
 																			// later
 																			// change
 																			// RA
@@ -563,12 +565,15 @@
   function linkOnclick(obj, item_text, divId, tagId) {
       $(".hierarchydetail:not(#"+divId+")").slideUp(300);
       var idx = obj.attr("id").substring(11);
+      var parentNode = $("#"+tagId); 
+      var level = getNodeLevel(parentNode);
+      
       if (obj.siblings('div:eq(1)').children('table:eq(0)').size() == 0) {
-    	  tbodyTag1(item_text, "item"+idx).appendTo($("#listcontent"+idx));
-          tbodyTag2(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+    	  tbodyTag1(item_text, "item"+idx, level).appendTo($("#listcontent"+idx));
+          tbodyTag2(item_text, "item"+idx, level).appendTo($("#listcontent"+idx));
           var docStatus = item_text.substring(item_text.length-6,item_text.length-5);
           if(docStatus == 'F') { 
-        	  tbodyTag3(item_text, "item"+idx).appendTo($("#listcontent"+idx));
+        	  tbodyTag3(item_text, "item"+idx, level).appendTo($("#listcontent"+idx));
           }
           if ($("#listcontent"+idx).is(":hidden")) {
                $("#listcontent"+idx).show();  
@@ -578,6 +583,14 @@
       }   
   }
 
+  function getNodeLevel(liNode) {
+	  var level = 1;
+	  liNode.parents('li').each(function(){
+		  level++;
+	  });
+	  
+	  return level;
+  }
   /*
 	 * load children area of research when parents RA is expanding.
 	 */
@@ -585,6 +598,7 @@
       var parentNode = $("#"+tagId); 
       var liNode = parentNode.parents('li:eq(0)');
       var ulNode = liNode.children('ul:eq(0)'); 
+      
       var inputNodev;
       var awardNumber = getAwardNumber(liNode);
       
@@ -623,13 +637,13 @@
               
 	          var idDiv;
 	          if ( jQuery.browser.msie ) { 
-	               idDiv = $('<div></div>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+	               idDiv = $('<div align="left"></div>').attr("id","itemText"+i).html(builduUi(item_text, racode, getNodeLevel(parentNode))); // for
 																						// later
 																						// change
 																						// RA
 																						// description
 	          } else {    
-	               idDiv = $('<span>').attr("id","itemText"+i).html(builduUi(item_text, racode)); // for
+	               idDiv = $('<span style="text-align: left;">').attr("id","itemText"+i).html(builduUi(item_text, racode, getNodeLevel(parentNode))); // for
 																				// later
 																				// change
 																				// RA
