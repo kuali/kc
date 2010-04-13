@@ -37,7 +37,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
@@ -66,6 +65,8 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
@@ -138,7 +139,7 @@ public class Budget extends BudgetVersionOverview {
     private List<BudgetSubAwards> budgetSubAwards;
     private boolean rateSynced;
     private transient ParameterService parameterService;
-
+    
     public Budget(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -462,6 +463,14 @@ public class Budget extends BudgetVersionOverview {
                 }
             }
         }
+        List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
+        List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
+        for (BudgetSubAwards budgetSubAward : getBudgetSubAwards()) {
+            budgetSubAward.refreshReferenceObject("budgetSubAwardAttachments");
+            budgetSubAward.refreshReferenceObject("budgetSubAwardFiles");
+            subAwardFiles.addAll(budgetSubAward.getBudgetSubAwardFiles());
+            subAwardAttachments.addAll(budgetSubAward.getBudgetSubAwardAttachments());
+        }
         
         managedLists.add(budgetModularIdcs);
         managedLists.add(budgetModular);
@@ -475,6 +484,8 @@ public class Budget extends BudgetVersionOverview {
         managedLists.add(getBudgetPeriods());
         managedLists.add(getBudgetLaRates());
         managedLists.add(getBudgetRates());
+        managedLists.add(subAwardAttachments);
+        managedLists.add(subAwardFiles);
         managedLists.add(getBudgetSubAwards());
         return managedLists;
     }
