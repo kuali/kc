@@ -50,11 +50,6 @@
                 <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.rolodexId}"/></div></th>
                 <td align="left" valign="middle">
-                    <c:if test="${!readOnly}" > 
-                        <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.lastName}" >
-                            <c:out value="${KualiForm.document.institutionalProposal.rolodex.lastName}, ${KualiForm.document.institutionalProposal.rolodex.firstName}"/>
-                        </c:if>    
-                    </c:if>
                           
 					<c:choose>
 					<c:when test="${!empty KualiForm.document.institutionalProposal.rolodex.addressLine1 || !empty KualiForm.document.institutionalProposal.rolodex.addressLine2 || !empty KualiForm.document.institutionalProposal.rolodex.addressLine3 ||!empty KualiForm.document.institutionalProposal.rolodex.city ||!empty KualiForm.document.institutionalProposal.rolodex.state}">  
