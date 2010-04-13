@@ -1,4 +1,18 @@
-  	function sponsorHierarchy() {
+var dwrReply = {
+	callback:function(data) {
+		hideWait();
+	},
+	errorHandler:function( errorMessage ) {
+		if (errorMessage == null || erroreMessage == 'null') {
+			alert("Unable to make changes due to an unknown error communicating with the server. Please save or cancel your changes and try again.")
+		} else {
+			alert("Unable to make changes due to the following error: " + errorMessage + ". Please save or cancel your changes and try again.");
+		}
+		hideWait();
+	}
+};
+
+function sponsorHierarchy() {
 
 		//var topSponsorHierarchies = document.getElementById("topSponsorHierarchies").value;
 		//var topSponsorHierarchies = document.getElementById("selectedSponsorHierarchy").value;
@@ -77,7 +91,7 @@
         if (!oCurrentTextNode.dynamicLoadComplete) {
                var temp = loadNextLevelSponsorHierarchy(oCurrentTextNode);
 		}
-        setTimeout("checkToAdd("+mapKey+")", 200);
+        checkToAdd(mapKey)
 
 
 
@@ -125,7 +139,7 @@
                     }
                     leafNode="false";
                } else {
-                    setTimeout("checkToAdd("+mapKey+")", 200);
+                    checkToAdd(mapKey);
                }     
     }
 
@@ -273,7 +287,7 @@
            if (node2 != null) {  
                 
 				changeSortId(mapKey1,"true");
-				setTimeout("changeSortId("+getNodeseq(node2)+",'false')", 1000)
+				changeSortId(getNodeseq(node2),"false");
 				var subNode1  = node1.nextSibling;
                 node1.insertBefore(node2);
                 var curNode = node1;
@@ -309,7 +323,7 @@
                      
                      if (node2 != null) {  
 						changeSortId(mapKey1,"false");
-						setTimeout("changeSortId("+getNodeseq(node2)+",'true')", 100)
+						changeSortId(getNodeseq(node2),"true");
                         var subNode2 = node2.nextSibling;
                         node2.insertBefore(node1);
                         
@@ -366,12 +380,13 @@
    function okToSave() {
      	if (emptyNodes.indexOf("((#") >= 0) {
      	  // alert(emptyNodes);
-     	   alert ("Can't save hierarchy with empty group");
-     	   return "false";
+     	   alert ("Can't save hierarchy with empty group.");
+     	   return false;
+     	} else if (waitCount > 0) {
+     		alert ("Can't save hierarchy with waiting transactions.");
+     		return false;
      	} else {
-     		document.getElementById("sqlScripts").value=sqlScripts;
-     	   return "true";
-     	
+     	   return true;
      	}
    }
    
@@ -396,7 +411,7 @@
 	       	   loadNextLevelSH(oCurrentTextNode);	       	
 	       	}
 		}
-		setTimeout("checkToAddSponsor("+mapKey+")", 500);
+		checkToAddSponsor(mapKey);
 		
 	 }
 
@@ -424,7 +439,7 @@
 
     function updateSponsorCodes() {
     		
-			var dwrReply = {
+			var customReply = {
 					callback:function(data) {
 						if ( data != null ) {
 						//alert(sponsorCodeList.length +"-"+data)
@@ -438,7 +453,7 @@
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.updateSponsorCodes(sponsorCodeList,dwrReply);				
+				SponsorService.updateSponsorCodes(sponsorCodeList,customReply);				
     
     }
     
@@ -454,13 +469,13 @@
 	      sortIds[tempNode.depth-1] = getSortId(tempNode);
 	      tempNode = tempNode.parent;
 	    }
-	    
-    	SponsorService.insertSponsor(hierarchyName, sponsorCodes, levels, sortIds);
+	    showWait();
+    	SponsorService.insertSponsor(hierarchyName, sponsorCodes, levels, sortIds, dwrReply);
     }
 
     function loadNextLevelSponsorHierarchy(node) {
 		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				var dwrReply = {
+				var customReply = {
 					callback:function(data) {
 						if ( data != null ) {
 						    var group_array = data.split("#1#");
@@ -539,7 +554,7 @@
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,dwrReply);
+				SponsorService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,customReply);
 	}
 
     
@@ -593,12 +608,14 @@
     }
     
     	function changeGroupName(node, oldLabel) {
-    		SponsorService.updateGroupName(hierarchyName, node.depth, oldLabel, node.description, getLevelArray(node.parent));
+    		showWait();
+    		SponsorService.updateGroupName(hierarchyName, node.depth, oldLabel, node.description, getLevelArray(node.parent), hideWait);
 		}
 
     	function changeSortId(nodeseq, moveFlag) {
-			var node=oTextNodeMap[nodeseq]
-    		SponsorService.changeSponsorSortOrder(hierarchyName, node.depth, moveFlag, getLevelArray(node));
+			var node=oTextNodeMap[nodeseq];
+			showWait();
+    		SponsorService.changeSponsorSortOrder(hierarchyName, node.depth, moveFlag, getLevelArray(node), dwrReply);
 		}
     	
     	function getLevelArray(node) {
@@ -616,16 +633,17 @@
 
     	function deleteSponsorHierarchy(node, deleteSponsorFlag) {
 				var sql ;
+				showWait();
 				if (deleteSponsorFlag == "true") {
 					var sponsorCode = node.description.substring(0,node.description.indexOf(":"));
-					SponsorService.deleteSponsor(hierarchyName, sponsorCode, getLevelArray(node.parent));
+					SponsorService.deleteSponsor(hierarchyName, sponsorCode, getLevelArray(node.parent), dwrReply);
 				} else {
-					SponsorService.deleteSponsor(hierarchyName, null, getLevelArray(node));
+					SponsorService.deleteSponsor(hierarchyName, null, getLevelArray(node), dwrReply);
 				}
 				
 				// The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
 				//alert("deletesponsorhierarchy");
-				var dwrReply = {
+				var customReply = {
 					callback:function(data) {
 						if ( data != null ) {
 						//alert(sponsorCodeList.length +"-"+data)
@@ -645,9 +663,7 @@
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.getSponsorCodes(getRootNode(node), node.depth, getAscendants(node, "false"),dwrReply);
-				
-				
+				SponsorService.getSponsorCodes(getRootNode(node), node.depth, getAscendants(node, "false"),customReply);	
 		}
      
 
@@ -765,10 +781,14 @@
 	}
 	
 
+	var waitCount = 0;
 	function showWait() {
+		waitCount++;
 		document.getElementById("wait").style.visibility="visible";
 	}
 
 	function hideWait() {
-		document.getElementById("wait").style.visibility="hidden";
+		waitCount--;
+		if (waitCount <= 0) 
+			document.getElementById("wait").style.visibility="hidden";
 	}
