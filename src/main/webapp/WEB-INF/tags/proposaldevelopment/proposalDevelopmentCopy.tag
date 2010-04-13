@@ -18,7 +18,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalCopyCriteriaAttributes" value="${DataDictionary.ProposalCopyCriteria.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
-
+<c:set var="canCopy" value="${KualiForm.canCreateProposal}" />
 <%
 		boolean openFlag = false;
         java.lang.String command = request.getParameter("command");
@@ -52,16 +52,16 @@
         		
         	<tr>
         		<th align="right" valign="middle">
-        			<kul:htmlAttributeLabel attributeEntry="${proposalCopyCriteriaAttributes.includeBudget}" />
+        			<kul:htmlAttributeLabel attributeEntry="${proposalCopyCriteriaAttributes.includeBudget}"/>
             	</th>
         		
         	 	<td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="copyCriteria.includeBudget" 
                 	                          attributeEntry="${proposalCopyCriteriaAttributes.includeBudget}"
-                	                          disabled="${KualiForm.isCopyBudgetDisabled}" />
+                	                          disabled="${KualiForm.isCopyBudgetDisabled}" readOnly="${!canCopy}"/>
                 	<kul:htmlControlAttribute property="copyCriteria.budgetVersions" 
                 	                          attributeEntry="${proposalCopyCriteriaAttributes.budgetVersions}" 
-                	                          disabled="${KualiForm.isCopyBudgetDisabled}" />
+                	                          disabled="${KualiForm.isCopyBudgetDisabled}" readOnly="${!canCopy}"/>
                 	                         
 				</td>
 			</tr>
@@ -74,7 +74,7 @@
 				<td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="copyCriteria.includeAttachments" 
                 	                          attributeEntry="${proposalCopyCriteriaAttributes.includeAttachments}" 
-                	                          disabled="${KualiForm.isCopyAttachmentsDisabled}" />
+                	                          disabled="${KualiForm.isCopyAttachmentsDisabled}"  readOnly="${!canCopy}"/>
                 </td>
 			</tr>
 			
@@ -85,14 +85,14 @@
                 
                 <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="copyCriteria.leadUnitNumber" 
-                                              attributeEntry="${proposalCopyCriteriaAttributes.leadUnitNumber}" />
+                                              attributeEntry="${proposalCopyCriteriaAttributes.leadUnitNumber}"  readOnly="${!canCopy}"/>
                 </td>
             </tr>
             
 			<tr>
 				<td align="center" colspan="2">
 					<div align="center">
-						<html:image property="methodToCall.copyProposal.anchor${tabKey}" disabled="${readOnly}"
+						<html:image property="methodToCall.copyProposal.anchor${tabKey}" disabled="${!canCopy}"
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copyprop.gif' styleClass="tinybutton"/>
 					</div>
                 </td>
