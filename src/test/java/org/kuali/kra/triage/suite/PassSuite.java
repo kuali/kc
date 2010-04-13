@@ -22,6 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
 
+    org.kuali.kra.test.OjbRepositoryMappingTest.class,
     org.kuali.kra.HtmlUnitUtilTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
@@ -66,7 +67,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleImplTest.class,
     org.kuali.kra.irb.ProtocolSubmissionLookupHelperServiceTest.class,
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBeanTest.class,
-    org.kuali.kra.test.OjbRepositoryMappingTest.class,
     org.kuali.kra.scheduling.util.Time24HrFmtTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinderTest.class,
     org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
