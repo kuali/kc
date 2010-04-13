@@ -23,10 +23,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.mortbay.log.Log;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class SponsorServiceImpl implements SponsorService, Constants {
@@ -34,6 +38,33 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     private SponsorHierarchyDao sponsorHierarchyDao;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+
+    private static final String sessionKey = "org.kuali.kra.service.impl.SponsorServiceImpl.actionList";
+    private static final Integer HIERARCHY_MAX_HEIGHT = 10;
+    private enum SponsorActionType {
+        INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
+    }
+    private class SponsorAction {
+        public SponsorActionType actionType;
+        public String hierarchyName;
+        public String sponsorCode;
+        public String[] levels = new String[HIERARCHY_MAX_HEIGHT];
+        public Integer[] sortIds = new Integer[HIERARCHY_MAX_HEIGHT];
+        public Integer levelToChange;
+        public String oldGroupName;
+        public String newGroupName;
+        public Boolean moveDown;
+        public void setLevels(String[] newLevels) {
+            for (int i = 0; i < levels.length && i < newLevels.length; i++) {
+                levels[i] = newLevels[i];
+            }
+        }
+        public void setSortIds(Integer[] sortIds) {
+            for (int i = 0; i < sortIds.length && i < sortIds.length; i++) {
+                this.sortIds[i] = sortIds[i];
+            }
+        }
+    }
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(SponsorServiceImpl.class);
@@ -198,12 +229,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
         return sponsorCodes;
     }
-    
-    public void saveSponsorHierachy(String hierarchyName, String sqlScripts) {
-
-        sponsorHierarchyDao.runScripts(sqlScripts.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C));
-        
-    }
 
     public String getSponsorCodes(String hierarchyName, String depth, String groups) {
 
@@ -220,18 +245,162 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
         GlobalVariables.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
     }
-
-    public void uploadScripts(String key, String scripts) {
-        // may need to save to db instead save in session.  the scripts may be huge??
-
-        String sciptsInSession = (String)GlobalVariables.getUserSession().retrieveObject(key);
-        if (sciptsInSession != null) {
-            sciptsInSession = sciptsInSession.concat("#1#"+scripts);
-        } else {
-            sciptsInSession = scripts;
+    
+    public void insertSponsor(String hierarchyName, String[] sponsorCodes, String[] levels,
+            Integer[] sortIds) {
+        for (String sponsorCode : sponsorCodes) {
+            SponsorAction newAction = new SponsorAction();
+            newAction.actionType = SponsorActionType.INSERT;
+            newAction.hierarchyName = hierarchyName;
+            newAction.sponsorCode = sponsorCode;
+            newAction.setLevels(levels);
+            newAction.setSortIds(sortIds);
+            addActionToBeSaved(newAction);
         }
+    }
+    
+    public void deleteSponsor(String hierarchyName, String sponsorCode, String[] levels) {
+        SponsorAction newAction = new SponsorAction();
+        newAction.actionType = SponsorActionType.DELETE;
+        newAction.hierarchyName = hierarchyName;
+        newAction.sponsorCode = sponsorCode;
+        newAction.setLevels(levels);
+        addActionToBeSaved(newAction); 
+    }
+    
+    public void updateGroupName(String hierarchyName, Integer levelToChange, String oldGroupName, String newGroupName, String[] levels) {
+        SponsorAction newAction = new SponsorAction();
+        newAction.actionType = SponsorActionType.UPDATE_NAME;
+        newAction.hierarchyName = hierarchyName;
+        newAction.levelToChange = levelToChange;
+        newAction.oldGroupName = oldGroupName;
+        newAction.newGroupName = newGroupName;
+        newAction.setLevels(levels);
+        addActionToBeSaved(newAction); 
+    }
+    
+    public void changeSponsorSortOrder(String hierarchyName, Integer levelToChange, Boolean moveDown, String[] levels) {
+        SponsorAction newAction = new SponsorAction();
+        newAction.actionType = SponsorActionType.UPDATE_SORT;
+        newAction.hierarchyName = hierarchyName;
+        newAction.levelToChange = levelToChange;
+        newAction.moveDown = moveDown;
+        newAction.setLevels(levels);
+        addActionToBeSaved(newAction); 
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    private void addActionToBeSaved(SponsorAction action) {
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        if (actions == null) {
+            actions = new ArrayList<SponsorAction>();
+            GlobalVariables.getUserSession().addObject(sessionKey, actions);
+        }
+        actions.add(action);
+    }
+    
+    public void executeActions() {
+        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
+        if (actions != null) {
+            for (SponsorAction action : actions) {
+                if (action.actionType == SponsorActionType.INSERT) {
+                    SponsorHierarchy newSponsor = new SponsorHierarchy();
+                    newSponsor.setHierarchyName(action.hierarchyName);
+                    newSponsor.setSponsorCode(action.sponsorCode);
+                    newSponsor.setLevel1(action.levels[0]);
+                    newSponsor.setLevel2(action.levels[1]);
+                    newSponsor.setLevel3(action.levels[2]);
+                    newSponsor.setLevel4(action.levels[3]);
+                    newSponsor.setLevel5(action.levels[4]);
+                    newSponsor.setLevel6(action.levels[5]);
+                    newSponsor.setLevel7(action.levels[6]);
+                    newSponsor.setLevel8(action.levels[7]);
+                    newSponsor.setLevel9(action.levels[8]);
+                    newSponsor.setLevel10(action.levels[9]);
+                    newSponsor.setLevel1Sortid(action.sortIds[0]);
+                    newSponsor.setLevel2Sortid(action.sortIds[1]);
+                    newSponsor.setLevel3Sortid(action.sortIds[2]);
+                    newSponsor.setLevel4Sortid(action.sortIds[3]);
+                    newSponsor.setLevel5Sortid(action.sortIds[4]);
+                    newSponsor.setLevel6Sortid(action.sortIds[5]);
+                    newSponsor.setLevel7Sortid(action.sortIds[6]);
+                    newSponsor.setLevel8Sortid(action.sortIds[7]);
+                    newSponsor.setLevel9Sortid(action.sortIds[8]);
+                    newSponsor.setLevel10Sortid(action.sortIds[9]);
+                    getBusinessObjectService().save(newSponsor);
+                } else if (action.actionType == SponsorActionType.DELETE) {
+                    getBusinessObjectService().deleteMatching(SponsorHierarchy.class, getFieldValues(action));
+                } else if (action.actionType == SponsorActionType.UPDATE_NAME) {
+                    Collection<SponsorHierarchy> sponsors = getBusinessObjectService().findMatching(SponsorHierarchy.class, getFieldValues(action));
+                    for (SponsorHierarchy sponsor : sponsors) {
+                        updateGroup(sponsor, action.levelToChange, action.newGroupName);
+                        getBusinessObjectService().save(sponsor);
+                    }
+                } else if (action.actionType == SponsorActionType.UPDATE_SORT) {
+                    Collection<SponsorHierarchy> sponsors = getBusinessObjectService().findMatching(SponsorHierarchy.class, getFieldValues(action));
+                    for (SponsorHierarchy sponsor : sponsors) {
+                        updateSortId(sponsor, action.levelToChange, action.moveDown);
+                        getBusinessObjectService().save(sponsor);
+                    }  
+                }
+            }
+            actions.clear();
+        }
+    }
+    
+    private void updateGroup(SponsorHierarchy sponsor, Integer level, String newGroupName) {
+        try {
+            Method setLevelMethod = SponsorHierarchy.class.getMethod("setLevel" + level, new Class[]{String.class});
+            setLevelMethod.invoke(sponsor, newGroupName);
+        }
+        catch (Exception e) {
+            Log.debug("Error setting group name on sponsor", e);
+        }
+    }
+    
+    private void updateSortId(SponsorHierarchy sponsor, Integer level, Boolean moveDown) {
+        int changeBy = 1;
+        if (moveDown) {
+            changeBy = -1;
+        }
+        try {
+            Method setSortIdMethod = SponsorHierarchy.class.getMethod("setLevel" + level + "Sortid", new Class[]{Integer.class});
+            Method getSortIdMethod = SponsorHierarchy.class.getMethod("getLevel" + level + "Sortid", (Class[])null);
+            setSortIdMethod.invoke(sponsor, getNewSortId((Integer)getSortIdMethod.invoke(sponsor, (Object[])null), changeBy));
+        }
+        catch (Exception e) {
+            Log.debug("Error setting new sortId on sponsor", e);
+        }
+    }    
+    
+    private Integer getNewSortId(Integer currentSortId, int changeBy) {
+        if (currentSortId == null) {
+            currentSortId = 1;
+        }
+        return currentSortId + changeBy;
         
-        GlobalVariables.getUserSession().addObject(key, (Object)sciptsInSession);
+    }
+    
+    private Map<String, String> getFieldValues(SponsorAction action) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("hierarchyName", action.hierarchyName);
+        if (StringUtils.isNotBlank(action.sponsorCode)) {
+            fieldValues.put("sponsorCode", action.sponsorCode);
+        }
+        for (int i = 0; i < action.levels.length; i++) {
+            if (StringUtils.isNotBlank(action.levels[i])) {
+                fieldValues.put("level" + (i+1), action.levels[i]);
+            }
+        }
+        if (StringUtils.isNotBlank(action.oldGroupName)) {
+            fieldValues.put("level" + action.levelToChange, action.oldGroupName);
+        }
+        return fieldValues;
+    }
+    
+    public void clearCurrentActions() {
+        GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
     private boolean evaluateWhetherSponsorHierarchyIncludesNih(SponsorHierarchy sponsorHierarchy) {
@@ -267,5 +436,4 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         
         return matchingHierarchies > 0;
     }
-
 }
