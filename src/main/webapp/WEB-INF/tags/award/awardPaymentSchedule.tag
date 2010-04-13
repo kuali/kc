@@ -19,7 +19,7 @@
 
 <div align="center">
 <html:image property="methodToCall.generatePaymentSchedules.anchor${tabKey}"
-	src='${ConfigProperties.kra.externalizable.images.url}generate-schedules.gif' styleClass="tinybutton"/>
+	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-generate-schedule.gif' styleClass="tinybutton"/>
 </div>
 
 <c:set var="awardPaymentScheduleAttributes" value="${DataDictionary.AwardPaymentSchedule.attributes}" />
