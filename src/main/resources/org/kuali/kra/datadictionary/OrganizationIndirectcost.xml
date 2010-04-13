@@ -76,13 +76,13 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Applicable Indirectcost Rate" />
     <property name="shortLabel" value="Applicable Indirectcost Rate" />
-    <property name="maxLength" value="5" />
+    <property name="maxLength" value="8" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="FixedPointValidationPattern" p:precision="7" p:scale="2"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="5" />
+            p:size="8" />
     </property>
     <property name="summary" value="Applicable Indirectcost Rate" />
     <property name="description" value="Applicable Indirectcost Rate" />
