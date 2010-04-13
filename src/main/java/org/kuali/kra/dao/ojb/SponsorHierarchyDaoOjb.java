@@ -248,58 +248,6 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
             }
         });
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.dao.SponsorHierarchyDao#runScripts(java.lang.String[])
-     */
-    public void runScripts(final String[] sqls) {
-        
-        this.getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
-            public Object doInPersistenceBroker(PersistenceBroker pb) {
-                Statement stmt=null;
-                try {
-                    stmt= pb.serviceConnectionManager().getConnection().createStatement();
-                   for (int i = 0 ; i < sqls.length; i++) {
-                       if (StringUtils.isNotBlank(sqls[i])) {
-                           int idx = sqls[i].indexOf(SPONSOR_CODE_HOLDER);
-                           if (idx > 0) {
-                               int idx1 = sqls[i].indexOf(")((",idx);
-                               String insertTemplate = sqls[i].substring(0, idx1+1);
-                               String sponsorCodes = sqls[i].substring(idx1+3, sqls[i].length()-2);
-                               String[] codes = sponsorCodes.split(";");
-                               for (int j = 0; j < codes.length; j++) {
-                                   insertTemplate = insertTemplate.replace(", sysdate, objid,", ", " + getSysdate() + " ,"+ (new Long(new java.util.Date().getTime())).toString() +" ,");
-                                   stmt.addBatch(insertTemplate.replace(SPONSOR_CODE_HOLDER, codes[j]));
-                                   LOG.info("Save run scripts "+i+insertTemplate+codes[j]);
-                               }
-
-                           } else {
-                               LOG.info("Save run scripts "+i+sqls[i]);
-                               stmt.addBatch(sqls[i]);                                
-                           }
-                       }
-                    }
-                   int[] updCnt = stmt.executeBatch();
-//                   for (int i = 0; i < updCnt.length ; i++) {
-//                       // do we need to do check
-//                   }
-                } catch (Exception e) {
-                    LOG.error("exception error " +e.getStackTrace());
-                } finally {
-                    if (stmt != null) {
-                        try {
-                            stmt.close();
-                        } catch (Exception e) {
-                            LOG.error("error closing statement", e);
-                        }
-                    }
-                }
-                return null;
-            }
-        });
-
-        }
 
     private String getSysdate() {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

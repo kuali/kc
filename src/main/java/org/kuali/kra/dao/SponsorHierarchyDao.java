@@ -29,13 +29,6 @@ public interface SponsorHierarchyDao {
     
     /**
      * 
-     * This method execute all the scripts that was created in sponsor hierarchy maint
-     * @param sqls
-     */
-    public void runScripts(final String[] sqls);
-    
-    /**
-     * 
      * This method is to load all sponsor codes for future duplicate code checking in sponsor hierarchy maint
      * @param hierarchyName
      * @return
