@@ -376,7 +376,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     
     private Integer getNewSortId(Integer currentSortId, int changeBy) {
         if (currentSortId == null) {
-            currentSortId = 1;
+            currentSortId = 0;
         }
         return currentSortId + changeBy;
         

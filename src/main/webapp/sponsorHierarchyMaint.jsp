@@ -144,10 +144,9 @@ tbody tr:hover {
            <!--  still posted -->
             <input
 				type="image" name="methodToCall.saveSponsorHierarchy"
-				onclick='javascript:return (okToSave() == "true");'
+				onclick='javascript:return okToSave();'
 				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
 				class="globalbuttons" title="save" alt="save">
-            <!-- <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveSponsorHierarchy" title="save" alt="save" onclick="return okToSave();return false;" /> -->   
             <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelSponsorHierarchyMaint" title="cancel" alt="cancel" />   
         </div>
 
