@@ -45,6 +45,9 @@
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
         <kul:adHocRecipients />
+	    <c:if test="${not proposalBudgetFlag}">
+            <kul:routeLog /> 
+        </c:if>
 		<kul:panelFooter />
 	</div>
 	
