@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -133,7 +134,9 @@ public class BudgetPersonnelRule {
         qMap.put("personId", budgetPerson.getPersonId());
         qMap.put("personSequenceNumber", budgetPerson.getPersonSequenceNumber());
 
-        if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
+        // User  may delete person before the deleted detail is persisted
+        if (isPersonDetailsFound (budgetDocument.getBudget(), budgetPerson)) {
+        //if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
                 // just try to make sure key is on budget personnel tab
                 final MessageMap messageMap = GlobalVariables.getMessageMap();
                 messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
@@ -142,6 +145,26 @@ public class BudgetPersonnelRule {
         }
                     
         return valid;
+    }
+    
+    /*
+     * Check if this budget person has any budgetdetail set.  This is called before checking whether
+     * this person can be deleted.  If retrieve from DB, then it might not be correct because
+     * the deleted detail may have not been persisted before delete person is called.
+     */
+    private boolean isPersonDetailsFound (Budget budget, BudgetPerson budgetPerson) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                for (BudgetPersonnelDetails budgetPersonnelDetail : lineItem.getBudgetPersonnelDetailsList()) {
+                    if (budgetPersonnelDetail.getPersonId().equals(budgetPerson.getPersonId()) && 
+                            budgetPersonnelDetail.getPersonSequenceNumber().equals(budgetPerson.getPersonSequenceNumber())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+        
     }
 
     public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
