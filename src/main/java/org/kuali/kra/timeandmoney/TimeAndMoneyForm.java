@@ -524,7 +524,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = awardDocument.getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+            docIdAndStatus = timeAndMoneyDocument.getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
         }
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
         String unitName = awardDocument.getAward().getUnitName();
