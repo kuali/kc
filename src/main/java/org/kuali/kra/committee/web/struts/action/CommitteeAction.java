@@ -213,6 +213,19 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     }
 
     /**
+     * Go to the committeeActions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward committeeActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        return mapping.findForward("committeeActions");
+    }
+
+    /**
      * Get the Kuali Rule Service.
      * @return the Kuali Rule Service
      */

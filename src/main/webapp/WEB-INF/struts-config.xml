@@ -336,6 +336,7 @@
           <forward name="committee" path="/WEB-INF/jsp/committee/CommitteeCommittee.jsp" />
           <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
+          <forward name="committeeActions" path="/WEB-INF/jsp/committee/CommitteeActions.jsp" />
           <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meeting.jsp" />
       </action>
       
