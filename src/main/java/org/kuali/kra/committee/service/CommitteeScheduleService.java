@@ -79,6 +79,6 @@ public interface CommitteeScheduleService {
      * @param committeeId
      * @return
      */
-    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeId);
+    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId);
     
 }

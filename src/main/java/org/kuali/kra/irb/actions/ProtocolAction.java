@@ -240,26 +240,6 @@ public class ProtocolAction extends ProtocolAssociate {
         return hashMap;
     }
     
-    /** {@inheritDoc} */
-    @Override 
-    public String toString() {
-        StringBuffer sb = new StringBuffer(50);
-        String newLine = "\n";
-        sb.append("*************************************").append(newLine);
-        LinkedHashMap<String, Object> map = toStringMapper();
-        for(String key : map.keySet()) {
-            sb.append(key).append(": ");
-            try{
-                sb.append(map.get(key).toString());
-            } catch (Exception e){
-                sb.append("a problem occured");
-            }
-            sb.append(newLine);
-        }
-        sb.append("************************************").append(newLine);
-        return sb.toString();
-    }
-    
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
