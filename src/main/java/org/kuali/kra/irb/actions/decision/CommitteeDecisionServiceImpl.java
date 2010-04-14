@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -34,9 +33,14 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
     private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setProtocolActionService(ProtocolActionService protocolActionService){
+        this.protocolActionService = protocolActionService;
     }
     
     /**
@@ -64,7 +68,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             if (doAddProtocolAction) {
                 ProtocolAction protocolAction = new ProtocolAction(protocol, submission, protocolActionTypeToUse);
                 protocolAction.setComments(committeeDecision.getVotingComments());
-                KraServiceLocator.getService(ProtocolActionService.class).updateProtocolStatus(protocolAction, protocol);
+                this.protocolActionService.updateProtocolStatus(protocolAction, protocol);
                 protocol.getProtocolActions().add(protocolAction);
                 businessObjectService.save(protocolAction);
             }

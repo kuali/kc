@@ -79,9 +79,6 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-
-
-
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -134,8 +131,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         if (isAuthorized(task)) {
-            ProtocolCopyService protocolCopyService = KraServiceLocator.getService(ProtocolCopyService.class);
-            String newDocId = protocolCopyService.copyProtocol(protocolForm.getDocument()).getDocumentNumber();
+            String newDocId = getProtocolCopyService().copyProtocol(protocolForm.getDocument()).getDocumentNumber();
 
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
@@ -149,8 +145,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-
+    
     /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -218,10 +213,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
 
-    private ProtocolSubmitActionService getProtocolActionService() {
-        return KraServiceLocator.getService(ProtocolSubmitActionService.class);
-    }
-
     /*
      * Builds the confirmation question to verify if the user wants to submit the protocol for review.
      */
@@ -287,10 +278,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         return mapping.findForward(MAPPING_BASIC);
-    }
-
-    private ProtocolWithdrawService getProtocolWithdrawService() {
-        return KraServiceLocator.getService(ProtocolWithdrawService.class);
     }
 
     /**
@@ -430,10 +417,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    private ProtocolRequestService getProtocolRequestService() {
-        return KraServiceLocator.getService(ProtocolRequestService.class);
-    }
-
     /**
      * Notify the IRB office.
      * 
@@ -451,10 +434,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
                 protocolForm.getActionHelper().getProtocolNotifyIrbBean());
         return mapping.findForward(MAPPING_BASIC);
-    }
-
-    private ProtocolNotifyIrbService getProtocolNotifyIrbService() {
-        return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
     }
 
     /**
@@ -560,10 +539,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    private ProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
-    }
-
     /**
      * Delete a Protocol/Amendment/Renewal. Remember that amendments and renewals are simply protocol documents that were copied
      * from a protocol.
@@ -625,10 +600,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String protocolNumber = doc.getProtocol().getProtocolNumber();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_KEY,
                 KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
-    }
-
-    private ProtocolDeleteService getProtocolDeleteService() {
-        return KraServiceLocator.getService(ProtocolDeleteService.class);
     }
 
     /**
@@ -912,14 +883,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return mapping.findForward(MAPPING_BASIC);
     }
-
-    private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
-    }
-    
-    private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
-        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-    }
     
     /**
      * Assign a protocol to some reviewers.
@@ -943,10 +906,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
-        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
     }
     
     /**
@@ -1036,10 +995,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
-        return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
-    }
-    
     /**
      * Expedite Approval.
      * @param mapping
@@ -1125,12 +1080,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
-        return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
-    }
-    
+    }    
     
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -1139,7 +1089,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-            KraServiceLocator.getService(ProtocolApproveService.class).approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            getProtocolApproveService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
             getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
@@ -1622,14 +1572,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private CommitteeDecisionService getCommitteeDecisionService() {
-        return KraServiceLocator.getService("protocolCommitteeDecisionService");
-    }
-    
-    private ReviewerCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewerCommentsService.class);
-    }
-    
     public ActionForward addCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1716,13 +1658,76 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private boolean hasPermission(String taskName, Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(taskName, protocol);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+    
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
     private ProtocolGenericActionService getProtocolGenericActionService() {
         return KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
     
-    private boolean hasPermission(String taskName, Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(taskName, protocol);
-        return KraServiceLocator.getService(TaskAuthorizationService.class).
-            isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    public ProtocolCopyService getProtocolCopyService() {
+        return KraServiceLocator.getService(ProtocolCopyService.class);
+    }
+    
+    private ProtocolSubmitActionService getProtocolActionService() {
+        return KraServiceLocator.getService(ProtocolSubmitActionService.class);
+    }
+    
+    private ProtocolWithdrawService getProtocolWithdrawService() {
+        return KraServiceLocator.getService(ProtocolWithdrawService.class);
+    }
+    
+    private ProtocolRequestService getProtocolRequestService() {
+        return KraServiceLocator.getService(ProtocolRequestService.class);
+    }
+    
+    private ProtocolNotifyIrbService getProtocolNotifyIrbService() {
+        return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
+    }
+    
+    private ProtocolAmendRenewService getProtocolAmendRenewService() {
+        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
+    }
+    
+    private ProtocolDeleteService getProtocolDeleteService() {
+        return KraServiceLocator.getService(ProtocolDeleteService.class);
+    }
+    
+    private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
+        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
+    }
+    
+    private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
+        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
+    }
+    
+    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
+        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
+    }
+    
+    private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
+        return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
+    }
+    
+    private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
+        return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
+    }
+    
+    private ProtocolApproveService getProtocolApproveService() {
+        return KraServiceLocator.getService(ProtocolApproveService.class);
+    }
+    
+    private CommitteeDecisionService getCommitteeDecisionService() {
+        return KraServiceLocator.getService("protocolCommitteeDecisionService");
+    }
+    
+    private ReviewerCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewerCommentsService.class);
     }
 }
