@@ -62,6 +62,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 doUpdate = true;
             }
             if (doUpdate) {
+                //should most of these setter calls be done up in the else clause, ie only set them on a new minute entry
                 minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());

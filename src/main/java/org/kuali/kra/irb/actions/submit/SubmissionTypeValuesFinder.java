@@ -20,9 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
@@ -31,7 +29,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class SubmissionTypeValuesFinder extends KeyValuesBase {
+public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
@@ -41,8 +39,7 @@ public class SubmissionTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection<ProtocolSubmissionType> submissionTypes = keyValuesService.findAll(ProtocolSubmissionType.class);
+        Collection<ProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(ProtocolSubmissionType.class);
         for (ProtocolSubmissionType submissionType : submissionTypes) {
             if (isSubmitForReviewType(submissionType)) {
                 keyValues.add(new KeyLabelPair(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));

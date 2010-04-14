@@ -19,21 +19,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
  * submitting a protocol to the IRB office for review.
  */
-public class ProtocolReviewTypeValuesFinder extends KeyValuesBase {
+public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection<ProtocolReviewType> protocolReviewTypes = keyValuesService.findAll(ProtocolReviewType.class);
+        Collection<ProtocolReviewType> protocolReviewTypes = this.getKeyValuesService().findAll(ProtocolReviewType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         for (ProtocolReviewType protocolReviewType : protocolReviewTypes) {

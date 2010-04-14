@@ -21,16 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
  * This class creates key/values pair of ProtocolActionType that are valid as a final action for batch correspondence.
  */
-public class ProtocolFinalActionTypeValuesFinder extends KeyValuesBase {
+public class ProtocolFinalActionTypeValuesFinder extends IrbActionsKeyValuesBase {
 
     private static final String FINAL_ACTION_FOR_BATCH_CORRESP_FIELD = "FINAL_ACTION_FOR_BATCH_CORRESP";
     private static final String DESCRIPTION_FIELD = "DESCRIPTION";
@@ -48,7 +45,8 @@ public class ProtocolFinalActionTypeValuesFinder extends KeyValuesBase {
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(FINAL_ACTION_FOR_BATCH_CORRESP_FIELD, "Y");
-        Collection<ProtocolActionType> protocolActionTypes = KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ProtocolActionType.class, fieldValues, DESCRIPTION_FIELD, true);
+        Collection<ProtocolActionType> protocolActionTypes = 
+            this.getBusinessObjectService().findMatchingOrderBy(ProtocolActionType.class, fieldValues, DESCRIPTION_FIELD, true);
         
         keyValues.add(new KeyLabelPair("  ", "no action"));
         for (ProtocolActionType protocolActionType : protocolActionTypes) {
