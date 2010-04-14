@@ -39,6 +39,7 @@ import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposa
 import org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalBaseStream;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.util.RiceConstants;
@@ -255,7 +256,14 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         }
     }
 
-    
+    @Override
+    public ActionForward acknowledge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        ((InstitutionalProposalForm)form).getDocument().prepareForSave();
+        return super.acknowledge(mapping, form, request, response);
+    }
+  
+  
     
     /**
      * 
