@@ -15,18 +15,12 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder2;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -48,6 +42,8 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
+    private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
+    private CommitteeService committeeService;
 
 
     public void setDocumentService(DocumentService documentService) {
@@ -56,6 +52,14 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    public void setProtocolAssignCmtSchedService(ProtocolAssignCmtSchedService protocolAssignCmtSchedService) {
+        this.protocolAssignCmtSchedService = protocolAssignCmtSchedService;        
+    }
+    
+    public void setCommitteeService(CommitteeService committeeService) {
+        this.committeeService = committeeService;        
     }
 
     private ProtocolSubmission findSubmission(Protocol protocol) {
@@ -154,7 +158,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     /** {@inheritDoc} */
     public String getAssignedCommitteeId(Protocol protocol) {
-        String committeeID = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class).getAssignedCommitteeId(protocol);
+        String committeeID = this.protocolAssignCmtSchedService.getAssignedCommitteeId(protocol);
         return committeeID;
     }
 
@@ -162,7 +166,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
     public String getAssignedCommitteeName(Protocol protocol) {
         String committeeID = getAssignedCommitteeId(protocol);
         if (committeeID != null) {
-            Committee com = KraServiceLocator.getService(CommitteeService.class).getCommitteeById(committeeID);
+            Committee com = this.committeeService.getCommitteeById(committeeID);
             if (com != null) {
                 String committeeName = com.getCommitteeName();
                 return committeeName;
@@ -173,8 +177,8 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     /** {@inheritDoc} */
     public String getAssignedScheduleDate(Protocol protocol) {
-        String scheduleId = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class).getAssignedScheduleId(protocol);
-        List<KeyLabelPair> keyPair = KraServiceLocator.getService(CommitteeService.class).getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
+        String scheduleId = this.protocolAssignCmtSchedService.getAssignedScheduleId(protocol);
+        List<KeyLabelPair> keyPair = this.committeeService.getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
         for (KeyLabelPair kp : keyPair){
             if(kp.getKey().equals(scheduleId)){
                 return kp.getLabel();

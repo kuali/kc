@@ -85,10 +85,8 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
     
-    private ProtocolSubmitActionServiceImpl protocolSubmitActionService;
+    private ProtocolSubmitActionService protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
-    private ProtocolActionService protocolActionService;
-    private DocumentService documentService;
     
     @SuppressWarnings("unchecked")
     @Before
@@ -97,12 +95,8 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         GlobalVariables.setErrorMap(new ErrorMap());
         GlobalVariables.setAuditErrorMap(new HashMap());
-        protocolSubmitActionService = new ProtocolSubmitActionServiceImpl();
+        protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        documentService = KraServiceLocator.getService(DocumentService.class);
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolSubmitActionService.setDocumentService(documentService);
-        protocolSubmitActionService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -191,7 +185,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         if (!StringUtils.isBlank(committeeId)) {
             createCommittee(committeeId);
         }
-        protocolSubmitActionService.setDocumentService(documentService);
+        //protocolSubmitActionService.setDocumentService(documentService);
         
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
     
@@ -284,7 +278,7 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
         addMembers(committee);
-        businessObjectService.save(committeeDocument);
+        //businessObjectService.save(committeeDocument);
         return committeeDocument;
     }
 

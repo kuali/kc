@@ -57,6 +57,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        System.err.println("Got to close method.");
         performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
     }
     
@@ -116,7 +117,6 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
      */
     private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
             String protocolActionType, String newProtocolStatus) throws Exception {
-        
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));

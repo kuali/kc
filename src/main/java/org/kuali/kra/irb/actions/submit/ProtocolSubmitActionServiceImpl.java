@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -40,6 +39,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     private ProtocolActionService protocolActionService;
     private ProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
+    private ProtocolAssignReviewersService protocolAssignReviewersService;
     
     /**
      * Set the Document Service.
@@ -71,6 +71,10 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersServiceX) throws Exception {
+        this.protocolAssignReviewersService = protocolAssignReviewersServiceX;
     }
 
     /**
@@ -113,7 +117,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber());
         }
         
-        KraServiceLocator.getService(ProtocolAssignReviewersService.class).assignReviewers(protocol, submitAction.getReviewers());
+        this.protocolAssignReviewersService.assignReviewers(protocol, submitAction.getReviewers());
         
         protocol.refresh();
     }

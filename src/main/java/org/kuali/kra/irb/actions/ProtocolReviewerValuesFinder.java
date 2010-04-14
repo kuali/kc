@@ -19,21 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
-public class ProtocolReviewerValuesFinder extends KeyValuesBase {
+public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
     
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
@@ -59,14 +55,6 @@ public class ProtocolReviewerValuesFinder extends KeyValuesBase {
         } else {
            return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
         }
-    }
-
-    private KcPersonService getKcPersonService() {
-        return KraServiceLocator.getService(KcPersonService.class);
-    }
-    
-    private RolodexService getRolodexService() {
-        return KraServiceLocator.getService(RolodexService.class);
     }
 
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {

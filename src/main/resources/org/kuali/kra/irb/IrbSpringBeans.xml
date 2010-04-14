@@ -347,6 +347,7 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolFinderDao" ref="protocolFinderDao" />
+        <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
     </bean>
     
     <bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
@@ -354,6 +355,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolVersionService" ref="protocolVersionService" />
+        <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
@@ -419,6 +421,8 @@
     <bean id="protocolAssignToAgendaService" class="org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolAssignCmtSchedService" ref="protocolAssignCmtSchedService" />
+        <property name="committeeService" ref="committeeService" />
     </bean> 
     
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
@@ -435,6 +439,7 @@
     
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolCorrespondenceTemplateService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl">
