@@ -1772,7 +1772,7 @@
 	<class-descriptor class="org.kuali.kra.bo.OrganizationIndirectcost" table="ORGANIZATION_IDC">
 		<field-descriptor name="idcNumber" column="IDC_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbRateDecimalFieldConversion"/>
+		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="idcComment" column="IDC_COMMENT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="idcRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
