@@ -86,8 +86,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private DroolsRuleHandler canPerformRuleHandler;
 
-    String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", "204",
-            "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
+    private String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", 
+            "204",  "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
 
     private List<String> actions = new ArrayList<String>();
     private List<DroolsRuleHandler> rulesList;
@@ -248,11 +248,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             specialCondition);
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(UPDATE_FILE);
-//        updateHandle.executeRules(protocolAction);
         rulesList.get(UPDATE_RULE).executeRules(protocolAction);
         businessObjectService.save(protocol);
+        
         // if there is submission just added, then force this to get the last one.
         //protocol.setProtocolSubmission(null);
     }
