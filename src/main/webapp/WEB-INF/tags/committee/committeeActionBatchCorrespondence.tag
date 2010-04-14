@@ -17,6 +17,7 @@
 
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="batchCorrespondenceDetailAttributes" value="${DataDictionary.BatchCorrespondenceDetail.attributes}" />
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
 <div id="workarea">
     <kul:tab tabTitle="Batch Correspondence"
@@ -33,11 +34,11 @@
             
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <th>
+                    <th width="20%">
                         <div align="right">
                             Committee ID:
                         </div>
-                    </th> 
+                    </th width="30%"> 
                     <td>
                         <div align="left">
                             <kul:htmlControlAttribute property="document.committeeList[0].committeeId" 
@@ -46,12 +47,12 @@
                         </div>
                     </td>
                     
-                    <th>
+                    <th width="20%">
                         <div align="right">
                             Committee Name:
                         </div>
                     </th> 
-                    <td>
+                    <td width="30%">
                         <div align="left">
                             <kul:htmlControlAttribute property="document.committeeList[0].committeeName" 
                                                       attributeEntry="${committeeAttributes.committeeName}" 
@@ -68,7 +69,7 @@
                     <td>
                         <div align="left">
                             <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode" 
-                                                      attributeEntry="${BatchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
+                                                      attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                                       readOnly="false" />
                         </div>
                     </td>
@@ -90,24 +91,33 @@
                         </div>
                     </td>
                 </tr> 
+                <tr>
+                    <td class="infoline" colspan="4">
+                        <div align="center">
+                            <html:image property="methodToCall.generateBatchCorrespondence"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' 
+                                        styleClass="tinybutton"/>
+                        </div>                         
+                    </td>
+                </tr> 
             </table>
 
             <p>&nbsp;</p>
 
             <h3>
-                <span class="subhead-left">Batch History</span>
+                <span class="subhead-left">Batch Correspondence History</span>
                 <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchArea" altText="help"/></span>
             </h3>
             
             <table cellpadding="0" cellspacing="0">
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <th>
+                    <th width="20%">
                         <div align="right">
                             Committee ID:
                         </div>
                     </th> 
-                    <td>
+                    <td width="30%">
                         <div align="left">
                             <kul:htmlControlAttribute property="document.committeeList[0].committeeId" 
                                                       attributeEntry="${committeeAttributes.committeeId}" 
@@ -115,12 +125,12 @@
                         </div>
                     </td>
                     
-                    <th>
+                    <th width="20%">
                         <div align="right">
                             Committee Name:
                         </div>
                     </th> 
-                    <td>
+                    <td width="30%">
                         <div align="left">
                             <kul:htmlControlAttribute property="document.committeeList[0].committeeName" 
                                                       attributeEntry="${committeeAttributes.committeeName}" 
@@ -137,7 +147,7 @@
                     <td>
                         <div align="left">
                             <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode" 
-                                                      attributeEntry="${BatchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
+                                                      attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                                       readOnly="false" />
                         </div>
                     </td>
@@ -157,6 +167,15 @@
                             <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyEndDate" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="infoline" colspan="4">
+                        <div align="center">
+                            <html:image property="methodToCall.filterBatchCorrespondenceHistory"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' 
+                                        styleClass="tinybutton"/>
+                        </div>                         
                     </td>
                 </tr> 
             </table>
