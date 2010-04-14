@@ -26,10 +26,8 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
  * This class is really just a "form" for granting an exemption.
  */
 @SuppressWarnings("serial")
-public class ProtocolGenericActionBean extends ReviewerCommentsBean implements Serializable{
+public class ProtocolGenericActionBean extends ReviewerCommentsBean implements Serializable {
     
-    //private Date approvalDate = new Date(System.currentTimeMillis());
-    //private Date expirationDate;
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
     
