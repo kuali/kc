@@ -19,7 +19,7 @@
 					<fo:block>
 						<xsl:for-each select="$XML">
 							<fo:inline font-size="8" font-weight="bold" text-decoration="underline">
-								<xsl:text>Pending Support for</xsl:text>
+								<xsl:text>Pending Support for </xsl:text>
 							</fo:inline>
 							<xsl:for-each select="CurrentAndPendingSupport">
 								<xsl:for-each select="PersonName">

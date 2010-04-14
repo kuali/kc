@@ -1753,51 +1753,46 @@
 				<ref bean="institutionalProposalPersonService" />
 			</property>
 		</bean>
-		<bean id="currentProposalXmlStream"
-			class="org.kuali.kra.institutionalproposal.printing.xmlstream.CurrentProposalXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
-			<property name="dateTimeService">
-				<ref bean="dateTimeService" />
-			</property>
-		</bean>
-		<bean id="pendingProposalXmlStream"
-			class="org.kuali.kra.institutionalproposal.printing.xmlstream.PendingProposalXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
-			<property name="dateTimeService">
-				<ref bean="dateTimeService" />
-			</property>
-			<property name="institutionalProposalPersonService">
-				<ref bean="institutionalProposalPersonService" />
-			</property>
-		</bean>
-		<bean id="currentProposalPrint"
-			class="org.kuali.kra.institutionalproposal.printing.print.CurrentProposalPrint">
-			<property name="xmlStream" ref="currentProposalXmlStream" />
-		</bean>
-		<bean id="pendingProposalPrint"
-			class="org.kuali.kra.institutionalproposal.printing.print.PendingProposalPrint">
-			<property name="xmlStream" ref="pendingProposalXmlStream" />
-		</bean>
 		<bean id="institutionalProposalPrint"
 			class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint">
 			<property name="xmlStream" ref="institutionalProposalXmlStream" />
 		</bean>
 		<bean id="institutionalProposalPrintingService"
 			class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPrintingServiceImpl">
-			<property name="currentProposalPrint"
-				ref="currentProposalPrint" />
-			<property name="pendingProposalPrint"
-				ref="pendingProposalPrint" />
 			<property name="institutionalProposalPrint"
 				ref="institutionalProposalPrint" />
 			<property name="printingService" ref="printingService" />
 		</bean>
 		<!-- Institute Proposal Service Configuration End -->
 	
+		<!-- Current And Pending Support-related Beans -->
+	    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.CurrentReportDaoOjb" />
+	    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
+	
+		<bean id="currentProposalXmlStream" class="org.kuali.kra.printing.xmlstream.CurrentProposalXmlStream">
+			<property name="businessObjectService" ref="businessObjectService" />
+			<property name="dateTimeService" ref="dateTimeService" />
+		</bean>
+		<bean id="pendingProposalXmlStream" class="org.kuali.kra.printing.xmlstream.PendingProposalXmlStream">
+			<property name="businessObjectService" ref="businessObjectService" />
+			<property name="dateTimeService" ref="dateTimeService" />
+		</bean>
+		<bean id="currentProposalPrint" class="org.kuali.kra.printing.print.CurrentProposalPrint">
+			<property name="xmlStream" ref="currentProposalXmlStream" />
+		</bean>
+		<bean id="pendingProposalPrint" class="org.kuali.kra.printing.print.PendingProposalPrint">
+			<property name="xmlStream" ref="pendingProposalXmlStream" />
+		</bean>
+	
+	    <bean id="currentAndPendingReportService" class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl">
+	        <property name="currentReportDao" ref="currentReportDao" />
+	        <property name="pendingReportDao" ref="pendingReportDao" />
+			<property name="currentProposalPrint" ref="currentProposalPrint" />
+			<property name="pendingProposalPrint" ref="pendingProposalPrint" />
+			<property name="printingService" ref="printingService" />
+	    </bean>
+	 	<!-- Current And Pending Support-related Beans End -->
+    
 		<!--Proposal Development Printing Service Configuration Start -->
 		<bean id="printCertificationXmlStream"
 			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.PrintCertificationXmlStream">
@@ -1935,12 +1930,7 @@
         <property name="documentService" ref="documentService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
     </bean>
-
-    <bean id="currentAndPendingReportService" class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl">
-        <property name="currentReportDao" ref="currentReportDao" />
-        <property name="pendingReportDao" ref="pendingReportDao" />
-    </bean>
-    
+	
     <bean id="unitAdministratorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="unitAdministratorLookupableHelperService" />
@@ -1950,9 +1940,6 @@
     <bean id="unitAdministratorLookupableHelperService" class="org.kuali.kra.service.impl.UnitAdministratorLookupableHelperServiceImpl" 
         scope="prototype" parent="lookupableHelperService">
     </bean>
-
-    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.CurrentReportDaoOjb" />
-    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PendingReportDaoOjb" />
 
 	<bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">

@@ -31,14 +31,15 @@
                                     <kra:currentOrPendingReport title="Current Report" methodName="prepareCurrentReport" printPdfMethodName="printCurrentReportPdf" requestUri="${requestUri}" />
                                     <kra:currentOrPendingReport title="Pending Report" methodName="preparePendingReport" printPdfMethodName="printPendingReportPdf" requestUri="${requestUri}" />
 
-                                    <c:set var="showCurrentReport" value='${currentReportBeans != null && !empty currentReportBeans}' />
-                                    <c:set var="showPendingReport" value='${pendingReportBeans != null && !empty pendingReportBeans}' />
+                                    <c:set var="showCurrentReport" value='${currentReportRows != null}'/><!-- && !empty currentReportRows}' />-->
+                                    <c:set var="showPendingReport" value='${pendingReportRows != null}'/><!-- && !empty pendingReportRows}' />-->
+                                    
                                     <c:if test="${showCurrentReport || showPendingReport}">
                                         <tr>
                                             <td colspan="4">
                                                 <c:if test='${showCurrentReport}'>
                                                     <strong>Current Support - ${reportPersonName}</strong><br/>
-                                                    <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${currentReportBeans}"
+                                                    <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${currentReportRows}"
                                                         id="row" export="true" pagesize="100" requestURI="${requestUri}" requestURIcontext="true" >
                                                         <c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
                                                             <display:column style="text-align: center;" sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}">
@@ -59,7 +60,7 @@
                                                 </c:if>
                                                 <c:if test='${showPendingReport}'>
                                                     <strong>Pending Support - ${reportPersonName}</strong><br/>
-                                                     <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${pendingReportBeans}"
+                                                     <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${pendingReportRows}"
                                                                     id="row" export="true" pagesize="100" requestURI="${requestUri}" requestURIcontext="true" >
                                                          <c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
                                                              <display:column sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}" class="">

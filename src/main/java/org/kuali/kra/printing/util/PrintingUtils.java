@@ -31,6 +31,7 @@ import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
+import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
@@ -155,12 +156,10 @@ public class PrintingUtils {
 						.getBudgetPrintType())) {
 			xsl = XSL_BUDGET_COSTSHARING_SUMMARY;
 		} else if (reportType
-				.equals(InstitutionalProposalPrintType.CURRENT_REPORT
-						.getInstitutionalProposalPrintType())) {
+				.equals(CurrentAndPendingReportService.CURRENT_REPORT_TYPE)) {
 			xsl = XSL_CURRENT_REPORT;
 		} else if (reportType
-				.equals(InstitutionalProposalPrintType.PENDING_REPORT
-						.getInstitutionalProposalPrintType())) {
+				.equals(CurrentAndPendingReportService.PENDING_REPORT_TYPE)) {
 			xsl = XSL_PENDING_REPORT;
 		} else if (reportType
 				.equals(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
