@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.institutionalproposal.printing.print;
+package org.kuali.kra.printing.print;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,18 +27,19 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.printing.util.PrintingUtils;
 
 /**
- * This class provides the implementation for printing Current proposal Report.
+ * This class provides the implementation for printing Pending proposal Report.
  * It generates XML that conforms with current and pending support XSD, fetches
  * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
  * that would use this XML and XSls for any purpose like report generation, PDF
  * streaming etc.
  * 
+ * 
  */
-public class CurrentProposalPrint extends AbstractPrint {
+public class PendingProposalPrint extends AbstractPrint {
 
 	/**
 	 * Fetches the {@link ResearchDocumentBase}
@@ -57,9 +58,7 @@ public class CurrentProposalPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLT() {
 		ArrayList<Source> sourceList = PrintingUtils
-				.getXSLTforReport(InstitutionalProposalPrintType.CURRENT_REPORT
-						.getInstitutionalProposalPrintType());
+				.getXSLTforReport(CurrentAndPendingReportService.PENDING_REPORT_TYPE);
 		return sourceList;
 	}
-
 }

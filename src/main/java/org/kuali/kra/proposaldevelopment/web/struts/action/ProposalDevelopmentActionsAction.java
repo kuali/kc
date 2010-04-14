@@ -54,6 +54,7 @@ import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposa
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KcGroupService;
+import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
@@ -1240,29 +1241,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ((ProposalDevelopmentForm)form).getDocument().prepareForSave();
         return super.acknowledge(mapping, form, request, response);
     }
-    /**
-     * 
-     * This method is to print current report of person 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                      throws Exception {
-        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        String personId = helper.getPersonId(); 
-        InstitutionalProposalPrintingService printService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
-
-        //throw new RuntimeException("Functionality not supported");
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
     
     /**
+     * Prepare current report (i.e. Awards that selected person is on)
      * 
-     * This method is to print pending report of person 
      * @param mapping
      * @param form
      * @param request
@@ -1270,15 +1252,37 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return
      * @throws Exception
      */
-    public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                      throws Exception {
-        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        String personId = helper.getPersonId(); 
-        InstitutionalProposalPrintingService printService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
-
-        //throw new RuntimeException("Functionality not supported");
-        return mapping.findForward(Constants.MAPPING_BASIC);
+    public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+                .getService(CurrentAndPendingReportService.class);
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
+                CurrentAndPendingReportService.CURRENT_REPORT_TYPE, reportParameters);
+        streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
+        return null;
     }
+
+    /**
+     * Prepare pending report (i.e. InstitutionalProposals that selected person is on) {@inheritDoc}
+     */
+    public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+                .getService(CurrentAndPendingReportService.class);
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
+                CurrentAndPendingReportService.PENDING_REPORT_TYPE, reportParameters);
+        streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
+        return null;
+    }
+
     /**
      * Prepare current report (i.e. Awards that selected person is on)
      * {@inheritDoc}
@@ -1286,8 +1290,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
                                                                                                                     throws Exception {
         ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        request.setAttribute(ReportHelperBean.CURRENT_REPORT_BEANS_KEY, helper.prepareCurrentReport());
-        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName()); 
+        request.setAttribute(CurrentAndPendingReportService.CURRENT_REPORT_ROWS_KEY, helper.prepareCurrentReport());
+        request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName()); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -1298,8 +1302,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
                                                                                                                     throws Exception {
         ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
-        request.setAttribute(ReportHelperBean.PENDING_REPORT_BEANS_KEY, helper.preparePendingReport());
-        request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        request.setAttribute(CurrentAndPendingReportService.PENDING_REPORT_ROWS_KEY, helper.preparePendingReport());
+        request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

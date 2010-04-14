@@ -24,10 +24,6 @@ import java.util.Map;
  *  Helper to prepare Current and Pending Report
  */
 public class ReportHelperBean implements Serializable {
-    public static final String CURRENT_REPORT_BEANS_KEY = "currentReportBeans";
-    public static final String PENDING_REPORT_BEANS_KEY = "pendingReportBeans";
-    public static final String REPORT_PERSON_NAME_KEY = "reportPersonName";
-
     private KualiDocumentFormBase form;
     private String personId;
     private KcPerson targetPerson;

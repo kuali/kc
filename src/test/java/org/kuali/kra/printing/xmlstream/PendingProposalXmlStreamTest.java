@@ -13,13 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.kuali.kra.institutionalproposal.printing.xmlstream;
+package org.kuali.kra.printing.xmlstream;
 
 import java.util.Map;
 
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.printing.util.XmlStreamTestBase;
+import org.kuali.kra.printing.xmlstream.PendingProposalXmlStream;
 
 /**
  * This class tests generation and validation of XML for Pending support

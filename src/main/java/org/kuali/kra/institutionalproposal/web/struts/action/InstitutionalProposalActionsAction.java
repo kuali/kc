@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,20 +35,15 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.fundedawards.FundedAwardsBean;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
-import org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalBaseStream;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.SendAdHocRequestsEvent;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class...
@@ -131,9 +125,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 			HttpServletResponse response) throws Exception {
 		ReportHelperBean helper = ((ReportHelperBeanContainer) form)
 				.getReportHelperBean();
-		request.setAttribute(ReportHelperBean.CURRENT_REPORT_BEANS_KEY, helper
+		request.setAttribute(CurrentAndPendingReportService.CURRENT_REPORT_ROWS_KEY, helper
 				.prepareCurrentReport());
-		request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper
+		request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper
 				.getTargetPersonName());
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
@@ -147,62 +141,53 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 			HttpServletResponse response) throws Exception {
 		ReportHelperBean helper = ((ReportHelperBeanContainer) form)
 				.getReportHelperBean();
-		request.setAttribute(ReportHelperBean.PENDING_REPORT_BEANS_KEY, helper
+		request.setAttribute(CurrentAndPendingReportService.PENDING_REPORT_ROWS_KEY, helper
 				.preparePendingReport());
-		request.setAttribute(ReportHelperBean.REPORT_PERSON_NAME_KEY, helper
+		request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper
 				.getTargetPersonName());
 		return mapping.findForward(Constants.MAPPING_BASIC);
 	}
 
-	/**
-	 * Prepare current report (i.e. Awards that selected person is on)
-	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public ActionForward printCurrentReportPdf(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-		InstitutionalProposalPrintingService institutionalProposalPrintingService = KraServiceLocator
-				.getService(InstitutionalProposalPrintingService.class);
-		ResearchDocumentBase document = institutionalProposalForm
-				.getInstitutionalProposalDocument();
-		ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
-		Map<String, Object> reportParameters=new HashMap<String, Object>();
-		reportParameters.put(InstitutionalProposalBaseStream.PERSON_ID, helper.getPersonId());
-		AttachmentDataSource dataStream = institutionalProposalPrintingService
-				.printInstitutionalProposalReport(document, InstitutionalProposalPrintType.CURRENT_REPORT
-						.getInstitutionalProposalPrintType(), reportParameters);
-		streamToResponse(dataStream.getContent(), null, null, response);
-		return mapping.findForward(Constants.MAPPING_BASIC);
-	}
-	
-	/**
-	 * Prepare pending report (i.e. InstitutionalProposals that selected person
-	 * is on) {@inheritDoc}
-	 */
-	public ActionForward printPendingReportPdf(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-		InstitutionalProposalPrintingService institutionalProposalPrintingService = KraServiceLocator
-				.getService(InstitutionalProposalPrintingService.class);
-		ResearchDocumentBase document = institutionalProposalForm
-				.getInstitutionalProposalDocument();
-		ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
-		Map<String, Object> reportParameters=new HashMap<String, Object>();
-		reportParameters.put(InstitutionalProposalBaseStream.PERSON_ID, helper.getPersonId());
-		AttachmentDataSource dataStream = institutionalProposalPrintingService
-				.printInstitutionalProposalReport(document, InstitutionalProposalPrintType.PENDING_REPORT
-						.getInstitutionalProposalPrintType(), reportParameters);
-		streamToResponse(dataStream.getContent(), null, null, response);
-		return mapping.findForward(Constants.MAPPING_BASIC);
-	}
+    /**
+     * Prepare current report (i.e. Awards that selected person is on)
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printCurrentReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+                .getService(CurrentAndPendingReportService.class);
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
+                CurrentAndPendingReportService.CURRENT_REPORT_TYPE, reportParameters);
+        streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
+        return null;
+    }
+
+    /**
+     * Prepare pending report (i.e. InstitutionalProposals that selected person is on) {@inheritDoc}
+     */
+    public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CurrentAndPendingReportService currentAndPendingReportService = KraServiceLocator
+                .getService(CurrentAndPendingReportService.class);
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(CurrentAndPendingReportService.PERSON_ID_KEY, helper.getPersonId());
+        reportParameters.put(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
+        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
+                CurrentAndPendingReportService.PENDING_REPORT_TYPE, reportParameters);
+        streamToResponse(dataStream.getContent(), dataStream.getFileName(), null, response);
+        return null;
+    }
 
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
