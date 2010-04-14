@@ -15,6 +15,18 @@
                      $(".hierarchydetail:not(#"+divId+")").slideUp(300);
                      $("#"+divId).slideToggle(300);
                      loadChildrenRA($("#itemText"+idstr).text(), tagId);
+                     //when loading children, we must remove all of the previous images and scripts.  Otherwise, there will be multiple
+                     //datepickers added to each cell depending on how deep we dig into the hierarchy and how many times we toggle.
+                     $('.datepickerImage').remove();
+     				 $('.datepickerScript').remove();
+                     $('.datepicker').each(
+                    			function() {
+                    				var id = $(this).attr("id");
+                    			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
+                    			    var script1 =$(" <script class='datepickerScript' type='text/javascript'>	Calendar.setup({ inputField : '"+ id +"', ifFormat : '%m/%d/%Y',  button : '" + id + "_datepicker'});</script>");
+                    			    img1.insertAfter($(this));
+                    			    script1.insertAfter(img1);
+                    			});
                     },
                 animated: "fast",
                 collapsed: true,
@@ -22,13 +34,14 @@
                     
                  
               });
+      
       $(document).ajaxStart(function(){
          $("#loading").show();
        });
-
       $(document).ajaxComplete(function(){
          $("#loading").hide();
        });
+      
     }); // $(document).ready
      
 
@@ -172,19 +185,21 @@
         
         if($("#controlForAwardHierarchyView").attr("value") == 0){
       	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:800px;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:912px;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:1024px;\">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/></td>"
+	  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:912px;\">"
+	  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; position:absolute;left:1024px;\">"
+//+ displaydate()
+	  			+"<input type=\"text\"class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
 	  			+"<td align=\"right\" style=\"border: medium none ; width: 15px; border-collapse: collapse; vertical-align: top; position:absolute; left:1145px; \" >"+txtImage+"&nbsp;</td>"
 	  			+"</tr></tbody></table>";
         }else if($("#controlForAwardHierarchyView").attr("value") == 1){
         	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"
         		+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 465px; \">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/></td>"
+	  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
 	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left:  582px; \">"	  			
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"
+	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" class = 'datepicker' style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+	  			//+ displaydate()
 	  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; position: absolute; left: 699px; \">"
-	  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>" 
+	  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
 	  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 816px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
 	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 932px; border-collapse: collapse; \">" +text9 + "</td>"
 	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1044px; border-collapse: collapse; \">" +text10 + "</td>"
@@ -204,11 +219,12 @@
 	  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1044px; border-collapse: collapse;\">" +text6 + "</td>"
 	  			+"<td align=\"left\" style=\"width: 5px; position: absolute; left: 1174px; border: medium none ; border-collapse: collapse;\"> &nbsp;</td></tr></tbody></table>";
         }else if($("#controlForAwardHierarchyView").attr("value") == 2){
-	      	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 600px; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  712px; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 824px; border-collapse: collapse; \">"
-		  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:100%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 936px; border-collapse: collapse;\">"
-		  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 1050px; border-collapse: collapse;\">"
+	      	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; \">"
+		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; position: absolute; left:  999px; border-collapse: collapse; \">"
+		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; position: absolute; left: 1109; border-collapse: collapse; \">"
+		  			//+ displaydate()
+		  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + racode2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1221; border-collapse: collapse;\">"
+		  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 1335px; border-collapse: collapse;\">"
 		  			+text6+"</td>"
 		  			+"<td align=\"right\" style=\"border: medium none ; width: 10px; position: absolute; left: 1455px; border-collapse: collapse; vertical-align: top; \" >"+txtImage+"&nbsp;</td>"
 		  			+"</tr></tbody></table>";
@@ -319,5 +335,13 @@
 		  // performance test
       loadFirstLevel();
       loadedidx=i;
-  })
+      $('.datepicker').each(
+   			function() {
+   				var id = $(this).attr("id");
+   			    var img1 =$("<img class='datepickerImage' src='kr/static/images/cal.gif' id='" + id +"_datepicker' style='cursor: pointer;'  title='Date selector' alt='Date selector' onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\"/>");
+   			    var script1 =$(" <script class='datepickerScript' type='text/javascript'>	Calendar.setup({ inputField : '"+ id +"', ifFormat : '%m/%d/%Y',  button : '" + id + "_datepicker'});</script>");
+   			    img1.insertAfter($(this));
+   			    script1.insertAfter(img1);
+   			});
+   })
 
