@@ -21,7 +21,7 @@
 
 
 	<script src="scripts/jquery/jquery.js"></script>
-	<link rel="stylesheet" href="css/jquery/screen.css" type="text/css" />
+	<%-- <link rel="stylesheet" href="css/jquery/screen.css" type="text/css" /> --%>
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css"
 		type="text/css" />
