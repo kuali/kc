@@ -321,9 +321,9 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * 
      * @see org.kuali.kra.committee.service.CommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
      */
-    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeId){
+    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(COMM_SCHEDULE_MINUTES_FIELD, committeeId);
+        fieldValues.put(COMM_SCHEDULE_MINUTES_FIELD, committeeScheduleId);
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
         if(minutes.size() == 1){
             return minutes.get(0);
