@@ -3,10 +3,8 @@ package org.kuali.kra.institutionalproposal.printing.service.impl;
 import java.util.Map;
 
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.institutionalproposal.printing.print.CurrentProposalPrint;
-import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
-import org.kuali.kra.institutionalproposal.printing.print.PendingProposalPrint;
+import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -17,8 +15,6 @@ public class InstitutionalProposalPrintingServiceImpl implements
 		InstitutionalProposalPrintingService {
 
 	private PrintingService printingService;
-	private CurrentProposalPrint currentProposalPrint;
-	private PendingProposalPrint pendingProposalPrint;
 	private InstitutionalProposalPrint institutionalProposalPrint;
 
 	/**
@@ -45,14 +41,7 @@ public class InstitutionalProposalPrintingServiceImpl implements
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
-		if (reportName.equals(InstitutionalProposalPrintType.CURRENT_REPORT
-				.getInstitutionalProposalPrintType())) {
-			printable = getCurrentProposalPrint();
-		} else if (reportName
-				.equals(InstitutionalProposalPrintType.PENDING_REPORT
-						.getInstitutionalProposalPrintType())) {
-			printable = getPendingProposalPrint();
-		} else if (reportName
+		if (reportName
 				.equals(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 						.getInstitutionalProposalPrintType())) {
 			printable = getInstitutionalProposalPrint();
@@ -93,31 +82,4 @@ public class InstitutionalProposalPrintingServiceImpl implements
 		this.institutionalProposalPrint = institutionalProposalPrint;
 	}
 
-	/**
-	 * @return the currentProposalPrint
-	 */
-	public CurrentProposalPrint getCurrentProposalPrint() {
-		return currentProposalPrint;
-	}
-
-	/**
-	 * @param currentProposalPrint the currentProposalPrint to set
-	 */
-	public void setCurrentProposalPrint(CurrentProposalPrint currentProposalPrint) {
-		this.currentProposalPrint = currentProposalPrint;
-	}
-
-	/**
-	 * @return the pendingProposalPrint
-	 */
-	public PendingProposalPrint getPendingProposalPrint() {
-		return pendingProposalPrint;
-	}
-
-	/**
-	 * @param pendingProposalPrint the pendingProposalPrint to set
-	 */
-	public void setPendingProposalPrint(PendingProposalPrint pendingProposalPrint) {
-		this.pendingProposalPrint = pendingProposalPrint;
-	}
 }

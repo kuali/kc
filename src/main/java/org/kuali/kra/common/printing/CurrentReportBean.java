@@ -71,15 +71,20 @@ public class CurrentReportBean extends ReportBean {
      */
     private KualiDecimal summerEffort;
 
+    private KualiDecimal totalEffort;
+    private String sponsorAwardNumber;
+
     public CurrentReportBean(AwardPerson awardPerson) {
         this.roleCode = awardPerson.getRoleCode();
         this.academicYearEffort = awardPerson.getAcademicYearEffort();
         this.calendarYearEffort = awardPerson.getCalendarYearEffort();
         this.summerEffort = awardPerson.getSummerEffort();
+        this.totalEffort = awardPerson.getTotalEffort();
 
         Award award = awardPerson.getAward();
         this.awardNumber = award.getAwardNumber();
         this.sponsorName = award.getSponsorName();
+        this.sponsorAwardNumber = award.getSponsorAwardNumber();
         this.awardTitle = award.getTitle();
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
         this.projectStartDate = award.getAwardEffectiveDate();
@@ -152,5 +157,21 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Summer Effort", "summerEffort", summerEffort));
         columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort));
         return columns;
+    }
+
+    public void setTotalEffort(KualiDecimal totalEffort) {
+        this.totalEffort = totalEffort;
+    }
+
+    public KualiDecimal getTotalEffort() {
+        return totalEffort;
+    }
+
+    public void setSponsorAwardNumber(String sponsorAwardNumber) {
+        this.sponsorAwardNumber = sponsorAwardNumber;
+    }
+
+    public String getSponsorAwardNumber() {
+        return sponsorAwardNumber;
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.printing.service;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
+import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.printing.util.PrintingServiceTestBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -30,59 +31,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 public class InstituteProposalPrintingServiceTest extends
 		PrintingServiceTestBase {
 	private InstitutionalProposalPrintingService instituteProposalPrintingService;
-
-	/**
-	 * This method tests Current Proposal Report. It generates PDF bytes for the
-	 * report.
-	 */
-	@Test
-	public void testCurrentProposalReportPrinting() {
-		try {
-			AttachmentDataSource pdfBytes = getPrintingService()
-					.printInstitutionalProposalReport(
-							PrintingTestUtils
-									.getInstituteProposalDocument(),
-							InstitutionalProposalPrintType.CURRENT_REPORT
-									.getInstitutionalProposalPrintType(),
-							PrintingTestUtils
-									.getCurrentProposalReportParameters());
-			// FIXME Writing PDF to disk for testing purpose only.
-			PrintingTestUtils.writePdftoDisk(pdfBytes,
-					InstitutionalProposalPrintType.CURRENT_REPORT
-							.getInstitutionalProposalPrintType());
-			assertNotNull(pdfBytes);
-		} catch (Exception e) {
-			e.printStackTrace();
-			//assert false;
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * This method tests Pending Proposal Report. It generates PDF bytes for the
-	 * report.
-	 */
-	@Test
-	public void testPendingProposalReportPrinting() {
-		try {
-			AttachmentDataSource pdfBytes = getPrintingService()
-					.printInstitutionalProposalReport(
-							PrintingTestUtils
-									.getInstituteProposalDocument(),
-							InstitutionalProposalPrintType.PENDING_REPORT
-									.getInstitutionalProposalPrintType(),
-							PrintingTestUtils
-									.getPendingProposalReportParameters());
-			// FIXME Writing PDF to disk for testing purpose only.
-			PrintingTestUtils.writePdftoDisk(pdfBytes,
-					InstitutionalProposalPrintType.PENDING_REPORT
-							.getInstitutionalProposalPrintType());
-			assertNotNull(pdfBytes);
-		} catch (Exception e) {
-			e.printStackTrace();
-			assert false;
-		}
-	}
 
 	/**
 	 * This method tests Institute Proposal Report. It generates PDF bytes for
