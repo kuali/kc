@@ -263,6 +263,13 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         return super.acknowledge(mapping, form, request, response);
     }
   
+    @Override
+    public ActionForward fyi(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        ((InstitutionalProposalForm)form).getDocument().prepareForSave();
+        return super.fyi(mapping, form, request, response);
+    }
+
   
     
     /**
