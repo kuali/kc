@@ -25,6 +25,9 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -156,42 +159,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		}
 
 		if (budget != null && budget.getBudgetProjectIncomes().size() > 0) {
-			phsChecklist.setProgramIncome(YesNoDataType.Y_YES);
-			IncomeBudgetPeriod[] budgetPeriodsArray = null;
-			if (budget.getBudgetProjectIncomes() != null) {
-				budgetPeriodsArray = new IncomeBudgetPeriod[budget
-						.getBudgetProjectIncomes().size()];
-			}
-			int periodCount = 0;
-			BigDecimal amount;
-			for (BudgetProjectIncome projectIncome : budget
-					.getBudgetProjectIncomes()) {
-				IncomeBudgetPeriod incomeBudgPeriod = IncomeBudgetPeriod.Factory
-						.newInstance();
-				amount = BigDecimal.ZERO;
-				if (projectIncome.getProjectIncome() != null) {
-					amount = projectIncome.getProjectIncome()
-							.bigDecimalValue();
-				}
-				incomeBudgPeriod.setAnticipatedAmount(amount);
-				if (projectIncome.getDescription() != null) {
-					if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {
-						incomeBudgPeriod.setSource(projectIncome
-								.getDescription().substring(0,
-										PROJECT_INCOME_DESCRIPTION_MAX_LENGTH));
-					} else {
-						incomeBudgPeriod.setSource(projectIncome
-								.getDescription());
-					}
-				}
-				incomeBudgPeriod.setBudgetPeriod(projectIncome
-						.getBudgetPeriodNumber());
-				if (budgetPeriodsArray != null) {
-					budgetPeriodsArray[periodCount] = incomeBudgPeriod;
-				}
-				periodCount++;
-			}
-			phsChecklist.setIncomeBudgetPeriodArray(budgetPeriodsArray);
+			setProjectIncome(phsChecklist, budget);
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
@@ -213,6 +181,58 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		return phsChecklistDocument;
 	}
 
+	/**
+	 * @param phsChecklist
+	 * @param budget
+	 */
+	private void setProjectIncome(PHS398Checklist phsChecklist, Budget budget) {
+		Map<Integer, IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, IncomeBudgetPeriod>();
+		BigDecimal anticipatedAmount;
+		for (BudgetProjectIncome projectIncome : budget
+				.getBudgetProjectIncomes()) {
+			Integer budgetPeriodNumber = projectIncome.getBudgetPeriodNumber();
+			IncomeBudgetPeriod incomeBudgPeriod = incomeBudgetPeriodMap
+					.get(budgetPeriodNumber);
+			if (incomeBudgPeriod == null) {
+				incomeBudgPeriod = IncomeBudgetPeriod.Factory.newInstance();
+				incomeBudgPeriod.setBudgetPeriod(budgetPeriodNumber.intValue());
+				anticipatedAmount = BigDecimal.ZERO;
+			} else {
+				anticipatedAmount = incomeBudgPeriod.getAnticipatedAmount();
+			}
+			anticipatedAmount = anticipatedAmount.add(projectIncome.getProjectIncome().bigDecimalValue());
+			incomeBudgPeriod.setAnticipatedAmount(anticipatedAmount);
+			String description = getProjectIncomeDescription(projectIncome);
+			if (description != null) {
+				if (incomeBudgPeriod.getSource() != null) {
+					incomeBudgPeriod.setSource(incomeBudgPeriod.getSource()
+							+ ";" + description);
+				} else {
+					incomeBudgPeriod.setSource(description);
+				}
+			}
+			incomeBudgetPeriodMap.put(budgetPeriodNumber, incomeBudgPeriod);
+		}
+		Collection<IncomeBudgetPeriod> incomeBudgetPeriodCollection = incomeBudgetPeriodMap
+				.values();
+		phsChecklist.setIncomeBudgetPeriodArray(incomeBudgetPeriodCollection
+				.toArray(new IncomeBudgetPeriod[0]));
+	}
+	/*
+	 * This method will get the project income description
+	 */
+	protected String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
+		String description = null;
+		if (projectIncome.getDescription() != null) {
+			if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {
+				description = projectIncome.getDescription().substring(0,
+						PROJECT_INCOME_DESCRIPTION_MAX_LENGTH);
+			} else {
+				description = projectIncome.getDescription();
+			}
+		}
+		return description;
+	}
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHS398ChecklistDocument} by populating data from the given
