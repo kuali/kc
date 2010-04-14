@@ -225,7 +225,7 @@
                     
 
  
-       <c:if test="${KualiForm.document.developmentProposalList[0].nih && KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+       <c:if test="${KualiForm.document.developmentProposalList[0].sponsorNihOsc && KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
                  <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
                     <td align="left"><span>
                       <kul:htmlControlAttribute property="${proposalPerson}.otherSignificantContributorFlag" 
