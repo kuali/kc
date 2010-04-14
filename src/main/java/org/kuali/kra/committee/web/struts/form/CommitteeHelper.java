@@ -48,6 +48,7 @@ public class CommitteeHelper implements Serializable {
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
     private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
     private ScheduleData scheduleData;
+    private CommitteeActionsHelper committeeActionsHelper;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
 
@@ -60,6 +61,7 @@ public class CommitteeHelper implements Serializable {
         this.newCommitteeMembership = new CommitteeMembership();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
         this.setScheduleData(new ScheduleData());
+        this.setCommitteeActionsHelper(new CommitteeActionsHelper());
     }
     
     public Committee getCommittee() {
@@ -168,6 +170,14 @@ public class CommitteeHelper implements Serializable {
         this.scheduleData = scheduleData;
     }    
     
+    public CommitteeActionsHelper getCommitteeActionsHelper() {
+        return committeeActionsHelper;
+    }
+
+    public void setCommitteeActionsHelper(CommitteeActionsHelper committeeActionsHelper) {
+        this.committeeActionsHelper = committeeActionsHelper;
+    }
+
     public void setMemberIndex(int memberIndex) {
         this.memberIndex = memberIndex;
     }
