@@ -18,7 +18,6 @@ package org.kuali.kra.award;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,6 +40,7 @@ import org.kuali.kra.award.contacts.AwardUnitContactsBean;
 import org.kuali.kra.award.customdata.CustomDataHelper;
 import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
@@ -61,6 +61,7 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -69,6 +70,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
@@ -1289,6 +1291,19 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setNewProposalBudgetPeriods(String newProposalBudgetPeriods) {
         this.newProposalBudgetPeriods = newProposalBudgetPeriods;
+    }
+    
+    public boolean getDisplayEditButton() {
+        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, 
+                this.getAwardDocument().getAward().getAwardNumber());
+        if (activeVersion != null) {
+            return activeVersion.getSequenceOwnerSequenceNumber().equals(this.getAwardDocument().getAward().getSequenceNumber());
+        }
+        return false;
+    }
+    
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
     }
 
 }
