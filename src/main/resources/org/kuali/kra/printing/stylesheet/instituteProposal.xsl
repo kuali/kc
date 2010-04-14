@@ -856,66 +856,6 @@
 												</fo:inline-container>
 												<fo:block margin="0pt">
 													<fo:block>
-														<fo:inline-container>
-															<fo:block>
-																<xsl:text>&#x2029;</xsl:text>
-															</fo:block>
-														</fo:inline-container>
-														<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
-															<fo:table-column column-width="25%"/>
-															<fo:table-column column-width="75%"/>
-															<fo:table-body start-indent="0pt">
-																<fo:table-row>
-																	<fo:table-cell padding="2pt" display-align="center">
-																		<fo:block>
-																			<fo:inline font-weight="bold">
-																				<xsl:text>Type of Account:</xsl:text>
-																			</fo:inline>
-																		</fo:block>
-																	</fo:table-cell>
-																	<fo:table-cell padding-right="50pt" padding="2pt" text-align="center" display-align="center">
-																		<fo:block>
-																			<xsl:for-each select="InstituteProposal">
-																				<xsl:for-each select="instProposalMaster">
-																					<xsl:for-each select="accountType">
-																						<xsl:choose>
-																							<xsl:when test=". = &apos;R&apos;">
-																								<fo:inline>
-																									<xsl:text>Research</xsl:text>
-																								</fo:inline>
-																							</xsl:when>
-																							<xsl:otherwise>
-																								<fo:inline>
-																									<xsl:text>Fund</xsl:text>
-																								</fo:inline>
-																							</xsl:otherwise>
-																						</xsl:choose>
-																					</xsl:for-each>
-																				</xsl:for-each>
-																			</xsl:for-each>
-																		</fo:block>
-																	</fo:table-cell>
-																</fo:table-row>
-															</fo:table-body>
-														</fo:table>
-													</fo:block>
-												</fo:block>
-											</fo:block>
-										</fo:table-cell>
-									</fo:table-row>
-									<fo:table-row>
-										<fo:table-cell padding="0" padding-left="30pt" display-align="center">
-											<fo:block>
-												<fo:block>
-													<fo:leader leader-pattern="space"/>
-												</fo:block>
-												<fo:inline-container>
-													<fo:block>
-														<xsl:text>&#x2029;</xsl:text>
-													</fo:block>
-												</fo:inline-container>
-												<fo:block margin="0pt">
-													<fo:block>
 														<xsl:if test="boolean(  InstituteProposal/budgetData/requestedStartDateInitial or  InstituteProposal/budgetData/requestedEndDateInitial or  InstituteProposal/budgetData/requestedStartDateTotal or  InstituteProposal/budgetData/requestedEndDateTotal  )   or  number(   InstituteProposal/budgetData/totalCostInitial  ) &gt; 0 or  number(  InstituteProposal/budgetData/totalCostTotal  ) &gt; 0">
 															<fo:inline-container>
 																<fo:block>
@@ -1861,12 +1801,12 @@
 																						<xsl:for-each select="mailingInfo">
 																							<xsl:for-each select="mailByOSP">
 																								<xsl:choose>
-																									<xsl:when test=". = &apos;O&apos;">
+																									<xsl:when test=". = &apos;1&apos;">
 																										<fo:inline>
 																											<xsl:text>OSP</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;D&apos;">
+																									<xsl:when test=". = &apos;2&apos;">
 																										<fo:inline>
 																											<xsl:text>Department</xsl:text>
 																										</fo:inline>
@@ -1893,17 +1833,17 @@
 																						<xsl:for-each select="mailingInfo">
 																							<xsl:for-each select="mailType">
 																								<xsl:choose>
-																									<xsl:when test=". = &apos;R&apos;">
+																									<xsl:when test=". = &apos;1&apos;">
 																										<fo:inline>
 																											<xsl:text>Regular</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;D&apos;">
+																									<xsl:when test=". = &apos;3&apos;">
 																										<fo:inline>
-																											<xsl:text>Express Courier</xsl:text>
+																											<xsl:text>Delivery Service</xsl:text>
 																										</fo:inline>
 																									</xsl:when>
-																									<xsl:when test=". = &apos;E&apos;">
+																									<xsl:when test=". = &apos;2&apos;">
 																										<fo:inline>
 																											<xsl:text>Electronic</xsl:text>
 																										</fo:inline>
@@ -2155,7 +2095,7 @@
 													<fo:block>
 														<xsl:if test="InstituteProposal/IDCRates or  string-length(  InstituteProposal/IDCRatesComments  )  &gt; 0">
 															<fo:inline font-size="12pt" font-weight="bold">
-																<xsl:text>IDC Rates</xsl:text>
+																<xsl:text>F&amp;A Rates</xsl:text>
 															</fo:inline>
 														</xsl:if>
 													</fo:block>

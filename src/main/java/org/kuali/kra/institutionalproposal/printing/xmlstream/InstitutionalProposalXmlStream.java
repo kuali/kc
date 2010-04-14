@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
@@ -59,6 +60,8 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
@@ -150,7 +153,7 @@ public class InstitutionalProposalXmlStream extends
 		instituteProposalXmlObject
 				.setInstProposalMaster(getInstProposalMasterData(institutionalProposal));
 		instituteProposalXmlObject.setInvestigatorsArray(getInvestigatorTypes(
-				institutionalProposal, proposalPersons));
+				institutionalProposal));
 		instituteProposalXmlObject
 				.setBudgetData(getBudgetDataType(institutionalProposal));
 		instituteProposalXmlObject
@@ -178,7 +181,7 @@ public class InstitutionalProposalXmlStream extends
 		IPDisclosureItemType[] disclosureItemTypes = getDisclosureItems(institutionalProposal);
 		instituteProposalXmlObject.setDisclosureItemArray(disclosureItemTypes);
 		instituteProposalXmlObject.setKeyPersonsArray(getKeyPersons(
-				institutionalProposal, proposalPersons));
+				institutionalProposal));
 		return instituteProposalXmlObject;
 	}
 
@@ -189,12 +192,11 @@ public class InstitutionalProposalXmlStream extends
 	 * key person type.
 	 */
 	private IPKeyPersonType[] getKeyPersons(
-			InstitutionalProposal institutionalProposal,
-			List<ProposalPerson> proposalPersons) {
+			InstitutionalProposal institutionalProposal) {
 		List<KeyPersonType> keyPersonTypes = new ArrayList<KeyPersonType>();
 		IPKeyPersonType keyPersonType = null;
-		for (ProposalPerson proposalPerson : proposalPersons) {
-			if (proposalPerson.isInvestigator()) {
+		for (InstitutionalProposalPerson proposalPerson : institutionalProposal.getProjectPersons()) {
+			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
 				keyPersonType = IPKeyPersonType.Factory.newInstance();
 				if (institutionalProposal.getProposalNumber() != null) {
 					keyPersonType.setProposalNumber(institutionalProposal
@@ -207,21 +209,19 @@ public class InstitutionalProposalXmlStream extends
 				if (person != null && person.getFullName() != null) {
 					keyPersonType.setPersonName(person.getFullName());
 				}
-				ProposalPersonRole role = proposalPerson.getRole();
+				ContactRole role = proposalPerson.getContactRole();
 				if (role != null && role.getRoleDescription() != null) {
 					keyPersonType.setRoleName(role.getRoleDescription());
 				}
-				if (proposalPerson.getAddressLine1() != null) {
-					keyPersonType.setPersonAddress(proposalPerson
+				if (proposalPerson.getPerson().getAddressLine1() != null) {
+					keyPersonType.setPersonAddress(proposalPerson.getPerson()
 							.getAddressLine1());
 				}
-				if (proposalPerson.getPercentageEffort() != null) {
+				if (proposalPerson.getTotalEffort() != null) {
 					keyPersonType.setPercentEffort(proposalPerson
-							.getPercentageEffort().bigDecimalValue());
+							.getTotalEffort().bigDecimalValue());
 				}
-				if (proposalPerson.getFacultyFlag() != null) {
-					keyPersonType.setFaculty(proposalPerson.getFacultyFlag());
-				}
+					keyPersonType.setFaculty(proposalPerson.isFaculty());
 				if (proposalPerson.getRolodexId() != null) {
 					keyPersonType.setNonEmployee(true);
 				}
@@ -238,48 +238,45 @@ public class InstitutionalProposalXmlStream extends
 	 * xml object.
 	 */
 	private InvestigatorType2[] getInvestigatorTypes(
-			InstitutionalProposal institutionalProposal,
-			List<ProposalPerson> proposalPersons) {
+			InstitutionalProposal institutionalProposal) {
 		List<InvestigatorType2> investigatorTypesList = new ArrayList<InvestigatorType2>();
 		InvestigatorType2 investigatorType = null;
-		for (ProposalPerson proposalPerson : proposalPersons) {
-			if (proposalPerson.isInvestigator()) {
+		for (InstitutionalProposalPerson proposalPerson : institutionalProposal.getProjectPersons()) {
+			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
 				investigatorType = InvestigatorType2.Factory.newInstance();
 				PersonType personType = PersonType.Factory.newInstance();
-				if (proposalPerson.getAddressLine1() != null) {
-					personType.setAddress(proposalPerson.getAddressLine1());
+				if (proposalPerson.getPerson().getAddressLine1() != null) {
+					personType.setAddress(proposalPerson.getPerson().getAddressLine1());
 				}
-				if (proposalPerson.getCity() != null) {
-					personType.setCity(proposalPerson.getCity());
+				if (proposalPerson.getPerson().getCity() != null) {
+					personType.setCity(proposalPerson.getPerson().getCity());
 				}
-				if (proposalPerson.getFirstName() != null) {
-					personType.setFirstName(proposalPerson.getFirstName());
+				if (proposalPerson.getPerson().getFirstName() != null) {
+					personType.setFirstName(proposalPerson.getPerson().getFirstName());
 				}
 				if (proposalPerson.getFullName() != null) {
 					personType.setFullName(proposalPerson.getFullName());
 				}
-				if (proposalPerson.getLastName() != null) {
-					personType.setLastName(proposalPerson.getLastName());
+				if (proposalPerson.getPerson().getLastName() != null) {
+					personType.setLastName(proposalPerson.getPerson().getLastName());
 				}
-				if (proposalPerson.getMiddleName() != null) {
-					personType.setMiddleName(proposalPerson.getMiddleName());
+				if (proposalPerson.getPerson().getMiddleName() != null) {
+					personType.setMiddleName(proposalPerson.getPerson().getMiddleName());
 				}
 				if (proposalPerson.getPhoneNumber() != null) {
 					personType.setPhone(proposalPerson.getPhoneNumber());
 				}
-				if (proposalPerson.getState() != null) {
-					personType.setState(proposalPerson.getState());
+				if (proposalPerson.getPerson().getState() != null) {
+					personType.setState(proposalPerson.getPerson().getState());
 				}
-				if (proposalPerson.getPostalCode() != null) {
-					personType.setZip(proposalPerson.getPostalCode());
+				if (proposalPerson.getPerson().getPostalCode() != null) {
+					personType.setZip(proposalPerson.getPerson().getPostalCode());
 				}
 				investigatorType.setPIName(personType);
-				if (proposalPerson.getFacultyFlag() != null) {
-					investigatorType.setFacultyFlag(proposalPerson
-							.getFacultyFlag());
-				}
+				investigatorType.setFacultyFlag(proposalPerson
+						.isFaculty());
 				investigatorType.setPrincipalInvFlag(proposalPerson
-						.isInvestigator());
+						.isPrincipalInvestigator());
 				List<UnitType> unitTypes = getUnitTypes(proposalPerson);
 				investigatorType.setUnitArray(unitTypes
 						.toArray(new UnitType[0]));
@@ -293,10 +290,10 @@ public class InstitutionalProposalXmlStream extends
 	 * This method will set the values to unit types xml object attributes. It
 	 * basically iterates over the proposal person units.
 	 */
-	private List<UnitType> getUnitTypes(ProposalPerson proposalPerson) {
+	private List<UnitType> getUnitTypes(InstitutionalProposalPerson proposalPerson) {
 		List<UnitType> unitTypes = new ArrayList<UnitType>();
 		UnitType unitType = null;
-		for (ProposalPersonUnit proposalPersonUnit : proposalPerson.getUnits()) {
+		for (InstitutionalProposalPersonUnit proposalPersonUnit : proposalPerson.getUnits()) {
 			unitType = UnitType.Factory.newInstance();
 			unitType.setLeadUnitFlag(proposalPersonUnit.isLeadUnit());
 			Unit unit = proposalPersonUnit.getUnit();
@@ -305,7 +302,7 @@ public class InstitutionalProposalXmlStream extends
 					unitType.setUnitName(unit.getUnitName());
 				}
 				if (unit.getUnitNumber() != null) {
-					unitType.setUnitName(unit.getUnitNumber());
+					unitType.setUnitNumber(unit.getUnitNumber());
 				}
 			}
 			unitTypes.add(unitType);
@@ -359,15 +356,12 @@ public class InstitutionalProposalXmlStream extends
 				.getInstitutionalProposalScienceKeywords()) {
 			scienceCodeType = ScienceCodeType.Factory.newInstance();
 			if (institutionalProposalScienceKeyword.getScienceKeywordCode() != null) {
-				scienceCodeType
-						.setScienceCode(institutionalProposalScienceKeyword
-								.getScienceKeywordCode());
+				scienceCodeType.
+				    setScienceCode(institutionalProposalScienceKeyword.getScienceKeywordCode());
 			}
-			if (institutionalProposalScienceKeyword
-					.getScienceKeywordDescription() != null) {
-				scienceCodeType
-						.setScienceCodeDesc(institutionalProposalScienceKeyword
-								.getScienceKeywordDescription());
+			if (institutionalProposalScienceKeyword.getScienceKeyword().getDescription() != null) {
+				scienceCodeType.
+				    setScienceCodeDesc(institutionalProposalScienceKeyword.getScienceKeyword().getDescription());
 			}
 			scienceCodeTypelist.add(scienceCodeType);
 		}
@@ -390,10 +384,10 @@ public class InstitutionalProposalXmlStream extends
 				costSharingType.setAmount(institutionalProposalCostShare
 						.getAmount().doubleValue());
 			}
-			if (institutionalProposalCostShare.getCostShareTypeCode() != null) {
-				costSharingType.setCostSharingType(String
-						.valueOf(institutionalProposalCostShare
-								.getCostShareTypeCode()));
+			institutionalProposalCostShare.refreshReferenceObject("costShareType");
+			if (institutionalProposalCostShare.getCostShareType() != null) {
+				costSharingType.setCostSharingType(institutionalProposalCostShare.getCostShareTypeCode() + " - " + 
+				        institutionalProposalCostShare.getCostShareType().getDescription());
 			}
 			if (institutionalProposalCostShare.getFiscalYear() != null) {
 				costSharingType.setFY(institutionalProposalCostShare
@@ -436,6 +430,7 @@ public class InstitutionalProposalXmlStream extends
 			Protocol protocol = null;
 			String protocolNumber = institutionalProposalSpecialReview
 					.getProtocolNumber();
+			institutionalProposalSpecialReview.refreshNonUpdateableReferences();
 			SpecialReviewApprovalType specialReviewApprovalType = institutionalProposalSpecialReview
 					.getSpecialReviewApprovalType();
 			if (protocolNumber != null
@@ -477,6 +472,7 @@ public class InstitutionalProposalXmlStream extends
 							.setSpecialReviewStatus(specialReviewApprovalType
 									.getDescription());
 				}
+				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProposalNumber());
 			}
 			SpecialReview specialReview = institutionalProposalSpecialReview
 					.getSpecialReview();
@@ -540,11 +536,11 @@ public class InstitutionalProposalXmlStream extends
 						.setUnderRecovery(institutionalProposalUnrecoveredFandA
 								.getUnderrecoveryOfIndirectcost().doubleValue());
 			}
+			institutionalProposalUnrecoveredFandA.refreshReferenceObject("indirectcostRateType");
 			if (institutionalProposalUnrecoveredFandA
-					.getIndirectcostRateTypeCode() != null) {
-				idcRateType.setRateType(String
-						.valueOf(institutionalProposalUnrecoveredFandA
-								.getIndirectcostRateTypeCode()));
+					.getIndirectcostRateType() != null) {
+				idcRateType.setRateType(institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode() + " - " + 
+				        institutionalProposalUnrecoveredFandA.getIndirectcostRateType().getDescription());
 			}
 			if (institutionalProposalUnrecoveredFandA
 					.getApplicableIndirectcostRate() != null) {
@@ -568,12 +564,12 @@ public class InstitutionalProposalXmlStream extends
 			mailingInfoType.setDeadlineDate(dateTimeService
 					.getCalendar(institutionalProposal.getDeadlineDate()));
 		}
-		mailingInfoType.setDeadlineType(String.valueOf(institutionalProposal
-				.getDeadlineType()));
-		mailingInfoType.setMailByOSP(String.valueOf(institutionalProposal
-				.getMailBy()));
-		mailingInfoType.setMailType(String.valueOf(institutionalProposal
-				.getMailType()));
+		mailingInfoType.setDeadlineType(institutionalProposal
+				.getDeadlineType());
+		mailingInfoType.setMailByOSP(institutionalProposal
+				.getMailBy());
+		mailingInfoType.setMailType(institutionalProposal
+				.getMailType());
 		if (institutionalProposal.getMailAccountNumber() != null) {
 			mailingInfoType.setMailAccount(institutionalProposal
 					.getMailAccountNumber());
@@ -655,14 +651,18 @@ public class InstitutionalProposalXmlStream extends
 			budgetDataType.setTotalDirectCostInitial(institutionalProposal
 					.getTotalDirectCostInitial().bigDecimalValue());
 		}
-		if (institutionalProposal.getTotalIndirectCostInitial() != null) {
-			budgetDataType.setTotalIndirectCostInitial(institutionalProposal
-					.getTotalIndirectCostInitial().bigDecimalValue());
+		if (institutionalProposal.getTotalDirectCostTotal() != null) {
+			budgetDataType.setTotalDirectCostTotal(institutionalProposal
+					.getTotalDirectCostTotal().bigDecimalValue());
 		}
 		if (institutionalProposal.getTotalIndirectCostInitial() != null) {
 			budgetDataType.setTotalIndirectCostInitial(institutionalProposal
 					.getTotalIndirectCostInitial().bigDecimalValue());
 		}
+        if (institutionalProposal.getTotalIndirectCostTotal() != null) {
+            budgetDataType.setTotalIndirectCostTotal(institutionalProposal
+                    .getTotalIndirectCostTotal().bigDecimalValue());
+        }		
 		if (institutionalProposal.getTotalInitialCost() != null) {
 			budgetDataType.setTotalCostInitial(institutionalProposal
 					.getTotalInitialCost().bigDecimalValue());
@@ -670,10 +670,6 @@ public class InstitutionalProposalXmlStream extends
 		if (institutionalProposal.getTotalCost() != null) {
 			budgetDataType.setTotalCostTotal(institutionalProposal
 					.getTotalCost().bigDecimalValue());
-		}
-		if (institutionalProposal.getTotalIndirectCostTotal() != null) {
-			budgetDataType.setTotalIndirectCostTotal(institutionalProposal
-					.getTotalIndirectCostTotal().bigDecimalValue());
 		}
 		return budgetDataType;
 	}
@@ -711,6 +707,9 @@ public class InstitutionalProposalXmlStream extends
 		setPrimeSponsor(institutionalProposal, instProposalMasterData);
 		instProposalMasterData.setHasSubcontracts(institutionalProposal
 				.getSubcontractFlag());
+		if (institutionalProposal.getGradStudHeadcount() != null) {
+		    instProposalMasterData.setGradStudentCount(institutionalProposal.getGradStudHeadcount());
+		}
 		if (institutionalProposal.getGradStudPersonMonths() != null) {
 			instProposalMasterData.setGradStudentmonths(institutionalProposal
 					.getGradStudPersonMonths().doubleValue());
