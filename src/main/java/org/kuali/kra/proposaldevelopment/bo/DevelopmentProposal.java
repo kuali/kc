@@ -135,6 +135,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private boolean nih;
     private Map<String, String> nihDescription;
     private boolean sponsorNihMultiplePi;
+    private boolean sponsorNihOsc;
 
     private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
@@ -1707,12 +1708,28 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     }
 
+    /**
+     * This method returns true if the sponsor is in the NIH Multiple PI hierarchy.
+     * @return
+     */
     public boolean isSponsorNihMultiplePi() {
         return sponsorNihMultiplePi;
     }
 
     public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
         this.sponsorNihMultiplePi = sponsorNihMultiplePi;
+    }
+    
+    /**
+     * This method returns true if the sponsor is in the NIH Other Significant Contributor hierarchy.
+     * @return
+     */
+    public boolean isSponsorNihOsc() {
+        return sponsorNihOsc;
+    }
+
+    public void setSponsorNihOsc(boolean sponsorNihOsc) {
+        this.sponsorNihOsc = sponsorNihOsc;
     }
     
     public List<S2sAppSubmission> getS2sAppSubmission() {

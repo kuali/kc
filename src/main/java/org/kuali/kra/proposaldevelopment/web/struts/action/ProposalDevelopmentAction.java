@@ -232,6 +232,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
         proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
+        proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
     }
     
 

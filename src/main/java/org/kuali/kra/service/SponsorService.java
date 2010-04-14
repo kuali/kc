@@ -98,6 +98,13 @@ public interface SponsorService {
      * @return
      */
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable);
+    
+    /**
+     * This method returns true if a Sponsorable's sponsor is of the "NIH Other Significant Contributor" type.
+     * @param sponsorable
+     * @return
+     */
+    public boolean isSponsorNihOsc(Sponsorable sponsorable);
 
     /**
      * 
