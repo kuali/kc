@@ -146,7 +146,12 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
     private AdminCorrectionBean protocolAdminCorrectionBean;
     private CommitteeDecision committeeDecision;
+    
     private transient ParameterService parameterService;
+    private transient TaskAuthorizationService taskAuthorizationService;
+    private transient ProtocolAmendRenewService protocolAmendRenewService;
+    private transient ProtocolVersionService protocolVersionService;
+    private transient CommitteeScheduleService committeeScheduleService;
     
     /*
      * Identifies the protocol "document" to print.
@@ -313,8 +318,7 @@ public class ActionHelper implements Serializable {
      */
     private void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
         try {
-            CommitteeScheduleService scheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);
-            List<CommitteeScheduleMinute> minutes = scheduleService.getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
+            List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
             ReviewComments comments = commentContainer.getReviewComments();
             comments.setComments(minutes);
             commentContainer.setReviewComments(comments);
@@ -386,7 +390,10 @@ public class ActionHelper implements Serializable {
     }
 
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
+        if (this.protocolAmendRenewService == null) {
+            this.protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);        
+        }
+        return this.protocolAmendRenewService;
     }
 
     public void prepareView() {
@@ -461,7 +468,10 @@ public class ActionHelper implements Serializable {
     }
     
     private ProtocolVersionService getProtocolVersionService() {
-        return KraServiceLocator.getService(ProtocolVersionService.class);
+        if (this.protocolVersionService == null) {
+            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
+        }
+        return this.protocolVersionService;
     }
 
     private String getParameterValue(String parameterName) {
@@ -608,7 +618,10 @@ public class ActionHelper implements Serializable {
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
-        return KraServiceLocator.getService(TaskAuthorizationService.class);
+        if (this.taskAuthorizationService == null) {
+            this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        }
+        return this.taskAuthorizationService;
     }
     
     public ProtocolSubmitAction getProtocolSubmitAction() {
@@ -955,6 +968,13 @@ public class ActionHelper implements Serializable {
             this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
         return this.parameterService;
+    }
+    
+    private CommitteeScheduleService getCommitteeScheduleService() {
+        if (this.committeeScheduleService == null) {
+            this.committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
+        }
+        return this.committeeScheduleService;
     }
     
     public ProtocolRiskLevel getNewRiskLevel() {

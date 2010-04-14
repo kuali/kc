@@ -16,10 +16,8 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -44,6 +42,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
     private ProtocolVersionService protocolVersionService;
+    private ProtocolAssignToAgendaService protocolAssignToAgendaService;
 
     /**
      * Set the document service.
@@ -59,6 +58,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
+        this.protocolAssignToAgendaService = protocolAssignToAgendaService;
     }
     
     /**
@@ -120,8 +123,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         documentService.saveDocument(newProtocolDocument);
         
         //if there is an assign to agenda protocol action, remove it.
-        ProtocolAction assignToAgendaProtoclAction = KraServiceLocator.getService(ProtocolAssignToAgendaService.class).
-            getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
+        ProtocolAction assignToAgendaProtoclAction = this.protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
         if (assignToAgendaProtoclAction != null) {
             boolean didItWork = newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtoclAction);
             businessObjectService.delete(assignToAgendaProtoclAction);

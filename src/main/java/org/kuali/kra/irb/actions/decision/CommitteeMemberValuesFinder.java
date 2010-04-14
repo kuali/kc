@@ -21,14 +21,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -36,7 +34,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 /**
  * 
  */
-public class CommitteeMemberValuesFinder extends KeyValuesBase {
+public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
@@ -58,10 +56,6 @@ public class CommitteeMemberValuesFinder extends KeyValuesBase {
         }
         
         return keyValues;
-    }
-
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
     }
 
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {

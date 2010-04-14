@@ -19,17 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class creates the key/values pair ProtocolCorrespondenceType that are valid as a final correspondence 
  * action for batch correspondence.
  */
-public class ProtocolFinalCorrespondenceActionTypeValuesFinder extends KeyValuesBase {
+public class ProtocolFinalCorrespondenceActionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     /**
      * Build the list of KeyLabelPairs using the key (keyAttributeName) and
@@ -42,7 +39,7 @@ public class ProtocolFinalCorrespondenceActionTypeValuesFinder extends KeyValues
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = KraServiceLocator.getService(BusinessObjectService.class).findAll(ProtocolCorrespondenceType.class);
+        Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = this.getBusinessObjectService().findAll(ProtocolCorrespondenceType.class);
 
         keyValues.add(new KeyLabelPair("  ", "no correspondence action"));
         for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
