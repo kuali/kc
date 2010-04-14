@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,25 +27,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
-import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
-import org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonService;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.RateClass;
@@ -59,26 +47,22 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.logging.BufferedLogger;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
-import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.springframework.beans.BeanUtils;
+import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
  */
-public class AwardBudgetsAction extends AwardAction {
+public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
@@ -113,12 +97,14 @@ public class AwardBudgetsAction extends AwardAction {
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
-
-        BudgetDocument<Award> newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
-        if(newBudgetDoc!=null){
-            awardForm.setNewBudgetVersionName("");
+        ActionForward actionForward = activate(mapping, form, request, response);
+        if(actionForward == mapping.findForward(Constants.MAPPING_BASIC)) { 
+            BudgetDocument<Award> newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+            if(newBudgetDoc!=null){
+                awardForm.setNewBudgetVersionName("");
+            }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC); 
+        return actionForward;
     }
     
     /**
@@ -433,6 +419,21 @@ public class AwardBudgetsAction extends AwardAction {
      */
     public BudgetService getBudgetService() {
         return KraServiceLocator.getService(BudgetService.class);
+    }
+
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
+        if(!(new AuditActionHelper().auditConditionally((AwardForm)form))) {
+            actionForward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+        }
+        return actionForward;
+    }
+
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
