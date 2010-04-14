@@ -121,5 +121,12 @@ public class AwardBudgetForm extends BudgetForm {
     public String getBudgetParentId() {
         return budgetParentId;
     }
+    /**
+     * This method is to define whether FnA rate type is editable in Budget Overview panel.
+     * @return true if any FnA rates defined in award
+     */
+    public String getFnARateFlagEditable(){
+        return Boolean.toString(getAwardBudgetDocument().getParentDocument().getBudgetParent().getAwardFandaRate().isEmpty());
+    }
     
 }
