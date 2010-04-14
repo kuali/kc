@@ -428,10 +428,23 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
 
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
+        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
+    }
+    
+    public boolean isSponsorNihOsc(Sponsorable sponsorable) {
+        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_OSC);
+    }
+
+    /**
+     * This method tests whether a document's sponsor is in a given sponsor hierarchy.
+     * @param sponsorable
+     * @param sponsorHierarchy The name of a sponsor hierarchy
+     * @return
+     */
+    private boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy) {
         Map<String, String> valueMap = new HashMap<String, String>();
         valueMap.put("sponsorCode", sponsorable.getSponsorCode());
-        // hard-coding the name is ugly, but there seems to be no ID field for identifying a hierarchy type
-        valueMap.put("hierarchyName", "NIH Multiple PI");
+        valueMap.put("hierarchyName", sponsorHierarchy);
         int matchingHierarchies = businessObjectService.countMatching(SponsorHierarchy.class, valueMap);
         
         return matchingHierarchies > 0;
