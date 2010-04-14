@@ -40,27 +40,47 @@
                 <td align="left" valign="middle">
                 	<bean:write name="KualiForm" property="document.parentDocument.budgetParent.accountNumber"/>
                 </td>
-       			<th>
-           			<div align="right">Obligated Total:</div>
-       			</th>
-           		<td>
-           			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.obligatedTotal"/> 
-           		</td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>
+                <td align="left" valign="middle">
+                	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
+                </td>
             </tr>
         	<tr>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardNumber}" /></div></th>
            		<td>
            			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.awardNumber"/> 
            		</td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${awardBudgetAttributes.totalCostLimit}" readOnly="true"/>
-           		</td>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
+                <td>
+                	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
+                </td>
         	</tr>
 			<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetVersionNumber}" /></div></th>
                 <td >
                 	<kul:htmlControlAttribute property="document.budget.budgetVersionNumber" attributeEntry="${budgetAttributes.budgetVersionNumber}" readOnly="true"/>
+                </td>
+       			<th>
+           			<div align="right">Obligated Total:</div>
+       			</th>
+           		<td>
+           			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.obligatedTotal"/> 
+           		</td>
+        	</tr>
+        	<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" /></div></th>
+			    <td>
+			         <kul:htmlControlAttribute property="document.budget.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" readOnly="true"/>
+                </td>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${awardBudgetAttributes.totalCostLimit}" readOnly="true"/>
+           		</td>
+     		</tr>
+        	<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>
+			    <td>
+			         <kul:htmlControlAttribute property="document.budget.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" readOnly="true"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
@@ -69,27 +89,17 @@
                 </td>
         	</tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" /></div></th>
-			    <td>
-			         <kul:htmlControlAttribute property="document.budget.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" disabled="true"/>
-                </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
-           			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budget.ohRateClassCode}">
-           		</td>
-     		</tr>
-        	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>
-			    <td>
-			         <kul:htmlControlAttribute property="document.budget.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" disabled="true"/>
-                </td>
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budget.onOffCampusFlag}">
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td >
                 	<kul:htmlControlAttribute property="document.budget.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.budget.onOffCampusFlagDescription}"/>
                 </td>
-        	</tr>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly or !KualiForm.fnARateFlagEditable}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
+           			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budget.ohRateClassCode}">
+           		</td>
+           	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.description}" /></div></th>
                 <td colspan="3">
