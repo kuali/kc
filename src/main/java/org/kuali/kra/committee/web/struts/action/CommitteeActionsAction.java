@@ -15,10 +15,52 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
+
+
+/**
+ * The CommitteeActionsAction corresponds to the Actions tab (web page).  It is
+ * responsible for handling all user requests from that tab (web page).
+ */
 public class CommitteeActionsAction extends CommitteeAction {
 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeActionsAction.class);
+
+    /**
+     * This method is perform the action - Generate Batch Correspondence.
+     * Method is called in CommitteeActions.jsp
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward generateBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method is perform the action - Filter Batch Correspondence History.
+     * Method is called in CommitteeActions.jsp
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return 
+     * @throws Exception
+     */
+    public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
     
 }
