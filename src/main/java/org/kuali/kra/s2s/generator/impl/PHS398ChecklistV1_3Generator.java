@@ -24,7 +24,10 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -44,6 +47,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
+	private static final int ZERO = 0;
 	private static final String YNQANSWER_29 = "29";
 	private static final Logger LOG = Logger
 			.getLogger(PHS398ChecklistV1_3Generator.class);
@@ -74,8 +78,9 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		}
 
 		if (budgetDoc != null && budgetDoc.getBudget() != null) {
+			int numPeriods = budgetDoc.getBudget().getBudgetPeriods().size();
 			setIncomeBudgetPeriods(phsChecklist, budgetDoc.getBudget()
-					.getBudgetProjectIncomes());
+					.getBudgetProjectIncomes(),numPeriods);
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
@@ -109,47 +114,57 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	/*
 	 * This method will set values to income budget periods
 	 */
-	private void setIncomeBudgetPeriods(PHS398Checklist13 phsChecklist,
-			List<BudgetProjectIncome> projectIncomes) {
+	private static void setIncomeBudgetPeriods(PHS398Checklist13 phsChecklist,
+			List<BudgetProjectIncome> projectIncomes, int numPeriods) {
 		if (projectIncomes.isEmpty()) {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.Y_YES);
 		}
-		
-		IncomeBudgetPeriod[] budgetPeriodsArray = null;
-		if (projectIncomes != null) {
-			budgetPeriodsArray = new IncomeBudgetPeriod[projectIncomes.size()];
-		}
-		int periodCount = 0;
-		BigDecimal amount;
+		phsChecklist.setIncomeBudgetPeriodArray(getIncomeBudgetPeriod(projectIncomes));
+	}
+	/*
+	 * Method to sum up IncomeBudgetPeriod of different period Number
+	 */
+	private static IncomeBudgetPeriod[] getIncomeBudgetPeriod(
+			final List<BudgetProjectIncome> projectIncomes) {
+		//TreeMap Used to maintain the order of the Budget periods.
+		Map<Integer, IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, IncomeBudgetPeriod>();
+		BigDecimal anticipatedAmount;
 		for (BudgetProjectIncome projectIncome : projectIncomes) {
-			IncomeBudgetPeriod incomeBudgPeriod = IncomeBudgetPeriod.Factory
-					.newInstance();
-			amount = BigDecimal.ZERO;
-			if (projectIncome.getProjectIncome() != null) {
-				amount = projectIncome.getProjectIncome()
-						.bigDecimalValue();
+
+			Integer budgetPeriodNumber = projectIncome.getBudgetPeriodNumber();
+			IncomeBudgetPeriod incomeBudgPeriod = incomeBudgetPeriodMap
+					.get(budgetPeriodNumber);
+			if (incomeBudgPeriod == null) {
+				incomeBudgPeriod = IncomeBudgetPeriod.Factory.newInstance();
+				incomeBudgPeriod.setBudgetPeriod(budgetPeriodNumber.intValue());
+				anticipatedAmount = BigDecimal.ZERO;
+			} else {
+				anticipatedAmount = incomeBudgPeriod.getAnticipatedAmount();
 			}
-			incomeBudgPeriod.setAnticipatedAmount(amount);
+			anticipatedAmount = anticipatedAmount.add(projectIncome
+					.getProjectIncome().bigDecimalValue());
+			incomeBudgPeriod.setAnticipatedAmount(anticipatedAmount);
 			String description = getProjectIncomeDescription(projectIncome);
 			if (description != null) {
-				incomeBudgPeriod.setSource(description);
+				if (incomeBudgPeriod.getSource() != null) {
+					incomeBudgPeriod.setSource(incomeBudgPeriod.getSource()
+							+ ";" + description);
+				} else {
+					incomeBudgPeriod.setSource(description);
+				}
 			}
-			incomeBudgPeriod.setBudgetPeriod(projectIncome
-					.getBudgetPeriodNumber());
-			if (budgetPeriodsArray != null) {
-				budgetPeriodsArray[periodCount] = incomeBudgPeriod;
-			}
-			periodCount++;
+			incomeBudgetPeriodMap.put(budgetPeriodNumber, incomeBudgPeriod);
 		}
-		phsChecklist.setIncomeBudgetPeriodArray(budgetPeriodsArray);
+		Collection<IncomeBudgetPeriod> incomeBudgetPeriodCollection = incomeBudgetPeriodMap
+				.values();
+		return incomeBudgetPeriodCollection.toArray(new IncomeBudgetPeriod[0]);
 	}
-
 	/*
 	 * This method will get the project income description
 	 */
-	private String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
+	protected static String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
 		String description = null;
 		if (projectIncome.getDescription() != null) {
 			if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {
@@ -161,7 +176,6 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		}
 		return description;
 	}
-
 	/*
 	 * This method will set the values to
 	 * setIsInventionsAndPatents,setIsPreviouslyReported based on condition
