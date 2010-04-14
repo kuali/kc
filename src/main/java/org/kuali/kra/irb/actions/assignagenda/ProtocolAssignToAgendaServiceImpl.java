@@ -85,9 +85,6 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
                 protocolAction.setComments(actionBean.getComments());
                 protocolActionService.updateProtocolStatus(protocolAction, protocol);
                 protocol.getProtocolActions().add(protocolAction);
-                
-                //protocolAction.setActionDate(new Timestamp(actionBean.getScheduleDate().getTime()));
-                
             } else {
                 // update the comment of an existing protocol action
                 ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);

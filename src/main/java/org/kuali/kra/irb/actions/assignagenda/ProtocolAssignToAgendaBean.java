@@ -78,26 +78,19 @@ public class ProtocolAssignToAgendaBean implements Serializable {
      * This method initializes the values of the bean.
      */
     public void init() {
-        //try {
-            if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-                String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
-                if (committeeId != null) {
-                    this.committeeId = committeeId;
-                    this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
+        if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
+            String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+            if (committeeId != null) {
+                this.committeeId = committeeId;
+                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
 
-                    this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
+                this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
 
-                    this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
 
-                    this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
-                }
+                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
             }
-        //} catch (Exception e) {
-            //e.printStackTrace();
-            // errors shouldn't happen in real life, but the test cases can throw errors because data isn't complete
-            // e.printStackTrace();
-        //}
-        // the else condition means we can't create this bean
+        }
     }
 
 
@@ -120,31 +113,26 @@ public class ProtocolAssignToAgendaBean implements Serializable {
 
     public String getCommitteeId() {
         return committeeId;
-        // return "12345";
     }
 
 
     public String getCommitteName() {
         return committeName;
-        // return "really awesome committee";
     }
 
 
     public String getScheduleDate() {
         return scheduleDate;
-        // return new Date();
     }
 
 
     public boolean isProtocolAssigned() {
         return protocolAssigned;
-        // return true;
     }
 
 
     public String getComments() {
         return comments;
-        // return "Comments can be cool \n \n \n \n and so are text boxes";
     }
 
     /**
@@ -155,18 +143,10 @@ public class ProtocolAssignToAgendaBean implements Serializable {
          * The Assign to Agenda has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
          * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates
          * that we display if the committee has changed.
+         * Note: no known javascript issues at this, but leaving the code in place so it will be easy to put in if/when an issue arises.
          */
         if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
-            // committeeId = newCommitteeId;
-            // scheduleId = newScheduleId;
         } else {
-            // if (!StringUtils.equals(committeeId, newCommitteeId)) {
-            // committeeId = newCommitteeId;
-            // scheduleId = "";
-            // }
-            // else if (!StringUtils.equals(scheduleId, newScheduleId)) {
-            // scheduleId = newScheduleId;
-            // }
         }
     }
 }
