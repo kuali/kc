@@ -74,6 +74,8 @@ public interface Constants {
     public static final String NIH_SPONSOR_CODE = "000340";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
+    public static final String SPONSOR_HIERARCHY_NIH_MULT_PI = "NIH Multiple PI";
+    public static final String SPONSOR_HIERARCHY_NIH_OSC = "NIH Other Significant Contributor";
     public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
