@@ -153,7 +153,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
                 // Contractual
                 getContractualCosts(budgetPeriod);
-                ed524Budget.setBudgetFederalConstructionFirstYearAmount(contractualCost.bigDecimalValue());
+                ed524Budget.setBudgetFederalContractualFirstYearAmount(contractualCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalContractualFirstYearAmount(contractualCostCS.bigDecimalValue());
 
                 totalCategoryCS = totalCategoryCS.add(contractualCostCS);
@@ -250,7 +250,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
                 // Contractual
                 getContractualCosts(budgetPeriod);
-                ed524Budget.setBudgetFederalConstructionSecondYearAmount(contractualCost.bigDecimalValue());
+                ed524Budget.setBudgetFederalContractualSecondYearAmount(contractualCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalContractualSecondYearAmount(contractualCostCS.bigDecimalValue());
 
                 totalCategoryCS = totalCategoryCS.add(contractualCostCS);
@@ -345,7 +345,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
                 // Contractual
                 getContractualCosts(budgetPeriod);
-                ed524Budget.setBudgetFederalConstructionThirdYearAmount(contractualCost.bigDecimalValue());
+                ed524Budget.setBudgetFederalContractualThirdYearAmount(contractualCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalContractualThirdYearAmount(contractualCostCS.bigDecimalValue());
 
                 totalCategoryCS = totalCategoryCS.add(contractualCostCS);
@@ -440,7 +440,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
                 // Contractual
                 getContractualCosts(budgetPeriod);
-                ed524Budget.setBudgetFederalConstructionFourthYearAmount(contractualCost.bigDecimalValue());
+                ed524Budget.setBudgetFederalContractualFourthYearAmount(contractualCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalContractualFourthYearAmount(contractualCostCS.bigDecimalValue());
 
                 totalCategoryCS = totalCategoryCS.add(contractualCostCS);
@@ -536,7 +536,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
                 // Contractual
                 getContractualCosts(budgetPeriod);
-                ed524Budget.setBudgetFederalConstructionFifthYearAmount(contractualCost.bigDecimalValue());
+                ed524Budget.setBudgetFederalContractualFifthYearAmount(contractualCost.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalContractualFifthYearAmount(contractualCostCS.bigDecimalValue());
 
                 totalCategoryCS = totalCategoryCS.add(contractualCostCS);

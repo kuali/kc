@@ -70,7 +70,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
 					.getClosingDate()));
 		}
 		nsfCoverPage13.setNSFUnitConsideration(getNSFUnitConsideration());
-		getOtherInfo(nsfCoverPage13);
+		setOtherInfo(nsfCoverPage13);
 		AttachmentGroupMin1Max100DataType attachmentGroup = AttachmentGroupMin1Max100DataType.Factory
 				.newInstance();
 		attachmentGroup.setAttachedFileArray(getAttachedFileDataTypes());
@@ -107,7 +107,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator {
 	 * @return OtherInfo object containing other informations about the
 	 *         principal investigator.
 	 */
-	private void getOtherInfo(NSFCoverPage13 nsfCoverPage13) {
+	private void setOtherInfo(NSFCoverPage13 nsfCoverPage13) {
 		OtherInfo otherInfo = OtherInfo.Factory.newInstance();
 		PIInfo pInfo = PIInfo.Factory.newInstance();
 		for (Answer questionnaireAnswer : s2sUtilService
