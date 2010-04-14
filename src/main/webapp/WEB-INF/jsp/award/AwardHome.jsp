@@ -49,7 +49,7 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
-<c:if test="${readOnly && KualiForm.document.canModify}">
+<c:if test="${readOnly && KualiForm.document.canModify && KualiForm.displayEditButton}">
 	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
 	<c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
 	<c:set var="extraButtonAlt" value="Edit or Version"/>
