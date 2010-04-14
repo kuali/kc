@@ -2093,7 +2093,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public KualiDecimal getTotalPaymentScheduleAmount() {
         KualiDecimal amount = KualiDecimal.ZERO;
         for (AwardPaymentSchedule schedule: paymentScheduleItems) {
-            amount = amount.add(schedule.getAmount());
+            if (schedule.getAmount() != null) {
+                amount = amount.add(schedule.getAmount());
+            }
         }
         return amount;
     }
