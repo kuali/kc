@@ -63,20 +63,19 @@
         <c:set var="docInSavedState" value="${KualiForm.awardDocument.saved}" />
         <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.unitNumber}" skipHelpUrl="true"/></div></th>
     	<td align="left" valign="middle">
+            <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="${readOnly or docInSavedState}" /> <%-- need AJAX lookup of unit name onblur --%>
             <c:if test="${!docInSavedState}">
-                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" /> <%-- need AJAX lookup of unit name onblur --%>
                 <c:if test="${!readOnly}">
                     <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.awardList[0].unitNumber"
   			                anchor="${tabKey}" lookupParameters="document.awardList[0].unitNumber:unitNumber"/>
   			    </c:if>
             </c:if>
-            <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
-            <c:if test="${docInSavedState}">
+            <c:if test="${docInSavedState or readOnly}">
                 <html:hidden property="document.awardList[0].unitNumber" />
-                <kul:htmlControlAttribute property="document.awardList[0].unitNumber" attributeEntry="${awardAttributes.unitNumber}" readOnly="true" />
                 -
                 <kul:htmlControlAttribute property="document.awardList[0].unitName" attributeEntry="${awardAttributes.unitName}" readOnly="true" />
             </c:if>
+            <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.awardList[0].unitNumber:unitNumber" anchor="${tabKey}" />
     	</td>
   	</tr>
   	<tr>
