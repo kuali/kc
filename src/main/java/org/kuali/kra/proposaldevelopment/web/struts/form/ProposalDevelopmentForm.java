@@ -180,6 +180,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private ReportHelperBean reportHelperBean;
     private List<String> proposalDataOverrideMethodToCalls;
+    private boolean canCreateProposal;
     
     public ProposalDevelopmentForm() {
         super();
@@ -234,6 +235,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         medusaBean = new MedusaBean();
         reportHelperBean = new ReportHelperBean(this);
+        canCreateProposal = isAuthorizedToCreateProposal();
     }
 
     /**
@@ -1638,10 +1640,18 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * This method is to be used whether user can copy proposal.  The copy tab will work even after PD is submitted.
      * @return
      */
-    public boolean isCanCreateProposal() {
+    private boolean isAuthorizedToCreateProposal() {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+
+    public boolean isCanCreateProposal() {
+        return canCreateProposal;
+    }
+
+    public void setCanCreateProposal(boolean canCreateProposal) {
+        this.canCreateProposal = canCreateProposal;
     }
 
     
