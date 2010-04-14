@@ -313,6 +313,26 @@ public class GlobalLibraryV2_0Generator {
 	}
 
 	/**
+	 * Create a HumanNameDataType from Rolodex object
+	 * 
+	 * @param rolodex
+	 *            Rolodex object
+	 * @return HumanNameDataType corresponding to the rolodex object.
+	 */
+	public HumanNameDataType getHumanNameDataType(KcPerson person) {
+
+		HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
+		if (person != null) {
+			humanName.setFirstName(person.getFirstName());
+			humanName.setLastName(person.getLastName());
+			String middleName = person.getMiddleName();
+			if (middleName != null && !middleName.equals("")) {
+				humanName.setMiddleName(middleName);
+			}
+		}
+		return humanName;
+	}
+	/**
 	 * Create HumanNameDataType from KeyPersonInfo object
 	 * 
 	 * @param keyPerson

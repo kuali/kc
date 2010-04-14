@@ -240,12 +240,12 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 					.getBudgetPeriods()));
 			budgetSummaryType
 					.setBudgetJustification(getBudgetJustification(proposalNumber));
-//			budgetSummaryType.setBudgetDirectCostsTotal(budget
-//					.getTotalDirectCost().bigDecimalValue());
-//			budgetSummaryType.setBudgetIndirectCostsTotal(budget
-//					.getTotalIndirectCost().bigDecimalValue());
-//			budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost()
-//					.bigDecimalValue());
+			// budgetSummaryType.setBudgetDirectCostsTotal(budget
+			// .getTotalDirectCost().bigDecimalValue());
+			// budgetSummaryType.setBudgetIndirectCostsTotal(budget
+			// .getTotalIndirectCost().bigDecimalValue());
+			// budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost()
+			// .bigDecimalValue());
 		}
 		return budgetSummaryType;
 	}
@@ -370,8 +370,13 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	protected boolean isRateAndBaseOfRateClassTypeOverhead(
 			AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClass().getRateClassType().equals(
-				RateClassType.OVERHEAD.getRateClassType());
+		if (rateAndBase.getRateClass() != null
+				&& RateClassType.OVERHEAD.getRateClassType().equals(
+						rateAndBase.getRateClass().getRateClassType())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/*
@@ -380,8 +385,13 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	private boolean isRateAndBaseOfRateClassTypeEB(
 			AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClass().getRateClassType().equals(
-				RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+		if (rateAndBase.getRateClass() != null
+				&& RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(
+						rateAndBase.getRateClass().getRateClassType())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/*
@@ -390,8 +400,12 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	private boolean isRateAndBaseOfRateClassTypeVacation(
 			AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClass().getRateClassType().equals(
-				RateClassType.VACATION.getRateClassType());
+		if(rateAndBase.getRateClass()!=null && RateClassType.VACATION.getRateClassType().equals(
+				rateAndBase.getRateClass().getRateClassType())){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/*
@@ -1400,7 +1414,8 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	private KeyPersonFlag getKeyPersonFlag(ProposalPerson proposalPerson) {
 		KeyPersonFlag keyPersonFlag = KeyPersonFlag.Factory.newInstance();
-		if (proposalPerson.getPercentageEffort()!=null && proposalPerson.getPercentageEffort().intValue() != 999) {
+		if (proposalPerson.getPercentageEffort() != null
+				&& proposalPerson.getPercentageEffort().intValue() != 999) {
 			keyPersonFlag
 					.setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
 			keyPersonFlag
