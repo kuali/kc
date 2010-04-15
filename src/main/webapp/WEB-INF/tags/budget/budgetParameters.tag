@@ -118,8 +118,9 @@
 				<kra-b:swapProposalDevelopmentEditModes/>
         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
+           			<c:set var="prevUrRateClassCode" value="${KualiForm.document.budget.ohRateClassCode}"/>
+                	<input type="hidden" name="urRateClassCodePrevValue" value="${prevUrRateClassCode}">
                 	<kul:htmlControlAttribute property="document.budget.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
-                	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budget.urRateClassCode}">
                 </td>
                 <kra-b:swapProposalDevelopmentEditModes/>
         	
@@ -132,8 +133,9 @@
            		<kra-b:swapProposalDevelopmentEditModes/>
         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
+           			<c:set var="prevOhRateClassCode" value="${KualiForm.document.budget.ohRateClassCode}"/>
+           			<input type="hidden" name="ohRateClassCodePrevValue" value="${prevOhRateClassCode}">
            			<kul:htmlControlAttribute property="document.budget.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
-           			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budget.ohRateClassCode}">
            		</td>
            		<kra-b:swapProposalDevelopmentEditModes/>
      		</tr>
