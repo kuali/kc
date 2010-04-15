@@ -23,7 +23,7 @@
 <kul:tabTop tabTitle="Payment & Invoices" defaultOpen="false" tabErrorKey="document.awardList[0].awardPaymentAndInvoiceRequirementsComments.comments*,document.awardList[0].paymentsAndInvoices.*,document.award.awardTemplate.PAYMENTS_AND_INVOICES_TAB" auditCluster="paymentAndInvoicesAuditErrors" tabAuditKey="document.paymentsAuditRules*">
 	<div class="tab-container" align="center">
 		<kra-a:awardPaymentAndInvoicesTopPanel />	
-		<kra-a:awardReportClasses index="5" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" reportCodeLabel="* Payment Type"
+		<kra-a:awardReportClasses index="2" reportClassKey="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode}" reportCodeLabel="* Payment Type"
 			reportClassLabel="Payment & Invoice Requirements" defaultOpenForTab="true" noShowHideButton="true" />
 		<table border="0" cellpadding="0" cellspacing="0" summary="">
 		<tr>
