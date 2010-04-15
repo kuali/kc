@@ -46,6 +46,7 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -103,10 +104,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     private boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
         assert budgetPeriod != null : "The budget period is null";
  
-        if (budgetPeriod.getBudget().getBudgetDocument().getParentDocument() instanceof ProposalDevelopmentDocument) {
+        if (StringUtils.equals(budgetPeriod.getBudget().getBudgetParent().getHierarchyStatus(), 
+                HierarchyStatusConstants.Parent.code())) {
             return true;
         }
-
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
         
         if(isLineItemsEmpty && !budgetLineItemDeleted){
