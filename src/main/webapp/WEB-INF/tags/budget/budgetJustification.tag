@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="top" required="true" %>
-
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.Budget.attributes}" />
 
 <c:if test="${top == 'true'}">
@@ -72,9 +72,11 @@
                     </td>
                 </tr>
             </table>
-            <div align=center style="padding-top: 2em;">
-                <html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' styleClass="tinybutton"/>
-            </div>
+            <c:if test="${!readOnly}">
+	            <div align=center style="padding-top: 2em;">
+	                <html:image property="methodToCall.consolidateExpenseJustifications" src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_consolidate_expense_justifications.gif' styleClass="tinybutton"/>
+	            </div>
+            </c:if>
         </div>                  
     </div>
  </kul:tab>
