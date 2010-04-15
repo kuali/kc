@@ -717,7 +717,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 submitS2sApplication(proposalDevelopmentDocument);
             }catch(S2SException ex){
                 LOG.error(ex.getMessage(), ex);
-                GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION, ex.getMessage()));
+                GlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
