@@ -100,7 +100,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocumentRule.class); 
-    private static final String PROPOSAL_QUESTIONS_KEY="developmentProposalList[0].proposalYnq[%d].%s";
+    private static final String PROPOSAL_QUESTIONS_KEY="proposalYnq[%d].%s";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
