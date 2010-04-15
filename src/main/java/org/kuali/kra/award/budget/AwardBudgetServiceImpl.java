@@ -347,7 +347,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 AwardBudgetPersonnelDetailsExt awardBudgetPerDetails = new AwardBudgetPersonnelDetailsExt();
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
                         new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId",
-                        "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList"});
+                        "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList", "validToApplyInRate"});
                 awardBudgetPerDetails.setPersonNumber(++personnelLineItemNumber);
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
