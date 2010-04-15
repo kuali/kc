@@ -74,7 +74,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private BudgetPeriod newBudgetPeriod;
     private List<BudgetLineItem> newBudgetLineItems;   
-    private BudgetLineItem newPersonnelLineItem;   
+//    private BudgetLineItem newPersonnelLineItem;   
     private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
     
     private BudgetCostShare newBudgetCostShare;
@@ -176,7 +176,8 @@ public class BudgetForm extends BudgetVersionFormBase {
         newBudgetCostShare = new BudgetCostShare();
         newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
         newBudgetLineItems = new ArrayList<BudgetLineItem>();
-        newPersonnelLineItem = budget.getNewBudgetLineItem();          
+//        newPersonnelLineItem = budget.getNewBudgetLineItem();    
+        newBudgetPersonnelDetails = budget.getNewBudgetPersonnelLineItem();
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
@@ -782,13 +783,13 @@ public class BudgetForm extends BudgetVersionFormBase {
         saveAfterCopy = val;
     }
 
-    public BudgetLineItem getNewPersonnelLineItem() {
-        return newPersonnelLineItem;
-    }
-
-    public void setNewPersonnelLineItem(BudgetLineItem newPersonnelLineItem) {
-        this.newPersonnelLineItem = newPersonnelLineItem;
-    }
+//    public BudgetLineItem getNewPersonnelLineItem() {
+//        return newPersonnelLineItem;
+//    }
+//
+//    public void setNewPersonnelLineItem(BudgetLineItem newPersonnelLineItem) {
+//        this.newPersonnelLineItem = newPersonnelLineItem;
+//    }
 
     public String getNewGroupName() {
         return newGroupName;
