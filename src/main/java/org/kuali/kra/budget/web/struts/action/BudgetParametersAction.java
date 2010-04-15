@@ -169,11 +169,8 @@ public class BudgetParametersAction extends BudgetAction {
         // ohRateClassCodePrevValue urRateClassCodePrevValue altogether in favor of using the BusinessObjectService
         // as below.
         BudgetDocument originalBudgetDocument = (BudgetDocument)KraServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
-//        budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
-//        budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
-        // save the current code to "preValue", so when next post, if there is any rate class code change can be detected. 
-        budgetForm.setOhRateClassCodePrevValue(budget.getOhRateClassCode());
-        budgetForm.setUrRateClassCodePrevValue(budget.getUrRateClassCode());
+        budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
+        budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
         
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
