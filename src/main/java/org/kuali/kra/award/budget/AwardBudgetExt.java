@@ -21,6 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
 public class AwardBudgetExt extends Budget { 
     
@@ -44,6 +45,9 @@ public class AwardBudgetExt extends Budget {
     }
     public BudgetLineItem getNewBudgetLineItem() {
         return new AwardBudgetLineItemExt();
+    }
+    public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
+        return new AwardBudgetPersonnelDetailsExt();
     }
 
     public String getAwardBudgetStatusCode() {

@@ -1778,6 +1778,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             return false;
         return true;
     }
+
+    public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
+        return new BudgetPersonnelDetails();
+    }
     
 }
 
