@@ -63,7 +63,6 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
-import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -778,10 +777,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         Narrative destNarrative;
         for (Narrative srcNarrative : narratives) {
             destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
+            
+            // For the new proposal document, it's proposal attachments are required to
+            // have their status' initially set to Incomplete.
+            destNarrative.setModuleStatusCode("I");
+            
             narrativeService.addNarrative(dest, destNarrative);
         }
-        
-        setProposalAttachmentsToIncomplete(dest);
     }
     
     /**
@@ -837,19 +839,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
         bio.getPersonnelAttachmentList().clear();
         bio.getPersonnelAttachmentList().add(attachment);
-    }
-    
-    /**
-     * For the new proposal document, it's proposal attachments are required to
-     * have their status' initially set to Incomplete.
-     * 
-     * @param doc the new proposal development document
-     */
-    private void setProposalAttachmentsToIncomplete(ProposalDevelopmentDocument doc) {
-        List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
-        for (Narrative narrative : narratives) {
-            narrative.setModuleStatusCode("I");
-        }
     }
     
     /**
