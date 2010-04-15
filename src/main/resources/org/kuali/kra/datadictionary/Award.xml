@@ -906,7 +906,7 @@
 		<property name="name" value="awardIdAccount" />
 		<property name="label" value="Award ID: Account" />
 		<property name="shortLabel" value="Award ID: Account" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="20" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
