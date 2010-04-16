@@ -224,6 +224,9 @@
         <property name="versioningService">
             <ref bean="versioningService" />
         </property>
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
         <property name="awardAmountInfoService">
         	<ref bean="awardAmountInfoService" />
         </property>

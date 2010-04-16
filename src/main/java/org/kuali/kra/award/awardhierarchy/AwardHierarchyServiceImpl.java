@@ -37,9 +37,11 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -50,6 +52,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -62,6 +65,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     BusinessObjectService businessObjectService;
     DocumentService documentService;
     VersioningService versioningService;
+    VersionHistoryService versionHistoryService; 
     AwardAmountInfoService awardAmountInfoService;
     ActivePendingTransactionsService activePendingTransactionsService;
     KualiConfigurationService kualiConfigurationService;
@@ -400,6 +404,10 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newBranchNode;  
     }
 
+    private void finalizeAward(Award newAward) {
+        versionHistoryService.createVersionHistory(newAward, VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+    }
+    
     void copyNodeRecursively(AwardHierarchy sourceNode, AwardHierarchy newParentNode, AwardHierarchy newRootNode) {
         String nextAwardNumberInHierarchy = newParentNode.generateNextAwardNumberInSequence();
         List<AwardHierarchy> sourceChildren = (List<AwardHierarchy>) Collections.unmodifiableList(sourceNode.getChildren());  
@@ -408,6 +416,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         Award newAward = copyAward(sourceNode.getAward(), nextAwardNumberInHierarchy);
         newNode.setAward(newAward);
         newParentNode.getChildren().add(newNode);
+        finalizeAward(newAward);
         for(AwardHierarchy childNode: sourceChildren) {
             copyNodeRecursively(childNode, newNode, newRootNode);
         }
@@ -667,4 +676,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         this.kualiConfigurationService = configurationService;
     }
 
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
+    }
 }
