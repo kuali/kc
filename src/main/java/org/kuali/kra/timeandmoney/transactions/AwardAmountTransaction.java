@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
-public class AwardAmountTransaction extends KraPersistableBusinessObjectBase { 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+public class AwardAmountTransaction extends KraPersistableBusinessObjectBase implements Serializable{ 
     
     private static final long serialVersionUID = 1L;
 

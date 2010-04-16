@@ -17,10 +17,14 @@ package org.kuali.kra.award;
 
 import java.util.List;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardAmountInfoService {
     
+    
+    AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) throws WorkflowException;
     /**
      * 
      * This method should return the awardAmountInfo object having highest transaction id.

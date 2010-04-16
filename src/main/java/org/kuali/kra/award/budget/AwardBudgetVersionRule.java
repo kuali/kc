@@ -15,15 +15,23 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardBudgetVersionRule extends BudgetVersionRule {
 
+    BusinessObjectService businessObjectService;
+    
     @Override
     public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
         boolean success =  super.processAddBudgetVersion(event);
@@ -34,6 +42,40 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
             success &= false;
         }
+        
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("awardId", award.getAwardId());
+        List<Award> awards = (List<Award>)getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, "awardId", true);
+        boolean anyAwardVersionFinal = false;
+        for(Award testAward : awards) {
+            if (testAward.getAwardDocument().getDocumentHeader().hasWorkflowDocument()) {
+                if (testAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                    anyAwardVersionFinal = true;
+                    break;
+                }
+            }
+        }
+        if(!anyAwardVersionFinal) {
+            GlobalVariables.getErrorMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_NOT_FINAL);
+            success &= false;
+        }
         return success;
+    }
+    
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
