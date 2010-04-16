@@ -23,10 +23,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ReportCodeValuesFinderTest {
+public class ReportCodeValuesFinderTest extends KcraNoDataTestBase {
     
     ReportCodeValuesFinder reportCodeValuesFinder;
     List<KeyLabelPair> reportCodes;
@@ -34,6 +37,7 @@ public class ReportCodeValuesFinderTest {
 
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         reportCodeValuesFinder = new ReportCodeValuesFinder("1");        
         reportCodes = new ArrayList<KeyLabelPair>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();      
@@ -41,6 +45,7 @@ public class ReportCodeValuesFinderTest {
 
     @After
     public void tearDown() throws Exception {
+        super.tearDown();
         reportCodeValuesFinder = null;
         reportCodes = null;
     }

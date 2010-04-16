@@ -26,7 +26,10 @@ import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * 
@@ -67,11 +70,15 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("all")
     public List<KeyLabelPair> getKeyValues() {
-        Collection<ValidClassReportFrequency> validClassReportFrequencies =  
-            (Collection<ValidClassReportFrequency>) getKeyValuesService()
-                .findAll(ValidClassReportFrequency.class);        
-        
-        return getKeyValues(getUniqueRelevantReportClassCodes(validClassReportFrequencies));
+        if (GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode()) != null) {
+            return (List<KeyLabelPair>)GlobalVariables.getUserSession().retrieveObject("awreport"+getReportClassCode());
+        } else {
+
+            Collection<ValidClassReportFrequency> validClassReportFrequencies =  
+                (Collection<ValidClassReportFrequency>) getKeyValuesService()
+                    .findAll(ValidClassReportFrequency.class);        
+       return getKeyValues(getUniqueRelevantReportClassCodes(validClassReportFrequencies));
+        }
     }
     
     public String getReportClassCode() {
@@ -126,7 +133,6 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
             Set<String> uniqueValidClassReportFrequencies){
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        
         keyValues.add(new KeyLabelPair("","select"));
         ValidClassReportFrequency validClassReportFrequency = new ValidClassReportFrequency();
         for(String reportCode: uniqueValidClassReportFrequencies){        
@@ -135,7 +141,8 @@ public class ReportCodeValuesFinder extends KeyValuesBase {
             keyValues.add(new KeyLabelPair(validClassReportFrequency.getReportCode().toString()
                     , validClassReportFrequency.getReport().getDescription()));            
         }
-        
+     
+        GlobalVariables.getUserSession().addObject("awreport"+getReportClassCode(), keyValues);
         return keyValues;
     }
    

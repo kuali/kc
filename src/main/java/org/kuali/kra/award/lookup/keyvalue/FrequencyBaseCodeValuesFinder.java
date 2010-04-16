@@ -22,10 +22,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
@@ -68,10 +70,14 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
     @SuppressWarnings("all")
     public List<KeyLabelPair> getKeyValues() {
         
-        Collection<ValidFrequencyBase> validFrequencyBaseCodes 
+       if (GlobalVariables.getUserSession().retrieveObject("awfreqbase"+getFrequencyCode()) != null) {
+            return (List<KeyLabelPair>)GlobalVariables.getUserSession().retrieveObject("awfreqbase"+getFrequencyCode());
+        } else {
+            Collection<ValidFrequencyBase> validFrequencyBaseCodes 
             = getKeyValuesService().findAll(ValidFrequencyBase.class);
         
         return getKeyValues(getUniqueRelevantFrequencyBaseCodes(validFrequencyBaseCodes));
+         }
     }
 
     /**
@@ -148,6 +154,7 @@ public class FrequencyBaseCodeValuesFinder extends KeyValuesBase {
             keyValues.add(new KeyLabelPair(validFrequencyBase.getFrequencyBaseCode()
                     , validFrequencyBase.getFrequencyBase().getDescription()));
         }
+        GlobalVariables.getUserSession().addObject("awfreqbase"+getFrequencyCode(), keyValues);
         
         return keyValues;
     }

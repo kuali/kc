@@ -26,7 +26,10 @@ import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * 
@@ -71,12 +74,17 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
     @SuppressWarnings("all")
     public List<KeyLabelPair> getKeyValues() {
         
-        Collection<ValidClassReportFrequency> validClassReportFrequencies 
+        
+        if (GlobalVariables.getUserSession().retrieveObject("awfreqr"+getReportClassCode()+"c"+getReportCode()) != null) {
+            return (List<KeyLabelPair>)GlobalVariables.getUserSession().retrieveObject("awfreqr"+getReportClassCode()+"c"+getReportCode());
+        } else {
+
+            Collection<ValidClassReportFrequency> validClassReportFrequencies 
             = (Collection<ValidClassReportFrequency>) getKeyValuesService().findAll(
                     ValidClassReportFrequency.class);
-        
-        return getKeyValues((Set<String>) 
-                getUniqueRelevantFrequencyCodes(validClassReportFrequencies));
+            return getKeyValues((Set<String>) 
+                    getUniqueRelevantFrequencyCodes(validClassReportFrequencies));
+        }
     }
     
     /**
@@ -175,7 +183,7 @@ public class FrequencyCodeValuesFinder extends KeyValuesBase {
                         , validClassReportFrequency.getFrequency().getDescription()));    
             }
         }
-        
+        GlobalVariables.getUserSession().addObject("awfreqr"+getReportClassCode()+"c"+getReportCode(), keyValues);
         return keyValues;
     }
 }
