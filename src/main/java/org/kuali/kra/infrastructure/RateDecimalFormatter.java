@@ -16,11 +16,16 @@
 package org.kuali.kra.infrastructure;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
+import org.apache.log4j.Logger;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.format.BigDecimalFormatter;
+import org.kuali.rice.kns.web.format.FormatException;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
+    private static Logger LOG = Logger.getLogger(BigDecimalFormatter.class);
     private static final long serialVersionUID = 4658319828434873892L;
 
     /**
@@ -30,5 +35,10 @@ public class RateDecimalFormatter extends BigDecimalFormatter {
     @Override
     protected Object convertToObject(String target) {
         return new RateDecimal((BigDecimal)super.convertToObject(target));
+    }
+    
+    @Override
+    public Object format(Object obj) {
+        return super.format((BigDecimal)super.convertToObject(obj.toString()));
     }
 }
