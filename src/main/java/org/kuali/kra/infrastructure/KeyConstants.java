@@ -607,6 +607,7 @@ public final class KeyConstants {
     
     // Institutional Proposal Actions
     public static final String QUESTION_UNLOCK_FUNDED_AWARDS = "question.unlock.fundedAwards";
+    public static final String ERROR_VALIDATION_ERRORS_EXIST = "error.institutionalproposal.validationFailed";
 
     //CommitteeSchedule Messages
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
