@@ -473,7 +473,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
-                .getAwardPrintParameter(), awardForm.getIndexOfAwardAmountInfoWithHighestTransactionId());
+                .getAwardPrintParameter(), awardForm.getIndexOfAwardAmountInfoForDisplay());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(

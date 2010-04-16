@@ -48,6 +48,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.question.CopyPeriodsQuestion;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -55,6 +56,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -66,7 +68,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-
+    private transient KualiRuleService ruleService;
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
@@ -98,14 +100,18 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
         ActionForward actionForward = activate(mapping, form, request, response);
-        if(actionForward == mapping.findForward(Constants.MAPPING_BASIC)) { 
-            BudgetDocument<Award> newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
-            if(newBudgetDoc!=null){
-                awardForm.setNewBudgetVersionName("");
+            if(actionForward == mapping.findForward(Constants.MAPPING_BASIC)) { 
+                BudgetDocument<Award> newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+                if(newBudgetDoc!=null){
+                    awardForm.setNewBudgetVersionName("");
+                }
             }
-        }
+        
         return actionForward;
     }
+    
+    
+    
     
     /**
      * Action called to create a new budget version.

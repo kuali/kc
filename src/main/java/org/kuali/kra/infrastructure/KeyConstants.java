@@ -391,6 +391,11 @@ public final class KeyConstants {
     //Award Attachment Confirmation Question
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
     
+    //Award Budget
+    public static final String ERROR_AWARD_NOT_FINAL = "error.budget.award.not.final";
+    public static final String ERROR_AWARD_OBLIGATED_FUNDS = "error.award.obligated.funds";
+
+    
     //Award Direc F and A Distribution
     public static final String ERROR_AWARD_FANDA_DISTRIB_START_DATE_REQUIRED = "error.awardDirectFandADistribution.start.date.required";
     public static final String ERROR_AWARD_FANDA_DISTRIB_END_DATE_REQUIRED = "error.awardDirectFandADistribution.end.date.required";
