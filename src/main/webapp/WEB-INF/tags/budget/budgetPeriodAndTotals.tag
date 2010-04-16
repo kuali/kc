@@ -18,7 +18,7 @@
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="action" value="budgetParameters" />
-<kul:tab tabTitle="Budget Periods & Totals" defaultOpen="true" tabErrorKey="newBudgetPeriod*,document.budget.budgetPeriod*" auditCluster="budgetPeriodProjectDateAuditErrors,budgetPeriodProjectDateAuditWarnings"  tabAuditKey="document.budget.budgetPeriod*" useRiceAuditMode="true">
+<kul:tab tabTitle="Budget Periods & Totals" defaultOpen="true" tabErrorKey="newBudgetPeriod*,document.budget.budgetPeriod*" auditCluster="budgetPeriodProjectDateAuditErrors,budgetPeriodProjectDateAuditWarnings,awardBudgetTotalCostAuditErrors"  tabAuditKey="document.budget.budgetPeriod*,document.budget.totalCost" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>Budget Periods</h3>
         
