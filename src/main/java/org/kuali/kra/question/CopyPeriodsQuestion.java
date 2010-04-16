@@ -21,8 +21,8 @@ import org.kuali.rice.kns.question.QuestionBase;
 
 public class CopyPeriodsQuestion extends QuestionBase {
     
-    public static final String ONE = "0";
-    public static final String ALL = "1";
+    public static final String ONE = "1";
+    public static final String ALL = "0";
     
     private static final ArrayList<String> BUTTONS;
     static {
