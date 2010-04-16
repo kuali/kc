@@ -1,0 +1,29 @@
+<config>
+	<!-- KC Client DB -->
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
+	<param name="datasource.username">KCDEV</param>
+	<param name="datasource.password">devpass</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+
+	<!-- For Embedded Mode -->
+	<param name="rice.app.url">http://127.0.0.1:8081/kr-dev</param>
+
+	<param name="kim.runmode">embedded</param>
+	<param name="kcb.runmode">embedded</param>
+	<param name="kew.runmode">embedded</param>
+	<param name="ken.runmode">embedded</param>
+	
+	<param name="dev.mode">false</param>
+	
+	<!-- Rice Server DB -->
+	<!-- Should be the same as KC Client DB when running bundled mode -->
+	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
+	<param name="server.datasource.username">RICEDEV</param>
+	<param name="server.datasource.password">devpass</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	
+	<!-- Keystore Configuration -->
+	<param name="keystore.file">${user.home}/kuali/main/${environment}/rice_embedded/rice.keystore</param>
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+</config>
