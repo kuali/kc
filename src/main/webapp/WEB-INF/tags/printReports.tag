@@ -42,19 +42,9 @@
                                                     <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${currentReportRows}"
                                                         id="row" export="true" pagesize="100" requestURI="${requestUri}" requestURIcontext="true" >
                                                         <c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-                                                            <display:column style="text-align: center;" sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}">
-                                                                <%-- The following logic is needed because propertyValues from the Rice formatters will produce empty strings and not nulls
-                                                                      The emptyStrings then are not handled by the default attribute on c:out and the grid renders improperly.
-                                                                      So we test for empty strings and output a non-breaking space instead --%>
-                                                                <%-- Also adding checking for param['d-16544-e'] in the isEmptyString logic since we don't want '&nbsp;' included in exports --%>
-                                                                 <c:set var="isEmptyString" value="${param['d-16544-e'] == null && (column.propertyValue == null || fn:length(fn:trim(column.propertyValue)) == 0)}" />
-                                                                 <c:if test="${isEmptyString}">
-                                                                     <c:out value="&nbsp;" escapeXml="false"/>
-                                                                 </c:if>
-                                                                 <c:if test="${!isEmptyString}">
-                                                                    <c:out value="${column.propertyValue}" escapeXml="true" default="&nbsp;" />
-                                                                 </c:if>
-                                                            </display:column>
+															<%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
+                                                            <display:column style="text-align: center;" sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}" escapeXml="true" default="&nbsp;" /></display:column>
+															<%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
                                                         </c:forEach>
                                                     </display:table>
                                                 </c:if>
@@ -63,19 +53,9 @@
                                                      <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${pendingReportRows}"
                                                                     id="row" export="true" pagesize="100" requestURI="${requestUri}" requestURIcontext="true" >
                                                          <c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-                                                             <display:column sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}" class="">
-                                                                 <%-- The following logic is needed because propertyValues from the Rice formatters will produce empty strings and not nulls
-                                                                      The emptyStrings then are not handled by the default attribute on c:out and the grid renders improperly.
-                                                                      So we test for empty strings and output a non-breaking space instead --%>
-                                                                <%-- Also adding checking for param['d-16544-e'] in the isEmptyString logic since we don't want '&nbsp;' included in exports --%>
-                                                                 <c:set var="isEmptyString" value="${param['d-16544-e'] == null && (column.propertyValue == null || fn:length(fn:trim(column.propertyValue)) == 0)}" />
-                                                                 <c:if test="${isEmptyString}">
-                                                                     <c:out value="&nbsp;" escapeXml="false"/>
-                                                                 </c:if>
-                                                                 <c:if test="${!isEmptyString}">
-                                                                    <c:out value="${column.propertyValue}" escapeXml="true" default="&nbsp;" />
-                                                                 </c:if>
-                                                             </display:column>
+															<%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
+                                                        	<display:column sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}" maxLength="${column.maxLength}" class="" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"><c:out value="${column.propertyValue}" escapeXml="true" default="&nbsp;" /></display:column>
+															<%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
                                                         </c:forEach>
                                                     </display:table>
                                                 </c:if>
