@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -96,7 +97,8 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 		ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
 		if (pdDoc.getDevelopmentProposal().getActivityTypeCode() != null) {
 			if (pdDoc.getDevelopmentProposal().getActivityTypeCode()
-					.equals(ACTIVITY_TYPE_CLINICAL_TRIAL)) {
+					.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                            ProposalDevelopmentUtils.ACTIVITY_TYPE_CODE_CLINICAL_TRIAL_PARM))) {
 				clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
 			} else {
 				clinicalTrial.setIsClinicalTrial(YesNoDataType.N_NO);

@@ -35,12 +35,10 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int APPLICANT_TYPE_2_INDEX = 1;
     protected static final int APPLICANT_TYPE_3_INDEX = 2;
     
-    public static final String ACTIVITY_TYPE_CODE_CONSTRUCTION = "9";
     public static final String ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION = "C";
     public static final String ACTIVITY_TYPE_CODE_LS_SUFFIX_NONCONSTRUCTION = "N";
     public static final String ACTIVITY_TYPE_CODE_LS_SUFFIX_APPLICATION = "A";
     public static final String ACTIVITY_TYPE_CODE_LS_SUFFIX_PREAPPLICATION = "P";
-    public static final String S2S_SUBMISSION_TYPE_CODE_NOTSELECTED = "1";
     public static final int PROGRAM_ANNOUNCEMENT_TITLE_LENGTH = 120;
     public static final int AREAS_AFFECTED_MAX_LENGTH = 250;
 
@@ -94,14 +92,7 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String INCREASE_AWARD_DECREASE_DURATION_CODE = "AD";
     protected static final String DECREASE_AWARD_INCREASE_DURATION_CODE = "BC";
     protected static final String DECREASE_AWARD_DECREASE_DURATION_CODE = "BD";
-    
-    protected static final int PROPOSAL_TYPE_NEW = 1;
-    protected static final int PROPOSAL_TYPE_RESUBMISSION = 2;
-    protected static final int PROPOSAL_TYPE_RENEWAL = 3;
-    protected static final int PROPOSAL_TYPE_CONTINUATION = 4;
-    protected static final int PROPOSAL_TYPE_REVISION = 5;
-    
-    
+
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     
     /**
