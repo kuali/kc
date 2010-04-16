@@ -308,14 +308,14 @@
         			
        				<td align="left" valign="middle">
        				<div align="left">
-        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
+        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
         			</div>
         			</td>
     			</tr>
     		</c:when>
 	     	<c:otherwise>
 	     			<td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}"/>
+			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}"/>
 			        </td>
 			    </tr>	
     		</c:otherwise>
@@ -329,14 +329,14 @@
 			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">	
         			<td align="left" valign="middle">
         			<div align="left">
-        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].finalExpirationDate}" pattern="MM/dd/yyyy" />
+        				<fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].finalExpirationDate}" pattern="MM/dd/yyyy" />
         			</div>
         			</td>
         			
         	</c:when>
 	     	<c:otherwise>
 	     			<td align="left" valign="middle">
-			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}"/>
+			        	<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}"/>
 			        </td>
 	     	</c:otherwise>
 		</c:choose>		
@@ -348,7 +348,7 @@
 			<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">		        
 			        <td align="left" valign="middle">
 			        <div align="left">
-			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].obligationExpirationDate}" pattern="MM/dd/yyyy" />
+			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" pattern="MM/dd/yyyy" />
 			        </div>
 			        </td>
 			    </tr>
@@ -356,7 +356,7 @@
 		</c:when>
 	     	<c:otherwise>
 	     		    <td align="left" valign="middle">
-			            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}"/>
+			            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}"/>
 			        </td>
 			    </tr>
 			</c:otherwise>
@@ -383,24 +383,24 @@
 			        <c:choose>
 						<c:when test="${KualiForm.awardInMultipleNodeHierarchy}">
 				                <td align="left" valign="middle">
-			            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoWithHighestTransactionId].anticipatedTotalAmount}"/>
+			            			<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}"/>
 			        			</td>
 			        			<th>
 			            			<div align="right">Obligated Amount:</div>
 			        			</th>
 			        			<td align="left" valign="middle">
-			           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoWithHighestTransactionId].amountObligatedToDate}"/>
+			           				<fmt:formatNumber currencySymbol="$" type="currency" value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}"/>
 			        			</td>
 				        </c:when>
 				        <c:otherwise>
 								<td align="left" valign="middle">
-			            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoWithHighestTransactionId}].anticipatedTotalAmount" attributeEntry="${awardAttributes.anticipatedTotal}"/>
+			            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAttributes.anticipatedTotal}"/>
 			        			</td>
 			        			<th>
 			            			<div align="right">Obligated Amount:</div>
 			        			</th>
 			        			<td align="left" valign="middle">
-			            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoWithHighestTransactionId}].amountObligatedToDate" attributeEntry="${awardAttributes.obligatedTotal}"/>
+			            			<kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAttributes.obligatedTotal}"/>
 			        			</td>
 						</c:otherwise>
 					</c:choose>
