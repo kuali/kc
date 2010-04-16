@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -39,22 +42,22 @@ public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     @Override
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         if(roleQualifiedByProposalKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.PROPOSAL), 
+            return qualification.containsKey(KcKimAttributes.PROPOSAL) && StringUtils.equals(qualification.get(KcKimAttributes.PROPOSAL), 
                     roleQualifier.get(KcKimAttributes.PROPOSAL));
         } else if(roleQualifiedByProtocolKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.PROTOCOL), 
+            return qualification.containsKey(KcKimAttributes.PROTOCOL) && StringUtils.equals(qualification.get(KcKimAttributes.PROTOCOL), 
                     roleQualifier.get(KcKimAttributes.PROTOCOL));
         } else if(roleQualifiedByCommitteeKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.COMMITTEE), 
+            return qualification.containsKey(KcKimAttributes.COMMITTEE) && StringUtils.equals(qualification.get(KcKimAttributes.COMMITTEE), 
                     roleQualifier.get(KcKimAttributes.COMMITTEE));
         } else if(roleQualifiedByAwardKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.AWARD), 
+            return qualification.containsKey(KcKimAttributes.AWARD) && StringUtils.equals(qualification.get(KcKimAttributes.AWARD), 
                     roleQualifier.get(KcKimAttributes.AWARD));
         } else if(roleQualifiedByTimeAndMoneyKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.TIMEANDMONEY), 
+            return qualification.containsKey(KcKimAttributes.TIMEANDMONEY) && StringUtils.equals(qualification.get(KcKimAttributes.TIMEANDMONEY), 
                     roleQualifier.get(KcKimAttributes.TIMEANDMONEY));
         } else if(roleQualifiedByUnitOnly(roleQualifier)) {
-            return (StringUtils.equals(qualification.get(KcKimAttributes.UNIT_NUMBER), 
+            return (qualification.containsKey(KcKimAttributes.UNIT_NUMBER) &&  StringUtils.equals(qualification.get(KcKimAttributes.UNIT_NUMBER), 
                     roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) || performWildCardMatching(qualification, roleQualifier));
         } 
         
@@ -86,11 +89,26 @@ public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     }
     
     private boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
-        if(qualification.containsKey(KcKimAttributes.UNIT_NUMBER) && qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*")) {
+        if(qualification.containsKey(KcKimAttributes.UNIT_NUMBER) && qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*") && roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) ) {
             return true;
         }
         //If necessary, we can include logic for other pattern matching later.
         //Not found necessary at this time.
         return false;
     }
+
+    
+    @Override
+    public List<String> getQualifiersForExactMatch() {
+        List<String> attributes = new ArrayList<String>();
+        attributes.add(KcKimAttributes.PROPOSAL);
+        attributes.add(KcKimAttributes.PROTOCOL);
+        attributes.add(KcKimAttributes.COMMITTEE);
+        attributes.add(KcKimAttributes.AWARD);
+        attributes.add(KcKimAttributes.TIMEANDMONEY);
+        attributes.add(KcKimAttributes.UNIT_NUMBER);
+        return attributes; 
+    }
+    
+    
 }
