@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -68,7 +69,6 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
 	private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
-	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
 
 	private XmlObject getPHS398CareerDevelopmentAwardSup() {
 		PHS398CareerDevelopmentAwardSupDocument phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSupDocument.Factory
@@ -111,7 +111,8 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
 				&& !pdDoc.getDevelopmentProposal().getProposalTypeCode()
-						.equals(PROPOSAL_TYPE_TASK_ORDER)) {
+						.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+			                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_TASK_ORDER_PARM))) {
 			// Check !=6 to ensure that if proposalType='TASK ORDER", it must
 			// not set. THis is because the enum has no
 			// entry for TASK ORDER

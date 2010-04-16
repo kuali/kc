@@ -33,7 +33,6 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 		S2SBaseFormGenerator {
 
 	public static final String IS_NEW_INVESTIGATOR = "13";
-	public static final String ACTIVITY_TYPE_CLINICAL_TRIAL = "4";
 	public static final String PHASE_III_CLINICAL_TRIAL = "17";
 	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "18";
 
