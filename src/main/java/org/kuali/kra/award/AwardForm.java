@@ -76,6 +76,7 @@ import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -585,13 +586,22 @@ public class AwardForm extends BudgetVersionFormBase
     
     
 
+//    /**
+//     * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
+//     * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
+//     */
+//    public int getIndexOfAwardAmountInfoWithHighestTransactionId() {
+//        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+//        return awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(getAwardDocument().getAward().getAwardAmountInfos());
+//    }
+    
     /**
      * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
      * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
+     * @throws WorkflowException 
      */
-    public int getIndexOfAwardAmountInfoWithHighestTransactionId() {
-        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
-        return awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(getAwardDocument().getAward().getAwardAmountInfos());
+    public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
+        return getAwardDocument().getAward().getIndexOfAwardAmountInfoForDisplay();
     }
 
     /**

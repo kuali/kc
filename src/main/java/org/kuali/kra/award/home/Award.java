@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.commitments.AwardCostShare;
@@ -69,6 +70,7 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -185,6 +187,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<AwardCloseout> awardCloseoutItems;
     private List<AwardNotepad> awardNotepads;
     private List<AwardAttachment> awardAttachments;
+    
 
     private List<AwardFundingProposal> fundingProposals;
     
@@ -208,6 +211,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private transient String awardIdAccount;   
     
     private transient String lookupOspAdministratorName;
+    transient AwardAmountInfoService awardAmountInfoService;
 
     /**
      * 
@@ -318,6 +322,38 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public AwardAmountInfo getLastAwardAmountInfo() {
         return awardAmountInfos.get(getIndexOfLastAwardAmountInfo());
+    }
+    
+    public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
+        AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(this);
+        int index = 0;
+        for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
+            if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId() == null) {
+                break;
+            }else if(awardAmountInfo.getAwardAmountInfoId().equals(aai.getAwardAmountInfoId())) {
+                break;
+            }else {
+                index++;
+            }
+        }
+        return index;
+    }
+    
+    /**
+     * Gets the awardAmountInfoService attribute. 
+     * @return Returns the awardAmountInfoService.
+     */
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        return awardAmountInfoService;
+    }
+
+    /**
+     * Sets the awardAmountInfoService attribute value.
+     * @param awardAmountInfoService The awardAmountInfoService to set.
+     */
+    public void setAwardAmountInfoService(AwardAmountInfoService awardAmountInfoService) {
+        this.awardAmountInfoService = awardAmountInfoService;
     }
 
     
