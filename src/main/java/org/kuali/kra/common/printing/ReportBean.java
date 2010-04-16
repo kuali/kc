@@ -27,14 +27,14 @@ public abstract class ReportBean implements BusinessObject {
         throw new UnsupportedOperationException("This bean has no workflow");
     }
 
-    protected Column createColumn(String label, String propertyName, Object property) {
-        if(property == null) {
-            property = "";
-        }
+    protected Column createColumn(String label, String propertyName, Object property, Class clazz) {
+//        if(property == null) {
+//            property = "";
+//        }
         Column column = new Column(label, propertyName);
-        column.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(property.getClass()));
-        column.setFormatter(Formatter.getFormatter(property.getClass()));
-        column.setPropertyValue(column.getFormatter().format(property).toString());
+        column.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(clazz));
+        column.setFormatter(Formatter.getFormatter(clazz));
+        column.setPropertyValue(property == null ? "" : column.getFormatter().format(property).toString());
         return column;
     }
 

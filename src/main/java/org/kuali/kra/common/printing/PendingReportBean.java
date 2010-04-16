@@ -83,10 +83,10 @@ public class PendingReportBean extends ReportBean {
         this.totalIndirectCostTotal = proposal.getTotalIndirectCostTotal();
         this.requestedStartDateInitial = proposal.getRequestedStartDateInitial();
         this.requestedEndDateTotal = proposal.getRequestedEndDateTotal();
-        this.academicYearEffort = ipPerson.getAcademicYearEffort()==null ? KualiDecimal.ZERO : ipPerson.getAcademicYearEffort();
-        this.calendarYearEffort = ipPerson.getCalendarYearEffort()==null ? KualiDecimal.ZERO : ipPerson.getCalendarYearEffort();
-        this.summerEffort = ipPerson.getSummerEffort()==null ? KualiDecimal.ZERO : ipPerson.getSummerEffort();
-        this.totalEffort = ipPerson.getTotalEffort()==null ? KualiDecimal.ZERO : ipPerson.getTotalEffort();
+        this.academicYearEffort = ipPerson.getAcademicYearEffort();
+        this.calendarYearEffort = ipPerson.getCalendarYearEffort();
+        this.summerEffort = ipPerson.getSummerEffort();
+        this.totalEffort = ipPerson.getTotalEffort();
     }
 
     @Override
@@ -160,13 +160,13 @@ public class PendingReportBean extends ReportBean {
 
     protected List<Column> createColumns() {
         List<Column> columns = new ArrayList<Column>();
-        columns.add(createColumn("Proposal Number", "proposalNumber", proposalNumber));
-        columns.add(createColumn("Agency", "sponsorName", sponsorName));
-        columns.add(createColumn("Role", "roleCode", roleCode));
-        columns.add(createColumn("Title", "proposalTitle", proposalTitle));
-        columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal));
-        columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal));
-        columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost()));
+        columns.add(createColumn("Proposal Number", "proposalNumber", proposalNumber, String.class));
+        columns.add(createColumn("Agency", "sponsorName", sponsorName, String.class));
+        columns.add(createColumn("Role", "roleCode", roleCode, String.class));
+        columns.add(createColumn("Title", "proposalTitle", proposalTitle, String.class));
+        columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal, KualiDecimal.class));
+        columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal, KualiDecimal.class));
+        columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost(), KualiDecimal.class));
 
 //        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
 //        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
@@ -174,12 +174,12 @@ public class PendingReportBean extends ReportBean {
 //        String endDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedEndDateTotal) : "";
 //        columns.add(createColumn("End Date", "requestedEndDateTotal", endDate));
 
-        columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial));
-        columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal));
-        columns.add(createColumn("% Effort", "totalEffort", totalEffort));
-        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort));
-        columns.add(createColumn("Summer Year Effort", "summerYearEffort", summerEffort));
-        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort));
+        columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial, Date.class));
+        columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal, Date.class));
+        columns.add(createColumn("% Effort", "totalEffort", totalEffort, KualiDecimal.class));
+        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
+        columns.add(createColumn("Summer Year Effort", "summerYearEffort", summerEffort, KualiDecimal.class));
+        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
         return columns;
     }
 }
