@@ -183,12 +183,12 @@ public class AwardFundingProposalBean implements Serializable {
         Long proposalId = newFundingProposal.getProposalId();
         String proposalNumber = newFundingProposal.getProposalNumber();
         InstitutionalProposal foundProposal = null;
-        if(proposalId != null && proposalNumber == null) {
+        if (proposalId != null && proposalNumber == null) {
             foundProposal = findProposalById(proposalId);
-        } else if(proposalNumber != null && proposalId == null) {
+        } else if (proposalNumber != null && proposalId == null) {
             foundProposal = findProposalByProposalNumber(proposalNumber);
         }
-        if(foundProposal != null) {
+        if (foundProposal != null) {
             newFundingProposal = foundProposal; 
         }
     }
@@ -200,16 +200,7 @@ public class AwardFundingProposalBean implements Serializable {
     }
     
     private InstitutionalProposal findProposalByProposalNumber(String proposalNumber) {
-        LookupableHelperService service = getInstitutionalProposalLookupService();
-        service.setBusinessObjectClass(InstitutionalProposal.class);
-        @SuppressWarnings("unchecked") Map criteria = ServiceHelper.getInstance().buildCriteriaMap("proposalNumber", proposalNumber);
-        @SuppressWarnings("unchecked") List foundProposals = service.getSearchResults(criteria);
-        InstitutionalProposal proposal = foundProposals.size() == 1 ? (InstitutionalProposal) foundProposals.toArray()[0] : null;
-        return proposal;
-    }
-    
-    private LookupableHelperService getInstitutionalProposalLookupService() {
-        return KraServiceLocator.getService("institutionalProposalLookupableHelperService");
+        return getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
     }
 
     private void performDataFeeds(Award award, InstitutionalProposal proposal) {
