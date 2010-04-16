@@ -15,17 +15,26 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class handles comment data feeds
  */
 class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String COST_SHARE_COMMENT_PATTERN = "Added Cost Shares from Proposal Number %s";
+    
+    private BusinessObjectService businessObjectService;
     
     public CostSharingDataFeedCommand(Award award, InstitutionalProposal proposal) {
         super(award, proposal);
@@ -37,20 +46,24 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     @Override
     void performDataFeed() {
         int copyCount = 0;
-        for(InstitutionalProposalCostShare ipCostShare: proposal.getInstitutionalProposalCostShares()) {
+        List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
+        if (ObjectUtils.isNotNull(costShares) || costShares.isEmpty()) {
+            costShares = findCostShares();
+        }
+        for (InstitutionalProposalCostShare ipCostShare : costShares) {
             boolean duplicateFound = false;
-            for(AwardCostShare awardCostShare: award.getAwardCostShares()) {
-                if(isIdentical(awardCostShare, ipCostShare)) {
+            for (AwardCostShare awardCostShare : award.getAwardCostShares()) {
+                if (isIdentical(awardCostShare, ipCostShare)) {
                     duplicateFound = true;
                     break;
                 }                
             }
-            if(!duplicateFound) {
+            if (!duplicateFound) {
                 award.add(copyCostShare(ipCostShare));
                 copyCount++;
             }
         }
-        if(copyCount > 0) {
+        if (copyCount > 0) {
             addCostShareComment(award, proposal);
         }
     }
@@ -84,4 +97,25 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
                 awardCostShare.getCommitmentAmount().equals(ipCostShare.getAmount()) &&
                 awardCostShare.getSource().equals(ipCostShare.getSourceAccount());
     }
+    
+    // TODO This shouldn't be necessary, but for some reason OJB isn't retrieving this reference properly.
+    @SuppressWarnings("unchecked")
+    private List<InstitutionalProposalCostShare> findCostShares() {
+        Map<String, Object> identifiers = new HashMap<String, Object>();
+        identifiers.put("proposalId", proposal.getProposalId());
+        return (List<InstitutionalProposalCostShare>) getBusinessObjectService().findMatching(
+                InstitutionalProposalCostShare.class, identifiers);
+    }
+    
+    /**
+     * Looks up and returns the BusinessObjectService.
+     * @return the business object service. 
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        if (this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        }
+        return this.businessObjectService;
+    }
+    
 }

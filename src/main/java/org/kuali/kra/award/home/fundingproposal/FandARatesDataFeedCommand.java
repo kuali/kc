@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
@@ -27,12 +31,16 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 
 class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private static final String FANDA_COMMENT_PATTERN = "Added Unrecovered F & A from Proposal Number %s";
     
     private ParameterService parameterService;
+    private BusinessObjectService businessObjectService;
     
     /**
      * Constructs a FandARatesDataFeedCommand
@@ -49,20 +57,24 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     @Override
     void performDataFeed() {
         int copyCount = 0;
-        for(InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA: proposal.getInstitutionalProposalUnrecoveredFandAs()) {
+        List<InstitutionalProposalUnrecoveredFandA> fAndAs = proposal.getInstitutionalProposalUnrecoveredFandAs();
+        if (ObjectUtils.isNotNull(fAndAs) || fAndAs.isEmpty()) {
+            fAndAs = findUnrecoveredFandAs();
+        }
+        for (InstitutionalProposalUnrecoveredFandA ipUnrecoveredFandA : fAndAs) {
             boolean duplicateFound = false;
-            for(AwardFandaRate awardFandA: award.getAwardFandaRate()) {
-                if(isIdentical(awardFandA, ipUnrecoveredFandA)) {
+            for (AwardFandaRate awardFandA : award.getAwardFandaRate()) {
+                if (isIdentical(awardFandA, ipUnrecoveredFandA)) {
                     duplicateFound = true;
                     break;
                 }                
             }
-            if(!duplicateFound) {
+            if (!duplicateFound) {
                 award.add(copyFandA(ipUnrecoveredFandA));
                 copyCount++;
             }
         }
-        if(copyCount > 0) {
+        if (copyCount > 0) {
             addFandARateComment(award, proposal);
         }
     }
@@ -141,6 +153,15 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         return this.getParameterService().getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
     }
     
+    // TODO This shouldn't be necessary, but for some reason OJB isn't retrieving this reference properly.
+    @SuppressWarnings("unchecked")
+    private List<InstitutionalProposalUnrecoveredFandA> findUnrecoveredFandAs() {
+        Map<String, Object> identifiers = new HashMap<String, Object>();
+        identifiers.put("proposalId", proposal.getProposalId());
+        return (List<InstitutionalProposalUnrecoveredFandA>) getBusinessObjectService().findMatching(
+                InstitutionalProposalUnrecoveredFandA.class, identifiers);
+    }
+    
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
@@ -151,4 +172,16 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         }
         return this.parameterService;
     }
+    
+    /**
+     * Looks up and returns the BusinessObjectService.
+     * @return the business object service. 
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        if (this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+        }
+        return this.businessObjectService;
+    }
+    
 }
