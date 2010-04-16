@@ -19,6 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyTestHelper.MockVersionHistoryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AwardHierarchyServiceImplTest extends KraTestBase {
     AwardHierarchyServiceImpl service;
@@ -32,9 +34,13 @@ public class AwardHierarchyServiceImplTest extends KraTestBase {
         super.setUp();
         service = new AwardHierarchyServiceImpl();
         service.setAwardNumberService(new AwardHierarchyTestHelper.MockAwardNumberService());
-        service.setBusinessObjectService(new AwardHierarchyTestHelper.MockBusinessObjectService());
+        BusinessObjectService boService = new AwardHierarchyTestHelper.MockBusinessObjectService();
+        service.setBusinessObjectService(boService);
         service.setDocumentService(new AwardHierarchyTestHelper.MockDocumentService());
         service.setVersioningService(new AwardHierarchyTestHelper.MockVersioningService());
+        MockVersionHistoryService versionHistoryService = new AwardHierarchyTestHelper.MockVersionHistoryService();
+        versionHistoryService.setBusinessObjectService(boService);
+        service.setVersionHistoryService(versionHistoryService);
         helper = new AwardHierarchyTestHelper(service);
         rootNode = helper.createFullAwardHierarchy(100001L, 10, 5);
     }
@@ -42,7 +48,7 @@ public class AwardHierarchyServiceImplTest extends KraTestBase {
     @After
     public void tearDown() throws Exception {
         helper = null;
-        service = null;     
+        service = null;  
         super.tearDown();
     }
 
