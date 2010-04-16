@@ -41,7 +41,16 @@
 <c:if test="${proposalBudgetFlag}">
 	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
 </c:if>
-<kul:tabTop tabTitle="Budget Versions ${projectDatesString}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*">
+ <c:set var="useRiceAuditMode" value="true" scope="request" />
+
+	<c:set var="transParent" value="false"/>
+<c:if test="${empty awardBudgetPage}">
+	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
+	<div id="workarea">
+	<c:set var="transParent" value="true"/>
+</c:if>
+
+<kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
 
 	<div class="tab-container" align="center">
 
@@ -92,7 +101,7 @@
             			</c:when>
 						<c:otherwise>
     				    	<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
-    				    <%--	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> --%>
+    				    	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> 
     				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
     				    							anchor="${tabKey}" 
     				    							lookupParameters="${pathToVersions}.award.awardId:budgetParentId"
@@ -226,7 +235,7 @@
           	</c:forEach>
         </table>
 	</div> 
-</kul:tabTop>
+</kul:tab>
 <kul:panelFooter />
 <c:choose>                    	
 	<c:when test="${readonly}">

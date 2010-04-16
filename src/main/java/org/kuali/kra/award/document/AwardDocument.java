@@ -41,6 +41,7 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -508,4 +509,18 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
     
+    public BudgetVersionOverview getBudgetVersionOverview() {
+        BudgetVersionOverview budget = null;
+        for (BudgetDocumentVersion budgetDocumentVersion : getBudgetDocumentVersions()) {
+            for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
+                if (budgetVersionOverview != null
+                        && (budget == null || (budget != null && budgetVersionOverview.getBudgetVersionNumber() > budget
+                                .getBudgetVersionNumber()))) {
+                    budget = budgetVersionOverview;
+                }
+            }
+        }
+        return budget;
+    }
+
 }
