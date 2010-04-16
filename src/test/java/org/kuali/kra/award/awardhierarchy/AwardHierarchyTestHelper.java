@@ -21,11 +21,14 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.impl.VersionHistoryServiceImpl;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.DocumentServiceAdapter;
+import org.kuali.kra.service.impl.adapters.VersionHistoryServiceAdapter;
 import org.kuali.kra.service.impl.adapters.VersioningServiceAdapter;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -350,9 +353,21 @@ class AwardHierarchyTestHelper {
         }
     }
 
+
+    static class MockVersionHistoryService extends VersionHistoryServiceAdapter {
+        @SuppressWarnings("unchecked")
+        @Override
+        public VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
+            VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
+            this.getBusinessObjectService().save(versionHistory);
+            return versionHistory;
+        }
+    }
+    
     static class MockBusinessObjectService extends BusinessObjectServiceAdapter {
         Map<String, AwardHierarchy> awardHierarchyMap = new TreeMap<String, AwardHierarchy>();
         Map<String, Award> awardMap = new TreeMap<String, Award>();
+        Map<String, VersionHistory> awardVersionHistoryMap = new TreeMap<String, VersionHistory>();
 
         @SuppressWarnings("unchecked")
         @Override
@@ -378,6 +393,11 @@ class AwardHierarchyTestHelper {
                 Award award = (Award) bo;
                 award.setAwardId(award.getAwardId() == null ? 1L : award.getAwardId() + 1);
                 awardMap.put(award.getAwardNumber(), award);
+            }
+            if(bo instanceof VersionHistory) {
+                VersionHistory versionHistory = (VersionHistory) bo;
+                versionHistory.setVersionHistoryId(versionHistory.getVersionHistoryId() == null ? 1L : versionHistory.getVersionHistoryId() + 1);
+                awardVersionHistoryMap.put(versionHistory.getVersionHistoryId().toString(), versionHistory);
             }
         }
 
