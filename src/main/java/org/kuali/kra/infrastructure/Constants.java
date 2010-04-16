@@ -282,6 +282,7 @@ public interface Constants {
     public static final String BUDGET_UNRECOVERED_F_AND_A_PANEL_NAME = "Budget Unrecovered F and A";
     public static final String BUDGET_COST_SHARE_PANEL_ANCHOR = "budgetCostSharing";
     public static final String BUDGET_COST_SHARE_PANEL_NAME = "Budget Cost Sharing";
+    public static final String BUDGET_OVERVIEW_PANEL_NAME = "Budget Overview";
     
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";

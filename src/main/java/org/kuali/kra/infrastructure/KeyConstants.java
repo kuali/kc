@@ -134,6 +134,7 @@ public final class KeyConstants {
     public static final String ERROR_BUDGET_START_DATE_MISSING = "error.budgetVersion.startDate.required";
     public static final String ERROR_BUDGET_END_DATE_MISSING = "error.budgetVersion.endDate.required";
     public static final String ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID = "error.award.invalidObligatedAmount";
+    public static final String ERROR_DOCUMENT_STATUS_NOT_FINAL = "error.document.status.not.final";
 
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";
@@ -240,7 +241,9 @@ public final class KeyConstants {
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO = "error.budget.distribution.unallocatedMustBeZero";
     public static final String AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT = "warning.budget.distribution.fiscalYearInconsistent";
     public static final String AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA = "error.budget.distribution.duplicate.unrecoveredFA";
-    
+    public static final String AUDIT_ERROR_COMMENTS_REQUIRED_FOR_REBUDGET = "error.budget.comments.required.for.rebudget";
+    public static final String AUDIT_ERROR_TOTAL_COST = "error.budget.total.cost";
+
     // Copy proposal
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
     
@@ -706,7 +709,7 @@ public final class KeyConstants {
     public static final String ERROR_PENDING_PROPOSAL_LOG_ONLY = "error.pending.proposallog.only";
     public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
     public static final String ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE = "error.reportingSchedule.invalid.start.end.dates";
-
+    public static final String ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL = "error.period.costlimit.exceed.obligatedtotal";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
