@@ -1,31 +1,21 @@
 package org.kuali.kra.common.printing;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so this class implements an interface whose behavior is completely inapplicable
  */
 public abstract class ReportBean implements BusinessObject {
     protected static final DateFormat DATE_FORMATTER = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
-
-    private static final Comparator comparableComparator;
-
-    static {
-        comparableComparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((Comparable) o1).compareTo(o2);
-            }
-        };
-    }
 
     protected abstract List<Column> createColumns();
 
@@ -42,7 +32,7 @@ public abstract class ReportBean implements BusinessObject {
             property = "";
         }
         Column column = new Column(label, propertyName);
-        column.setComparator(comparableComparator);
+        column.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(property.getClass()));
         column.setFormatter(Formatter.getFormatter(property.getClass()));
         column.setPropertyValue(column.getFormatter().format(property).toString());
         return column;
