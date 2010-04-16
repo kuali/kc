@@ -146,16 +146,16 @@ public class CurrentReportBean extends ReportBean {
 
     protected List<Column> createColumns() {
         List<Column> columns = new ArrayList<Column>();
-        columns.add(createColumn("Award Number", "awardNumber", awardNumber));
-        columns.add(createColumn("Sponsor", "sponsorName", sponsorName));
-        columns.add(createColumn("Role", "roleCode", roleCode));
-        columns.add(createColumn("Title", "awardTitle", awardTitle));
-        columns.add(createColumn("Award Amount", "awardAmount", awardAmount));
-        columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate));
-        columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate));
-        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort));
-        columns.add(createColumn("Summer Effort", "summerEffort", summerEffort));
-        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort));
+        columns.add(createColumn("Award Number", "awardNumber", awardNumber, String.class));
+        columns.add(createColumn("Sponsor", "sponsorName", sponsorName, String.class));
+        columns.add(createColumn("Role", "roleCode", roleCode, String.class));
+        columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
+        columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
+        columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate, Date.class));
+        columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate, Date.class));
+        columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
+        columns.add(createColumn("Summer Effort", "summerEffort", summerEffort, KualiDecimal.class));
+        columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
         return columns;
     }
 
