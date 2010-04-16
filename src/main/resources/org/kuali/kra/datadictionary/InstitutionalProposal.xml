@@ -85,8 +85,8 @@
 				<ref bean="InstitutionalProposal-updateTimestamp" />
 				<ref bean="InstitutionalProposal-leadUnit.unitNumber" />
 				<ref bean="InstitutionalProposal-leadUnit.unitName" />
-				<ref bean="InstitutionalProposal-lookupUnitNumber" />
-				<ref bean="InstitutionalProposal-lookupUnitName" />
+				<ref bean="InstitutionalProposal-lookupUnit.unitNumber" />
+				<ref bean="InstitutionalProposal-lookupUnit.unitName" />
 				<ref bean="InstitutionalProposal-principalInvestigator.fullName" />
 				<ref bean="InstitutionalProposal-projectPersons.fullName" />
 				<ref bean="InstitutionalProposal-projectPersons.institutionalProposalContactId" />
@@ -96,6 +96,18 @@
 				<ref bean="InstitutionalProposal-activityType.description" />
 				<ref bean="InstitutionalProposal-proposalStatus.description" />
             </list>
+        </property>
+        <property name="relationships">
+        	<list>
+        		<bean parent="RelationshipDefinition">
+        			<property name="objectAttributeName" value="lookupUnit" />
+        			<property name="primitiveAttributes">
+        				<list>
+        					<bean parent="PrimitiveAttributeDefinition" p:sourceName="lookupUnit.unitNumber" p:targetName="unitNumber" />
+        				</list>
+        			</property>
+        		</bean>
+        	</list>
         </property>
         <property name="collections">
         	<list>
@@ -899,17 +911,17 @@
         <property name="shortLabel" value="Unit Name" />
     </bean>
     
-	<bean id="InstitutionalProposal-lookupUnitNumber" parent="InstitutionalProposal-lookupUnitNumber-parentBean" />
-    <bean id="InstitutionalProposal-lookupUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
-        <property name="name" value="lookupUnitNumber" />
+	<bean id="InstitutionalProposal-lookupUnit.unitNumber" parent="InstitutionalProposal-lookupUnit.unitNumber-parentBean" />
+    <bean id="InstitutionalProposal-lookupUnit.unitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+        <property name="name" value="lookupUnit.unitNumber" />
         <property name="label" value="Unit ID" />
         <property name="shortLabel" value="Unit ID" />
         <property name="required" value="false" />    
     </bean>
     
-    <bean id="InstitutionalProposal-lookupUnitName" parent="InstitutionalProposal-lookupUnitName-parentBean" />
-    <bean id="InstitutionalProposal-lookupUnitName-parentBean" abstract="true" parent="Unit-unitName">
-        <property name="name" value="lookupUnitName" />
+    <bean id="InstitutionalProposal-lookupUnit.unitName" parent="InstitutionalProposal-lookupUnit.unitName-parentBean" />
+    <bean id="InstitutionalProposal-lookupUnit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+        <property name="name" value="lookupUnit.unitName" />
         <property name="label" value="Unit Name" />
         <property name="shortLabel" value="Unit Name" />
         <property name="required" value="false" />    
@@ -995,16 +1007,16 @@
                     p:attributeName="currentAccountNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
-                <!-- 
                 <bean parent="FieldDefinition" p:useShortLabel="true"
-                    p:attributeName="lookupUnitNumber" />
+                    p:attributeName="lookupUnit.unitNumber" />
                 <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
-                    p:attributeName="lookupUnitName" />
-                -->
+                    p:attributeName="lookupUnit.unitName" />
+                <!-- 
                 <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="leadUnit.unitNumber" />
                 <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:useShortLabel="true"
                     p:attributeName="leadUnit.unitName" />
+                -->
                 <bean parent="FieldDefinition" p:useShortLabel="true"
                     p:attributeName="projectPersons.fullName" />
                 <bean parent="FieldDefinition"
