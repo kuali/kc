@@ -29,4 +29,9 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
     public void setBusinessObjectService(BusinessObjectService bos) {
         this.bos = bos;
     }
+
+    public BusinessObjectService getBusinessObjectService() { 
+        return bos;
+    }   
+    
 }
