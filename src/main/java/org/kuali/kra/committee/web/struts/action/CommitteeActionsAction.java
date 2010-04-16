@@ -15,13 +15,18 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
+import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
+
 
 
 /**
@@ -45,6 +50,19 @@ public class CommitteeActionsAction extends CommitteeAction {
      */
     public ActionForward generateBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
+        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondenceTypeCode();
+        Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateStartDate();
+        Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateEndDate();
+        
+        if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+                batchCorrespondenceTypeCode, startDate, endDate))) {
+            System.out.println("GenerateBatchCorrespondence: committeeId:" + committeeId + " batchCorrespondenceTypeCode:" 
+                + batchCorrespondenceTypeCode + " startDate:" + startDate + " endDate:" + endDate);
+        }
+        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -59,6 +77,21 @@ public class CommitteeActionsAction extends CommitteeAction {
      * @throws Exception
      */
     public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method is perform the action - Print Committee Document.
+     * Method is called in CommitteeActions.jsp
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return 
+     * @throws Exception
+     */
+    public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
