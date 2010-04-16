@@ -58,6 +58,16 @@ public interface InstitutionalProposalService {
     InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber);
     
     /**
+     * Return the ACTIVE version of an Institutional Proposal, if one exists.
+     * Note, ACTIVE here refers to the Version Status, NOT the Proposal Status of the Institutional Proposal.
+     * 
+     * @param proposalNumber String
+     * @return InstitutionalProposal, or null if a ACTIVE version is not found.
+     * @see org.kuali.kra.bo.versioning.VersionStatus
+     */
+    InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber);
+    
+    /**
      * Designate one or more Institutional Proposals as Funded by an Award.
      * This will create a new Final version of the Institutional Proposal.
      * 
