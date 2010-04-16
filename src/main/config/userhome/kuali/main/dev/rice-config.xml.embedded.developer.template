@@ -1,0 +1,50 @@
+
+<!--
+
+in order for rice to find this config file when it starts up you need to set the jvm sys param of 
+
+additional.config.locations=/path/to/config/rice-config.xml
+
+-->
+
+<config>
+
+	<!-- Please fill in a value for this parameter! -->
+	<param name="app.context.name">kr-${environment}</param>
+	<param name="application.url">http://127.0.0.1:8081/${app.context.name}</param>
+
+	<param name="workflow.url">${application.url}/kew</param>
+
+	<param name="plugin.dir">${user.home}/kuali/main/${environment}/rice_embedded/plugins</param>
+
+	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.username">RICEDEV</param>
+	<param name="datasource.password">devpass</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	
+	<param name="attachment.dir.location">${user.home}/kuali/main/${environment}/rice_embedded/kew_attachments</param>
+
+    <param name="mail.smtp.host">localhost</param>
+
+	<!-- log4j settings -->
+	<param name="log4j.settings.path">${user.home}/kuali/main/${environment}/rice_embedded/log4j.properties</param>
+	<param name="log4j.settings.reloadInterval">5</param>
+
+	<!-- Keystore Configuration -->
+	<param name="keystore.file">${user.home}/kuali/main/${environment}/rice_embedded/rice.keystore</param>
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+
+	<!-- Dummy Login Filter - use if you don't want to go through CAS -->
+	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+
+    <!-- Sample Application Flag -->
+    <param name="sample.enabled">false</param>
+	
+	<!-- other added-->
+	<!--<param name="workflow.url">http://127.0.0.1:8081/kr-dev/kew</param>-->
+	<!--<param name="serviceServletUrl">http://127.0.0.1:8081/kr-dev/remoting/</param>-->
+
+	<param name="dev.mode">false</param>
+</config>
