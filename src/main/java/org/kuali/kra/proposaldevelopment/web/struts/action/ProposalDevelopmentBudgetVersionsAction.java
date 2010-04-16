@@ -284,12 +284,16 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         ProposalDevelopmentDocument document = pdForm.getDocument();
+        int i = 1;
         if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
             for(BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
                 if(budget.isFinalVersionFlag()) {
-                    return budget.getBudgetVersionNumber().intValue();
+                    // if copied budgetversion, the list may not be in version order.  so has to change it.
+                    return i;
+                   // return budget.getBudgetVersionNumber().intValue();
                 }
+                i++;
             }
         }
         
