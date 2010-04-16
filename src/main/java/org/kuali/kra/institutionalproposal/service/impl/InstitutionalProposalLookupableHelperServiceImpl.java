@@ -72,14 +72,14 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         fieldValues.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
         
         Map<String, String> formProps = new HashMap<String, String>();
-        if (!StringUtils.isEmpty(fieldValues.get("lookupUnitName"))) {
-            formProps.put("units.unit.unitName", fieldValues.get("lookupUnitName"));
+        if (!StringUtils.isEmpty(fieldValues.get("lookupUnit.unitName"))) {
+            formProps.put("units.unit.unitName", fieldValues.get("lookupUnit.unitName"));
         }
-        if (!StringUtils.isEmpty(fieldValues.get("lookupUnitNumber"))) {
-            formProps.put("units.unitNumber", fieldValues.get("lookupUnitNumber"));
+        if (!StringUtils.isEmpty(fieldValues.get("lookupUnit.unitNumber"))) {
+            formProps.put("units.unitNumber", fieldValues.get("lookupUnit.unitNumber"));
         }
-        fieldValues.remove("lookupUnitNumber");
-        fieldValues.remove("lookupUnitName");
+        fieldValues.remove("lookupUnit.unitNumber");
+        fieldValues.remove("lookupUnit.unitName");
         if (!formProps.isEmpty()) {
             List<Long> ids = new ArrayList<Long>();
             Collection<InstitutionalProposalPerson> persons = getLookupService().findCollectionBySearch(InstitutionalProposalPerson.class, formProps);

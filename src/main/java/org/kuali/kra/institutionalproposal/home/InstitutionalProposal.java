@@ -161,6 +161,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private List<AwardFundingProposal> awardFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     
+    private transient Unit lookupUnit;
     private transient String lookupUnitName;
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
@@ -1610,6 +1611,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             }
         }
         return commentMap;
+    }
+
+    public void setLookupUnit(Unit lookupUnit) {
+        this.lookupUnit = lookupUnit;
+    }
+
+    public Unit getLookupUnit() {
+        return lookupUnit;
     }
 
     public void setLookupUnitName(String lookupUnitName) {
