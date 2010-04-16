@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -79,6 +80,9 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             rulePassed = false;
         }else if(!isBudgetStatusValid(budget)) {
             rulePassed = false;
+        } 
+        if (!Boolean.valueOf(((BudgetDocument)saveBudgetPeriodEvent.getDocument()).getProposalBudgetFlag())) {
+            rulePassed &= isValidBudgetPeriodCostLimit(budget);
         }
 
         return rulePassed;
@@ -206,6 +210,23 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             errorMap.removeFromErrorPath("document.budgetPeriods[" + index + "]");
         }
         return validBoundaries;
+        
+    }
+
+    private boolean isValidBudgetPeriodCostLimit(Budget budget) {
+        boolean valid = true;
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        for(BudgetPeriod budgetPeriod: budgetPeriods) {
+            if (budgetPeriod.getTotalCostLimit().isGreaterThan(((AwardBudgetExt)budget).getObligatedTotal())) {
+                GlobalVariables.getErrorMap().putError("document.budget.budgetPeriods["+ i +"].totalCostLimit", 
+                        KeyConstants.ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL);
+               valid = false;
+            }
+            i++;
+        }
+        return valid;
         
     }
 
