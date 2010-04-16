@@ -61,11 +61,11 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         //Temp AuthZ fix for Awards Module
         if(roleQualifiedByAwardKey(roleQualifier)) {
-            return (StringUtils.equals(qualification.get(KcKimAttributes.AWARD), 
+            return (qualification.containsKey(KcKimAttributes.AWARD) && StringUtils.equals(qualification.get(KcKimAttributes.AWARD), 
                     roleQualifier.get(KcKimAttributes.AWARD)) || performWildCardAwardMatching(qualification, roleQualifier)); 
         } else if(roleQualifiedByTimeAndMoneyKey(roleQualifier)) {
-            return StringUtils.equals(qualification.get(KcKimAttributes.TIMEANDMONEY), 
-                    roleQualifier.get(KcKimAttributes.TIMEANDMONEY));
+            return (qualification.containsKey(KcKimAttributes.TIMEANDMONEY) && StringUtils.equals(qualification.get(KcKimAttributes.TIMEANDMONEY), 
+                    roleQualifier.get(KcKimAttributes.TIMEANDMONEY)));
         } 
        //Temp AuthZ fix Ends here
         
