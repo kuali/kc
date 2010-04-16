@@ -83,10 +83,10 @@ public class PendingReportBean extends ReportBean {
         this.totalIndirectCostTotal = proposal.getTotalIndirectCostTotal();
         this.requestedStartDateInitial = proposal.getRequestedStartDateInitial();
         this.requestedEndDateTotal = proposal.getRequestedEndDateTotal();
-        this.academicYearEffort = ipPerson.getAcademicYearEffort();
-        this.calendarYearEffort = ipPerson.getCalendarYearEffort();
-        this.summerEffort = ipPerson.getSummerEffort();
-        this.totalEffort = ipPerson.getTotalEffort();
+        this.academicYearEffort = ipPerson.getAcademicYearEffort()==null ? KualiDecimal.ZERO : ipPerson.getAcademicYearEffort();
+        this.calendarYearEffort = ipPerson.getCalendarYearEffort()==null ? KualiDecimal.ZERO : ipPerson.getCalendarYearEffort();
+        this.summerEffort = ipPerson.getSummerEffort()==null ? KualiDecimal.ZERO : ipPerson.getSummerEffort();
+        this.totalEffort = ipPerson.getTotalEffort()==null ? KualiDecimal.ZERO : ipPerson.getTotalEffort();
     }
 
     @Override
@@ -168,12 +168,14 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal));
         columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost()));
 
-        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
-        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
+//        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
+//        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
+//
+//        String endDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedEndDateTotal) : "";
+//        columns.add(createColumn("End Date", "requestedEndDateTotal", endDate));
 
-        String endDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedEndDateTotal) : "";
-        columns.add(createColumn("End Date", "requestedEndDateTotal", endDate));
-
+        columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial));
+        columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal));
         columns.add(createColumn("% Effort", "totalEffort", totalEffort));
         columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort));
         columns.add(createColumn("Summer Year Effort", "summerYearEffort", summerEffort));
