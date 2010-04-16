@@ -72,6 +72,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
@@ -855,15 +856,20 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				.getProposalTypeCode();
 		TypeOfApplication.Enum typeOfApplication = null;
 		if (proposalTypeCode != null) {
-			if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW)) {
+			if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
 				typeOfApplication = TypeOfApplication.NEW;
-			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_CONTINUATION)) {
+			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
 				typeOfApplication = TypeOfApplication.CONTINUATION;
-			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_REVISION)) {
+			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
 				typeOfApplication = TypeOfApplication.REVISION;
-			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_RENEWAL)) {
+			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
 				typeOfApplication = TypeOfApplication.RENEWAL;
-			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_RESUBMISSION)) {
+			} else if (proposalTypeCode.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
 				typeOfApplication = TypeOfApplication.RESUBMISSION;
 			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
 				typeOfApplication = TypeOfApplication.NEW;

@@ -48,6 +48,7 @@ import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -117,7 +118,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
 			int proposalTypeCode = Integer.parseInt(pdDoc
 					.getDevelopmentProposal().getProposalTypeCode());
-			if (proposalTypeCode < PROPOSAL_TYPE_RESUBMISSION) {
+			if (proposalTypeCode < Integer.parseInt(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
 				applicationTypeCodeDataType = ApplicationTypeCodeType.Enum
 						.forInt(proposalTypeCode);
 			}
@@ -628,7 +630,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		String submissionType = null;
 		String suffix;
 
-		if (ACTIVITY_TYPE_CODE_CONSTRUCTION.equals(pdDoc
+		if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                ProposalDevelopmentUtils.ACTIVITY_TYPE_CODE_CONSTRUCTION_PARM).equals(pdDoc
 				.getDevelopmentProposal().getActivityTypeCode())) {
 			suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION;
 		} else {
@@ -639,8 +642,9 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 						.getS2sSubmissionTypeCode() != null) {
 			pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.refreshNonUpdateableReferences();
-			if (S2S_SUBMISSION_TYPE_CODE_NOTSELECTED.equals(pdDoc
-					.getDevelopmentProposal().getS2sOpportunity()
+			if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+			        ProposalDevelopmentUtils.S2S_SUBMISSION_TYPE_CODE_NOTSELECTED_PARM).equals(
+			                pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.getS2sSubmissionType().getS2sSubmissionTypeCode())) {
 				submissionType = ACTIVITY_TYPE_CODE_LS_SUFFIX_PREAPPLICATION
 						+ suffix;
