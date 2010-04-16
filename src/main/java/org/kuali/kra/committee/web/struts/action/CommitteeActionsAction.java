@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
+import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -78,6 +80,19 @@ public class CommitteeActionsAction extends CommitteeAction {
      */
     public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
+        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryBatchCorrespondenceTypeCode();
+        Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryStartDate();
+        Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryEndDate();
+        
+        if (applyRules(new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+                batchCorrespondenceTypeCode, startDate, endDate))) {
+            System.out.println("FilterBatchCorrespondenceHistory: committeeId:" + committeeId + " batchCorrespondenceTypeCode:" 
+                + batchCorrespondenceTypeCode + " startDate:" + startDate + " endDate:" + endDate);
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -93,6 +108,14 @@ public class CommitteeActionsAction extends CommitteeAction {
      */
     public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
+        String printType = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintType();
+        
+        if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), printType))) {
+            System.out.println("FilterBatchCorrespondenceHistory: committeeId:" + committeeId + " printType:" + printType);
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
