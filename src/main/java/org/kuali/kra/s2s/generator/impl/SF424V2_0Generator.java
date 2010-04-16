@@ -41,6 +41,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -104,7 +105,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
                 int proposalTypeCode = Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode());
-                if (proposalTypeCode < PROPOSAL_TYPE_RESUBMISSION) {
+                if (proposalTypeCode < Integer.parseInt(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
                     applicationTypeEnum = ApplicationType.Enum.forInt(proposalTypeCode);
                 }
             }
