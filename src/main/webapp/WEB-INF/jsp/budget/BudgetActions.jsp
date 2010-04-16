@@ -44,6 +44,9 @@
 	    <c:if test="${proposalBudgetFlag}">
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
+	    <c:if test="${not proposalBudgetFlag}">
+             <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+        </c:if>
         <kul:adHocRecipients />
 	    <c:if test="${not proposalBudgetFlag}">
             <kul:routeLog /> 

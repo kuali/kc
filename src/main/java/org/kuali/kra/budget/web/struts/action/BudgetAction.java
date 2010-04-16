@@ -233,6 +233,10 @@ public class BudgetAction extends BudgetActionBase {
             tdcValidator.validateGeneratingWarnings(budgetDoc.getParentDocument());
         }
 
+        if (budgetForm.isAuditActivated()) {
+            forward = mapping.findForward("budgetActions");
+        }
+
         return forward;
     }
 
