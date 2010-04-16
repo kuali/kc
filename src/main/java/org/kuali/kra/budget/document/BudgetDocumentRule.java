@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
+import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
@@ -45,7 +47,6 @@ import org.kuali.kra.budget.parameters.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.parameters.GenerateBudgetPeriodRule;
 import org.kuali.kra.budget.parameters.SaveBudgetPeriodEvent;
 import org.kuali.kra.budget.parameters.SaveBudgetPeriodRule;
-import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelAuditRule;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
@@ -56,15 +57,11 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetRule;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ActivityTypeAuditRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -117,13 +114,17 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
         GlobalVariables.getErrorMap().addToErrorPath("document");        
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         GlobalVariables.getErrorMap().addToErrorPath("parentDocument");
         if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
             budgetDocument.refreshReferenceObject("parentDocument");
         }
         if(Boolean.valueOf(budgetDocument.getParentDocument().getProposalBudgetFlag())){
             valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
-        }
+        } 
+//        else {
+//            valid &= processBudgetTypeBusinessRules(budgetDocument);
+//        }
         GlobalVariables.getErrorMap().removeFromErrorPath("parentDocument");
         
         GlobalVariables.getErrorMap().addToErrorPath("budget"); 
@@ -184,7 +185,24 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         return valid;
     }
-    
+
+    // change to audit rule
+//    protected boolean processBudgetTypeBusinessRules(BudgetDocument budgetDocument) {
+//        boolean valid = true;
+//        ErrorMap errorMap = GlobalVariables.getErrorMap();
+//        errorMap.removeFromErrorPath("parentDocument");
+//        errorMap.removeFromErrorPath("document");
+//        
+//        AwardBudgetExt awardBudget = (AwardBudgetExt)budgetDocument.getBudget();
+//        if ("2".equals(awardBudget.getAwardBudgetTypeCode()) && StringUtils.isBlank(awardBudget.getComments())) {
+//            errorMap.putError("document.budget.comments", KeyConstants.ERROR_REQUIRED, "Comments(Comments)");
+//            valid = false;
+//        }
+//        GlobalVariables.getErrorMap().addToErrorPath("document");        
+//        GlobalVariables.getErrorMap().addToErrorPath("parentDocument");
+//        return valid;
+//    }
+
     /**
     *
     * Validate budget rates. 
@@ -417,7 +435,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
 
         retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
-        
+
+        if(!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
+            retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
+            retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
+        }
         if(retval) {
             processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
         }
