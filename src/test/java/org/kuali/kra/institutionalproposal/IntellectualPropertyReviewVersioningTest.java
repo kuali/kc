@@ -18,7 +18,6 @@ package org.kuali.kra.institutionalproposal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.service.VersionException;
