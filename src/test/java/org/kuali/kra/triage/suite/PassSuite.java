@@ -162,6 +162,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityTypeTest.class,
     org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeScheduleDayRuleTest.class,
+    org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleTest.class,
     org.kuali.kra.web.struts.action.AuditMapSorterTest.class,
     org.kuali.kra.meeting.AlternateForValuesFinderTest.class,
     org.kuali.kra.questionnaire.question.QuestionMaintenanceDocumentRuleTest.class,
