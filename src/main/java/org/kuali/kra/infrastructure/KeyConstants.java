@@ -616,6 +616,17 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_DAY = "error.committeeSchedule.day";
     public static final String ERROR_COMMITTEESCHEDULE_WEEKDAY = "error.committeeSchedule.weekday";
     
+    // Committee Actions Messages
+    public static final String ERROR_COMMITTEE_ACTION_GENERATE_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED = "error.committee.action.generate.batch.correspondence.type.code.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_GENERATE_START_DATE_NOT_SPECIFIED = "error.committee.action.generate.start.date.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_GENERATE_END_DATE_NOT_SPECIFIED = "error.committee.action.generate.end.date.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_GENERATE_END_DATE_BEFORE_START_DATE = "error.committee.action.generate.end.date.before.start.date";
+    public static final String ERROR_COMMITTEE_ACTION_HISTORY_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED = "error.committee.action.history.batch.correspondence.type.code.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_HISTORY_START_DATE_NOT_SPECIFIED = "error.committee.action.history.start.date.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_NOT_SPECIFIED = "error.committee.action.history.end.date.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_BEFORE_START_DATE = "error.committee.action.history.end.date.before.start.date";
+    public static final String ERROR_COMMITTEE_ACTION_PRINT_TYPE_NOT_SPECIFIED = "error.committee.action.print.type.not.specified";
+    
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
    
