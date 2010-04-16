@@ -1077,6 +1077,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.core.Budget">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
@@ -1104,6 +1106,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
 		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>

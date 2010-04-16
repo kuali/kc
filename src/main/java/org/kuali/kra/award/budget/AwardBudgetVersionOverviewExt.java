@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.award.budget;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 
 /**
@@ -34,7 +37,9 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     
     private AwardBudgetStatus awardBudgetStatus; 
     private AwardBudgetType awardBudgetType; 
-    
+    private String description;
+    private String budgetInitiator;
+
     public AwardBudgetVersionOverviewExt() { 
         super();
     } 
@@ -96,4 +101,28 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
         this.obligatedAmount = obligatedChangeAmount;
     }
  
+    public String getOnOffCampusFlagDescription() {
+        return getBudgetSummaryService().getOnOffCampusFlagDescription(getOnOffCampusFlag());
+    }
+
+    public BudgetSummaryService getBudgetSummaryService() {
+        return getService(BudgetSummaryService.class);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBudgetInitiator() {
+        return budgetInitiator;
+    }
+
+    public void setBudgetInitiator(String budgetInitiator) {
+        this.budgetInitiator = budgetInitiator;
+    }
+
 }

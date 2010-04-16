@@ -2777,6 +2777,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public String getAwardIdAccount() {
+        if (awardIdAccount == null) {
+            if (StringUtils.isNotBlank(getAccountNumber())) {
+                awardIdAccount = getAwardNumber() + ":" + getAccountNumber();
+            } else {
+                awardIdAccount = getAwardNumber() + ":";
+            }
+        }
         return awardIdAccount;
     }
 
