@@ -31,7 +31,8 @@
 		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.budget.awardBudgetStatusCode" value='<bean:write name="KualiForm" property="document.budget.awardBudgetStatusCode"/>' />
 	</c:if> 
 </c:forEach>
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.totalCostLimit" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
+ <c:set var="useRiceAuditMode" value="true" scope="request" />
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.totalCostLimit,document.budget.comments" auditCluster="budgetParametersOverviewWarnings,awardBudgetTypeAuditErrors" tabAuditKey="document.budget.totalCostLimit,document.budget.comments">
 	<div class="tab-container" align="center">
     	<h3>Budget Overview</h3>
         <table cellpadding=0 cellspacing=0 summary="">
