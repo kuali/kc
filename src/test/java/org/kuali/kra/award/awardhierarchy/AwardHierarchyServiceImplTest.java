@@ -18,16 +18,18 @@ package org.kuali.kra.award.awardhierarchy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KraTestBase;
 
-public class AwardHierarchyServiceImplTest {
+public class AwardHierarchyServiceImplTest extends KraTestBase {
     AwardHierarchyServiceImpl service;
     private AwardHierarchyTestHelper helper;
 
     private AwardHierarchy rootNode;
     private static final String NEXT_AWARD_NUMBER_FOR_NEW_HIERARCHY = "100002-00001";
 
-    @Before
-    public void setUp() {
+    @Before  
+    public void setUp() throws Exception {
+        super.setUp();
         service = new AwardHierarchyServiceImpl();
         service.setAwardNumberService(new AwardHierarchyTestHelper.MockAwardNumberService());
         service.setBusinessObjectService(new AwardHierarchyTestHelper.MockBusinessObjectService());
@@ -38,9 +40,10 @@ public class AwardHierarchyServiceImplTest {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         helper = null;
-        service = null;        
+        service = null;     
+        super.tearDown();
     }
 
     @Test

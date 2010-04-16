@@ -15,19 +15,31 @@
  */
 package org.kuali.kra.award.document.authorization;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the Award Document Authorizer.  It determines the edit modes and
@@ -130,12 +142,55 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return false;
     }
     
+    private boolean doesAwardHierarchyContainFinalChildren(AwardHierarchy currentAward,  Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+        for(AwardHierarchy child : currentAward.getChildren()) {
+            AwardHierarchyNode childInfo = awardHierarchyNodes.get(child.getAwardNumber());
+            if(childInfo.isAwardDocumentFinalStatus()) {
+                return true;
+            }
+            doesAwardHierarchyContainFinalChildren(childInfo, awardHierarchyNodes);
+        }
+        
+        return false;
+    }
+    
+    private boolean isCurrentAwardTheFirstVersion(Award currentAward) {
+        ActivePendingTransactionsService activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
+        Award activeAward = activePendingTransactionsService.getActiveAwardVersion(currentAward.getAwardNumber());
+        if(activeAward != null && activeAward.getSequenceNumber().equals(currentAward.getSequenceNumber())) {
+            return true;
+        }
+        
+        return false;
+    }
     /**
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
     protected boolean canCancel(Document document, Person user) {
-        return canEdit(document, user);
+        if(!canEdit(document, user)) {
+            return false;
+        }
+        
+        boolean canCancel = true;
+        
+        DocumentHeader docHeader = document.getDocumentHeader();
+        KualiWorkflowDocument workflowDoc = docHeader.getWorkflowDocument();
+        if(workflowDoc.stateIsSaved()) {  
+            //User cannot cancel if there are FINAL child awards and if this document is the first version 
+            //which could possibly happen after an AH is copied
+            AwardDocument awardDocument = (AwardDocument) document;
+            AwardHierarchyService awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+            
+            Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+            Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
+            AwardHierarchy currentAward = awardHierarchyItems.get(awardDocument.getAward().getAwardNumber());
+            if(currentAward.isRootNode() && isCurrentAwardTheFirstVersion(awardDocument.getAward())) { 
+                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                canCancel = !doesAwardHierarchyContainFinalChildren(currentAward, awardHierarchyNodes);
+            }
+        }
+        return canCancel;
     }
     
     /**
