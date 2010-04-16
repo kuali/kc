@@ -20,11 +20,13 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -39,6 +41,7 @@ import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -47,20 +50,25 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
-public class BudgetActionsAction extends BudgetAction {
+public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
     private static final String XML_FILE_EXTENSION = "xml";
     private static final String CONTENT_TYPE_PDF = "application/pdf";
@@ -323,12 +331,24 @@ public class BudgetActionsAction extends BudgetAction {
      * @throws Exception
      */
     @Override
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-        boolean success = isValidForSubmission(awardBudgetDocument);    
-        getAwardBudgetService().processSubmision(awardBudgetDocument);   
-        return super.route(mapping, form, request, response);
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
+        boolean success = isValidForSubmission(awardBudgetDocument);
+        ((AwardBudgetForm) form).setAuditActivated(true);
+        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
+        if (auditPassed) {
+            getAwardBudgetService().processSubmision(awardBudgetDocument);
+            return super.route(mapping, form, request, response);
+        }
+        else {
+            GlobalVariables.getErrorMap().clear(); 
+            GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
     }
+
     private AwardBudgetService getAwardBudgetService() {
         return KraServiceLocator.getService(AwardBudgetService.class);
     }
@@ -367,13 +387,16 @@ public class BudgetActionsAction extends BudgetAction {
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-        boolean success = isValidForSubmission(awardBudgetDocument);
+       // boolean success = isValidForSubmission(awardBudgetDocument);
+        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
         getAwardBudgetService().processDisapproval(awardBudgetDocument);   
         return super.disapprove(mapping, form, request, response);
     }
+    
     private boolean isValidForSubmission(AwardBudgetDocument awardBudgetDocument) {
-        return false;
+       return false;
     }
+
     /**
      * route the document using the document service
      *
@@ -395,4 +418,16 @@ public class BudgetActionsAction extends BudgetAction {
         return false;
     }
     
+    /** {@inheritDoc} */
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+    }
+
+    /** {@inheritDoc} */
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+    }
+
 }
