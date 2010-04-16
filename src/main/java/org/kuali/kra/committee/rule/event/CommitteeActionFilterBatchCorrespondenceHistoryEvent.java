@@ -17,19 +17,18 @@ package org.kuali.kra.committee.rule.event;
 
 import java.sql.Date;
 
-import org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
+import org.kuali.kra.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.kns.document.Document;
 
-public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionGenerateBatchCorrespondenceRule> {
-
-    public static final String MSG = "generate batch correspondence";
+public class CommitteeActionFilterBatchCorrespondenceHistoryEvent extends CommitteeActionsEventBase<CommitteeActionFilterBatchCorrespondenceHistoryRule> {
+    public static final String MSG = "filter batch correspondence history";
     
     String batchCorrespondenceTypeCode;
     Date startDate;
     Date endDate;
     
-    public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
+    public CommitteeActionFilterBatchCorrespondenceHistoryEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
             Date startDate, Date endDate) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
@@ -40,7 +39,7 @@ public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeAc
     @SuppressWarnings("unchecked")
     @Override
     public BusinessRuleInterface getRule() {
-        return new CommitteeActionGenerateBatchCorrespondenceRule();
+        return new CommitteeActionFilterBatchCorrespondenceHistoryRule();
     }
 
     public String getBatchCorrespondenceTypeCode() {
