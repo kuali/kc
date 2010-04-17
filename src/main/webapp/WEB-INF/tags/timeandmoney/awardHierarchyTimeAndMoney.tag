@@ -240,9 +240,19 @@
         </li> --%>
     </ul>
    </div> 
-    </div>
+    </div>  
     
     <input type="hidden" id = "document.rootAwardNumber" name="document.rootAwardNumber" value="${KualiForm.document.rootAwardNumber}">
-	
+ 
+ 	<c:choose>
+	    <c:when test="${KualiForm.document.award != null}">
+	    	<input type="hidden" id = "currentAwardNumber" name="currentAwardNumber" value="${KualiForm.document.award.awardNumber}">
+	    	<input type="hidden" id = "currentSeqNumber" name="currentSeqNumber" value="${KualiForm.document.award.sequenceNumber}">
+		</c:when>
+		<c:otherwise>
+		   	<input type="hidden" id = "currentAwardNumber" name="currentAwardNumber" value="" >
+		   	<input type="hidden" id = "currentSeqNumber" name="currentSeqNumber" value="" >
+		</c:otherwise>
+	</c:choose>
     </div>
 </kul:tab>

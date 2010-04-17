@@ -37,6 +37,7 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.ServiceHelper;
@@ -597,16 +598,29 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * 
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
-    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes) {
+    public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber) {
         AwardHierarchyNode awardHierarchyNode;
+        String tmpAwardNumber = null;
         
         for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
+            tmpAwardNumber = awardHierarchy.getValue().getAwardNumber();
             awardHierarchyNode = new AwardHierarchyNode();
-            awardHierarchyNode.setAwardNumber(awardHierarchy.getValue().getAwardNumber());
+            awardHierarchyNode.setAwardNumber(tmpAwardNumber);
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
             
-            Award award = activePendingTransactionsService.getActiveAwardVersion(awardHierarchy.getValue().getAwardNumber());
+            Award award = null;
+            VersionHistory pendingVersionHistory = null;
+            if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(tmpAwardNumber, currentAwardNumber)) {
+                pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, currentAwardNumber, currentSequenceNumber);
+                if(pendingVersionHistory != null) {
+                    award = (Award) pendingVersionHistory.getSequenceOwner();
+                }
+            }
+            if(award == null) {
+                award = activePendingTransactionsService.getActiveAwardVersion(tmpAwardNumber);
+            }
+
             AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
             
             awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
@@ -635,9 +649,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             }
             
             awardHierarchyNode.setAwardDocumentNumber(documentNumber);
+            if(pendingVersionHistory != null) {
+                awardDocumentFinalStatus = true;   
+            }
             awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
-        }
+        }  
     }
 
     /**

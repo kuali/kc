@@ -18,7 +18,6 @@ package org.kuali.kra.service;
 import java.text.ParseException;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 
 /**
  * 
@@ -35,7 +34,7 @@ public interface AwardHierarchyUIService {
      * @return
      * @throws ParseException
      */
-    public String getRootAwardNode(String awardNumber) throws ParseException;
+    public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException;
     
     /**
      * 
@@ -44,7 +43,7 @@ public interface AwardHierarchyUIService {
      * @param researchAreaCode
      * @return
      */
-    public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException;
+    public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException;
     
     
     /**

@@ -32,6 +32,10 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
 
     public BusinessObjectService getBusinessObjectService() { 
         return bos;
+    }
+
+    public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName, String sequenceNumber) {
+        return null;
     }   
     
 }

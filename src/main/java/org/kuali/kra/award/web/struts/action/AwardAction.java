@@ -138,15 +138,18 @@ public class AwardAction extends BudgetParentActionBase {
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         ActionForward forward;
+        cleanUpUserSession();
         forward = handleDocument(mapping, form, request, response, awardForm);
         
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
-
         return forward;
     }
 
+    protected void cleanUpUserSession() {
+        GlobalVariables.getUserSession().removeObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
+    }
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -170,12 +173,15 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected void populateAwardHierarchy(ActionForm form) {
         AwardForm awardForm = (AwardForm)form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        
         List<String> order = new ArrayList<String>();
         AwardHierarchyBean helperBean = awardForm.getAwardHierarchyBean();
         AwardHierarchy rootNode = helperBean.getRootNode();
         Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
         Map<String,AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
-        getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap);
+        Award currentAward = awardDocument.getAward();
+        getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         awardForm.setOrder(order);

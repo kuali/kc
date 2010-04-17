@@ -32,7 +32,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
-import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -181,13 +180,13 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             //which could possibly happen after an AH is copied
             AwardDocument awardDocument = (AwardDocument) document;
             AwardHierarchyService awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
-            
+            Award currentAward = awardDocument.getAward();
             Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
             Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
-            AwardHierarchy currentAward = awardHierarchyItems.get(awardDocument.getAward().getAwardNumber());
-            if(currentAward.isRootNode() && isCurrentAwardTheFirstVersion(awardDocument.getAward())) { 
-                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
-                canCancel = !doesAwardHierarchyContainFinalChildren(currentAward, awardHierarchyNodes);
+            AwardHierarchy currentAwardNode = awardHierarchyItems.get(currentAward.getAwardNumber());
+            if(currentAwardNode.isRootNode() && isCurrentAwardTheFirstVersion(currentAward)) { 
+                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
+                canCancel = !doesAwardHierarchyContainFinalChildren(currentAwardNode, awardHierarchyNodes);
             }
         }
         return canCancel;
