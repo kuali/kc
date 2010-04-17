@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -482,6 +483,40 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
 
+        syncProposalPersons(childProposal, hierarchyProposal, pi);
+        
+        businessObjectService.save(childProposal);
+        LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
+        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType(), StringUtils.equals( childProposal.getProposalNumber(),
+                hierarchyProposal.getHierarchyOriginatingChildProposalNumber() ));
+        if (hierarchyBudget.getEndDate().after(hierarchyProposal.getRequestedEndDateInitial())) {
+            hierarchyProposal.setRequestedEndDateInitial(hierarchyBudget.getEndDate());
+        }
+        if (childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial())) {
+            hierarchyProposal.setRequestedEndDateInitial(childProposal.getRequestedEndDateInitial());
+        }
+        try {
+            documentService.saveDocument(hierarchyBudgetDocument);
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException(e);
+        }
+        LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
+        
+        return true;
+    }
+    
+    private void syncProposalPersons(DevelopmentProposal childProposal, DevelopmentProposal hierarchyProposal, ProposalPerson pi) {
+        //keep track of persons we have removed so we can fix/remove attachments later
+        List<ProposalPerson> removedPersons = new ArrayList<ProposalPerson>();
+        List<ProposalPerson> persons = hierarchyProposal.getProposalPersons();
+        for (int i=persons.size()-1; i>=0; i--) {
+            if (StringUtils.equals(childProposal.getProposalNumber(), persons.get(i).getHierarchyProposalNumber())) {
+                removedPersons.add(persons.get(i));
+                persons.remove(i);
+            }
+        }
+
         // copy ProposalPersons
         int firstIndex, lastIndex;
         ProposalPerson firstInstance;
@@ -509,27 +544,36 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 }
                 hierarchyProposal.addProposalPerson(newPerson);
+                
+                //if we removed this person earlier, check hierarchy parent for attachments
+                int indexOfRemovedPerson = removedPersons.indexOf(newPerson);
+                if (indexOfRemovedPerson != -1) {
+                    ProposalPerson oldPerson = removedPersons.get(indexOfRemovedPerson);
+                    List<ProposalPersonBiography> currentBiographies = hierarchyProposal.getPropPersonBios();
+                    for (ProposalPersonBiography bio : currentBiographies) {
+                        if (StringUtils.equalsIgnoreCase(bio.getPersonId(), newPerson.getPersonId())
+                                && oldPerson.getProposalPersonNumber().equals(bio.getProposalPersonNumber())) {
+                            //bio for the person we removed and we are readding them so update the proposal person number
+                            loadBioContent(bio);
+                            bio.setProposalPersonNumber(newPerson.getProposalPersonNumber());
+                        }
+                    }
+                }
             }
         }
-        businessObjectService.save(childProposal);
-        LOG.info(String.format("***Beginning Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
-        synchronizeChildBudget(hierarchyBudget, childBudget, childProposal.getProposalNumber(), childProposal.getHierarchyBudgetType(), StringUtils.equals( childProposal.getProposalNumber(),
-                hierarchyProposal.getHierarchyOriginatingChildProposalNumber() ));
-        if (hierarchyBudget.getEndDate().after(hierarchyProposal.getRequestedEndDateInitial())) {
-            hierarchyProposal.setRequestedEndDateInitial(hierarchyBudget.getEndDate());
-        }
-        if (childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial())) {
-            hierarchyProposal.setRequestedEndDateInitial(childProposal.getRequestedEndDateInitial());
-        }
-        try {
-            documentService.saveDocument(hierarchyBudgetDocument);
-        }
-        catch (WorkflowException e) {
-            throw new ProposalHierarchyException(e);
-        }
-        LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
         
-        return true;
+        //now remove any other attachments for the persons we removed
+        for (ProposalPerson removedPerson : removedPersons) {
+            List<ProposalPersonBiography> currentBiographies = hierarchyProposal.getPropPersonBios();
+            ListIterator<ProposalPersonBiography> iter = currentBiographies.listIterator();
+            while (iter.hasNext()) {
+                ProposalPersonBiography bio = iter.next();
+                if (StringUtils.equalsIgnoreCase(bio.getPersonId(), removedPerson.getPersonId())
+                        && removedPerson.getProposalPersonNumber().equals(bio.getProposalPersonNumber())) {
+                    iter.remove();
+                }
+            }
+        }        
     }
     
     private void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode, boolean isOriginatingChildBudget )
@@ -1067,13 +1111,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (int i=narratives.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, narratives.get(i).getHierarchyProposalNumber())) {
                 narratives.remove(i);
-            }
-        }
-
-        List<ProposalPerson> persons = parentProposal.getProposalPersons();
-        for (int i=persons.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, persons.get(i).getHierarchyProposalNumber())) {
-                persons.remove(i);
             }
         }
         
