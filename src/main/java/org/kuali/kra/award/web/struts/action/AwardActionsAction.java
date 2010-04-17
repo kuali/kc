@@ -32,6 +32,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
@@ -517,10 +518,12 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardForm awardForm = (AwardForm)form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
         int activeHierarchyObjectIndex = getActiveHierarchyObjectIndex(request);
         int loopIndex = 0;
+        Award currentAward = awardDocument.getAward();
         
-        for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){
+        for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){ 
             List<String> order = new ArrayList<String>();
             
             if(loopIndex == activeHierarchyObjectIndex-1) {
@@ -531,7 +534,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             if(StringUtils.isNotBlank(temp.getAwardNumber1())){
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
-                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     sb.append(awardHierarchyNodes.get(str).getAwardNumber());
@@ -545,7 +548,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 order = new ArrayList<String>();
                 Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
                 Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
-                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
                 StringBuilder sb = new StringBuilder();
                 for(String str:order){
                     AwardHierarchyNode tempAwardNode = awardHierarchyNodes.get(str);

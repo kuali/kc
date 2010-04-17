@@ -64,8 +64,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * 
      * @see org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
      */
-    public String getRootAwardNode(String awardNumber) throws ParseException{
-        AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(awardNumber);        
+    public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException{
+        AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber).get(awardNumber);        
         return TAG_H3_START + buildCompleteRecord(awardNumber, aNode) + TAG_H3_END; 
     }
 
@@ -114,7 +114,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     public String getAwardRecord(Award award) throws ParseException{
         
         String awardNumber = award.getAwardNumber();
-        return buildCompleteRecord(awardNumber, getAwardHierarchyNodes(award.getAwardNumber()).get(awardNumber));
+        return buildCompleteRecord(awardNumber, getAwardHierarchyNodes(award.getAwardNumber(), award.getAwardNumber(), award.getSequenceNumber().toString()).get(awardNumber));
     }
 
     /*
@@ -141,10 +141,10 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         }
     }
     
-     public String getSubAwardHierarchiesForTreeView(String awardNumber) throws ParseException {
+     public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
         String awardHierarchy = TAG_H3_START;        
         for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
-            AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber).get(ah.getAwardNumber());
+            AwardHierarchyNode aNode = getAwardHierarchyNodes(awardNumber, currentAwardNumber, currentSequenceNumber).get(ah.getAwardNumber());
             awardHierarchy = awardHierarchy + buildCompleteRecord(ah.getAwardNumber(), aNode) + TAG_H3_END + TAG_H3_START;
         }
         awardHierarchy = awardHierarchy.substring(0, awardHierarchy.length() - 4);        
@@ -183,14 +183,14 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return true;
     }
     
-    private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber){
+    private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber, String currentAwardNumber, String currentSequenceNumber){
         if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase(LAST_5_CHARS_OF_ROOT, awardNumber.substring(8))){            
             if(canUseExistingTMSessionObject(awardNumber)){ 
                 awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
                         GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes();            
             }else{                
                 Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardNumber, new ArrayList<String>());
-                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes);
+                awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAwardNumber, currentSequenceNumber);
             }
         }
         return awardHierarchyNodes;

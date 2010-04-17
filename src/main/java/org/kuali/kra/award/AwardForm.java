@@ -179,6 +179,9 @@ public class AwardForm extends BudgetVersionFormBase
     
     private String newProposalBudgetPeriods; 
     
+    private String currentAwardNumber;
+    private String currentSeqNumber;
+    
     /**
      *
      * Constructs a AwardForm.
@@ -889,14 +892,14 @@ public class AwardForm extends BudgetVersionFormBase
 
     public String getAwardHierarchy() throws ParseException {
         awardHierarchy = "";
-        if(StringUtils.isBlank(awardNumber)){
+        if(StringUtils.isBlank(awardNumber)){ 
             awardNumber = this.getRootAwardNumber();
         }
         
         if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber, currentAwardNumber, currentSeqNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
-            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber, currentAwardNumber, currentSeqNumber));  
         }
         
         return awardHierarchy;
@@ -1314,6 +1317,22 @@ public class AwardForm extends BudgetVersionFormBase
     
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
+    }
+
+    public String getCurrentAwardNumber() {
+        return currentAwardNumber;
+    }
+
+    public void setCurrentAwardNumber(String currentAwardNumber) {
+        this.currentAwardNumber = currentAwardNumber;
+    }
+
+    public String getCurrentSeqNumber() {
+        return currentSeqNumber;
+    }
+
+    public void setCurrentSeqNumber(String currentSeqNumber) {
+        this.currentSeqNumber = currentSeqNumber;
     }
 
 }
