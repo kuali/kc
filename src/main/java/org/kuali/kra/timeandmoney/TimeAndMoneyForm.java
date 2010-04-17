@@ -41,8 +41,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -74,6 +72,25 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private String controlForAwardHierarchyView;
     private String currentOrPendingView;
     
+    private String currentAwardNumber;
+    private String currentSeqNumber;
+    
+    public String getCurrentAwardNumber() {
+        return currentAwardNumber;
+    }
+
+    public void setCurrentAwardNumber(String currentAwardNumber) {
+        this.currentAwardNumber = currentAwardNumber;
+    }
+
+    public String getCurrentSeqNumber() {
+        return currentSeqNumber;
+    }
+
+    public void setCurrentSeqNumber(String currentSeqNumber) {
+        this.currentSeqNumber = currentSeqNumber;
+    }
+
     public TimeAndMoneyForm() {
         super(); 
         this.setDocument(new TimeAndMoneyDocument());
@@ -427,17 +444,15 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     }
     
     public String getAwardHierarchy() throws ParseException {
-        TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
-
         awardHierarchy = "";
         if(StringUtils.isBlank(awardNumber)){
             awardNumber = this.getTimeAndMoneyDocument().getRootAwardNumber();
         }
         
         if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("E")){
-            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getSubAwardHierarchiesForTreeView(awardNumber, currentAwardNumber, currentSeqNumber));
         } else if (awardNumber!=null && StringUtils.isNotBlank(addRA) && addRA.equals("N")){
-            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber));
+            setAwardHierarchy(getAwardHierarchyUIService().getRootAwardNode(awardNumber, currentAwardNumber, currentSeqNumber));
         }
         return awardHierarchy;
     }

@@ -28,7 +28,7 @@
 			</span>
         </h3>        
 		    
-	<table style="border: medium none ; border-collapse: collapse;">  
+	<table style="border: medium none ; border-collapse: collapse;">    
 	<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
@@ -54,7 +54,10 @@
 		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
 		${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
 	</c:forEach> 
+	
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
+    <input type="hidden" id ="currentAwardNumber" name="document.awardList[0].awardNumber" value="${KualiForm.document.awardList[0].awardNumber}">
+    <input type="hidden" id ="currentSeqNumber" name="document.awardList[0].sequenceNumber" value="${KualiForm.document.awardList[0].sequenceNumber}">
     <input type="hidden" id = "selectedAwardNumber" name="selectedAwardNumber" value="${(param.selectedAwardNumber == '' or param.selectedAwardNumber == null) ? selectedAwardNumber : param.selectedAwardNumber}">
 	
 	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">

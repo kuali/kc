@@ -364,7 +364,7 @@ public class AwardHomeAction extends AwardAction {
         
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyNodes())){
             VersionHistory foundPending = findPendingVersion(award);
-            
+            cleanUpUserSession();
             if(foundPending != null) {
                 Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
