@@ -49,7 +49,7 @@
         type: 'GET',
         dataType: 'html',
         cache: false,
-        data:'awardNumber=&addRA=N&rootAwardNumber=' + $("#rootAwardNumber").attr("value"),
+        data:'awardNumber=&addRA=N&rootAwardNumber=' + $("#rootAwardNumber").attr("value") + '&currentAwardNumber='+ $("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ $("#currentSeqNumber").attr("value"),
         async:false,
         timeout: 1000,
         error: function(){

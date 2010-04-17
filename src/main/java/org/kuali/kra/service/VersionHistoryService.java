@@ -53,4 +53,12 @@ public interface VersionHistoryService {
      * @return
      */
     List<VersionHistory> loadVersionHistory(Class<? extends SequenceOwner> klass, String versionName);
+    
+    /**
+     * Find the pending VersionHistory for a given SequenceOwner type and version name
+     * @param klass
+     * @param versionName
+     * @return
+     */
+    VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName, String sequenceNumber);
 }

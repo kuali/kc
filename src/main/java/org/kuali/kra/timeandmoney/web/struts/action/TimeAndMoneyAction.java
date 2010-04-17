@@ -50,7 +50,6 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -380,8 +379,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         //perform this logic if active view
         }else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW)){
             timeAndMoneyForm.setOrder(new ArrayList<String>());
+            
+            Award tmpAward = getCurrentAward(doc);
             doc.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(doc.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
-            getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes());
+            if(tmpAward != null) {
+                getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
+            } else {
+                getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), null, null);
+            }
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -402,6 +407,19 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             }
         }
     }
+    
+    private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
+        Award tmpAward = timeAndMoneyDocument.getAward();
+        if(tmpAward == null) {
+            AwardDocument awardDocument = (AwardDocument) GlobalVariables.getUserSession().retrieveObject(Constants.DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD);
+            if(awardDocument != null) {
+                tmpAward = awardDocument.getAward();
+            }
+        }
+        
+        return tmpAward;
+    }
+    
     /**
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -416,10 +434,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
                 
         timeAndMoneyDocument.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, timeAndMoneyForm.getOrder()));
-        timeAndMoneyDocument.setAwardNumber(rootAwardNumber);
+        timeAndMoneyDocument.setAwardNumber(rootAwardNumber);  
         
-        getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes());
-        
+        Award tmpAward = getCurrentAward(timeAndMoneyDocument);
+        if(tmpAward != null) {
+            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
+        } else {
+            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null);
+        }
         GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
