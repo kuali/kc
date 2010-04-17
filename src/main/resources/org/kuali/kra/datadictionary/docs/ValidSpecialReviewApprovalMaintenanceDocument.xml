@@ -22,6 +22,7 @@
     
     
     <property name="documentTypeName" value="ValidSpecialReviewApprovalMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.rules.ValidSpecialReviewApprovalMaintenanceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
