@@ -195,8 +195,10 @@ public class MedusaServiceImpl implements MedusaService {
         Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", ip.getProposalId()));
         Collection<Award> awards = new ArrayList<Award>();
         for (AwardFundingProposal awardFunding : awardFundingProposals) {
-            awardFunding.refreshReferenceObject("award");
-            addOnlyNewestAwardVersion(awards, awardFunding.getAward());
+            if (awardFunding.isActive()) {
+                awardFunding.refreshReferenceObject("award");
+                addOnlyNewestAwardVersion(awards, awardFunding.getAward());
+            }
         }
         if (StringUtils.isNotBlank(ip.getCurrentAwardNumber()) && ip.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
             Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", ip.getCurrentAwardNumber()));
@@ -249,8 +251,10 @@ public class MedusaServiceImpl implements MedusaService {
         Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("awardId", award.getAwardId()));
         Collection<InstitutionalProposal> ips = new ArrayList<InstitutionalProposal>();
         for (AwardFundingProposal awardFunding : awardFundingProposals) {
-            awardFunding.refreshReferenceObject("proposal");
-            addOnlyNewerIpVersion(ips, awardFunding.getProposal());
+            if (awardFunding.isActive()) {
+                awardFunding.refreshReferenceObject("proposal");
+                addOnlyNewerIpVersion(ips, awardFunding.getProposal());
+            }
         }
         Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
         for (InstitutionalProposal proposal : curAwardIps) {
