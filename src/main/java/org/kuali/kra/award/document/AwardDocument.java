@@ -235,6 +235,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         if(newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
+        
+        //reset Award List with updated document - in some scenarios the change in status is not reflected.
+        for(Award award : awardList) {
+            award.setAwardDocument(this);
+        }
     }
     
     protected void init() {
