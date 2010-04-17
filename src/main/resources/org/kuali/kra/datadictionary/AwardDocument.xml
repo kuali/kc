@@ -91,8 +91,8 @@
       </list>  
     </property>
     
-    <property name="workflowAttributes">
-    	<ref bean="AwardDocument-workflowAttributes"/>
+    <property name="workflowProperties">
+    	<ref bean="AwardDocument-workflowProperties"/>
     </property>
     
     <property name="attributes">
@@ -109,6 +109,29 @@
   <bean id="AwardDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
   
-  <bean id="AwardDocument-workflowAttributes" parent="AwardDocument-workflowAttributes-parentBean"/>
-  <bean id="AwardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes" />
+
+  <bean id="AwardDocument-workflowProperties" parent="AwardDocument-workflowProperties-parentBean"/>
+  <bean id="AwardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="awardList.awardNumber"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.sequenceNumber"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.awardStatus.description"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.awardStatus.statusCode"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.awardTypeCode"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.activityTypeCode"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.leadUnit.unitNumber"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.projectPersons"/>
+			  <bean parent="WorkflowProperty" p:path="awardList.projectPersons.units"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
 </beans>
