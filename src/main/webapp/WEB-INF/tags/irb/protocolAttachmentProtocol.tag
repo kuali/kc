@@ -21,7 +21,7 @@
 <c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 
-<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(attachmentProtocols)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
+<kul:tab tabTitle="Protocol Attachments" tabItemCount="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols)}" defaultOpen="false" tabErrorKey="attachmentsHelper.newAttachmentProtocol.*" transparentBackground="true" tabAuditKey="document.protocolList[0].attachmentProtocols*">
 	<div class="tab-container" align="center">
    		<kra:permission value="${modify}">
 	   		<h3>
@@ -176,7 +176,11 @@
 		</kra:permission>
 		
 		<c:forEach var="attachmentProtocol" items="${attachmentProtocols}" varStatus="itrStatus">
-			<kra:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		  <c:choose>
+		    <c:when test="${attachmentProtocol.active}">
+		             <c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3'}" />
+		    
+		    			<kra:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -290,6 +294,9 @@
 			              			<html:file property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].newFile" size="50" />
 			           			</div>
 			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
+			           			   <c:if test="${attachmentProtocol.documentStatusCode == '3'}">
+			           			      <font color="red">Deleted -&nbsp</font>
+			           			   </c:if>
 			              			${attachmentProtocol.file.name}
 			           			</div>
 			           			
@@ -335,16 +342,18 @@
 									<html:image property="methodToCall.viewAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
-									<kra:permission value="${modify}">
+									<kra:permission value="${KualiForm.attachmentsHelper.modifyAttachments}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											alt="Replace Protocol Attachment"
 											onclick="document.getElementById('attachmentProtocolFile${itrStatus.index}').style.display = 'block';
 											document.getElementById('attachmentProtocolFileName${itrStatus.index}').style.display = 'none';
 											return false;"/>
-										<html:image property="methodToCall.deleteAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-											alt="Delete Protocol Attachment"/>
+									    <c:if test="${modify}">
+										    <html:image property="methodToCall.deleteAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
+											    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+											    alt="Delete Protocol Attachment"/>
+			           			        </c:if>											
 									</kra:permission>
 								</div>
 							</td>
@@ -352,6 +361,20 @@
          			</table>
          		</div>
          	</kra:innerTab>
+		    
+		    
+		    </c:when>
+		    <c:otherwise>
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].typeCode}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].statusCode" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].statusCode}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactName" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].contactName}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactEmailAddress" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].contactEmailAddress}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactPhoneNumber" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].contactPhoneNumber}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].comments}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].description}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].fileId" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].fileId}" />
+		    </c:otherwise>
+		  </c:choose>
 		</c:forEach>
      </div>		
 </kul:tab>

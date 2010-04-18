@@ -15,18 +15,21 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import javax.persistence.Transient;
+
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDao;
 
 /**
  * This class represents the Protocol Attachment Protocol.
  */
-public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implements TypedAttachment {
+public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "1";
@@ -41,16 +44,23 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     
     private String typeCode;
     private ProtocolAttachmentType type;
-    private Integer documentId;
     private String description;
-    
+    private String documentStatusCode;
+    private Integer attachmentVersion;
     private List<ProtocolAttachmentProtocol> versions;
+    
+    @Transient
+    private boolean active = true;
+    @Transient
+    private boolean changed = false;
+    
     
     /**
      * empty ctor to satisfy JavaBean convention.
      */
     public ProtocolAttachmentProtocol() {
         super();
+        attachmentVersion = 1;
     }
     
     /**
@@ -64,6 +74,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
      */
     public ProtocolAttachmentProtocol(final Protocol protocol) {
         super(protocol);
+        attachmentVersion = 1;
     }
     
     /**
@@ -183,16 +194,6 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
     }
     
     /** {@inheritDoc} */
-    public Integer getDocumentId() {
-        return this.documentId;
-    }
-    
-    /** {@inheritDoc} */
-    public void setDocumentId(Integer documentId) {
-        this.documentId = documentId;
-    }
-    
-    /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
@@ -222,8 +223,26 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
             this.versions = new ArrayList<ProtocolAttachmentProtocol>();
         }      
         this.versions.clear();
-        this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocol.class));
-        
+        // TODO : since this will be called by tag, so should not call service
+        //this.versions.addAll(KraServiceLocator.getService(ProtocolAttachmentService.class).getAttachmentsWithOlderFileVersions(this, ProtocolAttachmentProtocol.class));
+        // need this refresh here.  change and save will not update this list automatically.  not sure why ?
+        // this is still calling persistenceservice eventually
+        // probably do it in postsave
+        //this.getProtocol().refreshReferenceObject("attachmentProtocols");
+        for (ProtocolAttachmentProtocol attachment : this.getProtocol().getAttachmentProtocols()) {
+            if (attachment.getDocumentId().equals(this.getDocumentId())) {
+               this.versions.add(attachment);
+            }
+        }
+        if (this.versions.size() == 1) {
+            this.versions.clear();
+        }
+        Collections.sort(this.versions, new Comparator<ProtocolAttachmentProtocol>() {
+            public int compare(ProtocolAttachmentProtocol attachment1, ProtocolAttachmentProtocol attachment2) {
+                return attachment2.getUpdateTimestamp().compareTo(attachment1.getUpdateTimestamp());
+            }
+        });
+
         return this.versions;
     }
 
@@ -268,7 +287,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
         result = prime * result + ((contactPhoneNumber == null) ? 0 : contactPhoneNumber.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+//        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
         result = prime * result + ((statusCode == null) ? 0 : statusCode.hashCode());
         result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
         return result;
@@ -322,13 +341,13 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (documentId == null) {
-            if (other.documentId != null) {
-                return false;
-            }
-        } else if (!documentId.equals(other.documentId)) {
-            return false;
-        }
+//        if (documentId == null) {
+//            if (other.documentId != null) {
+//                return false;
+//            }
+//        } else if (!documentId.equals(other.documentId)) {
+//            return false;
+//        }
         if (statusCode == null) {
             if (other.statusCode != null) {
                 return false;
@@ -380,4 +399,63 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase implement
             return this.name;
         }
     }
+
+    public String getDocumentStatusCode() {
+        return documentStatusCode;
+    }
+
+    public void setDocumentStatusCode(String documentStatusCode) {
+        this.documentStatusCode = documentStatusCode;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (getDocumentStatusCode() == null || updateTimestamp == null || getUpdateTimestamp() == null
+                || isAttachmentUpdated()) {
+            super.setUpdateTimestamp(updateTimestamp);
+            // timestamp us updated after user, so setchanged to false.
+            setChanged(false);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (getDocumentStatusCode() == null || updateUser == null || getUpdateUser() == null  
+                || isAttachmentUpdated()) {
+            super.setUpdateUser(updateUser);
+        }
+    }
+
+    /*
+     * utility method to see if this attachment has been updated.
+     */
+    private boolean isAttachmentUpdated() {
+        return (("1".equals(getDocumentStatusCode()) || "3".equals(getDocumentStatusCode())) && isChanged());
+    }
+
+    public Integer getAttachmentVersion() {
+        return attachmentVersion;
+    }
+
+    public void setAttachmentVersion(Integer attachmentVersion) {
+        this.attachmentVersion = attachmentVersion;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+
 }

@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -191,6 +192,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 getBusinessObjectService().save(this);
             }
         }
+        // TODO : this is for testing, remove it later
+//        else if ("X".equals(statusChangeEvent.getNewRouteStatus())) {
+//            if (isAmendment()) {
+//                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+//            } else if (isRenewal()) {
+//                mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
+//            }
+//        }
     }
     
     /**
@@ -256,10 +265,22 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
          * TODO: We have to route the new protocol document here so
          * that it goes to the final state.
          */
-     
+        finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
     }
     
+    /*
+     * This method is to make the document status of the attachment protocol to "finalized" 
+     */
+    private void finalizeAttachmentProtocol(Protocol protocol) {
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+            attachment.setProtocol(protocol);
+            if ("1".equals(attachment.getDocumentStatusCode())) {
+                attachment.setDocumentStatusCode("2");
+            }
+        }
+    }
+
     private ProtocolVersionService getProtocolVersionService() {
         return KraServiceLocator.getService(ProtocolVersionService.class);
     }

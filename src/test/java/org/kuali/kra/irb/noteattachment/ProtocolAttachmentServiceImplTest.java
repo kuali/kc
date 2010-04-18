@@ -20,6 +20,8 @@ import static org.hamcrest.core.Is.is;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -27,6 +29,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -196,6 +199,73 @@ public class ProtocolAttachmentServiceImplTest {
         Assert.assertThat("Should be equal", gotPerson, is(person));
     }
     
+    @Test
+    public void testIsSharedFile() {
+        final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
+        ProtocolAttachmentPersonnel attachment = new ProtocolAttachmentPersonnel();
+        ProtocolAttachmentPersonnel attachment1 = new ProtocolAttachmentPersonnel();
+        final Collection attachments = new ArrayList();
+        attachments.add(attachment);
+        attachments.add(attachment1);
+        attachment.setFileId(1L);
+        this.context.checking(new Expectations() {
+            {
+                oneOf(boService).findMatching(ProtocolAttachmentPersonnel.class, Collections.singletonMap("fileId", 1L));
+                will(returnValue(attachments));
+            }
+        });
+        
+        final boolean isSharedFile = paService.isSharedFile(attachment);
+        
+        
+        Assert.assertTrue(isSharedFile);
+    }
+
+    @Test
+    public void testIsNewAttachment() {
+        final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
+        ProtocolAttachmentServiceImpl paService = new ProtocolAttachmentServiceImpl(boService, this.context.mock(ProtocolDao.class));
+        ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
+        Protocol protocol = createProtocol();
+        protocol.setSequenceNumber(1);
+        attachment.setProtocol(protocol);
+        attachment.setAttachmentVersion(1);
+        attachment.setDocumentId(1);
+        attachment.setProtocolNumber(protocol.getProtocolNumber());
+        attachment.setSequenceNumber(1);
+        final Collection attachments = new ArrayList();
+        final Map keyMap = new HashMap();
+        // the initial version of amendment & renewal need to do this
+        keyMap.put("protocolNumber", attachment.getProtocolNumber());
+        keyMap.put("sequenceNumber", attachment.getSequenceNumber() - 1);
+        keyMap.put("attachmentVersion", attachment.getAttachmentVersion());
+        keyMap.put("documentId", attachment.getDocumentId());
+        this.context.checking(new Expectations() {
+            {
+                oneOf(boService).findMatching(ProtocolAttachmentProtocol.class, keyMap);
+                will(returnValue(attachments));
+            }
+        });
+        
+        final boolean isSharedFile = paService.isNewAttachmentVersion(attachment);
+        
+        
+        Assert.assertTrue(isSharedFile);
+    }
+
+    
+    private Protocol createProtocol() {
+        Protocol protocol = new Protocol(){
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {}
+
+        };
+        protocol.setProtocolId(1L);
+        protocol.setProtocolNumber("0906000001");
+        return protocol;
+    }
+
     /**
      * placeholder method for testing saves.
      */

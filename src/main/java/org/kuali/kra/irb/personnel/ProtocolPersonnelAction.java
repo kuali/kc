@@ -20,7 +20,10 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,11 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 
 /**
  * The ProtocolPersonnelAction corresponds to the Personnel tab (web page).  It is
@@ -41,7 +48,7 @@ import org.kuali.kra.irb.ProtocolForm;
 public class ProtocolPersonnelAction extends ProtocolAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelAction.class);
-
+    private ProtocolAttachmentService protocolAttachmentService;
     /**
      * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
      */
@@ -222,4 +229,49 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return ((ProtocolForm) form).getDocument().getProtocol().getProtocolPersons();
     }
 
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        super.preSave(mapping, form, request, response);
+        Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
+        Map keyMap = new HashMap();
+        keyMap.put("protocolNumber", protocol.getProtocolNumber());
+        keyMap.put("sequenceNumber", protocol.getSequenceNumber());
+   
+        List<ProtocolAttachmentPersonnel> attachments = (List<ProtocolAttachmentPersonnel>)getBusinessObjectService().findMatching(ProtocolAttachmentPersonnel.class, keyMap);
+        List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
+        List<Long> attachmentIds = new ArrayList<Long>();
+        for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
+            if (attachment.getId() != null) {
+                attachmentIds.add(attachment.getId());
+            }
+        }
+        for (ProtocolAttachmentPersonnel attachment : attachments) {
+            if (!attachmentIds.contains(attachment.getId()) && !getProtocolAttachmentService().isSharedFile(attachment)) {
+                filesToDelete.add(attachment.getFile());
+            }
+        }
+        ((ProtocolForm) form).getAttachmentsHelper().setFilesToDelete(filesToDelete);
+    }
+
+    
+    private ProtocolAttachmentService getProtocolAttachmentService() {
+        if (protocolAttachmentService == null) {
+            protocolAttachmentService = KraServiceLocator.getService(ProtocolAttachmentService.class);
+        }
+        return protocolAttachmentService;
+    }
+
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        super.postSave(mapping, form, request, response);
+        if (!((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete());
+            ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
+            }
+
+    }
 }

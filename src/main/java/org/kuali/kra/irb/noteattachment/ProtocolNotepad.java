@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
@@ -237,4 +238,20 @@ public class ProtocolNotepad extends ProtocolAssociate {
             return o1.getEntryNumber().compareTo(o2.getEntryNumber());
         }     
     }
+    
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (updateTimestamp == null || getUpdateTimestamp() == null) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (updateUser == null || getUpdateUser() == null ) {
+            super.setUpdateUser(updateUser);
+        }
+    }
+
+
 }

@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
@@ -263,10 +264,19 @@ public class ProtocolMergeTest extends KraTestBase {
         pap = createProtocolAttachment(NAME_2);
         amendment.getAttachmentProtocols().add(pap);
         
+        ProtocolPerson person = createPerson(NAME_1);
+        person.setPersonId("1");
+        person.setProtocolPersonRoleId("1");
+        amendment.getProtocolPersons().add(person);
+        protocol.getProtocolPersons().add(person);
+
         ProtocolAttachmentPersonnel pal = createPersonnelAttachment(DESCRIPTION_1);
+        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
         amendment.getAttachmentPersonnels().add(pal);
+        person.getAttachmentPersonnels().add(pal);
         pal = createPersonnelAttachment(DESCRIPTION_2);
         amendment.getAttachmentPersonnels().add(pal);
+        person.getAttachmentPersonnels().add(pal);
         
         protocol.merge(amendment);
         
@@ -289,6 +299,7 @@ public class ProtocolMergeTest extends KraTestBase {
     private ProtocolAttachmentProtocol createProtocolAttachment(String name) {
         ProtocolAttachmentProtocol pap = new ProtocolAttachmentProtocol();
         pap.setContactName(name);
+        pap.setDocumentStatusCode("1");
         return pap;
     }
 

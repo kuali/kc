@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Class used for versioning protocol attachments.
@@ -57,6 +59,8 @@ public class ProtocolAttachmentVersioningUtility {
     private final DocumentService docService;
     
     private final ProtocolForm form;
+    private static final String ATTACHMENT_DELETED = "3";
+    private static final String ATTACHMENT_DRAFTED = "1";
     private ProtocolDocument newDocumentVersion;
     
     /**
@@ -122,7 +126,7 @@ public class ProtocolAttachmentVersioningUtility {
         
         this.addAttachment(toVersion);
         
-        this.finishVersionProcessing(true);
+        //this.finishVersionProcessing(true);
     }
     
     
@@ -146,10 +150,12 @@ public class ProtocolAttachmentVersioningUtility {
         if (toVersion.isNew()) {
             throw new IllegalArgumentException("the attachment to version is new " + toVersion);
         }
+        ProtocolAttachmentProtocol newAttachment = (ProtocolAttachmentProtocol) this.deleteAttachment(toVersion);
+        newAttachment.setDocumentStatusCode(ATTACHMENT_DELETED);
+        this.form.getDocument().getProtocol().getAttachmentProtocols().add(newAttachment);
         
-        this.deleteAttachment(toVersion);
 
-        this.finishVersionProcessing(true);
+//        this.finishVersionProcessing(true);
     }
     
     
@@ -170,7 +176,7 @@ public class ProtocolAttachmentVersioningUtility {
         //only need to version attachment protocols at the moment
         boolean createVersion = this.versionExstingAttachments(this.form.getDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
         
-        this.finishVersionProcessing(createVersion);     
+//        this.finishVersionProcessing(createVersion);     
     }
 
     /** 
@@ -181,21 +187,55 @@ public class ProtocolAttachmentVersioningUtility {
      * @param attachments the attachments.
      * @param type the class token for type of attachments (required for adding to generic Collection)
      */
-    private <T extends ProtocolAttachmentBase> boolean versionExstingAttachments(final Collection<T> attachments, final Class<T> type) {
+    private <T extends ProtocolAttachmentBase> boolean versionExstingAttachments(final Collection<T> attachments,
+            final Class<T> type) {
         assert attachments != null : "the attachments was null";
         assert type != null : "the type was null";
-        
+        List<T> attachmentProtocols = new ArrayList<T>();
         boolean createVersion = false;
         for (final T attachment : ProtocolAttachmentBase.filterExistingAttachments(attachments)) {
             final T persistedAttachment = this.notesService.getAttachment(type, attachment.getId());
-                
-            if (hasChanged(attachment.getFile(), persistedAttachment.getFile())) {
+
+            boolean isReplaceFile = hasChanged(attachment.getFile(), persistedAttachment.getFile());
+            if (attachment instanceof ProtocolAttachmentProtocol
+                    && ("2".equals(((ProtocolAttachmentProtocol) attachment).getDocumentStatusCode()) || "3"
+                            .equals(((ProtocolAttachmentProtocol) attachment).getDocumentStatusCode()))
+                    && (isReplaceFile || !attachment.equals(persistedAttachment))) {
                 createVersion = true;
-                //change the attachments file...when the doc is versioned the change will come w/ it
-                createFileVersionOnAttachment(attachment);
+                // change the attachments file...when the doc is versioned the change will come w/ it
+                if (ATTACHMENT_DELETED.equals(((ProtocolAttachmentProtocol) attachment).getDocumentStatusCode())
+                        && notesService.isNewAttachmentVersion((ProtocolAttachmentProtocol) attachment)) {
+                    ((ProtocolAttachmentProtocol) attachment).setDocumentStatusCode(ATTACHMENT_DRAFTED);
+                    ((ProtocolAttachmentProtocol) attachment).setChanged(true);
+                } else {
+
+                    attachmentProtocols.add(createFileVersionOnAttachment(attachment, isReplaceFile));
+                    restoreAttachment((ProtocolAttachmentProtocol) persistedAttachment, (ProtocolAttachmentProtocol) attachment);
+                }
+            } else if (ATTACHMENT_DRAFTED.equals(((ProtocolAttachmentProtocol) attachment).getDocumentStatusCode())
+                    && (isReplaceFile || !attachment.equals(persistedAttachment))) {
+                ((ProtocolAttachmentProtocol) attachment).setChanged(true);
             }
+
         }
+        attachments.addAll(attachmentProtocols);
+        // TODO : can't do this remove because it will delete "file", then subsequently the attachments reference this file
+        // attachments.removeAll(removeAttachmentProtocols);
         return createVersion;
+    }
+    
+    /*
+     * Since the finalized attachment should not be changed.  we can't remove it from attachments and then add the persisted one
+     * because there is complication of delete attachment also delete file, and subsequently all attachment that reference this file.
+     */
+    private void restoreAttachment(ProtocolAttachmentProtocol persistedAttachment, ProtocolAttachmentProtocol attachment) {
+        attachment.setComments(persistedAttachment.getComments());
+        attachment.setContactEmailAddress(persistedAttachment.getContactEmailAddress());
+        attachment.setContactName(persistedAttachment.getContactName());
+        attachment.setContactPhoneNumber(persistedAttachment.getContactPhoneNumber());
+        attachment.setFileId(persistedAttachment.getFileId());
+        attachment.setFile(persistedAttachment.getFile());
+        attachment.setDescription(persistedAttachment.getDescription());
     }
     
     /**
@@ -204,20 +244,35 @@ public class ProtocolAttachmentVersioningUtility {
      */
     private void addAttachment(ProtocolAttachmentBase attachment) {
         assert attachment != null : "the attachment is null";
-        
+        if (attachment instanceof ProtocolAttachmentProtocol) {
+            ((ProtocolAttachmentProtocol)attachment).setDocumentStatusCode(ATTACHMENT_DRAFTED);
+            attachment.setDocumentId(getNextDOcumentId(this.form.getDocument().getProtocol().getAttachmentProtocols()));
+        } else {
+            attachment.setDocumentId(getNextDOcumentId(this.form.getDocument().getProtocol().getAttachmentPersonnels()));
+        }
         this.form.getDocument().getProtocol().addAttachmentsByType(attachment);
     }
     
+    private int getNextDOcumentId(List<? extends ProtocolAttachmentBase> attachments) {
+        int nextDocumentId = 0;
+        for (ProtocolAttachmentBase attachment : attachments) {
+            if (attachment.getDocumentId() > nextDocumentId) {
+                nextDocumentId = attachment.getDocumentId();
+            }
+        }
+        return ++nextDocumentId;
+    }
     /**
      * Delete an attachment from the protocol.
      * @param attachment the attachment to delete.
      */
-    private void deleteAttachment(ProtocolAttachmentBase attachment) {
+    private ProtocolAttachmentBase deleteAttachment(ProtocolAttachmentBase attachment) {
         assert attachment != null : "the attachment is null";
         
-        this.createFileVersionOnAttachment(attachment);
+        ProtocolAttachmentBase newAttachment = this.createFileVersionOnAttachment(attachment, false);
         //FIXME: temp until I figure out how to display deletes
-        attachment.getFile().setName("DELETED VERSION - " + attachment.getFile().getName());
+        //attachment.getFile().setName("DELETED VERSION - " + attachment.getFile().getName());
+        return newAttachment;
     }
     
     /**
@@ -279,9 +334,42 @@ public class ProtocolAttachmentVersioningUtility {
             return false;
         }
                 
-        return !(persistedFile.equals(localFile));
+        return !isSameFile(persistedFile, localFile);
     }
     
+    /*
+     * file1.equals(file2) may have issue with getclass() comparison. sometimes class may be AttachmentFile
+     * some maybe Attachment$EnhancerCGLIB.  so retest equal with following for now.
+     */
+    private static boolean isSameFile(AttachmentFile obj, AttachmentFile other) {
+        if (!Arrays.equals(obj.getData(), other.getData())) {
+            return false;
+        } else {
+            if (obj.getId() != null && other.getId() != null && !obj.getId().equals(other.getId())) {
+                return false;
+            } else if (other.getId() == null) {
+                return false;
+            }
+        }
+        if (obj.getName() == null) {
+            if (other.getName() != null) {
+                return false;
+            }
+        }
+        else if (!obj.getName().equals(other.getName())) {
+            return false;
+        }
+        if (obj.getType() == null) {
+            if (other.getType() != null) {
+                return false;
+            }
+        }
+        else if (!obj.getType().equals(other.getType())) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Creates a version of an attachment's file. The act of versioning associates the passed in attachment with the new file.
      * 
@@ -290,21 +378,36 @@ public class ProtocolAttachmentVersioningUtility {
      * @return the attachment with the new file version
      * @throws VersionCreationExeption if unable to create a version
      */
-    private <T extends ProtocolAttachmentBase> T createFileVersionOnAttachment(final T attachment) {
+    private <T extends ProtocolAttachmentBase> T createFileVersionOnAttachment(final T attachment, boolean isReplaceFile) {
         assert attachment != null : "the attachment was null";
-        
+
         final AttachmentFile newVersion;
-        
+        final ProtocolAttachmentProtocol newAttachment;
+
         try {
-            newVersion = this.versionService.versionAssociate(attachment.getFile());
-        } catch (final VersionException e) {
+            if (isReplaceFile) {
+                newVersion = this.versionService.versionAssociate(attachment.getFile());
+            } else {
+                newVersion = null;
+            }
+            newAttachment = (ProtocolAttachmentProtocol) ObjectUtils.deepCopy(attachment);
+            // newAttachment.setSequenceNumber(newAttachment.getSequenceNumber()+1);
+        }
+        catch (final VersionException e) {
             throw new VersionCreationExeption(e);
         }
-        
-        attachment.setFile(newVersion);
-        attachment.setFileId(null);
-        
-        return attachment;
+
+        if (isReplaceFile) {
+            newAttachment.setFile(newVersion);
+            newAttachment.setFileId(null);
+        }
+        newAttachment.setUpdateTimestamp(null);
+        newAttachment.setUpdateUser(null);
+        newAttachment.setDocumentStatusCode(ATTACHMENT_DRAFTED);
+        newAttachment.setId(null);
+        ((ProtocolAttachmentProtocol)newAttachment).setAttachmentVersion(((ProtocolAttachmentProtocol)attachment).getAttachmentVersion() + 1);
+
+        return (T) newAttachment;
     }
     
 //Generic Versioning methods

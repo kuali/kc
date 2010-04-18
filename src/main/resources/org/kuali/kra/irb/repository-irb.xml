@@ -424,7 +424,7 @@
             <inverse-foreignkey field-ref="protocolPersonId"/>
         </collection-descriptor>
         <!-- this allows the attachment to be deleted when the person is deleted -->
-        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="true">
             <inverse-foreignkey field-ref="personId" />
         </collection-descriptor>
     </class-descriptor>
@@ -569,6 +569,7 @@
         <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
         <field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
@@ -577,6 +578,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="attachmentVersion" column="ATTACHMENT_VERSION" jdbc-type="INTEGER" />
         
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
@@ -619,7 +621,7 @@
             <foreignkey field-ref="typeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <foreignkey field-ref="fileId"/>
         </reference-descriptor>
         

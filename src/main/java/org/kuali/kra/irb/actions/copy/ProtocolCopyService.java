@@ -45,5 +45,5 @@ public interface ProtocolCopyService {
      *         otherwise null if an error occurred, e.g. the user didn't have permission to copy the document
      * @throws Exception if anything really bad happens
      */
-    public ProtocolDocument copyProtocol(ProtocolDocument doc, String protocolNumber) throws Exception;
+    public ProtocolDocument copyProtocol(ProtocolDocument doc, String protocolNumber, boolean isAmendmentRenewal) throws Exception;
 }

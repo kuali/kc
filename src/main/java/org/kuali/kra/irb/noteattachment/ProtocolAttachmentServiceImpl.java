@@ -18,7 +18,11 @@ package org.kuali.kra.irb.noteattachment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -96,6 +100,16 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
+//        if (attachment instanceof ProtocolAttachmentPersonnel) {
+//            int idx = 0;
+//            for (ProtocolAttachmentPersonnel attachmentPersonnel : ((ProtocolAttachmentPersonnel) attachment).getPerson().getAttachmentPersonnels()) {
+//                if (attachmentPersonnel.getId().equals(attachment.getId())) {
+//                    break;
+//                }
+//                idx++;
+//            }
+//            ((ProtocolAttachmentPersonnel) attachment).getPerson().getAttachmentPersonnels().remove(idx);
+//        }
         
         this.boService.delete(attachment);
     }
@@ -122,6 +136,40 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         @SuppressWarnings("unchecked")
         final T attachment = (T) this.boService.findByPrimaryKey(type, Collections.singletonMap("id", id));
         return attachment;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.noteattachment.ProtocolAttachmentService#isNewAttachmentVersion(org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol)
+     */
+    @SuppressWarnings("unchecked")
+    public boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment) {
+        Map keyMap = new HashMap();
+        // the initial version of amendment & renewal need to do this
+        if ((attachment.getProtocol().isAmendment() || attachment.getProtocol().isRenewal()) && attachment.getProtocol().getSequenceNumber() == 0) {
+            Protocol protocol = getActiveProtocol(attachment.getProtocol().getProtocolNumber().substring(0, 
+                    attachment.getProtocol().getProtocolNumber().indexOf(attachment.getProtocol().isAmendment() ? "A" : "R")));            
+            keyMap.put("protocolNumber", protocol.getProtocolNumber());
+            keyMap.put("sequenceNumber", protocol.getSequenceNumber());
+        } else {
+           keyMap.put("protocolNumber", attachment.getProtocolNumber());
+           keyMap.put("sequenceNumber", attachment.getSequenceNumber() - 1);
+        }
+        keyMap.put("attachmentVersion", attachment.getAttachmentVersion());
+        keyMap.put("documentId", attachment.getDocumentId());
+   
+        return this.boService.findMatching(ProtocolAttachmentProtocol.class, keyMap).isEmpty();
+    }
+
+    /*
+     * This method is to get the current protocol.  The protocol with the highest sequence number.
+     */
+    @SuppressWarnings("unchecked")
+    private Protocol getActiveProtocol(String protocolNumber) {
+        Map keyMap = new HashMap();
+        keyMap.put("protocolNumber", protocolNumber);
+        List<Protocol> protocols = (List <Protocol>)this.boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
+        return protocols.get(0);
     }
     
     /** {@inheritDoc} */
@@ -160,4 +208,16 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         
         return bo;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.noteattachment.ProtocolAttachmentService#isSharedFile(org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel)
+     */
+    @SuppressWarnings("unchecked")
+    public boolean isSharedFile(ProtocolAttachmentPersonnel attachment) {
+        Map keyMap = new HashMap();
+        keyMap.put("fileId", attachment.getFileId());   
+        return this.boService.findMatching(ProtocolAttachmentPersonnel.class, keyMap).size() > 1;
+    }
+
 }
