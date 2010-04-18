@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 /**
@@ -335,4 +336,27 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    /**
+     * attachmentPersonnels is updated thru 'protocol'.  so use this to sync attachmentpersonnels under protocolperson
+     * @see org.kuali.kra.irb.ProtocolAction#postSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        super.postSave(mapping, form, request, response);
+        if (!((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete());
+            ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
+            }
+        for (ProtocolPerson person : ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
+            person.refreshReferenceObject("attachmentPersonnels");
+        }
+        for (ProtocolAttachmentProtocol attachment : ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
+            // for some reason, change and save, this list is not updated under attachment.protocol.attachmentprotocols
+            attachment.getProtocol().refreshReferenceObject("attachmentProtocols");
+        }
+    }
+    
+    
 }

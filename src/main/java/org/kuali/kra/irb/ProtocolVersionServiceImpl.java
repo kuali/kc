@@ -22,15 +22,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jboss.util.collection.CollectionsUtil;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.springframework.util.ObjectUtils;
+
+import edu.emory.mathcs.backport.java.util.Collections;
+
+import sun.security.action.GetBooleanAction;
 
 /**
  * Protocol Version Service Implementation.
@@ -41,6 +52,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     private QuestionnaireAnswerService questionnaireAnswerService;
+    private SequenceAccessorService sequenceAccessorService;
 
     /**
      * Inject the Document Service.
@@ -67,6 +79,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      */
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception {
      
+        materializeCollections(protocolDocument.getProtocol());
         Protocol newProtocol = versioningService.createNewVersion(protocolDocument.getProtocol());
       
         ProtocolDocument newProtocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
@@ -76,14 +89,18 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+        newProtocol.setProtocolId(nextProtocolId);
+        resetPersonId(newProtocol);
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
-        
         protocolDocument.getProtocol().setActive(false);
-        
+        finalizeAttachmentProtocol(protocolDocument.getProtocol());
         businessObjectService.save(protocolDocument.getProtocol());
         documentService.saveDocument(newProtocolDocument);
+        refreshAttachmentsPersonnels(newProtocol);
         newProtocol.resetForeignKeys();
+        finalizeAttachmentProtocol(newProtocol);
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
         List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE,
@@ -95,7 +112,77 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         
         return newProtocolDocument;
     }
+    /*
+     * seems that deepcopy is not really create new instance for copied obj.  this is really confusing
+     */
+    private void materializeCollections(Protocol protocol) {
+        checkCollection(protocol.getAttachmentProtocols());
+        checkCollection(protocol.getAttachmentPersonnels());
+        checkCollection(protocol.getProtocolLocations());
+        checkCollection(protocol.getProtocolAmendRenewals());
+        for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            checkCollection(person.getAttachmentPersonnels());
+            checkCollection(person.getProtocolUnits());
+        }
+        
+    }
     
+    /*
+     * Utility method to force to materialize the proxy collection
+     */
+    private void checkCollection(List<? extends PersistableBusinessObject> bos) {
+        if (!bos.isEmpty()) {
+            bos.get(0);
+        }
+    }
+    
+    /*
+     * This method is to make the document status of the attachment protocol to "finalized" 
+     */
+    private void finalizeAttachmentProtocol(Protocol protocol) {
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+            attachment.setProtocol(protocol);
+            if ("1".equals(attachment.getDocumentStatusCode())) {
+                attachment.setDocumentStatusCode("2");
+            }
+        }
+    }
+        
+
+    /*
+     * reset personnel attachment key fields for Amendment or renewal
+     * Personnel attachment is technically belong to protocol person
+     * But there is also a personnel attachments collection under protocol
+     * This method is very similar to the one in protocolcopyservice, maybe should refactor to share.
+     */
+    private void resetPersonId(Protocol protocol) {
+        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
+        if (protocol.getProtocolPersons() != null) {
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+                person.setProtocolPersonId(nextPersonId.intValue());
+                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                    attachment.setProtocol(protocol);
+                    attachment.setPersonId(nextPersonId.intValue());
+                    attachment.setPerson(null);
+                    attachment.setId(null);
+                    attachment.setProtocolId(protocol.getProtocolId());
+                    attachments.add(attachment);
+                }
+            }
+            protocol.setAttachmentPersonnels(attachments);
+        }
+
+    }
+
+    private void refreshAttachmentsPersonnels(Protocol protocol) {
+        if (protocol.getProtocolPersons() != null) {
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                person.refreshReferenceObject("attachmentPersonnels");
+            }
+        }
+    }
+
     /**
      * The Custom Data Attribute values are stored in the document.  Unfortunately, the
      * Versioning Service doesn't version documents, only BOs.  Thus, after the versioning
@@ -169,6 +256,10 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
 
     public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
         this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 
 }

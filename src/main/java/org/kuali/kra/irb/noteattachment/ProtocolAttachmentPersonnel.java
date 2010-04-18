@@ -15,25 +15,27 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**
  * This class represents the Protocol Attachment Personnel.
  */
-public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implements TypedAttachment {
+public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
     private static final String GROUP_CODE = "2";
     
     private Integer personId;
+    @SkipVersioning
     private ProtocolPerson person;
     
     private String typeCode;
     private ProtocolAttachmentType type;
-    private Integer documentId;
     private String description;
     
     /**
@@ -109,16 +111,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
     }
     
     /** {@inheritDoc} */
-    public Integer getDocumentId() {
-        return this.documentId;
-    }
-    
-    /** {@inheritDoc} */
-    public void setDocumentId(Integer documentId) {
-        this.documentId = documentId;
-    }
-    
-    /** {@inheritDoc} */
     public String getGroupCode() {
         return GROUP_CODE;
     }
@@ -173,7 +165,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
+//        result = prime * result + ((documentId == null) ? 0 : documentId.hashCode());
         result = prime * result + ((personId == null) ? 0 : personId.hashCode());
         result = prime * result + ((typeCode == null) ? 0 : typeCode.hashCode());
         return result;
@@ -199,13 +191,13 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (documentId == null) {
-            if (other.documentId != null) {
-                return false;
-            }
-        } else if (!documentId.equals(other.documentId)) {
-            return false;
-        }
+//        if (documentId == null) {
+//            if (other.documentId != null) {
+//                return false;
+//            }
+//        } else if (!documentId.equals(other.documentId)) {
+//            return false;
+//        }
         if (personId == null) {
             if (other.personId != null) {
                 return false;
@@ -256,4 +248,19 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase implemen
             return this.name;
         }
     }
+    
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (updateTimestamp == null || getUpdateTimestamp() == null) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (updateUser == null || getUpdateUser() == null ) {
+            super.setUpdateUser(updateUser);
+        }
+    }
+
 }

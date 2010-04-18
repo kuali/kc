@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class ProtocolAttachmentHelper {
     
     private ProtocolAttachmentProtocol newAttachmentProtocol;
     private ProtocolAttachmentPersonnel newAttachmentPersonnel;
+    private List<AttachmentFile> FilesToDelete;
     
     private boolean modifyAttachments;
     
@@ -97,6 +99,7 @@ public class ProtocolAttachmentHelper {
         this.notesService = notesService;
         this.authService = authService;
         this.versioningUtil = versioningUtil;
+        this.FilesToDelete = new ArrayList<AttachmentFile>() ;
     }
     
     /**
@@ -232,8 +235,8 @@ public class ProtocolAttachmentHelper {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentProtocol()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));
         
-        this.assignDocumentId(Collections.singletonList(this.getNewAttachmentProtocol()),
-                this.createTypeToMaxDocNumber(this.getProtocol().getAttachmentProtocols()));
+//        this.assignDocumentId(Collections.singletonList(this.getNewAttachmentProtocol()),
+//                this.createTypeToMaxDocNumber(this.getProtocol().getAttachmentProtocols()));
         
         /*
          * Since this event isn't created by the framework and this rule isn't executed by the framework,
@@ -247,6 +250,7 @@ public class ProtocolAttachmentHelper {
             return;
         }
 
+        
         this.addNewAttachment(this.newAttachmentProtocol);
         
         this.initAttachmentProtocol();
@@ -296,7 +300,8 @@ public class ProtocolAttachmentHelper {
         
         if (ProtocolAttachmentProtocol.class.equals(type)) {
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
-        } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
+        } else if (ProtocolAttachmentPersonnel.class.equals(type)) {            
+            this.checkTodeleteFile((ProtocolAttachmentPersonnel)this.getProtocol().getAttachmentPersonnels().get(attachmentNumber));
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentPersonnels());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
@@ -365,12 +370,27 @@ public class ProtocolAttachmentHelper {
         }
         
         if (this.versioningUtil.versioningRequired() && attachments.get(index).supportsVersioning()) {
-            this.versioningUtil.versionDeletedAttachment(attachments.get(index));
+            ProtocolAttachmentBase attachment = attachments.get(index);
+            if (attachment instanceof ProtocolAttachmentProtocol && "1".equals(((ProtocolAttachmentProtocol)attachment).getDocumentStatusCode())) {
+               // attachments.remove(index);
+                ((ProtocolAttachmentProtocol)attachment).setDocumentStatusCode("3");
+                ((ProtocolAttachmentProtocol)attachment).setChanged(true);
+            } else {
+                this.versioningUtil.versionDeletedAttachment(attachments.get(index));
+            }
         } else {
-            this.notesService.deleteAttatchment(attachments.remove(index));
+            // personnelattachment will reach here
+            attachments.remove(index);
+            //this.notesService.deleteAttatchment(attachments.remove(index));
         }
         
         return true;
+    }
+    
+    private void checkTodeleteFile(ProtocolAttachmentPersonnel attachment) {
+        if (attachment.getFileId() != null && !notesService.isSharedFile(attachment)) {
+            FilesToDelete.add(attachment.getFile());
+        }
     }
     
     /** 
@@ -385,7 +405,7 @@ public class ProtocolAttachmentHelper {
             this.versioningUtil.versionNewAttachment(attachment);
         } else {
             this.getProtocol().addAttachmentsByType(attachment);
-            this.notesService.saveAttatchment(attachment);
+//            this.notesService.saveAttatchment(attachment);
         }      
     }
     
@@ -451,6 +471,8 @@ public class ProtocolAttachmentHelper {
                     newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
                 }
                 attachment.setFile(newFile);
+                // set to null, so the subsequent post will not creating new file again
+                attachment.setNewFile(null);
             }
         }
     }
@@ -514,5 +536,13 @@ public class ProtocolAttachmentHelper {
     private static boolean doesNewFileExist(final ProtocolAttachmentBase attachment) {
         assert attachment != null : "the attachment was null";
         return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
+    }
+
+    public List<AttachmentFile> getFilesToDelete() {
+        return FilesToDelete;
+    }
+
+    public void setFilesToDelete(List<AttachmentFile> filesToDelete) {
+        FilesToDelete = filesToDelete;
     }
 }

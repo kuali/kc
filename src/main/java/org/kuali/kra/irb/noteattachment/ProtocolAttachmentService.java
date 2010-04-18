@@ -107,4 +107,22 @@ public interface ProtocolAttachmentService {
      * @return a Collection of attachments
      */
     <T extends ProtocolAttachmentBase & TypedAttachment> Collection<T> getAttachmentsWithOlderFileVersions(final T attachment, final Class<T> type);
+    
+    /**
+     * 
+     * This method is to check if the attachment is the new version,ie, the first version.
+     * @param attachment
+     * @return
+     */
+     boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment);
+     
+     /**
+      * 
+      * This method is to check whether the attachment file is shared by old version of attachments.
+      * @param attachment
+      * @return
+      */
+     boolean isSharedFile(ProtocolAttachmentPersonnel attachment);
+
+    
 }
