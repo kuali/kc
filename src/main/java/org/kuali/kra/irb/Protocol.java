@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -1192,11 +1193,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
                 mergeOrganizations(amendment);
             }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
-                mergeAttachments(amendment);
-            }
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERSONNEL)) {
                 mergePersonnel(amendment);
+            }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+                mergeAttachments(amendment);
             }
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_REFERENCES)) {
                 mergeReferences(amendment);
@@ -1251,8 +1252,96 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     @SuppressWarnings("unchecked")
     private void mergeAttachments(Protocol amendment) {
-        setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
-        setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
+        // TODO : may need to set protocolnumber
+        // personnel attachment may have protocol person id issue
+        // how about sequence number ?
+        // need to change documentstatus to 2 if it is 1
+        // what the new protocol's protocol_status should be ?
+        List<ProtocolAttachmentProtocol> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment : (List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols())) {
+            attachment.setProtocolNumber(this.getProtocolNumber());
+            attachment.setSequenceNumber(this.getSequenceNumber());
+            attachment.setProtocolId(this.getProtocolId());
+            attachment.setId(null);
+            if ("1".equals(attachment.getDocumentStatusCode())) {
+                attachment.setDocumentStatusCode("2");
+                attachmentProtocols.add(attachment);
+                attachment.setProtocol(this);
+            }
+            if ("3".equals(attachment.getDocumentStatusCode()) 
+                    && KraServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocol) attachment)) {
+                attachmentProtocols.add(attachment);
+                attachment.setProtocol(this);
+            }
+           // attachmentProtocols.add(attachment);
+        }
+        getAttachmentProtocols().addAll(attachmentProtocols);
+        //setAttachmentProtocols(attachmentProtocols);
+        
+        //setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(amendment.getAttachmentProtocols()));
+        mergeAttachmentPersonnels(amendment) ;
+//        setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(amendment.getAttachmentPersonnels()));
+        mergeNotepads(amendment);
+    }
+    
+
+    private void mergeAttachmentPersonnels(Protocol amendment) {
+        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
+        if (amendment.getProtocolPersons() != null) {
+            for (ProtocolPerson person : amendment.getProtocolPersons()) {
+                List <ProtocolAttachmentPersonnel> personAttachments = new ArrayList<ProtocolAttachmentPersonnel>();
+                ProtocolPerson matchingPerson = findMatchingPerson(person);
+                for (ProtocolAttachmentPersonnel attachment : (List<ProtocolAttachmentPersonnel>) deepCopy(person.getAttachmentPersonnels())) {
+                    
+                    attachment.setProtocolNumber(this.getProtocolNumber());
+                    attachment.setSequenceNumber(this.getSequenceNumber());
+                    attachment.setProtocolId(this.getProtocolId());
+                    attachment.setId(null);
+                    // TODO : at this point, is it possible that matching person not found ?
+                    // if amendment are modifying person and attachment modules
+                    attachment.setPerson(matchingPerson);
+                    attachment.setPersonId(matchingPerson.getProtocolPersonId());
+                    attachment.setId(null);
+                    attachment.setProtocol(this);
+                    personAttachments.add(attachment);
+                    attachments.add(attachment);
+                }
+                matchingPerson.setAttachmentPersonnels(personAttachments);
+            }
+            this.setAttachmentPersonnels(attachments);
+        }
+
+    }
+
+    private void mergeNotepads(Protocol amendment) {
+        List <ProtocolNotepad> notepads = new ArrayList<ProtocolNotepad>();
+        if (amendment.getNotepads() != null) {
+            for (ProtocolNotepad notepad : (List<ProtocolNotepad>) deepCopy(amendment.getNotepads())) {
+                notepad.setProtocolNumber(this.getProtocolNumber());
+                notepad.setSequenceNumber(this.getSequenceNumber());
+                notepad.setProtocolId(this.getProtocolId());
+                notepad.setId(null);
+                notepad.setProtocol(this);
+                notepads.add(notepad);
+            }
+        }
+        this.setNotepads(notepads);
+    }
+    
+    private ProtocolPerson findMatchingPerson(ProtocolPerson person) {
+        ProtocolPerson matchingPerson = null;
+        for (ProtocolPerson newPerson : this.getProtocolPersons()) {
+            if (newPerson.getProtocolPersonRoleId().equals(person.getProtocolPersonRoleId())) {
+                if ((StringUtils.isNotBlank(newPerson.getPersonId()) && StringUtils.isNotBlank(person.getPersonId())
+                    && newPerson.getPersonId().equals(person.getPersonId())) 
+                    || (newPerson.getRolodexId() != null && person.getRolodexId() != null
+                    && newPerson.getRolodexId().equals(person.getRolodexId()))) {
+                    matchingPerson = newPerson;
+                    break;
+                    }
+            }
+        }
+        return matchingPerson;
     }
     
     @SuppressWarnings("unchecked")
@@ -1497,6 +1586,36 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      * @return true if versioning required false if not.
      */
     public boolean isVersioningRequired() {
+        // TODO : why need this. it's always true
         return true;
     }
+    
+    public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocols() {
+        List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
+        for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
+            if ("1".equals(attachment1.getDocumentStatusCode())) {
+                activeAttachments.add(attachment1);
+            }
+            else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
+            //else if ("2".equals(attachment1.getDocumentStatusCode())) {
+                boolean isActive = true;
+                for (ProtocolAttachmentProtocol attachment2 : getAttachmentProtocols()) {
+                    if (attachment1.getDocumentId().equals(attachment2.getDocumentId()) 
+                            && attachment1.getAttachmentVersion() < attachment2.getAttachmentVersion()) {
+                        isActive = false;
+                        break;
+                    }
+                }
+                if (isActive) {
+                    activeAttachments.add(attachment1);
+                } else {
+                    attachment1.setActive(isActive);
+                }
+            } else {
+                attachment1.setActive(false);
+            }
+        }
+        return activeAttachments;
+    }
+    
 }

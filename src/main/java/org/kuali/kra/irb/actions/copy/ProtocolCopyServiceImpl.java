@@ -16,15 +16,13 @@
 package org.kuali.kra.irb.actions.copy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.kuali.kra.bo.KcPerson;
-
 import org.kuali.kra.bo.CustomAttributeDocument;
-
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -32,6 +30,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolRiskLevel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
@@ -46,6 +45,7 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -84,6 +84,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     private SystemAuthorizationService systemAuthorizationService;
     private KraAuthorizationService kraAuthorizationService;
     private ProtocolNumberService protocolNumberService;
+    private SequenceAccessorService sequenceAccessorService;
 
     /**
      * Set the Document Service.
@@ -121,14 +122,14 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument)
      */
     public ProtocolDocument copyProtocol(ProtocolDocument srcDoc) throws Exception {
-        return copyProtocol(srcDoc, protocolNumberService.generateProtocolNumber());
+        return copyProtocol(srcDoc, protocolNumberService.generateProtocolNumber(), false);
     }
     
     /**
      * @see org.kuali.kra.irb.actions.copy.ProtocolCopyService#copyProtocol(org.kuali.kra.irb.ProtocolDocument, java.lang.String)
      */
-    public ProtocolDocument copyProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
-        ProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber);
+    public ProtocolDocument copyProtocol(ProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
+        ProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber, isAmendmentRenewal);
         
         documentService.saveDocument(newDoc);
             
@@ -145,11 +146,13 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * properties necessary for the initial creation of the protocol.  This will
      * give us the protocol number to use when copying over the remainder of the
      * protocol.
+     * "Copy" may be a pure copy or copy for amendment & renewal creation.
+     * if for amendment/renewal, then notes & attachments will be copied.
      * @param srcDoc
      * @return
      * @throws Exception
      */
-    private ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber) throws Exception {
+    private ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
         DocumentService docService = KNSServiceLocator.getDocumentService();
         ProtocolDocument newDoc = (ProtocolDocument) docService.getNewDocument(srcDoc.getClass());
             
@@ -169,11 +172,72 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         newDoc.getProtocol().getProtocolActions().add(protocolAction);
         
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        documentService.saveDocument(newDoc);  
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+        newDoc.getProtocol().setProtocolId(nextProtocolId);
+        if (!isAmendmentRenewal) {
+            newDoc.getProtocol().setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
+            newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocol>());
+            newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepad>());
+            if (newDoc.getProtocol().getProtocolPersons() != null) {
+                for (ProtocolPerson person : newDoc.getProtocol().getProtocolPersons()) {
+                    person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
+                }
+            }
+        } else {
+            resetPersonId(newDoc.getProtocol());
+        }
+        documentService.saveDocument(newDoc); 
+        if (isAmendmentRenewal) {
+            // :TODO : verify if really need this 
+            refreshAttachmentsPersonnels(newDoc.getProtocol());
+        }
         
         return newDoc;
     }
     
+    /*
+     * reset personnel attachment key fields for Amendment or renewal
+     * Personnel attachment is technically belong to protocol person
+     * But there is also a personnel attachments collection under protocol
+     */
+    private void resetPersonId(Protocol protocol) {
+        List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
+        if (protocol.getProtocolPersons() != null) {
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                Long nextPersonId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+                person.setProtocolPersonId(nextPersonId.intValue());
+                for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
+                    attachment.setProtocol(protocol);
+                    attachment.setPersonId(nextPersonId.intValue());
+                    attachment.setPerson(null);
+                    attachment.setId(null);
+                    attachment.setProtocolId(protocol.getProtocolId());
+                    attachment.setProtocolNumber(protocol.getProtocolNumber());
+                    attachment.setSequenceNumber(protocol.getSequenceNumber());
+                    attachments.add(attachment);
+                }
+            }
+            // attachmentpersonnels will be saved with protocol
+            protocol.setAttachmentPersonnels(attachments);
+        }
+
+        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+            attachment.setProtocol(protocol);
+            attachment.setProtocolNumber(protocol.getProtocolNumber());
+            attachment.setSequenceNumber(protocol.getSequenceNumber());
+        }
+
+    }
+    
+    private void refreshAttachmentsPersonnels(Protocol protocol) {
+        if (protocol.getProtocolPersons() != null) {
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+                person.refreshReferenceObject("attachmentPersonnels");
+            }
+        }
+
+    }
+                
     /**
      * Copies the document overview properties.  These properties are the
      * Description, Explanation, and Organization Document Number.
@@ -270,6 +334,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(srcProtocol.getSpecialReviews()));
         destProtocol.setAttachmentProtocols((List<ProtocolAttachmentProtocol>) deepCopy(srcProtocol.getAttachmentProtocols()));
         destProtocol.setAttachmentPersonnels((List<ProtocolAttachmentPersonnel>) deepCopy(srcProtocol.getAttachmentPersonnels()));
+        destProtocol.setNotepads((List<ProtocolNotepad>) deepCopy(srcProtocol.getNotepads()));
     }
    
     private Object deepCopy(Object obj) {
@@ -290,5 +355,9 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
             CustomAttributeDocument cad = srcProtocolDocument.getCustomAttributeDocuments().get(entry.getKey());
             entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
         }
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 }

@@ -280,6 +280,9 @@
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>
     </bean>
 
     <bean id="protocolLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -406,6 +409,9 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="versioningService" ref="versioningService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>
     </bean>
     
     <bean id="protocolAssignCmtSchedService" class="org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedServiceImpl">
