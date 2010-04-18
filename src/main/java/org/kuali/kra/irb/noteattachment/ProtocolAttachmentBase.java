@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -27,12 +28,13 @@ import org.kuali.kra.irb.ProtocolAssociate;
 /**
  * This is the base class for all Protocol Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
+public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements TypedAttachment{
 
     private static final long serialVersionUID = -2519574730475246022L;
     
     private Long id;
     private Long fileId;
+    private Integer documentId;
 
     private AttachmentFile file;
     private transient FormFile newFile;
@@ -254,7 +256,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
             if (other.file != null) {
                 return false;
             }
-        } else if (!this.file.equals(other.file)) {
+        } else if (!isSameFile(this.file, other.file)) {
             return false;
         }
         if (this.fileId == null) {
@@ -269,6 +271,40 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
                 return false;
             }
         } else if (!this.id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    /*
+     * file1.equals(file2) may have issue with getclass() comparison. sometimes class may be AttachmentFile
+     * some maybe Attachment$EnhancerCGLIB.  so retest equal with following for now.
+     */
+    private boolean isSameFile(AttachmentFile obj, AttachmentFile other) {
+        if (!Arrays.equals(obj.getData(), other.getData())) {
+            return false;
+        }  else {
+            if (obj.getId() != null && other.getId() != null && !obj.getId().equals(other.getId())) {
+                return false;
+            } else if ((obj.getId() != null && other.getId() == null) ||
+                    (obj.getId() == null && other.getId() != null)) {
+                return false;
+            }
+        }
+        if (obj.getName() == null) {
+            if (other.getName() != null) {
+                return false;
+            }
+        }
+        else if (!obj.getName().equals(other.getName())) {
+            return false;
+        }
+        if (obj.getType() == null) {
+            if (other.getType() != null) {
+                return false;
+            }
+        }
+        else if (!obj.getType().equals(other.getType())) {
             return false;
         }
         return true;
@@ -306,5 +342,13 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate {
         public String toString() {
             return this.name;
         }
+    }
+
+    public Integer getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Integer documentId) {
+        this.documentId = documentId;
     }
 }
