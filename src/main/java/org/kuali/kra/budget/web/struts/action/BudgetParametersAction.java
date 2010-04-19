@@ -36,6 +36,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -131,18 +132,42 @@ public class BudgetParametersAction extends BudgetAction {
                     KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                                                                                                    budget.getOnOffCampusFlag());
                 }
-                if (budget.getFinalVersionFlag()) {
+                boolean valid = true;
+                if (Boolean.valueOf(budgetDocument.getProposalBudgetFlag())) {
+                    valid = isValidToComplete(budgetDocument.getParentDocument());
+                    int errorSize = GlobalVariables.getMessageMap().size();
+                    final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+                    tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getParentDocument());
+                    if (GlobalVariables.getMessageMap().size() > errorSize) {
+                        valid = false;
+                    }
+                }
+                if (budget.getFinalVersionFlag() && valid) {
                     budgetDocument.getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
-
-                updateBudgetPeriodDbVersion(budget);
-                return super.save(mapping, form, request, response);
+                if (valid) {
+                    updateBudgetPeriodDbVersion(budget);
+                    return super.save(mapping, form, request, response);
+                }
+                else {
+                    mapping.findForward(Constants.MAPPING_BASIC);
+                }
             }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private boolean isValidToComplete(BudgetParentDocument document) throws Exception {
+        boolean valid = KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
+
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
+                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+        }
+        return valid;
+    }
+    
     /**
      * This method returns <CODE>true</CODE> if one of the two rate types has changed since the last save.
      * @param budgetForm
