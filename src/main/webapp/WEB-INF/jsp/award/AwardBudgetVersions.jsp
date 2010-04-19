@@ -73,7 +73,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" /></div></th>
 			    <td>
-			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" disabled="true"/>
+			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" readOnly="true"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
            		<td>
@@ -83,7 +83,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>
 			    <td>
-			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" disabled="true"/>
+			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" readOnly="true"/>
                 </td>
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budgetVersionOverview.onOffCampusFlag}">
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
@@ -129,6 +129,8 @@
 		requestedEndDateInitial="${KualiForm.document.award.projectEndDate}"
 		hierarchyParentBudgetIsComplete="true"
 		/>
+  	  	
+  	 <kra-a:awardBudgetLimits /> 
   	
   	<kul:documentControls 
 		transactionalDocument="false"

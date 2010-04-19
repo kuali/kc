@@ -54,6 +54,8 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -884,6 +886,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward budgets(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
+        getBudgetLimit(form);
         return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
     }
 
@@ -1274,4 +1277,50 @@ public class AwardAction extends BudgetParentActionBase {
         return super.performLookup(mapping, form, request, response);
     }
     
+    /**
+     * 
+     * This method set up data for budget limit panel
+     * @param form
+     */
+    protected void getBudgetLimit(ActionForm form) {
+        AwardForm awardForm = (AwardForm) form;
+        if (awardForm.getAwardDocument().getBudgetVersionOverview() != null
+                && awardForm.getAwardDocument().getBudgetVersionOverview().getBudgetId() != null) {
+            List<Map<String, List<BudgetDecimal>>> budgetLimits = KraServiceLocator.getService(BudgetCalculationService.class)
+                    .getBudgetLimitsTotals(awardForm.getAwardDocument().getBudgetVersionOverview().getBudgetId().toString());
+            awardForm.setPersonnelBudgetLimits(convertPersonnelToList(budgetLimits.get(0)));
+            awardForm.setNonPersonnelBudgetLimits(convertNonPersonnelToList(budgetLimits.get(1)));
+            awardForm.setTotalBudgetLimits(convertTotalToList(budgetLimits.get(2)));
+        }
+
+    }
+    
+    private List<List<BudgetDecimal>> convertPersonnelToList(Map <String, List<BudgetDecimal>> map )  {
+        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
+        retList.add(0, map.get("Salary"));
+        retList.add(1, map.get("Fringe"));
+        retList.add(2, map.get("CalculatedCost"));
+        retList.add(3, map.get("Totals"));
+        return retList;
+    }
+    
+    private List<List<BudgetDecimal>> convertNonPersonnelToList(Map <String, List<BudgetDecimal>> map )  {
+        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
+        retList.add(0, map.get("E"));
+        retList.add(1, map.get("T"));
+        retList.add(2, map.get("S"));
+        retList.add(3, map.get("O"));
+        retList.add(4, map.get("Totals"));
+        return retList;
+    }
+    
+    private List<List<BudgetDecimal>> convertTotalToList(Map <String, List<BudgetDecimal>> map )  {
+        List<List<BudgetDecimal>> retList = new ArrayList<List<BudgetDecimal>>();
+        retList.add(0, map.get("Direct"));
+        retList.add(1, map.get("FAndA"));
+        retList.add(2, map.get("Totals"));
+        return retList;
+    }
+
+
 }

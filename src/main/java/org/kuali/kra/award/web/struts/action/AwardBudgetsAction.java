@@ -48,7 +48,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.question.CopyPeriodsQuestion;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -84,6 +83,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         ActionForward ac = super.execute(mapping, form, request, response);
+        getBudgetLimit(form);
         return ac;
     }
 
