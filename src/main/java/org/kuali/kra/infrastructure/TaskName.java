@@ -98,18 +98,15 @@ public interface TaskName {
     public static final String GRANT_EXEMPTION = "protocolGrantExemption";
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
-    public static final String APPROVE_PROTOCOL = "protocolApprove";
-    public static final String REOPEN_PROTOCOL = "protocolReopen";
-    public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
-    public static final String SUSPEND_PROTOCOL = "protocolSuspend";
-    public static final String SUSPEND_PROTOCOL_BY_DSMB = "protocolSuspendByDsmb";
-    public static final String CLOSE_PROTOCOL = "protocolClose";
-    public static final String EXPIRE_PROTOCOL = "protocolExpire";
-    public static final String TERMINATE_PROTOCOL = "protocolTerminate";
-    public static final String PERMIT_DATA_ANALYSIS = "protocolPermitDataAnalysis";
+    public static final String APPROVE_PROTOCOL = "protocolApprove";   
     public static final String PROTOCOL_ADMIN_CORRECTION = "protocolAdminCorrection";
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
+    
+    /**
+     * Generic Action task
+     */
+    public static final String GENERIC_PROTOCOL_ACTION = "genericProtocolAction";
     
     /*
      * Committee Tasks.

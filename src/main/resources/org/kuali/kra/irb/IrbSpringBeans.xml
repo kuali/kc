@@ -257,6 +257,10 @@
                     <property name="taskName" value="protocolPermitDataAnalysis" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.GenericProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="genericProtocolAction" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.AdminCorrectionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAdminCorrection" />
                 </bean>
