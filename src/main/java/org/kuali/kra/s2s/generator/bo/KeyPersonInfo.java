@@ -31,6 +31,7 @@ public class KeyPersonInfo extends CompensationInfo{
 //    private String prefix = null;
 //    private String suffix = null;
     private String role = null;
+    private String keyPersonRole = null;
     private boolean nonMITPersonFlag;
 
     /**
@@ -143,6 +144,23 @@ public class KeyPersonInfo extends CompensationInfo{
         this.role = role;
     }
 
+    /**
+     * Getter for property role.
+     * 
+     * @return Value of property role.
+     */
+    public java.lang.String getKeyPersonRole() {
+        return keyPersonRole;
+    }
+
+    /**
+     * Setter for property role.
+     * 
+     * @param role New value of property role.
+     */
+    public void setKeyPersonRole(java.lang.String role) {
+        this.role = keyPersonRole;
+    }
     /**
      * Setter for nonMITPersonFlag.
      * 

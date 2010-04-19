@@ -665,38 +665,84 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					.getOrganizationTypes().get(0).getOrganizationTypeCode();
 		}
 		ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
+
 		switch (orgTypeCode) {
-		case 3: {
-			// federal
+		case 1:
+			applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
+			break;
+		case 2:
+			applicantTypeCode = ApplicantTypeCodeDataType.A_STATE_GOVERNMENT;
+			break;
+		case 3:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
 			break;
-		}
-		case 14: {
-			// disadvantaged
+		case 4:
+			applicantTypeCode = ApplicantTypeCodeDataType.M_NONPROFIT_WITH_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 5:
+			applicantTypeCode = ApplicantTypeCodeDataType.N_NONPROFIT_WITHOUT_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 6:
+			applicantTypeCode = ApplicantTypeCodeDataType.Q_FOR_PROFIT_ORGANIZATION_OTHER_THAN_SMALL_BUSINESS;
+			break;
+		case 7:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			// value is hardcoded
+			break;
+		case 8:
+			applicantTypeCode = ApplicantTypeCodeDataType.I_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_FEDERALLY_RECOGNIZED;
+			break;
+		case 9:
+			applicantTypeCode = ApplicantTypeCodeDataType.P_INDIVIDUAL;
+			break;
+		case 10:
+			applicantTypeCode = ApplicantTypeCodeDataType.O_PRIVATE_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 11:
+			applicantTypeCode = ApplicantTypeCodeDataType.R_SMALL_BUSINESS;
+			break;
+		case 14:
+			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
 			isSociallyEconomicallyDisadvantaged.setStringValue(VALUE_YES);
 			smallOrganizationType
 					.setIsSociallyEconomicallyDisadvantaged(isSociallyEconomicallyDisadvantaged);
 			smallBusflag = true;
 			break;
-		}
-		case 15: {
-			// women owned
+		case 15:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			// value is hardcoded
 			isWomenOwned.setStringValue(VALUE_YES);
 			smallOrganizationType.setIsWomenOwned(isWomenOwned);
 			smallBusflag = true;
 			break;
-		}
-		default: {
+		case 21:
+			applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 22:
+			applicantTypeCode = ApplicantTypeCodeDataType.B_COUNTY_GOVERNMENT;
+			break;
+		case 23:
+			applicantTypeCode = ApplicantTypeCodeDataType.D_SPECIAL_DISTRICT_GOVERNMENT;
+			break;
+		case 24:
+			applicantTypeCode = ApplicantTypeCodeDataType.G_INDEPENDENT_SCHOOL_DISTRICT;
+			break;
+		case 25:
+			applicantTypeCode = ApplicantTypeCodeDataType.L_PUBLIC_INDIAN_HOUSING_AUTHORITY;
+			break;
+		case 26:
+			applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
+			break;
+		default:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-		}
+			break;
 		}
 		if (smallBusflag) {
 			applicantType
 					.setSmallBusinessOrganizationType(smallOrganizationType);
+		}
+
+		if (orgTypeCode == 3) {
+			applicantType
+					.setApplicantTypeCodeOtherExplanation("Federal Government");
 		}
 		applicantType.setApplicantTypeCode(applicantTypeCode);
 		return applicantType;

@@ -558,7 +558,12 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					extraFunds = extraFunds.add(keyPerson.getFundsRequested());
 					keyPersonDataType.setName(globLibV10Generator
 							.getHumanNameDataType(keyPerson));
-					keyPersonDataType.setProjectRole(keyPerson.getRole());
+					if (isNihSponsor(pdDoc.getDevelopmentProposal()
+							.getSponsorCode()) && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
+						keyPerson.setRole(NIH_CO_INVESTIGATOR);
+					} else {
+						keyPerson.setRole(keyPerson.getRole());
+					}
 					keyPersonDataType
 							.setCompensation(getCompensation(keyPerson));
 					keyPersonDataTypeArray[keyPersonCount] = keyPersonDataType;

@@ -1062,7 +1062,12 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 					extraFunds = extraFunds.add(keyPerson.getFundsRequested());
 					keyPersonDataType.setName(globLibV20Generator
 							.getHumanNameDataType(keyPerson));
-					keyPersonDataType.setProjectRole(keyPerson.getRole());
+					if (isNihSponsor(pdDoc.getDevelopmentProposal()
+							.getSponsorCode()) && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
+						keyPerson.setRole(NIH_CO_INVESTIGATOR);
+					} else {
+						keyPerson.setRole(keyPerson.getRole());
+					}
 					keyPersonDataType
 							.setCompensation(getCompensation(keyPerson));
 					keyPersonArray[keyPersonCount] = keyPersonDataType;
@@ -1126,7 +1131,6 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		}
 		return keyPersons;
 	}
-
 	/**
 	 * This method gets KeyPersonCompensationDataType informations such as
 	 * AcademicMonths,CalendarMonths,FringeBenefits
