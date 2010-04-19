@@ -611,15 +611,17 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             
             Award award = null;
             VersionHistory pendingVersionHistory = null;
+            //For the current award, we should always show only the pending version if it exists
             if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(tmpAwardNumber, currentAwardNumber)) {
                 pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, currentAwardNumber, currentSequenceNumber);
                 if(pendingVersionHistory != null) {
                     award = (Award) pendingVersionHistory.getSequenceOwner();
                 }
             }
+            Award activeAward = activePendingTransactionsService.getActiveAwardVersion(tmpAwardNumber);
             if(award == null) {
-                award = activePendingTransactionsService.getActiveAwardVersion(tmpAwardNumber);
-            }
+                award = activeAward;  
+            }  
 
             AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
             
@@ -649,7 +651,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             }
             
             awardHierarchyNode.setAwardDocumentNumber(documentNumber);
-            if(pendingVersionHistory != null) {
+            if(!awardDocumentFinalStatus && pendingVersionHistory != null && activeAward != null && !pendingVersionHistory.getSequenceOwnerSequenceNumber().equals(activeAward.getSequenceNumber())) {
                 awardDocumentFinalStatus = true;   
             }
             awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));
