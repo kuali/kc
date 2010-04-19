@@ -1083,7 +1083,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<Narrative> narratives = parentProposal.getNarratives();
         for (int i=narratives.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, narratives.get(i).getHierarchyProposalNumber())) {
-                narratives.remove(i);
+                businessObjectService.delete(narratives.remove(i));
             }
         }
         
