@@ -38,17 +38,29 @@
 </c:if>
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:set var="projectDatesString" value=""/>
-<c:if test="${proposalBudgetFlag}">
-	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
-</c:if>
  <c:set var="useRiceAuditMode" value="true" scope="request" />
 
 	<c:set var="transParent" value="false"/>
-<c:if test="${empty awardBudgetPage}">
+<c:choose>	
+<c:when test="${proposalBudgetFlag}">
+	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 	<c:set var="transParent" value="true"/>
-</c:if>
+</c:when>
+<c:otherwise>
+   <c:choose>
+    <c:when test="${not empty awardBudgetPage}">
+	  <c:set var="projectDatesString" value ="(${KualiForm.document.award.awardIdAccount})" />
+    </c:when>
+    <c:otherwise> 
+	  <div id="workarea">
+	  <c:set var="transParent" value="true"/>
+	  <c:set var="projectDatesString" value ="(${KualiForm.document.parentDocument.award.awardIdAccount})" />
+    </c:otherwise>
+   </c:choose>
+</c:otherwise>
+</c:choose>
 
 <kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
 
@@ -236,7 +248,9 @@
         </table>
 	</div> 
 </kul:tab>
-<kul:panelFooter />
+<c:if test="${proposalBudgetFlag or empty awardBudgetPage}">
+  <kul:panelFooter />
+</c:if>
 <c:choose>                    	
 	<c:when test="${readonly}">
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />

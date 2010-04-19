@@ -28,11 +28,15 @@ import java.util.TreeSet;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
+import org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -45,12 +49,11 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
@@ -833,4 +836,151 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return budgetForm;
     }
     
+    // Attempt for budget limit panel
+    public List<Map <String, List<BudgetDecimal>>> getBudgetLimitsTotals(String budgetId) {
+        final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
+        List<Map <String, List<BudgetDecimal>>> retList = new ArrayList<Map <String, List<BudgetDecimal>>>();
+      fieldValues.put("budgetId", budgetId);
+      Budget budget
+          = (Budget)this.businessObjectService.findByPrimaryKey(AwardBudgetExt.class, fieldValues);
+
+        
+        calculateBudgetTotals(budget);
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = getPersonnelMap();
+        Map <String, List<BudgetDecimal>>  nonPersonnelBudgetLimits = getNonPersonnelMap();
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+//            budgetPeriod.refreshReferenceObject("budgetLineItems");
+            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt)budgetLineItem;
+                if (!"P".equals(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode())) {
+                    addBudgetLimits(nonPersonnelBudgetLimits.get(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode()), awardBudgetLineItem);
+                } else {
+                    addBudgetLimits(personnelBudgetLimits.get("Salary"), awardBudgetLineItem);    
+                    getFringeAndCalculatedCost(personnelBudgetLimits, awardBudgetLineItem);
+                }
+            }
+        }
+        Map <String, List<BudgetDecimal>>  totallBudgetLimits = getTotalMap();
+
+        addTotals(personnelBudgetLimits, totallBudgetLimits);
+        addTotals(nonPersonnelBudgetLimits, totallBudgetLimits);
+        retList.add(personnelBudgetLimits);
+        retList.add(nonPersonnelBudgetLimits);
+        retList.add(totallBudgetLimits);
+        return retList;
+    }
+    
+    private List<BudgetDecimal> initBudgetLimits() {
+        
+        List<BudgetDecimal> budgetLimits = new ArrayList<BudgetDecimal>();
+        budgetLimits.add(BudgetDecimal.ZERO);
+        budgetLimits.add(BudgetDecimal.ZERO);
+        budgetLimits.add(BudgetDecimal.ZERO);
+        return budgetLimits;
+    }
+
+    private void addTotals(Map<String, List<BudgetDecimal>> budgetLimitMap, Map<String, List<BudgetDecimal>> totalsMap) {
+        List<BudgetDecimal> budgetLimits = initBudgetLimits();
+        for (Map.Entry entry : budgetLimitMap.entrySet()) {
+            List<BudgetDecimal> limit = (List<BudgetDecimal>) entry.getValue();
+            if (!"IndirectCost".equalsIgnoreCase((String) entry.getKey())) {
+                addToLimit(budgetLimits, limit);
+            } else {
+                addToLimit(totalsMap.get("FAndA"), limit);
+            }
+        }
+        budgetLimitMap.put("Totals", budgetLimits);
+        addToLimit(totalsMap.get("Direct"), budgetLimits);
+        addToLimit(totalsMap.get("Totals"), budgetLimits);
+        addToLimit(totalsMap.get("Totals"), totalsMap.get("FAndA"));
+    }
+    
+    private void addToLimit(List<BudgetDecimal> budgetLimits, List<BudgetDecimal> limits) {
+        budgetLimits.set(0, budgetLimits.get(0).add(limits.get(0)));
+        budgetLimits.set(1, budgetLimits.get(1).add(limits.get(1)));
+        budgetLimits.set(2, budgetLimits.get(2).add(limits.get(2)));                    
+    }
+    
+    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemExt awardBudgetLineItem) {
+        budgetLimits.set(0, budgetLimits.get(0).add(awardBudgetLineItem.getLineItemCost()));
+        if (awardBudgetLineItem.getObligatedAmount() != null) {
+            budgetLimits.set(1, budgetLimits.get(1).add(awardBudgetLineItem.getObligatedAmount()));
+            budgetLimits.set(2, budgetLimits.get(2).add(awardBudgetLineItem.getObligatedAmount()));
+        }
+        budgetLimits.set(2, budgetLimits.get(2).add(awardBudgetLineItem.getLineItemCost()));
+
+    }
+
+    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt) {
+        budgetLimits.set(0, budgetLimits.get(0).add(awardCalcAmt.getCalculatedCost()));
+        if (awardCalcAmt.getObligatedAmount() != null) {
+            budgetLimits.set(1, budgetLimits.get(1).add(awardCalcAmt.getObligatedAmount()));
+            budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getObligatedAmount()));
+        }
+        budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getCalculatedCost()));
+
+    }
+
+    private Map <String, List<BudgetDecimal>> getNonPersonnelMap() {
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        personnelBudgetLimits.put("E", initBudgetLimits());
+        personnelBudgetLimits.put("T", initBudgetLimits());
+        personnelBudgetLimits.put("S", initBudgetLimits());
+        personnelBudgetLimits.put("O", initBudgetLimits());
+        personnelBudgetLimits.put("CalculatedCost", initBudgetLimits());
+        personnelBudgetLimits.put("IndirectCost", initBudgetLimits());
+        return personnelBudgetLimits;
+    }
+    
+    private Map <String, List<BudgetDecimal>> getPersonnelMap() {
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        personnelBudgetLimits.put("Salary", initBudgetLimits());
+        personnelBudgetLimits.put("Fringe", initBudgetLimits());
+        personnelBudgetLimits.put("CalculatedCost", initBudgetLimits());
+        personnelBudgetLimits.put("IndirectCost", initBudgetLimits());
+        return personnelBudgetLimits;
+    }
+    
+    private Map <String, List<BudgetDecimal>> getTotalMap() {
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        personnelBudgetLimits.put("Direct", initBudgetLimits());
+        personnelBudgetLimits.put("FAndA", initBudgetLimits());
+        personnelBudgetLimits.put("Totals", initBudgetLimits());
+        return personnelBudgetLimits;
+    }
+    
+    private void getFringeAndCalculatedCost(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+            AwardBudgetLineItemExt awardBudgetLineItem) {
+        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                calcExpenseAmount.refreshReferenceObject("rateClass");
+                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
+                // Check for Employee Benefits RateClassType
+                if (calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                    addBudgetLimits(personnelBudgetLimits.get("Fringe"), awardCalcAmt);
+                }
+                else if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
+                    addBudgetLimits(personnelBudgetLimits.get("CalculatedCost"), awardCalcAmt);
+
+                } else {
+                    addBudgetLimits(personnelBudgetLimits.get("IndirectCost"), awardCalcAmt);
+                }
+        }
+    }
+
+    private void getNonPersonnelCalAmt(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+            AwardBudgetLineItemExt awardBudgetLineItem) {
+        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                calcExpenseAmount.refreshReferenceObject("rateClass");
+                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
+                // Check for Employee Benefits RateClassType
+                if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
+                    addBudgetLimits(personnelBudgetLimits.get("CalculatedCost"), awardCalcAmt);
+
+                } else {
+                    addBudgetLimits(personnelBudgetLimits.get("IndirectCost"), awardCalcAmt);
+                }
+        }
+    }
+
+
 }
