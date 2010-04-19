@@ -377,9 +377,9 @@ public class InstitutionalProposalXmlStream extends
 	private CostSharingType[] getCostSharingTypes(
 			InstitutionalProposal institutionalProposal) {
 		List<CostSharingType> costSharingTypes = new ArrayList<CostSharingType>();
-		CostSharingType costSharingType = CostSharingType.Factory.newInstance();
 		for (InstitutionalProposalCostShare institutionalProposalCostShare : institutionalProposal
 				.getInstitutionalProposalCostShares()) {
+		    CostSharingType costSharingType = CostSharingType.Factory.newInstance();		    
 			if (institutionalProposalCostShare.getAmount() != null) {
 				costSharingType.setAmount(institutionalProposalCostShare
 						.getAmount().doubleValue());
