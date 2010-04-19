@@ -75,6 +75,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
+import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -1135,7 +1136,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        if (hasPermission(TaskName.REOPEN_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
         
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
             getProtocolGenericActionService().reopen(protocolForm.getProtocolDocument().getProtocol(), actionBean);
@@ -1185,7 +1186,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        if (hasPermission(TaskName.CLOSE_ENROLLMENT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
         
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
             getProtocolGenericActionService().closeEnrollment(protocolForm.getProtocolDocument().getProtocol(), actionBean);
@@ -1234,7 +1235,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        if (hasPermission(TaskName.SUSPEND_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
         
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
             getProtocolGenericActionService().suspend(protocolForm.getProtocolDocument().getProtocol(), actionBean);
@@ -1284,7 +1285,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
-        if (hasPermission(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB, protocolForm.getProtocolDocument().getProtocol())) {
         
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
             getProtocolGenericActionService().suspendByDsmb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
@@ -1333,7 +1334,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.CLOSE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
             getProtocolGenericActionService().close(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
@@ -1381,7 +1382,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.EXPIRE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
             getProtocolGenericActionService().expire(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
@@ -1428,7 +1429,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.TERMINATE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
             getProtocolGenericActionService().terminate(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
@@ -1475,7 +1476,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.PERMIT_DATA_ANALYSIS, protocolForm.getProtocolDocument().getProtocol())) {
+        if (hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
             getProtocolGenericActionService().permitDataAnalysis(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
@@ -1661,6 +1662,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private boolean hasPermission(String taskName, Protocol protocol) {
         ProtocolTask task = new ProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+    
+    private boolean hasGenericPermission(String genericActionName, Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, protocol);
+        return getTaskAuthorizationService().isAuthorizedForGenericAction(GlobalVariables.getUserSession().getPrincipalId(), task, genericActionName);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
