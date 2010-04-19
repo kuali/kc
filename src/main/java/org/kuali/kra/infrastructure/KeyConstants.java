@@ -392,7 +392,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
     
     //Award Budget
-    public static final String ERROR_AWARD_NOT_FINAL = "error.budget.award.not.final";
+    public static final String ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL = "error.budget.award.not.final";
     public static final String ERROR_AWARD_OBLIGATED_FUNDS = "error.award.obligated.funds";
 
     
