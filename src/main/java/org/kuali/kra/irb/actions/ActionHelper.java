@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
+import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -569,35 +570,35 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasReopenPermission() {
-        return hasPermission(TaskName.REOPEN_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
     }
     
     private boolean hasCloseEnrollmentPermission() {
-        return hasPermission(TaskName.CLOSE_ENROLLMENT_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
     }
     
     private boolean hasSuspendPermission() {
-        return hasPermission(TaskName.SUSPEND_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
     
     private boolean hasSuspendByDmsbPermission() {
-        return hasPermission(TaskName.SUSPEND_PROTOCOL_BY_DSMB);
+        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
     }
     
     private boolean hasClosePermission() {
-        return hasPermission(TaskName.CLOSE_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
     }
     
     private boolean hasExpirePermission() {
-        return hasPermission(TaskName.EXPIRE_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
     }
     
     private boolean hasTerminatePermission() {
-        return hasPermission(TaskName.TERMINATE_PROTOCOL);
+        return hasPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
     }
     
     private boolean hasPermitDataAnalysisPermission() {
-        return hasPermission(TaskName.PERMIT_DATA_ANALYSIS);
+        return hasPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
     }
     
     private boolean hasAdminCorrectionPermission() {
@@ -615,6 +616,11 @@ public class ActionHelper implements Serializable {
     private boolean hasPermission(String taskName) {
         ProtocolTask task = new ProtocolTask(taskName, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasGenericPermission(String genericActionName) {
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol());
+        return getTaskAuthorizationService().isAuthorizedForGenericAction(GlobalVariables.getUserSession().getPrincipalId(), task, genericActionName);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
