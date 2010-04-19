@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -42,6 +43,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -138,6 +140,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private static final String PARTICIPANT_OTHER_CATEGORY = "Participant Other";
 	private static final String OTHER_DIRECT_COSTS_CATEGORY = "Other Direct Costs";
 	private static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
+	private static final String KEYPERSON_OTHER = "Other (Specify)";
 	private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
 	private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
 	private static final Logger LOG = Logger
@@ -1064,9 +1067,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 		compensationInfo.setFringe(bdFringe);
 		compensationInfo.setFundsRequested(bdFunds);
 		compensationInfo.setRequestedSalary(bdSalary);
-		compensationInfo.setSummerMonths(summerMonths);
-		compensationInfo.setAcademicMonths(academicMonths);
-		compensationInfo.setCalendarMonths(calendarMonths);
+		compensationInfo.setSummerMonths(summerMonths.setScale());
+		compensationInfo.setAcademicMonths(academicMonths.setScale());
+		compensationInfo.setCalendarMonths(calendarMonths.setScale());
 
 		// start add costSaring for fedNonFedBudget report
 		compensationInfo.setFringeCostSharing(bdFringeCostSharing);
@@ -1817,8 +1820,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		}
 		for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal()
 				.getInvestigators()) {
-			if (coInvestigator.getInvestigatorFlag()
-					&& !coInvestigator.equals(principalInvestigator)) {
+			if(!coInvestigator.equals(principalInvestigator)){
 				keyPerson = new KeyPersonInfo();
 				keyPerson.setPersonId(coInvestigator.getPersonId());
 				keyPerson.setRolodexId(coInvestigator.getRolodexId());
@@ -1831,9 +1833,15 @@ public class S2SBudgetCalculatorServiceImpl implements
 				keyPerson
 						.setMiddleName((coInvestigator.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
 								: coInvestigator.getMiddleName()));
-				keyPerson.setRole(KEYPERSON_CO_PD_PI);
-				keyPerson
-						.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
+				keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
+				
+				// Assign the roles based on the Proposal Roles
+				if (coInvestigator.getInvestigatorFlag()) {	
+					keyPerson.setRole(KEYPERSON_CO_PD_PI);
+				}else{
+					keyPerson.setRole(KEYPERSON_OTHER);
+					keyPerson.setKeyPersonRole(coInvestigator.getRole().getRoleDescription());
+				}
 				keyPersons.add(keyPerson);
 			}
 		}
@@ -1870,16 +1878,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 						}
 					}
 					if (!personAlreadyAdded) {
-					    Rolodex rolodexPerson = null;
-					    try {
-					        // principal ID length > 10 cause numberformat exception
-						    rolodexPerson = rolodexService
+						Rolodex rolodexPerson = rolodexService
 								.getRolodex(Integer
 										.parseInt(budgetPersonnelDetails
 												.getPersonId()));
-					    } catch (Exception e) {
-                            LOG.error("Rolodex not found " + e);
-					    }
 						if (rolodexPerson != null) {
 							keyPerson = new KeyPersonInfo();
 							keyPerson
@@ -2111,9 +2113,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 			}
 		}
-		compensationInfo.setAcademicMonths(academicMonths);
-		compensationInfo.setCalendarMonths(calendarMonths);
-		compensationInfo.setSummerMonths(summerMonths);
+		compensationInfo.setAcademicMonths(academicMonths.setScale());
+		compensationInfo.setCalendarMonths(calendarMonths.setScale());
+		compensationInfo.setSummerMonths(summerMonths.setScale());
 		compensationInfo.setRequestedSalary(totalSal);
 		compensationInfo.setBaseSalary(baseAmount);
 		compensationInfo.setCostSharingAmount(totalSalCostSharing);
