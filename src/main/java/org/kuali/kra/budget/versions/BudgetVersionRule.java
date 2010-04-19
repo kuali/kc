@@ -27,6 +27,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import static org.kuali.kra.logging.BufferedLogger.*;
 
@@ -92,7 +93,7 @@ public class BudgetVersionRule  implements AddBudgetVersionRule {
         return false;
     }
 
-    public boolean processAddBudgetVersion(AddBudgetVersionEvent event) {
+    public boolean processAddBudgetVersion(AddBudgetVersionEvent event) throws WorkflowException {
         Budget budget = event.getBudget();
         boolean success = true;
         if(budget.getStartDate()==null){

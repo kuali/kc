@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.versions;
 
 import org.kuali.kra.budget.document.BudgetDocumentRule;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
@@ -33,6 +34,6 @@ public interface AddBudgetVersionRule  extends BusinessRule {
      */
     public boolean processAddBudgetVersionName(AddBudgetVersionEvent event);
     
-    public boolean processAddBudgetVersion(AddBudgetVersionEvent event);
+    public boolean processAddBudgetVersion(AddBudgetVersionEvent event) throws WorkflowException;
     
  }
