@@ -670,25 +670,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     businessObjectService.save(newUnrecoveredFandA);
                 }
             }
-            
-            Map<Long, List<BudgetProjectIncome>> newProjectIncomes = new HashMap<Long, List<BudgetProjectIncome>>();
-            BudgetProjectIncome newProjectIncome;
-            List<BudgetProjectIncome> projectIncomeList;
-            for (BudgetProjectIncome projectIncome : childBudget.getBudgetProjectIncomes()) {
-                newProjectIncome = (BudgetProjectIncome)ObjectUtils.deepCopy(projectIncome);
-                newProjectIncome.setBudgetId(budgetId);
-                newProjectIncome.setDocumentComponentId(null);
-                newProjectIncome.setObjectId(null);
-                newProjectIncome.setVersionNumber(null);
-                newProjectIncome.setHierarchyProposalNumber(childProposalNumber);
-                projectIncomeList = newProjectIncomes.get(projectIncome.getBudgetPeriodId());
-                if (projectIncomeList == null) {
-                    projectIncomeList = new ArrayList<BudgetProjectIncome>();
-                    newProjectIncomes.put(projectIncome.getBudgetPeriodId(), projectIncomeList);
-                }
-                projectIncomeList.add(newProjectIncome);
-            }
-            
+
             for (int i = 0, j = parentStartPeriod; i < childPeriods.size(); i++, j++) {
                 childPeriod = childPeriods.get(i);
                 if (j >= parentPeriods.size()) {
@@ -709,15 +691,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 BudgetLineItem parentLineItem;
                 Integer lineItemNumber;
 
-                projectIncomeList = newProjectIncomes.get(childPeriod.getBudgetPeriodId());
-                if (projectIncomeList != null && !projectIncomeList.isEmpty()) {
-                    for (BudgetProjectIncome projectIncome : projectIncomeList) {
-                        projectIncome.setBudgetPeriodId(budgetPeriodId);
-                        projectIncome.setBudgetPeriodNumber(budgetPeriod);
-                        parentBudget.add(projectIncome);
-                    }
-                }
-                
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         parentLineItem = (BudgetLineItem) (KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
