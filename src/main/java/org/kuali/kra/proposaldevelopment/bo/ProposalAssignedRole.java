@@ -22,8 +22,8 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class ProposalAssignedRole extends BusinessObjectBase {
 
-    private String roleName;
-    private List<String> userNames;
+    private final String roleName;
+    private final List<String> userNames;
     
     public ProposalAssignedRole(String roleName, List<String> userNames) {
         this.roleName = roleName;
@@ -39,9 +39,11 @@ public class ProposalAssignedRole extends BusinessObjectBase {
     }
 
     @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        final LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("roleName", roleName);
+        map.put("userNames", userNames);
+        return map;
     }
 
     public void refresh() {
