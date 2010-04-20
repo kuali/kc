@@ -562,6 +562,7 @@ public class BudgetParametersAction extends BudgetAction {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());
                 version.setBudgetStatus(budget.getBudgetStatus());
+                version.setModularBudgetFlag(budget.getModularBudgetFlag());
             }
         }
     }
