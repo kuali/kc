@@ -216,7 +216,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     
     private AwardPersonUnitRuleAddEvent generateAddPersonUnitEvent(AwardPerson projectPerson, int addUnitPersonIndex) {
         return new AwardPersonUnitRuleAddEvent("AwardPersonUnitRuleAddEvent", "projectPersonnelBean.newAwardPersonUnit", getDocument(), 
-                                                                        projectPerson, newAwardPersonUnits[addUnitPersonIndex]);
+                                                                        projectPerson, newAwardPersonUnits[addUnitPersonIndex], addUnitPersonIndex);
     }
 
     private AwardProjectPersonRuleAddEvent generateAddProjectPersonEvent() {

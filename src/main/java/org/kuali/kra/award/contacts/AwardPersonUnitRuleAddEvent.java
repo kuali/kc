@@ -28,12 +28,15 @@ public class AwardPersonUnitRuleAddEvent extends KraDocumentEventBase {
     
     private AwardPersonUnit newPersonUnit;
     private AwardPerson projectPerson;
+    private int addUnitPersonIndex;
     
     protected AwardPersonUnitRuleAddEvent(String description, String errorPathPrefix, Document document, 
-                                                    AwardPerson projectPerson, AwardPersonUnit newPersonUnit) {
+                                                    AwardPerson projectPerson, AwardPersonUnit newPersonUnit,
+                                                    int addUnitPersonIndex) {
         super(description, errorPathPrefix, document);
         this.newPersonUnit = newPersonUnit;
         this.projectPerson = projectPerson;
+        this.addUnitPersonIndex = addUnitPersonIndex;
     }
 
     /**
@@ -49,6 +52,14 @@ public class AwardPersonUnitRuleAddEvent extends KraDocumentEventBase {
     
     public Class<AwardPersonUnitAddRule> getRuleInterfaceClass() {
         return AwardPersonUnitAddRule.class;
+    }
+
+    public void setAddUnitPersonIndex(int addUnitPersonIndex) {
+        this.addUnitPersonIndex = addUnitPersonIndex;
+    }
+
+    public int getAddUnitPersonIndex() {
+        return addUnitPersonIndex;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
