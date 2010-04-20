@@ -54,7 +54,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private static final int NUMBER_30 = 30;
     public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
     public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
-    BusinessObjectService businessObjectService;
     private static final long serialVersionUID = 2737159069734793860L;
     private TransactionBean transactionBean;
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
@@ -205,8 +204,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        return businessObjectService;
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**
