@@ -83,8 +83,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		phsChecklist.setApplicationType(applicationEnum);
 
 		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null
-				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
+		if (federalId != null) {
 			phsChecklist.setFederalID(federalId);
 		}
 

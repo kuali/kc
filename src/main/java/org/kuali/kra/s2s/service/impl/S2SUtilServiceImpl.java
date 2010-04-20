@@ -26,9 +26,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.InstituteProposalDocument;
+import noNamespace.InstituteProposalDocument.InstituteProposal;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -39,6 +43,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -47,6 +52,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -76,7 +82,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
 	private static final String YNQ_NOT_REVIEWED = "X";
-	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String KEY_COUNTRY_CODE = "countryCode";
 	private static final String KEY_STATE_CODE = "stateCode";
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
@@ -312,7 +317,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             institutionalProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
         }
         if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
-            return S2SConstants.FEDERAL_ID_NOT_FOUND;
+            return null;
         } else if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
                 return proposal.getSponsorProposalNumber();
@@ -320,7 +325,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                     && federalIdComesFromAward) {
                 return currentAward.getSponsorAwardNumber();
             } else { 
-                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+                return null;
             }
         } else if (isProposalTypeNew(proposal.getProposalTypeCode())
                 && StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), "3")
@@ -330,10 +335,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             } else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
                 return institutionalProposal.getSponsorProposalNumber();
             } else {
-                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+                return null;
             }
         }
-        return S2SConstants.FEDERAL_ID_NOT_FOUND;
+        return null;
     } 
 
 	/**
@@ -543,15 +548,47 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		if (pdDoc != null) {
 			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
 					.getProposalPersons()) {
-				if (person.getProposalPersonRoleId().equals(
-						PRINCIPAL_INVESTIGATOR)) {
+				if (ContactRole.PI_CODE.equals(person.getProposalPersonRoleId())) {
 					proposalPerson = person;
 				}
 			}
 		}
 		return proposalPerson;
 	}
-
+	/**
+	 * Finds all the Investigators associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return
+	 */
+	public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
+		List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
+		if (pdDoc != null) {
+			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+					.getProposalPersons()) {
+				if(ContactRole.COI_CODE.equals(person.getProposalPersonRoleId())){
+					investigators.add(person);
+				}
+			}
+		}
+		return investigators;
+	}
+	/**
+	 * Finds all the key Person associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return
+	 */
+	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc) {
+		List<ProposalPerson> keyPersons = new ArrayList<ProposalPerson>();
+		if (pdDoc != null) {
+			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+					.getProposalPersons()) {
+				if(ContactRole.KEY_PERSON_CODE.equals(person.getProposalPersonRoleId())){
+					keyPersons.add(person);
+				}
+			}
+		}
+		return keyPersons;
+	}
 	/**
 	 * This method is to get a Country object from the country code
 	 * 
@@ -714,4 +751,5 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return highestQuestionnairSequenceNumber;
 	}
+	
 }

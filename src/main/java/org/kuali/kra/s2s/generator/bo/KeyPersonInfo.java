@@ -158,8 +158,8 @@ public class KeyPersonInfo extends CompensationInfo{
      * 
      * @param role New value of property role.
      */
-    public void setKeyPersonRole(java.lang.String role) {
-        this.role = keyPersonRole;
+    public void setKeyPersonRole(java.lang.String keyPersonRole) {
+        this.keyPersonRole = keyPersonRole;
     }
     /**
      * Setter for nonMITPersonFlag.

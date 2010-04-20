@@ -1801,7 +1801,11 @@ public class S2SBudgetCalculatorServiceImpl implements
 		KeyPersonInfo keyPerson = new KeyPersonInfo();
 		ProposalPerson principalInvestigator = s2SUtilService
 				.getPrincipalInvestigator(pdDoc);
+		
+		// Create master list of contacts
+		List<ProposalPerson> propPersons = new ArrayList<ProposalPerson>();
 		if (principalInvestigator != null) {
+			propPersons.add(principalInvestigator);
 			keyPerson.setPersonId(principalInvestigator.getPersonId());
 			keyPerson.setRolodexId(principalInvestigator.getRolodexId());
 			keyPerson
@@ -1818,34 +1822,65 @@ public class S2SBudgetCalculatorServiceImpl implements
 					.setNonMITPersonFlag(isPersonNonMITPerson(principalInvestigator));
 			keyPersons.add(keyPerson);
 		}
-		for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal()
-				.getInvestigators()) {
-			if(!coInvestigator.equals(principalInvestigator)){
-				keyPerson = new KeyPersonInfo();
-				keyPerson.setPersonId(coInvestigator.getPersonId());
-				keyPerson.setRolodexId(coInvestigator.getRolodexId());
-				keyPerson
-						.setFirstName((coInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getFirstName()));
-				keyPerson
-						.setLastName((coInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getLastName()));
-				keyPerson
-						.setMiddleName((coInvestigator.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getMiddleName()));
-				keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
-				
-				// Assign the roles based on the Proposal Roles
-				if (coInvestigator.getInvestigatorFlag()) {	
-					keyPerson.setRole(KEYPERSON_CO_PD_PI);
-				}else{
-					keyPerson.setRole(KEYPERSON_OTHER);
-					keyPerson.setKeyPersonRole(coInvestigator.getRole().getRoleDescription());
-				}
-				keyPersons.add(keyPerson);
+		
+		for (ProposalPerson coInvestigator : s2SUtilService.getCoInvestigators(pdDoc)) {
+			propPersons.add(coInvestigator);			
+			keyPerson = new KeyPersonInfo();
+			keyPerson.setPersonId(coInvestigator.getPersonId());
+			keyPerson.setRolodexId(coInvestigator.getRolodexId());
+			keyPerson
+					.setFirstName((coInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+							: coInvestigator.getFirstName()));
+			keyPerson
+					.setLastName((coInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+							: coInvestigator.getLastName()));
+			keyPerson
+					.setMiddleName((coInvestigator.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+							: coInvestigator.getMiddleName()));
+			keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
+			
+			keyPerson.setRole(KEYPERSON_CO_PD_PI);
+			keyPersons.add(keyPerson);
+		}
+		
+		for (ProposalPerson propPerson : s2SUtilService.getKeyPersons(pdDoc)) {		
+			propPersons.add(propPerson);			
+			keyPerson = new KeyPersonInfo();
+			keyPerson.setPersonId(propPerson.getPersonId());
+			keyPerson.setRolodexId(propPerson.getRolodexId());
+			keyPerson
+					.setFirstName((propPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+							: propPerson.getFirstName()));
+			keyPerson
+					.setLastName((propPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+							: propPerson.getLastName()));
+			keyPerson
+					.setMiddleName((propPerson.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+							: propPerson.getMiddleName()));
+			keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(propPerson));
+			
+			keyPerson.setRole(KEYPERSON_OTHER);
+			keyPerson.setKeyPersonRole(propPerson.getProjectRole());
+			
+			keyPersons.add(keyPerson);
+		}
+		for (BudgetPerson budgetPerson : budgetPeriod.getBudget().getBudgetPersons()) {		
+			if (!budgetPersonExistInProposalPersons(budgetPerson, propPersons)) {
+			keyPerson = new KeyPersonInfo();
+			keyPerson.setPersonId(budgetPerson.getPersonId());
+			keyPerson.setRolodexId(budgetPerson.getRolodexId());
+			keyPerson
+					.setFirstName((budgetPerson.getPersonName() == null ? S2SConstants.VALUE_UNKNOWN
+							: budgetPerson.getPersonName()));
+
+//				budgetPerson dont have First name and last name hence we are setting person name as First name, and Not setting the last Name. 
+			keyPerson.setNonMITPersonFlag(budgetPerson.getNonEmployeeFlag());
+			keyPerson.setRole(KEYPERSON_OTHER);
+			keyPerson.setKeyPersonRole(budgetPerson.getRole());
+			keyPersons.add(keyPerson);
 			}
 		}
-
+		
 		boolean personAlreadyAdded = false;
 		Map<String, String> categoryMap = new HashMap<String, String>();
 		categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_01);
@@ -1994,6 +2029,22 @@ public class S2SBudgetCalculatorServiceImpl implements
 		listKeyPersons.add(nKeyPersons);
 		listKeyPersons.add(extraPersons);
 		return listKeyPersons;
+	}
+
+	private boolean budgetPersonExistInProposalPersons(
+			BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
+		for (ProposalPerson propPerson:propPersons) {
+			if (budgetPerson.getPersonId() != null) {
+				if (budgetPerson.getPersonId().equals(propPerson.getPersonId())){
+					return true;
+				}
+			} else if (budgetPerson.getRolodexId() != null) {
+				if (budgetPerson.getRolodexId().equals(propPerson.getRolodexId())){
+					return true;
+				}				
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2362,5 +2413,4 @@ public class S2SBudgetCalculatorServiceImpl implements
 	public void setRolodexService(RolodexService rolodexService) {
 		this.rolodexService = rolodexService;
 	}
-
 }
