@@ -228,10 +228,11 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
     private void syncProposalExemptNumbersToExemptNumbers() {
         
         if (this.proposalExemptNumbers == null) {
+            this.exemptNumbers = new String[1];
             return;
         }
         
-        this.exemptNumbers = new String[this.proposalExemptNumbers.size()];
+        this.exemptNumbers = new String[this.proposalExemptNumbers.size()!=0?this.proposalExemptNumbers.size():1];
         
         for (int i = 0; i < this.proposalExemptNumbers.size(); i++) {
             this.exemptNumbers[i] = this.proposalExemptNumbers.get(i).getExemptionTypeCode();
