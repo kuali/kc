@@ -2,10 +2,10 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>UnitAdministratorTypeMaintenanceDocument</name>
-			<description>Create/Edit a Unit Administrator Type</description>
-			<label>Unit Administrator Type</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<name>ValidAwardBasisPaymentMaintenanceDocument</name>
+			<description>Document used to create or update Valid Award Basis Payment business objects.</description>
+			<label>Valid Award Basis Payment Maintenance Document</label>
+			<parent>KcSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

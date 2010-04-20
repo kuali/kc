@@ -29,7 +29,7 @@
 	
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
        <ruleAttribute>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
             <name>AwardCustomDataAttribute</name>
             <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
             <label>AwardCustomDataAttribute</label>
