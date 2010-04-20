@@ -109,8 +109,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			rrsf424.setStateID(state);
 		}
 		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null
-				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
+		if (federalId != null) {
 			if (federalId.length() > 30) {
 				rrsf424.setFederalID(federalId.substring(0, 30));
 			} else {

@@ -168,7 +168,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         // TODO Implement it after institute proposal development is completed
-        return S2SConstants.FEDERAL_ID_NOT_FOUND;
+        return null;
     }
 
     /**

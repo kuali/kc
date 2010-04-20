@@ -233,5 +233,21 @@ public interface S2SUtilService {
 	 */
 	public List<Answer> getQuestionnaireAnswers(
 			ProposalDevelopmentDocument pdDoc,Integer questionnaireId);
+	
+	/**
+	 * Finds all the co-investigators associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return List of Co-Investigators {@link ProposalPerson}.
+	 */
+	
+	public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc);
+	
+	/**
+	 * Finds all the key Person associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return List of Key Persons {@link ProposalPerson}.
+	 */
+	
+	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc);
 
 }
