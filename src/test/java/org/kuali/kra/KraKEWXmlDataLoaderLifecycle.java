@@ -16,119 +16,81 @@
 package org.kuali.kra;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.util.ClassLoaderUtils;
-import org.kuali.rice.kew.batch.StreamXmlDocCollection;
-import org.kuali.rice.kew.batch.XmlDoc;
+import org.kuali.rice.kew.batch.FileXmlDocCollection;
 import org.kuali.rice.kew.batch.XmlDocCollection;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
-public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
+public final class KraKEWXmlDataLoaderLifecycle extends BaseLifecycle {    
+    private static final Logger LOG = Logger.getLogger(KraKEWXmlDataLoaderLifecycle.class);
+    
+    final Collection<File> files = new ArrayList<File>();
 
-    private static final Collection<String> PARENT_KEW_FILES;
-    static {
-        final Collection<String> temp = new ArrayList<String>(); 
-        temp.add("DefaultKewTestData.xml");
-        temp.add("KualiDocument.xml");
-        temp.add("RiceDocument.xml");
-        temp.add("KC.xml"); 
-        temp.add("KcMaintenanceDocument.xml");
-        temp.add("KcProposalsMaintenanceDocument.xml");
-        temp.add("KcAwardsMaintenanceDocument.xml");
-        temp.add("KcComplianceMaintenanceDocument.xml");
-        temp.add("KcSharedMaintenanceDocument.xml");
-        temp.add("KcMiscellaneousMaintenanceDocument.xml");
-        PARENT_KEW_FILES = Collections.unmodifiableCollection(temp);
+    public KraKEWXmlDataLoaderLifecycle(final String pathname) {
+        try {
+            addFile(getFileResource(pathname).getFile());
+        } catch (IOException e) {
+            throw new KraKEWDataLoaderException(e);
+        }
     }
     
-    private boolean started;
-
-    private String pathname;
-
-    public KraKEWXmlDataLoaderLifecycle() {
-        this("classpath:kew/xml");
-    }
-
-    public KraKEWXmlDataLoaderLifecycle(String pathname) {
-        this.pathname = pathname;
-    }
-
-    public boolean isStarted() {
-        return started;
-    }
-
-    public void start() throws Exception {
-        if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("use.kraKewXmlDataLoaderLifecycle"))) {
-            loadKraKewXml();
-            started = true;
-        }
-    }
-
-    public void stop() throws Exception {
-        started = false;
-    }
-
-    private void loadKraKewXml() throws Exception {
-        List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();        
-        
-        Collection<String> rules = new ArrayList<String>();
-        Resource resource = getFileResource(pathname);
-        final File dir = resource.getFile();
-        
-        for(String parentKewFile : PARENT_KEW_FILES) {
-            xmlFiles.add(createStreamXmlDocCollection(dir, parentKewFile));
-        }
-        for (File file : resource.getFile().listFiles()) {
-            String filename=file.getName();
-            if (PARENT_KEW_FILES.contains(filename)) {
-                // do nothing
-            } else if (filename.endsWith("Rules.xml")) {
-                rules.add(filename);
-            } else if (filename.endsWith(".xml")) {
-                xmlFiles.add(createStreamXmlDocCollection(dir, filename));
+    /** recursively adds all kew files to the instance scoped collection. */
+    private void addFile(final File file) {
+        if (file.isDirectory()) {
+            //assuming all files in these directories are kew files - not using a file name filter...
+            for (final File kewFile : file.listFiles()) {
+                addFile(kewFile);
             }
+        } else if (file.isFile()) {
+            files.add(file);
         }
-        for (String filename : rules) {
-            xmlFiles.add(createStreamXmlDocCollection(dir, filename));
-        }
+    }
 
-        loadXmlFiles(xmlFiles);
+
+    @Override
+    public void start() throws Exception {
+        if (Boolean.valueOf(ConfigContext.getCurrentContextConfig().getProperty("use.kraKewXmlDataLoaderLifecycle")).booleanValue()) {
+            KEWServiceLocator.getXmlIngesterService().ingest(fromFiles(this.files));
+        }
+        
+        super.start();
     }
     
-    private StreamXmlDocCollection createStreamXmlDocCollection(File parent, String xmlFile) throws FileNotFoundException {
-        return new StreamXmlDocCollection(new FileInputStream(new File(parent, xmlFile)));
+    /** converts a Collection of files to a List of XmlDocCollection which is required by the ingester. */
+    private static List<XmlDocCollection> fromFiles(Collection<File> files) {
+        final List<XmlDocCollection> xmlFiles = new ArrayList<XmlDocCollection>();
+        for (final File file : files) {
+            
+            LOG.info("################################");
+            LOG.info("#");
+            LOG.info("#  Begin Loading file '" + file.getName() + "'");
+            LOG.info("#");
+            LOG.info("################################");
+            
+            xmlFiles.add(new FileXmlDocCollection(file));
+        }
+        
+        return xmlFiles;
     }
-
+    
     private Resource getFileResource(String sourceName) {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         return resourceLoader.getResource(sourceName);
     }
     
-    protected void loadXmlFiles(List<XmlDocCollection> xmlFiles) throws Exception {
-        KEWServiceLocator.getXmlIngesterService().ingest(xmlFiles);
-        
-        for (XmlDocCollection xmlFile : xmlFiles) {
-            for (XmlDoc doc : xmlFile.getXmlDocs()) {
-                if (!doc.isProcessed()) {
-                    throw new KraKEWDataLoaderException("failed to ingest doc: " + doc.getName() + " see processing message: " + doc.getProcessingMessage());
-                }
-            }
-        }
-    }
-    
     public static class KraKEWDataLoaderException extends RuntimeException {
-        public KraKEWDataLoaderException(String msg) {
-            super(msg);
+        public KraKEWDataLoaderException(Throwable t) {
+            super(t);
         }
     }
 }
