@@ -16,9 +16,9 @@ the kew files are organized in a hierarchy like so.
 You can zip each folder and use the rice ingester to reingest the hierarchy.
 You must start with the lowest numbered folder and work your way down.
 
-Given the current implementation of the rice ingester you could also zip the parent
-directory (xml) and feed that into the rice ingester.  That will ingest everything in the
-correct order b/c of the current directory names.
+Given the current implementation of the rice ingester you could also zip up all the numbered directories
+and feed that into the rice ingester.  That will ingest everything in the
+correct order b/c of the current directory names.  (this may not work across platforms)...
 
 Note: Currently, the directory structure is flat to allow the xml files
 to be simply zipped.  Organizing the files like base_dir/1/2/3/4/5 does not
