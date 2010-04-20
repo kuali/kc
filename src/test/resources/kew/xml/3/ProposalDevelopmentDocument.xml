@@ -10,7 +10,7 @@
 			<label>Copy Action List Attribute</label>
 			<description>Copy Action List Attribute</description>
 			<type>ActionListAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 		</ruleAttribute>
 
 		<ruleAttribute>
@@ -19,7 +19,7 @@
 			<label>AggregatorSearchAttribute</label>
 			<description>AggregatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="aggregator" title="Aggregator">
 					<display>
@@ -56,7 +56,7 @@
 			<label>BudgetCreatorSearchAttribute</label>
 			<description>BudgetCreatorSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="budgetCreator" title="Budget Creator">
 					<display>
@@ -89,7 +89,7 @@
 			<label>NarrativeWriterSearchAttribute</label>
 			<description>NarrativeWriterSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="narrativeWriter"
 					title="Narrative Writer">
@@ -123,7 +123,7 @@
 			<label>ViewerSearchAttribute</label>
 			<description>ViewerSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="viewer" title="Viewer">
 					<display>
@@ -157,7 +157,7 @@
 			<label>ProposalNumberSearchAttribute</label>
 			<description>ProposalNumberSearchAttribute</description>
 			<type>SearchableXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<searchingConfig>
 				<fieldDef name="proposalNumber" title="Proposal ID">
 					<display>
@@ -188,7 +188,7 @@
 			<label>DepartmentalApprovalAttribute</label>
 			<description>DepartmentalApprovalAttribute</description>
 			<type>RuleXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<routingConfig>
 				<fieldDef name="ownedByUnitNumber" title="Lead Unit"
 					workflowType="RULE">
@@ -198,12 +198,14 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-						  	wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
+						  	wf:xstreamsafe('//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 			</routingConfig>
 		</ruleAttribute>
+
+           
 		
 		<ruleAttribute>
 			<name>DepartmentalBudgetApprovalAttribute</name>
@@ -215,7 +217,7 @@
 				DepartmentalBudgetApprovalAttribute
 			</description>
 			<type>RuleXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<routingConfig>
 				<fieldDef name="totalCost" title="Total"
 					workflowType="RULE">
@@ -232,6 +234,8 @@
 			</routingConfig>
 		</ruleAttribute>
 
+
+
 		<!-- custom attribute -->
 		<ruleAttribute>
             <name>CustomDataAttribute</name>
@@ -239,7 +243,7 @@
             <label>CustomDataAttribute</label>
             <description>CustomDataAttribute</description>
             <type>RuleXmlAttribute</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
             <routingConfig>
                 <!-- work in progress -->
                 <fieldDef name="billingElement" title="Billing Element" workflowType="RULE">
@@ -272,7 +276,7 @@
                         <xpathexpression>string(//xmlRouting/field[@name='costSharingBudget']/value) = wf:ruledata('costSharingBudget')</xpathexpression>
                     </fieldEvaluation>
                 </fieldDef>
-                <fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
+     			<fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
                     <display>
                         <type>text</type>
                     </display>
@@ -331,7 +335,7 @@
 			<label>ProposalPersons-XPathQualifierResolver</label>
 			<description>ProposalPersons-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<qualifier name="proposal">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
@@ -339,20 +343,19 @@
 			</resolverConfig>
 		</ruleAttribute>
 
-		<!-- 
 		<ruleAttribute>
 			<name>DepartmentRouting-XPathQualifierResolver</name>
 			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
 			<label>DepartmentRouting-XPathQualifierResolver</label>
 			<description>DepartmentRouting-XPathQualifierResolver</description>
 			<type>QualifierResolver</type>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<qualifier name="unitNumber">
 					<xPathExpression>//document/developmentProposalList[1]/org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
 				</qualifier>
 			</resolverConfig>
-		</ruleAttribute> -->
+		</ruleAttribute>
 
 	</ruleAttributes>
 
@@ -440,18 +443,20 @@
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
 	            </role>
-				<role name="UnitRouting">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+				<requests name="UnitRouting">
+					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>
+					<!--  <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> -->
 					<ruleTemplate>CustomApproval</ruleTemplate>
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-	            </role>
-				<role name="DepartmentalRouting">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+	            </requests>
+				<requests name="DepartmentalRouting">
+					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>
+					<!--  <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> -->
 					<ruleTemplate>DepartmentalApproval</ruleTemplate>
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-	            </role>
+	            </requests>
 				<role name="OSPOfficeRouting">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
@@ -537,6 +542,16 @@
 					</ruleExtensionValues>
 				</ruleExtension>
 			</ruleExtensions>
+			
+			<responsibilities>
+        		<responsibility>
+          			<workgroup>KC-WKFLW:Proposal Development - Custom Approval Reviewers</workgroup>
+          			<approvePolicy>F</approvePolicy>
+          			<actionRequested>A</actionRequested>
+          			<priority>1</priority>
+        		</responsibility>
+      		</responsibilities>
+			
 		</rule>
 		
 		<rule>
@@ -568,6 +583,17 @@
 				</ruleExtension>
 				-->
 			</ruleExtensions>
+			
+			<responsibilities>
+        		<responsibility>
+          			<workgroup>KC-WKFLW:Proposal Development - Department Reviewers</workgroup>
+          			<approvePolicy>F</approvePolicy>
+          			<actionRequested>A</actionRequested>
+          			<priority>1</priority>
+        		</responsibility>
+      		</responsibilities>
+			
+			
 		</rule>
 
 	</rules>

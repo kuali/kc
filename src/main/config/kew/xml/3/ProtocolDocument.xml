@@ -56,7 +56,7 @@
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 	
 	    <ruleAttribute>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
             <name>ProtocolWorkflowTypeAttribute</name>
             <className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
             <label>ProtocolWorkflowTypeAttribute</label>
