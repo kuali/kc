@@ -32,9 +32,10 @@
 	
 	<param name="dev.mode">true</param>
 
+	<param name="service.namespace">KC</param>
+	<param name="app.namespace">${service.namespace}</param>
+
 	<param name="module.name">kc</param>
-	<param name="service.namespace">${module.name}</param>
-	<param name="app.namespace">${module.name}</param>
 	<param name="app.code">${module.name}</param>
 	
 	<param name="application.host">127.0.0.1</param>
