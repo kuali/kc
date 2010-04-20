@@ -46,7 +46,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) throws WorkflowException {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("awardNumber", award.getAwardNumber());
-        fieldValues.put("versionNumber", award.getVersionNumber());
+        fieldValues.put("sequenceNumber", award.getSequenceNumber());
         List<AwardAmountInfo> awardAmountInfos = 
             (List<AwardAmountInfo>)getBusinessObjectService().findMatchingOrderBy(AwardAmountInfo.class, fieldValues, "awardAmountInfoId", true);
         List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();

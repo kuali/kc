@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import java.util.LinkedHashMap;
 
-public class AwardTransactionType extends KraPersistableBusinessObjectBase { 
+import org.kuali.kra.award.AwardAssociate;
+
+public class AwardTransactionType extends AwardAssociate
+{ 
     
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +65,11 @@ public class AwardTransactionType extends KraPersistableBusinessObjectBase {
         hashMap.put("description", this.getDescription());
         hashMap.put("showInActionSummary", this.getShowInActionSummary());
         return hashMap;
+    }
+
+    public void resetPersistenceState() {
+        // TODO Auto-generated method stub
+        
     }
     
 }
