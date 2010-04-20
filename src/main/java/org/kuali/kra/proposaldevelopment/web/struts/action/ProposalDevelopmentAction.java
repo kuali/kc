@@ -210,7 +210,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     protected void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
-        updateNIHDescriptions(document);     
+        updateNIHDescriptions(document);
+        setBudgetStatuses(document);
     }
     
     protected SponsorService getSponsorService() {
