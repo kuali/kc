@@ -199,7 +199,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }else {
             noticeDate = "empty";
         }
-        return "Award Version " + award.getVersionNumber().toString() + ": " + award.getAwardTransactionType().getDescription() + 
+        return "Award Version " + award.getSequenceNumber().toString() + ": " + award.getAwardTransactionType().getDescription() + 
                     ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
     }
     
