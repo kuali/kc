@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Default test data for KEW unit tests -->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>TestRuleAttribute</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute</label>
+			<description>Test Rule Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+				<ruleAttribute>
+			<name>TestRuleAttribute2</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute 2</label>
+			<description>Test Rule Attribute 2</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TestRuleAttribute3</name>
+			<className>org.kuali.rice.kew.rule.TestRuleAttribute</className>
+			<label>Test Rule Attribute 3</label>
+			<description>Test Rule Attribute 3</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate>
+			<name>TestRuleTemplate</name>
+			<description>TestRuleTemplate</description>
+			<attributes>
+				<attribute>
+					<name>TestRuleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+	      <name>KualiDocument</name>
+	      <description>KualiDocument</description>
+	      <label>KualiDocument</label>
+	      <postProcessorName>none</postProcessorName>
+	      <policies>
+	        <policy>
+	          <name>DEFAULT_APPROVE</name>
+	          <value>true</value>
+	        </policy>
+	        <policy>
+	          <name>LOOK_FUTURE</name>
+	          <value>true</value>
+	        </policy>
+	  </policies>
+	      <routePaths>
+	        <routePath>
+	          <start name="PreRoute" />
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="PreRoute">
+	          <activationType>S</activationType>
+	          <mandatoryRoute>false</mandatoryRoute>
+	          <finalApproval>false</finalApproval>
+	        </start>
+	      </routeNodes>
+	    </documentType>
+	    <documentType>
+	      <name>RiceDocument</name>
+	      <parent>KualiDocument</parent>
+	      <description>Parent Document Type for all Rice Documents</description>
+	      <label>Rice Document</label>
+	    </documentType>
+        <documentType>
+            <name>DocumentTypeDocument</name>
+            <parent>RiceDocument</parent>
+            <description>Workflow Maintenance Document Type Document</description>
+            <label>Workflow Maintenance Document Type Document</label>
+            <postProcessorName>org.kuali.rice.kew.doctype.DocumentTypePostProcessor</postProcessorName>
+            <docHandler>${workflow.url}/DocumentType.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <policies />
+            <routePaths>
+                <routePath>
+                    <start name="placeholder" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="placeholder">
+                    <activationType>S</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+		<documentType>
+			<name>TestDocumentType</name>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<serviceNamespace>KEW</serviceNamespace>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RouteLevel1" />
+					<requests name="RouteLevel1" nextNode="RouteLevel2" />
+					<requests name="RouteLevel2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="RouteLevel1">
+					<activationType>S</activationType>
+					<routeModule>org.kuali.rice.kew.routemodule.TestRouteModule</routeModule>
+				</requests>
+				<requests name="RouteLevel2">
+					<activationType>P</activationType>
+					<ruleTemplate>TestRuleTemplate</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>TestDocumentType2</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<!-- This is set to KEWNEW for the RouteQueueTest.testGetNextDocumentsWithserviceNamespace() -->
+			<serviceNamespace>KEWNEW</serviceNamespace>
+		</documentType>
+		<documentType>
+			<name>TestDocumentType3</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<docHandler>_blank</docHandler>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDocumentType</documentType>
+            <ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<forceAction>false</forceAction>
+			<responsibilities>
+				<responsibility>
+					<role>org.kuali.rice.kew.rule.TestRuleAttribute!TestRole</role>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>
