@@ -234,6 +234,9 @@ public class AwardHomeAction extends AwardAction {
         awardMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
         getKeywordService().addKeywords(awardDocument, awardMultiLookupForm);
+        
+        awardDocument.refreshReferenceObject("sponsor");
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -252,6 +255,8 @@ public class AwardHomeAction extends AwardAction {
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
 //        }
+        AwardDocument awardDocument = ((AwardForm)form).getAwardDocument();
+        awardDocument.getAward().refreshReferenceObject("sponsor");
 
         return forward;
     }
