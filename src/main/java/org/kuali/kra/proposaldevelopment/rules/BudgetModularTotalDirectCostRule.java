@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -153,10 +154,23 @@ public final class BudgetModularTotalDirectCostRule {
 
                 final BudgetDocument budgetDocument = this.getBudgetDocument(
                     budgetOverview.getDocumentNumber());
+                updateDocumentBudget(budgetDocument, budgetOverview);
                 passed &= this.checkTotalDirectCost(budgetDocument, i, reportErrors, warningMessages);
             }
         }
         return passed;
+    }
+
+    /* 
+     * The budgetdocument.budget may not have complete data match with version
+     */
+    private void updateDocumentBudget(BudgetDocument budgetDocument, BudgetVersionOverview version) {
+        Budget budget = budgetDocument.getBudget();
+        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        
+        budget.setFinalVersionFlag(version.isFinalVersionFlag());
+        budget.setBudgetStatus(version.getBudgetStatus());
+        budget.setModularBudgetFlag(version.getModularBudgetFlag());
     }
 
     /**

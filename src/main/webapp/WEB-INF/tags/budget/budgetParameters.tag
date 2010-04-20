@@ -31,7 +31,7 @@
 	</c:if>
 </c:forEach>
  
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.residualFunds,document.budget.totalCostLimit" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.residualFunds,document.budget.totalCostLimit,budgetVersionOverview[*" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
 	<div class="tab-container" align="center">
     	<h3>Budget Overview</h3>
         <table cellpadding=0 cellspacing=0 summary="">
