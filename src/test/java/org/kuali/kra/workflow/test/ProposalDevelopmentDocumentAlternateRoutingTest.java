@@ -77,7 +77,8 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         
         transactionalLifecycle.stop();
         new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
+        //FIXME: kew file reorg
+        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
         customKEWLifecycle.start();
 
         FileUtils.deleteDirectory(xmlBackupDir);

@@ -18,6 +18,7 @@ package org.kuali.kra;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -39,8 +40,6 @@ import org.kuali.rice.test.TransactionalLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
-
-import java.util.Collections;
 
 /**
  * This class is the base class for all KCRA Tests requiring a Spring context with persistence, but no preloaded test data
@@ -131,7 +130,11 @@ public abstract class KcraNoDataTestBase extends RiceTestCase {
         super.setUpInternal();
         try {
             if (!KC_SUITE_LIFE_CYCLES_RAN) {
-                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle()));
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/1")));
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/2")));
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/3")));
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/4")));
+                startLifecycles(Collections.<Lifecycle>singletonList(new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/5")));
                 KC_SUITE_LIFE_CYCLES_RAN = true;
             }
         } catch (Throwable t) {
