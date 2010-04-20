@@ -83,7 +83,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        forward = super.save(mapping, form, request, response);
+        //forward = super.save(mapping, form, request, response);
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
@@ -121,7 +121,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                         awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                         award.getAwardAmountInfos().add(aai);
-                        //addToList = true;
                 }
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null &&
@@ -140,7 +139,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         aai.setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                         awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                         award.getAwardAmountInfos().add(aai);
-                        //addToList = true;
                 }
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null &&
@@ -159,16 +157,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                         awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                         award.getAwardAmountInfos().add(aai);
-                        //addToList = true;
                 }
             }
-//            if(addToList){
-//                awardAmountInfoObjects.add(aai);                
-//            }
             getBusinessObjectService().save(award);
         }
+        forward = super.save(mapping, form, request, response);
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
-        //getBusinessObjectService().save(timeAndMoneyDocument.getAward());
         getBusinessObjectService().save(awardAmountInfoObjects);
         getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
         //save all transaction details from No Cost extension date changes.
