@@ -103,7 +103,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     
     public List<UnitAdministrator> getOspAdministrators() {
         List<UnitAdministrator> ospAdministrators = new ArrayList<UnitAdministrator>();
-        for(UnitAdministrator unitAdministrator : unit.getUnitAdministrators()) {
+        for(UnitAdministrator unitAdministrator : getUnit().getUnitAdministrators()) {
             if(unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
                 ospAdministrators.add(unitAdministrator);
             }
