@@ -7,7 +7,7 @@
 		<documentType>
 			<name>KC</name>
 			<parent>KualiDocument</parent>
-			<serviceNamespace>kc</serviceNamespace>
+			<serviceNamespace>KC</serviceNamespace>
 			<!--Does not work when using param replacement-->
 			<!--<serviceNamespace>${service.namespace}</serviceNamespace>-->
 			<postProcessorName>

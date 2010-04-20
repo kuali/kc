@@ -1,0 +1,25 @@
+run the following to clear out the kew tables 
+
+delete from krew_rule_t;
+delete from krew_rule_tmpl_t;
+delete from krew_doc_typ_t;
+commit;
+
+the kew files are organized in a hierarchy like so.
+
+           1 (KualiDocument.xml)
+          / \
+(KC.xml) 2   2
+        / \ / \
+       3  33   3 (AwardDocument.xml)
+       
+You can zip each folder and use the rice ingester to reingest the hierarchy.
+You must start with the lowest numbered folder and work your way down.
+
+Given the current implementation of the rice ingester you could also zip the parent
+directory (xml) and feed that into the rice ingester.  That will ingest everything in the
+correct order b/c of the current directory names.
+
+Note: Currently, the directory structure is flat to allow the xml files
+to be simply zipped.  Organizing the files like base_dir/1/2/3/4/5 does not
+work with the current implementation of the rice ingester.

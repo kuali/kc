@@ -6,7 +6,7 @@
 			<description>Create a Committee</description>
 			<label>Committee Document</label>
 			<parent>KC</parent>
-            <docHandler>${kuali.docHandler.url.prefix}/committeeCommittee.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/committeeCommittee.do?methodToCall=docHandler</docHandler>
 		</documentType>
 	</documentTypes>	
 </data>
