@@ -43,7 +43,7 @@
 	<param name="rice.app.url">${application.url}</param>
 
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
-	<param name="externalizable.images.url">/${rice.app.url}/kr/static/images/</param>
+	<param name="externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
