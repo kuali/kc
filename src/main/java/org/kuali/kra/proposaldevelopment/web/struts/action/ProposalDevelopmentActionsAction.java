@@ -563,25 +563,29 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
       
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        
-        if (requiresResubmissionPrompt(proposalDevelopmentForm)) {
-            return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
-        }
-
+       
         proposalDevelopmentForm.setAuditActivated(true);
-        
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         int status = isValidSubmission(proposalDevelopmentDocument);
-        if (status == OK) {
-            forward = submitApplication(mapping, form, request, response);
-        } 
-        else if (status == WARNING) {
-            StrutsConfirmation question = buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response);
-            forward = confirm(question, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
-        }
         
-        proposalDevelopmentForm.setResubmissionOption(null);
-        proposalDevelopmentForm.setInstitutionalProposalToVersion(null);
+       
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        
+        if( (question == null || buttonClicked == null ) && status == WARNING && proposalDevelopmentForm.getResubmissionOption()==null) {
+                StrutsConfirmation qst = buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response);
+                forward = confirm(qst, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
+                proposalDevelopmentForm.setResubmissionOption(null);
+                proposalDevelopmentForm.setInstitutionalProposalToVersion(null);
+        } else if ( ConfirmationQuestion.NO.equals( buttonClicked )) {
+            //do nothing
+        } else {
+            if ( ConfirmationQuestion.YES.equals(buttonClicked) && requiresResubmissionPrompt(proposalDevelopmentForm)) {
+                return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
+            } 
+            forward = submitApplication(mapping, form, request, response);
+        }            
+
         return forward;      
     }
     
