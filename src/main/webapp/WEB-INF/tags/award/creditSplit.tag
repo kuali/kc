@@ -46,8 +46,6 @@
             <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
             <c:set var="projectPersonProperty" value="document.awardList[0].projectPersons[${ppStatus.index}]" />
             
-            <%-- For each project person unit ... --%>
-            <c:forEach items="${projectPerson.units}" var="personUnit" varStatus="unitStatus">
                 <tr>
                     <%-- ... show full name --%>
                     <td nowrap class="tab-subhead">
@@ -76,6 +74,8 @@
                         </c:forEach>
                     </c:forEach>                               
                 </tr>             
+            <%-- For each project person unit ... --%>
+            <c:forEach items="${projectPerson.units}" var="personUnit" varStatus="unitStatus">
             
                 <tr>
                     <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
