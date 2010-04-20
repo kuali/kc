@@ -266,9 +266,9 @@
 	    </tr>
 	    <tr>
 	        <td colspan="6">
-	        	${KualiForm.valueFinderResultDoNotCache}
-	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />
 	            ${KualiForm.valueFinderResultCache}
+	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />
+	        	${KualiForm.valueFinderResultDoNotCache}
 	            <c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClassKey}" >
 	            	<kra-a:awardReporting innerTabParent="${reportClassLabel}" index="${status.index}" />
 	            </c:if>		    
