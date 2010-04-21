@@ -193,12 +193,12 @@
         var racodereverse = revString(racode);
         var index = racodereverse.indexOf("0");
         var i2 = 12 - index;
-        var racode2 = racode.substring(i2,12); 
+        var racode2 = racode.substring(i2,12);  
         var tblWidth = 100-(parseInt(level)+1);
         
       	var abc = "<table style=\"border: medium none ; width: " + tblWidth + "%; border-collapse: collapse;\"><tbody><tr><td align='left' style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1
       				+ "</td><td align='right' style='border: medium none ; border-collapse: collapse; vertical-align: top;'>"
-      				+ "<a href='kew/DocHandler.do?docId=" + text15 + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
+      				+ "<a href='awardHome.do?methodToCall=docHandler&docId=" + text15 + "&awardNumber=" + racode + "&command=displayDocSearchView' target='_blank'><img src='static/images/tinybutton-open.gif' /></a>"
       				+ "</td></tr></tbody></table>"; 
       	return abc; 
     }

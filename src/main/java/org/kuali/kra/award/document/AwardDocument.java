@@ -532,4 +532,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return budget;
     }
 
+    public boolean isPlaceHolderDocument() {
+        if(getDocumentHeader() != null)
+            return PLACEHOLDER_DOC_DESCRIPTION.equals(getDocumentHeader().getDocumentDescription());
+        return false;
+    }
 }
