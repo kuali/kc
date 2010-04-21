@@ -87,7 +87,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<AwardAmountInfo>();
-        boolean isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(TEN);//Transaction type code for No Cost Extension
+        //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
+        boolean isNoCostExtension;
+        if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
+            isNoCostExtension = false;
+        }else {
+            isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(TEN);//Transaction type code for No Cost Extension
+        }
         
         //if Dates have changed in a node in hierarchy view and the Transaction Type is a No Cost Extension,
         //we need to record this as a transaction in history.
@@ -252,18 +258,20 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     
     private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardAmountTransaction aat = timeAndMoneyDocument.getNewAwardAmountTransaction();
-        if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0 ||
-                (timeAndMoneyDocument.getAwardAmountTransactions().size() == 1 && 
-                        timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null)) {
-            aat.setAwardNumber(timeAndMoneyDocument.getAwardNumber());
-            aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-            timeAndMoneyDocument.getAwardAmountTransactions().set(0, aat);
-        }else {
-            AwardAmountTransaction firstAatInList = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
-            for(AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
-                awardAmountTransaction.setTransactionTypeCode(firstAatInList.getTransactionTypeCode());
-                awardAmountTransaction.setNoticeDate(firstAatInList.getNoticeDate());
-                awardAmountTransaction.setComments(firstAatInList.getComments());
+        if(!(aat == null)) {
+            if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0 ||
+                    (timeAndMoneyDocument.getAwardAmountTransactions().size() == 1 && 
+                            timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null)) {
+                aat.setAwardNumber(timeAndMoneyDocument.getAwardNumber());
+                aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                timeAndMoneyDocument.getAwardAmountTransactions().set(0, aat);
+            }else {
+                AwardAmountTransaction firstAatInList = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
+                for(AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
+                    awardAmountTransaction.setTransactionTypeCode(firstAatInList.getTransactionTypeCode());
+                    awardAmountTransaction.setNoticeDate(firstAatInList.getNoticeDate());
+                    awardAmountTransaction.setComments(firstAatInList.getComments());
+                }
             }
         }
     }
