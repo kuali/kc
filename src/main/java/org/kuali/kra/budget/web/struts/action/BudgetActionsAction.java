@@ -67,6 +67,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class BudgetActionsAction extends BudgetAction implements AuditModeAction {
     private static final String CONTENT_TYPE_XML = "text/xml";
@@ -428,6 +429,50 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+    }
+
+    /**
+     * audit link method
+     */
+    public ActionForward budgetDistributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        return super.distributionAndIncome(mapping, form, request, response);
+    }
+
+    /**
+     * audit link method
+     */
+    public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.parameters(mapping, form, request, response);
+    }
+
+    /**
+     * audit link method
+     */
+    public ActionForward budgetExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        return super.expenses(mapping, form, request, response);
+    }
+    
+    /**
+     * audit link method
+     */
+    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.personnel(mapping, form, request, response);
+    }
+
+    /**
+     * audit link method
+     */
+    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.parameters(mapping, form, request, response);
+    }
+    
+    /**
+     * audit link method
+     */
+    public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.rates(mapping, form, request, response);
     }
 
 }

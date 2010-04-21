@@ -79,6 +79,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.HeaderField;
 
 public class BudgetAction extends BudgetActionBase {
@@ -160,7 +161,7 @@ public class BudgetAction extends BudgetActionBase {
             }               
         }
         // check if audit rule check is done from PD
-        if (budgetForm.isAuditActivated()) {
+        if (budgetForm.isAuditActivated() && !"route".equals(((KualiForm)form).getMethodToCall())) {
             KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getDocument()));
         }
         
@@ -220,9 +221,6 @@ public class BudgetAction extends BudgetActionBase {
         getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());
         
 
-//        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-//            forward = this.getReturnToProposalForward(budgetForm);
-//        }
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         if (budgetForm.toBudgetVersionsPage()
@@ -233,9 +231,17 @@ public class BudgetAction extends BudgetActionBase {
             tdcValidator.validateGeneratingWarnings(budgetDoc.getParentDocument());
         }
 
-        if (budgetForm.isAuditActivated()) {
-            forward = mapping.findForward("budgetActions");
+        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
+            if (Boolean.valueOf(savedBudgetDoc.getParentDocument().getProposalBudgetFlag())) {
+                forward = this.getReturnToProposalForward(budgetForm);
+            }
+            else {
+                forward = mapping.findForward("budgetActions");
+            }
         }
+//        if (budgetForm.isAuditActivated()) {
+//            forward = mapping.findForward("budgetActions");
+//        }
 
         return forward;
     }
