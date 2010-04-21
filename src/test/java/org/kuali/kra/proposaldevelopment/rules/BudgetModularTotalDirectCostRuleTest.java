@@ -408,12 +408,11 @@ public class BudgetModularTotalDirectCostRuleTest {
             public BudgetDocument getByDocumentHeaderId(final String documentHeaderId) {
                 final BudgetDocument doc = new BudgetDocument();
                 doc.getBudget().setModularBudgetFlag(Boolean.FALSE);
-
                 final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(BudgetDecimal.ZERO);
+                modular1.setTotalDirectCost(new BudgetDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 
