@@ -225,38 +225,6 @@
                     <property name="taskName" value="protocolApprove" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.ReopenProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolReopen" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.CloseEnrollmentProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolCloseEnrollment" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.SuspendProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolSuspend" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.SuspendByDsmbProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolSuspendByDsmb" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.CloseProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolClose" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.ExpireProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolExpire" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.TerminateProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolTerminate" />
-                </bean>
-                
-                <bean class="org.kuali.kra.irb.auth.PermitDataAnalysisProtocolAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="protocolPermitDataAnalysis" />
-                </bean>
-                
                 <bean class="org.kuali.kra.irb.auth.GenericProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="genericProtocolAction" />
                 </bean>
