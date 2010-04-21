@@ -194,12 +194,18 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     private String buildAwardDescriptionLine(Award award, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardAmountTransaction aat = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
         String noticeDate;
+        String transactionTypeDescription;
         if(!(aat.getNoticeDate() == null)) {
             noticeDate = aat.getNoticeDate().toString();
         }else {
             noticeDate = "empty";
         }
-        return "Award Version " + award.getSequenceNumber().toString() + ": " + award.getAwardTransactionType().getDescription() + 
+        if(!(award.getAwardTransactionType().getDescription() == null)) {
+            transactionTypeDescription = award.getAwardTransactionType().getDescription();
+        }else {
+            transactionTypeDescription = "empty";
+        }
+        return "Award Version " + award.getSequenceNumber().toString() + ": " + transactionTypeDescription + 
                     ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
     }
     
