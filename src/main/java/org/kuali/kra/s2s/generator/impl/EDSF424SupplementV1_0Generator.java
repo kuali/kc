@@ -104,9 +104,9 @@ public class EDSF424SupplementV1_0Generator extends
 					exemptionsNumber
 							.setIsHumanResearchExempt(YesNoDataType.YES);
 					if (specialReview.getExemptNumbers() != null
-							&& specialReview.getExemptNumbers().length > 0) {
+							&& specialReview.getExemptNumbers().size() > 0) {
 						exemptionsNumber.setStringValue(s2sUtilService
-								.convertStringArrayToString(specialReview
+						        .convertStringListToString(specialReview
 										.getExemptNumbers()));
 					}
 					edsf424Supplement.setExemptionsNumber(exemptionsNumber);

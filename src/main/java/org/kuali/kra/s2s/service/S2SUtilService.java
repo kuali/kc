@@ -222,6 +222,14 @@ public interface S2SUtilService {
 	 * @return String created from StringArray
 	 */
 	public String convertStringArrayToString(String[] stringArray);
+	
+	/**
+	 * 
+	 * Converts String objects in a list into a String separated by commas
+	 * @param stringList
+	 * @return
+	 */
+	public String convertStringListToString(List<String> stringList);	
 
 	/**
 	 * Finds all the Questionnaire Answers associates with provided

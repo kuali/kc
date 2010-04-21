@@ -49,7 +49,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
 
-    private String[] exemptNumbers;
+    private List<String> exemptNumbers = new ArrayList<String>();
     private List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
  
     private String hierarchyProposalNumber;
@@ -182,11 +182,11 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
 
     }
     
-    public String[] getExemptNumbers() {
+    public List<String> getExemptNumbers() {
         return this.exemptNumbers;
     }
 
-    public void setExemptNumbers(String[] exemptNumbers) {
+    public void setExemptNumbers(List<String> exemptNumbers) {
         this.exemptNumbers = exemptNumbers;
         this.syncExemptNumbersToProposalExemptNumbers();
     }
@@ -228,14 +228,13 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
     private void syncProposalExemptNumbersToExemptNumbers() {
         
         if (this.proposalExemptNumbers == null) {
-            this.exemptNumbers = new String[1];
             return;
         }
         
-        this.exemptNumbers = new String[this.proposalExemptNumbers.size()!=0?this.proposalExemptNumbers.size():1];
+        this.exemptNumbers = new ArrayList<String>();
         
         for (int i = 0; i < this.proposalExemptNumbers.size(); i++) {
-            this.exemptNumbers[i] = this.proposalExemptNumbers.get(i).getExemptionTypeCode();
+            this.exemptNumbers.add(this.proposalExemptNumbers.get(i).getExemptionTypeCode());
         }
     }
 

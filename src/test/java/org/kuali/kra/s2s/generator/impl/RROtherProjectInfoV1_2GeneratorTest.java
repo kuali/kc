@@ -59,6 +59,9 @@ public class RROtherProjectInfoV1_2GeneratorTest extends
 		specialReview.setComments("E1,E2,E3");
 		specialReview.setApprovalTypeCode("4");
 		specialReview.setApplicationDate(new Date(0));
+		specialReview.getExemptNumbers().add("1");
+		specialReview.getExemptNumbers().add("2");
+		specialReview.getExemptNumbers().add("3");
 		Organization organization = new Organization();
 		organization.setHumanSubAssurance("Human");
 		ProposalSpecialReview specialReview1 = new ProposalSpecialReview();
