@@ -224,6 +224,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         super.doRouteStatusChange(statusChangeEvent);
         
         String newStatus = statusChangeEvent.getNewRouteStatus();
+        String oldStatus = statusChangeEvent.getOldRouteStatus();
         
         if(LOG.isDebugEnabled()) {
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
@@ -234,6 +235,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
         if(newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+        }
+        
+        if(KEWConstants.ROUTE_HEADER_INITIATED_CD.equalsIgnoreCase(oldStatus) && KEWConstants.ROUTE_HEADER_SAVED_CD.equalsIgnoreCase(newStatus)) {
+        	updateFundedProposals(); 
         }
         
         //reset Award List with updated document - in some scenarios the change in status is not reflected.
@@ -258,7 +263,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());
         }
-        updateFundedProposals();
     }
     
     private void updateFundedProposals() {
