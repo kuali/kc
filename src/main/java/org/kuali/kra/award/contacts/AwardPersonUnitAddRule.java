@@ -25,6 +25,7 @@ public interface AwardPersonUnitAddRule extends BusinessRule {
     public static final String ERROR_AWARD_PROJECT_PERSON_PI_EXISTS = "error.awardProjectPerson.pi.exists";
     public static final String ERROR_AWARD_PROJECT_PERSON_EXISTS = "error.awardProjectPerson.person.exists";
     public static final String ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS = "error.awardProjectPerson.duplicate.units";
+    public static final String ERROR_AWARD_PROJECT_PERSON_INVAILD_UNIT = "error.awardProjectPerson.invalid.unit";
     
     /**
      * This method should be called before adding a new Project Person

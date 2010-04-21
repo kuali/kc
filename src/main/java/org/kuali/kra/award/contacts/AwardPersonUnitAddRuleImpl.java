@@ -27,7 +27,9 @@ public class AwardPersonUnitAddRuleImpl implements AwardPersonUnitAddRule {
      * @see org.kuali.kra.award.contacts.AwardPersonUnitAddRule
      */
     public boolean processAddAwardPersonUnitBusinessRules(AwardPersonUnitRuleAddEvent event) {
-        return checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit(), event.getAddUnitPersonIndex());
+        boolean valid = checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit(), event.getAddUnitPersonIndex());
+        valid &= checkForInvalidUnit(event.getNewPersonUnit(), event.getAddUnitPersonIndex());
+        return valid;
     }
         
     boolean checkForDuplicateUnits(AwardPerson projectPerson, AwardPersonUnit newAwardPersonUnit, int addUnitPersonIndex) {
@@ -41,13 +43,21 @@ public class AwardPersonUnitAddRuleImpl implements AwardPersonUnitAddRule {
         
         if(!valid) {
             Unit dupeUnit = newAwardPersonUnit.getUnit();
-            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+addUnitPersonIndex+"]", 
+            GlobalVariables.getErrorMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+addUnitPersonIndex+"].unitNumber", 
                                                         ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                         dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                         projectPerson.getFullName());
         }
         
         return valid;
+    }
+    
+    boolean checkForInvalidUnit(AwardPersonUnit newAwardPersonUnit, int addUnitPersonIndex) {
+        if (newAwardPersonUnit.getUnit() == null) {
+            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+addUnitPersonIndex+"].unitNumber", ERROR_AWARD_PROJECT_PERSON_INVAILD_UNIT);
+            return false;
+        }
+        return true;
     }
 
 }
