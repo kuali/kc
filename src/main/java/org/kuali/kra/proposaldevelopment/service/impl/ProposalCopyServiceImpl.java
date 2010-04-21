@@ -779,8 +779,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             destNarrative = (Narrative)ObjectUtils.deepCopy(srcNarrative);
             
             // For the new proposal document, it's proposal attachments are required to
-            // have their status' initially set to Incomplete.
-            destNarrative.setModuleStatusCode("I");
+            // have their status' initially set to Incomplete. 
+            // Not all of them though, only P type narratives are makred complete/incomplete in the UI
+            if( StringUtils.equals(destNarrative.getNarrativeType().getNarrativeTypeGroup(), Constants.PROPOSAL_NARRATIVE_TYPE_GROUP_CODE))
+                destNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE);
+            else
+                destNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
             
             narrativeService.addNarrative(dest, destNarrative);
         }
