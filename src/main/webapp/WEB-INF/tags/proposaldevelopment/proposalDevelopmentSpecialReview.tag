@@ -18,6 +18,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalSpecialReviewAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="exemptionTypeAttributes" value="${DataDictionary.ProposalExemptNumber.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
 <div id="workarea">
@@ -130,7 +131,14 @@
  
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                    <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" />
+                    <c:choose><c:when test="${!readOnly}">
+                      <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" />
+                    </c:when><c:otherwise>
+                      <!-- struts/rice wants to display "[]" for empty array so do not display anything for an empty array instead -->
+                      <c:if test="${not empty KualiForm.document.developmentProposalList[0].propSpecialReviews[status.index].exemptNumbers}">
+                        <kul:htmlControlAttribute property="document.developmentProposalList[0].propSpecialReview[${status.index}].exemptNumbers" attributeEntry="${exemptionTypeAttributes.exemptionTypeCode}" />
+                      </c:if>
+                    </c:otherwise></c:choose>
 					</div>	  			
                 </td>
 

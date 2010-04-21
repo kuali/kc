@@ -701,6 +701,19 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return stringBuilder.toString();
 	}
+	
+	public String convertStringListToString(List<String> stringList) {
+	    String retVal = "";
+	    if (stringList != null) {
+	        for (int i = 0; i < stringList.size(); i++) {
+	            retVal += stringList.get(i);
+	            if (i != stringList.size()-1) {
+	                retVal += ", "; 
+	            }
+	        }
+	    }
+	    return retVal;
+	}
 
 	/**
 	 * Finds all the Questionnaire Answers associates with provided
