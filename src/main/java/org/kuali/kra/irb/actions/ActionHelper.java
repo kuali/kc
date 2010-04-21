@@ -594,11 +594,11 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasTerminatePermission() {
-        return hasPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
+        return hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
     }
     
     private boolean hasPermitDataAnalysisPermission() {
-        return hasPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
+        return hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
     }
     
     private boolean hasAdminCorrectionPermission() {
@@ -620,7 +620,7 @@ public class ActionHelper implements Serializable {
     
     private boolean hasGenericPermission(String genericActionName) {
         ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol());
-        return getTaskAuthorizationService().isAuthorizedForGenericAction(GlobalVariables.getUserSession().getPrincipalId(), task, genericActionName);
+        return getTaskAuthorizationService().isAuthorizedForGenericAction(getUserIdentifier(), task, genericActionName);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
