@@ -144,11 +144,32 @@ public class AwardAction extends BudgetParentActionBase {
         forward = handleDocument(mapping, form, request, response, awardForm);
         
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        handlePlaceHolderDocument(request, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
         return forward;
     }
 
+    private void handlePlaceHolderDocument(HttpServletRequest request, AwardDocument awardDocument) {
+        if(awardDocument.isPlaceHolderDocument()) {
+            String awardNumberRequestParameter = request.getParameter("awardNumber");
+            //If it is a placeholder document, we want to initialize it with the award that the user is viewing
+            int currentAwardIndex = -1;
+            Award currentAward = null;
+            for(Award award : awardDocument.getAwardList()) {
+                currentAwardIndex++;
+                if(StringUtils.equals(award.getAwardNumber(), awardNumberRequestParameter)) {
+                	currentAward = award;
+                    break;
+                }
+            }
+            if(currentAward != null) {
+                awardDocument.getAwardList().remove(currentAwardIndex);
+                awardDocument.getAwardList().add(0, currentAward);
+            }
+        }
+    }
+    
     protected void cleanUpUserSession() {
         GlobalVariables.getUserSession().removeObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
     }
