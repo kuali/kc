@@ -15,6 +15,24 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.BufferedLogger.debug;
+import static org.kuali.kra.logging.BufferedLogger.warn;
+import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
@@ -58,11 +76,11 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -85,23 +103,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.BufferedLogger.debug;
-import static org.kuali.kra.logging.BufferedLogger.warn;
-import static org.kuali.rice.kns.util.KNSConstants.EMPTY_STRING;
 
 /**
  * This class is the Struts form bean for DevelopmentProposal
@@ -1225,9 +1226,16 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
         return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
-                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
+                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly() 
+                    && isCanCreateInstitutionalProposal();
     }
 
+    private boolean isCanCreateInstitutionalProposal() {
+        return KraServiceLocator.getService(UnitAuthorizationService.class).hasPermission(
+                GlobalVariables.getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL_DEVELOPMENT,
+                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
+    }
+    
     public Long getVersionNumberForS2sOpportunity() {
         return versionNumberForS2sOpportunity;
     }

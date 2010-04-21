@@ -94,5 +94,10 @@ public interface PermissionConstants {
      */
     public static final String VIEW_BATCH_CORRESPONDENCE_DETAIL = "View Batch Correspondence Detail";
     public static final String MODIFY_BATCH_CORRESPONDENCE_DETAIL = "Modify Batch Correspondence Detail";
+    
+    /*
+     * Institutional Proposal
+     */
+    public static final String CREATE_INSTITUTIONAL_PROPOSAL = "Create Institutional Proposal";
 
 }

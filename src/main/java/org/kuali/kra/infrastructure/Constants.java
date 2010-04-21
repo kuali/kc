@@ -81,6 +81,7 @@ public interface Constants {
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
+    public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL_DEVELOPMENT = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
