@@ -51,6 +51,7 @@ import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.SpecificAims;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.TargetedPlannedEnrollment;
 import gov.grants.apply.forms.phsFellowshipSupplemental11V11.PHSFellowshipSupplemental11Document.PHSFellowshipSupplemental11.ResearchTrainingPlan.VertebrateAnimals;
+//import gov.grants.apply.forms.phsFellowshipSupplementalV10.PHSFellowshipSupplementalDocument;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
@@ -345,16 +346,18 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private void setNarrativeDataForResearchTrainingPlan(
 			ResearchTrainingPlan researchTrainingPlan) {
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType == null){
+					continue;
+				}
 				switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 				case INTRODUCTION_TO_APPLICATION:
 					IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					introductionToApplication.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setIntroductionToApplication(introductionToApplication);
@@ -362,7 +365,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case SPECIFIC_AIMS:
 					SpecificAims specificAims = SpecificAims.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					specificAims.setAttFile(attachedFileDataType);
 					researchTrainingPlan.setSpecificAims(specificAims);
 					break;
@@ -370,7 +372,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case INCLUSION_ENROLLMENT_REPORT:
 					InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					inclusionEnrollmentReport.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setInclusionEnrollmentReport(inclusionEnrollmentReport);
@@ -378,7 +379,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case PROGRESS_REPORT_PUBLICATION_LIST:
 					ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					progressReportPublicationList
 							.setAttFile(attachedFileDataType);
 					researchTrainingPlan
@@ -387,7 +387,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case PROTECTION_OF_HUMAN_SUBJECTS:
 					ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					protectionOfHumanSubjects.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
@@ -395,7 +394,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case INCLUSION_OF_WOMEN_AND_MINORITIES:
 					InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					inclusionOfWomenAndMinorities
 							.setAttFile(attachedFileDataType);
 					researchTrainingPlan
@@ -404,7 +402,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case TARGETED_PLANNED_ENROLLMENT:
 					TargetedPlannedEnrollment tarPlannedEnrollmentTable = TargetedPlannedEnrollment.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					tarPlannedEnrollmentTable.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setTargetedPlannedEnrollment(tarPlannedEnrollmentTable);
@@ -412,7 +409,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case INCLUSION_OF_CHILDREN:
 					InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					inclusionOfChildren.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setInclusionOfChildren(inclusionOfChildren);
@@ -420,7 +416,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case VERTEBRATE_ANIMALS:
 					VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					vertebrateAnimals.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setVertebrateAnimals(vertebrateAnimals);
@@ -428,7 +423,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case SELECT_AGENT_RESEARCH:
 					SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					selectAgentResearch.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setSelectAgentResearch(selectAgentResearch);
@@ -436,7 +430,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case RESOURCE_SHARING_PLANS:
 					ResourceSharingPlan resourceSharingPlan = ResourceSharingPlan.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					resourceSharingPlan.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setResourceSharingPlan(resourceSharingPlan);
@@ -444,7 +437,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case RESPECTIVE_CONTRIBUTIONS:
 					RespectiveContributions respectiveContributions = RespectiveContributions.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					respectiveContributions.setAttFile(attachedFileDataType);
 					researchTrainingPlan
 							.setRespectiveContributions(respectiveContributions);
@@ -452,7 +444,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case SELECTION_OF_SPONSOR_AND_INSTITUTION:
 					SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					selectionOfSponsorAndInstitution
 							.setAttFile(attachedFileDataType);
 					researchTrainingPlan
@@ -461,7 +452,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case RESPONSIBLE_CONDUCT_OF_RESEARCH:
 					ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					responsibleConductOfResearch
 							.setAttFile(attachedFileDataType);
 					researchTrainingPlan
@@ -470,7 +460,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case RESEARCH_STRATEGY:
 					ResearchStrategy researchStrategy = ResearchStrategy.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					researchStrategy.setAttFile(attachedFileDataType);
 					researchTrainingPlan.setResearchStrategy(researchStrategy);
 					break;
@@ -646,17 +635,18 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		additionalInformation
 				.setCurrentPriorNRSASupportArray(getCurrentPriorNRSASupportArray());
 		additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
-
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType == null){
+					continue;
+				}
 				switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 				case CONCURRENT_SUPPORT:
 					ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					concurrentSupportDescription
 							.setAttFile(attachedFileDataType);
 					additionalInformation
@@ -667,7 +657,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case FELLOWSHIP:
 					FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = FellowshipTrainingAndCareerGoals.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					fellowshipTrainingAndCareerGoals
 							.setAttFile(attachedFileDataType);
 					additionalInformation
@@ -676,7 +665,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case DISSERTATION:
 					DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					dissertationAndResearchExperience
 							.setAttFile(attachedFileDataType);
 					additionalInformation
@@ -685,7 +673,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				case ACTIVITIES:
 					ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = ActivitiesPlannedUnderThisAward.Factory
 							.newInstance();
-					attachedFileDataType = getAttachedFileType(narrative);
 					activitiesPlannedUnderThisAward
 							.setAttFile(attachedFileDataType);
 					additionalInformation
@@ -821,14 +808,15 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		AttachmentGroupMin0Max100DataType attachmentGroupType = AttachmentGroupMin0Max100DataType.Factory
 				.newInstance();
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
 				attachedFileDataType = getAttachedFileType(narrative);
-				attachedFileDataTypeList.add(attachedFileDataType);
+				if(attachedFileDataType != null){
+					attachedFileDataTypeList.add(attachedFileDataType);
+				}
 			}
 		}
 		attachmentGroupType.setAttachedFileArray(attachedFileDataTypeList

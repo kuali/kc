@@ -65,10 +65,12 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     @Override
     public boolean getNonEditableRateFlag() {
         boolean nonEditableRate = false;
-        if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
-            nonEditableRate = getBudget().getEbRatesNonEditable();
-        }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
-            nonEditableRate = getBudget().getOhRatesNonEditable();
+        if(getBudget()!=null){
+            if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
+                nonEditableRate = getBudget().getEbRatesNonEditable();
+            }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
+                nonEditableRate = getBudget().getOhRatesNonEditable();
+            }
         }
         return nonEditableRate;
     }

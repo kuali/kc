@@ -17,6 +17,11 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 
 
@@ -66,6 +71,15 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
      */
     public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
+    }
+    @Override
+    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
+        if( this instanceof AwardBudgetLineItemCalculatedAmountExt) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("budgetLineItemCalculatedAmountId", getBudgetLineItemCalculatedAmountId());
+            Query delQ = QueryFactory.newQuery(BudgetLineItemCalculatedAmount.class, crit);
+            persistenceBroker.deleteByQuery(delQ);
+        }
     }
 
 }

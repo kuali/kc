@@ -102,12 +102,15 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	 */
 	private void setProfileTypeAttachment(
 			RRKeyPersonExpanded12 rrKeyPersonExpanded, Narrative narrative) {
-		AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory
-				.newInstance();
-		additionalProfilesAttached
-				.setAdditionalProfileAttached(getAttachedFileType(narrative));
-		rrKeyPersonExpanded
+		AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+		if(attachedFileDataType != null){
+			AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory
+					.newInstance();
+			additionalProfilesAttached
+					.setAdditionalProfileAttached(attachedFileDataType);
+			rrKeyPersonExpanded
 				.setAdditionalProfilesAttached(additionalProfilesAttached);
+		}
 	}
 
 	/*
@@ -399,7 +402,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		OtherProjectRoleCategory otherProjectRole = OtherProjectRoleCategory.Factory
 				.newInstance();
 		String otherRole;
-		if (keyPerson.getProjectRole() != null) {
+		if (keyPerson.getRole().getDescription() != null) {
 			if (keyPerson.getProjectRole().length() > ROLE_DESCRIPTION_MAX_LENGTH) {
 				otherRole = keyPerson.getProjectRole().substring(0,
 						ROLE_DESCRIPTION_MAX_LENGTH);

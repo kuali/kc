@@ -27,6 +27,7 @@ import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -277,9 +278,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
-                AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-                attachedFileDataType = getAttachedFileType(narrative);
-                sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
+                AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                	sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
+                	break;
+                }
             }
         }
         if (pdDoc.getDevelopmentProposal().getRequestedStartDateInitial() != null) {
@@ -514,23 +517,18 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
      * @return AttachedFileDataType[] array of attachments for project title attachment type.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-        int size = 0;
+        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
-                size++;
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                	attachedFileDataTypeList.add(attachedFileDataType);
+                }
             }
         }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-        int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
-                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                attachments++;
-            }
-        }
-        return attachedFileDataTypes;
+        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
     /**

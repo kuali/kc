@@ -819,10 +819,11 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
-				AttachedFileDataType preAttachment = AttachedFileDataType.Factory
-						.newInstance();
-				preAttachment = getAttachedFileType(narrative);
-				rrsf42412.setPreApplicationAttachment(preAttachment);
+				AttachedFileDataType preAttachment = getAttachedFileType(narrative);
+				if(preAttachment != null){
+					rrsf42412.setPreApplicationAttachment(preAttachment);
+					break;
+				}
 			}
 		}
 	}
@@ -831,10 +832,11 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == SFLLL_OTHEREXPLANATORY) {
-				AttachedFileDataType preAttachment = AttachedFileDataType.Factory
-						.newInstance();
-				preAttachment = getAttachedFileType(narrative);
-				rrsf42412.setSFLLLAttachment(preAttachment);
+				AttachedFileDataType preAttachment = getAttachedFileType(narrative);
+				if(preAttachment != null){
+					rrsf42412.setSFLLLAttachment(preAttachment);
+					break;
+				}
 			}
 		}
 	}

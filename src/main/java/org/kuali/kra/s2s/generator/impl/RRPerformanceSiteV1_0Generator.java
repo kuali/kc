@@ -19,6 +19,7 @@ import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument.RRPerformanceSite;
 import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
 import org.apache.log4j.Logger;
@@ -118,7 +119,11 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
-                rrPerformanceSite.setAttachedFile(getAttachedFileType(narrative));
+            	AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		rrPerformanceSite.setAttachedFile(attachedFileDataType);
+            		break;
+            	}
             }
         }
         rrPerformanceSiteDocument.setRRPerformanceSite(rrPerformanceSite);

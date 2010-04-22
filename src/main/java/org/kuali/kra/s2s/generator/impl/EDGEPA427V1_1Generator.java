@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.edGEPA427V11.GEPA427AttachmentsDocument;
 import gov.grants.apply.forms.edGEPA427V11.GEPA427AttachmentsDocument.GEPA427Attachments;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -45,9 +46,14 @@ public class EDGEPA427V1_1Generator extends EDGEPA427BaseGenerator {
         GEPA427AttachmentsDocument gepa427Document = GEPA427AttachmentsDocument.Factory.newInstance();
         GEPA427Attachments gepAttachments = GEPA427Attachments.Factory.newInstance();
         gepAttachments.setFormVersion(S2SConstants.FORMVERSION_1_1);
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_GEPA427) {
-                gepAttachments.setAttachments(getAttachedFileType(narrative));
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		gepAttachments.setAttachments(attachedFileDataType);
+            		break;
+            	}
             }
         }
         gepa427Document.setGEPA427Attachments(gepAttachments);

@@ -80,13 +80,17 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                     rrKeyPersonExpanded.setSupportsAttached(supportsAttached);
                 }
             }
-
+            AttachedFileDataType attachedFileDataType = null;
             for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-                        additionalProfilesAttached.setAdditionalProfileAttached(getAttachedFileType(narrative));
-                        rrKeyPersonExpanded.setAdditionalProfilesAttached(additionalProfilesAttached);
+                    	attachedFileDataType = getAttachedFileType(narrative);
+                    	if(attachedFileDataType != null){
+	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+	                        rrKeyPersonExpanded.setAdditionalProfilesAttached(additionalProfilesAttached);
+	                        break;
+                    	}
                     }
                 }
             }

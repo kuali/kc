@@ -29,12 +29,16 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -44,7 +48,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     private static final String AWARD_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
     private static final String DEFAULT_FNA_RATE_CLASS_CODE = "defaultFnARateClassCode";
     private ParameterService parameterService;
-
+    private BudgetCalculationService budgetCalculationService;
     @Override
     protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument){
         Collection<InstituteRate> institueRates = super.getInstituteRates(budgetDocument);
@@ -186,11 +190,27 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         if(isAwardBudget(budgetDocument) ){
             if(isOutOfSyncAwardRates(budgetDocument.getBudget())){
                 super.syncAllBudgetRates(budgetDocument);
+                repopulateAllCalcAmounts(budgetDocument);
             }
         }else{
             super.syncAllBudgetRates(budgetDocument);
         }
     }
+    private void repopulateAllCalcAmounts(BudgetDocument budgetDocument) {
+        Budget budget = budgetDocument.getBudget();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for (BudgetLineItem budgetLineItem : budgetLineItems) {
+                getBudgetCalculationService().rePopulateCalculatedAmount(budget, budgetLineItem);
+                List<BudgetPersonnelDetails> personnelDetailList = budgetLineItem.getBudgetPersonnelDetailsList();
+                for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailList) {
+                    getBudgetCalculationService().rePopulateCalculatedAmount(budget, budgetPersonnelDetails);
+                }
+            }
+        }
+    }
+
     private boolean hasNoRatesFromParent(Budget budget) {
         Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
         return award.getAwardFandaRate().isEmpty() && award.getSpecialEbRateOffCampus()==null && award.getSpecialEbRateOnCampus()==null;
@@ -202,6 +222,9 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     
     private boolean isOutOfSyncAwardRates(Budget budget) {
         Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        if(budget.getInstituteRates().isEmpty()){
+            populateInstituteRates(budget.getBudgetDocument());
+        }
         if(hasNoRatesFromParent(budget)){
             return isOutOfSync(budget);
         }else{
@@ -254,16 +277,16 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     
     private boolean fnaRatesContains(List<AwardFandaRate> fnaRates, BudgetRate budgetRate) {
         for (AwardFandaRate awardFandaRate : fnaRates) {
-            if(!awardFandaRate.equals(budgetRate)){
-                return false;
+            if(awardFandaRate.equals(budgetRate)){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
     public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
-        return isAwardBudget(budgetDocument);
+        return isAwardBudget(budgetDocument) && isOutOfSyncAwardRates(budgetDocument.getBudget());
     }
     /**
      * Gets the parameterService attribute. 
@@ -279,6 +302,22 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the budgetCalculationService attribute. 
+     * @return Returns the budgetCalculationService.
+     */
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    /**
+     * Sets the budgetCalculationService attribute value.
+     * @param budgetCalculationService The budgetCalculationService to set.
+     */
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
     }
     
 

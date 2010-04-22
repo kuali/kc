@@ -172,9 +172,10 @@ public class BudgetVersionsAction extends BudgetAction {
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
-        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
-            getBudgetRateService().syncAllBudgetRates(budgetDocument);
-        } else if(getBudgetRateService().performSyncFlag(budgetDocument)){
+//        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
+//            getBudgetRateService().syncAllBudgetRates(budgetDocument);
+//        } else 
+        if(getBudgetRateService().performSyncFlag(budgetDocument)){
             budget.setRateClassTypesReloaded(true);
         }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {

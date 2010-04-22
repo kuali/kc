@@ -369,6 +369,10 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	protected boolean isRateAndBaseOfRateClassTypeOverhead(
 			AbstractBudgetRateAndBase rateAndBase) {
+		if (rateAndBase == null) {
+			LOG.debug("isRateAndBaseOfRateClassTypeOverhead : Rate and Base is null");
+			return false;
+		}
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null
 				&& RateClassType.OVERHEAD.getRateClassType().equals(
@@ -384,6 +388,11 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	private boolean isRateAndBaseOfRateClassTypeEB(
 			AbstractBudgetRateAndBase rateAndBase) {
+		if (rateAndBase == null) {
+			LOG.debug("isRateAndBaseOfRateClassTypeEB : Rate and Base is null");
+			return false;
+		}
+
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null
 				&& RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(
@@ -399,6 +408,11 @@ public class ResearchAndRelatedXmlStream extends ProposalBaseStream {
 	 */
 	private boolean isRateAndBaseOfRateClassTypeVacation(
 			AbstractBudgetRateAndBase rateAndBase) {
+		if (rateAndBase == null) {
+			LOG.debug("isRateAndBaseOfRateClassTypeVacation : Rate and Base is null");
+			return false;
+		}
+
 		rateAndBase.refreshNonUpdateableReferences();
 		if(rateAndBase.getRateClass()!=null && RateClassType.VACATION.getRateClassType().equals(
 				rateAndBase.getRateClass().getRateClassType())){

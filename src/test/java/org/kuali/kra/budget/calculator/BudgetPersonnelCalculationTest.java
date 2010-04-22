@@ -172,7 +172,7 @@ public class BudgetPersonnelCalculationTest extends KraTestBase {
                 assertEquals(new BudgetDecimal(9900.00d), budgetLineItemCalculatedAmount.getCalculatedCostSharing());
             }
             if(budgetLineItemCalculatedAmount.getRateClass().getDescription().equalsIgnoreCase("Employee Benefits") && 
-                    budgetLineItemCalculatedAmount.getRateType().getDescription().equalsIgnoreCase("Research Rate")) {
+                    budgetLineItemCalculatedAmount.getRateTypeDescription().equalsIgnoreCase("Research Rate")) {
                 assertEquals(new BudgetDecimal(40500.00d), budgetLineItemCalculatedAmount.getCalculatedCost());
                 assertEquals(new BudgetDecimal(4500.00d), budgetLineItemCalculatedAmount.getCalculatedCostSharing());
             }

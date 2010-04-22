@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.grants.apply.forms.projectV11.ProjectNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.projectV11.ProjectNarrativeAttachmentsDocument.ProjectNarrativeAttachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
@@ -63,24 +66,19 @@ public class ProjectV1_1Generator extends ProjectBaseGenerator {
      */
     private AttachedFileDataType[] getAttachedFileDataType() {
 
-        int Attachmentsize = 0;
+        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_ATTACHMENTS) {
-                Attachmentsize++;
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		attachedFileDataTypeList.add(attachedFileDataType);
+            	}
+                Log.info("Attachmentcount" + attachedFileDataTypeList.size());
             }
         }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[Attachmentsize];
-        int Attachmentcount = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_ATTACHMENTS) {
-                attachedFileDataTypes[Attachmentcount] = getAttachedFileType(narrative);
-                Attachmentcount++;
-                Log.info("Attachmentcount" + Attachmentcount);
-            }
-        }
-        return attachedFileDataTypes;
+        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
     /**

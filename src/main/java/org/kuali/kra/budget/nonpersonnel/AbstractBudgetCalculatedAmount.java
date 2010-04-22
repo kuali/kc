@@ -37,7 +37,8 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 	private String rateClassType;
 	private Integer rateNumber;
 	private RateClass rateClass;
-	private RateType rateType;
+	private String rateTypeDescription;
+//	private RateType rateType;
 
 	private Long budgetPeriodId;
     private Long budgetLineItemId;
@@ -66,21 +67,21 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
         this.rateClass = rateClass;
     }
 
-    /**
-     * Gets the rateType attribute. 
-     * @return Returns the rateType.
-     */
-    public RateType getRateType() {
-        return rateType;
-    }
-
-    /**
-     * Sets the rateType attribute value.
-     * @param rateType The rateType to set.
-     */
-    public void setRateType(RateType rateType) {
-        this.rateType = rateType;
-    }
+//    /**
+//     * Gets the rateType attribute. 
+//     * @return Returns the rateType.
+//     */
+//    public RateType getRateType() {
+//        return rateType;
+//    }
+//
+//    /**
+//     * Sets the rateType attribute value.
+//     * @param rateType The rateType to set.
+//     */
+//    public void setRateType(RateType rateType) {
+//        this.rateType = rateType;
+//    }
 
     public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -202,6 +203,22 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
      */
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
+    }
+
+    /**
+     * Gets the rateTypeDescription attribute. 
+     * @return Returns the rateTypeDescription.
+     */
+    public String getRateTypeDescription() {
+        return rateTypeDescription;
+    }
+
+    /**
+     * Sets the rateTypeDescription attribute value.
+     * @param rateTypeDescription The rateTypeDescription to set.
+     */
+    public void setRateTypeDescription(String rateTypeDescription) {
+        this.rateTypeDescription = rateTypeDescription;
     }
 
 }

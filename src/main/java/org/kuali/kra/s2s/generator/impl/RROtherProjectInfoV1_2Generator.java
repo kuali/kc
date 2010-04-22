@@ -433,11 +433,12 @@ public class RROtherProjectInfoV1_2Generator extends
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			Narrative narrative) {
 		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
-			AbstractAttachments abstractAttachments = AbstractAttachments.Factory
-					.newInstance();
-			abstractAttachments
-					.setAbstractAttachment(getAttachedFileType(narrative));
-			rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
+			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+			if(attachedFileDataType != null){
+				AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
+				abstractAttachments.setAbstractAttachment(attachedFileDataType);
+				rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
+			}
 		}
 	}
 
@@ -449,12 +450,14 @@ public class RROtherProjectInfoV1_2Generator extends
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			Narrative narrative) {
 		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
-			BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory
-					.newInstance();
-			bibliographyAttachments
-					.setBibliographyAttachment(getAttachedFileType(narrative));
-			rrOtherProjectInfo
-					.setBibliographyAttachments(bibliographyAttachments);
+			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+			if(attachedFileDataType != null){
+				BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
+				bibliographyAttachments
+						.setBibliographyAttachment(attachedFileDataType);
+				rrOtherProjectInfo
+						.setBibliographyAttachments(bibliographyAttachments);
+			}
 		}
 	}
 
@@ -466,12 +469,15 @@ public class RROtherProjectInfoV1_2Generator extends
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			Narrative narrative) {
 		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
-			ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory
-					.newInstance();
-			projectNarrativeAttachments
-					.setProjectNarrativeAttachment(getAttachedFileType(narrative));
-			rrOtherProjectInfo
-					.setProjectNarrativeAttachments(projectNarrativeAttachments);
+			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+			if(attachedFileDataType != null){
+				ProjectNarrativeAttachments projectNarrativeAttachments = ProjectNarrativeAttachments.Factory
+						.newInstance();
+				projectNarrativeAttachments
+						.setProjectNarrativeAttachment(attachedFileDataType);
+				rrOtherProjectInfo
+						.setProjectNarrativeAttachments(projectNarrativeAttachments);
+			}
 		}
 	}
 
@@ -483,11 +489,14 @@ public class RROtherProjectInfoV1_2Generator extends
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			Narrative narrative) {
 		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
-			FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory
-					.newInstance();
-			facilitiesAttachments
-					.setFacilitiesAttachment(getAttachedFileType(narrative));
-			rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+			if(attachedFileDataType != null){
+				FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory
+						.newInstance();
+				facilitiesAttachments
+						.setFacilitiesAttachment(attachedFileDataType);
+				rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
+			}
 		}
 	}
 
@@ -499,11 +508,14 @@ public class RROtherProjectInfoV1_2Generator extends
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			Narrative narrative) {
 		if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
-			EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory
-					.newInstance();
-			equipmentAttachments
-					.setEquipmentAttachment(getAttachedFileType(narrative));
-			rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+			AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+			if(attachedFileDataType != null){
+				EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory
+						.newInstance();
+				equipmentAttachments
+						.setEquipmentAttachment(attachedFileDataType);
+				rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
+			}
 		}
 	}
 
@@ -532,28 +544,21 @@ public class RROtherProjectInfoV1_2Generator extends
 	 * NarrativeAttachmentList
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
-		int size = 0;
-		AttachedFileDataType[] attachedFileDataTypes = null;
+		AttachedFileDataType attachedFileDataType = null;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		for (Narrative narrative : developmentProposal.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer
 							.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
-				size++;
+				attachedFileDataType= getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					attachedFileDataTypeList.add(attachedFileDataType);
+				}
 			}
 		}
-		attachedFileDataTypes = new AttachedFileDataType[size];
-		int attachments = 0;
-		for (Narrative narrative : developmentProposal.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer
-							.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
-				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-				attachments++;
-			}
-		}
-		return attachedFileDataTypes;
+		return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
 	}
 
 	/**

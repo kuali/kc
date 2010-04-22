@@ -48,6 +48,7 @@ import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget.BudgetSummar
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget.BudgetSummary.CumulativeOtherDirect;
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget.BudgetSummary.CumulativeTrainee;
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget.BudgetSummary.CumulativeTravels;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 
@@ -189,12 +190,17 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		budgetYear
 				.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
 		budgetYear.setTotalCosts(periodInfo.getTotalCosts().bigDecimalValue());
+		
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-				budgetYear
-						.setBudgetJustificationAttachment(getAttachedFileType(narrative));
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
+					break;
+				}
 			}
 		}
 		return budgetYear;
@@ -596,7 +602,14 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					FileLocation fileLocation = FileLocation.Factory
 							.newInstance();
 					attachedKeyPersons.setFileLocation(fileLocation);
-					String contentId = createContentId(narrative);
+					LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
+					attMap.put(MODULE_NUMBER, String.valueOf(narrative
+							.getModuleNumber()));
+					if (narrative.getNarrativeType() != null) {
+						attMap.put(DESCRIPTION, narrative.getNarrativeType()
+								.getDescription());
+					}
+					String contentId = createContentId(attMap);
 					fileLocation.setHref(contentId);
 					attachedKeyPersons.setFileLocation(fileLocation);
 					attachedKeyPersons.setFileName(narrative.getFileName());
@@ -944,7 +957,12 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 						.newInstance();
 				FileLocation fileLocation = FileLocation.Factory.newInstance();
 				equipmentAttachment.setFileLocation(fileLocation);
-				String contentId = createContentId(narrative);
+				LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
+				attMap.put(MODULE_NUMBER, String.valueOf(narrative
+						.getModuleNumber()));
+				attMap.put(DESCRIPTION, narrative.getNarrativeType()
+						.getDescription());
+				String contentId = createContentId(attMap);
 				fileLocation.setHref(contentId);
 				equipmentAttachment.setFileLocation(fileLocation);
 				equipmentAttachment.setFileName(narrative.getFileName());
