@@ -40,6 +40,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -56,6 +57,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
@@ -566,27 +568,23 @@ public class PrintServiceImpl implements PrintService {
 			String contentId) {
 		String[] contentIds = contentId.split("-");
 		String[] contentDesc = contentIds[1].split("_");
-		Narrative submittedNarrative = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			StringBuilder description = new StringBuilder();
-			description.append(contentDesc[1]);
-			description.append("_");
-			description.append(contentDesc[2]);
-			if (contentDesc[0].equals(String.valueOf(narrative
-					.getModuleNumber()))
-					&& description.toString().equals(
-							narrative.getNarrativeType().getDescription())) {
-				submittedNarrative = narrative;
-				break;
-			}
-		}
-		if (submittedNarrative != null) {
-			submittedNarrative
-					.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-			return submittedNarrative.getNarrativeAttachmentList().get(0)
-					.getContent();
-		}
+		if (StringUtils.equals(contentIds[0], "N")) {
+    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+    				.getNarratives()) {
+				if (narrative.getModuleNumber().equals(Integer.valueOf(contentDesc[0]))) {
+				    narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+				    return narrative.getNarrativeAttachmentList().get(0).getContent();
+				}
+    		}
+		} else if (StringUtils.equals(contentIds[0], "B")){
+		    for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+		        if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
+		                && StringUtils.equals(biography.getDocumentTypeCode(), contentDesc[1])) {
+		            biography.refreshReferenceObject("personnelAttachmentList");
+		            return biography.getPersonnelAttachmentList().get(0).getContent();
+		        }
+		    }
+    	}
 		return null;
 	}
 

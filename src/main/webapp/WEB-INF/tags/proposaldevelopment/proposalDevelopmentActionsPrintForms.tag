@@ -48,7 +48,7 @@
 							</td>
 			                <td align="center" valign="middle">
 			                	<div align="center">			                	
-			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" readOnly="false"/>			                	
 			                	</div>
 			                </td>			                
 			            </tr>    
