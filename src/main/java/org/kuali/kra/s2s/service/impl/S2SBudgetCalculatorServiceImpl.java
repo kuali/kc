@@ -1913,11 +1913,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 						}
 					}
 					if (!personAlreadyAdded) {
-						Rolodex rolodexPerson = rolodexService
-								.getRolodex(Integer
-										.parseInt(budgetPersonnelDetails
-												.getPersonId()));
-						if (rolodexPerson != null) {
+						if (budgetPersonnelDetails.getNonEmployeeFlag()) {
+	                        Rolodex rolodexPerson = rolodexService.getRolodex(Integer.parseInt(
+	                                    budgetPersonnelDetails.getPersonId()));
 							keyPerson = new KeyPersonInfo();
 							keyPerson
 									.setRolodexId(rolodexPerson.getRolodexId());

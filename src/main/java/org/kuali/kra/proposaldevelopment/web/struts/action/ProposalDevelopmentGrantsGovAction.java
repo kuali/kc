@@ -18,8 +18,12 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -97,7 +101,10 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
-        if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getSchemaUrl()!=null){
+        S2sOpportunity s2sOpportunity = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity();
+        if(s2sOpportunity.getSchemaUrl()!=null){
+            String opportunityContent = getOpportunityContent(s2sOpportunity.getSchemaUrl());
+            s2sOpportunity.setOpportunity(opportunityContent);
             s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity());
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
@@ -108,8 +115,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 }
             }
             if(!mandatoryFormNotAvailable){
-                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setS2sOppForms(s2sOppForms);
-                proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+                s2sOpportunity.setS2sOppForms(s2sOppForms);
+                s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                 proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
             }else{
                 GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
@@ -119,6 +126,31 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private String getOpportunityContent(String schemaUrl) {
+        String opportunity = "";
+        InputStream is  = null;
+        BufferedInputStream br = null;
+        try{
+            URL url;
+            url = new URL(schemaUrl);
+            is = url.openConnection().getInputStream();
+            br = new BufferedInputStream(is);
+            byte bufContent[] = new byte[is.available()];
+            br.read(bufContent);
+            opportunity = new String(bufContent);
+        }catch (Exception e) {
+            LOG.error("Cannot parse opportinity schema", e);
+        }finally{
+                try {
+                    if(is!=null) is.close();
+                    if(br!=null) br.close();
+                }catch (IOException e) {
+                    LOG.error("Cannot close stream after fetching the content of opportinity schema", e);
+                }
+        }
+        return opportunity;
+    }
+
     /**
      * 
      * This method removes/deletes an opportunity from the KRA tables; is called from removeOpportunity method
