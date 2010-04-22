@@ -75,13 +75,17 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     rrKeyPerson.setSupportsAttached(supportsAttached);
                 }
             }
-
+            AttachedFileDataType attachedFileDataType = null;
             for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-                        additionalProfilesAttached.setAdditionalProfileAttached(getAttachedFileType(narrative));
-                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+                    	attachedFileDataType = getAttachedFileType(narrative);
+                    	if(attachedFileDataType != null){
+	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+	                        break;
+                    	}
                     }
                 }
             }

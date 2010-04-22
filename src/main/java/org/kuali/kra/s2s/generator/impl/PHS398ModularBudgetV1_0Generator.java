@@ -43,6 +43,7 @@ import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.DirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV10.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5.IndirectCostItems5;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -186,15 +187,19 @@ public class PHS398ModularBudgetV1_0Generator extends
 
 		BudgetJustifications budgetJustifications = BudgetJustifications.Factory
 				.newInstance();
-
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType == null){
+					continue;
+				}
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONNEL_JUSTIFICATION_CODE) {
 					PersonnelJustification personnelJustification = PersonnelJustification.Factory
 							.newInstance();
 					personnelJustification
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setPersonnelJustification(personnelJustification);
 				}
@@ -202,7 +207,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 					ConsortiumJustification consortiumJustification = ConsortiumJustification.Factory
 							.newInstance();
 					consortiumJustification
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setConsortiumJustification(consortiumJustification);
 				}
@@ -210,7 +215,7 @@ public class PHS398ModularBudgetV1_0Generator extends
 					AdditionalNarrativeJustification additionalNarrative = AdditionalNarrativeJustification.Factory
 							.newInstance();
 					additionalNarrative
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setAdditionalNarrativeJustification(additionalNarrative);
 				}

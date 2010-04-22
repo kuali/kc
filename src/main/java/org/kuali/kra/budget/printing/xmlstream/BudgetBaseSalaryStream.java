@@ -398,21 +398,19 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			BudgetLineItemCalculatedAmount budgetLineItemCalcAmount,
 			RateClass rateClass) {
 		String costElementDesc = null;
-		if (budgetLineItemCalcAmount.getRateType() != null
-				&& budgetLineItemCalcAmount.getRateType().getDescription() != null) {
+		if (budgetLineItemCalcAmount.getRateTypeDescription() != null
+				&& budgetLineItemCalcAmount.getRateTypeDescription() != null) {
 			if (rateClass != null
 					&& rateClass.getRateClassType() != null
 					&& rateClass.getRateClassType().equals(
 							RateClassType.OVERHEAD.getRateClassType())) {
 				costElementDesc = new StringBuilder(OVERHEAD_RATE_PREFIX)
 						.append(
-								budgetLineItemCalcAmount.getRateType()
-										.getDescription()).toString();
+								budgetLineItemCalcAmount.getRateTypeDescription()).toString();
 			} else if (rateClass != null && rateClass.getDescription() != null) {
 				costElementDesc = new StringBuilder(rateClass.getDescription())
 						.append(SEPARATER_STRING).append(
-								budgetLineItemCalcAmount.getRateType()
-										.getDescription()).toString();
+								budgetLineItemCalcAmount.getRateTypeDescription()).toString();
 			}
 		}
 		return costElementDesc;

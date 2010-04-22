@@ -168,10 +168,11 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
-				AttachedFileDataType preAttachment = AttachedFileDataType.Factory
-						.newInstance();
-				preAttachment = getAttachedFileType(narrative);
-				rrsf424.setPreApplicationAttachment(preAttachment);
+				AttachedFileDataType preAttachment = getAttachedFileType(narrative);
+				if(preAttachment != null){
+					rrsf424.setPreApplicationAttachment(preAttachment);
+					break;
+				}
 			}
 		}
 		if (departmentalPerson != null) {

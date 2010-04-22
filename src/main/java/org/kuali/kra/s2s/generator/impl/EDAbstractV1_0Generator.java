@@ -47,9 +47,14 @@ public class EDAbstractV1_0Generator extends EDAbstractBaseGenerator {
         AbstractAttachments abstractAttachments = AbstractAttachments.Factory.newInstance();
         abstractAttachments.setFormVersion(S2SConstants.FORMVERSION_1_0);
         abstractAttachments.setAttachments(AttachedFileDataType.Factory.newInstance());
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null && narrative.getNarrativeTypeCode().equals(ABSTRACT_ATTACHMENT_CODE)) {
-                abstractAttachments.setAttachments(getAttachedFileType(narrative));
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		abstractAttachments.setAttachments(attachedFileDataType);
+            		break;
+            	}
             }
         }
         abstractDocument.setAbstractAttachments(abstractAttachments);

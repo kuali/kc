@@ -640,17 +640,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
                     for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
-                        if (budgetLineItemCalculatedAmount.getRateType() == null) {
-                            budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
-                        }
-                        if (budgetLineItemCalculatedAmount.getRateType() != null && budgetLineItemCalculatedAmount.getRateType().getRateClass() == null) {
-                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
-                        }
-                        RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+//                        if (budgetLineItemCalculatedAmount.getRateType() == null) {
+//                            budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+//                        }
+//                        if (budgetLineItemCalculatedAmount.getRateType() != null && budgetLineItemCalculatedAmount.getRateType().getRateClass() == null) {
+//                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
+//                        }
+                        RateType rateType = createRateType(budgetLineItemCalculatedAmount);
                         RateClass rateClass = null;
                         if(rateType != null) {
-                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
-                            rateClass = budgetLineItemCalculatedAmount.getRateType().getRateClass();
+                            rateType.refreshReferenceObject("rateClass");
+                            rateClass = rateType.getRateClass();
                         }
                         
                         if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassType(), "E")) || !personnelFlag) && !rateTypes.contains(rateType)) {
@@ -664,7 +664,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                                     rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
                                 }
-                                calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                                calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                             }
                             calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                             
@@ -683,6 +683,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return calculatedExpenseTotals;
     }
 
+    private RateType createRateType(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
+        RateType rateType = new RateType();
+        rateType.setRateClassCode(budgetLineItemCalculatedAmount.getRateClassCode());
+        rateType.setRateTypeCode(budgetLineItemCalculatedAmount.getRateTypeCode());
+        rateType.setDescription(budgetLineItemCalculatedAmount.getRateTypeDescription());
+        rateType.setRateClass(budgetLineItemCalculatedAmount.getRateClass());
+        return rateType;
+    }
     /**
      * 
      * @see org.kuali.kra.budget.calculator.BudgetCalculationService#calculateBudgetTotals(org.kuali.kra.budget.core.Budget)
@@ -725,10 +733,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
                 for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
-                    if (budgetLineItemCalculatedAmount.getRateType() == null) {
-                        budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
-                    }
-                    RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+//                    if (budgetLineItemCalculatedAmount.getRateType() == null) {
+//                        budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+//                    }
+                    RateType rateType = createRateType(budgetLineItemCalculatedAmount);
                     if (!rateTypes.contains(rateType)) {
                         rateTypes.add(rateType);
                         Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
@@ -740,7 +748,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                                 rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
                             }
-                            calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                            calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                         }
                         calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                         budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));

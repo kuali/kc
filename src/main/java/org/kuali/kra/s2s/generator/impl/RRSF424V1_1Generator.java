@@ -160,17 +160,17 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		rrsf424.setAORInfo(getAORInfoType());
 		for (Narrative narrative : devProp.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null){
+				AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType == null){
+					continue;
+				}
 				if(Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
-        			AttachedFileDataType preAttachment = AttachedFileDataType.Factory
-        					.newInstance();
-        			preAttachment = getAttachedFileType(narrative);
-        			rrsf424.setPreApplicationAttachment(preAttachment);
+        			rrsf424.setPreApplicationAttachment(attachedFileDataType);
 				}
                 if (narrative.getNarrativeTypeCode().equals(ADDITIONAL_CONGRESSIONAL_DESTRICT)) {
                     AttachedFileDataType additionalCongrDestrAttachment = AttachedFileDataType.Factory
                             .newInstance();
-                    additionalCongrDestrAttachment = getAttachedFileType(narrative);
-                    rrsf424.setAdditionalCongressionalDistricts(additionalCongrDestrAttachment);
+                    rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
                 }
             }
 		}

@@ -162,18 +162,17 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
-
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == CERTIFICATIONS_ATTACHMENT_CODE) {
-				CertificationExplanation certExplanation = CertificationExplanation.Factory
-						.newInstance();
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
 				attachedFileDataType = getAttachedFileType(narrative);
-				certExplanation.setCertifications(attachedFileDataType);
-				phsChecklist.setCertificationExplanation(certExplanation);
+				if(attachedFileDataType != null){
+					CertificationExplanation certExplanation = CertificationExplanation.Factory.newInstance();
+					certExplanation.setCertifications(attachedFileDataType);
+					phsChecklist.setCertificationExplanation(certExplanation);
+				}
 			}
 		}
 		phsChecklistDocument.setPHS398Checklist(phsChecklist);

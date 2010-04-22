@@ -558,7 +558,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Set<String> instituteRateKeys = storeAllKeys((List<AbstractInstituteRate>) instituteRates);
         Set<String> budgetRateKeys = storeAllKeys((List<AbstractInstituteRate>) budgetRates);
         
-        return instituteRateKeys.containsAll(budgetRateKeys);
+        return !instituteRateKeys.containsAll(budgetRateKeys);
     }
     
     private Set<String> storeAllKeys(List<AbstractInstituteRate> rates) {
@@ -932,7 +932,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void populateInstituteRates(BudgetDocument<T> budgetDocument) {
+    protected void populateInstituteRates(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List instituteRates = (List) getInstituteRates(budgetDocument);
         filterRates(budget, instituteRates, budget.getInstituteRates()); 

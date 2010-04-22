@@ -31,6 +31,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -78,7 +79,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(budget,bli);
         }
 
-        if(!isDocumentOhRateSameAsFormOhRate()){
+        if(!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget.getBudgetDocument())){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();

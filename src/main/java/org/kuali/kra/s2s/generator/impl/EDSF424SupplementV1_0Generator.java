@@ -19,6 +19,7 @@ import gov.grants.apply.forms.edSF424SupplementV10.EDSF424SupplementDocument;
 import gov.grants.apply.forms.edSF424SupplementV10.EDSF424SupplementDocument.EDSF424Supplement;
 import gov.grants.apply.forms.edSF424SupplementV10.EDSF424SupplementDocument.EDSF424Supplement.AssuranceNumber;
 import gov.grants.apply.forms.edSF424SupplementV10.EDSF424SupplementDocument.EDSF424Supplement.ExemptionsNumber;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
 
@@ -130,11 +131,16 @@ public class EDSF424SupplementV1_0Generator extends
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.NO);
 			}
 		}
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_SF424_SUPPLIMENT) {
-				edsf424Supplement.setAttachment(getAttachedFileType(narrative));
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					edsf424Supplement.setAttachment(attachedFileDataType);
+					break;
+				}
 			}
 		}
 		edsf424SupplementDocument.setEDSF424Supplement(edsf424Supplement);

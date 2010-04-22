@@ -25,6 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.award.commitments.FandaRateType;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -44,6 +48,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.AbstractBudgetRate;
 import org.kuali.kra.budget.rates.BudgetLaRate;
 import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.rates.BudgetRatesService;
+import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -449,11 +455,11 @@ public abstract class AbstractBudgetCalculator {
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+//                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
                     rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassType();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()
-                            + "\'  Rate Type - \'" + budgetLineItemCalculatedAmount.getRateType().getDescription()
+                            + "\'  Rate Type - \'" + budgetLineItemCalculatedAmount.getRateTypeDescription()
                             + "\' for Period - ";
 
                     // if apply flag is false and rate class type is not Overhead then skip
@@ -499,7 +505,7 @@ public abstract class AbstractBudgetCalculator {
                                 message = multipleRatesMesgTemplate + simpleDateFormat.format(boundary.getStartDate()) + " to "
                                         + simpleDateFormat.format(boundary.getEndDate()) + " for Rate Class - \'"
                                         + budgetLineItemCalculatedAmount.getRateClass().getDescription() + "\'  Rate Type - \'"
-                                        + budgetLineItemCalculatedAmount.getRateType().getDescription();
+                                        + budgetLineItemCalculatedAmount.getRateTypeDescription();
                                 warningMessages.add(message);
 
                             }
@@ -537,7 +543,7 @@ public abstract class AbstractBudgetCalculator {
                                 message = multipleRatesMesgTemplate + simpleDateFormat.format(boundary.getStartDate()) + " to "
                                         + simpleDateFormat.format(boundary.getEndDate()) + " for Rate Class - \'"
                                         + budgetLineItemCalculatedAmount.getRateClass().getDescription() + "\'  Rate Type - \'"
-                                        + budgetLineItemCalculatedAmount.getRateType().getDescription();
+                                        + budgetLineItemCalculatedAmount.getRateTypeDescription();
                                 warningMessages.add(message);
                             }
                             else {
@@ -777,11 +783,54 @@ public abstract class AbstractBudgetCalculator {
         }
 
         for (ValidCeRateType validCeRateType : rateTypes) {
-            addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType
-                                               .getRateTypeCode(), validCeRateType.getRateClass().getRateClassType());
+            validCeRateType.refreshNonUpdateableReferences();
+            String rateClassType = validCeRateType.getRateClass().getRateClassType();
+            if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
+                    !Boolean.valueOf(budget.getBudgetDocument().getProposalBudgetFlag())){
+                addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
+                        validCeRateType.getRateClass().getRateClassType());
+            }else{
+                addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
+                                            validCeRateType.getRateClass().getRateClassType());
+            }
         }
     }
 
+    private void addOHBudgetLineItemCalculatedAmountForAward(String rateClassCode, 
+            RateType rateType, String rateClassType) {
+        QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
+//        QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<BudgetLaRate>(budget.getBudgetLaRates());
+        Equals eqOhRateClassType = new Equals("rateClassType",rateClassType);
+        Equals eqOhRateClassOnCampusFlag = new Equals("onOffCampusFlag",budgetLineItem.getOnOffCampusFlag());
+//        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
+        And eqRateClassTypeAndOhCampusFlag = new And(eqOhRateClassType,eqOhRateClassOnCampusFlag);
+        List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassTypeAndOhCampusFlag);
+        if(!filteredBudgetRates.isEmpty()){
+            BudgetRate awardBudgetRate = filteredBudgetRates.get(0);
+            awardBudgetRate.setBudget(budget);
+            if(awardBudgetRate.getNonEditableRateFlag()){
+                AbstractBudgetCalculatedAmount budgetCalculatedAmount = getNewCalculatedAmountInstance();
+                budgetCalculatedAmount.setBudgetId(budgetLineItem.getBudgetId());
+                budgetCalculatedAmount.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+                budgetCalculatedAmount.setBudgetPeriodId(budgetLineItem.getBudgetPeriodId());
+                budgetCalculatedAmount.setLineItemNumber(budgetLineItem.getLineItemNumber());
+                budgetCalculatedAmount.setRateClassType(rateClassType);
+                budgetCalculatedAmount.setRateClassCode(awardBudgetRate.getRateClassCode());
+                budgetCalculatedAmount.setRateTypeCode(awardBudgetRate.getRateTypeCode());
+                budgetCalculatedAmount.setApplyRateFlag(true);
+                budgetCalculatedAmount.setRateTypeDescription(getAwardRateTypeDescription(awardBudgetRate.getRateTypeCode()));
+                budgetCalculatedAmount.setRateClass(awardBudgetRate.getRateClass());
+                addCalculatedAmount(budgetCalculatedAmount);
+            }else{
+                addBudgetLineItemCalculatedAmount( rateClassCode, rateType, rateClassType);
+            }
+        }
+
+    }
+    private String getAwardRateTypeDescription(String rateTypeCode) {
+        return getBusinessObjectService().findBySinglePrimaryKey(FandaRateType.class, rateTypeCode).getDescription();
+        
+    }
     private Equals equalsEmployeeBenefitsRateClassType() {
         return new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
     }
@@ -807,7 +856,7 @@ public abstract class AbstractBudgetCalculator {
                 ValidCalcType validCalcType = validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
                     addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
-                            .getRateTypeCode(), validCalcType.getRateClassType());
+                            .getRateType(), validCalcType.getRateClassType());
                 }
             }
             validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, equalsVacationRateClassType());
@@ -815,7 +864,7 @@ public abstract class AbstractBudgetCalculator {
                 ValidCalcType validCalcType = (ValidCalcType) validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
                     addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
-                            .getRateTypeCode(), validCalcType.getRateClassType());
+                            .getRateType(), validCalcType.getRateClassType());
                 }
             }
         }
@@ -843,12 +892,12 @@ public abstract class AbstractBudgetCalculator {
         this.infltionValidCalcCeRates = infltionValidCalcCeRates;
     }
     
-    private void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType){
+    private void addBudgetLineItemCalculatedAmount(String rateClassCode, RateType rateType, String rateClassType){
         
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
         QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<BudgetLaRate>(budget.getBudgetLaRates());
         Equals eqValidRateClassCode = new Equals("rateClassCode",rateClassCode);
-        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
+        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateType.getRateTypeCode());
         And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
         List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
@@ -862,10 +911,11 @@ public abstract class AbstractBudgetCalculator {
         budgetCalculatedAmount.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetCalculatedAmount.setRateClassType(rateClassType);
         budgetCalculatedAmount.setRateClassCode(rateClassCode);
-        budgetCalculatedAmount.setRateTypeCode(rateTypeCode);
+        budgetCalculatedAmount.setRateTypeCode(rateType.getRateTypeCode());
         budgetCalculatedAmount.setApplyRateFlag(true);
-        budgetCalculatedAmount.refreshReferenceObject("rateType");
+//        budgetCalculatedAmount.refreshReferenceObject("rateType");
         budgetCalculatedAmount.refreshReferenceObject("rateClass");
+        budgetCalculatedAmount.setRateTypeDescription(rateType.getDescription());
         addCalculatedAmount(budgetCalculatedAmount);
     }
 
@@ -959,5 +1009,9 @@ public abstract class AbstractBudgetCalculator {
     protected BudgetForm getBudgetFormFromGlobalVariables() {
         return budgetCalcultionService.getBudgetFormFromGlobalVariables();
     }
+    protected BudgetRatesService getBudgetRateService() {
+        return KraServiceLocator.getService(BudgetRatesService.class);
+    }
+
 
 }

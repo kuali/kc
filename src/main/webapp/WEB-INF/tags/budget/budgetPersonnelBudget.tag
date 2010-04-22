@@ -242,7 +242,7 @@
 				          		<c:forEach var="budgetPersonnelDetailsCalculatedAmount" items="${budgetPersonnelDetails.budgetPersonnelCalculatedAmounts}" varStatus="status1">
 					        	<tr>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateClass.description}"/></div></td>
-					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateType.description}"/></div></td>
+					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateTypeDescription}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.applyRateFlag}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.calculatedCost}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.calculatedCostSharing}"/></div></td>
