@@ -559,6 +559,10 @@ public interface Constants {
     public static final Object AWARD_BUDGET = "awardBudget";
     public static final String ACTIVITY_TYPE_KEY = "document.developmentProposalList[0].activityTypeCode";
 
+    // Maintenance documents
+    public static final String VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY = "document.newMaintainableObject.approvalTypeCode";
+    public static final String VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY = "document.newMaintainableObject.specialReviewCode";
+    
     //WHITE SPACE 
     public char SPACE_SEPARATOR = 32;
 }
