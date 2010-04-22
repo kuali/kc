@@ -329,14 +329,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         int index = 0;
         for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
             if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId() == null) {
-                break;
+                return index;
             }else if(awardAmountInfo.getAwardAmountInfoId().equals(aai.getAwardAmountInfoId())) {
-                break;
+                return index;
             }else {
                 index++;
             }
         }
-        return index;
+        throw new IllegalStateException( "AwardAmountInfo objects are in an illgeal state." );
     }
     
     /**
