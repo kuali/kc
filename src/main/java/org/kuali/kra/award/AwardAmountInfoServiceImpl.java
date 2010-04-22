@@ -47,13 +47,14 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("awardNumber", award.getAwardNumber());
         fieldValues.put("sequenceNumber", award.getSequenceNumber());
+        fieldValues.put("awardId",award.getAwardId());
         List<AwardAmountInfo> awardAmountInfos = 
             (List<AwardAmountInfo>)getBusinessObjectService().findMatchingOrderBy(AwardAmountInfo.class, fieldValues, "awardAmountInfoId", true);
         List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         //add this check for initial award creation.....the Award Amount Info object has not been persisted yet.
         if(awardAmountInfos.size() == 0) {
             return award.getAwardAmountInfos().get(0);
-        }else {
+        } else {
             for(AwardAmountInfo aai : awardAmountInfos) {
                 if(aai.getTimeAndMoneyDocumentNumber() == null) {
                     validAwardAmountInfos.add(aai);
