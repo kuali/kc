@@ -800,16 +800,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 						.newInstance();
 				FileLocation fileLocation = FileLocation.Factory.newInstance();
 				equipmentAttachment.setFileLocation(fileLocation);
-				LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
-				if (narrative.getModuleNumber() != null) {
-					attMap.put(MODULE_NUMBER, String.valueOf(narrative
-							.getModuleNumber()));
-				}
-				if (narrative.getNarrativeType() != null) {
-					attMap.put(DESCRIPTION, narrative.getNarrativeType()
-							.getDescription());
-				}
-				String contentId = createContentId(attMap);
+				String contentId = createContentId(narrative);
 				fileLocation.setHref(contentId);
 				equipmentAttachment.setFileLocation(fileLocation);
 				equipmentAttachment.setFileName(narrative.getFileName());
@@ -1100,16 +1091,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 						.newInstance();
 				FileLocation fileLocation = FileLocation.Factory.newInstance();
 				attachedKeyPersons.setFileLocation(fileLocation);
-				LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
-				if (narrative.getModuleNumber() != null) {
-					attMap.put(MODULE_NUMBER, String.valueOf(narrative
-							.getModuleNumber()));
-				}
-				if (narrative.getNarrativeType().getDescription() != null) {
-					attMap.put(DESCRIPTION, narrative.getNarrativeType()
-							.getDescription());
-				}
-				String contentId = createContentId(attMap);
+				String contentId = createContentId(narrative);
 				fileLocation.setHref(contentId);
 				attachedKeyPersons.setFileLocation(fileLocation);
 				attachedKeyPersons.setFileName(narrative.getFileName());
