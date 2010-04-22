@@ -1064,9 +1064,9 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 							.getHumanNameDataType(keyPerson));
 					if (isNihSponsor(pdDoc.getDevelopmentProposal()
 							.getSponsorCode()) && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
-						keyPerson.setRole(NIH_CO_INVESTIGATOR);
+						keyPersonDataType.setProjectRole(NIH_CO_INVESTIGATOR);
 					} else {
-						keyPerson.setRole(keyPerson.getRole());
+						keyPersonDataType.setProjectRole(keyPerson.getRole());
 					}
 					keyPersonDataType
 							.setCompensation(getCompensation(keyPerson));
