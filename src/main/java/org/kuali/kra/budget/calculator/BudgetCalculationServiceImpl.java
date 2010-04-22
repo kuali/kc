@@ -887,12 +887,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 addToLimit(budgetLimits, limit);
             } else {
                 addToLimit(totalsMap.get("FAndA"), limit);
+                addToLimit(totalsMap.get("Totals"), limit);
             }
         }
         budgetLimitMap.put("Totals", budgetLimits);
         addToLimit(totalsMap.get("Direct"), budgetLimits);
         addToLimit(totalsMap.get("Totals"), budgetLimits);
-        addToLimit(totalsMap.get("Totals"), totalsMap.get("FAndA"));
+       // addToLimit(totalsMap.get("Totals"), totalsMap.get("FAndA"));
     }
     
     private void addToLimit(List<BudgetDecimal> budgetLimits, List<BudgetDecimal> limits) {
