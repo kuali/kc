@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -86,7 +87,9 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setSpecialReviewApprovalType(ipSpecialReview.getSpecialReviewApprovalType());
         copiedSpecialReview.setSpecialReviewCode(ipSpecialReview.getSpecialReviewCode());
         for(InstitutionalProposalSpecialReviewExemption ipExempt: ipSpecialReview.getSpecialReviewExemptions()) {
-            copiedSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+            if (StringUtils.isNotBlank(ipExempt.getExemptionTypeCode())) {
+                copiedSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+            }
         }
         copiedSpecialReview.setSpecialReviewNumber(ipSpecialReview.getSpecialReviewNumber());
         copiedSpecialReview.setValidSpecialReviewApproval(ipSpecialReview.getValidSpecialReviewApproval());
