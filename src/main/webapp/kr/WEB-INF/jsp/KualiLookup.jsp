@@ -186,8 +186,8 @@
 
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
-				id="row" export="true" pagesize="100" excludedParams="hasReturnableRow"
-				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&actionUrlsExist=${KualiForm.actionUrlsExist}&hasReturnableRow=${KualiForm.hasReturnableRow}">
+				id="row" export="true" pagesize="100" excludedParams="hasReturnableRow showMaintenanceLinks"
+				requestURI="lookup.do?methodToCall=viewResults&showMaintenanceLinks=${KualiForm.showMaintenanceLinks}&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&actionUrlsExist=${KualiForm.actionUrlsExist}&hasReturnableRow=${KualiForm.hasReturnableRow}">
 
 				<%-- the param['d-16544-e'] parameter below is NOT null when we are in exporting mode, so this check disables rendering of return/action URLs when we are exporting to CSV, excel, xml, etc. --%>
 				<c:if test="${param['d-16544-e'] == null}">
