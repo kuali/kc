@@ -259,6 +259,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      
         childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
         childProposal.setHierarchyParentProposalNumber(null);
+        if (StringUtils.equalsIgnoreCase(hierarchyProposal.getHierarchyOriginatingChildProposalNumber(), childProposal.getProposalNumber())) {
+            hierarchyProposal.getPrincipalInvestigator().setHierarchyProposalNumber(null);
+        }
         removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
 
         try {
@@ -936,7 +939,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             int index = hierarchy.getProposalPersons().indexOf(pi);
             if (index > -1) {
                 hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-                hierarchy.getProposalPerson(index).setHierarchyProposalNumber(null);
+                //hierarchy.getProposalPerson(index).setHierarchyProposalNumber(null);
             }
         }
     }
