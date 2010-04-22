@@ -42,6 +42,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
@@ -632,9 +633,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetPeriod.setBudgetModular(null);
         }
 
-        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        copyLineItemToPersonnelDetails(budgetDocument);
         budgetDocument.setVersionNumber(null);
         documentService.saveDocument(budgetDocument);
+        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
         for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
@@ -647,6 +649,29 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
         return budgetDocument;
     }
+    
+    /**
+     * 
+     * Do this so that new personnel details(or copied ones) can be calculated
+     * @param budgetDocument
+     */
+    private void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
+                for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        
+                    if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
+                        for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                            budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
+                            budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+                            budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
+                            budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
+                            budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+                       }
+                    }
+                }
+            }
+        }
+    }    
     
     /**
      * Gets the budgetRatesService attribute. 
