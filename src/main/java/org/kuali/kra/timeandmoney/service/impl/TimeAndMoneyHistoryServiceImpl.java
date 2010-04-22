@@ -200,7 +200,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }else {
             noticeDate = "empty";
         }
-        if(!(award.getAwardTransactionType().getDescription() == null)) {
+        if(!(award.getAwardTransactionType() == null)) {
             transactionTypeDescription = award.getAwardTransactionType().getDescription();
         }else {
             transactionTypeDescription = "empty";
