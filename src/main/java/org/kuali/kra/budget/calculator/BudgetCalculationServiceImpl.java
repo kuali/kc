@@ -931,14 +931,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     private Map <String, List<BudgetDecimal>> getNonPersonnelMap() {
-        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
-        personnelBudgetLimits.put("E", initBudgetLimits());
-        personnelBudgetLimits.put("T", initBudgetLimits());
-        personnelBudgetLimits.put("S", initBudgetLimits());
-        personnelBudgetLimits.put("O", initBudgetLimits());
-        personnelBudgetLimits.put("CalculatedCost", initBudgetLimits());
-        personnelBudgetLimits.put("IndirectCost", initBudgetLimits());
-        return personnelBudgetLimits;
+        Map <String, List<BudgetDecimal>>  nonPersonnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        nonPersonnelBudgetLimits.put("E", initBudgetLimits());
+        nonPersonnelBudgetLimits.put("T", initBudgetLimits());
+        nonPersonnelBudgetLimits.put("S", initBudgetLimits());
+        nonPersonnelBudgetLimits.put("O", initBudgetLimits());
+        nonPersonnelBudgetLimits.put("CalculatedCost", initBudgetLimits());
+        nonPersonnelBudgetLimits.put("IndirectCost", initBudgetLimits());
+        return nonPersonnelBudgetLimits;
     }
     
     private Map <String, List<BudgetDecimal>> getPersonnelMap() {

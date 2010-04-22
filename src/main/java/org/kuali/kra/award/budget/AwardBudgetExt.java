@@ -16,12 +16,14 @@
 package org.kuali.kra.award.budget;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 
 public class AwardBudgetExt extends Budget { 
     
@@ -36,6 +38,8 @@ public class AwardBudgetExt extends Budget {
     private AwardBudgetType awardBudgetType;
     private String description;
     private String budgetInitiator;
+    private BudgetVersionOverview prevBudget;
+    private List<BudgetDecimal> budgetsTotals;
     
     public AwardBudgetExt() { 
         super();
@@ -169,6 +173,18 @@ public class AwardBudgetExt extends Budget {
      */
     public void setBudgetInitiator(String budgetInitiator) {
         this.budgetInitiator = budgetInitiator;
+    }
+    public BudgetVersionOverview getPrevBudget() {
+        return prevBudget;
+    }
+    public void setPrevBudget(BudgetVersionOverview prevBudget) {
+        this.prevBudget = prevBudget;
+    }
+    public List<BudgetDecimal> getBudgetsTotals() {
+        return budgetsTotals;
+    }
+    public void setBudgetsTotals(List<BudgetDecimal> budgetsTotals) {
+        this.budgetsTotals = budgetsTotals;
     }
     
 }
