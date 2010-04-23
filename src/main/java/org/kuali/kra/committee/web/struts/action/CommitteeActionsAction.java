@@ -23,11 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
+import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 
 
@@ -108,15 +113,24 @@ public class CommitteeActionsAction extends CommitteeAction {
      */
     public ActionForward printCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CommitteeForm committeeForm = (CommitteeForm) form;
-        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
-        String printType = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintType();
+        String reportType = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getReportType();
         
-        if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), printType))) {
-            System.out.println("FilterBatchCorrespondenceHistory: committeeId:" + committeeId + " printType:" + printType);
+        if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), reportType))) {
+            AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.valueOf(reportType));
+            printable.setDocument(committeeForm.getCommitteeDocument());
+            AttachmentDataSource dataStream = getCommitteePrintingService().print(printable);
+            if (dataStream.getContent() != null) {
+                streamToResponse(dataStream, response);
+                actionForward = null;
+            }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        return actionForward;
     }
     
+    private CommitteePrintingService getCommitteePrintingService() {
+        return KraServiceLocator.getService(CommitteePrintingService.class);
+    }
 }
