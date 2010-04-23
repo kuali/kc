@@ -23,7 +23,7 @@
 	<property name="relationships" >
       <list>  
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="unit" />
+          <property name="objectAttributeName" value="unit" /> 
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
@@ -53,8 +53,10 @@
   </bean>
   <bean id="KcKimAttributes-unitNumber" parent="Unit-unitNumber" />
   <bean id="KcKimAttributes-subunits" parent="KcKimAttributes-subunits-parentBean" />
-  <bean id="KcKimAttributes-subunits-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
-    p:name="subunits"
-    p:label="Descends Hierarchy"
-    p:shortLabel="Descends Hierarchy" />
+  <bean id="KcKimAttributes-subunits-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  	<property name="name" value="subunits"/>
+    <property name="label" value="Descends Hierarchy"/>
+    <property name="shortLabel" value="Descends Hierarchy"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>    
+   </bean>
 </beans>
