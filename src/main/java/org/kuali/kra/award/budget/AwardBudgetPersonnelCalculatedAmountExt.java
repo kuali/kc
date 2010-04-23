@@ -30,14 +30,6 @@ public class AwardBudgetPersonnelCalculatedAmountExt extends BudgetPersonnelCalc
     private static final long serialVersionUID = 6923231644959086280L;
     private BudgetDecimal obligatedAmount;
     
-    /**
-     * 
-     * This method creates new instance of BudgetPersonnelCalculatedAmount
-     * @return
-     */
-    public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
-        return new AwardBudgetPersonnelCalculatedAmountExt();
-    }
 
     /**
      * Gets the obligatedAmount attribute. 
