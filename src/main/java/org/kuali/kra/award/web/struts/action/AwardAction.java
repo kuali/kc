@@ -1331,7 +1331,8 @@ public class AwardAction extends BudgetParentActionBase {
         retList.add(1, map.get("T"));
         retList.add(2, map.get("S"));
         retList.add(3, map.get("O"));
-        retList.add(4, map.get("Totals"));
+        retList.add(4, map.get("CalculatedCost"));
+        retList.add(5, map.get("Totals"));
         return retList;
     }
     

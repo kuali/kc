@@ -77,7 +77,7 @@
              <c:forEach var="nonPersonnelBudgetLimit" items="${KualiForm.nonPersonnelBudgetLimits}" varStatus="limitStatus">
 		         <tr>
 		             <c:choose>
-		            <c:when test="${limitStatus.index < 4}">
+		            <c:when test="${limitStatus.index < 5}">
 		             <td>
 		               ${KualiForm.nonPersonnelLabel[limitStatus.index]}
 		             </td>
