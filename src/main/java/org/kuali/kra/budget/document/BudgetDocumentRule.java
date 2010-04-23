@@ -441,7 +441,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
         }
         if (retval) {
-            retval &= processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
+            processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
         }
         
         return retval;
