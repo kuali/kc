@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
 
-    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
     org.kuali.kra.award.contacts.AwardCentralAdminContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsProjectPersonnelWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsUnitContactsWebTest.class,
@@ -196,7 +195,10 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
+    
+    //keep at bottom - somehow breaks the entire suite
+    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class
     
 })
 /**
