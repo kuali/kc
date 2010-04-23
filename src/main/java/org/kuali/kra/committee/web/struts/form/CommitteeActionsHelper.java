@@ -30,7 +30,7 @@ public class CommitteeActionsHelper implements Serializable {
     private Date historyStartDate;
     private Date historyEndDate;
     
-    private String printType;
+    private String reportType;
 
     public String getGenerateBatchCorrespondenceTypeCode() {
         return generateBatchCorrespondenceTypeCode;
@@ -80,11 +80,11 @@ public class CommitteeActionsHelper implements Serializable {
         this.historyEndDate = historyEndDate;
     }
 
-    public String getPrintType() {
-        return printType;
+    public String getReportType() {
+        return reportType;
     }
 
-    public void setPrintType(String printType) {
-        this.printType = printType;
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
     }
 }
