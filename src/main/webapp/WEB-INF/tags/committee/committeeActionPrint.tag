@@ -21,7 +21,7 @@
              auditCluster="requiredFieldsAuditErrors"  
              defaultOpen="false"
              useCurrentTabIndexAsKey="true"  
-             transparentBackground="true">
+             transparentBackground="false">
         <div class="tab-container" align="center">
             <h3>
                 <span class="subhead-left">Print</span>
