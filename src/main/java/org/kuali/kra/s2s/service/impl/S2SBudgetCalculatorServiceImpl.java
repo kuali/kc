@@ -1866,18 +1866,63 @@ public class S2SBudgetCalculatorServiceImpl implements
 		}
 		for (BudgetPerson budgetPerson : budgetPeriod.getBudget().getBudgetPersons()) {		
 			if (!budgetPersonExistInProposalPersons(budgetPerson, propPersons)) {
-			keyPerson = new KeyPersonInfo();
-			keyPerson.setPersonId(budgetPerson.getPersonId());
-			keyPerson.setRolodexId(budgetPerson.getRolodexId());
-			keyPerson
-					.setFirstName((budgetPerson.getPersonName() == null ? S2SConstants.VALUE_UNKNOWN
-							: budgetPerson.getPersonName()));
-
-//				budgetPerson dont have First name and last name hence we are setting person name as First name, and Not setting the last Name. 
-			keyPerson.setNonMITPersonFlag(budgetPerson.getNonEmployeeFlag());
-			keyPerson.setRole(KEYPERSON_OTHER);
-			keyPerson.setKeyPersonRole(budgetPerson.getRole());
-			keyPersons.add(keyPerson);
+			    
+                keyPerson = new KeyPersonInfo();
+                if (budgetPerson.getNonEmployeeFlag()) {
+                    Rolodex rolodexPerson = rolodexService.getRolodex(budgetPerson.getRolodexId());
+                    keyPerson
+                            .setRolodexId(rolodexPerson.getRolodexId());
+                    keyPerson
+                            .setFirstName((rolodexPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+                                    : rolodexPerson.getFirstName()));
+                    keyPerson
+                            .setLastName((rolodexPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+                                    : rolodexPerson.getLastName()));
+                    keyPerson
+                            .setMiddleName((rolodexPerson
+                                    .getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+                                    : rolodexPerson.getMiddleName()));
+                    keyPerson.setRole(rolodexPerson.getTitle());
+                    keyPerson.setNonMITPersonFlag(true);
+                } else {
+                    KcPerson kcPerson = null;
+                    try {
+                        kcPerson = kcPersonService
+                                .getKcPersonByPersonId(budgetPerson.getPersonId());
+                    } catch (Exception e) {
+                        LOG.error("Person not found " + e);
+                    }
+                    if (kcPerson != null) {
+                        keyPerson.setPersonId(kcPerson.getPersonId());
+                        keyPerson
+                                .setFirstName((kcPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+                                        : kcPerson.getFirstName()));
+                        keyPerson
+                                .setLastName((kcPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+                                        : kcPerson.getLastName()));
+                        keyPerson
+                                .setMiddleName((kcPerson
+                                        .getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
+                                        : kcPerson.getMiddleName()));
+                        keyPerson.setNonMITPersonFlag(false);
+                    }
+                    keyPerson.setRole(KEYPERSON_OTHER);
+                    keyPersons.add(keyPerson);
+                }
+//			    
+//			    
+//			keyPerson = new KeyPersonInfo();
+//			keyPerson.setPersonId(budgetPerson.getPersonId());
+//			keyPerson.setRolodexId(budgetPerson.getRolodexId());
+//			keyPerson
+//					.setFirstName((budgetPerson.getPersonName() == null ? S2SConstants.VALUE_UNKNOWN
+//							: budgetPerson.getPersonName()));
+//
+////				budgetPerson dont have First name and last name hence we are setting person name as First name, and Not setting the last Name. 
+//			keyPerson.setNonMITPersonFlag(budgetPerson.getNonEmployeeFlag());
+//			keyPerson.setRole(KEYPERSON_OTHER);
+//			keyPerson.setKeyPersonRole(budgetPerson.getRole());
+//			keyPersons.add(keyPerson);
 			}
 		}
 		
