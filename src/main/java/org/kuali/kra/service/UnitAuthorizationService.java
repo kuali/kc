@@ -59,4 +59,6 @@ public interface UnitAuthorizationService {
      * @return the list of units the user has this permission in
      */
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName);
+    
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber); 
 }

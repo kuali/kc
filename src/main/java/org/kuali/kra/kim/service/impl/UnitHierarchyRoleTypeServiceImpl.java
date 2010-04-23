@@ -109,7 +109,7 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
             if (parentUnitNumber == null) {
                 break;
             }
-            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && StringUtils.equals("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)));
+            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && StringUtils.equalsIgnoreCase("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)));
             unitNumber = parentUnitNumber;
         }
         
