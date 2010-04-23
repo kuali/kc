@@ -34,6 +34,11 @@ public class MockUnitAuthorizationService implements UnitAuthorizationService {
         return new ArrayList<Unit>();
     }
 
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
+        return false;
+    }
+ 
+
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)
      */

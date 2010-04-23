@@ -39,4 +39,8 @@ public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         return false;
     }
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
+        return false;
+    }
+    
 }

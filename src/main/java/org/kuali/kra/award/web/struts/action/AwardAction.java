@@ -53,14 +53,17 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -69,6 +72,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.TimeAndMoneyExistenceService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -345,6 +349,7 @@ public class AwardAction extends BudgetParentActionBase {
         
         Award award = awardForm.getAwardDocument().getAward();
         checkAwardNumber(award);
+        String userId = GlobalVariables.getUserSession().getPrincipalName();
         
         if (isValidSave(awardForm)) {
             boolean savingNewAward = award.getAwardId() == null;
@@ -356,15 +361,18 @@ public class AwardAction extends BudgetParentActionBase {
             
             boolean newAwardSaved = savingNewAward && award.getAwardId() != null; 
             if(newAwardSaved) {
-                getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
+                getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
             }
-
-            AwardHierarchyBean bean = awardForm.getAwardHierarchyBean();
+ 
+            AwardHierarchyBean bean = awardForm.getAwardHierarchyBean(); 
             if(bean.saveHierarchyChanges()) {
                 List<String> order = new ArrayList<String>();
                 awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
                 awardForm.setOrder(order);
             }
+        } else {
+            GlobalVariables.getErrorMap().putError("document.awardList[0].unitNumber", KeyConstants.ERROR_AWARD_LEAD_UNIT_NOT_AUTHORIZED,  new String[] {userId, awardForm.getAwardDocument().getLeadUnitNumber()});
+            forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
 
         return forward;
@@ -498,7 +506,15 @@ public class AwardAction extends BudgetParentActionBase {
      * @return true if the award can be saved; otherwise false
      */
     protected boolean isValidSave(AwardForm awardForm) {
-        return true;
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+        String leadUnitNumber = awardDocument.getLeadUnitNumber();
+        if(StringUtils.isNotEmpty(leadUnitNumber)) {
+            String userId = GlobalVariables.getUserSession().getPrincipalId();
+            UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
+            //List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission());
+            return authService.hasMatchingQualifiedUnits(userId, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission(), leadUnitNumber);
+        }
+        return false; 
     }
 
     /**
