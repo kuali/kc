@@ -442,7 +442,20 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.AwardSubawardAuditRuleTest.class,
     org.kuali.kra.award.notesandattachments.notes.AwardNoteAddRuleTest.class,
     org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddRuleTest.class,
-    org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceTest.class
+    org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceTest.class,
+    org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
+    org.kuali.kra.s2s.generator.impl.BudgetV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.EDAbstractV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.EDAbstractV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_2GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.OtherV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.OtherV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PHS398CoverLetterV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PHS398CoverLetterV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.ProjectV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.ProjectV1_1GeneratorTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */
