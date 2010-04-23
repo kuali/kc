@@ -17,7 +17,7 @@
 
 <div id="workarea">
     <kul:tab tabTitle="Print" 
-             tabErrorKey="committeeHelper.committeeActionsHelper.printType"
+             tabErrorKey="committeeHelper.committeeActionsHelper.reportType"
              auditCluster="requiredFieldsAuditErrors"  
              defaultOpen="false"
              useCurrentTabIndexAsKey="true"  
@@ -31,11 +31,11 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <td><div align="left">Roster</div></td> 
-                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.printType" value="roster" styleClass="radio" /></div></td>
+                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.reportType" value="ROSTER" styleClass="radio" /></div></td>
                 </tr>     
                 <tr>
                     <td><div align="left">Future Scheduled Meetings</div></td> 
-                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.printType" value="futureScheduledMeetings" styleClass="radio" /></div></td>
+                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.reportType" value="FUTURE_SCHEDULED_MEETINGS" styleClass="radio" /></div></td>
                 </tr>     
                 <tr>
                     <td class="infoline"><div align="left">&nbsp;</div></td> 

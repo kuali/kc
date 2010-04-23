@@ -1733,7 +1733,42 @@
 				<ref bean="dateTimeService" />
 			</property>
 		</bean>
+        
+        <bean id="committeePrintingService"
+            class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl">
+            <property name="committeeBatchCorrespondencePrint" ref="committeeBatchCorrespondencePrint" />
+            <property name="committeeRosterPrint" ref="committeeRosterPrint" />
+            <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+        </bean>
+
+        <bean id="committeeBatchCorrespondencePrint"
+            class="org.kuali.kra.committee.print.CommitteeBatchCorrespondencePrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+        </bean>
 	
+        <bean id="committeeRosterPrint"
+            class="org.kuali.kra.committee.print.CommitteeRosterPrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+        </bean>
+    
+        <bean id="committeeFutureScheduledMeetingsPrint"
+            class="org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+        </bean>
+
+        <bean id="committeeXmlStream"
+            class="org.kuali.kra.committee.print.CommitteeXmlStream">
+            <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+            </property>
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+        </bean>
+    
 		<!-- Institute Proposal Service Configuration Start -->
 		<bean id="institutionalProposalPersonService"
 			class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPersonServiceImpl">
