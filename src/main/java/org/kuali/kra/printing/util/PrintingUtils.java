@@ -29,6 +29,7 @@ import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.printing.BudgetPrintType;
+import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
@@ -57,6 +58,8 @@ public class PrintingUtils {
 	private static final String XSL_CURRENT_REPORT = "CurrentSupport.xsl";
 	private static final String XSL_PENDING_REPORT = "PendingSupport.xsl";
 	private static final String XSL_INSTITUTIONAL_PROPOSAL_REPORT = "instituteProposal.xsl";
+    private static final String XSL_COMMITTEE_ROSTER = "CommitteeRoster.xsl";
+    private static final String XSL_FUTURE_SCHEDULED_MEETINGS = "CommitteeFutureScheduledMeetings.xsl";
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 
@@ -168,7 +171,11 @@ public class PrintingUtils {
 		} else if (reportType
 				.equals(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT)) {
 			xsl = XSL_PRINT_CERTIFICATION;
-		}
+		} else if (reportType.equals(CommitteeReportType.ROSTER.getCommitteeReportType())) {
+            xsl = XSL_COMMITTEE_ROSTER;
+        } else if (reportType.equals(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType())) {
+            xsl = XSL_FUTURE_SCHEDULED_MEETINGS;
+        }
 
 		Source src = new StreamSource(new PrintingUtils().getClass()
 				.getResourceAsStream(XSL_CONTEXT_DIR + "/" + xsl));
