@@ -158,6 +158,12 @@
 								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' styleClass="tinybutton" />
 		    				</c:otherwise>
 						</c:choose>
+						<c:if test="${!proposalBudgetFlag}">
+    				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
+    				    							anchor="${tabKey}" 
+    				    							lookupParameters="document.parentDocument.award.awardId:budgetParentId"
+    				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						
+						</c:if>
 						</kra:section>
 					</div>
 	                </td>

@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
@@ -32,6 +33,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
@@ -50,6 +52,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * This class is to process all basic services required for AwardBudget
@@ -305,31 +308,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
-    int lineItemNumber=0,personnelLineItemNumber = 0;
-    public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException {
-        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)getNewBudgetVersion(document, "Proposal Budget Copy "+(versionName==null?"":": "+versionName));
-        if(awardBudgetDocument==null) return null;
-        Budget budget = awardBudgetDocument.getBudget();
-        List<BudgetPeriod> budgetPeriods = awardBudgetDocument.getBudget().getBudgetPeriods();
-        BudgetPeriod firstBudgetPeriod = budgetPeriods.size()>0?budgetPeriods.get(0):budget.getNewBudgetPeriod();
-        firstBudgetPeriod.setBudgetId(budget.getBudgetId());
-        lineItemNumber= 0;personnelLineItemNumber = 0;
-        for (Iterator<BudgetPeriod> iter = rawValues.iterator(); iter.hasNext();) {
-            BudgetPeriod budgetPeriod = (BudgetPeriod)iter.next();
-            budgetPeriod.refreshReferenceObject("budgetLineItems");
-            copyProposalBudgetLineItemsToAwardBudget(firstBudgetPeriod,budgetPeriod);
-            BudgetPeriod copiedBudgetPeriod = (BudgetPeriod)getDeepCopyPostProcessor().
-                                                                processDeepCopyWithDeepCopyIgnore(budgetPeriod);
-            copiedBudgetPeriod.setBudgetId(null);
-            copiedBudgetPeriod.setBudget(budget);
-        }
-        getBudgetSummaryService().calculateBudget(budget);
-        saveDocument(awardBudgetDocument);
-        awardBudgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
-//        getBusinessObjectService().save(budget);
-        return awardBudgetDocument;
-    }
-
     private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
         List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
@@ -338,8 +316,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                         "budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
-            awardBudgetLineItem.setLineItemNumber(++lineItemNumber);
+            awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
+            awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
+            awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
@@ -348,12 +328,36 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
                         new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId",
                         "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList", "validToApplyInRate"});
-                awardBudgetPerDetails.setPersonNumber(++personnelLineItemNumber);
+                awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+                BudgetPerson oldBudgetPerson = budgetPersonnelDetails.getBudgetPerson();
+                BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudgetPeriod.getBudget(), 
+                		oldBudgetPerson, budgetPersonnelDetails.getJobCode());
+                if (currentBudgetPerson == null) {
+                	currentBudgetPerson = new BudgetPerson();
+                	BeanUtils.copyProperties(oldBudgetPerson, currentBudgetPerson, new String[]{"budgetId", "personSequenceNumber"});
+                	currentBudgetPerson.setBudgetId(awardBudgetPeriod.getBudgetId());
+                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getBudgetDocument().getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+                	awardBudgetPeriod.getBudget().getBudgetPersons().add(currentBudgetPerson);
+                }
+                awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);
+                awardBudgetPerDetails.setPersonSequenceNumber(currentBudgetPerson.getPersonSequenceNumber());
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
+                awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
+                awardBudgetPerDetails.setStartDate(awardBudgetLineItem.getStartDate());
+                awardBudgetPerDetails.setEndDate(awardBudgetLineItem.getEndDate());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             awardBudgetLineItems.add(awardBudgetLineItem);
         }
+    }
+    
+    private BudgetPerson findMatchingPersonInBudget(Budget budget, BudgetPerson oldBudgetPerson, String jobCode) {
+        for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
+        	if (budgetPerson.isSamePerson(oldBudgetPerson) && StringUtils.equals(budgetPerson.getJobCode(), jobCode)) {
+        		return budgetPerson;
+        	}
+        }
+        return null;
     }
 
     private DeepCopyPostProcessor getDeepCopyPostProcessor() {
@@ -394,5 +398,16 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
+    }
+
+    public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
+        Iterator iter = rawValues.iterator();
+        while (iter.hasNext()) {
+            BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
+            copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod, proposalPeriod);
+        }
+        getDocumentService().saveDocument(awardBudgetPeriod.getBudget().getBudgetDocument());
+        getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
+        
     }
 }

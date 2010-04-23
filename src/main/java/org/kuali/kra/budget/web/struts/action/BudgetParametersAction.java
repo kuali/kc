@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
@@ -53,6 +54,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -711,6 +714,33 @@ public class BudgetParametersAction extends BudgetAction {
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        BudgetForm budgetForm = (BudgetForm)form;
+        if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
+            String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
+            
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
+            
+            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            
+            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
+            	String budgetPeriod = budgetForm.getLookedUpCollectionName();
+                getAwardBudgetService().copyLineItemsFromProposalPeriods(rawValues, 
+                        budgetForm.getBudgetDocument().getBudget().getBudgetPeriod(Integer.parseInt(budgetPeriod)));
+            }
+        }
+        return super.refresh(mapping, form, request, response);
+    }
+    
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
+    }    
 
     
 }

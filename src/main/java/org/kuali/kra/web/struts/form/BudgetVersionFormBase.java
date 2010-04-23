@@ -52,6 +52,11 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
      */
     private String lookupResultsSequenceNumber;
     
+    /**
+     * Used to indicate which collection the lookup was being performed for
+     */
+    private String lookedUpCollectionName;
+    
     
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
@@ -177,6 +182,14 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
     public String getProposalHierarchyIndirectObjectCode() {
         return proposalHierarchyIndirectObjectCode;
     }
+
+	public String getLookedUpCollectionName() {
+		return lookedUpCollectionName;
+	}
+
+	public void setLookedUpCollectionName(String lookedUpCollectionName) {
+		this.lookedUpCollectionName = lookedUpCollectionName;
+	}
 
 
     

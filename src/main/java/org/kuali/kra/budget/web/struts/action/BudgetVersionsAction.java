@@ -192,32 +192,6 @@ public class BudgetVersionsAction extends BudgetAction {
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
     }
-    /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.refresh(mapping, form, request, response);
-        final BudgetForm budgetForm = (BudgetForm) form;
-        if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
-            String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
-            
-            @SuppressWarnings("unchecked")
-            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
-            
-            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
-            
-            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
-                    getAwardBudgetService().createBudgetDocumentWithCopiedBudgetPeriods(rawValues, 
-                            (AwardDocument)budgetForm.getBudgetDocument().getParentDocument(),
-                                                        budgetForm.getNewBudgetVersionName());
-            }
-        }
-        final ActionForward forward = super.reload(mapping, form, request, response);
-        return forward;
-    }
     
     private BudgetRatesService getBudgetRateService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
