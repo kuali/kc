@@ -1649,6 +1649,9 @@
 		<collection-descriptor name="s2sApplication" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sApplication" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
+		<collection-descriptor name="s2sAppAttachmentList" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sOppForms" table="S2S_OPP_FORMS">
 		<field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" primarykey="true"/>

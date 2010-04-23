@@ -159,20 +159,21 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		rrsf424.setTrustAgree(YesNoDataType.Y_YES);
 		rrsf424.setAORInfo(getAORInfoType());
 		for (Narrative narrative : devProp.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null){
-				AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-				if(attachedFileDataType == null){
-					continue;
-				}
-				if(Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
-        			rrsf424.setPreApplicationAttachment(attachedFileDataType);
-				}
-                if (narrative.getNarrativeTypeCode().equals(ADDITIONAL_CONGRESSIONAL_DESTRICT)) {
-                    AttachedFileDataType additionalCongrDestrAttachment = AttachedFileDataType.Factory
-                            .newInstance();
-                    rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
-                }
-            }
+            AttachedFileDataType attachedFileDataType=null;
+		    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+		        case(PRE_APPLICATION):
+		            attachedFileDataType = getAttachedNarrativeType(narrative.getNarrativeTypeCode());
+                    if(attachedFileDataType!=null) {
+                        rrsf424.setPreApplicationAttachment(attachedFileDataType);
+                    }
+		            break;
+		        case(ADDITIONAL_CONGRESSIONAL_DESTRICT):
+		            attachedFileDataType = getAttachedNarrativeType(narrative.getNarrativeTypeCode());
+		            if(attachedFileDataType!=null) {
+		                rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
+		            }
+		            break;
+		    }
 		}
 		if (departmentalPerson != null) {
 			rrsf424.setAORSignature(departmentalPerson.getFullName());

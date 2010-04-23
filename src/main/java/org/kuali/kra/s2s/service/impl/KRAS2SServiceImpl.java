@@ -539,15 +539,16 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 
 			appSubmission.setSubmissionNumber(submissionNumber);
-			appList.add(appSubmission);
+//			appList.add(appSubmission);
 			// appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			// appSubmission.setComments(S2SConstants.GRANTS_GOV_PROCESSING_MESSAGE);
 			// pdDoc.getDevelopmentProposal().setS2sAppSubmission(appList);
-			List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
-			saveList.add(appSubmission);
-			saveList.add(application);
+//			List<PersistableBusinessObject> saveList = new ArrayList<PersistableBusinessObject>();
+//			saveList.add(appSubmission);
+//			saveList.add(application);
 
-			businessObjectService.save(saveList);
+			businessObjectService.save(appSubmission);
+			pdDoc.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
 		}
 	}
 
