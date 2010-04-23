@@ -472,7 +472,7 @@ public class InstitutionalProposalXmlStream extends
 							.setSpecialReviewStatus(specialReviewApprovalType
 									.getDescription());
 				}
-				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProposalNumber());
+				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProtocolNumber());
 			}
 			SpecialReview specialReview = institutionalProposalSpecialReview
 					.getSpecialReview();
