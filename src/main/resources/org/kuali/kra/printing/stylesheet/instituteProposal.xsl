@@ -1973,7 +1973,7 @@
 														<xsl:if test="InstituteProposal/scienceCode">
 															<fo:block/>
 															<fo:inline font-size="12pt" font-weight="bold">
-																<xsl:text>Science Code</xsl:text>
+																<xsl:text>Keywords</xsl:text>
 															</fo:inline>
 														</xsl:if>
 													</fo:block>
