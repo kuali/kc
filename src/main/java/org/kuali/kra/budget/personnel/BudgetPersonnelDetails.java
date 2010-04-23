@@ -161,7 +161,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
      * @return Returns the nonEmployeeFlag.
      */
     public Boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
+        return getBudgetPerson()==null?false:getBudgetPerson().getNonEmployeeFlag();
     }
 
     /**

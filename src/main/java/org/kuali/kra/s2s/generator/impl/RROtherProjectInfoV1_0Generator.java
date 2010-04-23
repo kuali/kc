@@ -233,7 +233,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             	if(attachedFileDataType == null){
             		continue;
             	}
-                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
+                if (getAttachedNarrativeType(""+EQUIPMENT_ATTACHMENT)!=null) {
                     // EQUIPMENT
                     EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
                     equipmentAttachments.setEquipmentAttachment(attachedFileDataType);

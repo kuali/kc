@@ -31,7 +31,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
-    protected static final String ADDITIONAL_CONGRESSIONAL_DESTRICT = "59";
+    protected static final int ADDITIONAL_CONGRESSIONAL_DESTRICT = 59;
     private static final String CONTACT_TYPE_O = "O";
     protected static final String CONTACT_TYPE_I = "I";
     protected static final String STATE_REVIEW_YES = "Y";

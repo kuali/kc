@@ -183,6 +183,15 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * 
      */
 
+    protected AttachedFileDataType getAttachedNarrativeType(String narrativeTypeCode) {
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+                return getAttachedFileType(narrative);
+            }
+        }
+        return null;
+    }
     protected AttachedFileDataType getAttachedFileType(Narrative narrative) {
         AttachedFileDataType attachedFileDataType = null;
         byte[] attachementContent = null;
@@ -222,18 +231,23 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     protected AttachedFileDataType[] getAttachedFileDataTypes(String narrativeTypeCode) {
 
-        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-        AttachedFileDataType attachedFileDataType = null;
+        int size = 0;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
-                	attachedFileDataTypeList.add(attachedFileDataType);
-                }
+                size++;
             }
         }
-        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
+        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
+        int attachments = 0;
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
+                attachments++;
+            }
+        }
+        return attachedFileDataTypes;
     }
     /**
      * 
