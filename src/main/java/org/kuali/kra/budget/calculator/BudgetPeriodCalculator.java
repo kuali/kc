@@ -86,9 +86,9 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
-            if (!Boolean.valueOf(budget.getBudgetDocument().getParentDocument().getProposalBudgetFlag())) {
-                ((AwardBudgetExt)budget).setPrevBudget(getBudgetVersionOverview(budget));
-            }
+//            if (!Boolean.valueOf(budget.getBudgetDocument().getParentDocument().getProposalBudgetFlag())) {
+//                ((AwardBudgetExt)budget).setPrevBudget(getBudgetVersionOverview(budget));
+//            }
         }
         if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
         //if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() == budgetPeriod.getBudgetPeriod()){
@@ -427,43 +427,5 @@ public class BudgetPeriodCalculator {
     public void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
     }
-        
-    private BudgetVersionOverview getBudgetVersionOverview(Budget budget) {
-        BudgetVersionOverview prevBudget = null;
-        Integer version = 0;
-        for (BudgetDocumentVersion budgetDocumentVersion : budget.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-            for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
-                if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
-                        && "9".equals(((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())
-                        && budgetVersionOverview.getBudgetVersionNumber() < budget.getBudgetVersionNumber()) {
-                    version = budgetVersionOverview.getBudgetVersionNumber();
-                    prevBudget = budgetVersionOverview;
-                }
-            }
-        }
-        if (prevBudget == null) {
-            prevBudget = new BudgetVersionOverview();
-            prevBudget.setCostSharingAmount(BudgetDecimal.ZERO);
-            prevBudget.setTotalCost(BudgetDecimal.ZERO);
-            prevBudget.setTotalCostLimit(BudgetDecimal.ZERO);
-            prevBudget.setTotalDirectCost(BudgetDecimal.ZERO);
-            prevBudget.setTotalIndirectCost(BudgetDecimal.ZERO);
-            prevBudget.setUnderrecoveryAmount(BudgetDecimal.ZERO);
-        }
-        addBudgetTotals(budget, prevBudget);
-        return prevBudget;
-    }
-
-    private void addBudgetTotals(Budget budget, BudgetVersionOverview prevBudget) {
-        List <BudgetDecimal> totals = new ArrayList<BudgetDecimal>();
-        totals.add(budget.getTotalCost().add(prevBudget.getTotalCost()));
-        totals.add(budget.getTotalDirectCost().add(prevBudget.getTotalDirectCost()));
-        totals.add(budget.getTotalIndirectCost().add(prevBudget.getTotalIndirectCost()));
-        totals.add(budget.getUnderrecoveryAmount().add(prevBudget.getUnderrecoveryAmount()));
-        totals.add(budget.getCostSharingAmount().add(prevBudget.getCostSharingAmount()));
-        ((AwardBudgetExt)budget).setBudgetsTotals(totals);
-
-    }
-    
 
 }
