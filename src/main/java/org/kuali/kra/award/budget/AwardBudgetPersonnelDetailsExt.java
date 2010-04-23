@@ -16,6 +16,8 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
 /**
@@ -41,6 +43,14 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
+    }
+    /**
+     * 
+     * This method creates new instance of BudgetPersonnelCalculatedAmount
+     * @return
+     */
+    public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
+        return new AwardBudgetPersonnelCalculatedAmountExt();
     }
 
 }
