@@ -24,6 +24,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
     org.kuali.kra.test.OjbRepositoryMappingTest.class,
     org.kuali.kra.HtmlUnitUtilTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
@@ -389,7 +390,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.rules.CommitteeRuleTest.class,
     org.kuali.kra.scheduling.quartz.KcCronTriggerBeanTest.class,
     org.kuali.kra.award.home.AwardTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
     org.kuali.kra.service.SpecialReviewServiceTest.class,
     org.kuali.kra.budget.document.BudgetDocumentRuleTest.class,
     org.kuali.kra.document.SponsorFormTemplateMaintenanceDocumentTest.class,
