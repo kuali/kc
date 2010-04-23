@@ -1372,7 +1372,8 @@ public class AwardForm extends BudgetVersionFormBase
         nonPersonnelLabels.add(1, "Travel");
         nonPersonnelLabels.add(2, "Participant Support");
         nonPersonnelLabels.add(3, "Other Direct");
-        nonPersonnelLabels.add(4, "Non-Personnel Subtotal");
+        nonPersonnelLabels.add(4, "Calculated Direct Cost");
+        nonPersonnelLabels.add(5, "Non-Personnel Subtotal");
         return nonPersonnelLabels;
     }
 
