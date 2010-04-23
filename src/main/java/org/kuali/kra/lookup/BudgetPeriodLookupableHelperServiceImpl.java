@@ -67,25 +67,27 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
         List<AwardFundingProposal> fundingProposals = findObjectsWithSingleKey(AwardFundingProposal.class, "awardId",awardId);
         List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         for (AwardFundingProposal fundingProposal : fundingProposals) {
-            List<InstitutionalProposal> instProposals = findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
-            for (InstitutionalProposal instProp : instProposals) {
-                List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
-                                                                                "instProposalId",instProp.getProposalId());
-                for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-                    String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-                    DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
-                                                                            DevelopmentProposal.class, developmentProposalNumber);
-                    List<BudgetDocumentVersion> budgetDocumentVersions =  findObjectsWithSingleKey(BudgetDocumentVersion.class, 
-                                                                                "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
-                    for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                        Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
-                                                                        budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
-                        if(budget.isFinalVersionFlag()){
-                            budgetPeriods.addAll(budget.getBudgetPeriods());
-                        }
-                    }
-                }
-            }
+        	if (fundingProposal.isActive()) {
+	            List<InstitutionalProposal> instProposals = findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
+	            for (InstitutionalProposal instProp : instProposals) {
+	                List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
+	                                                                                "instProposalId",instProp.getProposalId());
+	                for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+	                    String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
+	                    DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
+	                                                                            DevelopmentProposal.class, developmentProposalNumber);
+	                    List<BudgetDocumentVersion> budgetDocumentVersions =  findObjectsWithSingleKey(BudgetDocumentVersion.class, 
+	                                                                                "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
+	                    for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
+	                        Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
+	                                                                        budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
+	                        if(budget.isFinalVersionFlag()){
+	                            budgetPeriods.addAll(budget.getBudgetPeriods());
+	                        }
+	                    }
+	                }
+	            }
+        	}
         }
         return budgetPeriods;
     }

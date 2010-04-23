@@ -23,6 +23,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
@@ -51,14 +52,13 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * 
      */
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
+
     /**
      * 
-     * This method...
-     * @param rawValues
-     * @param document
-     * @param versionName
-     * @return
-     * @throws WorkflowException
+     * Copies all line items from the BudgetPeriods included in rawValues into awardBudgetPeriod fixing
+     * dates and making sure personnel referenced are also added to the awardBudget.
+     * @param rawValues Collection of BudgetPeriods with line items to be copied to the awardBudgetPeriod
+     * @param awardBudgetPeriod
      */
-    public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException;
+    public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException;
 }

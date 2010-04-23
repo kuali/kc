@@ -341,27 +341,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         boService.save(awardDocument.getBudgetDocumentVersions());
     }    
-    
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.refresh(mapping, form, request, response);
-        final AwardForm awardForm = (AwardForm) form;
-        if (awardForm.getLookupResultsBOClassName() != null && awardForm.getLookupResultsSequenceNumber() != null) {
-            String lookupResultsSequenceNumber = awardForm.getLookupResultsSequenceNumber();
-            
-            @SuppressWarnings("unchecked")
-            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(awardForm.getLookupResultsBOClassName());
-            
-            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
-            
-            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
-                    getAwardBudgetService().createBudgetDocumentWithCopiedBudgetPeriods(rawValues, 
-                            (AwardDocument)awardForm.getDocument(),awardForm.getNewBudgetVersionName());
-            }
-        }
-        return super.reload(mapping, form, request, response);
-    }
 
     /**
      * {@inheritDoc}
