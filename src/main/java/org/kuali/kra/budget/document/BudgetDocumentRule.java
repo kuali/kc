@@ -436,12 +436,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 
         retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
 
-        if(!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
+        if (!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
         }
-        if(retval) {
-            processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
+        if (retval) {
+            retval &= processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
         }
         
         return retval;
@@ -467,7 +467,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 }
             }
         }
-        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
             auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             retval = false;
         }
