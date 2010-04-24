@@ -28,7 +28,7 @@ import org.kuali.kra.questionnaire.Questionnaire;
 public class AnswerHeader extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
-
+    private static final String NOT_SHOW_ANSWER = "N";
     private Long answerHeaderId;
     private String moduleItemCode;
     private String moduleItemKey;
@@ -42,12 +42,12 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     
     // Transient properties for questionnaire answer 
     private boolean newerVersionPublished = false;
-    private String updateOption ;
-    private String showQuestions ;
+    private String updateOption;
+    private String showQuestions;
 
     public AnswerHeader() {
         super();
-        showQuestions = "N";
+        showQuestions = NOT_SHOW_ANSWER;
     }
 
     public AnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Long questionnaireRefIdFk) {
@@ -58,7 +58,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
         // current coeus is setting this to 0
         this.moduleSubItemCode = 0;
         answers = new ArrayList<Answer>();
-        showQuestions = "N";
+        showQuestions = NOT_SHOW_ANSWER;
 
     }
 
@@ -146,7 +146,7 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     /**
      * Sets the questionnaireId attribute value.
      * 
-     * @param questionnaireId The questionnaireId to set.
+     * @param questionnaireRefIdFk The questionnaireRefIdFk to set.
      */
     public void setQuestionnaireRefIdFk(Long questionnaireRefIdFk) {
         this.questionnaireRefIdFk = questionnaireRefIdFk;

@@ -65,7 +65,7 @@ public interface QuestionnaireAnswerService {
      * @param moduleQuestionnaireBean
      * @return
      */
-    List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
+    List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean, Integer sequenceNumber);
 
     /**
      * 

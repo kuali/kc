@@ -219,36 +219,31 @@ public class Answer extends KraPersistableBusinessObjectBase implements Comparab
     }
 
     public int compareTo(Answer argAnswer) {
+        int retVal; 
 
         if (ObjectUtils.equals(this.getQuestionNumber(), argAnswer.getQuestionNumber())) {
-            return this.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
-        }
-        else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
+            retVal =  this.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
+        } else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
                 .getParentQuestionNumber())) {
-            return this.getQuestionNumber().compareTo(argAnswer.getQuestionNumber());
-        }
-        else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionNumber())) {
-            return 1;
-        }
-        else if (ObjectUtils.equals(this.getQuestionNumber(), argAnswer.getQuestionnaireQuestion().getParentQuestionNumber())) {
-            return -1;
-        }
-        else if (this.getQuestionnaireQuestion().getParentQuestionNumber() == 0
+            retVal = this.getQuestionNumber().compareTo(argAnswer.getQuestionNumber());
+        } else if (ObjectUtils.equals(this.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionNumber())) {
+            retVal = 1;
+        } else if (ObjectUtils.equals(this.getQuestionNumber(), argAnswer.getQuestionnaireQuestion().getParentQuestionNumber())) {
+            retVal = -1;
+        } else if (this.getQuestionnaireQuestion().getParentQuestionNumber() == 0
                 && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
-            return this.getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
-        }
-        else if (this.getQuestionnaireQuestion().getParentQuestionNumber() != 0
+            retVal = this.getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
+        } else if (this.getQuestionnaireQuestion().getParentQuestionNumber() != 0
                 && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
             if (ObjectUtils.equals(getRootAnswer(this).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
-                return compareAtSameDepth(this, argAnswer);
+                retVal = compareAtSameDepth(this, argAnswer);
+            } else {
+                retVal = getRootAnswer(this).getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
             }
-            else {
-                return getRootAnswer(this).getQuestionNumber().compareTo(getRootAnswer(argAnswer).getQuestionNumber());
-            }
+        } else {
+            retVal = 0;
         }
-        else {
-            return 0;
-        }
+        return retVal;
     }
 
     public List<Answer> getParentAnswer() {
@@ -277,14 +272,14 @@ public class Answer extends KraPersistableBusinessObjectBase implements Comparab
     }
     
     private Answer getAncestor(Answer argAnswer, int depth) {
-       List<Answer> answers = new ArrayList<Answer>();
-       answers.add(argAnswer);        
+        List<Answer> answers = new ArrayList<Answer>();
+        answers.add(argAnswer);
         Answer thisAnswer = argAnswer;
         while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
             thisAnswer = thisAnswer.getParentAnswer().get(0);
             answers.add(thisAnswer);
         }
-        return answers.get(answers.size()-(depth+1));
+        return answers.get(answers.size() - (depth + 1));
     }
 
 }
