@@ -17,17 +17,22 @@ package org.kuali.kra.questionnaire.answer;
 
 import org.kuali.kra.irb.Protocol;
 
+/**
+ * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.
+ **/
 public class ModuleQuestionnaireBean {
     private String moduleItemCode;
     private String moduleItemKey;
     private String moduleSubItemKey;
-    
+
     public ModuleQuestionnaireBean() {
         super();
     }
+
     public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
         this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString());
     }
+
     public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemKey) {
         this.moduleItemCode = moduleItemCode;
         this.moduleItemKey = moduleItemKey;
@@ -37,18 +42,23 @@ public class ModuleQuestionnaireBean {
     public String getModuleItemCode() {
         return moduleItemCode;
     }
+
     public void setModuleItemCode(String moduleItemCode) {
         this.moduleItemCode = moduleItemCode;
     }
+
     public String getModuleItemKey() {
         return moduleItemKey;
     }
+
     public void setModuleItemKey(String moduleItemKey) {
         this.moduleItemKey = moduleItemKey;
     }
+
     public String getModuleSubItemKey() {
         return moduleSubItemKey;
     }
+
     public void setModuleSubItemKey(String moduleSubItemKey) {
         this.moduleSubItemKey = moduleSubItemKey;
     }

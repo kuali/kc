@@ -40,7 +40,6 @@
     </c:otherwise>
 </c:choose>
 <c:set var="questionNumber" value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].questionNumber}" />
-<%-- TODO : following id is not appropriate because different questionnaire may have the same id --%>
 
 <c:set var="prop" value="parent-${questionNumber}-${answerHeaderIndex}"/>
 ${kfunc:registerEditableProperty(KualiForm, prop)}
