@@ -117,7 +117,8 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public String createContentId(Narrative narrative) {
         String retVal = "N-" + narrative.getModuleNumber();
         if(narrative.getNarrativeType()!=null){
-            if (narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
+            if (narrative.getNarrativeType().getAllowMultiple()!=null
+                    &&narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
                     StringUtils.isNotBlank(narrative.getModuleTitle())) {
                 retVal += "_" + narrative.getModuleTitle();
             }else{
