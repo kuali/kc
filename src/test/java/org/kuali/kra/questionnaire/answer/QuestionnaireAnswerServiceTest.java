@@ -197,7 +197,7 @@ public class QuestionnaireAnswerServiceTest {
         }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         
-        AnswerHeader answerHeader = questionnaireAnswerServiceImpl.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol)).get(0);
+        AnswerHeader answerHeader = questionnaireAnswerServiceImpl.versioningQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), 1).get(0);
         Assert.assertEquals(3, answerHeader.getAnswers().size());
         Assert.assertEquals("1", answerHeader.getModuleSubItemKey());
         Assert.assertEquals("0912000001", answerHeader.getModuleItemKey());
