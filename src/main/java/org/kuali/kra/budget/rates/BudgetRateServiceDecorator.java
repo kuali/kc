@@ -205,6 +205,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
                 getBudgetCalculationService().rePopulateCalculatedAmount(budget, budgetLineItem);
                 List<BudgetPersonnelDetails> personnelDetailList = budgetLineItem.getBudgetPersonnelDetailsList();
                 for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailList) {
+                    budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
                     getBudgetCalculationService().rePopulateCalculatedAmount(budget, budgetPersonnelDetails);
                 }
             }
