@@ -203,7 +203,7 @@ public class QuestionnaireHelper implements Serializable {
     
     /**
      * 
-     * This method to update whether a child question answer is displayed or not.  This is specifically
+     * This method to update whether a child question answer is to be displayed or not.  This is specifically
      * used when 'lookup' value is returned because the js 'onchange' is not working in this case.
      * @param headerIndex
      */

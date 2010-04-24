@@ -12,7 +12,7 @@
         ${kfunc:registerEditableProperty(KualiForm, prop)}
         
         <input type="text" class="Qanswer" id="${prop}" name="${prop}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
-                value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
+                value="${KualiForm.questionnaireHelper.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" readonly = "true"/>
 		<kul:lookup boClassName="${question.lookupClass}" 
 	                         fieldConversions="${question.lookupReturn}:${prop}" />
     </span>

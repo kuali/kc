@@ -118,7 +118,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * 
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#versioningQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
-    public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean, Integer newSequenceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
         fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
@@ -126,8 +126,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues)) {
             AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
-            copiedAnswerHeader.setModuleSubItemKey(Integer
-                    .toString(Integer.parseInt(moduleQuestionnaireBean.getModuleSubItemKey()) + 1));
+            copiedAnswerHeader.setModuleSubItemKey(newSequenceNumber.toString());
             copiedAnswerHeader.setAnswerHeaderId(null);
             for (Answer answer : copiedAnswerHeader.getAnswers()) {
                 answer.setId(null);
@@ -216,6 +215,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     /*
      * if maxanswer > 1. Then make sure non-blank answers are moved to top of the answer array.
+     * This is for coeus equivalency
      */
     private void moveAnswer(List<Answer> answers, int index) {
         int i = 0;
@@ -331,7 +331,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * Load the descendant questions for this questionnaire question.
      */
     private List<Answer> getChildQuestions(Questionnaire questionnaire, QuestionnaireQuestion question) {
-        // TODO : if this not efficient, then may want to use businessobjectservice to retrieve it.
         List<Answer> answers = new ArrayList<Answer>();
         for (QuestionnaireQuestion questionnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
             if (questionnaireQuestion.getParentQuestionNumber() != 0
@@ -371,7 +370,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#setupChildAnswerIndicator(java.util.List)
      */
     public void setupChildAnswerIndicator(List<Answer> answers) {
-        // TODO : what if question maxanswer > 1
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
@@ -381,7 +379,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Collections.sort(answers);
 
         for (Answer answer : answers) {
-            // parentAnswers.get(answer.getQuestionNumber()).add(answer);
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
                 answer.setMatchedChild(YES);
             } else {

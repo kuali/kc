@@ -57,7 +57,6 @@ public class QuestionnaireAnswerRuleTest extends KraTestBase {
         rule.processQuestionnaireAnswerRules(answerHeaders);
         MessageMap messages = GlobalVariables.getMessageMap();
         Assert.assertEquals(0, messages.getErrorMessages().size());
-        //assertEquals(answerHeader, questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), questionnaire));
     }
     
     /**
