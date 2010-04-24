@@ -116,14 +116,18 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     public String createContentId(Narrative narrative) {
         String retVal = "N-" + narrative.getModuleNumber();
-        if (StringUtils.isNotBlank(narrative.getModuleTitle())) {
+        if (narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
+                StringUtils.isNotBlank(narrative.getModuleTitle())) {
             retVal += "_" + narrative.getModuleTitle();
+        }else{
+            retVal+=narrative.getNarrativeType().getDescription();
         }
         return retVal;
     }
     
     public String createContentId(ProposalPersonBiography biography) {
-        String retVal = "B-" + biography.getProposalPersonNumber() + "_" + biography.getDocumentTypeCode();
+        String retVal = "B-" + biography.getProposalPersonNumber() + "_"+biography.getBiographyNumber() ;
+        retVal+=biography.getPropPerDocType().getDescription();
         if (StringUtils.isNotBlank(biography.getDescription())) {
             retVal += "_" + biography.getDescription();
         }
