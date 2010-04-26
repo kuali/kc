@@ -258,15 +258,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             for( ActionRequestDTO cActionRequest : actionRequests ) {
                 String recipientUser = cActionRequest.getPrincipalId();
-                if(recipientUser != null && recipientUser.equals(loggedInPrincipalId)) {
+                if( ( recipientUser != null && recipientUser.equals(loggedInPrincipalId) ) 
+                        || ( groupService.isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
                     return true;
-                } else {
-                    String recipientGroupId = cActionRequest.getGroupId();
-                    return groupService.isMemberOfGroup(loggedInPrincipalId, recipientGroupId);
                 }
             }
-        
         }
+        
         return false;  
     }
     
