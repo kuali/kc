@@ -86,7 +86,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.prepareForSave();
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
         
-        if (proposalLog.isLogTypeTemporary()) {
+        if (proposalLog.isLogTypeTemporary() && StringUtils.equalsIgnoreCase(proposalLog.getLogStatus(), ProposalLogUtils.getProposalLogPendingStatusCode())) {
             proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
         }
         
@@ -101,7 +101,12 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private void setupDefaultValues(ProposalLog proposalLog) {
         if (StringUtils.isBlank(proposalLog.getLogStatus())) {
-            proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
+            if (proposalLog.isLogTypeTemporary()) {
+                proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
+            }
+            else {
+                proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
+            }
         }
         if (StringUtils.isBlank(proposalLog.getProposalLogTypeCode())) {
             proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
