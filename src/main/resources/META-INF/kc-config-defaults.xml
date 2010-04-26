@@ -89,8 +89,8 @@
 	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
-	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
-	<param name="keystore.password">s1t0spss!xX-tst</param>
+	<param name="keystore.file">kul</param>
+	<param name="keystore.password">kulpass</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
@@ -98,8 +98,6 @@
 
 	<!-- Kuali parameters -->
 	<param name="encryption.key">7IC64w6ksLU</param>
-	<param name="keystore.alias">kul</param>
-	<param name="keystore.password">kulpass</param>
 	<param name="rice.user">true</param>
 	<param name="ActionList.norefresh">false</param>
 	<param name="enable.nonproduction.data.unmasking">true</param>
