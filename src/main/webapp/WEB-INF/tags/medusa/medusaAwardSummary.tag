@@ -26,7 +26,7 @@
     </tr>
     <tr>
       <th style="text-align: right;">Award ID:</th>
-      <td><c:out value="${node.bo.awardId}"/></td>
+      <td><c:out value="${node.bo.awardNumber}"/></td>
       <th style="text-align: right;">Award Type:</th>
       <td><c:out value="${node.bo.awardType.description}"/></td>
     </tr>
