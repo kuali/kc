@@ -128,17 +128,22 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     }
 
     private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
-        
+        boolean retval = false;
         ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
         ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
-        if (oldProposalLog.getProposalNumber() != null
-                && oldProposalLog.getLogStatus() != newProposalLog.getLogStatus() 
-                && !(ProposalLogUtils.getProposalLogVoidStatusCode().equals(newProposalLog.getLogStatus()) 
-                        || ProposalLogUtils.getProposalLogPendingStatusCode().equals(newProposalLog.getLogStatus()))) {
-            return false;
+        String oldStatus = oldProposalLog.getLogStatus();
+        String newStatus = newProposalLog.getLogStatus();
+        if (oldProposalLog.getProposalNumber() == null) {
+        	retval = true;
         }
-        
-        return true;
+        else if (StringUtils.equalsIgnoreCase(oldStatus, newStatus) || StringUtils.equalsIgnoreCase(newStatus, ProposalLogUtils.getProposalLogVoidStatusCode())) {
+        	retval = true;
+        }
+        else if (StringUtils.equalsIgnoreCase(newStatus, ProposalLogUtils.getProposalLogTemporaryStatusCode()) == newProposalLog.isLogTypeTemporary()) {
+        	retval = true;
+        }
+
+        return retval;
     }
     
     private boolean hasUnitAuthorization(ProposalLog proposalLog) {
