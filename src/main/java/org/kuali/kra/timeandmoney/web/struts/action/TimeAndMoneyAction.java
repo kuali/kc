@@ -129,6 +129,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         award.getAwardAmountInfos().add(aai);
                 }
             }
+            //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
+            //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
+            //in save rules.
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate()) &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(awardHierarchyNode.getValue().getCurrentFundEffectiveDate())) {
+                awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
+            }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null &&
                     !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate())){
                 if (isNoCostExtension && 
@@ -146,6 +153,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                         award.getAwardAmountInfos().add(aai);
                 }
+            }
+            //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
+            //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
+            //in save rules.
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate()) &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(awardHierarchyNode.getValue().getObligationExpirationDate())) {
+                awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
             }
             if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null &&
                     !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
@@ -165,9 +179,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         award.getAwardAmountInfos().add(aai);
                 }
             }
+            //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
+            //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
+            //in save rules.
+            if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate()) &&
+                    !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
+                awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+            }
             getBusinessObjectService().save(award);
         }
         forward = super.save(mapping, form, request, response);
+        //we want to apply save rules to doc before we save any captured changes.
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
         getBusinessObjectService().save(awardAmountInfoObjects);
         getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
