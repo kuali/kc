@@ -2001,6 +2001,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 												.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
 												: kcPerson.getMiddleName()));
 								keyPerson.setNonMITPersonFlag(false);
+								keyPerson.setRole(KEYPERSON_OTHER);
 								keyPersons.add(keyPerson);
 								personAlreadyAdded = true;
 							}
