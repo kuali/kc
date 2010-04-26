@@ -327,6 +327,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
         AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(this);
         int index = 0;
+        if(!(aai.getAwardAmountInfoId() == null)) {
+            this.refreshReferenceObject("awardAmountInfos");
+        }
         for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
             if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId() == null) {
                 return index;
