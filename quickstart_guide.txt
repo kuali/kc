@@ -38,6 +38,3 @@ Requirements:
 
         <param name="datasource.url">jdbc:mysql://localhost:3306/kcdev</param>
         <param name="datasource.ojb.platform">MySQL</param>
-        <param name="datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform</param>
-        <param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
-        <param name="datasource.pool.validationQuery">select 1</param>
