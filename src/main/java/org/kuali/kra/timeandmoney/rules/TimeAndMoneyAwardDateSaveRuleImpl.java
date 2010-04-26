@@ -47,13 +47,17 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
             Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
+            Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
             if(!(obligatedStartDate == null) && !(obligatedEndDate == null)) {
                 if(obligatedStartDate.after(obligatedEndDate) || obligatedStartDate.equals(obligatedEndDate)) {
                     valid = false;
                     reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_DATES_INVALID, awardHierarchyNode.getValue().getAwardNumber());
                 }
+                if(obligatedEndDate.after(projectEndDate) || obligatedEndDate.equals(projectEndDate)) {
+                    valid = false;
+                    reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_DATE, awardHierarchyNode.getValue().getAwardNumber());
+                }
             }
-            
         }
         return valid;
     }

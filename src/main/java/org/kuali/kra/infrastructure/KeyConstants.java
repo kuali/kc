@@ -669,6 +669,8 @@ public final class KeyConstants {
     public static final String ERROR_DATE_NOT_SET = "error.date.not.set";
     public static final String ERROR_DATE_NULL = "error.date.null";
     public static final String ERROR_OBLIGATED_DATES_INVALID = "error.obligated.dates.invalid";
+    public static final String ERROR_OBLIGATED_END_DATE = "error.obligated.end.date";
+
 
 
 
