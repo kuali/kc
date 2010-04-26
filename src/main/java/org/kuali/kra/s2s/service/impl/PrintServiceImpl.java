@@ -579,7 +579,7 @@ public class PrintServiceImpl implements PrintService {
 		} else if (StringUtils.equals(contentIds[0], "B")){
 		    for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
 		        if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
-		                && StringUtils.equals(biography.getDocumentTypeCode(), contentDesc[1])) {
+		                && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
 		            biography.refreshReferenceObject("personnelAttachmentList");
 		            return biography.getPersonnelAttachmentList().get(0).getContent();
 		        }
