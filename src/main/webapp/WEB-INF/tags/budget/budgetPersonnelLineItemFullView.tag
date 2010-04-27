@@ -47,7 +47,7 @@
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 
           		
-       			<kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="${tabErrorKey}" useCurrentTabIndexAsKey="true">
+       			<kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="${tabTitle} Details" tabErrorKey="${tabErrorKey}" tabAuditKey="${tabErrorKey}" auditCluster="budgetPersonnelAuditWarnings${budgetPeriod}" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="" style="width:100%;border:none;">
 			        	<tr>
