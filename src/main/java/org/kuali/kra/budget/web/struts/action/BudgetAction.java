@@ -249,6 +249,7 @@ public class BudgetAction extends BudgetActionBase {
     private void refreshBudgetDocumentVersion(BudgetDocument savedBudgetDoc) {
         Budget budget = savedBudgetDoc.getBudget();
         for (BudgetDocumentVersion documentVersion: savedBudgetDoc.getParentDocument().getBudgetDocumentVersions()) {
+            documentVersion.refreshReferenceObject("documentHeader");
             BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 documentVersion.refreshReferenceObject("budgetVersionOverviews");
