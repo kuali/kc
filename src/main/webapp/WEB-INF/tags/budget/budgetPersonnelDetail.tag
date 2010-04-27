@@ -71,8 +71,8 @@
     		</c:forEach>
     	</c:if>
     </c:forEach>
-    
-<kul:tab tabTitle="Personnel Detail (Period ${budgetPeriod})" defaultOpen="false" tabErrorKey="*costElement*,newGroupName,newBudgetLineItems*,newBudgetPersonnelDetails.*,${tabErrorKeyString},${tabErrorKeyString2}">
+
+<kul:tab tabTitle="Personnel Detail (Period ${budgetPeriod})" defaultOpen="false" tabErrorKey="*costElement*,newGroupName,newBudgetLineItems*,newBudgetPersonnelDetails.*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
 		<div class="tab-container" align="center">
 		
 		<div style="text-align:left;width: 98%" >

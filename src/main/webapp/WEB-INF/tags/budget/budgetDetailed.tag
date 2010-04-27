@@ -70,10 +70,10 @@
 		    		</c:choose>
 		    		<c:choose>
 		    			<c:when test="${empty tabErrorKeyString3}">
-		    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].underrecoveryAmount"/>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].underrecoveryAmount"/>
 		    			</c:otherwise>
 		    		</c:choose>			    		
 	    		</c:if>    		

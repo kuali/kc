@@ -955,8 +955,27 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
-        forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetPersonnel.do?auditActivated=true&");
+        forward = StringUtils.replace(forward, "methodToCall=docHandler", "methodToCall=personnel&auditActivated=true");
         
+        String methodToCallAttribute = (String)request.getAttribute("methodToCallAttribute");
+        String activePanelName = (String)request.getAttribute("activePanelName");
+        
+        String viewBudgetPeriodParam = null;
+        if (StringUtils.isNotBlank(methodToCallAttribute)) {
+            int idx = methodToCallAttribute.indexOf("&viewBudgetPeriod=");
+            if (idx > 0) {
+                viewBudgetPeriodParam = "&viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
+            }
+        }
+        
+        if (viewBudgetPeriodParam != null) {
+            forward += viewBudgetPeriodParam; 
+        }
+        
+        if (StringUtils.isNotBlank(activePanelName)) {
+            forward += "&activePanelName=" + activePanelName; 
+        }
+
         return new ActionForward(forward, true);
     }
     

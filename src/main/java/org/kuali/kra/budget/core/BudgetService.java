@@ -134,6 +134,15 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return Non-Personnel Panel Name for the passed in Line Item
      */
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    
+    /**
+     * 
+     * This method returns the Personnel Panel Name (based on the variables).
+     * @param budgetPeriod
+     * @param budgetLineItem
+     * @return Personnel Panel Name for the passed in Line Item
+     */
+    public String getPersonnelPanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
 
