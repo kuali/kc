@@ -317,8 +317,17 @@ public class BudgetAction extends BudgetActionBase {
         return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
     }
 
-    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        // if the budget doc hasn't been loaded, do so now (this is the case if we came here via ProposalDevelopmentActionsAction.personnel)
+        if (StringUtils.isEmpty(budgetForm.getBudgetDocument().getDocumentNumber())) {
+            docHandler(mapping, budgetForm, request, response);
+        }
+        
+        if(StringUtils.isNotBlank(budgetForm.getActivePanelName())) {
+            populateTabState(budgetForm, budgetForm.getActivePanelName());
+        }
+        
         populatePersonnelCategoryTypeCodes(budgetForm);
         if (budgetForm.getBudgetDocument().getBudget().getBudgetPersons().isEmpty()) {
             KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument().getBudget());
