@@ -30,6 +30,7 @@ import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteAddEvent;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteEventBase.ErrorType;
+import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -45,6 +46,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String CONFIRM_DELETE_ATTACHMENT = "confirmDeleteAttachment";
     private static final String CONFIRM_DELETE_ATTACHMENT_KEY = "confirmDeleteAttachmentKey";
+    private static final String EMPTY_STRING = "";
     
     private AwardNotepadBean awardNotepadBean;
     
@@ -124,8 +126,12 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
      */
     public ActionForward addAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((AwardForm) form).getAwardAttachmentFormBean().addNewAwardAttachment();
-        
+        AwardAttachment awardAttachment = ((AwardForm) form).getAwardAttachmentFormBean().getNewAttachment();
+        AwardForm awardForm = ((AwardForm)form);
+        AwardDocument award = awardForm.getAwardDocument();
+        if(getKualiRuleService().applyRules(new AddAwardAttachmentEvent(EMPTY_STRING, "", award, awardAttachment ))){
+            ((AwardForm) form).getAwardAttachmentFormBean().addNewAwardAttachment();
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
