@@ -83,10 +83,20 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
             // budget personnel budget effective warning 
             int j = 0;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                String panelName = budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
-                
                 if(budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()) {
-                    String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
+                    boolean isPersonnelWarning = (budgetLineItem.getBudgetPersonnelDetailsList()!=null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty());
+                    
+                    String key;
+                    String panelName;
+                    if (isPersonnelWarning) {
+                        key = "budgetPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
+                        panelName = budgetService.getPersonnelPanelName(budgetPeriod, budgetLineItem);
+                    }
+                    else {
+                        key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
+                        panelName = budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
+                    }
+                    
                     AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
                     if (auditCluster == null) {
                         List<AuditError> auditErrors = new ArrayList<AuditError>();
@@ -94,7 +104,15 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
                         GlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName));
+                    
+                    String link;
+                    if (isPersonnelWarning) {
+                        link = Constants.BUDGET_PERSONNEL_PAGE + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName;
+                    }
+                    else {
+                        link = Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName;
+                    }
+                    auditErrors.add(new AuditError("document.budget.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem[" + j + "].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, link));
                     retval=false;
                 }
                     

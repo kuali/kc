@@ -485,6 +485,31 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 //            panelName.append(")");
         }
         
+        panelName = panelName.append(" - Budget Period ");
+        panelName = panelName.append(budgetPeriod.getBudgetPeriod());
+        panelName = panelName.append(" ");
+                
+        return panelName.toString();
+    }
+
+    public String getPersonnelPanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        StringBuffer panelName = new StringBuffer();
+        if(budgetLineItem.getBudgetCategory() == null) {
+            budgetLineItem.refreshReferenceObject("budgetCategory");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
+            budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
+        }
+        
+        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
+            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
+        }
+        
+        panelName = panelName.append(" Detail (Period ");
+        panelName = panelName.append(budgetPeriod.getBudgetPeriod());
+        panelName = panelName.append(") ");
+                
         return panelName.toString();
     }
 
