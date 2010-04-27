@@ -279,9 +279,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
             getAward().getFundingProposals().removeAll(pendingVersions);
             for (InstitutionalProposal institutionalProposal : fundedVersions) {
-                AwardFundingProposal awardFundingProposal = new AwardFundingProposal();
-                awardFundingProposal.setAward(getAward());
-                awardFundingProposal.setProposal(institutionalProposal);
+                AwardFundingProposal awardFundingProposal = new AwardFundingProposal(getAward(), institutionalProposal);
                 getAward().getFundingProposals().add(awardFundingProposal);
             }
         }
