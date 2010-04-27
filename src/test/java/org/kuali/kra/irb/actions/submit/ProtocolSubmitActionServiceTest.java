@@ -197,6 +197,10 @@ public class ProtocolSubmitActionServiceTest extends KraTestBase {
         
         assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.SUBMITTED_TO_IRB);
         verifyAction(protocolAction, protocolSubmission);
+        List<ProtocolSubmission> protocolSubmissions =protocolDocument.getProtocol().getProtocolSubmissions();
+        protocolSubmissions.add(protocolSubmission);
+        protocolDocument.getProtocol().setProtocolSubmissions(protocolSubmissions);
+        protocolDocument.getProtocol().setProtocolSubmission(protocolSubmission);
         verifySubmission(protocolSubmission, protocolDocument.getProtocol(), submitAction);
     }
     

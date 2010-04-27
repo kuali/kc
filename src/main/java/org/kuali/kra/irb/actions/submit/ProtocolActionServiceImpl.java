@@ -64,9 +64,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private static final int UPDATE_RULE = 5;
 
-    private static final String MODIFY_ANY_PROTOCOL = "MODIFY_ANY_PROTOCOL";
+    private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
 
-    private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "PERFORM_IRB_ACTIONS_ON_PROTO";
+    private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
 
     private static final String DEFAULT_ORGANIZATION_UNIT = "000001";
 
