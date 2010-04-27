@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.request;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -60,7 +62,8 @@ import org.kuali.rice.test.data.UnitTestFile;
  * simply creating database entries for the submission.  After calling
  * the submitRequest(), a check is done against the database to
  * verify that the changes occurred as expected.
- */
+*/
+
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
@@ -71,7 +74,10 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";")
 }))
 public class ProtocolRequestServiceTest extends KraTestBase {
 
@@ -96,6 +102,11 @@ public class ProtocolRequestServiceTest extends KraTestBase {
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         super.tearDown();
+    }
+    
+    @Test
+    public void testDumbTest(){
+        assertTrue(true);
     }
     
     /*
@@ -136,13 +147,39 @@ public class ProtocolRequestServiceTest extends KraTestBase {
         
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
+        List<DocumentNextvalue> documentNextvalues = new ArrayList<DocumentNextvalue>();
+        DocumentNextvalue dnv1 = new DocumentNextvalue();
+        dnv1.setDocumentKey("submissionNumber");
+        dnv1.setPropertyName("submissionNumber");
+        dnv1.setAutoIncrementSet(true);
+        dnv1.setNextValue(new Integer(1));
+        documentNextvalues.add(dnv1);
+        
+        DocumentNextvalue dnv2 = new DocumentNextvalue();
+        dnv2.setDocumentKey("submissionDocId");
+        dnv2.setPropertyName("submissionDocId");
+        dnv2.setAutoIncrementSet(true);
+        dnv2.setNextValue(new Integer(1));
+        documentNextvalues.add(dnv2);
+        
+        DocumentNextvalue dnv3 = new DocumentNextvalue();
+        dnv3.setDocumentKey("actionId");
+        dnv3.setPropertyName("actionId");
+        dnv3.setAutoIncrementSet(true);
+        dnv3.setNextValue(new Integer(1));
+        documentNextvalues.add(dnv3);
+
+        
+        protocolDocument.setDocumentNextvalues(documentNextvalues);
+        
+        protocolDocument.getProtocol().setProtocolDocument(protocolDocument);
+        
         CommitteeDocument committeeDocument = null;
         if (!StringUtils.isBlank(committeeId)) {
             committeeDocument = createCommittee(committeeId);
         }
-        
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestBean);
-    
+        
         ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolSubmission);
         
