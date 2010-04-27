@@ -325,18 +325,11 @@ VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'defau
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
 
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_DOCUMENT_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from the Action List will load the Route Log in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A') ;
-
+UPDATE KRNS_PARM_T T 
+SET T.TXT='N' 
+WHERE T.PARM_NM IN('ACTION_LIST_DOCUMENT_POPUP_IND', 'ACTION_LIST_ROUTE_LOG_POPUP_IND', 'DOCUMENT_SEARCH_POPUP_IND', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND')
+                  AND T.APPL_NMSPC_CD = 'KUALI';
+                  
 UPDATE KRNS_PARM_T 
 SET TXT='4',NMSPC_CD = 'KC-PD'
 WHERE NMSPC_CD = 'KRA-PD'
@@ -400,8 +393,8 @@ VALUES('KC-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES ('KUALI', 'KC-PD', 'D', 's2sschedulercronExpressionstarttime', '22f44dbf-23b6-4aa9-9d72-f83a227eeedd', 1, 'CONFG', '01-JAN-2010 01:00 AM', 'Start Time expression for the S2S Polling Process. The S2S Polling Process will only start if this parameters date is before today. Must be formatted as "dd-MMM-yyyy hh:mm a". For example "01-JAN-2010 01:00 AM".', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '1', 'It defines where the citizenship info should fetch from', 'A') ;
@@ -480,5 +473,11 @@ WHERE NMSPC_CD = 'KRA-B';
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-M' 
 WHERE NMSPC_CD = 'KRA-M';
+
+DELETE FROM KRNS_PARM_T 
+WHERE APPL_NMSPC_CD='KUALI' 
+AND NMSPC_CD='KC-PD' 
+AND PARM_DTL_TYP_CD='D' 
+AND PARM_NM='creditSplitEnabled';
 
 COMMIT;
