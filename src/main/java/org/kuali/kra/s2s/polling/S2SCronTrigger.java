@@ -75,7 +75,7 @@ public class S2SCronTrigger extends CronTriggerBean {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String defaultDateStr = dateFormat.format(defaultDate);
         try {
-            String dateString = getParameterValue(S2S_CRON_STARTTIME,defaultDateStr);
+            String dateString = getParameterValue(S2S_CRON_STARTTIME);
             return dateFormat.parse(dateString);
         }catch (Exception e) {
             LOG.warn("Not able to get the starttime for S2S scheduler from system param table. Set it to "+defaultDateStr);
@@ -90,7 +90,7 @@ public class S2SCronTrigger extends CronTriggerBean {
      */
     private String getSystemCronExpression() {
         try {
-            return getParameterValue(this.cronExpressionParameterName,DEFAULT_CRON_EXPRESSION);
+            return getParameterValue(this.cronExpressionParameterName);
         }
         catch (Exception ex) {
             return DEFAULT_CRON_EXPRESSION;
@@ -103,8 +103,8 @@ public class S2SCronTrigger extends CronTriggerBean {
      * @param key the key (name) of the parameter
      * @return the parameter's value
      */
-    private String getParameterValue(String key,String defaultValue) {
-        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key,defaultValue);
+    private String getParameterValue(String key) {
+        return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
     }
 
     /**
