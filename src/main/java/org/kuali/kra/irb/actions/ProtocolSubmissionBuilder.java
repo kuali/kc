@@ -59,9 +59,27 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setProtocolNumber(protocol.getProtocolNumber());
         protocolSubmission.setSequenceNumber(protocol.getSequenceNumber());
         protocolSubmission.setSubmissionNumber(protocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY));
+        
         protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
-        protocolSubmission.setSubmissionStatusCode("100");  // this will need to be changed in future development
+        
+        ProtocolSubmission oldSubmission = protocol.getProtocolSubmission();
+        if(oldSubmission != null){
+            //old submission may not be found if in a unit test
+            protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
+            protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
+            protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
+            protocolSubmission.setComments(oldSubmission.getComments());
+            protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
+            protocolSubmission.setNoVoteCount(oldSubmission.getNoVoteCount());
+            protocolSubmission.setAbstainerCount(oldSubmission.getAbstainerCount());
+            protocolSubmission.setVotingComments(oldSubmission.getVotingComments());
+        }
+        
+        /**        
+         * this will need to be changed in future development
+         */
+        protocolSubmission.setSubmissionStatusCode("100");
     }
     
     /**

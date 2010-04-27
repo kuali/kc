@@ -57,9 +57,11 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
          * to the protocol action entry.
          */
         ProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
+        protocol.setProtocolSubmission(submission);
         
-        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, requestBean.getProtocolActionTypeCode());
+        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, requestBean.getProtocolActionTypeCode());        
         protocolAction.setComments(requestBean.getReason());
+        protocolAction.setProtocol(protocol);
         protocol.getProtocolActions().add(protocolAction);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
