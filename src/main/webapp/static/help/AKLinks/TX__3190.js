@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3190", [["Documents/entityrelationshiptype1.htm", "right", "Entity Relationship Type"],["Documents/entityrelationshiptype.htm", "right", "Entity Relationship Type"]]);
