@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Workflow Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link href="../Theme/nav.css" type="text/css" rel="stylesheet" /><link href="../Theme/popupmenu.css" type="text/css" rel="stylesheet" /><link href="../Theme/lf.css" type="text/css" rel="stylesheet" /><link href="../LinksExt/C1H_HTML.css" type="text/css" rel="stylesheet" /><link href="../LinksExt/Vol 1 &amp; 2 _ Consolidated.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2009.3.0.500" />
+<meta name="D2HTheme" content="Kuali Coeus 2.0 Online Help v.138" />
+</head>
+<body style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 7px; OVERFLOW: hidden; PADDING-TOP: 0px; BACKGROUND-COLOR: #a02919" onload="d2hOnLoadToolbar(event);" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div class="d2h_outer_topic" id="D2HTopicOuterBody" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; OVERFLOW: auto; WIDTH: 100%; PADDING-TOP: 0px; HEIGHT: 100%; BACKGROUND-COLOR: white">
+<div class="d2hNavigatorTopic" id="nsbanner">
+<div class="d2h_main_titlerow" id="TitleRow" style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="kualienterpriseworkflowkew.htm"></a><a id="D2HNextAnchor" href="actionrequests.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div class="d2h_main_nstext" id="nstext" style="PADDING-RIGHT: 10px; PADDING-LEFT: 22px; PADDING-BOTTOM: 10px; PADDING-TOP: 5px" valign="bottom">
+<div class="d2h_breadcrumbs" id="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You Are Here: </span><a class="d2h_breadcrumbsNormal" href="kualienterpriseworkflowkew.htm">Kuali Enterprise Workflow (KEW)</a></div>
+<h2><a name="_Toc259539210" id="_Toc259539210"></a><a name="_Workflow_Example" id="_Workflow_Example"></a>Workflow 
+Example</h2>
+<p class="MsoNormal">In the following example, a user submits a <b><a id="popup_14535" onclick="return d2hpopup(event, this.href)" href="gloss_proposaldevelopmentdocument1.htm"><b>Proposal Development</b> 
+document</a></b> for approval to www.grants.gov.  The institution’s 
+business rules state the institutional personnel must approve the <a id="popup_14539" onclick="return d2hpopup(event, this.href)" href="gloss_proposal.htm">proposal</a> in the following order:</p>
+<p class="MsoNormal" style="MARGIN: 0pt 0pt 6pt 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt">1.  
+Proposal <a id="popup_14536" onclick="return d2hpopup(event, this.href)" href="gloss_keypersonnel.htm">Key Personnel</a> – all key personnel must 
+approve</p>
+<p class="MsoNormal" style="MARGIN: 0pt 0pt 6pt 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt">2.  
+Department Head – the department head must approve</p>
+<p class="MsoNormal" style="MARGIN: 0pt 0pt 6pt 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt">3.  
+OSP – anyone in OSP may approve</p>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"><img src="../ImagesExt/image11_787.png" border="0" alt="" /></p>
+<p class="MsoCaption"><a name="_Toc259612580" id="_Toc259612580">Figure </a>410 Example Proposal 
+Development <a id="popup_14540" onclick="return d2hpopup(event, this.href)" href="gloss_workflow.htm">Workflow</a> <a id="popup_14537" onclick="return d2hpopup(event, this.href)" href="gloss_submission.htm">Submission</a></p>
+<p class="MsoBodyText"> </p>
+<p class="MsoNormal">In the example, there are three nodes:  Proposal Key 
+Personnel, Department Head, and OSP.  Each node must complete their 
+approvals before KC routes the document to the next node.</p>
+<p class="MsoNormal">Proposal key personnel may approve concurrently.  They 
+can approve in any order but they must complete all of their approvals before KC 
+routes the document to the department head.</p>
+<p class="MsoNormal">The department head has designated a delegate.  If a 
+delegator designates a primary delegate, KC routes the action request to the 
+primary delegate.  The primary delegate must complete the action request 
+for KC to proceed sending the document to the next node in the workflow.  
+If the delegator designates a secondary delegate, KC routes the action request 
+to both the delegator and the secondary delegate.  Either the delegator or 
+the delegate can complete the action request for KC to proceed with the 
+workflow. </p>
+<p class="MsoNormal">OSP is a <a id="popup_14538" onclick="return d2hpopup(event, this.href)" href="gloss_workgroup1.htm">workgroup</a> in KC.  Only one member of a 
+workgroup must approve the document for KC to send it to the next node.  
+After any OSP staff member approves the document, KC marks it as complete for 
+submission to www.grants.gov. </p>
+<p class="MsoNormal">When the document is eligible for submission to 
+www.grants.gov, the OSP administrator initiates the system-to-system (S2S) 
+submission.  When the S2S submission completes, KC marks this workflow 
+complete.</p>
+<p class="MsoNormal">Authorized users and approvers may add ad hoc approvers to 
+the workflow.  Ad hoc approvers may approve the proposal concurrent to the 
+key personnel, department head and OSP approvals.  </p>
+<p class="MsoNormal"> </p>
+<p class="RelatedHead">Subtopics:</p>
+<p class="MsoNormal"><a style="TEXT-DECORATION: none" href="actionrequests.htm"><img alt="" src="../button.gif" align="absMiddle" border="0" />Action Requests</a></p></div></div></body></html>
