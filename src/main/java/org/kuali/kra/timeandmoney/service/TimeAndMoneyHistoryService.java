@@ -18,8 +18,10 @@ package org.kuali.kra.timeandmoney.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kew.exception.WorkflowException;
+
 public interface TimeAndMoneyHistoryService {
     
-    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan);
+    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) throws WorkflowException;
 
 }

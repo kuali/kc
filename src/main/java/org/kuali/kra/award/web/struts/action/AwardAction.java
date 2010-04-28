@@ -47,6 +47,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.paymentreports.ReportClass;
@@ -76,6 +77,7 @@ import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -104,6 +106,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AwardAction extends BudgetParentActionBase {
     protected static final String AWARD_ID_PARAMETER_NAME = "awardId";
     private static final String AWARD_NUMBER_SERVICE = "awardNumberService";
+    private static final String INITIAL_TRANSACTION_COMMENT = "Initial Time And Money creation transaction";
+
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -647,6 +651,7 @@ public class AwardAction extends BudgetParentActionBase {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
         boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
+        TransactionDetail transactionDetail = null;
 
         populateAwardHierarchy(form);
 
@@ -659,12 +664,17 @@ public class AwardAction extends BudgetParentActionBase {
         }
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
         fieldValues.put("rootAwardNumber", rootAwardNumber);
+        fieldValues1.put("awardNumber", rootAwardNumber);
         //fieldValues.put("sequenceNumber", award.getSequenceNumber());
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
+        List<Award> awards = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues1);
+        Award rootAward = awards.get(0);
+
         //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
         if(timeAndMoneyDocuments.size() > 0) {
             firstTimeAndMoneyDocCreation = Boolean.FALSE;
@@ -692,11 +702,19 @@ public class AwardAction extends BudgetParentActionBase {
             aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
             if(firstTimeAndMoneyDocCreation) {
                 aat.setTransactionTypeCode(NINE);
+                aat.setAwardNumber(rootAward.getAwardNumber());
+                //any code for initial transaction and history.
+                transactionDetail  = addTransactionDetails(rootAward.getAwardNumber(), rootAward.getAwardNumber(), rootAward.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), INITIAL_TRANSACTION_COMMENT, rootAward);
+                addNewAwardAmountInfoForInitialTransaction(rootAward, timeAndMoneyDocument.getDocumentNumber());
             }else {
                 aat.setTransactionTypeCode(null);
             }
             timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
             documentService.saveDocument(timeAndMoneyDocument);
+            if(!(transactionDetail == null)) {
+                getBusinessObjectService().save(transactionDetail);
+            }
         }
         
         addDocumentToSession(awardForm.getAwardDocument());
@@ -707,6 +725,58 @@ public class AwardAction extends BudgetParentActionBase {
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
 
+    }
+    
+    /*
+     * 
+     * This method creates a transactionDetail object and adds it to the list for persistence later.
+     * 
+     * @param sourceAwardNumber
+     * @param destinationAwardNumber
+     * @param sequenceNumber
+     * @param pendingTransaction
+     * @param currentAwardNumber
+     * @param documentNumber
+     * @param transactionDetailItems
+     */
+    protected TransactionDetail addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber, 
+            String commentsString, Award rootAward){
+        TransactionDetail transactionDetail = new TransactionDetail();
+        transactionDetail.setSourceAwardNumber(sourceAwardNumber);
+        transactionDetail.setSequenceNumber(sequenceNumber);
+        transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
+        transactionDetail.setAnticipatedAmount(rootAward.getAnticipatedTotal());
+        transactionDetail.setObligatedAmount(rootAward.getObligatedTotal());
+        transactionDetail.setAwardNumber(currentAwardNumber);
+        transactionDetail.setTransactionId(new Long(0));
+        transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
+        transactionDetail.setComments(commentsString);
+        return transactionDetail;
+        
+    }
+    
+    /*
+     * add money to amount info Totals, and Distributables.
+     * 
+     */
+    private void addNewAwardAmountInfoForInitialTransaction(Award rootAward, String documentNumber) {
+        
+        AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
+        newAwardAmountInfo.setAwardNumber(rootAward.getAwardNumber());
+        newAwardAmountInfo.setSequenceNumber(1);
+        newAwardAmountInfo.setFinalExpirationDate(rootAward.getLastAwardAmountInfo().getFinalExpirationDate());
+        newAwardAmountInfo.setCurrentFundEffectiveDate(rootAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
+        newAwardAmountInfo.setObligationExpirationDate(rootAward.getLastAwardAmountInfo().getObligationExpirationDate());
+        newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
+        newAwardAmountInfo.setTransactionId(null);
+        newAwardAmountInfo.setAward(rootAward);
+       //add transaction amounts to the AmountInfo
+        newAwardAmountInfo.setObliDistributableAmount(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
+        newAwardAmountInfo.setAmountObligatedToDate(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
+        newAwardAmountInfo.setAntDistributableAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
+        newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
+        rootAward.getAwardAmountInfos().add(newAwardAmountInfo);
+        getBusinessObjectService().save(rootAward);
     }
 
     protected KraWorkflowService getKraWorkflowService() {
