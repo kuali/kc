@@ -144,6 +144,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.GGLobbyingFormV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.NasaPIandAORSupplementalDataSheetV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3GeneratorTest.class,
