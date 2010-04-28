@@ -119,9 +119,10 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         boolean userHasPermission = false;
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         String unitNumber = permissionable.getLeadUnitNumber();
-
+        
         if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
             userHasPermission = identityManagementService.isAuthorized(userId, permissionable.getNamespace(), permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
         }

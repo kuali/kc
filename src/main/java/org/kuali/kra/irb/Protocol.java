@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -1456,6 +1457,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
         return roleNames;
     }
+    
+    /**
+     * @see org.kuali.kra.common.permissions.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
+     */
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+    }
+
     
     public void resetForeignKeys() {
         for (ProtocolAction action : protocolActions) {

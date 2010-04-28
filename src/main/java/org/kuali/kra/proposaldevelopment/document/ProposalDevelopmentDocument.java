@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -491,6 +492,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 return RoleConstants.PROPOSAL_ROLE_TYPE;
             }
             
+            public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+            }
         };
     }
 
