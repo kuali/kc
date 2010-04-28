@@ -162,13 +162,13 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
             AttachedFileDataType attachedFileDataType=null;
 		    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
 		        case(PRE_APPLICATION):
-		            attachedFileDataType = getAttachedNarrativeType(narrative.getNarrativeTypeCode());
+		            attachedFileDataType = getAttachedFileType(narrative);
                     if(attachedFileDataType!=null) {
                         rrsf424.setPreApplicationAttachment(attachedFileDataType);
                     }
 		            break;
 		        case(ADDITIONAL_CONGRESSIONAL_DESTRICT):
-		            attachedFileDataType = getAttachedNarrativeType(narrative.getNarrativeTypeCode());
+		            attachedFileDataType = getAttachedFileType(narrative);
 		            if(attachedFileDataType!=null) {
 		                rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
 		            }

@@ -89,8 +89,9 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		RRSF42412 rrsf42412 = RRSF42412.Factory.newInstance();
 		rrsf42412.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		rrsf42412.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-		rrsf42412.setSubmissionTypeCode(SubmissionTypeDataType.Enum
-				.forInt(Integer.parseInt(getSubmissionTypeCode())));
+		if(getSubmissionTypeCode() != null){
+			rrsf42412.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forInt(Integer.parseInt(getSubmissionTypeCode())));
+		}
 		rrsf42412.setStateID(getRolodexState());
 		rrsf42412.setApplicantInfo(getApplicationInfo());
 		rrsf42412.setEmployerID(getEmployerId());

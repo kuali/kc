@@ -181,25 +181,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         }
     }
 
-    /**
-     * 
-     * This method is used to get all the required fields for an attachment from a Narrative.
-     * 
-     * @param narrative
-     * @return attachedFileDataType(AttachedFileDataType)
-     * @return null If the attachment byte[] content is null or size is zero it returns a null.
-     * 
-     */
-
-    protected AttachedFileDataType getAttachedNarrativeType(String narrativeTypeCode) {
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
-                return getAttachedFileType(narrative);
-            }
-        }
-        return null;
-    }
     protected AttachedFileDataType getAttachedFileType(Narrative narrative) {
         AttachedFileDataType attachedFileDataType = null;
         byte[] attachementContent = null;
@@ -210,9 +191,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 	    if(attachementContent != null && attachementContent.length > 0 ){
 	    	
 	        FileLocation fileLocation = FileLocation.Factory.newInstance();
-//	        Map<String, String> attMap = new LinkedHashMap<String, String>();
-//	        attMap.put(MODULE_NUMBER, String.valueOf(narrative.getModuleNumber()));
-//	        attMap.put(DESCRIPTION, narrative.getNarrativeType().getDescription());
 	        String contentId = createContentId(narrative);
 	        fileLocation.setHref(contentId);
 	    	

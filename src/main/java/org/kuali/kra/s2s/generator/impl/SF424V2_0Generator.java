@@ -105,10 +105,22 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
-                int proposalTypeCode = Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode());
-                if (proposalTypeCode < Integer.parseInt(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
-                    applicationTypeEnum = ApplicationType.Enum.forInt(proposalTypeCode);
+                String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+                if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM).equals(proposalTypeCode)){
+					applicationTypeEnum = ApplicationType.NEW;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM).equals(proposalTypeCode)){
+					applicationTypeEnum = ApplicationType.REVISION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.CONTINUATION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.CONTINUATION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.REVISION;
                 }
             }
             sf424V2.setApplicationType(applicationTypeEnum);
