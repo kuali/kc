@@ -55,7 +55,7 @@
       <th style="text-align: right;">Project Start Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.beginDate}"/></td>
       <th style="text-align: right;">Obligation Start Date:</th>
-      <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.awardEffectiveDate}"/></td>
+      <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.extraInfo.currentFundEffectiveDate}"/></td>
     </tr>
     <tr>
       <th style="text-align: right;">Project End Date:</th>
