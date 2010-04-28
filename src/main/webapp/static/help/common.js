@@ -27,6 +27,13 @@ var d2hLeftPaneCaption = "%LeftPaneCaption%";
 var d2hTopicTitle = "%TopicTitle%";
 var d2hTopicURL = "%TopicURL%";
 
+function isSafari()
+{
+    var strUserAgent = navigator.userAgent.toLowerCase();
+    var res = strUserAgent.indexOf("safari") == -1 || strUserAgent.indexOf("chrome") != -1 ? false : true;
+    return res;
+}
+
 function isOpera()
 {
     var strUserAgent = navigator.userAgent.toLowerCase();
@@ -669,6 +676,7 @@ function dhtml_popup(evt, url)
 			pop.height = 0; 
 			pop.style.visibility = "hidden";
 			pop.style.border = "";
+                        pop.setAttribute("src", "about:blank");
 		}
 		return;
 	}
@@ -723,7 +731,7 @@ function dhtml_popup(evt, url)
 	// load url into frame
 	var anchorIndex = url.indexOf("#", 0);
 	setPopupState(-1, popUpShown);
-	pop.setAttribute("src", "about:blank");
+	pop.setAttribute("src", d2hGetRelativePath(document, "_d2hblank.htm"));
 	pop.style.display = "block";
 	setPopupState(0, popUpShown);
 	var strUrl;
@@ -1082,16 +1090,22 @@ function d2hclick(evt)
         shrink = charCode == 45;
         var isClick = evt.type == "click" || charCode == 13;
         needToRevert = expand || shrink || (id.substring(0, 2) == "at" && isClick);
+        var sub = id.substring(2);
+        var elt = getElemById(document, "c" + sub);
+        var img = getElemById(document, ((id.substring(1, 2) == "m") ? "im" : "it") + sub);
         if (elem.tagName.toLowerCase() == "a" && !needToRevert)
         {
+            if (elt != null)
+            {
+                //open book's tree if user pressed link
+                d2hPrepareTocChildNodes(elt);
+                reverseVisibileTocElem(elt, img, 1);
+            }
             showSelection(document, elem);
             return true;
         }
         if (id.substring(1, 2) != "m" && id.substring(1, 2) != "t")
             return true;
-        var sub = id.substring(2);
-        var elt = getElemById(document, "c" + sub);
-        var img = getElemById(document, ((id.substring(1, 2) == "m") ? "im" : "it") + sub);
         if (elt != null)
         {
             d2hPrepareTocChildNodes(elt);
@@ -1417,11 +1431,14 @@ function getTocAnchorByhRef(doc, linkHref)
     var listObj = doc.getElementsByTagName("a");
 	var strHref;
 	var curLink = null;
+	var safari = isSafari();
 	for (var i = 0; (i < listObj.length) && curLink == null; i++)
 	{
 	    if (listObj[i].href)
 	    {
 	        strHref = listObj[i].href.toLowerCase();
+        	if (safari)
+	            strHref = unescape(strHref);			
 	        if (strHref == linkHref)
 	            curLink = listObj[i];
 	     }
@@ -2085,7 +2102,7 @@ function d2hGo2Index(key)
         {
             var wnd = getWindow(doc);
             var obj = wnd._d2hIndex.Find(key);
-            if (obj != null)
+            if (obj != null && obj != "")
             {
                 d2hOnIndexFind(obj);
                 var f = obj.onclick;
@@ -2226,6 +2243,7 @@ function d2hStandardizePopupMargin(elem, marginpading2zeroElem, ienav)
         {
             ienav.className = "";
             d2hTraverseElements(ienav, d2hSetZeroMargin, true, false);
+            ienav.style.padding = "6pt";
         }
     }
     else
@@ -2578,12 +2596,55 @@ function d2hGetAttribute(elem, name)
 
 function d2hProcessTopicNavForCSH()
 {
-	if (d2hIsCSH())
-	{
-		d2hHideMainNav();
-		window.g_bCSHTopic = true;
-		window.self.g_bMainWnd = true;
-	}
+    if (d2hIsCSH())
+    {
+        d2hHideMainNav();
+        window.g_bCSHTopic = true;
+        window.self.g_bMainWnd = true;
+    }
+    d2hProcessTabParam();
+}
+
+function d2hProcessTabParam()
+{
+    var mainWnd = d2hGetMainLayoutWnd(window, false);
+    if (mainWnd && mainWnd.tabProcessed) return;
+    var tabId = d2hGetSearchVal(document, "tab");
+    if (!tabId || tabId.length == 0)
+    {
+        if (mainWnd && mainWnd != window)
+        {
+            var doc = getDoc(mainWnd);
+            if (doc)
+                tabId = d2hGetSearchVal(doc, "tab");
+        }
+    }
+    if (tabId && tabId.length > 0 && (tabId = GetButtonId(tabId)) != null)
+    {
+        d2hCommand(tabId);
+        mainWnd.tabProcessed = true;
+    }
+}
+
+function d2hGetSearchVal(doc, query)
+{
+    var strSearch = doc.location.search;
+    strSearch = strSearch.substring(1, strSearch.length);
+    return getQueryVal(strSearch, query);
+}
+
+function GetButtonId(tabId)
+{
+    var buttonID = null;
+    if (tabId == "0")
+        buttonID = 'D2HContents';
+    else if (tabId == "1")
+        buttonID = 'D2HIndex';
+    else if (tabId == "2")
+        buttonID = 'D2HSearch';
+    else if (tabId == "3")
+        buttonID = 'D2HFavorites';
+    return buttonID;
 }
 
 function d2hHideMainNav()
@@ -2641,7 +2702,8 @@ function d2hLinkClick(evt)
 			{
 				if (isOpera())
 				{
-					wnd = w.open("about:blank", target, sWndFeatures);
+					var doc = getDoc(w);
+					wnd = w.open(d2hGetRelativePath(doc, "_d2hblank.htm"), target, sWndFeatures);
 					wnd.location.href = href;
 				}
 				else
@@ -2661,7 +2723,8 @@ function d2hRegisterEventHandler(obj, altObj, eventName, handler)
 {
 	var o = altObj;
 	var oldHandler = o[eventName.toLowerCase()];
-	if (typeof oldHandler == "undefined")
+	// Safari and Chrome return null while IE, Opera, Firefox return undefined value
+	if (typeof oldHandler == "undefined" || (isSafari() && oldHandler == null))
 	{
 		o = obj;
 		oldHandler = o[eventName.toLowerCase()];
@@ -3068,7 +3131,7 @@ function d2hLoadMenuItems(key, datafile, reload)
 function d2hLoadWindows()
 {
 	var windows = d2hGetRelativePath(document, "windows.js");
-	if (g_hubProject.length > 0 && windows[0] != '/')
+	if (typeof g_hubProject != "undefined" && g_hubProject.length > 0 && windows[0] != '/')
 		windows = '/' + windows;
 	windows = g_hubProject + windows;
 	d2hLoadScript(document, "", windows);
@@ -3077,7 +3140,7 @@ function d2hLoadWindows()
 function d2hLoadNavUrls()
 {
 	var urls = d2hGetRelativePath(document, "urls.js");
-	if (g_hubProject.length > 0 && urls[0] != '/')
+	if (typeof g_hubProject != "undefined" && g_hubProject.length > 0 && urls[0] != '/')
 		urls = '/' + urls;
 	urls = g_hubProject + urls;
 	d2hLoadScript(document, "", urls);
@@ -3980,7 +4043,14 @@ function d2hSwitchPane(id)
         {
             var href = d2hGetSwitchCommandURL(id); 
             if (href)
+            {
+                if (typeof g_hubProject != "undefined" && g_hubProject.length > 0 && href[0] != '/')
+                {
+                    href = '/' + href;
+                    href = g_hubProject + href;
+                }
                 wnd.location.href = d2hGetRelativePath(document, href);
+            }
         }
     }
     d2hPressPaneButton(id);
@@ -4212,7 +4282,7 @@ function d2hGetTopicRelativePath()
     if (relPart == null)
         relPart = "";
     var len = relPart.split("/").length;
-    if (g_hubProject.length > 0)
+    if (typeof g_hubProject != "undefined" && g_hubProject.length > 0)
         len += g_hubProject.split("/").length;
     var tmp;
     for (; len > 0; len --)
@@ -4337,7 +4407,8 @@ function d2hGetLeftPaneActiveButton()
         if (wnd != null)
         {
             var href = wnd.location.href;
-            if (href)
+            // check whether g_ContentsURL is undefined is necessary only for Safari, otherwise it can raise errors
+            if (href && typeof(g_ContentsURL) != 'undefined')
             {
                 var len = href.length;
                 if (len >= g_ContentsURL.length && href.substr(len - g_ContentsURL.length) == g_ContentsURL)
