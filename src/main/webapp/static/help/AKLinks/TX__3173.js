@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3173", [["Documents/validfrequencybase1.htm", "right", "Valid Frequency Base"],["Documents/validfrequencybase.htm", "right", "Valid Frequency Base"]]);

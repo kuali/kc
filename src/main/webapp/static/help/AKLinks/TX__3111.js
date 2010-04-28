@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3111", [["Documents/validcalculationtype1.htm", "right", "Valid Calculation Type"],["Documents/validcalculationtype2.htm", "right", "Valid Calculation Type"],["Documents/validcalculationtype.htm", "right", "Valid Calculation Type"]]);

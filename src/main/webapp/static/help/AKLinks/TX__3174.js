@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3174", [["Documents/validbasisandmethodofpayment1.htm", "right", "Valid Basis and Method of Payment"],["Documents/validbasisandmethodofpayment.htm", "right", "Valid Basis and Method of Payment"]]);

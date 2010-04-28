@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3172", [["Documents/validclassawardfrequency1.htm", "right", "Valid Class Award Frequency"],["Documents/validclassawardfrequency.htm", "right", "Valid Class Award Frequency"]]);

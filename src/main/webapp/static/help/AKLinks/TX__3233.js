@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3233", [["Documents/toaccesstheabstracttypelookupscreen.htm", "right", "To access the Abstract Type Lookup screen:"],["Documents/toaccesstheabstracttypelookupscreen1.htm", "right", "To access the Abstract Type Lookup screen:"]]);
