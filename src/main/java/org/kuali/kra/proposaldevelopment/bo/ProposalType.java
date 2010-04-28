@@ -22,6 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProposalType  extends KraPersistableBusinessObjectBase {
     
     public static final String RESUBMISSION_TYPE_CODE = "2";
+    public static final String CONTINUATION_TYPE_CODE = "4";
     public static final String REVISION_TYPE_CODE = "5";
     
     /**

@@ -578,7 +578,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         } else if ( ConfirmationQuestion.NO.equals( buttonClicked )) {
             //do nothing
         } else {
-            if ( ConfirmationQuestion.YES.equals(buttonClicked) && requiresResubmissionPrompt(proposalDevelopmentForm)) {
+            if ( (ConfirmationQuestion.YES.equals(buttonClicked) || status == OK) && requiresResubmissionPrompt(proposalDevelopmentForm)) {
                 return mapping.findForward(Constants.MAPPING_RESUBMISSION_PROMPT);
             } 
             forward = submitApplication(mapping, form, request, response);
@@ -590,6 +590,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private boolean requiresResubmissionPrompt(ProposalDevelopmentForm proposalDevelopmentForm) {
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
         return (ProposalType.RESUBMISSION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
+            || ProposalType.CONTINUATION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
             || ProposalType.REVISION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
             || isSubmissionChangeCorrected(developmentProposal))
             && proposalDevelopmentForm.getResubmissionOption() == null;

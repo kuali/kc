@@ -376,6 +376,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (editRoles != null) {
             editRoles.clear();
         }
+        setResubmissionOption(null);
     }
 
 
