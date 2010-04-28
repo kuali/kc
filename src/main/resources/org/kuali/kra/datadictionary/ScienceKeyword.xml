@@ -13,7 +13,7 @@
     </property>
     <property name="titleAttribute" value="scienceKeywordCode"/>
     <property name="helpDefinition">
-      <bean p:parameterDetailType="D" p:parameterName="proposalDevelopmentKeywordsHelpUrl" p:parameterNamespace="KRA-PD" parent="HelpDefinition"/>
+      <bean p:parameterDetailType="D" p:parameterName="proposalDevelopmentKeywordsHelpUrl" p:parameterNamespace="KC-PD" parent="HelpDefinition"/>
     </property>
     <property name="attributes">
       <list>
