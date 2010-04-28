@@ -21,6 +21,7 @@
 <c:set var="textAreaFieldName" value="document.budget.comments" />
 <c:set var="action" value="budgetAction" />
 <c:set var="KRAConst" value="${org.kuali.kra.infrastructure.Constants}"/>
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <input type="hidden" id="updateFinalVersion" name="updateFinalVersion" value='<bean:write name="KualiForm" property="updateFinalVersion"/>' />
 
@@ -36,7 +37,18 @@
     	<h3>Budget Overview</h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>
+                <th><div align="right">
+                
+                   <c:choose>
+    				<c:when test="${proposalBudgetFlag}">
+						<kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" />
+					</c:when>
+					<c:otherwise>
+						Budget Start Date
+					</c:otherwise>
+				</c:choose>
+                
+                </div></th>
                 <td align="left" valign="middle">
                 	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
                 </td>
@@ -50,7 +62,17 @@
             </tr>
         	<tr>
 			
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
+				<th><div align="right">
+				   <c:choose>
+    				<c:when test="${proposalBudgetFlag}">
+						<kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" />
+					</c:when>
+					<c:otherwise>
+						Budget End Date
+					</c:otherwise>
+				</c:choose>
+				
+				</div></th>
                 <td>
                 	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
                 </td>
