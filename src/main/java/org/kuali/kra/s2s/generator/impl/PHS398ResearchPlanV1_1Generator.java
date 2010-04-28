@@ -79,94 +79,158 @@ public class PHS398ResearchPlanV1_1Generator extends PHS398ResearchPlanBaseGener
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
-            	attachedFileDataType = getAttachedFileType(narrative);
-            	if(attachedFileDataType == null){
-            		continue;
-            	}
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INTRODUCTION_TO_APPLICATION) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory.newInstance();
                     introductionToApplication.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setIntroductionToApplication(introductionToApplication);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == SPECIFIC_AIMS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     SpecificAims specificAims = SpecificAims.Factory.newInstance();
                     specificAims.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setSpecificAims(specificAims);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BACKGROUND_SIGNIFICANCE) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     BackgroundSignificance backgroundSignificance = BackgroundSignificance.Factory.newInstance();
                     backgroundSignificance.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setBackgroundSignificance(backgroundSignificance);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRESS_REPORT) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ProgressReport progressReport = ProgressReport.Factory.newInstance();
                     progressReport.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setProgressReport(progressReport);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == RESEARCH_DESIGN_METHODS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ResearchDesignMethods researchDesignMethods = ResearchDesignMethods.Factory.newInstance();
                     researchDesignMethods.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setResearchDesignMethods(researchDesignMethods);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INCLUSION_ENROLLMENT_REPORT) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory.newInstance();
                     inclusionEnrollmentReport.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setInclusionEnrollmentReport(inclusionEnrollmentReport);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRESS_REPORT_PUBLICATION_LIST) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
                             .newInstance();
                     progressReportPublicationList.setAttFile(attachedFileDataType);
                     researchPlanAttachments.setProgressReportPublicationList(progressReportPublicationList);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROTECTION_OF_HUMAN_SUBJECTS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory.newInstance();
                     protectionOfHumanSubjects.setAttFile(attachedFileDataType);
                     humanSubjectSection.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INCLUSION_OF_WOMEN_AND_MINORITIES) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
                             .newInstance();
                     inclusionOfWomenAndMinorities.setAttFile(attachedFileDataType);
                     humanSubjectSection.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == TARGETED_PLANNED_ENROLLMENT_TABLE) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     TargetedPlannedEnrollmentTable tarPlannedEnrollmentTable = TargetedPlannedEnrollmentTable.Factory.newInstance();
                     tarPlannedEnrollmentTable.setAttFile(attachedFileDataType);
                     humanSubjectSection.setTargetedPlannedEnrollmentTable(tarPlannedEnrollmentTable);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == INCLUSION_OF_CHILDREN) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory.newInstance();
                     inclusionOfChildren.setAttFile(attachedFileDataType);
                     humanSubjectSection.setInclusionOfChildren(inclusionOfChildren);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == VERTEBRATE_ANIMALS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory.newInstance();
                     vertebrateAnimals.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setVertebrateAnimals(vertebrateAnimals);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == SELECT_AGENT_RESEARCH) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory.newInstance();
                     selectAgentResearch.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setSelectAgentResearch(selectAgentResearch);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == MULTIPLE_PI_LEADERSHIP_PLAN) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     MultiplePILeadershipPlan multiplePILeadershipPlan = MultiplePILeadershipPlan.Factory.newInstance();
                     multiplePILeadershipPlan.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setMultiplePILeadershipPlan(multiplePILeadershipPlan);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CONSORTIUM_CONTRACTUAL_ARRANGEMENTS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ConsortiumContractualArrangements contractualArrangements = ConsortiumContractualArrangements.Factory
                             .newInstance();
                     contractualArrangements.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setConsortiumContractualArrangements(contractualArrangements);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == LETTERS_OF_SUPPORT) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     LettersOfSupport lettersOfSupport = LettersOfSupport.Factory.newInstance();
                     lettersOfSupport.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setLettersOfSupport(lettersOfSupport);
                 }
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == RESOURCE_SHARING_PLANS) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType == null){
+                        continue;
+                    }
                     ResourceSharingPlans resourceSharingPlans = ResourceSharingPlans.Factory.newInstance();
                     resourceSharingPlans.setAttFile(attachedFileDataType);
                     otherResearchPlanSections.setResourceSharingPlans(resourceSharingPlans);

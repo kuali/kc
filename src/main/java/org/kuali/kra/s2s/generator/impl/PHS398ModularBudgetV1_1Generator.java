@@ -190,12 +190,12 @@ public class PHS398ModularBudgetV1_1Generator extends
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
-			attachedFileDataType = getAttachedFileType(narrative);
-			if(attachedFileDataType == null){
-				continue;
-			}
 			if (narrative.getNarrativeTypeCode() != null) {
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONNEL_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					PersonnelJustification personnelJustification = PersonnelJustification.Factory
 							.newInstance();
 					personnelJustification
@@ -204,6 +204,10 @@ public class PHS398ModularBudgetV1_1Generator extends
 							.setPersonnelJustification(personnelJustification);
 				}
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CONSORTIUM_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					ConsortiumJustification consortiumJustification = ConsortiumJustification.Factory
 							.newInstance();
 					consortiumJustification
@@ -212,6 +216,10 @@ public class PHS398ModularBudgetV1_1Generator extends
 							.setConsortiumJustification(consortiumJustification);
 				}
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					AdditionalNarrativeJustification narrativeJustification = AdditionalNarrativeJustification.Factory
 							.newInstance();
 					narrativeJustification
