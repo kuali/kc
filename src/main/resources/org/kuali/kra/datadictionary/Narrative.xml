@@ -18,7 +18,7 @@
     <property name="titleAttribute" value="moduleNumber" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentNarrativeHelpUrl"
             p:parameterDetailType="D" />
     </property>

@@ -17,7 +17,7 @@
     </property>
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentOpportunityHelpUrl"
             p:parameterDetailType="D" />
     </property>

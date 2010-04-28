@@ -21,84 +21,84 @@
       <list>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Proposal"/>
           <property name="headerTabNavigateTo" value="proposal"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentGrantsGovHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentGrantsGovHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Grants.gov"/>
           <property name="headerTabNavigateTo" value="grantsGov"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentKeyPersonnelHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentKeyPersonnelHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Key Personnel"/>
           <property name="headerTabNavigateTo" value="keyPersonnel"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentSpecialReviewHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentSpecialReviewHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Special Review"/>
           <property name="headerTabNavigateTo" value="specialReview"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentCustomDataHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentCustomDataHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Custom Data"/>
           <property name="headerTabNavigateTo" value="customData"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentAbstractsAttachmentsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentAbstractsAttachmentsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Abstracts and Attachments"/>
           <property name="headerTabNavigateTo" value="abstractsAttachments"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentQuestionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentQuestionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Questions"/>
           <property name="headerTabNavigateTo" value="questions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentBudgetVersionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentBudgetVersionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Budget Versions"/>
           <property name="headerTabNavigateTo" value="budgetVersions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentPermissionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentPermissionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Permissions"/>
           <property name="headerTabNavigateTo" value="permissions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentHierarchyHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentHierarchyHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Proposal Hierarchy"/>
           <property name="headerTabNavigateTo" value="hierarchy"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentActionsHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentActionsHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Proposal Actions"/>
           <property name="headerTabNavigateTo" value="actions"/>
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KRA-PD" p:parameterName="proposalDevelopmentMedusaHelp" p:parameterDetailType="D"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentMedusaHelp" p:parameterDetailType="D"/>
           </property>
           <property name="headerTabDisplayName" value="Medusa"/>
           <property name="headerTabNavigateTo" value="medusa"/>

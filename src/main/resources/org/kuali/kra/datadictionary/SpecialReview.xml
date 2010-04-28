@@ -18,7 +18,7 @@
     <property name="titleAttribute" value="specialReviewCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentSpecialReviewHelpUrl"
             p:parameterDetailType="D" />
     </property>

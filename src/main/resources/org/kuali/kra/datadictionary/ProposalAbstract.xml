@@ -18,7 +18,7 @@
     <property name="titleAttribute" value="abstractTypeCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentAbstractHelpUrl"
             p:parameterDetailType="D" />
     </property>

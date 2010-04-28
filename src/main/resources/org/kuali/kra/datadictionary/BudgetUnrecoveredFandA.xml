@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="documentComponentId" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
+            p:parameterNamespace="KC-B"
             p:parameterName="budgetUnrecoveredFandAHelpUrl"
             p:parameterDetailType="D" />
     </property>
