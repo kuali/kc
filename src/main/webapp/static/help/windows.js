@@ -1,4 +1,4 @@
-
+﻿
 var _d2hWindowParamsByWindows = null;
 function d2hInitWindowParams()
 {

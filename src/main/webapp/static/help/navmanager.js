@@ -6,7 +6,6 @@ function d2hNavigationManager(frmLeft, frmRight)
     this._panesSize = this.NavSet.cols;
     this._handleOnResize = true;
     this._needSyncTOC = false;
-    this._blockNextSyncTOCAction = false;
     this._prevActivePane = null;
     
     
@@ -54,11 +53,6 @@ function d2hNavigationManager(frmLeft, frmRight)
     
     d2hNavigationManager.prototype.SyncTOC = function(scrollByHorizontal)
     {
-        if (this._blockNextSyncTOCAction)
-        {
-            this._blockNextSyncTOCAction = false;
-            return;
-        }
         var doc = getFrameDocument(this.Left);
         if (doc)
         {
@@ -84,11 +78,6 @@ function d2hNavigationManager(frmLeft, frmRight)
         return false;
     }
     
-    d2hNavigationManager.prototype.BlockNextSyncTOC = function()
-    {
-        this._blockNextSyncTOCAction = true;
-    }
-
     d2hNavigationManager.prototype.PressNavigationButton = function(buttonId)
     {
         var doc = getFrameDocument(this.Left);
