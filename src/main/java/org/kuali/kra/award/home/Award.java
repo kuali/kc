@@ -2724,7 +2724,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     protected void loadLeadUnit() {
         leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", getUnitNumber()));
     }
-
+    
+    public void populateAdditionalQualifiedRoleAttributes( Map<String,String> qualifiedRoleAttributes ) {
+       qualifiedRoleAttributes.put( "documentNumber", getAwardDocument().getDocumentNumber()); 
+    }
+   
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

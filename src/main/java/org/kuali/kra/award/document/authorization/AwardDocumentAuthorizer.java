@@ -200,11 +200,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     protected boolean canApprove(Document document, Person user) {
-        return isEnroute(document) && isAuthorizedByTemplate(
-                 document,
-                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
-                 KimConstants.PermissionTemplateNames.APPROVE_DOCUMENT,
-                 user.getPrincipalId()) && super.canApprove(document, user);
+        return isEnroute(document) &&  super.canApprove(document, user);
     }
     
     /**

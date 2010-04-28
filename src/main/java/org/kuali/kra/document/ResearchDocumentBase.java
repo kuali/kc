@@ -305,4 +305,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         }
         return this.personService;
     }
+    
+    //default implementation for the permissionable interface.
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+    }
+
+
 }

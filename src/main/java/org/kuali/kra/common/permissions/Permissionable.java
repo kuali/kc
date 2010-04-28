@@ -16,6 +16,7 @@
 package org.kuali.kra.common.permissions;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class...
@@ -61,5 +62,15 @@ public interface Permissionable {
     String getLeadUnitNumber();
     
     String getDocumentRoleTypeCode();
+    
+    /**
+     * Allows a permissionable to set additional qualified role attributes that may be needed by 
+     * kim services to resolve the role members.
+     * 
+     * @param qualifiedRoleAttributes
+     */
+    void populateAdditionalQualifiedRoleAttributes( Map<String, String> qualifiedRoleAttributes );
+    
+    
     
 }

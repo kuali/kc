@@ -391,6 +391,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 return RoleConstants.AWARD_ROLE_TYPE;
             }
             
+            public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+            }
         };
     }
     @Override
@@ -540,4 +542,5 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             return PLACEHOLDER_DOC_DESCRIPTION.equals(getDocumentHeader().getDocumentDescription());
         return false;
     }
+
 }
