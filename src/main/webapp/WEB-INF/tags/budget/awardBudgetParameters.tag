@@ -41,7 +41,7 @@
                 <td align="left" valign="middle">
                 	<bean:write name="KualiForm" property="document.parentDocument.budgetParent.accountNumber"/>
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>
+                <th><div align="right">Budget Start Date</div></th>
                 <td align="left" valign="middle">
                 	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
                 </td>
@@ -51,7 +51,7 @@
            		<td>
            			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.awardNumber"/> 
            		</td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
+				<th><div align="right">Budget End Date</div></th>
                 <td>
                 	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
                 </td>
