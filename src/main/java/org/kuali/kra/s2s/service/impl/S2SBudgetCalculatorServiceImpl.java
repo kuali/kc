@@ -1896,7 +1896,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 						}
 					}
 					budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
-					System.out.println(budgetPersonnelDetails.getBudgetPerson().getPersonName());
 					if (!personAlreadyAdded) {
 						if (budgetPersonnelDetails.getNonEmployeeFlag()) {
 						    if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
@@ -1912,7 +1911,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     									.setLastName(rolodexPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
     											: rolodexPerson.getLastName());
     							keyPerson.setMiddleName(rolodexPerson.getMiddleName());
-    							keyPerson.setRole(rolodexPerson.getTitle());
+    							keyPerson.setRole(StringUtils.isNotBlank(rolodexPerson.getTitle()) ? rolodexPerson.getTitle() : KEYPERSON_OTHER);
     							keyPerson.setNonMITPersonFlag(true);
     							keyPersons.add(keyPerson);
 						    } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
