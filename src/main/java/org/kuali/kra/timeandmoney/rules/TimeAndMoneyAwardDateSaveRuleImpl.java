@@ -53,7 +53,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
                     valid = false;
                     reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_DATES_INVALID, awardHierarchyNode.getValue().getAwardNumber());
                 }
-                if(obligatedEndDate.after(projectEndDate) || obligatedEndDate.equals(projectEndDate)) {
+                if(obligatedEndDate.after(projectEndDate)) {
                     valid = false;
                     reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_DATE, awardHierarchyNode.getValue().getAwardNumber());
                 }
