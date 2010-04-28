@@ -68,6 +68,10 @@
 			                			<c:set var="moneyTransaction" value="true" />		                	
 			                			<c:out value="${timeAndMoneyHistory.key}" />
 			                		</c:when>
+			                		<c:when test="${timeAndMoneyHistory.key == 0}" >	
+			                			<c:set var="moneyTransaction" value="false" />		                	
+			                			<c:out value="Initial Transaction" />
+			                		</c:when>
 			                		<c:otherwise>
 			                			<c:set var="moneyTransaction" value="false" />
 			                			<c:out value="Date Change:" />

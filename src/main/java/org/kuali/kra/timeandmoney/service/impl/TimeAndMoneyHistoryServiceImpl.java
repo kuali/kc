@@ -24,12 +24,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.HeaderField;
 
@@ -37,16 +40,18 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     
     private static final int NUMBER_30 = 30;
     BusinessObjectService businessObjectService; 
-    
+    DocumentService documentService;
     private String DASH = "-";
 
     @SuppressWarnings("unchecked")
-    public void getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) {
+    public void getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) throws WorkflowException {
         Map<String, String> fieldValues = new HashMap<String, String>();
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         Map<String, Object> fieldValues2 = new HashMap<String, Object>();
         Map<String, Object> fieldValues3 = new HashMap<String, Object>();
         Map<String, Object> fieldValues3a = new HashMap<String, Object>();
+        Map<String, Object> fieldValues5 = new HashMap<String, Object>();
+
 
         Map<String, Object> fieldValues4 = new HashMap<String, Object>(); 
         
@@ -66,7 +71,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
             docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
             timeAndMoneyHistory.put(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, docs.get(docs.size() -1)));
-            for(TimeAndMoneyDocument doc: docs){
+            for(TimeAndMoneyDocument tempDoc: docs){
+                TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
                 //we don't want canceled docs in history.
                 if(doc.getDocumentHeader().hasWorkflowDocument()) {
                     if(!doc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
@@ -78,7 +84,30 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                         if(awardAmountTransactions.size()>0){
                             awardAmountTransaction = awardAmountTransactions.get(0);
                             timeAndMoneyHistory.put(buildDocumentUrl(doc.getDocumentNumber()), awardAmountTransaction.getComments());
-                        }    
+                        } 
+                        
+                        //capture initial transaction
+                        //we only want display this once.
+                        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
+                            if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
+                                fieldValues5.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
+                                fieldValues5.put("sequenceNumber", awardAmountInfo.getSequenceNumber());
+                                fieldValues5.put("transactionId", 0);
+                                fieldValues5.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
+                                List<TransactionDetail> transactionDetailsA = 
+                                    ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues5, "sourceAwardNumber", true));
+                                if(transactionDetailsA.size() > 0) {
+                                    TransactionDetail transactionDetail = transactionDetailsA.get(0);
+                                    timeAndMoneyHistory.put(0, awardAmountInfo);
+                                    timeAndMoneyHistory.put(key, transactionDetail);
+                                    key++;
+                                    break;
+                                }else {
+                                    break;
+                                }
+                            }
+                        }
+                        
                         //capture money transactions
                         for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
                             if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
@@ -217,6 +246,22 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             updateUser = award.getUpdateUser().length() > NUMBER_30 ? award.getUpdateUser().substring(0, NUMBER_30) : award.getUpdateUser(); 
         }
         return createDateStr + ", " + updateUser;
+    }
+    
+    /**
+     * Gets the documentService attribute. 
+     * @return Returns the documentService.
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * Sets the documentService attribute value.
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     /**

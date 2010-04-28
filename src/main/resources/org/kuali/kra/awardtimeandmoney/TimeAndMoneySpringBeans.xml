@@ -74,6 +74,9 @@
     <bean id="timeAndMoneyHistoryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyHistoryServiceImpl">
     	<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
 		</property>        
     </bean>
     
