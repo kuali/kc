@@ -43,7 +43,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
      * Constructs a AwardFundingProposal.java.
      */
     public AwardFundingProposal() {
-        
+        setActive(true);
     }
     
     /**
@@ -55,7 +55,6 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         this();
         setAward(award);
         setProposal(proposal);
-        setActive(true);
     }
     
     /**
