@@ -20,7 +20,7 @@ import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.rule.AddAwardAttachmentRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.mortbay.log.Log;
+
 
 public class AwardAttachmentEventBase extends KraDocumentEventBase implements AwardAttachmentEvent  {
 
@@ -41,7 +41,7 @@ public class AwardAttachmentEventBase extends KraDocumentEventBase implements Aw
 
     @Override
     protected void logEvent() {
-        if( Log.isDebugEnabled() )
+        if( LOG.isDebugEnabled() )
             LOG.debug(getDescription());
     }
 
