@@ -1,182 +1,294 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <terms relpath="../">
-    <term name="45 CFR 46" url="WordDocuments/gloss_45cfr46.htm" window="d2hWnd_SecondaryPopup" id="4835"><![CDATA[45 CFR 46]]></term>
-    <term name="AAHRPP" url="WordDocuments/gloss_aahrpp.htm" window="d2hWnd_SecondaryPopup" id="4836"><![CDATA[AAHRPP]]></term>
-    <term name="Account" url="WordDocuments/gloss_account.htm" window="d2hWnd_SecondaryPopup" id="4837"><![CDATA[Account]]></term>
-    <term name="Account Type" url="WordDocuments/gloss_accounttype.htm" window="d2hWnd_SecondaryPopup" id="4838"><![CDATA[Account Type]]></term>
-    <term name="Action List" url="WordDocuments/gloss_actionlist1.htm" window="d2hWnd_SecondaryPopup" id="4839"><![CDATA[Action List]]></term>
-    <term name="Activity Type" url="WordDocuments/gloss_activitytype2.htm" window="d2hWnd_SecondaryPopup" id="4840"><![CDATA[Activity Type]]></term>
-    <term name="Address" url="WordDocuments/gloss_address.htm" window="d2hWnd_SecondaryPopup" id="4841"><![CDATA[Address]]></term>
-    <term name="Affected Budget Period" url="WordDocuments/gloss_affectedbudgetperiod.htm" window="d2hWnd_SecondaryPopup" id="4842"><![CDATA[Affected Budget Period]]></term>
-    <term name="Agency Tracking ID" url="WordDocuments/gloss_agencytrackingid.htm" window="d2hWnd_SecondaryPopup" id="4843"><![CDATA[Agency Tracking ID]]></term>
-    <term name="Aggregator" url="WordDocuments/gloss_aggregator.htm" window="d2hWnd_SecondaryPopup" id="4844"><![CDATA[Aggregator]]></term>
-    <term name="Anticipated Total (or Amount)" url="WordDocuments/gloss_anticipatedtotaloramount.htm" window="d2hWnd_SecondaryPopup" id="4845"><![CDATA[Anticipated Total (or Amount)]]></term>
-    <term name="Applicable Rate" url="WordDocuments/gloss_applicablerate.htm" window="d2hWnd_SecondaryPopup" id="4846"><![CDATA[Applicable Rate]]></term>
-    <term name="Applicant Organization" url="WordDocuments/gloss_applicantorganization.htm" window="d2hWnd_SecondaryPopup" id="4847"><![CDATA[Applicant Organization]]></term>
-    <term name="Appointment Type" url="WordDocuments/gloss_appointmenttype.htm" window="d2hWnd_SecondaryPopup" id="4848"><![CDATA[Appointment Type]]></term>
-    <term name="Authorized Representative Name and Address" url="WordDocuments/gloss_authorizedrepresentativenameandaddress.htm" window="d2hWnd_SecondaryPopup" id="4849"><![CDATA[Authorized Representative Name and Address]]></term>
-    <term name="Authorized Institutional Official" url="WordDocuments/gloss_authorizedinstitutionalofficial.htm" window="d2hWnd_SecondaryPopup" id="4850"><![CDATA[Authorized Institutional Official]]></term>
-    <term name="Award" url="WordDocuments/gloss_award.htm" window="d2hWnd_SecondaryPopup" id="4851"><![CDATA[Award]]></term>
-    <term name="Award Instrument" url="WordDocuments/gloss_awardinstrument.htm" window="d2hWnd_SecondaryPopup" id="4852"><![CDATA[Award Instrument]]></term>
-    <term name="Award ID" url="WordDocuments/gloss_awardid.htm" window="d2hWnd_SecondaryPopup" id="4853"><![CDATA[Award ID]]></term>
-    <term name="Award Type" url="WordDocuments/gloss_awardtype.htm" window="d2hWnd_SecondaryPopup" id="4854"><![CDATA[Award Type]]></term>
-    <term name="Base Salary" url="WordDocuments/gloss_basesalary.htm" window="d2hWnd_SecondaryPopup" id="4855"><![CDATA[Base Salary]]></term>
-    <term name="Biohazards" url="WordDocuments/gloss_biohazards.htm" window="d2hWnd_SecondaryPopup" id="4856"><![CDATA[Biohazards]]></term>
-    <term name="Biosketch" url="WordDocuments/gloss_biosketch.htm" window="d2hWnd_SecondaryPopup" id="4857"><![CDATA[Biosketch]]></term>
-    <term name="Budget" url="WordDocuments/gloss_budget.htm" window="d2hWnd_SecondaryPopup" id="4858"><![CDATA[Budget]]></term>
-    <term name="Budget Start Date" url="WordDocuments/gloss_budgetstartdate.htm" window="d2hWnd_SecondaryPopup" id="4859"><![CDATA[Budget Start Date]]></term>
-    <term name="CFDA" url="WordDocuments/gloss_cfda.htm" window="d2hWnd_SecondaryPopup" id="4860"><![CDATA[CFDA]]></term>
-    <term name="CFDA Number" url="WordDocuments/gloss_cfdanumber.htm" window="d2hWnd_SecondaryPopup" id="4861"><![CDATA[CFDA Number]]></term>
-    <term name="Closing Date" url="WordDocuments/gloss_closingdate.htm" window="d2hWnd_SecondaryPopup" id="4862"><![CDATA[Closing Date]]></term>
-    <term name="Co-I" url="WordDocuments/gloss_coi.htm" window="d2hWnd_SecondaryPopup" id="4863"><![CDATA[Co-I]]></term>
-    <term name="Co-Investigator" url="WordDocuments/gloss_coinvestigator.htm" window="d2hWnd_SecondaryPopup" id="4864"><![CDATA[Co-Investigator]]></term>
-    <term name="Co-PD" url="WordDocuments/gloss_copd.htm" window="d2hWnd_SecondaryPopup" id="4865"><![CDATA[Co-PD]]></term>
-    <term name="Co-Principal Investigator" url="WordDocuments/gloss_coprincipalinvestigator.htm" window="d2hWnd_SecondaryPopup" id="4867"><![CDATA[Co-Principal Investigator]]></term>
-    <term name="Co-Project Director" url="WordDocuments/gloss_coprojectdirector.htm" window="d2hWnd_SecondaryPopup" id="4868"><![CDATA[Co-Project Director]]></term>
-    <term name="Committee Members Term of Appointment" url="WordDocuments/gloss_committeememberstermofappointment.htm" window="d2hWnd_SecondaryPopup" id="4869"><![CDATA[Committee Members Term of Appointment]]></term>
-    <term name="Common Rule" url="WordDocuments/gloss_commonrule.htm" window="d2hWnd_SecondaryPopup" id="4870"><![CDATA[Common Rule]]></term>
-    <term name="Community Sourcing" url="WordDocuments/gloss_communitysourcing.htm" window="d2hWnd_SecondaryPopup" id="4871"><![CDATA[Community Sourcing]]></term>
-    <term name="Competition ID" url="WordDocuments/gloss_competitionid.htm" window="d2hWnd_SecondaryPopup" id="4872"><![CDATA[Competition ID]]></term>
-    <term name="Compliance Committee" url="WordDocuments/gloss_compliancecommittee.htm" window="d2hWnd_SecondaryPopup" id="4873"><![CDATA[Compliance Committee]]></term>
-    <term name="Compliance Committee Member" url="WordDocuments/gloss_compliancecommitteemember.htm" window="d2hWnd_SecondaryPopup" id="4874"><![CDATA[Compliance Committee Member]]></term>
-    <term name="Congressional District" url="WordDocuments/gloss_congressionaldistrict.htm" window="d2hWnd_SecondaryPopup" id="4875"><![CDATA[Congressional District]]></term>
-    <term name="Contact PI" url="WordDocuments/gloss_contactpi.htm" window="d2hWnd_SecondaryPopup" id="4876"><![CDATA[Contact PI]]></term>
-    <term name="Contact Type" url="WordDocuments/gloss_contacttype.htm" window="d2hWnd_SecondaryPopup" id="4877"><![CDATA[Contact Type]]></term>
-    <term name="Continuation" url="WordDocuments/gloss_continuation.htm" window="d2hWnd_SecondaryPopup" id="4878"><![CDATA[Continuation]]></term>
-    <term name="Correspondent" url="WordDocuments/gloss_correspondent.htm" window="d2hWnd_SecondaryPopup" id="4879"><![CDATA[Correspondent]]></term>
-    <term name="Clinical Research Coordinator (CRC)" url="WordDocuments/gloss_clinicalresearchcoordinatorcrc.htm" window="d2hWnd_SecondaryPopup" id="4880"><![CDATA[Clinical Research Coordinator (CRC)]]></term>
-    <term name="CRISP" url="WordDocuments/gloss_crisp.htm" window="d2hWnd_SecondaryPopup" id="4881"><![CDATA[CRISP]]></term>
-    <term name="Custom Attributes" url="WordDocuments/gloss_customattributes.htm" window="d2hWnd_SecondaryPopup" id="4882"><![CDATA[Custom Attributes]]></term>
-    <term name="Custom Data" url="WordDocuments/gloss_customdata.htm" window="d2hWnd_SecondaryPopup" id="4883"><![CDATA[Custom Data]]></term>
-    <term name="Direct Cost" url="WordDocuments/gloss_directcost.htm" window="d2hWnd_SecondaryPopup" id="4884"><![CDATA[Direct Cost]]></term>
-    <term name="Distributable - Total" url="WordDocuments/gloss_distributabletotal.htm" window="d2hWnd_SecondaryPopup" id="4885"><![CDATA[Distributable - Total]]></term>
-    <term name="Distributed - Total" url="WordDocuments/gloss_distributedtotal.htm" window="d2hWnd_SecondaryPopup" id="4886"><![CDATA[Distributed - Total]]></term>
-    <term name="Document Funding ID" url="WordDocuments/gloss_documentfundingid.htm" window="d2hWnd_SecondaryPopup" id="4887"><![CDATA[Document Funding ID]]></term>
-    <term name="EPA" url="WordDocuments/gloss_epa.htm" window="d2hWnd_SecondaryPopup" id="4889"><![CDATA[EPA]]></term>
-    <term name="eRA Commons" url="WordDocuments/gloss_eracommons.htm" window="d2hWnd_SecondaryPopup" id="4890"><![CDATA[eRA Commons]]></term>
-    <term name="eRA Commons Username" url="WordDocuments/gloss_eracommonsusername.htm" window="d2hWnd_SecondaryPopup" id="4891"><![CDATA[eRA Commons Username]]></term>
-    <term name="Execution Date" url="WordDocuments/gloss_executiondate.htm" window="d2hWnd_SecondaryPopup" id="4892"><![CDATA[Execution Date]]></term>
-    <term name="Exempt" url="WordDocuments/gloss_exempt.htm" window="d2hWnd_SecondaryPopup" id="4893"><![CDATA[Exempt]]></term>
-    <term name="Exemption" url="WordDocuments/gloss_exemption.htm" window="d2hWnd_SecondaryPopup" id="4894"><![CDATA[Exemption]]></term>
-    <term name="Exemption from IRB Review" url="WordDocuments/gloss_exemptionfromirbreview.htm" window="d2hWnd_SecondaryPopup" id="4895"><![CDATA[Exemption from IRB Review]]></term>
-    <term name="Exemption Category Number" url="WordDocuments/gloss_exemptioncategorynumber.htm" window="d2hWnd_SecondaryPopup" id="4896"><![CDATA[Exemption Category Number]]></term>
-    <term name="Exemption Number" url="WordDocuments/gloss_exemptionnumber.htm" window="d2hWnd_SecondaryPopup" id="4897"><![CDATA[Exemption Number]]></term>
-    <term name="Expedited Review" url="WordDocuments/gloss_expeditedreview.htm" window="d2hWnd_SecondaryPopup" id="4898"><![CDATA[Expedited Review]]></term>
-    <term name="FDA Application ID" url="WordDocuments/gloss_fdaapplicationid.htm" window="d2hWnd_SecondaryPopup" id="4900"><![CDATA[FDA Application ID]]></term>
-    <term name="Fiscal Report" url="WordDocuments/gloss_fiscalreport.htm" window="d2hWnd_SecondaryPopup" id="4901"><![CDATA[Fiscal Report]]></term>
-    <term name="Fiscal Year" url="WordDocuments/gloss_fiscalyear.htm" window="d2hWnd_SecondaryPopup" id="4902"><![CDATA[Fiscal Year]]></term>
-    <term name="Federal wide Assurance (FWA) Number" url="WordDocuments/gloss_federalwideassurancefwanumber.htm" window="d2hWnd_SecondaryPopup" id="4903"><![CDATA[Federal wide Assurance (FWA) Number]]></term>
-    <term name="Funding Opportunity Announcement (FOA)" url="WordDocuments/gloss_fundingopportunityannouncementfoa.htm" window="d2hWnd_SecondaryPopup" id="4904"><![CDATA[Funding Opportunity Announcement (FOA)]]></term>
-    <term name="Home Unit" url="WordDocuments/gloss_homeunit.htm" window="d2hWnd_SecondaryPopup" id="4905"><![CDATA[Home Unit]]></term>
-    <term name="Human Participants" url="WordDocuments/gloss_humanparticipants.htm" window="d2hWnd_SecondaryPopup" id="4906"><![CDATA[Human Participants]]></term>
-    <term name="Human Subjects" url="WordDocuments/gloss_humansubjects.htm" window="d2hWnd_SecondaryPopup" id="4907"><![CDATA[Human Subjects]]></term>
-    <term name="IACUC" url="WordDocuments/gloss_iacuc.htm" window="d2hWnd_SecondaryPopup" id="4908"><![CDATA[IACUC]]></term>
-    <term name="Indirect Cost" url="WordDocuments/gloss_indirectcost.htm" window="d2hWnd_SecondaryPopup" id="4910"><![CDATA[Indirect Cost]]></term>
-    <term name="Institute Rate" url="WordDocuments/gloss_instituterate1.htm" window="d2hWnd_SecondaryPopup" id="4911"><![CDATA[Institute Rate]]></term>
-    <term name="Instruction Page URL" url="WordDocuments/gloss_instructionpageurl.htm" window="d2hWnd_SecondaryPopup" id="4912"><![CDATA[Instruction Page URL]]></term>
-    <term name="International Programs" url="WordDocuments/gloss_internationalprograms.htm" window="d2hWnd_SecondaryPopup" id="4913"><![CDATA[International Programs]]></term>
-    <term name="IRB Registration Number" url="WordDocuments/gloss_irbregistrationnumber.htm" window="d2hWnd_SecondaryPopup" id="4915"><![CDATA[IRB Registration Number]]></term>
-    <term name="Institutional Official" url="WordDocuments/gloss_institutionalofficial.htm" window="d2hWnd_SecondaryPopup" id="4916"><![CDATA[Institutional Official]]></term>
-    <term name="Job Code" url="WordDocuments/gloss_jobcode.htm" window="d2hWnd_SecondaryPopup" id="4917"><![CDATA[Job Code]]></term>
-    <term name="Key Person Role" url="WordDocuments/gloss_keypersonrole.htm" window="d2hWnd_SecondaryPopup" id="4918"><![CDATA[Key Person Role]]></term>
-    <term name="Key Personnel" url="WordDocuments/gloss_keypersonnel.htm" window="d2hWnd_SecondaryPopup" id="4919"><![CDATA[Key Personnel]]></term>
-    <term name="Key Person" url="WordDocuments/gloss_keyperson.htm" window="d2hWnd_SecondaryPopup" id="4920"><![CDATA[Key Person]]></term>
-    <term name="Keyword" url="WordDocuments/gloss_keyword1.htm" window="d2hWnd_SecondaryPopup" id="4921"><![CDATA[Keyword]]></term>
-    <term name="Kuali" url="WordDocuments/gloss_kuali1.htm" window="d2hWnd_SecondaryPopup" id="4922"><![CDATA[Kuali]]></term>
-    <term name="Layman Abstract" url="WordDocuments/gloss_laymanabstract.htm" window="d2hWnd_SecondaryPopup" id="4923"><![CDATA[Layman Abstract]]></term>
-    <term name="Lead Unit" url="WordDocuments/gloss_leadunit.htm" window="d2hWnd_SecondaryPopup" id="4924"><![CDATA[Lead Unit]]></term>
-    <term name="Location" url="WordDocuments/gloss_location.htm" window="d2hWnd_SecondaryPopup" id="4925"><![CDATA[Location]]></term>
-    <term name="Maintenance Document" url="WordDocuments/gloss_maintenancedocument.htm" window="d2hWnd_SecondaryPopup" id="4926"><![CDATA[Maintenance Document]]></term>
-    <term name="Modification ID" url="WordDocuments/gloss_modificationid.htm" window="d2hWnd_SecondaryPopup" id="4927"><![CDATA[Modification ID]]></term>
-    <term name="MTDC" url="WordDocuments/gloss_mtdc.htm" window="d2hWnd_SecondaryPopup" id="4928"><![CDATA[MTDC]]></term>
-    <term name="Multiple Pis" url="WordDocuments/gloss_multiplepis.htm" window="d2hWnd_SecondaryPopup" id="4929"><![CDATA[Multiple Pis]]></term>
-    <term name="Name/Organization" url="WordDocuments/gloss_nameorganization.htm" window="d2hWnd_SecondaryPopup" id="4930"><![CDATA[Name/Organization]]></term>
-    <term name="Notice of Opportunity" url="WordDocuments/gloss_noticeofopportunity1.htm" window="d2hWnd_SecondaryPopup" id="4932"><![CDATA[Notice of Opportunity]]></term>
-    <term name="NSF Science Code" url="WordDocuments/gloss_nsfsciencecode1.htm" window="d2hWnd_SecondaryPopup" id="4934"><![CDATA[NSF Science Code]]></term>
-    <term name="Obligated Total (or Amount)" url="WordDocuments/gloss_obligatedtotaloramount.htm" window="d2hWnd_SecondaryPopup" id="4935"><![CDATA[Obligated Total (or Amount)]]></term>
-    <term name="Obligation End Date" url="WordDocuments/gloss_obligationenddate.htm" window="d2hWnd_SecondaryPopup" id="4936"><![CDATA[Obligation End Date]]></term>
-    <term name="Obligation Start Date" url="WordDocuments/gloss_obligationstartdate.htm" window="d2hWnd_SecondaryPopup" id="4937"><![CDATA[Obligation Start Date]]></term>
-    <term name="On/Off Campus" url="WordDocuments/gloss_onoffcampus.htm" window="d2hWnd_SecondaryPopup" id="4939"><![CDATA[On/Off Campus]]></term>
-    <term name="Opening Date" url="WordDocuments/gloss_openingdate.htm" window="d2hWnd_SecondaryPopup" id="4940"><![CDATA[Opening Date]]></term>
-    <term name="Opportunity ID" url="WordDocuments/gloss_opportunityid.htm" window="d2hWnd_SecondaryPopup" id="4941"><![CDATA[Opportunity ID]]></term>
-    <term name="Opportunity Title" url="WordDocuments/gloss_opportunitytitle.htm" window="d2hWnd_SecondaryPopup" id="4942"><![CDATA[Opportunity Title]]></term>
-    <term name="Original Proposal ID" url="WordDocuments/gloss_originalproposalid.htm" window="d2hWnd_SecondaryPopup" id="4943"><![CDATA[Original Proposal ID]]></term>
-    <term name="Other Significant Contributor" url="WordDocuments/gloss_othersignificantcontributor.htm" window="d2hWnd_SecondaryPopup" id="4944"><![CDATA[Other Significant Contributor]]></term>
-    <term name="Overhead" url="WordDocuments/gloss_overhead.htm" window="d2hWnd_SecondaryPopup" id="4945"><![CDATA[Overhead]]></term>
-    <term name="Paid Member" url="WordDocuments/gloss_paidmember.htm" window="d2hWnd_SecondaryPopup" id="4946"><![CDATA[Paid Member]]></term>
-    <term name="Payment Type" url="WordDocuments/gloss_paymenttype.htm" window="d2hWnd_SecondaryPopup" id="4947"><![CDATA[Payment Type]]></term>
-    <term name="Payment Method" url="WordDocuments/gloss_paymentmethod.htm" window="d2hWnd_SecondaryPopup" id="4948"><![CDATA[Payment Method]]></term>
-    <term name="Percent (%) Effort" url="WordDocuments/gloss_percenteffort.htm" window="d2hWnd_SecondaryPopup" id="4949"><![CDATA[Percent (%) Effort]]></term>
-    <term name="Performing Organization" url="WordDocuments/gloss_performingorganization.htm" window="d2hWnd_SecondaryPopup" id="4950"><![CDATA[Performing Organization]]></term>
-    <term name="Pre-award Costs" url="WordDocuments/gloss_preawardcosts.htm" window="d2hWnd_SecondaryPopup" id="4952"><![CDATA[Pre-award Costs]]></term>
-    <term name="Pre-award Authorized Amount" url="WordDocuments/gloss_preawardauthorizedamount.htm" window="d2hWnd_SecondaryPopup" id="4953"><![CDATA[Pre-award Authorized Amount]]></term>
-    <term name="Pre-award Effective Date" url="WordDocuments/gloss_preawardeffectivedate.htm" window="d2hWnd_SecondaryPopup" id="4954"><![CDATA[Pre-award Effective Date]]></term>
-    <term name="Prime Sponsor" url="WordDocuments/gloss_primesponsor.htm" window="d2hWnd_SecondaryPopup" id="4955"><![CDATA[Prime Sponsor]]></term>
-    <term name="Prime Sponsor ID" url="WordDocuments/gloss_primesponsorid.htm" window="d2hWnd_SecondaryPopup" id="4956"><![CDATA[Prime Sponsor ID]]></term>
-    <term name="Principal Investigator" url="WordDocuments/gloss_principalinvestigator.htm" window="d2hWnd_SecondaryPopup" id="4957"><![CDATA[Principal Investigator]]></term>
-    <term name="Principal Investigator- Contact" url="WordDocuments/gloss_principalinvestigatorcontact.htm" window="d2hWnd_SecondaryPopup" id="4958"><![CDATA[Principal Investigator- Contact]]></term>
-    <term name="Principal Investigator-Multiple" url="WordDocuments/gloss_principalinvestigatormultiple.htm" window="d2hWnd_SecondaryPopup" id="4959"><![CDATA[Principal Investigator-Multiple]]></term>
-    <term name="Program Announcment" url="WordDocuments/gloss_programannouncment.htm" window="d2hWnd_SecondaryPopup" id="4960"><![CDATA[Program Announcment]]></term>
-    <term name="Project Director" url="WordDocuments/gloss_projectdirector.htm" window="d2hWnd_SecondaryPopup" id="4961"><![CDATA[Project Director]]></term>
-    <term name="Program Director" url="WordDocuments/gloss_programdirector.htm" window="d2hWnd_SecondaryPopup" id="4962"><![CDATA[Program Director]]></term>
-    <term name="Program Title" url="WordDocuments/gloss_programtitle.htm" window="d2hWnd_SecondaryPopup" id="4963"><![CDATA[Program Title]]></term>
-    <term name="Project End Date" url="WordDocuments/gloss_projectenddate.htm" window="d2hWnd_SecondaryPopup" id="4964"><![CDATA[Project End Date]]></term>
-    <term name="Project Start Date" url="WordDocuments/gloss_projectstartdate.htm" window="d2hWnd_SecondaryPopup" id="4965"><![CDATA[Project Start Date]]></term>
-    <term name="Proposal" url="WordDocuments/gloss_proposal.htm" window="d2hWnd_SecondaryPopup" id="4966"><![CDATA[Proposal]]></term>
-    <term name="Proposal Abstract" url="WordDocuments/gloss_proposalabstract.htm" window="d2hWnd_SecondaryPopup" id="4967"><![CDATA[Proposal Abstract]]></term>
-    <term name="Proposal Development Document" url="WordDocuments/gloss_proposaldevelopmentdocument1.htm" window="d2hWnd_SecondaryPopup" id="4968"><![CDATA[Proposal Development Document]]></term>
-    <term name="Proposal Rights" url="WordDocuments/gloss_proposalrights.htm" window="d2hWnd_SecondaryPopup" id="4969"><![CDATA[Proposal Rights]]></term>
-    <term name="Proposal Role" url="WordDocuments/gloss_proposalrole.htm" window="d2hWnd_SecondaryPopup" id="4970"><![CDATA[Proposal Role]]></term>
-    <term name="Proposal ID" url="WordDocuments/gloss_proposalid.htm" window="d2hWnd_SecondaryPopup" id="4971"><![CDATA[Proposal ID]]></term>
-    <term name="Protocol" url="WordDocuments/gloss_protocol.htm" window="d2hWnd_SecondaryPopup" id="4972"><![CDATA[Protocol]]></term>
-    <term name="Protocol ID" url="WordDocuments/gloss_protocolid.htm" window="d2hWnd_SecondaryPopup" id="4973"><![CDATA[Protocol ID]]></term>
-    <term name="Radioisotopes" url="WordDocuments/gloss_radioisotopes.htm" window="d2hWnd_SecondaryPopup" id="4974"><![CDATA[Radioisotopes]]></term>
-    <term name="Rate Type" url="WordDocuments/gloss_ratetype1.htm" window="d2hWnd_SecondaryPopup" id="4975"><![CDATA[Rate Type]]></term>
-    <term name="Recombinant DNA" url="WordDocuments/gloss_recombinantdna.htm" window="d2hWnd_SecondaryPopup" id="4976"><![CDATA[Recombinant DNA]]></term>
-    <term name="Renewal" url="WordDocuments/gloss_renewal.htm" window="d2hWnd_SecondaryPopup" id="4977"><![CDATA[Renewal]]></term>
-    <term name="Revision Type" url="WordDocuments/gloss_revisiontype.htm" window="d2hWnd_SecondaryPopup" id="4978"><![CDATA[Revision Type]]></term>
-    <term name="Salary Effective Date" url="WordDocuments/gloss_salaryeffectivedate.htm" window="d2hWnd_SecondaryPopup" id="4979"><![CDATA[Salary Effective Date]]></term>
-    <term name="Schema URL" url="WordDocuments/gloss_schemaurl.htm" window="d2hWnd_SecondaryPopup" id="4980"><![CDATA[Schema URL]]></term>
-    <term name="Schema" url="WordDocuments/gloss_schema.htm" window="d2hWnd_SecondaryPopup" id="4981"><![CDATA[Schema]]></term>
-    <term name="Sequence ID" url="WordDocuments/gloss_sequenceid.htm" window="d2hWnd_SecondaryPopup" id="4982"><![CDATA[Sequence ID]]></term>
-    <term name="Space Change" url="WordDocuments/gloss_spacechange.htm" window="d2hWnd_SecondaryPopup" id="4983"><![CDATA[Space Change]]></term>
-    <term name="Special Review" url="WordDocuments/gloss_specialreview1.htm" window="d2hWnd_SecondaryPopup" id="4984"><![CDATA[Special Review]]></term>
-    <term name="Sponsor" url="WordDocuments/gloss_sponsor1.htm" window="d2hWnd_SecondaryPopup" id="4985"><![CDATA[Sponsor]]></term>
-    <term name="Sponsor Award ID" url="WordDocuments/gloss_sponsorawardid.htm" window="d2hWnd_SecondaryPopup" id="4986"><![CDATA[Sponsor Award ID]]></term>
-    <term name="Sponsor Div Code" url="WordDocuments/gloss_sponsordivcode.htm" window="d2hWnd_SecondaryPopup" id="4987"><![CDATA[Sponsor Div Code]]></term>
-    <term name="Sponsor Program Code" url="WordDocuments/gloss_sponsorprogramcode.htm" window="d2hWnd_SecondaryPopup" id="4988"><![CDATA[Sponsor Program Code]]></term>
-    <term name="Sponsor Proposal ID" url="WordDocuments/gloss_sponsorproposalid.htm" window="d2hWnd_SecondaryPopup" id="4989"><![CDATA[Sponsor Proposal ID]]></term>
-    <term name="Start Date" url="WordDocuments/gloss_startdate.htm" window="d2hWnd_SecondaryPopup" id="4990"><![CDATA[Start Date]]></term>
-    <term name="Subaward" url="WordDocuments/gloss_subaward.htm" window="d2hWnd_SecondaryPopup" id="4991"><![CDATA[Subaward]]></term>
-    <term name="Subcontract" url="WordDocuments/gloss_subcontract.htm" window="d2hWnd_SecondaryPopup" id="4992"><![CDATA[Subcontract]]></term>
-    <term name="Submission Type" url="WordDocuments/gloss_submissiontype.htm" window="d2hWnd_SecondaryPopup" id="4993"><![CDATA[Submission Type]]></term>
-    <term name="Sub-plan" url="WordDocuments/gloss_subplan.htm" window="d2hWnd_SecondaryPopup" id="4994"><![CDATA[Sub-plan]]></term>
-    <term name="Technical Abstract" url="WordDocuments/gloss_technicalabstract.htm" window="d2hWnd_SecondaryPopup" id="4995"><![CDATA[Technical Abstract]]></term>
-    <term name="Term" url="WordDocuments/gloss_term.htm" window="d2hWnd_SecondaryPopup" id="4997"><![CDATA[Term]]></term>
-    <term name="Title" url="WordDocuments/gloss_title.htm" window="d2hWnd_SecondaryPopup" id="4998"><![CDATA[Title]]></term>
-    <term name="Unrecovered F&amp;A" url="WordDocuments/gloss_unrecoveredfa.htm" window="d2hWnd_SecondaryPopup" id="4999"><![CDATA[Unrecovered F&A]]></term>
-    <term name="Vertebrate Animal" url="WordDocuments/gloss_vertebrateanimal.htm" window="d2hWnd_SecondaryPopup" id="5000"><![CDATA[Vertebrate Animal]]></term>
-    <term name="Vulnerable Participants" url="WordDocuments/gloss_vulnerableparticipants.htm" window="d2hWnd_SecondaryPopup" id="5001"><![CDATA[Vulnerable Participants]]></term>
-    <term name="Workgroup" url="WordDocuments/gloss_workgroup2.htm" window="d2hWnd_SecondaryPopup" id="5005"><![CDATA[Workgroup]]></term>
-    <term name="Advance Account" url="WordDocuments/gloss_advanceaccount.htm" window="d2hWnd_SecondaryPopup" id="5629"><![CDATA[Advance Account]]></term>
-    <term name="Co-PI" url="WordDocuments/gloss_copi.htm" window="d2hWnd_SecondaryPopup" id="5630"><![CDATA[Co-PI]]></term>
-    <term name="Cost Share" url="WordDocuments/gloss_costshare.htm" window="d2hWnd_SecondaryPopup" id="5631"><![CDATA[Cost Share]]></term>
-    <term name="Destination Account" url="WordDocuments/gloss_destinationaccount.htm" window="d2hWnd_SecondaryPopup" id="5632"><![CDATA[Destination Account]]></term>
-    <term name="e-doc" url="WordDocuments/gloss_edoc2.htm" window="d2hWnd_SecondaryPopup" id="5633"><![CDATA[e-doc]]></term>
-    <term name="Enhancement" url="WordDocuments/gloss_enhancement.htm" window="d2hWnd_SecondaryPopup" id="5634"><![CDATA[Enhancement]]></term>
-    <term name="F&amp;A" url="WordDocuments/gloss_fa.htm" window="d2hWnd_SecondaryPopup" id="5635"><![CDATA[F&A]]></term>
-    <term name="Foreign Travel" url="WordDocuments/gloss_foreigntravel.htm" window="d2hWnd_SecondaryPopup" id="5636"><![CDATA[Foreign Travel]]></term>
-    <term name="Frequency Base" url="WordDocuments/gloss_frequencybase.htm" window="d2hWnd_SecondaryPopup" id="5637"><![CDATA[Frequency Base]]></term>
-    <term name="IBC" url="WordDocuments/gloss_ibc.htm" window="d2hWnd_SecondaryPopup" id="5638"><![CDATA[IBC]]></term>
-    <term name="Intellectual Property Report" url="WordDocuments/gloss_intellectualpropertyreport.htm" window="d2hWnd_SecondaryPopup" id="5639"><![CDATA[Intellectual Property Report]]></term>
-    <term name="IRB" url="WordDocuments/gloss_irb.htm" window="d2hWnd_SecondaryPopup" id="5640"><![CDATA[IRB]]></term>
-    <term name="NIH" url="WordDocuments/gloss_nih.htm" window="d2hWnd_SecondaryPopup" id="5641"><![CDATA[NIH]]></term>
-    <term name="NSF" url="WordDocuments/gloss_nsf.htm" window="d2hWnd_SecondaryPopup" id="5642"><![CDATA[NSF]]></term>
-    <term name="OHRP" url="WordDocuments/gloss_ohrp.htm" window="d2hWnd_SecondaryPopup" id="5643"><![CDATA[OHRP]]></term>
-    <term name="PI" url="WordDocuments/gloss_pi.htm" window="d2hWnd_SecondaryPopup" id="5644"><![CDATA[PI]]></term>
-    <term name="Source Account" url="WordDocuments/gloss_sourceaccount.htm" window="d2hWnd_SecondaryPopup" id="5645"><![CDATA[Source Account]]></term>
-    <term name="Sponsor Hierarchy" url="WordDocuments/gloss_sponsorhierarchy.htm" window="d2hWnd_SecondaryPopup" id="5646"><![CDATA[Sponsor Hierarchy]]></term>
-    <term name="Sponsor Template" url="WordDocuments/gloss_sponsortemplate.htm" window="d2hWnd_SecondaryPopup" id="5647"><![CDATA[Sponsor Template]]></term>
-    <term name="Technical Report" url="WordDocuments/gloss_technicalreport.htm" window="d2hWnd_SecondaryPopup" id="5648"><![CDATA[Technical Report]]></term>
-    <term name="workflow / Workflow Services / Kuali Enterprise Workflow (KEW)" url="WordDocuments/gloss_workflowworkflowserviceskualienterpriseworkflowkew.htm" window="d2hWnd_SecondaryPopup" id="5649"><![CDATA[workflow / Workflow Services / Kuali Enterprise Workflow (KEW)]]></term>
+    <term name="45 CFR 46" url="Documents/gloss_45cfr46.htm" window="d2hWnd_SecondaryPopup" id="1049"><![CDATA[45 CFR 46]]></term>
+    <term name="AAHRPP" url="Documents/gloss_aahrpp.htm" window="d2hWnd_SecondaryPopup" id="1050"><![CDATA[AAHRPP]]></term>
+    <term name="Abstain" url="Documents/gloss_abstain.htm" window="d2hWnd_SecondaryPopup" id="1051"><![CDATA[Abstain]]></term>
+    <term name="Account" url="Documents/gloss_account.htm" window="d2hWnd_SecondaryPopup" id="1052"><![CDATA[Account]]></term>
+    <term name="Account Type" url="Documents/gloss_accounttype1.htm" window="d2hWnd_SecondaryPopup" id="1053"><![CDATA[Account Type]]></term>
+    <term name="Action List" url="Documents/gloss_actionlist2.htm" window="d2hWnd_SecondaryPopup" id="1054"><![CDATA[Action List]]></term>
+    <term name="Activity Type" url="Documents/gloss_activitytype1.htm" window="d2hWnd_SecondaryPopup" id="1055"><![CDATA[Activity Type]]></term>
+    <term name="Address" url="Documents/gloss_address.htm" window="d2hWnd_SecondaryPopup" id="1056"><![CDATA[Address]]></term>
+    <term name="Advance Account" url="Documents/gloss_advanceaccount.htm" window="d2hWnd_SecondaryPopup" id="1057"><![CDATA[Advance Account]]></term>
+    <term name="Adverse Event" url="Documents/gloss_adverseevent.htm" window="d2hWnd_SecondaryPopup" id="1058"><![CDATA[Adverse Event]]></term>
+    <term name="Affected Budget Period" url="Documents/gloss_affectedbudgetperiod.htm" window="d2hWnd_SecondaryPopup" id="1059"><![CDATA[Affected Budget Period]]></term>
+    <term name="Agency Tracking ID" url="Documents/gloss_agencytrackingid.htm" window="d2hWnd_SecondaryPopup" id="1060"><![CDATA[Agency Tracking ID]]></term>
+    <term name="Aggregator" url="Documents/gloss_aggregator.htm" window="d2hWnd_SecondaryPopup" id="1061"><![CDATA[Aggregator]]></term>
+    <term name="AHRQ" url="Documents/gloss_ahrq.htm" window="d2hWnd_SecondaryPopup" id="1062"><![CDATA[AHRQ]]></term>
+    <term name="Annual Disclosure" url="Documents/gloss_annualdisclosure.htm" window="d2hWnd_SecondaryPopup" id="1063"><![CDATA[Annual Disclosure]]></term>
+    <term name="Annual Review" url="Documents/gloss_annualreview.htm" window="d2hWnd_SecondaryPopup" id="1064"><![CDATA[Annual Review]]></term>
+    <term name="Anticipated Total (or Amount)" url="Documents/gloss_anticipatedtotaloramount.htm" window="d2hWnd_SecondaryPopup" id="1065"><![CDATA[Anticipated Total (or Amount)]]></term>
+    <term name="Applicable Rate" url="Documents/gloss_applicablerate.htm" window="d2hWnd_SecondaryPopup" id="1066"><![CDATA[Applicable Rate]]></term>
+    <term name="Applicant Organization" url="Documents/gloss_applicantorganization.htm" window="d2hWnd_SecondaryPopup" id="1067"><![CDATA[Applicant Organization]]></term>
+    <term name="Appointment Type" url="Documents/gloss_appointmenttype.htm" window="d2hWnd_SecondaryPopup" id="1068"><![CDATA[Appointment Type]]></term>
+    <term name="Approval Date" url="Documents/gloss_approvaldate.htm" window="d2hWnd_SecondaryPopup" id="1069"><![CDATA[Approval Date]]></term>
+    <term name="Association for the Accreditation of Human Research Protection Programs" url="Documents/gloss_associationfortheaccreditationofhumanresearchprotectionprograms.htm" window="d2hWnd_SecondaryPopup" id="1070"><![CDATA[Association for the Accreditation of Human Research Protection Programs]]></term>
+    <term name="Authorized Institutional Official" url="Documents/gloss_authorizedinstitutionalofficial.htm" window="d2hWnd_SecondaryPopup" id="1071"><![CDATA[Authorized Institutional Official]]></term>
+    <term name="Authorized Representative Name and Address" url="Documents/gloss_authorizedrepresentativenameandaddress.htm" window="d2hWnd_SecondaryPopup" id="1072"><![CDATA[Authorized Representative Name and Address]]></term>
+    <term name="Award" url="Documents/gloss_award.htm" window="d2hWnd_SecondaryPopup" id="1073"><![CDATA[Award]]></term>
+    <term name="Award ID" url="Documents/gloss_awardid.htm" window="d2hWnd_SecondaryPopup" id="1074"><![CDATA[Award ID]]></term>
+    <term name="Award Instrument" url="Documents/gloss_awardinstrument.htm" window="d2hWnd_SecondaryPopup" id="1075"><![CDATA[Award Instrument]]></term>
+    <term name="Award Type" url="Documents/gloss_awardtype1.htm" window="d2hWnd_SecondaryPopup" id="1076"><![CDATA[Award Type]]></term>
+    <term name="Base Salary" url="Documents/gloss_basesalary.htm" window="d2hWnd_SecondaryPopup" id="1077"><![CDATA[Base Salary]]></term>
+    <term name="Biohazards" url="Documents/gloss_biohazards.htm" window="d2hWnd_SecondaryPopup" id="1078"><![CDATA[Biohazards]]></term>
+    <term name="Biosketch" url="Documents/gloss_biosketch.htm" window="d2hWnd_SecondaryPopup" id="1079"><![CDATA[Biosketch]]></term>
+    <term name="Budget" url="Documents/gloss_budget.htm" window="d2hWnd_SecondaryPopup" id="1080"><![CDATA[Budget]]></term>
+    <term name="Budget Start Date" url="Documents/gloss_budgetstartdate.htm" window="d2hWnd_SecondaryPopup" id="1081"><![CDATA[Budget Start Date]]></term>
+    <term name="Capital Equipment" url="Documents/gloss_capitalequipment.htm" window="d2hWnd_SecondaryPopup" id="1082"><![CDATA[Capital Equipment]]></term>
+    <term name="Capitalization" url="Documents/gloss_capitalization.htm" window="d2hWnd_SecondaryPopup" id="1083"><![CDATA[Capitalization]]></term>
+    <term name="Catalogue of Federal Domestic Assistance" url="Documents/gloss_catalogueoffederaldomesticassistance.htm" window="d2hWnd_SecondaryPopup" id="1084"><![CDATA[Catalogue of Federal Domestic Assistance]]></term>
+    <term name="CDCP" url="Documents/gloss_cdcp.htm" window="d2hWnd_SecondaryPopup" id="1085"><![CDATA[CDCP]]></term>
+    <term name="CFDA" url="Documents/gloss_cfda.htm" window="d2hWnd_SecondaryPopup" id="1086"><![CDATA[CFDA]]></term>
+    <term name="CFDA Number" url="Documents/gloss_cfdanumber.htm" window="d2hWnd_SecondaryPopup" id="1087"><![CDATA[CFDA Number]]></term>
+    <term name="Child Proposal" url="Documents/gloss_childproposal.htm" window="d2hWnd_SecondaryPopup" id="1088"><![CDATA[Child Proposal]]></term>
+    <term name="Clinical Research Center (CRC)" url="Documents/gloss_clinicalresearchcentercrc.htm" window="d2hWnd_SecondaryPopup" id="1089"><![CDATA[Clinical Research Center (CRC)]]></term>
+    <term name="Closed Protocol" url="Documents/gloss_closedprotocol.htm" window="d2hWnd_SecondaryPopup" id="1090"><![CDATA[Closed Protocol]]></term>
+    <term name="Closed to Enrollment" url="Documents/gloss_closedtoenrollment.htm" window="d2hWnd_SecondaryPopup" id="1091"><![CDATA[Closed to Enrollment]]></term>
+    <term name="Closing Date" url="Documents/gloss_closingdate.htm" window="d2hWnd_SecondaryPopup" id="1092"><![CDATA[Closing Date]]></term>
+    <term name="Co Principal Investigator" url="Documents/gloss_coprincipalinvestigator.htm" window="d2hWnd_SecondaryPopup" id="1093"><![CDATA[Co Principal Investigator]]></term>
+    <term name="Co-I" url="Documents/gloss_coi.htm" window="d2hWnd_SecondaryPopup" id="1094"><![CDATA[Co-I]]></term>
+    <term name="COI Reviewer" url="Documents/gloss_coireviewer1.htm" window="d2hWnd_SecondaryPopup" id="1095"><![CDATA[COI Reviewer]]></term>
+    <term name="Co-Investigator" url="Documents/gloss_coinvestigator.htm" window="d2hWnd_SecondaryPopup" id="1096"><![CDATA[Co-Investigator]]></term>
+    <term name="Committee Members Term of Appointment" url="Documents/gloss_committeememberstermofappointment.htm" window="d2hWnd_SecondaryPopup" id="1097"><![CDATA[Committee Members Term of Appointment]]></term>
+    <term name="Common Rule" url="Documents/gloss_commonrule.htm" window="d2hWnd_SecondaryPopup" id="1098"><![CDATA[Common Rule]]></term>
+    <term name="Community Sourcing" url="Documents/gloss_communitysourcing.htm" window="d2hWnd_SecondaryPopup" id="1099"><![CDATA[Community Sourcing]]></term>
+    <term name="Competition ID" url="Documents/gloss_competitionid.htm" window="d2hWnd_SecondaryPopup" id="1100"><![CDATA[Competition ID]]></term>
+    <term name="Compliance Committee" url="Documents/gloss_compliancecommittee.htm" window="d2hWnd_SecondaryPopup" id="1101"><![CDATA[Compliance Committee]]></term>
+    <term name="Compliance Committee Member" url="Documents/gloss_compliancecommitteemember.htm" window="d2hWnd_SecondaryPopup" id="1102"><![CDATA[Compliance Committee Member]]></term>
+    <term name="Computer Retrieval of Information on Scientific Projects" url="Documents/gloss_computerretrievalofinformationonscientificprojects.htm" window="d2hWnd_SecondaryPopup" id="1103"><![CDATA[Computer Retrieval of Information on Scientific Projects]]></term>
+    <term name="Conflict of Commitment" url="Documents/gloss_conflictofcommitment.htm" window="d2hWnd_SecondaryPopup" id="1104"><![CDATA[Conflict of Commitment]]></term>
+    <term name="Conflict of Interest" url="Documents/gloss_conflictofinterest.htm" window="d2hWnd_SecondaryPopup" id="1105"><![CDATA[Conflict of Interest]]></term>
+    <term name="Conflict of Interest (COI) Administrator" url="Documents/gloss_conflictofinterestcoiadministrator.htm" window="d2hWnd_SecondaryPopup" id="1106"><![CDATA[Conflict of Interest (COI) Administrator]]></term>
+    <term name="Conflict of Interest Committee" url="Documents/gloss_conflictofinterestcommittee.htm" window="d2hWnd_SecondaryPopup" id="1107"><![CDATA[Conflict of Interest Committee]]></term>
+    <term name="Congressional District" url="Documents/gloss_congressionaldistrict.htm" window="d2hWnd_SecondaryPopup" id="1108"><![CDATA[Congressional District]]></term>
+    <term name="Contact PI" url="Documents/gloss_contactpi.htm" window="d2hWnd_SecondaryPopup" id="1109"><![CDATA[Contact PI]]></term>
+    <term name="Contact Type" url="Documents/gloss_contacttype1.htm" window="d2hWnd_SecondaryPopup" id="1110"><![CDATA[Contact Type]]></term>
+    <term name="Continuation" url="Documents/gloss_continuation.htm" window="d2hWnd_SecondaryPopup" id="1111"><![CDATA[Continuation]]></term>
+    <term name="Continuation (Protocol)" url="Documents/gloss_continuationprotocol.htm" window="d2hWnd_SecondaryPopup" id="1112"><![CDATA[Continuation (Protocol)]]></term>
+    <term name="Continuing Review (Protocol)" url="Documents/gloss_continuingreviewprotocol.htm" window="d2hWnd_SecondaryPopup" id="1113"><![CDATA[Continuing Review (Protocol)]]></term>
+    <term name="Co-PD" url="Documents/gloss_copd.htm" window="d2hWnd_SecondaryPopup" id="1114"><![CDATA[Co-PD]]></term>
+    <term name="Co-PI" url="Documents/gloss_copi.htm" window="d2hWnd_SecondaryPopup" id="1115"><![CDATA[Co-PI]]></term>
+    <term name="Co-Project Director" url="Documents/gloss_coprojectdirector.htm" window="d2hWnd_SecondaryPopup" id="1116"><![CDATA[Co-Project Director]]></term>
+    <term name="Correspondent" url="Documents/gloss_correspondent.htm" window="d2hWnd_SecondaryPopup" id="1117"><![CDATA[Correspondent]]></term>
+    <term name="Cost Share" url="Documents/gloss_costshare.htm" window="d2hWnd_SecondaryPopup" id="1118"><![CDATA[Cost Share]]></term>
+    <term name="CRC" url="Documents/gloss_crc.htm" window="d2hWnd_SecondaryPopup" id="1119"><![CDATA[CRC]]></term>
+    <term name="CRISP" url="Documents/gloss_crisp.htm" window="d2hWnd_SecondaryPopup" id="1120"><![CDATA[CRISP]]></term>
+    <term name="Custom Attributes" url="Documents/gloss_customattributes.htm" window="d2hWnd_SecondaryPopup" id="1121"><![CDATA[Custom Attributes]]></term>
+    <term name="Custom Data" url="Documents/gloss_customdata.htm" window="d2hWnd_SecondaryPopup" id="1122"><![CDATA[Custom Data]]></term>
+    <term name="Data Analysis Period" url="Documents/gloss_dataanalysisperiod.htm" window="d2hWnd_SecondaryPopup" id="1123"><![CDATA[Data Analysis Period]]></term>
+    <term name="Deferred" url="Documents/gloss_deferred.htm" window="d2hWnd_SecondaryPopup" id="1124"><![CDATA[Deferred]]></term>
+    <term name="Destination" url="Documents/gloss_destination.htm" window="d2hWnd_SecondaryPopup" id="1125"><![CDATA[Destination]]></term>
+    <term name="Destination Account" url="Documents/gloss_destinationaccount.htm" window="d2hWnd_SecondaryPopup" id="1126"><![CDATA[Destination Account]]></term>
+    <term name="DFARS" url="Documents/gloss_dfars.htm" window="d2hWnd_SecondaryPopup" id="1127"><![CDATA[DFARS]]></term>
+    <term name="Direct Cost" url="Documents/gloss_directcost.htm" window="d2hWnd_SecondaryPopup" id="1128"><![CDATA[Direct Cost]]></term>
+    <term name="Disclosable Interest" url="Documents/gloss_disclosableinterest.htm" window="d2hWnd_SecondaryPopup" id="1129"><![CDATA[Disclosable Interest]]></term>
+    <term name="Distributable - Total" url="Documents/gloss_distributabletotal.htm" window="d2hWnd_SecondaryPopup" id="1130"><![CDATA[Distributable - Total]]></term>
+    <term name="Distributed - Total" url="Documents/gloss_distributedtotal.htm" window="d2hWnd_SecondaryPopup" id="1131"><![CDATA[Distributed - Total]]></term>
+    <term name="DNA" url="Documents/gloss_dna.htm" window="d2hWnd_SecondaryPopup" id="1132"><![CDATA[DNA]]></term>
+    <term name="Document Funding ID" url="Documents/gloss_documentfundingid.htm" window="d2hWnd_SecondaryPopup" id="1133"><![CDATA[Document Funding ID]]></term>
+    <term name="EAR" url="Documents/gloss_ear.htm" window="d2hWnd_SecondaryPopup" id="1134"><![CDATA[EAR]]></term>
+    <term name="E-doc" url="Documents/gloss_edoc1.htm" window="d2hWnd_SecondaryPopup" id="1135"><![CDATA[E-doc]]></term>
+    <term name="Enhancement" url="Documents/gloss_enhancement.htm" window="d2hWnd_SecondaryPopup" id="1136"><![CDATA[Enhancement]]></term>
+    <term name="Environmental Protection Agency" url="Documents/gloss_environmentalprotectionagency.htm" window="d2hWnd_SecondaryPopup" id="1137"><![CDATA[Environmental Protection Agency]]></term>
+    <term name="EPA" url="Documents/gloss_epa.htm" window="d2hWnd_SecondaryPopup" id="1138"><![CDATA[EPA]]></term>
+    <term name="Equipment" url="Documents/gloss_equipment.htm" window="d2hWnd_SecondaryPopup" id="1139"><![CDATA[Equipment]]></term>
+    <term name="eRA Commons" url="Documents/gloss_eracommons.htm" window="d2hWnd_SecondaryPopup" id="1140"><![CDATA[eRA Commons]]></term>
+    <term name="eRA Commons Username" url="Documents/gloss_eracommonsusername.htm" window="d2hWnd_SecondaryPopup" id="1141"><![CDATA[eRA Commons Username]]></term>
+    <term name="Event-based Disclosure" url="Documents/gloss_eventbaseddisclosure.htm" window="d2hWnd_SecondaryPopup" id="1142"><![CDATA[Event-based Disclosure]]></term>
+    <term name="Execution Date" url="Documents/gloss_executiondate.htm" window="d2hWnd_SecondaryPopup" id="1143"><![CDATA[Execution Date]]></term>
+    <term name="Exempt" url="Documents/gloss_exempt.htm" window="d2hWnd_SecondaryPopup" id="1144"><![CDATA[Exempt]]></term>
+    <term name="Exemption" url="Documents/gloss_exemption.htm" window="d2hWnd_SecondaryPopup" id="1145"><![CDATA[Exemption]]></term>
+    <term name="Exemption Category Number" url="Documents/gloss_exemptioncategorynumber.htm" window="d2hWnd_SecondaryPopup" id="1146"><![CDATA[Exemption Category Number]]></term>
+    <term name="Exemption from IRB Review" url="Documents/gloss_exemptionfromirbreview.htm" window="d2hWnd_SecondaryPopup" id="1147"><![CDATA[Exemption from IRB Review]]></term>
+    <term name="Exemption Number" url="Documents/gloss_exemptionnumber.htm" window="d2hWnd_SecondaryPopup" id="1148"><![CDATA[Exemption Number]]></term>
+    <term name="Expedited Review" url="Documents/gloss_expeditedreview.htm" window="d2hWnd_SecondaryPopup" id="1149"><![CDATA[Expedited Review]]></term>
+    <term name="Expired Date" url="Documents/gloss_expireddate.htm" window="d2hWnd_SecondaryPopup" id="1150"><![CDATA[Expired Date]]></term>
+    <term name="External Disclosure" url="Documents/gloss_externaldisclosure.htm" window="d2hWnd_SecondaryPopup" id="1151"><![CDATA[External Disclosure]]></term>
+    <term name="F&amp;A" url="Documents/gloss_fa.htm" window="d2hWnd_SecondaryPopup" id="1152"><![CDATA[F&A]]></term>
+    <term name="F&amp;A Base" url="Documents/gloss_fabase.htm" window="d2hWnd_SecondaryPopup" id="1153"><![CDATA[F&A Base]]></term>
+    <term name="F&amp;A Costs" url="Documents/gloss_facosts.htm" window="d2hWnd_SecondaryPopup" id="1154"><![CDATA[F&A Costs]]></term>
+    <term name="F&amp;A Rate" url="Documents/gloss_farate.htm" window="d2hWnd_SecondaryPopup" id="1155"><![CDATA[F&A Rate]]></term>
+    <term name="Facilitated Review" url="Documents/gloss_facilitatedreview.htm" window="d2hWnd_SecondaryPopup" id="1156"><![CDATA[Facilitated Review]]></term>
+    <term name="Facilities and Administration" url="Documents/gloss_facilitiesandadministration.htm" window="d2hWnd_SecondaryPopup" id="1157"><![CDATA[Facilities and Administration]]></term>
+    <term name="FAR" url="Documents/gloss_far.htm" window="d2hWnd_SecondaryPopup" id="1158"><![CDATA[FAR]]></term>
+    <term name="FAR Supplement" url="Documents/gloss_farsupplement.htm" window="d2hWnd_SecondaryPopup" id="1159"><![CDATA[FAR Supplement]]></term>
+    <term name="FDA" url="Documents/gloss_fda.htm" window="d2hWnd_SecondaryPopup" id="1160"><![CDATA[FDA]]></term>
+    <term name="FDA Application ID" url="Documents/gloss_fdaapplicationid.htm" window="d2hWnd_SecondaryPopup" id="1161"><![CDATA[FDA Application ID]]></term>
+    <term name="FDP" url="Documents/gloss_fdp.htm" window="d2hWnd_SecondaryPopup" id="1162"><![CDATA[FDP]]></term>
+    <term name="Federal Wide Assurance (FWA) Number" url="Documents/gloss_federalwideassurancefwanumber.htm" window="d2hWnd_SecondaryPopup" id="1163"><![CDATA[Federal Wide Assurance (FWA) Number]]></term>
+    <term name="Financial Entity" url="Documents/gloss_financialentity.htm" window="d2hWnd_SecondaryPopup" id="1164"><![CDATA[Financial Entity]]></term>
+    <term name="Financial Report" url="Documents/gloss_financialreport.htm" window="d2hWnd_SecondaryPopup" id="1165"><![CDATA[Financial Report]]></term>
+    <term name="Fiscal Report" url="Documents/gloss_fiscalreport.htm" window="d2hWnd_SecondaryPopup" id="1166"><![CDATA[Fiscal Report]]></term>
+    <term name="Fiscal Year" url="Documents/gloss_fiscalyear.htm" window="d2hWnd_SecondaryPopup" id="1167"><![CDATA[Fiscal Year]]></term>
+    <term name="Fly America Act" url="Documents/gloss_flyamericaact.htm" window="d2hWnd_SecondaryPopup" id="1168"><![CDATA[Fly America Act]]></term>
+    <term name="FOA" url="Documents/gloss_foa.htm" window="d2hWnd_SecondaryPopup" id="1169"><![CDATA[FOA]]></term>
+    <term name="Foreign Travel" url="Documents/gloss_foreigntravel.htm" window="d2hWnd_SecondaryPopup" id="1170"><![CDATA[Foreign Travel]]></term>
+    <term name="Frequency Base" url="Documents/gloss_frequencybase1.htm" window="d2hWnd_SecondaryPopup" id="1171"><![CDATA[Frequency Base]]></term>
+    <term name="Funding Opportunity Announcement" url="Documents/gloss_fundingopportunityannouncement.htm" window="d2hWnd_SecondaryPopup" id="1172"><![CDATA[Funding Opportunity Announcement]]></term>
+    <term name="Funding Opportunity Announcement (FOA)" url="Documents/gloss_fundingopportunityannouncementfoa.htm" window="d2hWnd_SecondaryPopup" id="1173"><![CDATA[Funding Opportunity Announcement (FOA)]]></term>
+    <term name="FWA" url="Documents/gloss_fwa.htm" window="d2hWnd_SecondaryPopup" id="1174"><![CDATA[FWA]]></term>
+    <term name="HHS" url="Documents/gloss_hhs.htm" window="d2hWnd_SecondaryPopup" id="1175"><![CDATA[HHS]]></term>
+    <term name="Home Unit" url="Documents/gloss_homeunit.htm" window="d2hWnd_SecondaryPopup" id="1176"><![CDATA[Home Unit]]></term>
+    <term name="HR" url="Documents/gloss_hr.htm" window="d2hWnd_SecondaryPopup" id="1177"><![CDATA[HR]]></term>
+    <term name="HRSA" url="Documents/gloss_hrsa.htm" window="d2hWnd_SecondaryPopup" id="1178"><![CDATA[HRSA]]></term>
+    <term name="Human Participants" url="Documents/gloss_humanparticipants.htm" window="d2hWnd_SecondaryPopup" id="1179"><![CDATA[Human Participants]]></term>
+    <term name="Human Subjects" url="Documents/gloss_humansubjects.htm" window="d2hWnd_SecondaryPopup" id="1180"><![CDATA[Human Subjects]]></term>
+    <term name="IACUC" url="Documents/gloss_iacuc.htm" window="d2hWnd_SecondaryPopup" id="1181"><![CDATA[IACUC]]></term>
+    <term name="IACUC Administrator" url="Documents/gloss_iacucadministrator.htm" window="d2hWnd_SecondaryPopup" id="1182"><![CDATA[IACUC Administrator]]></term>
+    <term name="IBC" url="Documents/gloss_ibc.htm" window="d2hWnd_SecondaryPopup" id="1183"><![CDATA[IBC]]></term>
+    <term name="IDE (Investigational Device Exempt)" url="Documents/gloss_ideinvestigationaldeviceexempt.htm" window="d2hWnd_SecondaryPopup" id="1184"><![CDATA[IDE (Investigational Device Exempt)]]></term>
+    <term name="IND" url="Documents/gloss_ind.htm" window="d2hWnd_SecondaryPopup" id="1185"><![CDATA[IND]]></term>
+    <term name="Indirect Cost" url="Documents/gloss_indirectcost.htm" window="d2hWnd_SecondaryPopup" id="1186"><![CDATA[Indirect Cost]]></term>
+    <term name="Institute Rate" url="Documents/gloss_instituterate1.htm" window="d2hWnd_SecondaryPopup" id="1187"><![CDATA[Institute Rate]]></term>
+    <term name="Institutional Animal Care and Use Committee" url="Documents/gloss_institutionalanimalcareandusecommittee.htm" window="d2hWnd_SecondaryPopup" id="1188"><![CDATA[Institutional Animal Care and Use Committee]]></term>
+    <term name="Institutional Biosafety Comittee" url="Documents/gloss_institutionalbiosafetycomittee.htm" window="d2hWnd_SecondaryPopup" id="1189"><![CDATA[Institutional Biosafety Comittee]]></term>
+    <term name="Institutional COI" url="Documents/gloss_institutionalcoi.htm" window="d2hWnd_SecondaryPopup" id="1190"><![CDATA[Institutional COI]]></term>
+    <term name="Institutional Official" url="Documents/gloss_institutionalofficial.htm" window="d2hWnd_SecondaryPopup" id="1191"><![CDATA[Institutional Official]]></term>
+    <term name="Institutional Review Board" url="Documents/gloss_institutionalreviewboard.htm" window="d2hWnd_SecondaryPopup" id="1192"><![CDATA[Institutional Review Board]]></term>
+    <term name="Instruction Page URL" url="Documents/gloss_instructionpageurl.htm" window="d2hWnd_SecondaryPopup" id="1193"><![CDATA[Instruction Page URL]]></term>
+    <term name="Intellectual Property Report" url="Documents/gloss_intellectualpropertyreport.htm" window="d2hWnd_SecondaryPopup" id="1194"><![CDATA[Intellectual Property Report]]></term>
+    <term name="Internal Disclosure" url="Documents/gloss_internaldisclosure.htm" window="d2hWnd_SecondaryPopup" id="1195"><![CDATA[Internal Disclosure]]></term>
+    <term name="International Programs" url="Documents/gloss_internationalprograms.htm" window="d2hWnd_SecondaryPopup" id="1196"><![CDATA[International Programs]]></term>
+    <term name="Investigational Device Exemption Number" url="Documents/gloss_investigationaldeviceexemptionnumber.htm" window="d2hWnd_SecondaryPopup" id="1197"><![CDATA[Investigational Device Exemption Number]]></term>
+    <term name="Investigational New Drug Number" url="Documents/gloss_investigationalnewdrugnumber.htm" window="d2hWnd_SecondaryPopup" id="1198"><![CDATA[Investigational New Drug Number]]></term>
+    <term name="Investigator" url="Documents/gloss_investigator.htm" window="d2hWnd_SecondaryPopup" id="1199"><![CDATA[Investigator]]></term>
+    <term name="IRB" url="Documents/gloss_irb.htm" window="d2hWnd_SecondaryPopup" id="1200"><![CDATA[IRB]]></term>
+    <term name="IRB Administrator" url="Documents/gloss_irbadministrator.htm" window="d2hWnd_SecondaryPopup" id="1201"><![CDATA[IRB Administrator]]></term>
+    <term name="IRB Registration Number" url="Documents/gloss_irbregistrationnumber.htm" window="d2hWnd_SecondaryPopup" id="1202"><![CDATA[IRB Registration Number]]></term>
+    <term name="ITAR" url="Documents/gloss_itar.htm" window="d2hWnd_SecondaryPopup" id="1203"><![CDATA[ITAR]]></term>
+    <term name="Job Code" url="Documents/gloss_jobcode.htm" window="d2hWnd_SecondaryPopup" id="1204"><![CDATA[Job Code]]></term>
+    <term name="Key Person" url="Documents/gloss_keyperson.htm" window="d2hWnd_SecondaryPopup" id="1205"><![CDATA[Key Person]]></term>
+    <term name="Key Person Role" url="Documents/gloss_keypersonrole.htm" window="d2hWnd_SecondaryPopup" id="1206"><![CDATA[Key Person Role]]></term>
+    <term name="Key Personnel" url="Documents/gloss_keypersonnel.htm" window="d2hWnd_SecondaryPopup" id="1207"><![CDATA[Key Personnel]]></term>
+    <term name="Keyword" url="Documents/gloss_keyword.htm" window="d2hWnd_SecondaryPopup" id="1208"><![CDATA[Keyword]]></term>
+    <term name="Layman Abstract" url="Documents/gloss_laymanabstract.htm" window="d2hWnd_SecondaryPopup" id="1209"><![CDATA[Layman Abstract]]></term>
+    <term name="Lead Unit" url="Documents/gloss_leadunit.htm" window="d2hWnd_SecondaryPopup" id="1210"><![CDATA[Lead Unit]]></term>
+    <term name="Location" url="Documents/gloss_location.htm" window="d2hWnd_SecondaryPopup" id="1211"><![CDATA[Location]]></term>
+    <term name="Maintenance Document" url="Documents/gloss_maintenancedocument.htm" window="d2hWnd_SecondaryPopup" id="1212"><![CDATA[Maintenance Document]]></term>
+    <term name="Management Strategy" url="Documents/gloss_managementstrategy.htm" window="d2hWnd_SecondaryPopup" id="1213"><![CDATA[Management Strategy]]></term>
+    <term name="Modification ID" url="Documents/gloss_modificationid.htm" window="d2hWnd_SecondaryPopup" id="1214"><![CDATA[Modification ID]]></term>
+    <term name="Modified Total Direct Cost" url="Documents/gloss_modifiedtotaldirectcost.htm" window="d2hWnd_SecondaryPopup" id="1215"><![CDATA[Modified Total Direct Cost]]></term>
+    <term name="MTDC" url="Documents/gloss_mtdc.htm" window="d2hWnd_SecondaryPopup" id="1216"><![CDATA[MTDC]]></term>
+    <term name="Multiple PIs" url="Documents/gloss_multiplepis.htm" window="d2hWnd_SecondaryPopup" id="1217"><![CDATA[Multiple PIs]]></term>
+    <term name="Name/Organization" url="Documents/gloss_nameorganization.htm" window="d2hWnd_SecondaryPopup" id="1218"><![CDATA[Name/Organization]]></term>
+    <term name="National Institutes of Health" url="Documents/gloss_nationalinstitutesofhealth.htm" window="d2hWnd_SecondaryPopup" id="1219"><![CDATA[National Institutes of Health]]></term>
+    <term name="National Science Foundation" url="Documents/gloss_nationalsciencefoundation.htm" window="d2hWnd_SecondaryPopup" id="1220"><![CDATA[National Science Foundation]]></term>
+    <term name="NIH" url="Documents/gloss_nih.htm" window="d2hWnd_SecondaryPopup" id="1221"><![CDATA[NIH]]></term>
+    <term name="Notice of Opportunity" url="Documents/gloss_noticeofopportunity1.htm" window="d2hWnd_SecondaryPopup" id="1222"><![CDATA[Notice of Opportunity]]></term>
+    <term name="Notify IRB" url="Documents/gloss_notifyirb.htm" window="d2hWnd_SecondaryPopup" id="1223"><![CDATA[Notify IRB]]></term>
+    <term name="NSF" url="Documents/gloss_nsf.htm" window="d2hWnd_SecondaryPopup" id="1224"><![CDATA[NSF]]></term>
+    <term name="NSF Science Code" url="Documents/gloss_nsfsciencecode1.htm" window="d2hWnd_SecondaryPopup" id="1225"><![CDATA[NSF Science Code]]></term>
+    <term name="OASH" url="Documents/gloss_oash.htm" window="d2hWnd_SecondaryPopup" id="1226"><![CDATA[OASH]]></term>
+    <term name="Obligated Total (or Amount)" url="Documents/gloss_obligatedtotaloramount.htm" window="d2hWnd_SecondaryPopup" id="1227"><![CDATA[Obligated Total (or Amount)]]></term>
+    <term name="Obligation End Date" url="Documents/gloss_obligationenddate.htm" window="d2hWnd_SecondaryPopup" id="1228"><![CDATA[Obligation End Date]]></term>
+    <term name="Obligation Start Date" url="Documents/gloss_obligationstartdate.htm" window="d2hWnd_SecondaryPopup" id="1229"><![CDATA[Obligation Start Date]]></term>
+    <term name="Obligation Total (or Amount)" url="Documents/gloss_obligationtotaloramount.htm" window="d2hWnd_SecondaryPopup" id="1230"><![CDATA[Obligation Total (or Amount)]]></term>
+    <term name="Office for Human Research Protections" url="Documents/gloss_officeforhumanresearchprotections.htm" window="d2hWnd_SecondaryPopup" id="1231"><![CDATA[Office for Human Research Protections]]></term>
+    <term name="OHRP" url="Documents/gloss_ohrp.htm" window="d2hWnd_SecondaryPopup" id="1232"><![CDATA[OHRP]]></term>
+    <term name="On/Off Campus" url="Documents/gloss_onoffcampus.htm" window="d2hWnd_SecondaryPopup" id="1233"><![CDATA[On/Off Campus]]></term>
+    <term name="Opening Date" url="Documents/gloss_openingdate.htm" window="d2hWnd_SecondaryPopup" id="1234"><![CDATA[Opening Date]]></term>
+    <term name="Opportunity ID" url="Documents/gloss_opportunityid.htm" window="d2hWnd_SecondaryPopup" id="1235"><![CDATA[Opportunity ID]]></term>
+    <term name="Opportunity Title" url="Documents/gloss_opportunitytitle.htm" window="d2hWnd_SecondaryPopup" id="1236"><![CDATA[Opportunity Title]]></term>
+    <term name="Original Proposal ID" url="Documents/gloss_originalproposalid.htm" window="d2hWnd_SecondaryPopup" id="1237"><![CDATA[Original Proposal ID]]></term>
+    <term name="Other Significant Contributor" url="Documents/gloss_othersignificantcontributor.htm" window="d2hWnd_SecondaryPopup" id="1238"><![CDATA[Other Significant Contributor]]></term>
+    <term name="Overhead" url="Documents/gloss_overhead.htm" window="d2hWnd_SecondaryPopup" id="1239"><![CDATA[Overhead]]></term>
+    <term name="Paid Member" url="Documents/gloss_paidmember.htm" window="d2hWnd_SecondaryPopup" id="1240"><![CDATA[Paid Member]]></term>
+    <term name="Parent Proposal" url="Documents/gloss_parentproposal.htm" window="d2hWnd_SecondaryPopup" id="1241"><![CDATA[Parent Proposal]]></term>
+    <term name="Payment Method" url="Documents/gloss_paymentmethod.htm" window="d2hWnd_SecondaryPopup" id="1242"><![CDATA[Payment Method]]></term>
+    <term name="Payment Type" url="Documents/gloss_paymenttype.htm" window="d2hWnd_SecondaryPopup" id="1243"><![CDATA[Payment Type]]></term>
+    <term name="Payment Basis" url="Documents/gloss_paymentbasis.htm" window="d2hWnd_SecondaryPopup" id="1244"><![CDATA[Payment Basis]]></term>
+    <term name="Percent (%) Effort" url="Documents/gloss_percenteffort.htm" window="d2hWnd_SecondaryPopup" id="1245"><![CDATA[Percent (%) Effort]]></term>
+    <term name="Performing Organization" url="Documents/gloss_performingorganization.htm" window="d2hWnd_SecondaryPopup" id="1246"><![CDATA[Performing Organization]]></term>
+    <term name="PI" url="Documents/gloss_pi.htm" window="d2hWnd_SecondaryPopup" id="1247"><![CDATA[PI]]></term>
+    <term name="Preaward Authorized Amount" url="Documents/gloss_preawardauthorizedamount.htm" window="d2hWnd_SecondaryPopup" id="1248"><![CDATA[Preaward Authorized Amount]]></term>
+    <term name="Pre-award Authorized Amount" url="Documents/gloss_preawardauthorizedamount1.htm" window="d2hWnd_SecondaryPopup" id="1249"><![CDATA[Pre-award Authorized Amount]]></term>
+    <term name="Pre-award Costs" url="Documents/gloss_preawardcosts.htm" window="d2hWnd_SecondaryPopup" id="1250"><![CDATA[Pre-award Costs]]></term>
+    <term name="Preaward Effective Date" url="Documents/gloss_preawardeffectivedate.htm" window="d2hWnd_SecondaryPopup" id="1251"><![CDATA[Preaward Effective Date]]></term>
+    <term name="Pre-award Effective Date" url="Documents/gloss_preawardeffectivedate1.htm" window="d2hWnd_SecondaryPopup" id="1252"><![CDATA[Pre-award Effective Date]]></term>
+    <term name="Preaward Costs" url="Documents/gloss_preawardcosts1.htm" window="d2hWnd_SecondaryPopup" id="1253"><![CDATA[Preaward Costs]]></term>
+    <term name="Prime Sponsor" url="Documents/gloss_primesponsor.htm" window="d2hWnd_SecondaryPopup" id="1254"><![CDATA[Prime Sponsor]]></term>
+    <term name="Prime Sponsor ID" url="Documents/gloss_primesponsorid.htm" window="d2hWnd_SecondaryPopup" id="1255"><![CDATA[Prime Sponsor ID]]></term>
+    <term name="Principal Investigator" url="Documents/gloss_principalinvestigator.htm" window="d2hWnd_SecondaryPopup" id="1256"><![CDATA[Principal Investigator]]></term>
+    <term name="Principal Investigator- Contact" url="Documents/gloss_principalinvestigatorcontact.htm" window="d2hWnd_SecondaryPopup" id="1257"><![CDATA[Principal Investigator- Contact]]></term>
+    <term name="Principal Investigator-Multiple" url="Documents/gloss_principalinvestigatormultiple.htm" window="d2hWnd_SecondaryPopup" id="1258"><![CDATA[Principal Investigator-Multiple]]></term>
+    <term name="Procurement Priority Code" url="Documents/gloss_procurementprioritycode.htm" window="d2hWnd_SecondaryPopup" id="1259"><![CDATA[Procurement Priority Code]]></term>
+    <term name="Procurement Report" url="Documents/gloss_procurementreport.htm" window="d2hWnd_SecondaryPopup" id="1260"><![CDATA[Procurement Report]]></term>
+    <term name="Program Announcment" url="Documents/gloss_programannouncment.htm" window="d2hWnd_SecondaryPopup" id="1261"><![CDATA[Program Announcment]]></term>
+    <term name="Program Director" url="Documents/gloss_programdirector.htm" window="d2hWnd_SecondaryPopup" id="1262"><![CDATA[Program Director]]></term>
+    <term name="Program Title" url="Documents/gloss_programtitle.htm" window="d2hWnd_SecondaryPopup" id="1263"><![CDATA[Program Title]]></term>
+    <term name="Project Director" url="Documents/gloss_projectdirector.htm" window="d2hWnd_SecondaryPopup" id="1264"><![CDATA[Project Director]]></term>
+    <term name="Project End Date" url="Documents/gloss_projectenddate.htm" window="d2hWnd_SecondaryPopup" id="1265"><![CDATA[Project End Date]]></term>
+    <term name="Project Start Date" url="Documents/gloss_projectstartdate.htm" window="d2hWnd_SecondaryPopup" id="1266"><![CDATA[Project Start Date]]></term>
+    <term name="Property" url="Documents/gloss_property1.htm" window="d2hWnd_SecondaryPopup" id="1267"><![CDATA[Property]]></term>
+    <term name="Property Report" url="Documents/gloss_propertyreport.htm" window="d2hWnd_SecondaryPopup" id="1268"><![CDATA[Property Report]]></term>
+    <term name="Proposal" url="Documents/gloss_proposal.htm" window="d2hWnd_SecondaryPopup" id="1269"><![CDATA[Proposal]]></term>
+    <term name="Proposal Abstract" url="Documents/gloss_proposalabstract.htm" window="d2hWnd_SecondaryPopup" id="1270"><![CDATA[Proposal Abstract]]></term>
+    <term name="Proposal Development Document" url="Documents/gloss_proposaldevelopmentdocument1.htm" window="d2hWnd_SecondaryPopup" id="1271"><![CDATA[Proposal Development Document]]></term>
+    <term name="Proposal Hierarchy" url="Documents/gloss_proposalhierarchy.htm" window="d2hWnd_SecondaryPopup" id="1272"><![CDATA[Proposal Hierarchy]]></term>
+    <term name="Proposal Rights" url="Documents/gloss_proposalrights.htm" window="d2hWnd_SecondaryPopup" id="1273"><![CDATA[Proposal Rights]]></term>
+    <term name="Proposal Role" url="Documents/gloss_proposalrole.htm" window="d2hWnd_SecondaryPopup" id="1274"><![CDATA[Proposal Role]]></term>
+    <term name="Proposal ID" url="Documents/gloss_proposalid.htm" window="d2hWnd_SecondaryPopup" id="1275"><![CDATA[Proposal ID]]></term>
+    <term name="Proposed End Date" url="Documents/gloss_proposedenddate.htm" window="d2hWnd_SecondaryPopup" id="1276"><![CDATA[Proposed End Date]]></term>
+    <term name="Proposed Sponsor Total" url="Documents/gloss_proposedsponsortotal.htm" window="d2hWnd_SecondaryPopup" id="1277"><![CDATA[Proposed Sponsor Total]]></term>
+    <term name="Proposed Start Date" url="Documents/gloss_proposedstartdate.htm" window="d2hWnd_SecondaryPopup" id="1278"><![CDATA[Proposed Start Date]]></term>
+    <term name="Protocol" url="Documents/gloss_protocol.htm" window="d2hWnd_SecondaryPopup" id="1279"><![CDATA[Protocol]]></term>
+    <term name="Protocol ID" url="Documents/gloss_protocolid.htm" window="d2hWnd_SecondaryPopup" id="1280"><![CDATA[Protocol ID]]></term>
+    <term name="Query" url="Documents/gloss_query.htm" window="d2hWnd_SecondaryPopup" id="1281"><![CDATA[Query]]></term>
+    <term name="Quorum" url="Documents/gloss_quorum.htm" window="d2hWnd_SecondaryPopup" id="1282"><![CDATA[Quorum]]></term>
+    <term name="Radioisotopes" url="Documents/gloss_radioisotopes.htm" window="d2hWnd_SecondaryPopup" id="1283"><![CDATA[Radioisotopes]]></term>
+    <term name="Rate Type" url="Documents/gloss_ratetype1.htm" window="d2hWnd_SecondaryPopup" id="1284"><![CDATA[Rate Type]]></term>
+    <term name="Recombinant DNA" url="Documents/gloss_recombinantdna.htm" window="d2hWnd_SecondaryPopup" id="1285"><![CDATA[Recombinant DNA]]></term>
+    <term name="Recuse" url="Documents/gloss_recuse.htm" window="d2hWnd_SecondaryPopup" id="1286"><![CDATA[Recuse]]></term>
+    <term name="Reference Table Record" url="Documents/gloss_referencetablerecord.htm" window="d2hWnd_SecondaryPopup" id="1287"><![CDATA[Reference Table Record]]></term>
+    <term name="Renewal" url="Documents/gloss_renewal.htm" window="d2hWnd_SecondaryPopup" id="1288"><![CDATA[Renewal]]></term>
+    <term name="Renewal (Award)" url="Documents/gloss_renewalaward.htm" window="d2hWnd_SecondaryPopup" id="1289"><![CDATA[Renewal (Award)]]></term>
+    <term name="Renewal (IRB and IACUC)" url="Documents/gloss_renewalirbandiacuc.htm" window="d2hWnd_SecondaryPopup" id="1290"><![CDATA[Renewal (IRB and IACUC)]]></term>
+    <term name="Re-open to Enrollment" url="Documents/gloss_reopentoenrollment.htm" window="d2hWnd_SecondaryPopup" id="1291"><![CDATA[Re-open to Enrollment]]></term>
+    <term name="Reporter" url="Documents/gloss_reporter.htm" window="d2hWnd_SecondaryPopup" id="1292"><![CDATA[Reporter]]></term>
+    <term name="Revision Type" url="Documents/gloss_revisiontype.htm" window="d2hWnd_SecondaryPopup" id="1293"><![CDATA[Revision Type]]></term>
+    <term name="Salary Effective Date" url="Documents/gloss_salaryeffectivedate.htm" window="d2hWnd_SecondaryPopup" id="1294"><![CDATA[Salary Effective Date]]></term>
+    <term name="SAMHSA" url="Documents/gloss_samhsa.htm" window="d2hWnd_SecondaryPopup" id="1295"><![CDATA[SAMHSA]]></term>
+    <term name="Schema" url="Documents/gloss_schema.htm" window="d2hWnd_SecondaryPopup" id="1296"><![CDATA[Schema]]></term>
+    <term name="Schema URL" url="Documents/gloss_schemaurl.htm" window="d2hWnd_SecondaryPopup" id="1297"><![CDATA[Schema URL]]></term>
+    <term name="Sequence ID" url="Documents/gloss_sequenceid.htm" window="d2hWnd_SecondaryPopup" id="1298"><![CDATA[Sequence ID]]></term>
+    <term name="Small Business Report" url="Documents/gloss_smallbusinessreport.htm" window="d2hWnd_SecondaryPopup" id="1299"><![CDATA[Small Business Report]]></term>
+    <term name="Source" url="Documents/gloss_source.htm" window="d2hWnd_SecondaryPopup" id="1300"><![CDATA[Source]]></term>
+    <term name="Source Account" url="Documents/gloss_sourceaccount.htm" window="d2hWnd_SecondaryPopup" id="1301"><![CDATA[Source Account]]></term>
+    <term name="Space Change" url="Documents/gloss_spacechange.htm" window="d2hWnd_SecondaryPopup" id="1302"><![CDATA[Space Change]]></term>
+    <term name="Special Review" url="Documents/gloss_specialreview1.htm" window="d2hWnd_SecondaryPopup" id="1303"><![CDATA[Special Review]]></term>
+    <term name="Sponsor" url="Documents/gloss_sponsor1.htm" window="d2hWnd_SecondaryPopup" id="1304"><![CDATA[Sponsor]]></term>
+    <term name="Sponsor Award ID" url="Documents/gloss_sponsorawardid.htm" window="d2hWnd_SecondaryPopup" id="1305"><![CDATA[Sponsor Award ID]]></term>
+    <term name="Sponsor Div Code" url="Documents/gloss_sponsordivcode.htm" window="d2hWnd_SecondaryPopup" id="1306"><![CDATA[Sponsor Div Code]]></term>
+    <term name="Sponsor Hierarchy" url="Documents/gloss_sponsorhierarchy2.htm" window="d2hWnd_SecondaryPopup" id="1307"><![CDATA[Sponsor Hierarchy]]></term>
+    <term name="Sponsor Program Code" url="Documents/gloss_sponsorprogramcode.htm" window="d2hWnd_SecondaryPopup" id="1308"><![CDATA[Sponsor Program Code]]></term>
+    <term name="Sponsor Proposal ID" url="Documents/gloss_sponsorproposalid.htm" window="d2hWnd_SecondaryPopup" id="1309"><![CDATA[Sponsor Proposal ID]]></term>
+    <term name="Sponsor Template" url="Documents/gloss_sponsortemplate1.htm" window="d2hWnd_SecondaryPopup" id="1310"><![CDATA[Sponsor Template]]></term>
+    <term name="Sponsor Total" url="Documents/gloss_sponsortotal.htm" window="d2hWnd_SecondaryPopup" id="1311"><![CDATA[Sponsor Total]]></term>
+    <term name="Start Date" url="Documents/gloss_startdate.htm" window="d2hWnd_SecondaryPopup" id="1312"><![CDATA[Start Date]]></term>
+    <term name="Subaward" url="Documents/gloss_subaward.htm" window="d2hWnd_SecondaryPopup" id="1313"><![CDATA[Subaward]]></term>
+    <term name="Subbudget" url="Documents/gloss_subbudget.htm" window="d2hWnd_SecondaryPopup" id="1314"><![CDATA[Subbudget]]></term>
+    <term name="Subcontract" url="Documents/gloss_subcontract.htm" window="d2hWnd_SecondaryPopup" id="1315"><![CDATA[Subcontract]]></term>
+    <term name="Submission" url="Documents/gloss_submission.htm" window="d2hWnd_SecondaryPopup" id="1316"><![CDATA[Submission]]></term>
+    <term name="Submission Type" url="Documents/gloss_submissiontype1.htm" window="d2hWnd_SecondaryPopup" id="1317"><![CDATA[Submission Type]]></term>
+    <term name="Submit" url="Documents/gloss_submit.htm" window="d2hWnd_SecondaryPopup" id="1318"><![CDATA[Submit]]></term>
+    <term name="Sub-plan" url="Documents/gloss_subplan.htm" window="d2hWnd_SecondaryPopup" id="1319"><![CDATA[Sub-plan]]></term>
+    <term name="Subproject" url="Documents/gloss_subproject.htm" window="d2hWnd_SecondaryPopup" id="1320"><![CDATA[Subproject]]></term>
+    <term name="Suspended by DSMB" url="Documents/gloss_suspendedbydsmb.htm" window="d2hWnd_SecondaryPopup" id="1321"><![CDATA[Suspended by DSMB]]></term>
+    <term name="Suspension" url="Documents/gloss_suspension.htm" window="d2hWnd_SecondaryPopup" id="1322"><![CDATA[Suspension]]></term>
+    <term name="Technical Abstract" url="Documents/gloss_technicalabstract.htm" window="d2hWnd_SecondaryPopup" id="1323"><![CDATA[Technical Abstract]]></term>
+    <term name="Technical Report" url="Documents/gloss_technicalreport.htm" window="d2hWnd_SecondaryPopup" id="1324"><![CDATA[Technical Report]]></term>
+    <term name="Temporary Proposal Log" url="Documents/gloss_temporaryproposallog.htm" window="d2hWnd_SecondaryPopup" id="1325"><![CDATA[Temporary Proposal Log]]></term>
+    <term name="Term" url="Documents/gloss_term.htm" window="d2hWnd_SecondaryPopup" id="1326"><![CDATA[Term]]></term>
+    <term name="Termination" url="Documents/gloss_termination.htm" window="d2hWnd_SecondaryPopup" id="1327"><![CDATA[Termination]]></term>
+    <term name="Title" url="Documents/gloss_title.htm" window="d2hWnd_SecondaryPopup" id="1329"><![CDATA[Title]]></term>
+    <term name="Triennial Review" url="Documents/gloss_triennialreview.htm" window="d2hWnd_SecondaryPopup" id="1330"><![CDATA[Triennial Review]]></term>
+    <term name="Unanticipated Problems" url="Documents/gloss_unanticipatedproblems.htm" window="d2hWnd_SecondaryPopup" id="1331"><![CDATA[Unanticipated Problems]]></term>
+    <term name="Unit Name" url="Documents/gloss_unitname.htm" window="d2hWnd_SecondaryPopup" id="1332"><![CDATA[Unit Name]]></term>
+    <term name="Unit/Department Administrator (IRB)" url="Documents/gloss_unitdepartmentadministratorirb.htm" window="d2hWnd_SecondaryPopup" id="1333"><![CDATA[Unit/Department Administrator (IRB)]]></term>
+    <term name="Unrecovered F&amp;A" url="Documents/gloss_unrecoveredfa.htm" window="d2hWnd_SecondaryPopup" id="1334"><![CDATA[Unrecovered F&A]]></term>
+    <term name="Vertebrate Animal" url="Documents/gloss_vertebrateanimal.htm" window="d2hWnd_SecondaryPopup" id="1335"><![CDATA[Vertebrate Animal]]></term>
+    <term name="Vulnerable Participants" url="Documents/gloss_vulnerableparticipants.htm" window="d2hWnd_SecondaryPopup" id="1336"><![CDATA[Vulnerable Participants]]></term>
+    <term name="Withdraw" url="Documents/gloss_withdraw.htm" window="d2hWnd_SecondaryPopup" id="1337"><![CDATA[Withdraw]]></term>
+    <term name="Workflow" url="Documents/gloss_workflow.htm" window="d2hWnd_SecondaryPopup" id="1338"><![CDATA[Workflow]]></term>
+    <term name="Workgroup" url="Documents/gloss_workgroup1.htm" window="d2hWnd_SecondaryPopup" id="1339"><![CDATA[Workgroup]]></term>
+    <term name="TLO" url="Documents/gloss_tlo1.htm" window="d2hWnd_SecondaryPopup" id="1800"><![CDATA[TLO]]></term>
 </terms>
