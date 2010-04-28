@@ -422,7 +422,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_2GeneratorTest.class,
-    org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_0GeneratorTest.class,
