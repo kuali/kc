@@ -182,10 +182,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private void initializeInstitutionalProposalWithDefaultValues(){
         setSequenceNumber(1);
         //setSponsorCode("005852");
-        setCostSharingIndicator("1");
-        setIdcRateIndicator("1");
-        setSpecialReviewIndicator("1");
-        setScienceCodeIndicator("1");
+        setCostSharingIndicator("0");
+        setIdcRateIndicator("0");
+        setSpecialReviewIndicator("0");
+        setScienceCodeIndicator("0");
         ipReviewActivityIndicator = "A";
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));

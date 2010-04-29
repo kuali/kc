@@ -46,6 +46,23 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposal institutionalProposal = ((InstitutionalProposalForm)form).getInstitutionalProposalDocument().getInstitutionalProposal();
+        if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
+            institutionalProposal.setCostSharingIndicator("1");
+        } else {
+            institutionalProposal.setCostSharingIndicator("0");
+        }
+        
+        if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
+           institutionalProposal.setIdcRateIndicator("1"); 
+        } else {
+            institutionalProposal.setIdcRateIndicator("0");
+        }
+        return super.save(mapping, form, request, response);
+    }
+    
     public InstitutionalProposalDistributionAction(){
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean();
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean();

@@ -282,10 +282,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         for (ProposalSpecialReview dpSpecialReview : developmentProposal.getPropSpecialReviews()) {
             institutionalProposal.addSpecialReview(generateIpSpecialReview(dpSpecialReview));
         }
+        if (!institutionalProposal.getSpecialReviews().isEmpty()) {
+            institutionalProposal.setSpecialReviewIndicator("1");
+        }
         
         institutionalProposal.getInstitutionalProposalScienceKeywords().clear();
         for (PropScienceKeyword dpKeyword : developmentProposal.getPropScienceKeywords()) {
             institutionalProposal.addKeyword(dpKeyword.getScienceKeyword());
+        }
+        if (!institutionalProposal.getInstitutionalProposalScienceKeywords().isEmpty()) {
+            institutionalProposal.setScienceCodeIndicator("1");
         }
         
         if (budget != null) {
@@ -436,6 +442,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
             institutionalProposal.add(ipCostShare);
         }
+        if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
+            institutionalProposal.setCostSharingIndicator("1");
+        }
         
         // Unrecovered F and As (from Budget)
         institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().clear();
@@ -448,6 +457,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getOhRateClassCode()));
             ipUfa.setUnderrecoveryOfIndirectcost(new KualiDecimal(budgetUfa.getAmount().bigDecimalValue()));
             institutionalProposal.add(ipUfa);
+        }
+        if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
+            institutionalProposal.setIdcRateIndicator("1");
         }
     }
     

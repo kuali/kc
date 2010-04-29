@@ -272,14 +272,20 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward forward = super.save(mapping, form, request, response);
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-      ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
-      if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
-        //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
-          getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
-      }
-      return forward;
+        InstitutionalProposal ip = ipForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        if (!ip.getInstitutionalProposalScienceKeywords().isEmpty()) {
+            ip.setScienceCodeIndicator("1");
+        } else {
+            ip.setScienceCodeIndicator("0");
+        }
+        ActionForward forward = super.save(mapping, form, request, response);
+        ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
+        if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
+            //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+            getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+        }
+        return forward;
     }
 
     private ProposalLog retrieveProposalLog(String proposalNumber) {
