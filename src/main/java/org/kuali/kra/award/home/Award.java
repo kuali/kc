@@ -696,7 +696,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     public Date getObligationExpirationDate() {
-        return awardAmountInfos.get(0).getObligationExpirationDate();
+        //return awardAmountInfos.get(0).getObligationExpirationDate();
+        return getLastAwardAmountInfo().getObligationExpirationDate();
     }
     
     public void setObligationExpirationDate(Date date) {
