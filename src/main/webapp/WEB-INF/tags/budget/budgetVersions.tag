@@ -128,10 +128,11 @@
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
           		<c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" scope="request"/>
-          		<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+				<c:set var="versionTab" value="${tabKey}${status.index}"/>
+          		<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, versionTab)}"/>
           		<c:choose>
     				<c:when test="${empty currentTab}">
-        				<c:set var="isOpen" value="false" />
+        				<c:set var="isOpen" value="true" />
     				</c:when>
     				<c:when test="${!empty currentTab}" >
         				<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
@@ -143,14 +144,16 @@
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 					<c:set var="displayStyle" value="display: none;"/>
 				</c:if>
+					<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+					
           		<tr>
            			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
            					<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                 				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                 				<html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
                				</c:if>
                				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                 				<html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                 				<html:image  property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
                				</c:if>
            				</div>
            			</td>
@@ -201,7 +204,7 @@
 	           			</td>
 	           		</kra:section>
          		</tr>
-         		<tbody style="${displayStyle}">
+         		<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
 	         		<tr>
             		<th align="right" scope="row">&nbsp;</th>
             		<td colspan="8" style="padding:0px; border-left:none">
