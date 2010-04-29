@@ -298,7 +298,7 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
     }
     
     private BatchCorrespondenceDetailService getBatchCorrespondenceDetailService() {
-        return (BatchCorrespondenceDetailService) KraServiceLocator.getService("batchCorrespondenceDetailService");
+        return (BatchCorrespondenceDetailService) KraServiceLocator.getService(BatchCorrespondenceDetailService.class);
     }
 
     private BatchCorrespondenceDetailAuthorizationService getBatchCorrespondenceDetailAuthorizationService() {
