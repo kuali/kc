@@ -388,7 +388,6 @@ public class AwardHomeAction extends AwardAction {
                                                         AwardDocument awardDocument, Award award) throws Exception {
         Award newVersion = getVersioningService().createNewVersion(award);
         newVersion.getFundingProposals().clear();
-        copyTimeAndMoneyData(award, newVersion);
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
@@ -398,28 +397,6 @@ public class AwardHomeAction extends AwardAction {
         getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
         return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
-    }
-
-    /*
-     * This method copies over the time and money data that is data in AwardAmountInfo list from old Award to new Award.
-     * @param award
-     * @param newVersion
-     */
-    private void copyTimeAndMoneyData(Award award, Award newVersion) {
-        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
-            AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-            newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
-            newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
-            newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
-            newAwardAmountInfo.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            newAwardAmountInfo.setTimeAndMoneyDocumentNumber(awardAmountInfo.getTimeAndMoneyDocumentNumber());
-            newAwardAmountInfo.setTransactionId(awardAmountInfo.getTransactionId());
-            
-            newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate()); 
-            newVersion.getAwardAmountInfos().add(newAwardAmountInfo);
-        }
     }
     
     private void copyBudgetData(AwardDocument award, AwardDocument newVersion) throws Exception {
