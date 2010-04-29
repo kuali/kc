@@ -56,7 +56,7 @@ public class InstitutionalProposalPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 						.getInstitutionalProposalPrintType());

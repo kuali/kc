@@ -41,7 +41,7 @@ public class S2SFormPrint extends AbstractPrint {
 		this.templates = templates;
 	}
 
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		return templates;
 	}
 

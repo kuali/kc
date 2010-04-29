@@ -51,7 +51,7 @@ public class AwardBudgetHistoryTransactionPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
 						.getAwardPrintType());

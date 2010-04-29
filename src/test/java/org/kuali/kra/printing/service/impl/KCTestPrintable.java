@@ -42,7 +42,7 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 		return null;
 	}
 
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		ArrayList<Source> ret = new ArrayList<Source>();
 		File xsltfile = new File(
 				"src/main/webapp/static/printing/schemas/KCTestPrintable.xsl");
@@ -79,5 +79,10 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public Map<String, Source> getXSLTemplateWithBookmarks() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

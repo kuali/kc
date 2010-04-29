@@ -41,6 +41,7 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.fop.fo.ValidationException;
 import org.apache.log4j.Logger;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
@@ -94,33 +95,25 @@ public class PrintingServiceImpl implements PrintingService {
 			Map<String, byte[]> streamMap = printableArtifact.renderXML();
 			Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
 
-			TransformerFactory factory = TransformerFactory.newInstance();
 			FopFactory fopFactory = FopFactory.newInstance();
 
+            int xslCount = 0;
 			// Apply all the style sheets to the xml document and generate the
 			// PDF bytes
-			if (printableArtifact.getXSLT() != null) {
-				int xslCount = 0;
-				for (Source source : printableArtifact.getXSLT()) {
+			if (printableArtifact.getXSLTemplates() != null) {
+				for (Source source : printableArtifact.getXSLTemplates()) {
 					xslCount++;
 					StreamSource xslt = (StreamSource) source;
-					Transformer transformer = factory.newTransformer(xslt);
-					for (Map.Entry<String, byte[]> xmlData : streamMap
-							.entrySet()) {
-						ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-						ByteArrayInputStream inputStream = new ByteArrayInputStream(
-								xmlData.getValue());
-						Source src = new StreamSource(inputStream);
-						Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
-								outputStream);
-						Result res = new SAXResult(fop.getDefaultHandler());
-						transformer.transform(src, res);
-						String pdfMapKey = xmlData.getKey()
-								+ (xslCount == 1 ? "" : xslCount);
-						pdfByteMap.put(pdfMapKey, outputStream
-								.toByteArray());
-					}
+					createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt);
+
 				}
+			}else if(printableArtifact.getXSLTemplateWithBookmarks()!=null){
+			    Map<String,Source> templatesWithBookmarks = printableArtifact.getXSLTemplateWithBookmarks();
+			    for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()){
+                    StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
+                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,templatesWithBookmark.getKey());
+			    }
+                
 			}
 
 			// Add all the attachments.
@@ -139,6 +132,53 @@ public class PrintingServiceImpl implements PrintingService {
 			throw new PrintingException(e.getMessage(), e);
 		}
 	}
+
+    /**
+     * This method...
+     * @param streamMap
+     * @param pdfByteMap
+     * @param fopFactory
+     * @param xslCount
+     * @param transformer
+     * @throws FOPException
+     * @throws TransformerException
+     */
+    private void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
+            int xslCount, StreamSource xslt) throws FOPException, TransformerException {
+        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,null);
+    }
+    private void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
+            int xslCount, StreamSource xslt,String bookmark) throws FOPException, TransformerException {
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer(xslt);
+        for (Map.Entry<String, byte[]> xmlData : streamMap
+        		.entrySet()) {
+        	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        	ByteArrayInputStream inputStream = new ByteArrayInputStream(
+        			xmlData.getValue());
+        	Source src = new StreamSource(inputStream);
+        	Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF,
+        			outputStream);
+        	Result res = new SAXResult(fop.getDefaultHandler());
+        	transformer.transform(src, res);
+        	byte[] pdfBytes = outputStream.toByteArray();
+        	if(pdfBytes!=null && pdfBytes.length>0){
+                String pdfMapKey = bookmark==null?createBookMark(xslCount, xmlData.getKey()):bookmark;
+        	    pdfByteMap.put(pdfMapKey,pdfBytes );
+        	}
+        }
+    }
+
+    /**
+     * This method...
+     * @param xslCount
+     * @param xmlData
+     * @return
+     */
+    private String createBookMark(int xslCount, String bookmarkKey) {
+        String pdfMapKey = bookmarkKey+ (xslCount == 1 ? "" : " "+xslCount);
+        return pdfMapKey;
+    }
 
 	/**
 	 * This method receives a {@link Printable} object, generates XML for it,
@@ -177,12 +217,22 @@ public class PrintingServiceImpl implements PrintingService {
 		for (Printable printableArtifact : printableArtifactList) {
 			Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
 			for (String bookmark : printBytes.keySet()) {
-				bookmarksList.add(bookmark);
-				pdfBaosList.add(printBytes.get(bookmark));
+			    byte[] pdfBytes = printBytes.get(bookmark);
+			    if(isPdfGoodToMerge(pdfBytes)){
+			        bookmarksList.add(bookmark);
+			        pdfBaosList.add(pdfBytes);
+			    }
 			}
 		}
 		printablePdf = new PrintableAttachment();
 		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList);
+		
+		// If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
+		// initialize to an empty array before sending the content back
+		if (mergedPdfBytes == null) {
+			mergedPdfBytes = new byte[0];
+		}
+		
 		printablePdf.setContent(mergedPdfBytes);
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(getReportName());
@@ -192,7 +242,16 @@ public class PrintingServiceImpl implements PrintingService {
 		return printablePdf;
 	}
 
-	private String getReportName() {
+	private boolean isPdfGoodToMerge(byte[] pdfBytes) {
+	    try {
+            new PdfReader(pdfBytes);
+            return true;
+        }catch (IOException e) {
+            return false;
+        }
+    }
+
+    private String getReportName() {
 		return new java.util.Date().toString();
 	}
 
@@ -213,28 +272,26 @@ public class PrintingServiceImpl implements PrintingService {
 		PdfReader[] pdfReaderArr = new PdfReader[pdfBytesList.size()];
 		int pdfReaderCount = 0;
 		for (byte[] fileBytes : pdfBytesList) {
-			PdfReader reader;
+			LOG.debug("File Size " + fileBytes.length +" For " +  bookmarksList.get(pdfReaderCount));
+			PdfReader reader = null;
 			try {
 				reader = new PdfReader(fileBytes);
+				pdfReaderArr[pdfReaderCount] = reader;
+				pdfReaderCount = pdfReaderCount + 1;
+				totalNumOfPages += reader.getNumberOfPages();
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
-				throw new PrintingException(e.getMessage(), e);
+//				throw new PrintingException(e.getMessage(), e);
 			}
-			pdfReaderArr[pdfReaderCount] = reader;
-			pdfReaderCount = pdfReaderCount + 1;
-			totalNumOfPages += reader.getNumberOfPages();
 		}
 		Calendar calendar = dateTimeService.getCurrentCalendar();
 		String dateString = formateCalendar(calendar);
 		StringBuilder footerPhStr = new StringBuilder();
 		footerPhStr.append(" of ");
 		footerPhStr.append(totalNumOfPages);
-		footerPhStr
-				.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-		footerPhStr
-				.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-		footerPhStr
-				.append(getWhitespaceString(WHITESPACE_LENGTH_60));
+		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
+		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
+		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_60));
 		footerPhStr.append(dateString);
 		Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL,
 				Color.BLACK);
@@ -245,7 +302,13 @@ public class PrintingServiceImpl implements PrintingService {
 		footer.setBorderWidth(0f);
 		for (int count = 0; count < pdfReaderArr.length; count++) {
 			PdfReader reader = pdfReaderArr[count];
-			int nop = reader.getNumberOfPages();
+			int nop;
+			if (reader == null) {
+				LOG.debug("Empty PDF byetes found for " + bookmarksList.get(count));
+				continue;
+			} else {
+				nop = reader.getNumberOfPages();
+			}
 
 			if (count == 0) {
 				document = nop > 0 ? new com.lowagie.text.Document(reader
