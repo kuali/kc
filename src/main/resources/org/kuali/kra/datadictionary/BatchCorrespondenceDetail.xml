@@ -91,13 +91,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Correspondence Number" />
         <property name="shortLabel" value="Correspondence Number" />
-        <property name="maxLength" value="12" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="12" />
+                p:size="3" />
         </property>
         <property name="summary" value="Correspondence Number" />
         <property name="description" value="Correspondence Number" />
