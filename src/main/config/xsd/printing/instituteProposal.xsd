@@ -8,12 +8,12 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="instProposalMaster" type="instProposalMasterData"/>
-				<xs:element name="investigators" type="investigatorType" maxOccurs="unbounded"/>
+				<xs:element name="investigators" type="investigatorType2" maxOccurs="unbounded"/>
 				<xs:element name="budgetData" type="budgetDataType" minOccurs="0"/>
 				<xs:element name="mailingInfo" type="mailingInfoType" minOccurs="0"/>
 				<xs:element name="IDCRates" type="IDCRateType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="IDCRatesComments" type="xs:string" minOccurs="0"/>
-				<xs:element name="specialReviews" type="specialReviewType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="specialReviews" type="specialReviewType2" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="costSharingInfo" type="costSharingType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="costSharingComments" type="xs:string" minOccurs="0"/>
 				<xs:element name="scienceCode" type="scienceCodeType" minOccurs="0" maxOccurs="unbounded"/>
@@ -41,7 +41,7 @@
 			<xs:element name="sponsorName" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="investigatorType">
+	<xs:complexType name="investigatorType2">
 		<xs:sequence>
 			<xs:element name="PIName" type="personType" minOccurs="0"/>
 			<xs:element name="principalInvFlag" type="xs:boolean" minOccurs="0"/>
@@ -147,7 +147,7 @@
 			<xs:element name="sourceAccount" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="specialReviewType">
+	<xs:complexType name="specialReviewType2">
 		<xs:sequence>
 			<xs:element name="specialReviewType" type="xs:string" minOccurs="0"/>
 			<xs:element name="specialReviewStatus" type="xs:string" minOccurs="0"/>

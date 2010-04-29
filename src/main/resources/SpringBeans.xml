@@ -1809,10 +1809,11 @@
 		</bean>
 		<bean id="proposalSponsorFormsPrint"
 			class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype">
-			<property name="researchAndRelatedXmlStream" ref="researchAndRelatedXmlStream" />
+			<property name="nihResearchAndRelatedXmlStream" ref="nihResearchAndRelatedXmlStream" />
 			<property name="businessObjectService" ref="businessObjectService" />
 			<property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
 		</bean>
+		
 		<bean id="proposalDevelopmentPrintingService"
 			class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
 			<property name="printCertificationPrint" ref="printCertificationPrint" />
@@ -1831,6 +1832,7 @@
 				<ref bean="dateTimeService" />
 			</property>
 		</bean>
+		
 		<bean id="researchAndRelatedXmlStream"
 			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream">
 			<property name="businessObjectService">
@@ -1839,6 +1841,16 @@
 			<property name="dateTimeService">
 				<ref bean="dateTimeService" />
 			</property>
+		</bean>
+		<bean id="nihResearchAndRelatedXmlStream"
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+			<property name="parameterService" ref="parameterService" /> 
 		</bean>
 		<bean id="proposalDevelopmentXmlStream"
 			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream">

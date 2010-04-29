@@ -183,7 +183,8 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			salaryTypeVoList.add(getSalaryTypeVOForCostElement(costElemetDesc,
 					lineItems.get(costElemetDesc)));
 		}
-		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList);
+		boolean includeNonPersonnel = false;
+		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
 		List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
 		return salaryTypeList.toArray(new SalaryType[0]);
 	}
@@ -282,7 +283,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * 
 	 */
 	protected void setSalaryTypesForLineItemCalcuAmount(
-			List<SalaryTypeVO> salaryTypeVoList) {
+			List<SalaryTypeVO> salaryTypeVoList, boolean includeNonPersonnel) {
 		List<String> calculatedAmountDescList = new ArrayList<String>();
 		SalaryTypeVO salaryTypeVO = new SalaryTypeVO();
 		salaryTypeVO.setCostElement(CALCULATED_AMOUNT_COST_ELEMENT_DESC);
@@ -308,7 +309,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 						salaryTypeVOForCalculatedAmount
 								.setName(costElementDesc);
 						List<BudgetDataPeriodVO> budgetPeriodDataList = getBudgetDataPeriodsForCalculatedAmounts(
-								rateClassCode, rateTypeCode);
+								rateClassCode, rateTypeCode,includeNonPersonnel);
 						salaryTypeVOForCalculatedAmount
 								.setBudgetPeriodVOs(budgetPeriodDataList);
 						salaryTypeVoList.add(salaryTypeVOForCalculatedAmount);
@@ -356,7 +357,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * @return list of BudgetDataPeriod VO's
 	 */
 	protected List<BudgetDataPeriodVO> getBudgetDataPeriodsForCalculatedAmounts(
-			String rateClassCode, String rateTypeCode) {
+			String rateClassCode, String rateTypeCode, boolean includeNonPersonnel) {
 		List<BudgetDataPeriodVO> budgetPeriodDataList = new ArrayList<BudgetDataPeriodVO>();
 		int budgetPeriodDataId = 0;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -366,7 +367,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				String budgetCategoryType = getBudgetCategoryTypeCode(budgetLineItem);
-				if (isPersonnel(budgetCategoryType)) {
+				if (includeNonPersonnel || isPersonnel(budgetCategoryType)) {
 					for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
 							.getBudgetLineItemCalculatedAmounts()) {
 						if (budgetLineItemCalcAmount.getRateClassCode() != null
@@ -398,8 +399,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			BudgetLineItemCalculatedAmount budgetLineItemCalcAmount,
 			RateClass rateClass) {
 		String costElementDesc = null;
-		if (budgetLineItemCalcAmount.getRateTypeDescription() != null
-				&& budgetLineItemCalcAmount.getRateTypeDescription() != null) {
+		if (budgetLineItemCalcAmount.getRateTypeDescription() != null) {
 			if (rateClass != null
 					&& rateClass.getRateClassType() != null
 					&& rateClass.getRateClassType().equals(
@@ -457,6 +457,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 					total = getTotalForCostElementOfAllPeriodsCost(budgetDataPeriodVOs);
 					salaryTypeVO.setTotal(total);
 				}
+
 				salaryTypeList.add(getSalaryTypeXmlObject(salaryTypeVO
 						.getCostElement(), salaryTypeVO.getCostElementCode(),
 						salaryTypeVO.getName(), budgetPeriodArray, salaryTypeVO

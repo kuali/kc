@@ -50,7 +50,7 @@ public class BudgetCostShareSummaryPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
 						.getBudgetPrintType());

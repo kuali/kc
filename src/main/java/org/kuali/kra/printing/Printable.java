@@ -39,8 +39,9 @@ public interface Printable extends Serializable {
 	 * will be converted to PDF. Note that multiple transforms are possible on
 	 * this data.
 	 */
-	public List<Source> getXSLT();
+    public List<Source> getXSLTemplates();
 
+    public Map<String,Source> getXSLTemplateWithBookmarks();
 	/**
 	 * 
 	 * This method will provide the either reflected or XML-Bean based XML for

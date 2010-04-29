@@ -635,9 +635,9 @@ public class PrintServiceImpl implements PrintService {
 				.keySet());
 		int index = 0;
 		for (Integer sortedIndex : sortedIndices) {
-			namespaces = sortedNamespaces.get(sortedIndex);
-			for (String namespace : namespaces) {
-				for (S2sOppForms oppForm : s2sOppForms) {
+            for (S2sOppForms oppForm : s2sOppForms) {
+                namespaces = sortedNamespaces.get(sortedIndex);
+                for (String namespace : namespaces) {
 					if (namespace.equals(oppForm.getOppNameSpace())) {
 						if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
 							orderedNamespaces.add(index++, namespace);

@@ -55,7 +55,7 @@ public class CurrentProposalPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLT() {
+	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
 				.getXSLTforReport(CurrentAndPendingReportService.CURRENT_REPORT_TYPE);
 		return sourceList;

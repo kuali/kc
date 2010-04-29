@@ -18,7 +18,10 @@ package org.kuali.kra.printing.print;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.Source;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -135,4 +138,15 @@ public abstract class AbstractPrint implements Printable {
 		}
 		return xmlStreamMap;
 	}
+	
+	/**
+	 * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
+	 */
+    public Map<String,Source> getXSLTemplateWithBookmarks(){
+        return null;
+    }
+    public List<Source> getXSLTemplates(){
+        return null;
+    }
+	
 }
