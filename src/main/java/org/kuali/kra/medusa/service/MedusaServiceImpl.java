@@ -192,12 +192,15 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     private Collection<Award> getAwards(InstitutionalProposal ip) {
-        Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("proposalId", ip.getProposalId()));
         Collection<Award> awards = new ArrayList<Award>();
-        for (AwardFundingProposal awardFunding : awardFundingProposals) {
-            if (awardFunding.isActive()) {
-                awardFunding.refreshReferenceObject("award");
-                addOnlyNewestAwardVersion(awards, awardFunding.getAward());
+        Collection<InstitutionalProposal> institutionalProposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", ip.getProposalNumber()));
+        for (InstitutionalProposal curIp : institutionalProposalVersions) {
+            Collection<AwardFundingProposal> awardFundingProposals = curIp.getAwardFundingProposals();
+            for (AwardFundingProposal awardFunding : awardFundingProposals) {
+                if (awardFunding.isActive()) {
+                    awardFunding.refreshReferenceObject("award");
+                    addOnlyNewestAwardVersion(awards, awardFunding.getAward());
+                }
             }
         }
         if (StringUtils.isNotBlank(ip.getCurrentAwardNumber()) && ip.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
@@ -222,38 +225,35 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     /**
-     * Only add the newest award(based on sequence number) to the list and remove older versions
-     * if they exist 
+     * Get all versions of the new award and add the newest verison of the award
      * @param currentList
      * @param newItem
      */
     private void addOnlyNewestAwardVersion(Collection<Award> currentList, Award newItem) {
-        boolean dontAddThisVersion = false;
-        Award removeOld = null;
-        for (Award award : currentList) {
-            if (StringUtils.equals(award.getAwardNumber(), newItem.getAwardNumber())) {
-                if (award.getSequenceNumber() < newItem.getSequenceNumber()) {
-                    removeOld = award;
-                } else {
-                    dontAddThisVersion = true;
-                }
+        Collection<Award> awardVersions = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", newItem.getAwardNumber()));
+        Award newestAward = null;
+        for (Award curAward : awardVersions) {
+            if (newestAward == null) {
+                newestAward = curAward;
+            } else if (curAward.getSequenceNumber() > newestAward.getSequenceNumber()) {
+                newestAward = curAward;
             }
         }
-        if (removeOld != null) {
-            currentList.remove(removeOld);
-        }
-        if (!dontAddThisVersion) {
-            currentList.add(newItem);
+        if (newestAward != null) {
+            currentList.add(newestAward);
         }
     }
     
     private Collection<InstitutionalProposal> getProposals(Award award) {
-        Collection<AwardFundingProposal> awardFundingProposals = businessObjectService.findMatching(AwardFundingProposal.class, getFieldValues("awardId", award.getAwardId()));
         Collection<InstitutionalProposal> ips = new ArrayList<InstitutionalProposal>();
-        for (AwardFundingProposal awardFunding : awardFundingProposals) {
-            if (awardFunding.isActive()) {
-                awardFunding.refreshReferenceObject("proposal");
-                addOnlyNewerIpVersion(ips, awardFunding.getProposal());
+        Collection<Award> awardVersions = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", award.getAwardNumber()));
+        for (Award curAward : awardVersions) {
+            Collection<AwardFundingProposal> awardFundingProposals = curAward.getFundingProposals();
+            for (AwardFundingProposal awardFunding : awardFundingProposals) {
+                if (awardFunding.isActive()) {
+                    awardFunding.refreshReferenceObject("proposal");
+                    addOnlyNewerIpVersion(ips, awardFunding.getProposal());
+                }
             }
         }
         Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
@@ -272,22 +272,17 @@ public class MedusaServiceImpl implements MedusaService {
      * @param newItem
      */
     private void addOnlyNewerIpVersion(Collection<InstitutionalProposal> currentList, InstitutionalProposal newItem) {
-        boolean dontAddThisVersion = false;
-        InstitutionalProposal removeOld = null;
-        for (InstitutionalProposal proposal : currentList) {
-            if (StringUtils.equals(proposal.getProposalNumber(), newItem.getProposalNumber())) {
-                if (proposal.getSequenceNumber() < newItem.getSequenceNumber()) {
-                    removeOld = proposal;
-                } else {
-                    dontAddThisVersion = true;
-                }
+        Collection<InstitutionalProposal> ipVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", newItem.getProposalNumber()));
+        InstitutionalProposal newestIP = null;
+        for (InstitutionalProposal curIP : ipVersions) {
+            if (newestIP == null) {
+                newestIP = curIP;
+            } else if (curIP.getSequenceNumber() > newestIP.getSequenceNumber()) {
+                newestIP = curIP;
             }
         }
-        if (removeOld != null) {
-            currentList.remove(removeOld);
-        }
-        if (!dontAddThisVersion) {
-            currentList.add(newItem);
+        if (newestIP != null) {
+            currentList.add(newestIP);
         }
     }
     
