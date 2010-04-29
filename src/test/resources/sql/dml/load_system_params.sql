@@ -1,4 +1,4 @@
---located in src/main/resources/DefaultTestData.sql
+--located in src/test/resources/DefaultTestData.sql
 
 --insert into KRNS_PARM_TYP_T (PARM_TYP_CD, OBJ_ID, VER_NBR, NM, ACTV_IND) --values ('AUTH', 'E7243CAFD1554F2D949D7799AD8323CA', 1, 'Authorization', 'Y');
 --
