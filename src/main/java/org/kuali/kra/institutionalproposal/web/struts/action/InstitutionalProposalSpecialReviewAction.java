@@ -82,6 +82,11 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm)form;
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
         getSpecialReviewService().processBeforeSaveSpecialReview(institutionalProposal);
+        if (!institutionalProposal.getSpecialReviews().isEmpty()) {
+            institutionalProposal.setSpecialReviewIndicator("1");
+        } else {
+            institutionalProposal.setSpecialReviewIndicator("0");
+        }
         return super.save(mapping, form, request, response);
     }
     
