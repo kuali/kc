@@ -418,7 +418,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.NSFSuggestedReviewersV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.NSFSuggestedReviewersV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_1GeneratorTest.class,
-    org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_3GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_2GeneratorTest.class,
