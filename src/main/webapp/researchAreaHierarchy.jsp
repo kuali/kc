@@ -39,6 +39,9 @@
 		<kra:researchAreas />
 	</kul:tabTop>
     <kul:panelFooter />
+		${kfunc:registerEditableProperty(KualiForm, "methodToCall.reload")}  
+		${kfunc:registerEditableProperty(KualiForm, "methodToCall.close")}  
+		${kfunc:registerEditableProperty(KualiForm, "methodToCall.cancel")}  
 
     <div id="globalbuttons" class="globalbuttons">
         <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
