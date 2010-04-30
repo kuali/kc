@@ -256,7 +256,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             return null;
 
         awardBudget.setRateClassTypesReloaded(true);
-        awardBudget.setTotalCostLimit(rebudget?BudgetDecimal.ZERO:getObligatedChangeAmount(parentDocument));
+        //awardBudget.setTotalCostLimit(rebudget?BudgetDecimal.ZERO:getObligatedChangeAmount(parentDocument));
+        awardBudget.setTotalCostLimit(getObligatedChangeAmount(parentDocument));
+        if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
+            rebudget = true;
+        }
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
         parentDocument.refreshReferenceObject("budgetDocumentVersions");
@@ -275,6 +279,24 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         BudgetDecimal awardObligatedAmount = new BudgetDecimal(awardDocument.getAward().getObligatedTotal().bigDecimalValue());
         return awardObligatedAmount.subtract(postedTotalAmount);
+    }
+
+    /*
+     * A utility method to check whther a budget has been posted for this award, then it can be 
+     * used as one of the condition to set rebudget type.
+     */
+    private boolean isPostedBudgetExist(AwardDocument awardDocument) {
+        boolean exist = false;
+        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
+        String postedStatusCode = getAwardPostedStatusCode();
+        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
+            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+            if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
+                exist = true;
+                break;
+            }
+        }
+        return exist;
     }
 
     private String getAwardPostedStatusCode() {
