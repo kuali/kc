@@ -77,6 +77,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -91,6 +92,7 @@ public class NIHResearchAndRelatedXmlStream extends
 
 	private static final Logger LOG = Logger
 			.getLogger(NIHResearchAndRelatedXmlStream.class);
+	private DateTimeService dateTimeService;
 
 	private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
 	private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
@@ -282,13 +284,14 @@ public class NIHResearchAndRelatedXmlStream extends
 	 * @return Difference of the Months of the Dates.
 	 */
 	private BigDecimal getMonthsBetweenDates(Date startDate, Date endDate) {
-		BigDecimal projectDuration;
-		com.ibm.icu.util.Calendar calendar = com.ibm.icu.util.Calendar
-				.getInstance();
-		calendar.setTimeInMillis(startDate.getTime());
-		int monthDifference = calendar.fieldDifference(endDate, Calendar.MONTH);
-		projectDuration = new BigDecimal(monthDifference);
-		return projectDuration;
+		Calendar startCalendar = getDateTimeService().getCalendar(startDate);
+		Calendar endCalendar = getDateTimeService().getCalendar(endDate);
+		int monthCount = -1;
+		while(startCalendar.before(endCalendar)){
+		    startCalendar.add(Calendar.MONTH, 1);
+		    monthCount++;
+		}
+		return new BigDecimal(monthCount);
 	}
 
 	private String getNSFPreviousAwardNumber(
@@ -1244,4 +1247,20 @@ public class NIHResearchAndRelatedXmlStream extends
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
+
+    /**
+     * Gets the dateTimeService attribute. 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }
