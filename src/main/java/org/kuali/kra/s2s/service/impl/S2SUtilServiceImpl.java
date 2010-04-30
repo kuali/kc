@@ -34,10 +34,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Country;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -46,6 +48,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -58,6 +61,7 @@ import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -78,6 +82,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private KualiConfigurationService kualiConfigurationService;
 	private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private KcPersonService kcPersonService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
@@ -85,6 +90,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final String KEY_COUNTRY_CODE = "countryCode";
 	private static final String KEY_STATE_CODE = "stateCode";
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
+    private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
+    private static final String CONTACT_TYPE_O = "O";
 	private static final Logger LOG = Logger.getLogger(S2SUtilServiceImpl.class);
 	
 	private static final String MODULE_ITEM_KEY = "moduleItemKey";
@@ -764,5 +771,92 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return highestQuestionnairSequenceNumber;
 	}
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    public DepartmentalPerson getContactPerson(
+            ProposalDevelopmentDocument pdDoc) {
+        String contactType = getContactType();
+        boolean isNumber = true;
+        try {
+            Integer.parseInt(contactType);
+        } catch (NumberFormatException e) {
+            isNumber = false;
+        }
+        DepartmentalPerson depPerson = new DepartmentalPerson();
+        if (isNumber) {
+            for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+                    .getProposalPersons()) {
+                for (ProposalPersonUnit unit : person.getUnits()) {
+                    if (unit.isLeadUnit()) {
+                        Unit leadUnit = unit.getUnit();
+                        leadUnit.refreshReferenceObject("unitAdministrators");
+                        for (UnitAdministrator admin : leadUnit
+                                .getUnitAdministrators()) {
+                            if (contactType.equals(admin
+                                    .getUnitAdministratorTypeCode())) {
+                                KcPerson unitAdmin = getKcPersonService().getKcPersonByPersonId(admin.getPersonId());
+                                depPerson.setLastName(unitAdmin.getLastName());
+                                depPerson.setFirstName(unitAdmin.getFirstName());
+                                if (unitAdmin.getMiddleName() != null) {
+                                    depPerson.setMiddleName(unitAdmin.getMiddleName());
+                                }
+                                depPerson.setEmailAddress(unitAdmin.getEmailAddress());
+                                depPerson.setOfficePhone(unitAdmin.getOfficePhone());
+                                depPerson.setFaxNumber(unitAdmin.getFaxNumber());
+                                depPerson.setPrimaryTitle(unitAdmin.getPrimaryTitle());
+                                depPerson.setAddress1(unitAdmin.getAddressLine1());
+                                depPerson.setAddress2(unitAdmin.getAddressLine2());
+                                depPerson.setAddress3(unitAdmin.getAddressLine3());
+                                depPerson.setCity(unitAdmin.getCity());
+                                depPerson.setCounty(unitAdmin.getCounty());
+                                depPerson.setCountryCode(unitAdmin.getCountryCode());
+                                depPerson.setPostalCode(unitAdmin.getPostalCode());
+                                depPerson.setState(unitAdmin.getState());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return depPerson;
+    }
+
+    /**
+     * Gets the kcPersonService attribute. 
+     * @return Returns the kcPersonService.
+     */
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    /**
+     * Sets the kcPersonService attribute value.
+     * @param kcPersonService The kcPersonService to set.
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 	
+    /**
+     * 
+     * This method returns the type of contact person for a proposal
+     * 
+     * @return String contact type for the proposal
+     */
+    protected String getContactType() {
+        String contactType = getParameterValue(PROPOSAL_CONTACT_TYPE);
+        if (contactType == null || contactType.length() == 0) {
+            contactType = CONTACT_TYPE_O;
+        }
+        return contactType;
+    }
 }

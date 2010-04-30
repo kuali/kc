@@ -31,6 +31,7 @@ import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -129,24 +130,22 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	private ContactPersonInfo getContactPersonInfo() {
 		ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory
 				.newInstance();
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization().getOrganization().getRolodex();
-		if (rolodex != null) {
-			contactPersonInfo.setContactName(globLibV20Generator
-					.getHumanNameDataType(rolodex));
-			contactPersonInfo.setContactPhone(rolodex.getPhoneNumber());
-			if (rolodex.getFaxNumber() != null
-					&& !rolodex.getFaxNumber().equals("")) {
-				contactPersonInfo.setContactFax(rolodex.getFaxNumber());
-			}
-			if (rolodex.getEmailAddress() != null
-					&& !rolodex.getEmailAddress().equals("")) {
-				contactPersonInfo.setContactEmail(rolodex.getEmailAddress());
-			}
-			contactPersonInfo.setContactTitle(rolodex.getTitle());
-			contactPersonInfo.setContactAddress(globLibV20Generator
-					.getAddressDataType(rolodex));
-		}
+        DepartmentalPerson person = s2sUtilService.getContactPerson(pdDoc);
+        contactPersonInfo.setContactName(globLibV20Generator
+                .getHumanNameDataType(person));
+        contactPersonInfo.setContactPhone(person.getOfficePhone());
+        if (person.getFaxNumber() != null
+                && !person.getFaxNumber().equals("")) {
+            contactPersonInfo.setContactFax(person.getFaxNumber());
+        }
+        if (person.getEmailAddress() != null
+                && !person.getEmailAddress().equals("")) {
+            contactPersonInfo.setContactEmail(person
+                    .getEmailAddress());
+        }
+        contactPersonInfo.setContactTitle(person.getPrimaryTitle());
+        contactPersonInfo.setContactAddress(globLibV20Generator
+                .getAddressDataType(person));
 		return contactPersonInfo;
 	}
 
