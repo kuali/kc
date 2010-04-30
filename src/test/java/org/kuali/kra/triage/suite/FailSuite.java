@@ -150,6 +150,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_3GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRBudgetV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRBudgetV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRFedNonFedBudgetV1_0GeneratorTest.class,
