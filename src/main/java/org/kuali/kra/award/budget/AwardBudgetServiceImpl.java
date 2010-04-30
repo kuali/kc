@@ -401,6 +401,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
 
     public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
+        awardBudgetPeriod.getBudgetLineItems().clear();
         Iterator iter = rawValues.iterator();
         while (iter.hasNext()) {
             BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
