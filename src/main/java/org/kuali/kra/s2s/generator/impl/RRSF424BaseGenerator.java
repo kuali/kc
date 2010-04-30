@@ -16,7 +16,9 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -68,4 +70,19 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         }
         return contactType;
     }
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    protected DepartmentalPerson getContactPerson(
+            ProposalDevelopmentDocument pdDoc) {
+        return s2sUtilService.getContactPerson(pdDoc);
+    }
+    
 }

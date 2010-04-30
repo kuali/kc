@@ -221,7 +221,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			}
 		} else {
 			// contact will come from unit or unit_administrators
-			DepartmentalPerson depPerson = getContactPerson(pdDoc, contactType);
+			DepartmentalPerson depPerson = getContactPerson(pdDoc);
 			if (depPerson != null) {
 				contactInfo.setName(globLibV20Generator
 						.getHumanNameDataType(depPerson));
@@ -267,54 +267,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			}
 		}
 		return orgType;
-	}
-
-	/**
-	 * 
-	 * This method is used to get the details of Contact person
-	 * 
-	 * @param pdDoc(ProposalDevelopmentDocument)
-	 *            proposal development document.
-	 * @param contactType(String)
-	 *            for which the DepartmentalPerson has to be found.
-	 * @return depPerson(DepartmentalPerson) corresponding to the contact type.
-	 */
-	private DepartmentalPerson getContactPerson(
-			ProposalDevelopmentDocument pdDoc, String contactType) {
-		boolean isNumber = true;
-		try {
-			Integer.parseInt(contactType);
-		} catch (NumberFormatException e) {
-			isNumber = false;
-		}
-		DepartmentalPerson depPerson = new DepartmentalPerson();
-		if (isNumber) {
-			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
-					.getProposalPersons()) {
-				for (ProposalPersonUnit unit : person.getUnits()) {
-					if (unit.isLeadUnit()) {
-						for (UnitAdministrator admin : unit.getUnit()
-								.getUnitAdministrators()) {
-							if (contactType.equals(admin
-									.getUnitAdministratorTypeCode())) {
-								depPerson.setLastName(person.getLastName());
-								depPerson.setFirstName(person.getFirstName());
-								if (person.getMiddleName() != null) {
-									depPerson.setMiddleName(person
-											.getMiddleName());
-								}
-								depPerson.setEmailAddress(person
-										.getEmailAddress());
-								depPerson.setOfficePhone(person
-										.getOfficePhone());
-								depPerson.setFaxNumber(person.getFaxNumber());
-							}
-						}
-					}
-				}
-			}
-		}
-		return depPerson;
 	}
 
 	/**

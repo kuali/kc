@@ -258,4 +258,15 @@ public interface S2SUtilService {
 	
 	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc);
 
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
 }

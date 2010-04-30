@@ -203,7 +203,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         sf424Short.setProjectDirectorGroup(globLibV20Generator.getContactPersonDataType(pi));
 
         // Rolodex is set to getOrganization.getRolodex above
-        sf424Short.setContactPersonGroup(globLibV20Generator.getContactPersonDataType(rolodex));
+        sf424Short.setContactPersonGroup(globLibV20Generator.getContactPersonDataType(pdDoc));
 
         // value is hard coded
         sf424Short.setApplicationCertification(YesNoDataType.Y_YES);

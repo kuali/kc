@@ -32,6 +32,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -160,26 +161,24 @@ public class PHS398CoverPageSupplementV1_0Generator extends
 	 */
 	private ContactPersonInfo getContactPersonInfo(
 			ProposalDevelopmentDocument pdDoc) {
-
 		ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory
 				.newInstance();
-		Rolodex rolodex = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization().getRolodex();
-		if (rolodex != null) {
+		DepartmentalPerson contactPerson = s2sUtilService.getContactPerson(pdDoc);
+		if (contactPerson != null) {
 			contactPersonInfo.setContactName(globLibV10Generator
-					.getHumanNameDataType(rolodex));
-			contactPersonInfo.setContactPhone(rolodex.getPhoneNumber());
-			if (rolodex.getFaxNumber() != null
-					&& !rolodex.getFaxNumber().equals("")) {
-				contactPersonInfo.setContactFax(rolodex.getFaxNumber());
+					.getHumanNameDataType(contactPerson));
+			contactPersonInfo.setContactPhone(contactPerson.getOfficePhone());
+			if (contactPerson.getFaxNumber() != null
+					&& !contactPerson.getFaxNumber().equals("")) {
+				contactPersonInfo.setContactFax(contactPerson.getFaxNumber());
 			}
-			if (rolodex.getEmailAddress() != null
-					&& !rolodex.getEmailAddress().equals("")) {
-				contactPersonInfo.setContactEmail(rolodex.getEmailAddress());
+			if (contactPerson.getEmailAddress() != null
+					&& !contactPerson.getEmailAddress().equals("")) {
+				contactPersonInfo.setContactEmail(contactPerson.getEmailAddress());
 			}
-			contactPersonInfo.setContactTitle(rolodex.getTitle());
+			contactPersonInfo.setContactTitle(contactPerson.getPrimaryTitle());
 			contactPersonInfo.setContactAddress(globLibV10Generator
-					.getAddressRequireCountryDataType(rolodex));
+					.getAddressRequireCountryDataType(contactPerson));
 		}
 		return contactPersonInfo;
 	}

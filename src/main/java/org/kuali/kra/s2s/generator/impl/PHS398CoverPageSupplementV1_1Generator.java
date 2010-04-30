@@ -36,6 +36,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -179,36 +180,22 @@ public class PHS398CoverPageSupplementV1_1Generator extends
 	private ContactPersonInfo getContactPersonInfo() {
 		ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory
 				.newInstance();
-		String leadUnitNumber = pdDoc.getLeadUnitNumber();
-		if (pdDoc.getDevelopmentProposal().getOwnedByUnit()
-				.getUnitAdministrators() != null) {
-			for (UnitAdministrator administrator : pdDoc
-					.getDevelopmentProposal().getOwnedByUnit()
-					.getUnitAdministrators()) {
-				if (leadUnitNumber.equals(administrator.getUnitNumber())
-						&& OSP_ADMINISTRATOR.equals(administrator
-								.getUnitAdministratorTypeCode())) {
-					KcPerson person = administrator.getPerson();
-					contactPersonInfo.setContactName(globLibV20Generator
-							.getHumanNameDataType(person));
-					contactPersonInfo.setContactPhone(person.getPhoneNumber());
-					if (person.getFaxNumber() != null
-							&& !person.getFaxNumber().equals("")) {
-						contactPersonInfo.setContactFax(person.getFaxNumber());
-					}
-					if (person.getEmailAddress() != null
-							&& !person.getEmailAddress().equals("")) {
-						contactPersonInfo.setContactEmail(person
-								.getEmailAddress());
-					}
-					contactPersonInfo.setContactTitle(person
-							.getDirectoryTitle());
-					contactPersonInfo.setContactAddress(globLibV20Generator
-							.getAddressDataType(person));
-					break;
-				}
-			}
+		DepartmentalPerson person = s2sUtilService.getContactPerson(pdDoc);
+		contactPersonInfo.setContactName(globLibV20Generator
+				.getHumanNameDataType(person));
+		contactPersonInfo.setContactPhone(person.getOfficePhone());
+		if (person.getFaxNumber() != null
+				&& !person.getFaxNumber().equals("")) {
+			contactPersonInfo.setContactFax(person.getFaxNumber());
 		}
+		if (person.getEmailAddress() != null
+				&& !person.getEmailAddress().equals("")) {
+			contactPersonInfo.setContactEmail(person
+					.getEmailAddress());
+		}
+		contactPersonInfo.setContactTitle(person.getPrimaryTitle());
+		contactPersonInfo.setContactAddress(globLibV20Generator
+				.getAddressDataType(person));
 		return contactPersonInfo;
 	}
 
