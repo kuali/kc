@@ -113,8 +113,8 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         if (budgetDocument.getParentDocument() instanceof AwardDocument) {
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
-            budgetForm.setSyncBudgetRate("");
+            getBudgetRatesService().syncParentDocumentRates(budgetDocument);
+            //budgetForm.setSyncBudgetRate("");
             getBudgetSummaryService().calculateBudget(budget);
         }
         

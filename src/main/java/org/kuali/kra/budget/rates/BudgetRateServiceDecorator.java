@@ -196,6 +196,18 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             super.syncAllBudgetRates(budgetDocument);
         }
     }
+    
+    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
+        if (isAwardBudget(budgetDocument)) {
+            if (!hasNoRatesFromParent(budgetDocument.getBudget())
+                    && isOutOfSyncAwardRates((Award)budgetDocument.getParentDocument().getBudgetParent(),budgetDocument.getBudget())) {
+                //need to sync just budget specific rates now
+                syncBudgetRatesForRateClassType(OVERHEAD.getRateClassType(), budgetDocument);
+                syncBudgetRatesForRateClassType(EMPLOYEE_BENEFITS.getRateClassType(), budgetDocument);
+                repopulateAllCalcAmounts(budgetDocument);
+            }
+        }
+    }
     private void repopulateAllCalcAmounts(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -232,6 +244,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             return isOutOfSyncAwardRates(award,budget);
         }
     }
+    
     private boolean isOutOfSyncAwardRates(Award award,Budget budget) {
         List<AwardFandaRate> fnaRates = award.getAwardFandaRate();
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());

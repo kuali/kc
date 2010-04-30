@@ -175,8 +175,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             Budget budget = budgetDocument.getBudget();
-            getBudgetRateService().syncAllBudgetRates( budgetDocument);
-//            getBudgetSummaryService().calculateBudget(budget);
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
