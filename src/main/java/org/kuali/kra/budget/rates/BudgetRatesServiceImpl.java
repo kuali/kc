@@ -135,6 +135,14 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         viewLocation(viewLocation, budgetPeriod, budget.getBudgetLaRates());        
     }
     
+    /**
+     * 
+     * Does nothing. Placeholder for Award Budget
+     * @param budgetDocument
+     */
+    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
+    }
+    
     /* sync budget rates for a panel
      * each panel is based on rate class type 
      * */
