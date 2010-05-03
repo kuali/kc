@@ -47,7 +47,7 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -319,10 +319,12 @@ public class ActionHelper implements Serializable {
      */
     private void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
         try {
-            List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
-            ReviewComments comments = commentContainer.getReviewComments();
+            //List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
+            List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesBySchedule(form.getProtocolDocument().getProtocol().getProtocolSubmission().getScheduleIdFk());
+            ReviewerComments comments = commentContainer.getReviewComments();
             comments.setComments(minutes);
             commentContainer.setReviewComments(comments);
+            commentContainer.setProtocolId(form.getProtocolDocument().getProtocol().getProtocolId());
         } catch (Exception e) {
             //this will happen if the form isn't ready yet, like when the form is first opened, 
             //this is OK

@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.grantexemption;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 /**

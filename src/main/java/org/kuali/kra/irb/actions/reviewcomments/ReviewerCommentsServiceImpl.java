@@ -29,7 +29,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     
     private BusinessObjectService businessObjectService;
     
-    private CommitteeScheduleService scheduleService;
+    private CommitteeScheduleService committeeScheduleService;
     
     /**
      * Set the Business Object Service.
@@ -44,11 +44,11 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
      * @param committeeScheduleService CommitteeScheduleService
      */
     public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
-        this.scheduleService = committeeScheduleService;
+        this.committeeScheduleService = committeeScheduleService;
     }
     
     /** {@inheritDoc} */
-    public void persistReviewerComments(ReviewComments reviewComments, Protocol protocol) {
+    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol) {
         int nextEntryNumber = 0;
         this.businessObjectService.delete(reviewComments.getCommentsToDelete());
         reviewComments.resetComentsToDelete();
@@ -56,17 +56,17 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
             minute.setEntryNumber(nextEntryNumber);
             boolean doUpdate = false;
             if (minute.getCommScheduleMinutesId() != null) {
-                CommitteeScheduleMinute existing = this.scheduleService.getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
+                CommitteeScheduleMinute existing = this.committeeScheduleService.getCommitteeScheduleMinute(minute.getCommScheduleMinutesId());
                 doUpdate = !minute.equals(existing);
             } else {
-                doUpdate = true;
-            }
-            if (doUpdate) {
-                //should most of these setter calls be done up in the else clause, ie only set them on a new minute entry
+                //brand new review comment / minute entry, set some cool stuff
                 minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
                 minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
+                doUpdate = true;
+            }
+            if (doUpdate) {
                 this.businessObjectService.save(minute);
             }
             nextEntryNumber++;
