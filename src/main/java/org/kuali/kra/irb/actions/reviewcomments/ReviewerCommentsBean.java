@@ -22,14 +22,15 @@ package org.kuali.kra.irb.actions.reviewcomments;
  */
 public class ReviewerCommentsBean {
     
-    private ReviewComments reviewComments = new ReviewComments();
+    private ReviewerComments reviewComments = new ReviewerComments();
+    private Long protocolId;
     /**
      * 
      * This method needs to return the reviewer comments object held by the bean. Maintained by data entry by the remote user
      * 
      * @return ReviewComments object
      */
-    public ReviewComments getReviewComments() {
+    public ReviewerComments getReviewComments() {
         return reviewComments;
     } 
 
@@ -39,7 +40,12 @@ public class ReviewerCommentsBean {
      * 
      * @param reviewComments ReviewComments object
      */
-    public void setReviewComments(ReviewComments reviewComments) {
+    public void setReviewComments(ReviewerComments reviewComments) {
         this.reviewComments = reviewComments;
+    }
+    
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+        this.reviewComments.setProtocolId(protocolId);
     }
 }

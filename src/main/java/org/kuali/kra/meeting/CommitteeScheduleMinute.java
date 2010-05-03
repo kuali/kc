@@ -61,7 +61,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private Long scheduleIdFk; 
 
     @Column(name="ENTRY_NUMBER")
-    private Integer entryNumber; 
+    private Integer entryNumber;
 
     @Column(name="MINUTE_ENTRY_TYPE_CODE")
     private String minuteEntryTypeCode; 
@@ -302,15 +302,17 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      * Equality is based on minute id, minute entry value, entry number(order position)
      * and whether or not it is private.
      * This function is used to determine if a minute needs to be updated on the DB.
+     * @param o a CommitteeScheduleMinute object
+     * @return boolean if the passed in minute is the same as THIS minute.
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object o){
-        CommitteeScheduleMinute csm = (CommitteeScheduleMinute)o;
-        return this.commScheduleMinutesId.equals(csm.getCommScheduleMinutesId()) &&
-            this.getMinuteEntry().equals(csm.getMinuteEntry()) && 
-            this.getEntryNumber().equals(csm.getEntryNumber()) &&
-            this.getPrivateCommentFlag() == csm.getPrivateCommentFlag();
+    public boolean equals(Object o) {
+        CommitteeScheduleMinute csm = (CommitteeScheduleMinute) o;
+        return this.commScheduleMinutesId.equals(csm.getCommScheduleMinutesId()) 
+            && this.getMinuteEntry().equals(csm.getMinuteEntry()) 
+            && this.getEntryNumber().equals(csm.getEntryNumber()) 
+            && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag();
     }
 
     @Override
@@ -363,5 +365,13 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      */
     public boolean isPersisted() {
         return this.commScheduleMinutesId != null;
+    }
+    
+    public Long getProtocolId() {
+        if (this.protocol != null) {
+            return this.protocol.getProtocolId();
+        } else {
+            return null;
+        }
     }
 }

@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 @SuppressWarnings("serial")
