@@ -68,7 +68,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -1639,23 +1639,25 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private ActionForward addReviewComment(ActionMapping mapping, ReviewComments comments, ProtocolDocument protocolDocument) throws Exception {
-        comments.addNewComment();
+    private ActionForward addReviewComment(ActionMapping mapping, ReviewerComments comments, ProtocolDocument protocolDocument) throws Exception {
+        comments.addNewComment(protocolDocument.getProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private ActionForward deleteReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
+    private ActionForward deleteReviewComment(ActionMapping mapping, ReviewerComments comments, HttpServletRequest request) throws Exception {
         comments.deleteComment(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private ActionForward moveUpReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
-        comments.moveUp(getLineToDelete(request));
+    private ActionForward moveUpReviewComment(ActionMapping mapping, ReviewerComments comments, HttpServletRequest request) throws Exception {
+        int lineToDelete = getLineToDelete(request); 
+        comments.moveUp(lineToDelete, lineToDelete);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private ActionForward moveDownReviewComment(ActionMapping mapping, ReviewComments comments, HttpServletRequest request) throws Exception {
-        comments.moveDown(getLineToDelete(request));
+    private ActionForward moveDownReviewComment(ActionMapping mapping, ReviewerComments comments, HttpServletRequest request) throws Exception {
+        int lineToDelete = getLineToDelete(request);
+        comments.moveDown(lineToDelete, lineToDelete);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
