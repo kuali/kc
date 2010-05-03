@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -57,7 +57,8 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             
             String protocolActionTypeToUse = "";
             boolean doAddProtocolAction = false;
-            if (MotionValuesFinder.APPROVE.equals(committeeDecision.getMotion().trim())) {
+            String motionToCompareFrom = committeeDecision.getMotion() == null ? committeeDecision.getMotion() : committeeDecision.getMotion().trim(); 
+            if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom)) {
                 protocolActionTypeToUse = ProtocolActionType.APPROVED;
                 doAddProtocolAction = true;
             } else if (MotionValuesFinder.DISAPPROVE.equals(committeeDecision.getMotion().trim())) {
@@ -89,7 +90,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         return null;
     }
     
-    private void addReviewerComments(ProtocolSubmission submission, ReviewComments reviewComments) {
+    private void addReviewerComments(ProtocolSubmission submission, ReviewerComments reviewComments) {
         int nextEntryNumber = 0;
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
             minute.setEntryNumber(nextEntryNumber);

@@ -19,6 +19,6 @@ import org.kuali.kra.irb.Protocol;
 
 public interface ReviewerCommentsService {
     
-    public void persistReviewerComments(ReviewComments reviewComments, Protocol protocol);
+    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
 
 }

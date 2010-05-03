@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.reviewcomments.ReviewComments" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.irb.actions.reviewcomments.ReviewerComments" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>
@@ -78,11 +78,26 @@
                         </div>
                     </td>
                 </tr>
-                                        
+                <c:set var="displayCount" value="0"/>                                        
                 <c:forEach var="comment" items="${bean.comments}" varStatus="status">
-                    <tr>
+                	<c:set var="doHide" value="${comment.protocolId != bean.protocolId}" />
+                    <tr <c:choose>
+                        		<c:when test="${doHide == true }">
+                        			<c:set var="displayCount" value="${displayCount + 1}"/>
+                        			style="display:none"
+                        		</c:when>
+                        	</c:choose>>
                     	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
-                        <th>${status.index + 1}</th>
+                    	
+                        <th>
+                        	<%--${status.index + 1} --%>
+                        	<c:choose>
+                        		<c:when test="${doHide == false }">
+                        			<c:set var="displayCount" value="${displayCount + 1}"/>
+                        			${displayCount }
+                        		</c:when>
+                        	</c:choose>
+                        </th>
 
                         <c:choose>
                             <c:when test="${empty comment.protocolContingencyCode}">
