@@ -417,6 +417,24 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+    
+    public ActionForward terminateRequestProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolForm.getProtocolDocument()
+                .getProtocol());
+        if (isAuthorized(task)) {
+            ProtocolRequestBean terminateRequestBean = protocolForm.getActionHelper().getProtocolTerminateRequestBean();
+            if (applyRules(new ProtocolRequestEvent(protocolForm.getProtocolDocument(),
+                Constants.PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY, terminateRequestBean))) {
+                getProtocolRequestService()
+                        .submitRequest(protocolForm.getProtocolDocument().getProtocol(), terminateRequestBean);
+            }
+        }
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
     /**
      * Notify the IRB office.

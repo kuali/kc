@@ -101,6 +101,7 @@ public class ActionHelper implements Serializable {
     private boolean canRequestCloseEnrollment = false;
     private boolean canRequestReOpenEnrollment = false;
     private boolean canRequestDataAnalysis = false;
+    private boolean canRequestTerminate = false;
     private boolean canDeleteProtocolAmendRenew = false;
     private boolean canAssignToAgenda = false;
     private boolean canAssignCmtSched = false;
@@ -127,6 +128,7 @@ public class ActionHelper implements Serializable {
     private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
+    private ProtocolRequestBean protocolTerminateRequestBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
@@ -198,6 +200,7 @@ public class ActionHelper implements Serializable {
                                                                       ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
         protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
                                                                   ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION, ProtocolSubmissionType.REQUEST_FOR_TERMINATION);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
@@ -415,6 +418,7 @@ public class ActionHelper implements Serializable {
         canRequestCloseEnrollment = hasRequestCloseEnrollmentPermission();
         canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
         canRequestDataAnalysis = hasRequestDataAnalysisPermission();
+        canRequestTerminate = hasRequestTerminatePermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         canAssignToAgenda = hasAssignToAgendaPermission();
         canAssignCmtSched = hasAssignCmtSchedPermission();
@@ -536,6 +540,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasRequestDataAnalysisPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasRequestTerminatePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -680,6 +689,10 @@ public class ActionHelper implements Serializable {
         return protocolDataAnalysisRequestBean;
     }
     
+    public ProtocolRequestBean getProtocolTerminateRequestBean(){
+        return this.protocolTerminateRequestBean;
+    }
+    
     public ProtocolNotifyIrbBean getProtocolNotifyIrbBean() {
         return protocolNotifyIrbBean;
     }
@@ -794,6 +807,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanRequestDataAnalysis() {
         return canRequestDataAnalysis;
+    }
+    
+    public boolean getcanRequestTerminate(){
+        return this.canRequestTerminate;
     }
     
     public boolean getCanDeleteProtocolAmendRenew() {

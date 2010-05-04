@@ -148,6 +148,10 @@
                     <property name="taskName" value="protocolRequestDataAnalysis" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ProtocolRequestTerminateAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolRequestTerminate" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAmendRenewDelete" />
                 </bean>
