@@ -25,6 +25,5 @@
 <kul:panelFooter />	
 	
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-<script language="javascript" src="scripts/kuali_application.js"></script>
-<script language="javascript" src="dwr/interface/PersonService.js"></script>
+<script language="javascript" src="dwr/interface/KraPersonService.js"></script>
 <script>loadPersonName('permissionsHelper.newUser.userName', 'fullname');</script>
