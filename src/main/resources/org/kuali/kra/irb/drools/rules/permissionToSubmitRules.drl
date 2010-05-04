@@ -6,10 +6,10 @@ package org.kuali.kra.irb.drools.rules
 import org.kuali.kra.irb.actions.submit.ActionRightMapping;
 
 
-rule "Rule 1 -  105/106/108/114/115/116 And 303 And 101"
+rule "Rule 1 -  104/105/106/108/114/115/116 And 303 And 101"
 salience 100
 when
-	actionRight : ActionRightMapping(actionTypeCode in ('105','106','108','114','115','116','303','101'))
+	actionRight : ActionRightMapping(actionTypeCode in ('104', '105','106','108','114','115','116','303','101'))
 then	
     actionRight.setAllowed(true);
     actionRight.setRightId("Submit Protocol");
