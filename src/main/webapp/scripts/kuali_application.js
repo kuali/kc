@@ -962,7 +962,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 			var dwrReply = {
 				callback:function(data) {
 					if ( data != null ) {
-					    fullNameElement.innerHTML = data;
+					    fullNameElement.innerHTML = data.name;
 					} else {
 						fullNameElement.innerHTML = wrapError( "not found" );
 					}
@@ -972,7 +972,8 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 					fullNameElement.innerHTML = wrapError( "not found" );
 				}
 			};
-			KraPersonService.getPersonFullname(username, dwrReply);
+			//KraPersonService.getPersonFullname(username, dwrReply);
+			KraPersonService.getPersonByPrincipalName(username, dwrReply);
 		}
 	}
 }
