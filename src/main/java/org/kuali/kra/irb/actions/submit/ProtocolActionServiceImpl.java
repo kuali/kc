@@ -24,6 +24,7 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -166,6 +167,11 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 //        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
 //        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
+        if (actionTypeCode.equals(ProtocolActionType.REQUEST_FOR_TERMINATION)) {
+            System.err.println("A rightMapper.isAllowed(): " + rightMapper.isAllowed());
+            System.err.println("unitAuthorizationService: "  + unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
+                "KC-PROTOCOL", MODIFY_ANY_PROTOCOL)  + "\n");
+        }
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
                 "KC-PROTOCOL", MODIFY_ANY_PROTOCOL) : false;
     }
@@ -178,6 +184,11 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 //        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
 //        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
+        if (actionTypeCode.equals(ProtocolActionType.REQUEST_FOR_TERMINATION)) {
+            System.err.println("B rightMapper.isAllowed(): " + rightMapper.isAllowed());
+            System.err.println("kraAuthorizationService: " + kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
+                    .getRightId()) + "\n");
+        }
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     } 
@@ -189,9 +200,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
-//        updateHandle.executeRules(rightMapper);
-        rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
+        updateHandle.executeRules(rightMapper);
+//        rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
+        if (actionTypeCode.equals(ProtocolActionType.REQUEST_FOR_TERMINATION)) {
+            System.err.println("C rightMapper.isAllowed(): " + rightMapper.isAllowed());
+            System.err.println("unitAuthorizationService: " + unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
+                    "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) + "\n");
+        }
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
                 "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
@@ -201,9 +217,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
-//        updateHandle.executeRules(rightMapper);
-        rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
+        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
+        updateHandle.executeRules(rightMapper);
+//        rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
+        if (actionTypeCode.equals(ProtocolActionType.REQUEST_FOR_TERMINATION)) {
+            System.err.println("D rightMapper.isAllowed(): " + rightMapper.isAllowed());
+            System.err.println("unitAuthorizationService: " + unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
+                    "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) + "\n");
+        }
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
                 "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
