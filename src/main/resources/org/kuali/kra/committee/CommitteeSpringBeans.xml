@@ -100,5 +100,7 @@
  		scope="prototype" parent="lookupableHelperService">
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />
   	</bean>
+    
+    <bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao" class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
   	
 </beans>
