@@ -61,42 +61,6 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRuleTest {
     }
 
     @Test
-    public void testFalseMissingStartDate() {
-        
-        new TemplateRuleTest<CommitteeActionFilterBatchCorrespondenceHistoryEvent, CommitteeActionFilterBatchCorrespondenceHistoryRule>() {
-
-            @Override
-            protected void prerequisite() {
-                String batchCorrespondenceTypeCode = "1";
-                Date startDate = null;
-                Date endDate = Date.valueOf("2010-12-31");
-                
-                event = new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
-                rule = new CommitteeActionFilterBatchCorrespondenceHistoryRule();
-                expectedReturnValue = false;
-            }
-        };
-    }
-
-    @Test
-    public void testFalseMissingEndDate() {
-        
-        new TemplateRuleTest<CommitteeActionFilterBatchCorrespondenceHistoryEvent, CommitteeActionFilterBatchCorrespondenceHistoryRule>() {
-
-            @Override
-            protected void prerequisite() {
-                String batchCorrespondenceTypeCode = "1";
-                Date startDate = Date.valueOf("2010-01-01");
-                Date endDate = null;
-                
-                event = new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
-                rule = new CommitteeActionFilterBatchCorrespondenceHistoryRule();
-                expectedReturnValue = false;
-            }
-        };
-    }
-
-    @Test
     public void testFalseEndDateBeforeStartDate() {
         
         new TemplateRuleTest<CommitteeActionFilterBatchCorrespondenceHistoryEvent, CommitteeActionFilterBatchCorrespondenceHistoryRule>() {
