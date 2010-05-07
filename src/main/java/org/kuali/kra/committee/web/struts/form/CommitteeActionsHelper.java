@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.WebUtils;
 
 /**
  * 
- * Form helper class for Committee Actions
+ * Form helper class for Committee Actions.
  */
 public class CommitteeActionsHelper implements Serializable {
         
@@ -46,6 +46,10 @@ public class CommitteeActionsHelper implements Serializable {
     
     private String reportType;
 
+    /**
+     * 
+     * Constructs a CommitteeActionsHelper.java.
+     */
     public CommitteeActionsHelper() {
         setGenerateBatchCorrespondence(new CommitteeBatchCorrespondence());
         setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());  
@@ -128,6 +132,8 @@ public class CommitteeActionsHelper implements Serializable {
      * This method resets the Batch Correspondence history. 
      * This involves clearing the previous displayed history information and collapsing all panel content with 
      * the exception of the Batch Correspondence panel.
+     * 
+     * @param committeeForm the CommitteeForm
      */
     public void resetBatchCorrespondenceHistory(CommitteeForm committeeForm) {
         setBatchCorrespondenceHistory(null);

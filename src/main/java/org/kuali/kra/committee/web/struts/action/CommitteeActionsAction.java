@@ -71,7 +71,7 @@ public class CommitteeActionsAction extends CommitteeAction {
                 + batchCorrespondenceTypeCode + " startDate:" + startDate + " endDate:" + endDate);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -99,7 +99,7 @@ public class CommitteeActionsAction extends CommitteeAction {
                     .getCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, startDate, endDate));
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
