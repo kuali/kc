@@ -23,7 +23,11 @@ import java.util.List;
 import java.sql.Date;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 
-public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase{
+/**
+ * 
+ * This class implements the CommitteeBatchCorrespondence business object.
+ */
+public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +43,10 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     private BatchCorrespondence batchCorrespondence; 
     private Committee committee; 
     
+    /**
+     * 
+     * Constructs a CommitteeBatchCorrespondence.java.
+     */
     public CommitteeBatchCorrespondence() {
         setCommitteeBatchCorrespondenceDetails(new ArrayList<CommitteeBatchCorrespondenceDetail>());
     } 
@@ -127,4 +135,4 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         hashMap.put("timeWindowEnd", this.getTimeWindowEnd());
         return hashMap;
     }
- }
+}

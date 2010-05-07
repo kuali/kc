@@ -184,7 +184,8 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         }
         
         BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
-        boolean rulePassed = new BatchCorrespondenceDetailRule().processSaveBatchCorrespondenceDetailRules(batchCorrespondenceDetailForm.getBatchCorrespondence());
+        boolean rulePassed = new BatchCorrespondenceDetailRule()
+              .processSaveBatchCorrespondenceDetailRules(batchCorrespondenceDetailForm.getBatchCorrespondence());
         if (rulePassed) {
             getBatchCorrespondenceDetailService().saveBatchCorrespondenceDetails(batchCorrespondenceDetailForm.getBatchCorrespondence(), 
                     batchCorrespondenceDetailForm.getDeletedBatchCorrespondenceDetail());

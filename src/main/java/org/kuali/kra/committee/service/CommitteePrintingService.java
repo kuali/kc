@@ -37,6 +37,15 @@ public interface CommitteePrintingService {
      */
     AbstractPrint getCommitteePrintable(CommitteeReportType reportType);
     
+    /**
+     * This method generates the required report and returns the PDF stream as
+     * {@link AttachmentDataSource}.
+     * 
+     * @param printableArtifact the specific implementation for printing the report.
+     * @return {@link AttachmentDataSource} which contains the byte array of the
+     *         generated PDF
+     * @throws PrintingException if any errors occur during report generation
+     */
     AttachmentDataSource print(Printable printableArtifact) throws PrintingException;
 
 }

@@ -22,7 +22,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
-    private static final String PRINT_TYPE_FIELD = "committeeHelper.committeeActionsHelper.printType";
+    private static final String PRINT_TYPE_FIELD = "committeeHelper.committeeActionsHelper.reportType";
 
     public boolean processRules(CommitteeActionPrintCommitteeDocumentEvent event) {
         boolean rulePassed = true;
