@@ -24,31 +24,18 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
 
     private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode";
-    private static final String START_DATE_FIELD = "committeeHelper.committeeActionsHelper.historyStartDate";
     private static final String END_DATE_FIELD = "committeeHelper.committeeActionsHelper.historyEndDate";
 
     public boolean processRules(CommitteeActionFilterBatchCorrespondenceHistoryEvent event) {
         boolean rulePassed = true;
-        boolean dateNull = false;
         
         if (StringUtils.isEmpty(event.getBatchCorrespondenceTypeCode())) {
             reportError(BATCH_CORRESPONDENCE_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED);
             rulePassed = false;
         }
         
-        if (event.getStartDate() == null) {
-            reportError(START_DATE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_START_DATE_NOT_SPECIFIED);
-            dateNull = true;
-            rulePassed = false;
-        }
-
-        if (event.getEndDate() == null) {
-            reportError(END_DATE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_NOT_SPECIFIED);
-            dateNull = true;
-            rulePassed = false;
-        }
-
-        if (!dateNull && event.getEndDate().before(event.getStartDate())) {
+        if (event.getStartDate() != null && event.getEndDate() != null
+                && event.getEndDate().before(event.getStartDate())) {
             reportError(END_DATE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_BEFORE_START_DATE);
             rulePassed = false;
         }
