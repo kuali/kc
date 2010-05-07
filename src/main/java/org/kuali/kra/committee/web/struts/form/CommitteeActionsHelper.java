@@ -17,21 +17,40 @@ package org.kuali.kra.committee.web.struts.form;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
+import org.kuali.rice.kns.util.WebUtils;
+
+/**
+ * 
+ * Form helper class for Committee Actions
+ */
 public class CommitteeActionsHelper implements Serializable {
-    
+        
     private static final long serialVersionUID = -3016492957198123463L;
+
+    private static final String BATCH_CORRESPONDENCE_PANEL_TITLE = "Batch Correspondence";
 
     private String generateBatchCorrespondenceTypeCode;
     private Date generateStartDate;
     private Date generateEndDate;
+    private CommitteeBatchCorrespondence generateBatchCorrespondence;
     
     private String historyBatchCorrespondenceTypeCode;
     private Date historyStartDate;
     private Date historyEndDate;
+    private List<CommitteeBatchCorrespondence> batchCorrespondenceHistory;
     
     private String reportType;
 
+    public CommitteeActionsHelper() {
+        setGenerateBatchCorrespondence(new CommitteeBatchCorrespondence());
+        setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());  
+    }
+    
     public String getGenerateBatchCorrespondenceTypeCode() {
         return generateBatchCorrespondenceTypeCode;
     }
@@ -80,11 +99,39 @@ public class CommitteeActionsHelper implements Serializable {
         this.historyEndDate = historyEndDate;
     }
 
+    public CommitteeBatchCorrespondence getGenerateBatchCorrespondence() {
+        return generateBatchCorrespondence;
+    }
+
+    public void setGenerateBatchCorrespondence(CommitteeBatchCorrespondence generateBatchCorrespondence) {
+        this.generateBatchCorrespondence = generateBatchCorrespondence;
+    }
+
+    public List<CommitteeBatchCorrespondence> getBatchCorrespondenceHistory() {
+        return batchCorrespondenceHistory;
+    }
+
+    public void setBatchCorrespondenceHistory(List<CommitteeBatchCorrespondence> batchCorrespondenceHistory) {
+        this.batchCorrespondenceHistory = batchCorrespondenceHistory;
+    }
+
     public String getReportType() {
         return reportType;
     }
 
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+    
+    /**
+     * 
+     * This method resets the Batch Correspondence history. 
+     * This involves clearing the previous displayed history information and collapsing all panel content with 
+     * the exception of the Batch Correspondence panel.
+     */
+    public void resetBatchCorrespondenceHistory(CommitteeForm committeeForm) {
+        setBatchCorrespondenceHistory(null);
+        committeeForm.setTabStates(new HashMap<String, String>());
+        committeeForm.getTabStates().put(WebUtils.generateTabKey(BATCH_CORRESPONDENCE_PANEL_TITLE), "OPEN");
     }
 }

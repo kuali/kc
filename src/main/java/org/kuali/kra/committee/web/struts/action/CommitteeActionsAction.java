@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
@@ -44,7 +45,7 @@ public class CommitteeActionsAction extends CommitteeAction {
 
     @SuppressWarnings("unused")
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeActionsAction.class);
-
+    
     /**
      * This method is perform the action - Generate Batch Correspondence.
      * Method is called in CommitteeActions.jsp
@@ -87,17 +88,17 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
 
         CommitteeForm committeeForm = (CommitteeForm) form;
-        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryEndDate();
         
+        committeeForm.getCommitteeHelper().getCommitteeActionsHelper().resetBatchCorrespondenceHistory(committeeForm);
         if (applyRules(new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                 batchCorrespondenceTypeCode, startDate, endDate))) {
-            System.out.println("FilterBatchCorrespondenceHistory: committeeId:" + committeeId + " batchCorrespondenceTypeCode:" 
-                + batchCorrespondenceTypeCode + " startDate:" + startDate + " endDate:" + endDate);
+            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().setBatchCorrespondenceHistory(getCommitteeBatchCorrespondenceDao()
+                    .getCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, startDate, endDate));
         }
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
     
@@ -133,4 +134,9 @@ public class CommitteeActionsAction extends CommitteeAction {
     private CommitteePrintingService getCommitteePrintingService() {
         return KraServiceLocator.getService(CommitteePrintingService.class);
     }
+
+    public CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
+        return KraServiceLocator.getService(CommitteeBatchCorrespondenceDao.class);
+    }
+
 }
