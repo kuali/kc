@@ -28,6 +28,11 @@ import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 
+/**
+ * 
+ * This class is the OJB implementation of CommitteeBatchCorrespondenceDao 
+ * which provides enhanced database access functionality.
+ */
 public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CommitteeBatchCorrespondenceDao {
 
     private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceDaoOjb.class);
@@ -35,6 +40,9 @@ public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb 
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
     private static final String BATCH_RUN_DATE = "batchRunDate";
 
+    /**
+     * {@inheritDoc} 
+     */
     @SuppressWarnings("unchecked")
     public List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate) {
         Criteria crit = new Criteria();

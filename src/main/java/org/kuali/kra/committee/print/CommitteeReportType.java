@@ -15,13 +15,26 @@
  */
 package org.kuali.kra.committee.print;
 
+/**
+ * This class represents different types of reports for committee.
+ */
 public enum CommitteeReportType {
+    /** Report type for the committee batch correspondence. */
     BATCH_CORRESPONDENCE ("batchCorrespondence"),
+
+    /** Report type for the committee roster. */
     ROSTER ("roster"),
+
+    /** Report type for the committee future scheduled meetings. */
     FUTURE_SCHEDULED_MEETINGS ("futureScheduledMeetings");
     
     private String committeeReportType;
 
+    /**
+     * 
+     * Constructs a CommitteeReportType.java.
+     * @param committeeReportType
+     */
     CommitteeReportType(String committeeReportType) {
         this.committeeReportType = committeeReportType;
     }

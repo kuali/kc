@@ -21,11 +21,22 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
+/**
+ * 
+ * This class contains the rules to validate an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
+ */
+public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends ResearchDocumentRuleBase 
+                                                                 implements  BusinessRuleInterface<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
 
     private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode";
     private static final String END_DATE_FIELD = "committeeHelper.committeeActionsHelper.historyEndDate";
 
+    /**
+     * Process the validation rules for an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
+     * 
+     * @param event the CommitteeActionFilterBatchCorrespondenceHistoryEvent
+     * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
+     */
     public boolean processRules(CommitteeActionFilterBatchCorrespondenceHistoryEvent event) {
         boolean rulePassed = true;
         

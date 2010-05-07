@@ -21,13 +21,27 @@ import org.kuali.kra.committee.rules.CommitteeActionFilterBatchCorrespondenceHis
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.kns.document.Document;
 
+/**
+ * 
+ * This class implements the CommitteeActionFilterBatchCorrespondenceHistoryEven which is used
+ * to view a specific set of batch correspondence that has been generated in the past.
+ */
 public class CommitteeActionFilterBatchCorrespondenceHistoryEvent extends CommitteeActionsEventBase<CommitteeActionFilterBatchCorrespondenceHistoryRule> {
-    public static final String MSG = "filter batch correspondence history";
+    private static final String MSG = "filter batch correspondence history";
     
-    String batchCorrespondenceTypeCode;
-    Date startDate;
-    Date endDate;
+    private String batchCorrespondenceTypeCode;
+    private Date startDate;
+    private Date endDate;
     
+    /**
+     * 
+     * Constructs a CommitteeActionFilterBatchCorrespondenceHistoryEvent.java.
+     * @param errorPathPrefix
+     * @param document
+     * @param batchCorrespondenceTypeCode
+     * @param startDate
+     * @param endDate
+     */
     public CommitteeActionFilterBatchCorrespondenceHistoryEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
             Date startDate, Date endDate) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
