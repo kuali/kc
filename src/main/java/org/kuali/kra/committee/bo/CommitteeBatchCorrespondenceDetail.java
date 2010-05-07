@@ -21,8 +21,11 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 
 import java.util.LinkedHashMap;
 
-
-public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessObjectBase{
+/**
+ * 
+ * This class implements the CommitteeBatchCorrespondenceDetail business object.
+ */
+public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +40,10 @@ public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessOb
     private ProtocolAction protocolAction;
     private ProtocolCorrespondence protocolCorrespondence;
     
+    /**
+     * 
+     * Constructs a CommitteeBatchCorrespondenceDetail.java.
+     */
     public CommitteeBatchCorrespondenceDetail() {
 
     } 

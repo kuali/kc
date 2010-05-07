@@ -30,12 +30,21 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
+/**
+ * 
+ * This class implements the CommitteePrintService.
+ */
 public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements CommitteePrintingService {
 
+    private static final String ERROR_MESSAGE = "Unknown report type specified";
+    
     private CommitteeBatchCorrespondencePrint committeeBatchCorrespondencePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
+    /**
+     * {@inheritDoc}
+     */
     public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
         AbstractPrint printable = null;
         
@@ -49,6 +58,8 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
             case FUTURE_SCHEDULED_MEETINGS :
                 printable = getCommitteeFutureScheduledMeetingsPrint();
                 break;
+            default :
+                throw new IllegalArgumentException(ERROR_MESSAGE);
         }
         
         return printable;
@@ -62,8 +73,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         String fileName = "Committee Roster - " + Constants.PDF_FILE_EXTENSION;
         try {
             attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
-        } 
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             attachmentDataSource.setFileName(fileName);
         }
         attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
