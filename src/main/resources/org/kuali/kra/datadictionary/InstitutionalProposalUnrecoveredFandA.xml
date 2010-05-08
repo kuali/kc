@@ -209,7 +209,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Source Account" />
         <property name="shortLabel" value="Source Account" />
-        <property name="maxLength" value="7" />
+        <property name="maxLength" value="32" />
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
