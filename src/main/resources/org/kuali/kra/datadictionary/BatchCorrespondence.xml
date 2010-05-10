@@ -34,7 +34,9 @@
             <list>
                 <ref bean="BatchCorrespondence-batchCorrespondenceTypeCode" />
                 <ref bean="BatchCorrespondence-description" />
-                <ref bean="BatchCorrespondence-defaultTimeWindow" />
+                <ref bean="BatchCorrespondence-daysToEventUiText" />
+                <ref bean="BatchCorrespondence-sendCorrespondence" />
+                <ref bean="BatchCorrespondence-finalActionDay" />
                 <ref bean="BatchCorrespondence-finalActionTypeCode" />
                 <ref bean="BatchCorrespondence-finalActionCorrespType" />
                 <ref bean="BatchCorrespondence-versionNumber" />
@@ -56,7 +58,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="3" />
+                  p:size="3" />
         </property>
         <property name="summary" value="Batch Correspondence Type Code" />
         <property name="description" value="Batch Correspondence Type Code" />
@@ -65,14 +67,54 @@
     <bean id="BatchCorrespondence-description" parent="BatchCorrespondence-description-parentBean" />
     <bean id="BatchCorrespondence-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
-    <bean id="BatchCorrespondence-defaultTimeWindow" parent="BatchCorrespondence-defaultTimeWindow-parentBean" />
-    <bean id="BatchCorrespondence-defaultTimeWindow-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="defaultTimeWindow" />
+    <bean id="BatchCorrespondence-daysToEventUiText" parent="BatchCorrespondence-daysToEventUiText-parentBean" />
+    <bean id="BatchCorrespondence-daysToEventUiText-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="daysToEventUiText" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Default Time Window" />
-        <property name="shortLabel" value="Default Time Window" />
-        <property name="maxLength" value="3" />
+        <property name="label" value="Days to Event UI Text" />
+        <property name="shortLabel" value="Days to Event UI Text" />
+        <property name="maxLength" value="400" />
         <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                  p:rows="5"
+                  p:cols="40" />
+        </property>
+        <property name="summary" value="Days to Event UI Text" />
+        <property name="description" value="Days to Event UI Text" />
+    </bean>
+
+    <bean id="BatchCorrespondence-sendCorrespondence" parent="BatchCorrespondence-sendCorrespondence-parentBean" />
+    <bean id="BatchCorrespondence-sendCorrespondence-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sendCorrespondence" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Send Correspondence" />
+        <property name="shortLabel" value="Send Correspondence" />
+        <property name="maxLength" value="10" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.correspondence.SendCorrespondenceValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="summary" value="Send Correspondence" />
+        <property name="description" value="Send correspondence before/after event" />
+    </bean>
+
+    <bean id="BatchCorrespondence-finalActionDay" parent="BatchCorrespondence-finalActionDay-parentBean" />
+    <bean id="BatchCorrespondence-finalActionDay-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="finalActionDay" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Final Action Day" />
+        <property name="shortLabel" value="Final Action Day" />
+        <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
@@ -80,8 +122,8 @@
             <bean parent="TextControlDefinition"
                 p:size="3" />
         </property>
-        <property name="summary" value="Default Time Window" />
-        <property name="description" value="Default Time Window" />
+        <property name="summary" value="Final Action Day" />
+        <property name="description" value="Final Action Day" />
     </bean>
 
     <bean id="BatchCorrespondence-finalActionTypeCode" parent="BatchCorrespondence-finalActionTypeCode-parentBean" />
@@ -144,7 +186,9 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="defaultTimeWindow" />
+                                p:attributeName="daysToEventUiText" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="sendCorrespondence" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="finalActionTypeCode" />
                             <bean parent="FieldDefinition"
@@ -174,7 +218,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="defaultTimeWindow" />
+                    p:attributeName="daysToEventUiText" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sendCorrespondence" />
                 <bean parent="FieldDefinition"
                     p:attributeName="finalActionTypeCode" />
                 <bean parent="FieldDefinition"
@@ -189,7 +235,9 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="defaultTimeWindow" />
+                    p:attributeName="daysToEventUiText" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="sendCorrespondence" />
                 <bean parent="FieldDefinition"
                     p:attributeName="finalActionTypeCode" />
                 <bean parent="FieldDefinition"
