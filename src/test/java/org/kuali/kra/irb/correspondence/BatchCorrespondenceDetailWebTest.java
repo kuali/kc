@@ -43,10 +43,10 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
     private static final String DELETE_BATCH_CORRESPONDENCE_DETAIL_BUTTON = "methodToCall.deleteBatchCorrespondenceDetail.batchCorrespondenceDetail[0]}";
     
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE_FIELD = "batchCorrespondence.batchCorrespondenceTypeCode";
-    private static final String DEFAULT_TIME_WINDOW_FIELD = "batchCorrespondence.defaultTimeWindow";
-    private static final String NEW_NO_OF_DAYS_TILL_NEXT_FIELD = "newBatchCorrespondenceDetail.noOfDaysTillNext";
+    private static final String FINAL_ACTION_DAY_FIELD = "batchCorrespondence.finalActionDay";
+    private static final String NEW_DAYS_TO_EVENT_FIELD = "newBatchCorrespondenceDetail.daysToEvent";
     private static final String NEW_PROTO_CORRESP_TYPE_CODE_FIELD = "newBatchCorrespondenceDetail.protoCorrespTypeCode";
-    private static final String FIFTEEN_OF_SIXTY_TXT = "15 (of 60)";
+    private static final String FIFTEEN = "15";
     private static final String RENEWAL_REMINDER_LETTER_ONE_TXT = "Renewal Reminder Letter #1 ";
 
     private static final String DOCUMENT_RELOAD_MSG = "Document was successfully reloaded.";
@@ -73,10 +73,10 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
     public void testAddDeleteBatchCorrespondenceDetail() throws Exception {
         // just making sure assumptions are correct
         assertFalse(hasError(page));
-        assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID);
+        assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID);
         assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED);
         assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED);
-        assertDoesNotContain(page, FIFTEEN_OF_SIXTY_TXT);
+        assertDoesNotContain(page, FIFTEEN);
         assertDoesNotContain(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
         
         // Test error
@@ -86,17 +86,17 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
         assertContains(page, "Protocol correspondence type missing.");
         
         // Test add
-        setFieldValue(page, NEW_NO_OF_DAYS_TILL_NEXT_FIELD, "15");
+        setFieldValue(page, NEW_DAYS_TO_EVENT_FIELD, "15");
         setFieldValue(page, NEW_PROTO_CORRESP_TYPE_CODE_FIELD, "20");
         page = clickOn(getElementByName(page, ADD_BATCH_CORRESPONDENCE_DETAIL_BUTTON, true));
         assertFalse(hasError(page));
-        assertContains(page, FIFTEEN_OF_SIXTY_TXT);
+        assertContains(page, FIFTEEN);
         assertContains(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
         
         // Test delete
         page= clickOn(getElementByName(page, DELETE_BATCH_CORRESPONDENCE_DETAIL_BUTTON, true));
         assertFalse(hasError(page));
-        assertDoesNotContain(page, FIFTEEN_OF_SIXTY_TXT);
+        assertDoesNotContain(page, FIFTEEN);
         assertDoesNotContain(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
     }
 
@@ -108,16 +108,16 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
     public void testSaveBatchCorrespondenceDetail() throws Exception {
         // just making sure assumptions are correct
         assertFalse(hasError(page));
-        assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_NOT_SPECIFIED);
+        assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_NOT_SPECIFIED);
         
         // Test error
-        setFieldValue(page, DEFAULT_TIME_WINDOW_FIELD, "");
+        setFieldValue(page, FINAL_ACTION_DAY_FIELD, "");
         page= clickOn(getElementByName(page, "methodToCall.save"));
         assertTrue(hasError(page));
         assertContains(page, "Correspondence period missing.");
         
         // save document
-        setFieldValue(page, DEFAULT_TIME_WINDOW_FIELD, "60");
+        setFieldValue(page, FINAL_ACTION_DAY_FIELD, "60");
         page= clickOn(getElementByName(page, "methodToCall.save"));
         assertFalse(hasError(page));
         assertContains(page, DOCUMENT_SAVE_MSG);
@@ -137,12 +137,12 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
      */
     protected final HtmlPage buildBatchCorrespondenceDetailPage() throws Exception {
         HtmlPage centralAdminPage = clickOn(getPortalPage(), "Maintenance");
-        HtmlPage page = clickOn(centralAdminPage, "BatchCorrespondence", "Kuali Portal Index");
+        HtmlPage page = clickOn(centralAdminPage, "Batch Correspondence", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
         assertEquals("Kuali :: Batch Correspondence", page.getTitleText());
         
         // Get Protocol Renewal Reminders batch correspondence
-        setFieldValue(page, BATCH_CORRESPONDENCE_TYPE_CODE_FIELD, "1");
+        setFieldValue(page, BATCH_CORRESPONDENCE_TYPE_CODE_FIELD, "2");
         page = clickOn(getElementByName(page, REFRESH_BUTTON, true));
         assertFalse(hasError(page));
         

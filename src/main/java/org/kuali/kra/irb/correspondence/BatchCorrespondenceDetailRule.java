@@ -20,10 +20,12 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BatchCorrespondenceDetailRule {
+    
+    private static final String SEND_CORRESPONDENCE_AFTER_EVENT ="AFTER";
 
-    private static final String PROPERTY_NAME_NO_OF_DAYS_TILL_NEXT = "newBatchCorrespondenceDetail.noOfDaysTillNext";
+    private static final String PROPERTY_NAME_DAYS_TO_EVENT = "newBatchCorrespondenceDetail.daysToEvent";
     private static final String PROPERTY_NAME_PROTO_CORRESP_TYPE_CODE = "newBatchCorrespondenceDetail.protoCorrespTypeCode";
-    private static final String PROPERTY_NAME_DEFAULT_TIME_WINDOW = "batchCorrespondence.defaultTimeWindow";
+    private static final String PROPERTY_NAME_FINAL_ACTION_DAY = "batchCorrespondence.finalActionDay";
     private static final String PROPERTY_NAME_FINAL_ACTION_TYPE_CODE = "batchCorrespondence.finalActionTypeCode";
     private static final String PROPERTY_NAME_FINAL_ACTION_CORRESP_TYPE = "batchCorrespondence.finalActionCorrespType";
 
@@ -31,28 +33,28 @@ public class BatchCorrespondenceDetailRule {
             BatchCorrespondenceDetail newBatchCorrespondenceDetail) {
         boolean rulePassed = true;
         
-        rulePassed &= validateNoOfDaysTillNext(batchCorrespondence, newBatchCorrespondenceDetail);
+        rulePassed &= validateDaysToEvent(batchCorrespondence, newBatchCorrespondenceDetail);
         rulePassed &= validateProtoCorrespTypeCode(newBatchCorrespondenceDetail);
 
         return rulePassed;
     }
 
-    private boolean validateNoOfDaysTillNext(BatchCorrespondence batchCorrespondence, BatchCorrespondenceDetail newBatchCorrespondenceDetails) {
+    private boolean validateDaysToEvent(BatchCorrespondence batchCorrespondence, BatchCorrespondenceDetail newBatchCorrespondenceDetails) {
         boolean isValid = true;
-        if (newBatchCorrespondenceDetails.getNoOfDaysTillNext() == null) {
-            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_NO_OF_DAYS_TILL_NEXT, 
-                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_NOT_SPECIFIED);
+        if (newBatchCorrespondenceDetails.getDaysToEvent() == null) {
+            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NOT_SPECIFIED);
             isValid = false;
-        } else if (newBatchCorrespondenceDetails.getNoOfDaysTillNext() < 1) { 
-            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_NO_OF_DAYS_TILL_NEXT, 
-                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID, 
-                    Integer.toString(batchCorrespondence.getDefaultTimeWindow() - 1));
+        } else if (newBatchCorrespondenceDetails.getDaysToEvent() < 1) { 
+            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID, 
+                    Integer.toString(batchCorrespondence.getFinalActionDay() - 1));
             isValid = false;
-        } else if ((batchCorrespondence.getDefaultTimeWindow() != null) 
-                &&(newBatchCorrespondenceDetails.getNoOfDaysTillNext() >= batchCorrespondence.getDefaultTimeWindow())) {
-            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_NO_OF_DAYS_TILL_NEXT, 
-                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID, 
-                    Integer.toString(batchCorrespondence.getDefaultTimeWindow() - 1));
+        } else if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), SEND_CORRESPONDENCE_AFTER_EVENT)  
+                && (newBatchCorrespondenceDetails.getDaysToEvent() >= batchCorrespondence.getFinalActionDay())) { 
+            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID, 
+                    Integer.toString(batchCorrespondence.getFinalActionDay() - 1));
             isValid = false;
         }
         return isValid;
@@ -71,27 +73,30 @@ public class BatchCorrespondenceDetailRule {
     public boolean processSaveBatchCorrespondenceDetailRules(BatchCorrespondence batchCorrespondence) {
         boolean rulePassed = true;
         
-        rulePassed &= validateDefaultTimeWindow(batchCorrespondence);
+        rulePassed &= validateFinalActionDay(batchCorrespondence);
         rulePassed &= validateFinalActionTypeCode(batchCorrespondence);
         rulePassed &= validatefinalActionCorrespType(batchCorrespondence);
 
         return rulePassed;
     }
 
-    private boolean validateDefaultTimeWindow(BatchCorrespondence batchCorrespondence) {
-        if (batchCorrespondence.getDefaultTimeWindow() == null) {
-            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DEFAULT_TIME_WINDOW, 
-                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_NOT_SPECIFIED);
+    private boolean validateFinalActionDay(BatchCorrespondence batchCorrespondence) {
+        if (batchCorrespondence.getFinalActionDay() == null) {
+            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_FINAL_ACTION_DAY, 
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_NOT_SPECIFIED);
             return false;
         }
         
-        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
-            if (batchCorrespondenceDetail.getNoOfDaysTillNext() >= batchCorrespondence.getDefaultTimeWindow()) {
-                GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DEFAULT_TIME_WINDOW, 
-                        KeyConstants.ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_INVALID);
-                return false;
+        if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), SEND_CORRESPONDENCE_AFTER_EVENT)) {
+            for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
+                if (batchCorrespondenceDetail.getDaysToEvent() >= batchCorrespondence.getFinalActionDay()) {
+                    GlobalVariables.getMessageMap().putError(PROPERTY_NAME_FINAL_ACTION_DAY, 
+                            KeyConstants.ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_INVALID);
+                    return false;
+                }
             }
         }
+        
         return true;
     }
 

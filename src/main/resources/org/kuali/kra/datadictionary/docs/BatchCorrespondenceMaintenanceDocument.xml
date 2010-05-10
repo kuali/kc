@@ -54,7 +54,10 @@
                     p:name="description"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="defaultTimeWindow"
+                    p:name="daysToEventUiText"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="sendCorrespondence"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="finalActionTypeCode" />

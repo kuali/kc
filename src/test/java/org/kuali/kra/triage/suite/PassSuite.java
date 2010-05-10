@@ -369,6 +369,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceTest.class,
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailRuleTest.class,
+    org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
     org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceTest.class,
     org.kuali.kra.questionnaire.answer.QuestionnaireAnswerRuleTest.class,
     org.kuali.kra.irb.web.ProtocolQuestionnaireWebTest.class,
