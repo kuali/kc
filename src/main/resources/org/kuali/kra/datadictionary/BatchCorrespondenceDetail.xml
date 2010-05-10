@@ -34,9 +34,8 @@
             <list>
                 <ref bean="BatchCorrespondenceDetail-batchCorrespondenceDetailId" />
                 <ref bean="BatchCorrespondenceDetail-batchCorrespondenceTypeCode" />
-                <ref bean="BatchCorrespondenceDetail-correspondenceNumber" />
                 <ref bean="BatchCorrespondenceDetail-protoCorrespTypeCode" />
-                <ref bean="BatchCorrespondenceDetail-noOfDaysTillNext" />
+                <ref bean="BatchCorrespondenceDetail-daysToEvent" />
                 <ref bean="BatchCorrespondenceDetail-versionNumber" />
             </list>
         </property>
@@ -85,24 +84,6 @@
         <property name="description" value="Batch Corresponcence Type Code" />
     </bean>
 
-    <bean id="BatchCorrespondenceDetail-correspondenceNumber" parent="BatchCorrespondenceDetail-correspondenceNumber-parentBean" />
-    <bean id="BatchCorrespondenceDetail-correspondenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="correspondenceNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Correspondence Number" />
-        <property name="shortLabel" value="Correspondence Number" />
-        <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
-        </property>
-        <property name="summary" value="Correspondence Number" />
-        <property name="description" value="Correspondence Number" />
-    </bean>
-
     <bean id="BatchCorrespondenceDetail-protoCorrespTypeCode" parent="BatchCorrespondenceDetail-protoCorrespTypeCode-parentBean" />
     <bean id="BatchCorrespondenceDetail-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
@@ -127,12 +108,12 @@
         <property name="description" value="Protocol Correspodence Type Code" />
     </bean>
 
-    <bean id="BatchCorrespondenceDetail-noOfDaysTillNext" parent="BatchCorrespondenceDetail-noOfDaysTillNext-parentBean" />
-    <bean id="BatchCorrespondenceDetail-noOfDaysTillNext-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="noOfDaysTillNext" />
+    <bean id="BatchCorrespondenceDetail-daysToEvent" parent="BatchCorrespondenceDetail-daysToEvent-parentBean" />
+    <bean id="BatchCorrespondenceDetail-daysToEvent-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="daysToEvent" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="No Of Days Till Next" />
-        <property name="shortLabel" value="No Of Days Till Next" />
+        <property name="label" value="Days To Event" />
+        <property name="shortLabel" value="Days To Event" />
         <property name="maxLength" value="3" />
         <property name="required" value="true" />
         <property name="validationPattern" >
@@ -142,8 +123,8 @@
             <bean parent="TextControlDefinition"
                 p:size="3" />
         </property>
-        <property name="summary" value="No Of Days Till Next" />
-        <property name="description" value="No Of Days Till Next" />
+        <property name="summary" value="Days To Event" />
+        <property name="description" value="The days before/after the event" />
     </bean>
 
     <bean id="BatchCorrespondenceDetail-versionNumber" parent="BatchCorrespondenceDetail-versionNumber-parentBean" />
@@ -167,11 +148,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="batchCorrespondenceTypeCode" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="correspondenceNumber" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="protoCorrespTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="noOfDaysTillNext" />
                         </list>
                     </property>
                 </bean>
@@ -197,11 +174,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="batchCorrespondenceTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="correspondenceNumber" />
-                <bean parent="FieldDefinition"
                     p:attributeName="protoCorrespTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="noOfDaysTillNext" />
             </list>
         </property>
         <property name="resultFields" >
@@ -212,11 +185,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="batchCorrespondenceTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="correspondenceNumber" />
-                <bean parent="FieldDefinition"
                     p:attributeName="protoCorrespTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="noOfDaysTillNext" />
             </list>
         </property>
     </bean>

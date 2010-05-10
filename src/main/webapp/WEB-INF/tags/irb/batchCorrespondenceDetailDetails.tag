@@ -17,7 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
     <tr>
-        <kul:htmlAttributeHeaderCell literalLabel="One or after this day" scope="col" align="center" width="30%" />
+        <kul:htmlAttributeHeaderCell literalLabel="${KualiForm.batchCorrespondence.daysToEventUiText}" scope="col" align="center" width="30%" />
         <kul:htmlAttributeHeaderCell literalLabel="Take this Action" scope="col" align="center" width="50%" />
         <c:if test="${!readOnly}">
             <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center" width="20%" />
@@ -29,9 +29,8 @@
         <tr>
             <td class="infoline nobord">
                 <div align="center" style="font-weight:bold;">
-                    <kul:htmlControlAttribute property="newBatchCorrespondenceDetail.noOfDaysTillNext"
-                                              attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.noOfDaysTillNext}" />
-                    (of ${KualiForm.batchCorrespondence.defaultTimeWindow})
+                    <kul:htmlControlAttribute property="newBatchCorrespondenceDetail.daysToEvent"
+                                              attributeEntry="${DataDictionary.BatchCorrespondenceDetail.attributes.daysToEvent}" />
                 </div>
             </td>
             <td class="infoline nobord">
@@ -58,7 +57,7 @@
         <tr>
             <td>
                 <div align="center">
-                   ${details.noOfDaysTillNext} (of ${KualiForm.batchCorrespondence.defaultTimeWindow})
+                   ${details.daysToEvent}
                 </div>
             </td>
             <td>
@@ -81,12 +80,20 @@
     </c:forEach>
     <%-- Existing Details --%>
     
-    <%-- Final --%>
+    <%-- Final IRB Notification Action --%>
     <tr>
         <td>
-            <div align="center" style="font-weight:bold;">
-                ${KualiForm.batchCorrespondence.defaultTimeWindow} (of ${KualiForm.batchCorrespondence.defaultTimeWindow})
-            </div>
+            <c:if test="${KualiForm.batchCorrespondence.sendCorrespondence == 'BEFORE'}">
+                <div align="center" style="font-weight:bold;">
+                    0
+                </div>
+            </c:if>
+            <c:if test="${KualiForm.batchCorrespondence.sendCorrespondence == 'AFTER'}">
+                <div align="center" style="font-weight:bold;">
+                        <kul:htmlControlAttribute property="batchCorrespondence.finalActionDay"
+                                                  attributeEntry="${DataDictionary.BatchCorrespondence.attributes.finalActionDay}" />          
+                </div>
+            </c:if>
         </td>
         <td>
             <div align="left">

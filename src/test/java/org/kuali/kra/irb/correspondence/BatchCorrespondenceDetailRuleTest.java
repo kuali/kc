@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2006-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class BatchCorrespondenceDetailRuleTest {
      */
     @Test
     public void testAddBatchCorrespondenceDetail() throws Exception {
-        BatchCorrespondence batchCorrespondence = getBatchCorrespondence();
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
         BatchCorrespondenceDetail newBatchCorrespondenceDetail = getBachCorrespondenceDetail();
         boolean rulePassed = new BatchCorrespondenceDetailRule().processAddBatchCorrespondenceDetailRules(batchCorrespondence, newBatchCorrespondenceDetail);
         assertTrue(rulePassed);
@@ -69,7 +69,7 @@ public class BatchCorrespondenceDetailRuleTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testAddBatchCorrespondenceDetailWithMissingData() throws Exception {
-        BatchCorrespondence batchCorrespondence = getBatchCorrespondence();
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
         BatchCorrespondenceDetail newBatchCorrespondenceDetail = new BatchCorrespondenceDetail();
         boolean rulePassed = new BatchCorrespondenceDetailRule().processAddBatchCorrespondenceDetailRules(batchCorrespondence, newBatchCorrespondenceDetail);
         assertFalse(rulePassed);
@@ -81,31 +81,31 @@ public class BatchCorrespondenceDetailRuleTest {
         assertEquals(2, messageMap.getErrorCount());
         
         /*
-         * Verify that the error key of the protoCorrespTypeCode and noOfDaysTillNext fields are in the MessageMap.
+         * Verify that the error key of the protoCorrespTypeCode and daysToEvent fields are in the MessageMap.
          */
-        assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.noOfDaysTillNext"));
+        assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.daysToEvent"));
         assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.protoCorrespTypeCode"));
 
         /*
          * Verify that the correct error messages are in the MessageMap.
          */
-        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.noOfDaysTillNext");
-        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_NOT_SPECIFIED, errorMessages.get(0).getErrorKey());
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.daysToEvent");
+        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NOT_SPECIFIED, errorMessages.get(0).getErrorKey());
         errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.protoCorrespTypeCode");
         assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED, errorMessages.get(0).getErrorKey());
     }
 
     /**
      * 
-     * This test simulates a batch correspondence being added whose noOfDaysTillNext is invalid.
+     * This test simulates a batch correspondence being added whose daysToEvent is invalid.
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
     @Test
-    public void testAddBatchCorrespondenceDetailInvalidNoOfDaysTillNext() throws Exception {
-        BatchCorrespondence batchCorrespondence = getBatchCorrespondence();
+    public void testAddBatchCorrespondenceDetailInvalidDaysToEvent() throws Exception {
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
         BatchCorrespondenceDetail newBatchCorrespondenceDetail = getBachCorrespondenceDetail();
-        newBatchCorrespondenceDetail.setNoOfDaysTillNext(80);
+        newBatchCorrespondenceDetail.setDaysToEvent(80);
         boolean rulePassed = new BatchCorrespondenceDetailRule().processAddBatchCorrespondenceDetailRules(batchCorrespondence, newBatchCorrespondenceDetail);
         assertFalse(rulePassed);
 
@@ -116,15 +116,15 @@ public class BatchCorrespondenceDetailRuleTest {
         assertEquals(1, messageMap.getErrorCount());
         
         /*
-         * Verify that the error key of the protoCorrespTypeCode and noOfDaysTillNext fields are in the MessageMap.
+         * Verify that the error key of the daysToEvent fields is in the MessageMap.
          */
-        assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.noOfDaysTillNext"));
+        assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.daysToEvent"));
 
         /*
          * Verify that the correct error messages are in the MessageMap.
          */
-        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.noOfDaysTillNext");
-        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID, errorMessages.get(0).getErrorKey());
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.daysToEvent");
+        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID, errorMessages.get(0).getErrorKey());
     }
     
     /**
@@ -134,7 +134,7 @@ public class BatchCorrespondenceDetailRuleTest {
      */
     @Test
     public void testSaveBatchCorrespondenceTemplate() throws Exception {
-        BatchCorrespondence batchCorrespondence = getBatchCorrespondence();
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
         boolean rulePassed = new BatchCorrespondenceDetailRule().processSaveBatchCorrespondenceDetailRules(batchCorrespondence );
         assertTrue(rulePassed);
 
@@ -147,9 +147,9 @@ public class BatchCorrespondenceDetailRuleTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testSaveBatchCorrespondenceDetailInvalidDefaultTimeWindow() throws Exception {
-        BatchCorrespondence batchCorrespondence = getBatchCorrespondence();
-        batchCorrespondence.setDefaultTimeWindow(5);
+    public void testSaveBatchCorrespondenceDetailFinalActionDay () throws Exception {
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
+        batchCorrespondence.setFinalActionDay(5);
         boolean rulePassed = new BatchCorrespondenceDetailRule().processSaveBatchCorrespondenceDetailRules(batchCorrespondence );
         assertFalse(rulePassed);
 
@@ -160,25 +160,26 @@ public class BatchCorrespondenceDetailRuleTest {
         assertEquals(1, messageMap.getErrorCount());
         
         /*
-         * Verify that the error key of the protoCorrespTypeCode and noOfDaysTillNext fields are in the MessageMap.
+         * Verify that the error key of the finalActionDay field is in the MessageMap.
          */
-        assertTrue(messageMap.doesPropertyHaveError("batchCorrespondence.defaultTimeWindow"));
+        assertTrue(messageMap.doesPropertyHaveError("batchCorrespondence.finalActionDay"));
 
         /*
          * Verify that the correct error messages are in the MessageMap.
          */
-        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("batchCorrespondence.defaultTimeWindow");
-        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_INVALID, errorMessages.get(0).getErrorKey());
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("batchCorrespondence.finalActionDay");
+        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_INVALID, errorMessages.get(0).getErrorKey());
     }
     
-    private BatchCorrespondence getBatchCorrespondence() {
+    private BatchCorrespondence getBatchCorrespondenceAfter() {
         BatchCorrespondence batchCorrespondence = new BatchCorrespondence();
-        batchCorrespondence.setDefaultTimeWindow(60);
+        batchCorrespondence.setSendCorrespondence("AFTER");
+        batchCorrespondence.setFinalActionDay(30);
         batchCorrespondence.setFinalActionCorrespType("26");
         batchCorrespondence.setFinalActionTypeCode("300");
         BatchCorrespondenceDetail batchCorrespondenceDetail = new BatchCorrespondenceDetail();
         batchCorrespondenceDetail.setProtoCorrespTypeCode("15");
-        batchCorrespondenceDetail.setNoOfDaysTillNext(30);
+        batchCorrespondenceDetail.setDaysToEvent(15);
         batchCorrespondence.getBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
         return batchCorrespondence;
     }
@@ -186,7 +187,7 @@ public class BatchCorrespondenceDetailRuleTest {
     private BatchCorrespondenceDetail getBachCorrespondenceDetail() {
         BatchCorrespondenceDetail batchCorrespondenceDetail = new BatchCorrespondenceDetail();
         batchCorrespondenceDetail.setProtoCorrespTypeCode("10");
-        batchCorrespondenceDetail.setNoOfDaysTillNext(20);
+        batchCorrespondenceDetail.setDaysToEvent(20);
         return batchCorrespondenceDetail;
     }
 
