@@ -290,6 +290,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             preRouteCopy(form);
         }
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
+        .setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
+        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
         .setIsFinal(true);
         setupQuestionAndUsage(form);
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
