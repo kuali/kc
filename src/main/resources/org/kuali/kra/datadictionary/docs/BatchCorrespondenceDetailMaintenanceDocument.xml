@@ -55,13 +55,10 @@
                     p:name="batchCorrespondenceTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="correspondenceNumber"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
                     p:name="protoCorrespTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="noOfDaysTillNext"
+                    p:name="daysToEvent"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

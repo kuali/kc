@@ -695,11 +695,11 @@ public final class KeyConstants {
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_EMPTY_FILE = "error.correspondence.template.empty.file";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE_TYPE = "error.correspondence.template.invalid.file.type";
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
-    public static final String ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_NOT_SPECIFIED = "error.batch.correspondence.no.of.days.till.next.not.specified";
-    public static final String ERROR_BATCH_CORRESPONDENCE_NO_OF_DAYS_TILL_NEXT_INVALID = "error.batch.correspondence.no.of.days.till.next.invalid";
+    public static final String ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NOT_SPECIFIED = "error.batch.correspondence.days.to.event.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID = "error.batch.correspondence.days.to.event.invalid";
     public static final String ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED = "error.batch.correspondence.proto.corresp.type.code.not.specified";
-    public static final String ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_NOT_SPECIFIED = "error.batch.correspondence.default.time.window.not.specified";
-    public static final String ERROR_BATCH_CORRESPONDENCE_DEFAULT_TIME_WINDOW_INVALID = "error.batch.correspondence.default.time.window.invalid";
+    public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_NOT_SPECIFIED = "error.batch.correspondence.final.action.day.not.specified";
+    public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_INVALID = "error.batch.correspondence.final.action.day.invalid";
     public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_TYPE_CODE_NOT_SPECIFIED = "error.batch.correspondence.final.action.type.code.not.specified";
     public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_CORRESP_TYPE_NOT_SPECIFIED = "error.batch.correspondence.final.action.corresp.type.not.specified";
     

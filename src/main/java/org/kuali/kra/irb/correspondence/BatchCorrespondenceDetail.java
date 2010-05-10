@@ -25,11 +25,8 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
     
     private Integer batchCorrespondenceDetailId;
     private String batchCorrespondenceTypeCode;
-    // The correspondenceNumber is an artifact from the Coeus system.
-    // While it is not used it remains for backward equivalence.
-    private Integer correspondenceNumber;
     private String protoCorrespTypeCode;
-    private Integer noOfDaysTillNext;
+    private Integer daysToEvent;
     
     private ProtocolCorrespondenceType protocolCorrespondenceType;
     
@@ -53,14 +50,6 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
     }
 
-    public Integer getCorrespondenceNumber() {
-        return correspondenceNumber;
-    }
-
-    public void setCorrespondenceNumber(Integer correspondenceNumber) {
-        this.correspondenceNumber = correspondenceNumber;
-    }
-
     public String getProtoCorrespTypeCode() {
         return protoCorrespTypeCode;
     }
@@ -69,12 +58,12 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 
-    public Integer getNoOfDaysTillNext() {
-        return noOfDaysTillNext;
+    public Integer getDaysToEvent() {
+        return daysToEvent;
     }
 
-    public void setNoOfDaysTillNext(Integer noOfDaysTillNext) {
-        this.noOfDaysTillNext = noOfDaysTillNext;
+    public void setDaysToEvent(Integer daysToEvent) {
+        this.daysToEvent = daysToEvent;
     }
     
     public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
@@ -91,16 +80,15 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("batchCorrespondenceDetailId", this.getBatchCorrespondenceDetailId());
         hashMap.put("batchCorrespondenceTypeCode", this.getBatchCorrespondenceTypeCode());
-        hashMap.put("correspondenceNumber", this.getCorrespondenceNumber());
         hashMap.put("protoCorrespTypeCode", this.getProtoCorrespTypeCode());
-        hashMap.put("noOfDaysTillNext", this.getNoOfDaysTillNext());
+        hashMap.put("daysToEvent", this.getDaysToEvent());
         return hashMap;
     }
     
     public int compareTo(BatchCorrespondenceDetail arg) {
         int result = this.batchCorrespondenceTypeCode.compareTo(arg.batchCorrespondenceTypeCode);
         if (result == 0) {
-            result = this.noOfDaysTillNext.compareTo(arg.noOfDaysTillNext);
+            result = this.daysToEvent.compareTo(arg.daysToEvent);
         }
         if (result == 0) {
             result = this.protocolCorrespondenceType.getDescription().compareTo(arg.protocolCorrespondenceType.getDescription());

@@ -20,16 +20,21 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class BatchCorrespondence extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
+    
+    private static final String SEND_CORRESPONDENCE_BEFORE_EVENT ="BEFORE";
 
     private String batchCorrespondenceTypeCode; 
     private String description; 
-    private Integer defaultTimeWindow; 
+    private String daysToEventUiText; 
+    private String sendCorrespondence;
+    private Integer finalActionDay;
     private String finalActionTypeCode; 
     private String finalActionCorrespType;
     
@@ -58,12 +63,28 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public Integer getDefaultTimeWindow() {
-        return defaultTimeWindow;
+    public String getDaysToEventUiText() {
+        return daysToEventUiText;
     }
 
-    public void setDefaultTimeWindow(Integer defaultTimeWindow) {
-        this.defaultTimeWindow = defaultTimeWindow;
+    public void setDaysToEventUiText(String daysToEventUiText) {
+        this.daysToEventUiText = daysToEventUiText;
+    }
+
+    public String getSendCorrespondence() {
+        return sendCorrespondence;
+    }
+
+    public void setSendCorrespondence(String sendCorrespondence) {
+        this.sendCorrespondence = sendCorrespondence;
+    }
+
+    public Integer getFinalActionDay() {
+        return finalActionDay;
+    }
+
+    public void setFinalActionDay(Integer finalActionDay) {
+        this.finalActionDay = finalActionDay;
     }
 
     public String getFinalActionTypeCode() {
@@ -82,9 +103,18 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
         this.finalActionCorrespType = finalActionCorrespType;
     }
 
+    /**
+     * 
+     * This method returns the batch correspondence details in the proper order depending if
+     * correspondences occur before or after the event.
+     * @return Sorted list of BatchCorrespondenceDetail
+     */
     public List<BatchCorrespondenceDetail> getBatchCorrespondenceDetails() {
         List<BatchCorrespondenceDetail> result = this.batchCorrespondenceDetails;
         Collections.sort(result);
+        if (StringUtils.equals(getSendCorrespondence(), SEND_CORRESPONDENCE_BEFORE_EVENT)) {
+            Collections.reverse(result);
+        }
         return result;
     }
 
@@ -114,7 +144,9 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("BatchCorresponcenceTypeCode", this.getBatchCorrespondenceTypeCode());
         hashMap.put("description", this.getDescription());
-        hashMap.put("defaultTimeWindow", this.getDefaultTimeWindow());
+        hashMap.put("daysToEventUiText", this.getDaysToEventUiText());
+        hashMap.put("sendCorrespondence", this.getSendCorrespondence());
+        hashMap.put("finalActionDay", this.getFinalActionDay());
         hashMap.put("finalActionTypeCode", this.getFinalActionTypeCode());
         hashMap.put("finalActionCorrespType", this.getFinalActionCorrespType());
         return hashMap;
