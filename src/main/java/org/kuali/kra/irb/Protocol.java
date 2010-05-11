@@ -1031,26 +1031,36 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     public ProtocolSubmission getProtocolSubmission() {
         // TODO : this is a fix to remove 'populateTempViewDate'
-        
-        if (protocolSubmission == null) {
-            if (!protocolSubmissions.isEmpty()) {
-                for (ProtocolSubmission submission : protocolSubmissions) {
-                    if (protocolSubmission == null || submission.getSubmissionNumber() > protocolSubmission.getSubmissionNumber()) {
-                        protocolSubmission = submission;
-                    }
-                }
-                
-            } else {
-                protocolSubmission = new ProtocolSubmission();
-                // TODO : the update protocol rule may not like null
-                protocolSubmission.setProtocolSubmissionType(new ProtocolSubmissionType());
-                protocolSubmission.setSubmissionStatus(new ProtocolSubmissionStatus());
+
+        // if (protocolSubmission == null) {
+        if (!protocolSubmissions.isEmpty()) {
+            // sorted by ojb
+            if (protocolSubmission == null
+                    || protocolSubmission.getSubmissionNumber() == null
+                    || protocolSubmissions.get(protocolSubmissions.size() - 1).getSubmissionNumber() > protocolSubmission
+                            .getSubmissionNumber()) {
+                protocolSubmission = protocolSubmissions.get(protocolSubmissions.size() - 1);
             }
+            // for (ProtocolSubmission submission : protocolSubmissions) {
+            // if (protocolSubmission == null || protocolSubmission.getSubmissionNumber() == null
+            // || submission.getSubmissionNumber() > protocolSubmission.getSubmissionNumber()) {
+            // protocolSubmission = submission;
+            // }
+            // }
+
         }
+        else {
+            protocolSubmission = new ProtocolSubmission();
+            // TODO : the update protocol rule may not like null
+            protocolSubmission.setProtocolSubmissionType(new ProtocolSubmissionType());
+            protocolSubmission.setSubmissionStatus(new ProtocolSubmissionStatus());
+        }
+        // }
         refreshReferenceObject(protocolSubmission);
         return protocolSubmission;
     }
 
+    
     private void refreshReferenceObject(ProtocolSubmission submission) {
         // if submission just added, then these probably are empty
         if (StringUtils.isNotBlank(submission.getProtocolReviewTypeCode()) 

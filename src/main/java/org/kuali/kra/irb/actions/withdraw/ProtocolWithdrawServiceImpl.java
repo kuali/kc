@@ -87,7 +87,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
-        
+
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         ProtocolSubmission submission = getSubmission(protocol);
@@ -101,7 +101,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          * Cancelling the workflow document is how we withdraw it.
          */
         cancelWorkflow(protocol);
-        
+
         /*
          * Create a new protocol document for the user to edit so they can re-submit at 
          * a later time.
@@ -113,15 +113,18 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         //update some info
         newProtocolDocument.getProtocol().setApprovalDate(null);
         newProtocolDocument.getProtocol().setExpirationDate(null);
-        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleId(null);
-        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleIdFk(null);
-        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeId(null);
-        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
-        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
+
+        // COEUS does not set these values to null for 'withdraw action
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleId(null);
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleIdFk(null);
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommittee(null);
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeId(null);
+//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
         
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
-        
+
         //if there is an assign to agenda protocol action, remove it.
         ProtocolAction assignToAgendaProtoclAction = this.protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
         if (assignToAgendaProtoclAction != null) {
