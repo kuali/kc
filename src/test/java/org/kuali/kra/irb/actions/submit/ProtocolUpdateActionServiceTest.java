@@ -134,7 +134,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         
         protocolSubmission.setSubmissionNumber(1);
         protocol.setProtocolSubmission(protocolSubmission);
-        
+        protocol.getProtocolSubmissions().add(protocolSubmission);
         protocol.setProtocolNumber("001Z");
         
         action = new ProtocolAction() {

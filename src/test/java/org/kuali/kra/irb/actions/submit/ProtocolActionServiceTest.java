@@ -68,6 +68,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ProtocolSubmission protocolSubmission = getProtocolSubmission();
         protocolSubmission.setScheduleIdFk(1L);
         protocol.setProtocolSubmission(protocolSubmission);
+        protocol.getProtocolSubmissions().add(protocolSubmission);
 
         protocol.setProtocolNumber("001Z");
     }
