@@ -109,6 +109,7 @@
             <orderby name="updateTimestamp" sort="ASC" />
         </collection-descriptor>
         <collection-descriptor name="protocolSubmissions" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+           <orderby name="submissionNumber" sort="ASC" />
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>      
         <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">

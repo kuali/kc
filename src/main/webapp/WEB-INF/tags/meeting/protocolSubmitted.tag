@@ -56,10 +56,13 @@
                                 </thead>			
                                 <tbody>			
 			<%-- Existing data --%>
+			                        <c:set var="idx" value="1"/>
         	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
+        	                          <c:if test = "${protocolSubmission.protocol.active}" >
 	                                    <tr>
 					                       <th class="infoline" align="center">
-						                       <c:out value="${status.index+1}" />
+						                       <c:out value="${idx}" />
+			                                   <c:set var="idx" value="${idx+1}"/>
 					                       </th>
 	                                       <td align="left" valign="middle">
 	                                           <div align="left"> ${protocolSubmission.protocolNumber} </div>
@@ -117,6 +120,7 @@
 		                                       </td>
 		                                   </c:if>
 	                                   </tr>
+	                                 </c:if>  
         	                       </c:forEach>
 			<%-- Existing data --%>
                        </tbody>		

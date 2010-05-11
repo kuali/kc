@@ -370,8 +370,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
 
     public void resetPersistenceState() {
         submissionId = null;
-        committeeIdFk = null;
-        scheduleIdFk = null;
+//        committeeIdFk = null;
+//        scheduleIdFk = null;
     }
     
     @Override
