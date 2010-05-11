@@ -21,11 +21,13 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;
 
     /**
      * Set the business object service.
@@ -41,6 +43,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         protocol.setApprovalDate(actionBean.getApprovalDate());
@@ -48,6 +51,10 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
 
+    }
+
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
 }
