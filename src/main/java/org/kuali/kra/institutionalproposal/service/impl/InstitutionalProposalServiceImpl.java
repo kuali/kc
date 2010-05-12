@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -60,7 +62,6 @@ import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.mortbay.log.Log;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -68,6 +69,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class InstitutionalProposalServiceImpl implements InstitutionalProposalService {
+    
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposalServiceImpl.class);
     
     private static final String KC_SYSTEM_USER = "quickstart";
     private static final String WORKFLOW_EXCEPTION_MESSAGE = "Caught workflow exception creating new Institutional Proposal";
@@ -209,7 +212,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     updatedProposals.add(newVersion);
                     
                 } else {
-                    Log.warn("Could not designate proposal " + proposalNumber + " as Funded: no Active version found.");
+                    LOG.warn("Could not designate proposal " + proposalNumber + " as Funded: no Active version found.");
                 }
             }
             
