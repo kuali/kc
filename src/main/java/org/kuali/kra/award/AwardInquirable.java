@@ -19,7 +19,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;

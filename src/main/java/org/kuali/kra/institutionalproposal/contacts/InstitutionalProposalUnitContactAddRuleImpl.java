@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.codehaus.plexus.util.StringUtils;
-import org.kuali.kra.award.contacts.AwardUnitContact;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kns.util.GlobalVariables;

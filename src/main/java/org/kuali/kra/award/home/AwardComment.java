@@ -15,16 +15,13 @@
  */
 package org.kuali.kra.award.home;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MemberPresentBean;
 
 /**
  * This class is business object representation of an Award Comment

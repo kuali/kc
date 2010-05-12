@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardComment;
