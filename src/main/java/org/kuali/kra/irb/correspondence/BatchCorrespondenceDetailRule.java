@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 

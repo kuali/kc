@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.service.impl;
 
-import hidden.org.codehaus.plexus.interpolation.util.StringUtils;
-
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,15 +27,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
 
 /**
  * This class is to process deep copy with Object Utils and then 
