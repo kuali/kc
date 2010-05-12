@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.assignreviewers;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

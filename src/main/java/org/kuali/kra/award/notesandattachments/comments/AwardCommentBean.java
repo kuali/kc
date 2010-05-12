@@ -18,7 +18,7 @@ package org.kuali.kra.award.notesandattachments.comments;
 import java.io.Serializable;
 import java.util.List;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.bo.CommentType;
