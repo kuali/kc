@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.award.home;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.mortbay.log.Log;
-
 import java.util.LinkedHashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
 public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase { 
+    
+    private static final Log LOG = LogFactory.getLog(ValidBasisMethodPayment.class);
     
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +70,7 @@ public class ValidBasisMethodPayment extends KraPersistableBusinessObjectBase {
     public InvInstructionsIndicatorConstants getInvInstructionsIndicatorConstant() {
         InvInstructionsIndicatorConstants result = InvInstructionsIndicatorConstants.getByCode(invInstructionsIndicator);
         if( result == null && invInstructionsIndicator!=null ) 
-            Log.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
+            LOG.warn(String.format( "ValidBasisMethodPayment with id = %s has invalid InvInstructionsIndicator value of %s", getValidBasisMethodPaymentId(), getInvInstructionsIndicator() ) );
         return result;
     }
 
