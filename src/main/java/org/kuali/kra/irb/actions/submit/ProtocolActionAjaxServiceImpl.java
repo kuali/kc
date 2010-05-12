@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.submit;
 import java.util.Collection;
 import java.util.List;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
