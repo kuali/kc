@@ -27,14 +27,15 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.mortbay.log.Log;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
 public class SponsorServiceImpl implements SponsorService, Constants {
-
+    
     private SponsorHierarchyDao sponsorHierarchyDao;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
@@ -66,8 +67,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(SponsorServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(SponsorServiceImpl.class);
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.SponsorService#getSponsorName(java.lang.String)
@@ -355,7 +355,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
             setLevelMethod.invoke(sponsor, newGroupName);
         }
         catch (Exception e) {
-            Log.debug("Error setting group name on sponsor", e);
+            LOG.debug("Error setting group name on sponsor", e);
         }
     }
     
@@ -370,7 +370,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
             setSortIdMethod.invoke(sponsor, getNewSortId((Integer)getSortIdMethod.invoke(sponsor, (Object[])null), changeBy));
         }
         catch (Exception e) {
-            Log.debug("Error setting new sortId on sponsor", e);
+            LOG.debug("Error setting new sortId on sponsor", e);
         }
     }    
     
