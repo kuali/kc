@@ -29,7 +29,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 public class MeetingHelper implements Serializable {
 

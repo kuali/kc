@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.springframework.util.ObjectUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 import sun.security.action.GetBooleanAction;
 

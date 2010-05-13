@@ -30,7 +30,7 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 /**
  * Gets all sequence numbers for the current award id.  See

@@ -43,9 +43,6 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
-import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleImmutableEntry;
-
 /**
  * Base implementation class for KRA document business rules
  *
