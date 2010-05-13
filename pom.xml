@@ -230,7 +230,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>1.0.2-KC-05</version>
+					<version>1.0.2-KC-06</version>
 					<exclusions>
 						<exclusion>
 							<groupId>junit</groupId>
@@ -497,7 +497,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>1.0.2-KC-05</version>
+					<version>1.0.2-KC-06</version>
 					<exclusions>
 						<exclusion>
 							<groupId>itext</groupId>
