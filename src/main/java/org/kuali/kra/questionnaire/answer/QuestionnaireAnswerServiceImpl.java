@@ -32,7 +32,7 @@ import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 /**
  * 
