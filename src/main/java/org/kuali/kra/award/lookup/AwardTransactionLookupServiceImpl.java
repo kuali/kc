@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 public class AwardTransactionLookupServiceImpl implements AwardTransactionLookupService {
 
