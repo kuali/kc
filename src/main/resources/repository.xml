@@ -1183,6 +1183,7 @@
 		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<!-- 
 		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
@@ -1330,6 +1331,7 @@
 		<field-descriptor name="level9Sortid" column="LEVEL9_SORTID" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
@@ -1360,6 +1362,7 @@
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<!--
 		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="proposalNumber"/>
@@ -1396,6 +1399,7 @@
 		<field-descriptor name="uploadUserDisplay" column="USER_DISPLAY" jdbc-type="VARCHAR"/>		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	
 		<reference-descriptor name="abstractType" class-ref="org.kuali.kra.proposaldevelopment.bo.AbstractType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="abstractTypeCode"/> 
