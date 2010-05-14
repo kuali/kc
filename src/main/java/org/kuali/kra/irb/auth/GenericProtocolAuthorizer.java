@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.auth;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
@@ -57,57 +60,54 @@ public class GenericProtocolAuthorizer extends ProtocolAuthorizer {
      */
     public static final String TERMINATE_PROTOCOL = "protocolTerminate";
     
+    private static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
+    static {
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(CLOSE_PROTOCOL, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(CLOSE_ENROLLMENT_PROTOCOL, ProtocolActionType.CLOSED_FOR_ENROLLMENT);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, ProtocolActionType.EXPIRED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(PERMIT_DATA_ANALYSIS, ProtocolActionType.DATA_ANALYSIS_ONLY);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(REOPEN_PROTOCOL, ProtocolActionType.REOPEN_ENROLLMENT);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, ProtocolActionType.SUSPENDED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL_BY_DSMB, ProtocolActionType.SUSPENDED_BY_DSMB);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, ProtocolActionType.TERMINATED);     
+    }
+    
     private static final String ERROR_MESSAGE = "Please set genericTaskName with one of the static strings in this class.";
     
     private String genericTaskName;
 
+    
     /** {@inheritDoc} */
     public boolean isAuthorized(String userId, ProtocolTask task) {
+        //System.err.println("canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType(): " + canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()));
+        //System.err.println("hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS): " + hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS));
         return canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
     
-    
+    /**
+     * 
+     * This method converts a Generic Task Tanem to a Protocol Action Type.
+     * @return a ProtocolActionType String
+     */
     private String convertGenericTaskNameToProtocolActionType() {
-        if (CLOSE_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED;
-        } else if (CLOSE_ENROLLMENT_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.CLOSED_FOR_ENROLLMENT;
-        } else if (EXPIRE_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.EXPIRED;
-        } else if (PERMIT_DATA_ANALYSIS.equals(this.genericTaskName)) {
-            return ProtocolActionType.DATA_ANALYSIS_ONLY;
-        } else if (REOPEN_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.REOPEN_ENROLLMENT;
-        } else if (SUSPEND_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.SUSPENDED;
-        } else if (SUSPEND_PROTOCOL_BY_DSMB.equals(this.genericTaskName)) {
-            return ProtocolActionType.SUSPENDED_BY_DSMB;
-        } else if (TERMINATE_PROTOCOL.equals(this.genericTaskName)) {
-            return ProtocolActionType.TERMINATED;
+        if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(this.genericTaskName)) {
+            return TASK_NAME_TO_ACTION_TYPE_MAP.get(this.genericTaskName);
         } else {
             throw new IllegalArgumentException(ERROR_MESSAGE);
-        }
-        
+        }      
     }
     
     /**
      * 
-     * This method sets the genericTaskName variable.  Please use on the static strings in this class.
+     * This method sets the genericTaskName variable.  Please use the static strings in this class.
      * @param genericTaskName String.
      */
     public void setGenericTaskName(String genericTaskName) {
-        if ( CLOSE_PROTOCOL.equals(genericTaskName)
-                || CLOSE_ENROLLMENT_PROTOCOL.equals(genericTaskName)
-                || EXPIRE_PROTOCOL.equals(genericTaskName)
-                || PERMIT_DATA_ANALYSIS.equals(genericTaskName)
-                || REOPEN_PROTOCOL.equals(genericTaskName)
-                || SUSPEND_PROTOCOL.equals(genericTaskName)
-                || SUSPEND_PROTOCOL_BY_DSMB.equals(genericTaskName)
-                || TERMINATE_PROTOCOL.equals(genericTaskName)) {
+        if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(genericTaskName)) {
             this.genericTaskName = genericTaskName;
         } else {
-            throw new IllegalArgumentException(ERROR_MESSAGE); 
+            throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 }
