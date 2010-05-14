@@ -23,7 +23,6 @@ import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -66,13 +65,14 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
         return isAuthorized;
     }
     
-    public boolean isAuthorizedForGenericAction(String userId, Task task, String genericTaskName){
+    /** {@inheritDoc} */
+    public boolean isAuthorizedForGenericAction(String userId, Task task, String genericTaskName) {
         boolean isAuthorized = true;
         if (taskAuthorizerGroups != null) {
             String groupName = task.getGroupName();
             for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
                 if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
-                    GenericProtocolAuthorizer taskAuthorizer = (GenericProtocolAuthorizer)taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                    GenericProtocolAuthorizer taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
                     taskAuthorizer.setGenericTaskName(genericTaskName);
                     if (taskAuthorizer != null) {
                         isAuthorized = taskAuthorizer.isAuthorized(userId, task);
@@ -84,16 +84,14 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
         return isAuthorized;
     }
 
-    /**
-     * @see org.kuali.kra.service.TaskAuthorizationService#isTaskDefined(java.lang.String, java.lang.String)
-     */
+    /** {@inheritDoc} */
     @Transactional
     public boolean isTaskDefined(String taskGroupName, String taskName) {
         if (taskAuthorizerGroups != null) {
             for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
                 if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), taskGroupName)) {
                     TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(taskName);
-                    return (taskAuthorizer != null);
+                    return taskAuthorizer != null;
                 }
             }
         }
