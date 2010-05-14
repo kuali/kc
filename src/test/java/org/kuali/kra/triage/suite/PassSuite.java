@@ -42,6 +42,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.noteattachment.ProtocolAttachmentBaseRuleHelperTest.class,
     org.kuali.kra.web.WorkflowWebTest.class,
     org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
+    org.kuali.kra.irb.auth.GenericProtocolAuthorizerTest.class,
     org.kuali.kra.award.AwardDocumentRuleTest.class,
     org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRuleTest.class,
     org.kuali.kra.award.commitments.AwardFandaRateRuleTest.class,
