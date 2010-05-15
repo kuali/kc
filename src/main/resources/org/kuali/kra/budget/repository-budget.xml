@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2010 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -1091,10 +1091,10 @@
         <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.award.budget.document.AwardBudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardBudgetStatusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardBudgetTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.junit.Test;
  * 
  * This is the integration test for Award Closeout panel. 
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
         
     public static final String ADD_AWARD_CLOSEOUT = "methodToCall.addAwardCloseout.anchorAwardCloseout";

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,11 +95,6 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
     }
     
     @Override
-    protected boolean canCancel(Document document, Person user) {
-        return canEdit(document, user) && super.canCancel(document, user);
-    }
-    
-    @Override
     protected boolean canReload(Document document, Person user) {
         KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
         return canEdit(document, user) || workflow.stateIsCanceled();
@@ -126,5 +121,10 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         String rebudgetTypeCode = getParameterService().getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return budget.getAwardBudgetTypeCode().equals(rebudgetTypeCode);
     }
-
+    
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        KualiWorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+        return super.canCancel(document)&&canEdit(document) && !workflow.stateIsEnroute() ; 
+    }
 }

@@ -1,5 +1,5 @@
 <%--
-Copyright 2006-2009 The Kuali Foundation
+Copyright 2005-2010 The Kuali Foundation
 
 Licensed under the Educational Community License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,10 +35,12 @@ http://www.osedu.org/licenses/ECL-2.0
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
+            <c:if test="${not empty KualiForm.document.developmentProposal.continuedFrom}">
             <tr>
-                <th align="right" valign="middle"><html:radio property="resubmissionOption" value="O" /></th>
+                <th align="right" valign="middle"><html:radio property="resubmissionOption" value="O"/></th>
                 <td align="left" valign="middle">Generate a new version of Original Institutional Proposal (<c:out value="${KualiForm.document.developmentProposal.continuedFrom}" />)</td>
             </tr>
+            </c:if>
             <tr>
                 <th align="right" valign="middle"><html:radio property="resubmissionOption" value="A" /></th>
                 <td align="left" valign="middle">

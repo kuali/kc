@@ -6,6 +6,7 @@
 			<description>Create a New Deadline Type</description>
 			<label>Deadline Type</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/deadlinetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

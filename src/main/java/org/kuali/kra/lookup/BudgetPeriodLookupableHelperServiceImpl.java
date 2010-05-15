@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
      *      S2sService#searchOpportunity service to look up the opportunity
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String awardId = fieldValues.get("budgetParentId");
-        List<BudgetPeriod> budgetPeriods = findBudgetPeriodsFromLinkedProposal(awardId);
+        String awardNumber = fieldValues.get("budgetParentId");
+        List<BudgetPeriod> budgetPeriods = findBudgetPeriodsFromLinkedProposal(awardNumber);
         return budgetPeriods;
     }
     @SuppressWarnings("unchecked")
@@ -62,32 +62,35 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
         fieldValues.put(key, value);
         return (List)getBusinessObjectService().findMatching(clazz, fieldValues);
     }
-    private List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardId) {
+    private List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
         BusinessObjectService businessObjectService = getBusinessObjectService();
-        List<AwardFundingProposal> fundingProposals = findObjectsWithSingleKey(AwardFundingProposal.class, "awardId",awardId);
         List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
-        for (AwardFundingProposal fundingProposal : fundingProposals) {
-        	if (fundingProposal.isActive()) {
-	            List<InstitutionalProposal> instProposals = findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
-	            for (InstitutionalProposal instProp : instProposals) {
-	                List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
-	                                                                                "instProposalId",instProp.getProposalId());
-	                for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-	                    String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-	                    DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
-	                                                                            DevelopmentProposal.class, developmentProposalNumber);
-	                    List<BudgetDocumentVersion> budgetDocumentVersions =  findObjectsWithSingleKey(BudgetDocumentVersion.class, 
-	                                                                                "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
-	                    for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-	                        Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
-	                                                                        budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
-	                        if(budget.isFinalVersionFlag()){
-	                            budgetPeriods.addAll(budget.getBudgetPeriods());
-	                        }
-	                    }
-	                }
-	            }
-        	}
+        List<Award> awardVersions = findObjectsWithSingleKey(Award.class, "awardNumber", awardNumber);
+        for (Award award : awardVersions) {
+            List<AwardFundingProposal> fundingProposals = findObjectsWithSingleKey(AwardFundingProposal.class, "awardId",award.getAwardId());
+            for (AwardFundingProposal fundingProposal : fundingProposals) {
+            	if (fundingProposal.isActive()) {
+    	            List<InstitutionalProposal> instProposals = findObjectsWithSingleKey(InstitutionalProposal.class, "proposalNumber", fundingProposal.getProposal().getProposalNumber());
+    	            for (InstitutionalProposal instProp : instProposals) {
+    	                List<ProposalAdminDetails> proposalAdminDetails = findObjectsWithSingleKey(ProposalAdminDetails.class, 
+    	                                                                                "instProposalId",instProp.getProposalId());
+    	                for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+    	                    String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
+    	                    DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
+    	                                                                            DevelopmentProposal.class, developmentProposalNumber);
+    	                    List<BudgetDocumentVersion> budgetDocumentVersions =  findObjectsWithSingleKey(BudgetDocumentVersion.class, 
+    	                                                                                "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
+    	                    for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
+    	                        Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
+    	                                                                        budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
+    	                        if(budget.isFinalVersionFlag()){
+    	                            budgetPeriods.addAll(budget.getBudgetPeriods());
+    	                        }
+    	                    }
+    	                }
+    	            }
+            	}
+            }
         }
         return budgetPeriods;
     }

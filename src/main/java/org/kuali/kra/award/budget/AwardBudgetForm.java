@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,17 @@ package org.kuali.kra.award.budget;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AwardBudgetForm extends BudgetForm {
     /**
@@ -77,15 +72,21 @@ public class AwardBudgetForm extends BudgetForm {
         // clear out the extra buttons array
         extraButtons.clear();
         AwardBudgetDocument doc = this.getAwardBudgetDocument();
-        String externalImageURL = "kra.externalizable.images.url";
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
+            String toggleAwardStatusButtonImage = buildExtraButtonSourceURI("buttonsmall_toggleBudgetStatus.gif");
+            addExtraButton("methodToCall.toggleAwardBudgetStatus", toggleAwardStatusButtonImage, "Toggle Budget Status");
+        }
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.POST_AWARD_BUDGET,doc ))) {
-            String submitToGrantsGovImage = buildExtraButtonSourceURI("buttonsmall_postawardbudget.gif");
-            addExtraButton("methodToCall.postAwardBudget", submitToGrantsGovImage, "Post Budget");
-        
+            String postAwardBudgetImage = buildExtraButtonSourceURI("buttonsmall_postawardbudget.gif");
+            addExtraButton("methodToCall.postAwardBudget", postAwardBudgetImage, "Post Budget");
         }
         
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
+            addExtraButton("methodToCall.reject", KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
+        }
         return extraButtons;
     }
     

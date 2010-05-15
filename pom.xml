@@ -4,60 +4,23 @@
 	<groupId>org.kuali.kra</groupId>
 	<artifactId>kc_project</artifactId>
 	<packaging>war</packaging>
-	<name>KCRA Project</name>
+	<name>Kuali Coeus</name>
 	<version>2.0</version>
-	<url>http://kuali.org</url>
-	
+	<description>The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research administration that fully addresses the needs from the faculty researcher through grants administration to federal funding agencies. KC is using MIT’s proven COEUS system as its baseline design, filling in missing functionality from COEUS, and updating its technical architecture for vendor independence and easier integration with other administration systems.</description>
+	<url>http://kuali.org/kc</url>
 	<organization>
-    <name>Kuali Coeus</name>
-    <url> http://kra.testdrive.kuali.org/kra-ptd</url>
-<!--<logo>https://test,kuali.org/kra-ptd/images-portal/logo-kra.gif</logo> -->
-  	</organization>
+		<name>The Kuali Foundation</name>
+		<url>http://kuali.org</url>
+	</organization>
 
-	<developers>
-	    <developer>
-	      <id>td</id>
-	      <name>Terry Durkin</name>
-	      <email>td@kuali.org</email>
-	      <!--<url>http://eric.propellors.net</url> -->
-	      <organization>Kuali Coeus</organization>
-	      <organizationUrl>http://kuali.org</organizationUrl>
-	      <roles>
-	        <role>DM</role>
-	        <role>developer</role>
-	      </roles>
-	      <timezone>-5</timezone>
-	      <!--<properties>
-	        <picUrl>http://tinyurl.com/prv4t</picUrl>
-	      </properties> -->
-	    </developer>
-	        <developer>
-	          <id>bh</id>
-	          <name>Brian Hutchinson</name>
-	          <email>bh@kuali.org</email>
-	          <!--<url>http://eric.propellors.net</url> -->
-	          <organization>Kuali Coeus</organization>
-	          <organizationUrl>http://kuali.org</organizationUrl>
-	          <roles>
-	            <role>DM</role>
-	            <role>developer</role>
-	          </roles>
-	          <timezone>-5</timezone>
-	          <!--<properties>
-	            <picUrl>http://tinyurl.com/prv4t</picUrl>
-	          </properties> -->
-	        </developer>
-	
-	  </developers>
-	
 	<licenses>
-	  <license>
-	    <name>Kuali Coeus</name>
-	    <url>https://test.kuali.org/licenses/LICENSE-1.0.txt</url>
-	    <distribution>repo</distribution>
-	    <comments>Kuali Coeus license</comments>
-	  </license>
+		<license>
+			<name>The Kuali Foundation Educational Community License 2.0</name>
+			<url>http://www.opensource.org/licenses/ecl2.txt</url>
+			<distribution>manual</distribution>
+		</license>
 	</licenses>
+
 	<issueManagement>
 	    <system>Jira</system>
 	    <url>https://test.kuali.org/jira/</url>
@@ -230,7 +193,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>1.0.x-KC-M4</version>
+					<version>1.0.2</version>
 					<exclusions>
 						<exclusion>
 							<groupId>junit</groupId>
@@ -340,15 +303,20 @@
 				</dependency>
                 <dependency>                    
                 	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication</artifactId>                    
-                	<version>0.9.2-SNAPSHOT</version>                
-                </dependency>
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
                 	<artifactId>gg-application</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency>
                 <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-system</artifactId>                    
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-forms1</artifactId>                    
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                <dependency>                     
                 	<groupId>org.kuali.kra.s2s</groupId>                    
                 	<artifactId>gg-forms2</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
@@ -356,7 +324,7 @@
                 <dependency>                    
                 	<groupId>org.kuali.kra.s2s</groupId>                    
                 	<artifactId>kc-printing-xsds</artifactId>                    
-                	<version>0.9.2-SNAPSHOT</version>                
+                	<version>0.9.4-SNAPSHOT</version>                
                 </dependency>
                 <dependency>                    
                 	<groupId>org.kuali.kra.s2s</groupId>                    
@@ -368,65 +336,27 @@
                 	<artifactId>gg-forms4</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency> 
-				<!--
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-forms5</artifactId>             
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>kc-s2s-generated</artifactId>             
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                
 				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>MetaGrantApplication</artifactId>
-					<version>0.9.0</version>
-				</dependency>
-				--><!--
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication</artifactId>                    
-                	<version>0.9.1</version>                
-                </dependency>
-				
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication20</artifactId>                    
-                	<version>0.9.1</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>PHS398_Checklist</artifactId>                    
-                	<version>1.3</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_KeyPersonExpanded</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_OtherProjectInfo</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_PersonalData</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_SF424</artifactId>                    
-                	<version>1.2</version>                
-                </dependency> 
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>kc-printing-xsds</artifactId>                    
-                	<version>0.9.0</version>                
-                </dependency>
-				
-				--><dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>
 					<version>${cxf.version}</version>
+					<exclusions>
+						<exclusion><!-- avoids conflict with javamail -->
+							<groupId>org.apache.geronimo.specs</groupId>
+							<artifactId>geronimo-javamail_1.4_spec</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -497,7 +427,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>1.0.x-KC-M4</version>
+					<version>1.0.2</version>
 					<exclusions>
 						<exclusion>
 							<groupId>itext</groupId>
@@ -616,14 +546,20 @@
     				<artifactId>xmlbeans-maven-plugin</artifactId>
     				<version>2.3.2</version>
 				</dependency>
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication</artifactId>                    
-                	<version>0.9.2-SNAPSHOT</version>                
-                </dependency>
-                <dependency>                    
+                <dependency>                   
                 	<groupId>org.kuali.kra.s2s</groupId>                    
                 	<artifactId>gg-application</artifactId>                    
+                	<version>1.0-SNAPSHOT</version>              
+                </dependency>
+				<dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-system</artifactId>                    
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                                
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>      
+                	<artifactId>gg-forms1</artifactId>                    
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency>
                 <dependency>                    
@@ -634,7 +570,7 @@
                 <dependency>                    
                 	<groupId>org.kuali.kra.s2s</groupId>                    
                 	<artifactId>kc-printing-xsds</artifactId>                    
-                	<version>0.9.2-SNAPSHOT</version>                
+                	<version>0.9.4-SNAPSHOT</version>                
                 </dependency>
                 <dependency>                    
                 	<groupId>org.kuali.kra.s2s</groupId>                    
@@ -646,66 +582,26 @@
                 	<artifactId>gg-forms4</artifactId>             
                 	<version>1.0-SNAPSHOT</version>                
                 </dependency>
-               	
-				<!--
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>gg-forms5</artifactId>             
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
+                <dependency>                    
+                	<groupId>org.kuali.kra.s2s</groupId>                    
+                	<artifactId>kc-s2s-generated</artifactId>             
+                	<version>1.0-SNAPSHOT</version>                
+                </dependency>
 				<dependency>
-					<groupId>org.kuali.kra.s2s</groupId>
-					<artifactId>MetaGrantApplication</artifactId>
-					<version>0.9.0</version>
-				</dependency>
-				--><!--
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication</artifactId>                    
-                	<version>0.9.1</version>                
-                </dependency>
-				
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>MetaGrantApplication20</artifactId>                    
-                	<version>0.9.1</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>PHS398_Checklist</artifactId>                    
-                	<version>1.3</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_KeyPersonExpanded</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_OtherProjectInfo</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_PersonalData</artifactId>                    
-                	<version>1.2</version>                
-                </dependency>
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>RR_SF424</artifactId>                    
-                	<version>1.2</version>                
-                </dependency> 
-
-                <dependency>                    
-                	<groupId>org.kuali.kra.s2s</groupId>                    
-                	<artifactId>kc-printing-xsds</artifactId>                    
-                	<version>0.9.0</version>                
-                </dependency>
-				
-				--><dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http-jetty</artifactId>
 					<version>${cxf.version}</version>
+					<exclusions>
+						<exclusion><!-- avoids conflict with javamail -->
+							<groupId>org.apache.geronimo.specs</groupId>
+							<artifactId>geronimo-javamail_1.4_spec</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 				
 				<dependency>
@@ -728,6 +624,12 @@
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http</artifactId>
 					<version>${cxf.version}</version>
+					<exclusions>
+						<exclusion><!-- avoids conflict with javamail -->
+							<groupId>org.apache.geronimo.specs</groupId>
+							<artifactId>geronimo-javamail_1.4_spec</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
@@ -743,6 +645,12 @@
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-databinding-jaxb</artifactId>
 					<version>${cxf.version}</version>
+					<exclusions>
+						<exclusion><!-- avoids conflict with javamail -->
+							<groupId>org.apache.geronimo.specs</groupId>
+							<artifactId>geronimo-javamail_1.4_spec</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 				
 			</dependencies>

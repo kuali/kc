@@ -371,6 +371,7 @@
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+			<helpDefinitionURL>default.htm?turl=Documents/proposaldevelopmentdocument.htm</helpDefinitionURL>
 			<active>true</active>
 			<policies>
 				<policy>

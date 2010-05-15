@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
     private static final RateDecimal APPLICABLE_RATE_1 =  new RateDecimal(5.555);
     private static final RateDecimal APPLICABLE_RATE_2 =  new RateDecimal(10.345);

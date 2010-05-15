@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2003,6 +2003,27 @@ public class PrintingTestUtils {
 		reportParamsMap.put(TRANSACTION_ID, null);
 		//TODO need to put all the parameters associated with highestTransactionIdIndex.( AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
 //		.getAwardPrintParameter() )
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getResearchAndRelatedReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getProposalSubmissionReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getInstitutionalProposalReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getProposalDevelopmentXmlStreamReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	
+	public static Map<String, Object> getBudgetBaseSalaryStreamReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
 		return reportParamsMap;
 	}
 }

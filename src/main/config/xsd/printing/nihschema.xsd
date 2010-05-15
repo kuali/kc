@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by E Shavell (Massachusetts Institute of Technology) -->
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by Eleanor Shavell (Massachusetts Institute of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Eleanor Shavell (Massachusetts Institute of Technology) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" xmlns:rar="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace" xmlns:nih="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" targetNamespace="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace">
 	<xs:import namespace="http://era.nih.gov/Projectmgmt/SBIR/CGAP/common.namespace" schemaLocation="commontypes.xsd"/>
@@ -69,6 +69,7 @@
 					<xs:element ref="nih:RoleOnProject"/>
 					<xs:element name="OrganizationDuns" type="common:DUNSType" minOccurs="0"/>
 					<xs:element name="NIHBiographicalSketch" type="nih:KeyPersonBiosketchType"/>
+					<xs:element name="Degree" type="xs:string" minOccurs="0" maxOccurs="3"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

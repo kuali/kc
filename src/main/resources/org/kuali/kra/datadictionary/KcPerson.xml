@@ -13,7 +13,7 @@
     </property>
     <property name="titleAttribute" value="personId" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentKcPersonHelpUrl" p:parameterDetailType="D" />
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentPersonHelpUrl" p:parameterDetailType="D" />
     </property>
     <property name="attributes" >
       <list>

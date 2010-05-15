@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -236,6 +236,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
         if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            revertFundedProposals();
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
         
@@ -281,7 +282,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             }
         }
         if (modifiedProposals.size() > 0) {
-            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
+            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals);
             getAward().getFundingProposals().removeAll(pendingVersions);
             for (InstitutionalProposal institutionalProposal : fundedVersions) {
                 AwardFundingProposal awardFundingProposal = new AwardFundingProposal(getAward(), institutionalProposal);
@@ -541,6 +542,21 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         if(getDocumentHeader() != null)
             return PLACEHOLDER_DOC_DESCRIPTION.equals(getDocumentHeader().getDocumentDescription());
         return false;
+    }
+    
+    /*
+     * Find all Institutional Proposals that were marked as Funded by this Award version,
+     * and revert them back to Pending.
+     */
+    private void revertFundedProposals() {
+        Set<String> proposalsToUpdate = new HashSet<String>();
+        
+        for (AwardFundingProposal awardFundingProposal : this.getAward().getFundingProposals()) {
+            proposalsToUpdate.add(awardFundingProposal.getProposal().getProposalNumber());
+        }
+        
+        getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
+                this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
     }
 
 }

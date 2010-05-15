@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * This class represents an Intellectual Property Review Activity.
+ */
 public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> { 
     
     private static final long serialVersionUID = 1L;
@@ -36,6 +39,9 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     private IntellectualPropertyReviewActivityType ipReviewActivityType;
     private IntellectualPropertyReview intellectualPropertyReview;
     
+    /**
+     * Constructs an InstitutionalProposalIpReviewActivity.java.
+     */
     public InstitutionalProposalIpReviewActivity() { 
 
     } 

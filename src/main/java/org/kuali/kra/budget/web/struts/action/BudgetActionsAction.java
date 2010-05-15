@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except inputStream compliance with the License.
@@ -412,6 +412,12 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
         boolean success = isValidForPost(awardBudgetDocument);
         getAwardBudgetService().post(awardBudgetDocument);   
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward toggleAwardBudgetStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
+        getAwardBudgetService().toggleStatus(awardBudgetDocument);   
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

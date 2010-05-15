@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
@@ -70,6 +71,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -79,11 +81,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.HeaderField;
 
 public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
+    
+    private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -119,6 +124,9 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         reconcileBudgetStatus(budgetForm);
+        if ("Personnel".equals(budgetForm.getActivePanelName())) {
+            forward = personnel(mapping, budgetForm, request, response);
+        }
         return forward;
     }
 
@@ -372,6 +380,9 @@ public class BudgetAction extends BudgetActionBase {
             if(StringUtils.isNotBlank(budgetCategoryTypeCode) && StringUtils.equalsIgnoreCase(budgetCategoryTypeCode, personnelBudgetCategoryTypeCode)) {
                 budgetCategoryTypes.add(budgetCategoryType);
                 BudgetLineItem newBudgetLineItem = budget.getNewBudgetLineItem();
+                if (budgetForm.getNewBudgetLineItems() == null) {
+                    budgetForm.setNewBudgetLineItems(new ArrayList<BudgetLineItem>());
+                }
                 budgetForm.getNewBudgetLineItems().add(newBudgetLineItem);
             }
         }
@@ -667,5 +678,34 @@ public class BudgetAction extends BudgetActionBase {
     protected PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(BudgetLockService.class);
     }
+    
+    public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        ActionForward forward;
+        if(question == null){
+            forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+         } 
+        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+            forward =  mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else
+        {
+            //reject the document using the service.
+            BudgetDocument document = ((BudgetForm)form).getDocument();
+            document.documentHasBeenRejected(reason);
+            KraServiceLocator.getService(KraDocumentRejectionService.class).reject(document.getDocumentNumber(), reason, GlobalVariables.getUserSession().getPrincipalId());
+            //tell the document it is being rejected and returned to the initial node.
+            
+            return super.returnToSender(request, mapping, kualiDocumentFormBase);
+            
+        }
+        return forward;
+    }
+    
     
 }

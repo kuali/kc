@@ -37,6 +37,12 @@
       <td><c:out value="${node.bo.activityType.description}"/></td>
     </tr>
     <tr>
+      <th style="text-align: right;">Account ID:</th>
+      <td><c:out value="${node.bo.accountNumber}"/></td>
+      <th style="text-align: right;">Account Type:</th>
+      <td><c:out value="${node.bo.accountTypeDescription}"/></td>
+    </tr>    
+    <tr>
       <th style="text-align: right;">Award Status:</th>
       <td colspan="3"><c:out value="${node.bo.awardStatus.description}"/></td>
     </tr>

@@ -6,6 +6,7 @@
 			<description>Create/Edit a Investigator Credit Type</description>
 			<label>Investigator Credit Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/investigatorcredittype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

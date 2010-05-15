@@ -11,6 +11,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/awardHome.do?methodToCall=docHandler</docHandler>
+			<helpDefinitionURL>default.htm?turl=Documents/awarddocument.htm</helpDefinitionURL>
 			<active>true</active>
 			<routePaths>
 				<routePath>

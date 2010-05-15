@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import gov.grants.apply.coeus.personProfile.PersonProfileListDocument;
+import gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.PersonProfileDataType;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.ProjectRoleDataType;
 import gov.grants.apply.forms.rrKeyPersonExpanded12V12.RRKeyPersonExpanded12Document;
@@ -28,10 +30,20 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.print.GenericPrintable;
+import org.kuali.kra.printing.service.PrintingService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -80,6 +92,8 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		if (keyPersonArray.length > 0) {
 			rrKeyPersonExpanded.setKeyPersonArray(keyPersonArray);
 		}
+		// TODO Save the extraKeyPerson before calling the following details.
+		addKeyPersonAttachmentsToProposal();
 		if (extraPersons.size() > 0) {
 			for (ProposalPerson extraPerson : extraPersons) {
 				setBioSketchAttchment(rrKeyPersonExpanded, extraPerson);
@@ -451,4 +465,42 @@ public class RRKeyPersonExpandedV1_2Generator extends
 				.setRRKeyPersonExpanded12(rrKeyPersonExpanded);
 		return rrKeyPersonExpandedDocument;
 	}
+
+	@Override
+	protected XmlObject getKeypersonProfileObject() {
+		if (extraPersons != null) {
+			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
+
+			extraPersonProfileList.setProposalNumber(pdDoc
+					.getDevelopmentProposal().getProposalNumber());
+			extraPersonProfileList.setExtraKeyPersonArray(getExtraKeyPersons());
+
+			PersonProfileListDocument  extraPersonDoc = PersonProfileListDocument.Factory.newInstance();
+			extraPersonDoc.setPersonProfileList(extraPersonProfileList);
+			String xmlData = extraPersonDoc.xmlText();
+			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
+			streamMap.put("", xmlData.getBytes());
+
+			Source xsltSource = new StreamSource(getClass()
+					.getResourceAsStream(ADDITIONALKEYPERSONPROFILES_XSL));
+			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
+			xSLTemplateWithBookmarks.put("", xsltSource);
+			
+			
+			GenericPrintable printable = new GenericPrintable();
+			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
+			printable.setStreamMap(streamMap);
+			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+			try {
+				AttachmentDataSource printData = printingService.print(printable);
+				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
+				saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
+			} catch (PrintingException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	
+	}
+	
 }

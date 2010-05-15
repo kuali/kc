@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -172,9 +172,6 @@ public class BudgetVersionsAction extends BudgetAction {
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budgetOpen);
-//        if (budgetDocument.getParentDocument() instanceof AwardDocument) {
-//            getBudgetRateService().syncAllBudgetRates(budgetDocument);
-//        } else 
         if(getBudgetRateService().performSyncFlag(budgetDocument)){
             budget.setRateClassTypesReloaded(true);
         }

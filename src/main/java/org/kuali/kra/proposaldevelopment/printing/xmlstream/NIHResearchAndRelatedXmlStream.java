@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,7 +77,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -92,7 +91,6 @@ public class NIHResearchAndRelatedXmlStream extends
 
 	private static final Logger LOG = Logger
 			.getLogger(NIHResearchAndRelatedXmlStream.class);
-	private DateTimeService dateTimeService;
 
 	private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
 	private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
@@ -286,7 +284,7 @@ public class NIHResearchAndRelatedXmlStream extends
 	private BigDecimal getMonthsBetweenDates(Date startDate, Date endDate) {
 		Calendar startCalendar = getDateTimeService().getCalendar(startDate);
 		Calendar endCalendar = getDateTimeService().getCalendar(endDate);
-		int monthCount = -1;
+		int monthCount = 0;
 		while(startCalendar.before(endCalendar)){
 		    startCalendar.add(Calendar.MONTH, 1);
 		    monthCount++;
@@ -457,6 +455,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
+			keyPersonType.addDegree(proposalPerson.getDegree());
 			keyPersonlist.add(keyPersonType);
 		}
 		return keyPersonlist;
@@ -498,6 +497,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
+			keyPersonType.addDegree(proposalPerson.getDegree());
 			keyPersonTypeList.add(keyPersonType);
 		}
 		return keyPersonTypeList;
@@ -1247,20 +1247,4 @@ public class NIHResearchAndRelatedXmlStream extends
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
-
-    /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 }

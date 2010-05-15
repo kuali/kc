@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -65,7 +66,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         else {
             if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);                
             }
             else if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -73,20 +74,19 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
+            
+            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.ADD_BUDGET)) {
+                editModes.add("addBudget");
+            }
+                    
+            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.OPEN_BUDGETS)) {
+                editModes.add("openBudgets");
+            }
+                    
+            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.MODIFY_BUDGET)) {
+                editModes.add("modifyAwardBudget");
+            }            
         }
-        
-//        if (canExecuteTask(user, awardDocument, TaskName.ADD_BUDGET)) {
-            editModes.add("addBudget");
-//        }
-                
-//        if (canExecuteTask(user, awardDocument, TaskName.OPEN_BUDGETS)) {
-            editModes.add("openBudgets");
-//        }
-                
-//        if (canExecuteTask(user, awardDocument, TaskName.MODIFY_BUDGET)) {
-            editModes.add("modifyAwardBudget");
-//        }
-
         
         return editModes;
     }
@@ -155,7 +155,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     
     private boolean isCurrentAwardTheFirstVersion(Award currentAward) {
         ActivePendingTransactionsService activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
-        Award activeAward = activePendingTransactionsService.getActiveAwardVersion(currentAward.getAwardNumber());
+        Award activeAward = activePendingTransactionsService.getWorkingAwardVersion(currentAward.getAwardNumber());
         if(activeAward != null && activeAward.getSequenceNumber().equals(currentAward.getSequenceNumber())) {
             return true;
         }
@@ -163,6 +163,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return false;
     }
     /**
+     * @throws WorkflowException 
+     * @throws WorkflowException 
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override

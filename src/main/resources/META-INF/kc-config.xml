@@ -1,5 +1,5 @@
 <!--
- Copyright 2008-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -27,19 +27,24 @@ This config file should only contain config locations not actual config properti
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
 	<!--
-		KC's project build properties
-		
-		Contains properties that are set by our build process
-	-->
-	<param name="config.location">classpath:META-INF/kc-config-build.xml</param>
-
-	<!--
 		KC's project defaults
 		
 		Contains either properties that differ from the rice defaults or
 		KC specific properties
 	-->
 	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
+	
+	<!--
+		KC's project build properties
+		
+		Contains properties that are set by our build process
+	-->
+	<param name="config.location">classpath:META-INF/kc-config-build.xml</param>
+	
+	<!-- TODO : R2 temp intercept of IRB request.  Remove when merge to trunk -->
+    <param name="filter.irbintercept.class">org.kuali.kra.web.filter.InterceptIrbRequestFilter</param>
+	<param name="filtermapping.irbintercept.2">*.do</param>
+
 	
 	<!-- 
 		Rice's standard config file locations

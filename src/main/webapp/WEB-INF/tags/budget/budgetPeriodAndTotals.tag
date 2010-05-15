@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 <c:set var="action" value="budgetParameters" />
 <kul:tab tabTitle="Budget Periods & Totals" defaultOpen="true" tabErrorKey="newBudgetPeriod*,document.budget.budgetPeriod*" auditCluster="budgetPeriodProjectDateAuditErrors,budgetPeriodProjectDateAuditWarnings,awardBudgetTotalCostAuditErrors"  tabAuditKey="document.budget.budgetPeriod*,document.budget.totalCost" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<h3>Budget Periods</h3>
+    	<h3>
+            <span class="subhead-left">Budget Periods</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.parameters.BudgetPeriod" altText="help"/></span>
+        </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
@@ -161,7 +164,7 @@
 						<c:if test="${!proposalBudgetFlag}">
     				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
     				    							anchor="${tabKey}" 
-    				    							lookupParameters="document.parentDocument.award.awardId:budgetParentId"
+    				    							lookupParameters="document.parentDocument.award.awardNumber:budgetParentId"
     				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						
 						</c:if>
 						</kra:section>

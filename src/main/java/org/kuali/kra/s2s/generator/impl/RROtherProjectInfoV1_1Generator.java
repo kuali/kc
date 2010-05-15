@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,18 +198,12 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
                     abstractAttachments.setAbstractAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setAbstractAttachments(abstractAttachments);
                 }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT
-                        || Integer.parseInt(narrative.getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT) {
-                    attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
-                        continue;
-                    }
-                    OtherAttachments otherAttachments = OtherAttachments.Factory.newInstance();
-                    otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
-                    rrOtherProjectInfo.setOtherAttachments(otherAttachments);
-                }
             }
         }
+        OtherAttachments otherAttachments = OtherAttachments.Factory.newInstance();
+        otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
+        rrOtherProjectInfo.setOtherAttachments(otherAttachments);
+
 	}
 
 	/*

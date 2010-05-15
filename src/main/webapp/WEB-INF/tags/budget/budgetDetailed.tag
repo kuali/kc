@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -70,10 +70,10 @@
 		    		</c:choose>
 		    		<c:choose>
 		    			<c:when test="${empty tabErrorKeyString3}">
-		    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity"/>
+		    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].lineItemCost,document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].quantity,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 		    			</c:otherwise>
 		    		</c:choose>			    		
 	    		</c:if>    		
@@ -92,7 +92,7 @@
   		</c:if>		
 	</c:if>
  	<c:if test="${! empty budgetLineItemSize or budgetCategoryTypeCodeKey ne 'H'}">
-	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}"  auditCluster="budgetNonPersonnelAuditWarnings${budgetPeriod}" tabAuditKey="${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
+	<kul:tab tabTitle="${budgetCategoryTypeCodeLabel}" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}"  auditCluster="budgetNonPersonnelAuditWarnings${budgetPeriod}${budgetCategoryTypeCodeLabel}" tabAuditKey="${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}" useRiceAuditMode="true">
 		<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">${budgetCategoryTypeCodeLabel}</span>

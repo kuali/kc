@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -26,6 +27,9 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class AwardBudgetExt extends Budget { 
     
@@ -224,6 +228,11 @@ public class AwardBudgetExt extends Budget {
         totals.add(this.getCostSharingAmount().add(getPrevBudget().getCostSharingAmount()));
         this.setBudgetsTotals(totals);
 
+    }
+    public String getRebudgetFlag(){
+        String rebudgetTypeCode = KraServiceLocator.getService(ParameterService.class).
+                    getParameterValue(AwardBudgetDocument.class,KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
+        return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
     }
 
 }

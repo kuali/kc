@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package org.kuali.kra.award.web.struts.action;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,18 +40,21 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -64,6 +69,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String ZERO = "0";
     private static final String NEW_CHILD_SELECTED_AWARD_OPTION = "c";
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
+    private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
@@ -607,6 +613,20 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        
+        /*
+         * We need to ensure the user didn't create a pending version of the linked proposal,
+         * which, when processed, will overwrite any de-linking caused by the canceling of this Award version.
+         */
+        Set<String> linkedPendingProposals = getLinkedPendingProposals(((AwardForm) form).getAwardDocument().getAward());
+        if (!linkedPendingProposals.isEmpty()) {
+            String proposalNumbers = StringUtils.join(linkedPendingProposals, ", ");
+            GlobalVariables.getMessageMap().putError("noKey", 
+                    ERROR_CANCEL_PENDING_PROPOSALS, 
+                    proposalNumbers);
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a private instance variable
         // logic for cancel question
@@ -626,29 +646,65 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         doProcessingAfterPost( kualiDocumentFormBase, request );
         getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
-        if (!((AwardForm) form).getAwardDocument().getAward().getFundingProposals().isEmpty()) {
-            updateFundingProposalStatus(((AwardForm) form).getAwardDocument().getAward());
-        }
+        
+        //add all award amount info objects to previous award version and save.
+//        AwardForm awardForm = (AwardForm) form;
+//        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+//        Award award  = awardDocument.getAward();
+//        Award activeAward = getActiveAwardVersion(award.getAwardNumber());
+//        activeAward.setAwardAmountInfos(award.getAwardAmountInfos());
+//        //reinitialize the collection so the cancelled doc can be viewed.
+//        award.initializeAwardAmountInfoObjects();
+//        
+//        getBusinessObjectService().save(award);
+//        getBusinessObjectService().save(activeAward);
+
         return returnToSender(request, mapping, kualiDocumentFormBase);
     }
     
-    private void updateFundingProposalStatus (Award award) {
-        List<InstitutionalProposal> updateProposals = new ArrayList<InstitutionalProposal>();
+    /*
+     * This method retrieves an active award version.
+     * 
+     * @param doc
+     * @param goToAwardNumber
+     */
+    private Award getActiveAwardVersion(String goToAwardNumber) {
+        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
+        Award award = null;
+        
+        if(vh!=null){
+            award = (Award) vh.getSequenceOwner();
+        }else{
+            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
+        }
+        return award;
+    }
+    
+    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
+        Map<String, String> map = new HashMap<String,String>();
+        map.put("awardNumber", goToAwardNumber);
+        return map;
+    }
+    
+    /*
+     * Find pending proposal versions linked to this award version.
+     */
+    private Set<String> getLinkedPendingProposals(Award award) {
+        Set<String> linkedPendingProposals = new HashSet<String>();
         for (AwardFundingProposal awardFundingProposal : award.getFundingProposals()) {
-            Map <String, String> qMap = new HashMap<String, String>();
-            qMap.put("proposalId",awardFundingProposal.getProposalId().toString());
-            // TODO : getProposal().getAwardFundingProposals() seems contract with data in DB. ??
-            //if (awardFundingProposal.getProposal().getAwardFundingProposals().size() == 1) {
-            if (getBusinessObjectService().countMatching(AwardFundingProposal.class, qMap) == 1) {
-                // TODO : may need to add a new column to hold previousStatus, so the status code can be recovered properly
-                // unlockselected award also set status to 'pending'  so not sure ?
-                awardFundingProposal.getProposal().setStatusCode(ProposalStatus.PENDING);
-                updateProposals.add(awardFundingProposal.getProposal());
+            String proposalNumber = awardFundingProposal.getProposal().getProposalNumber();
+            InstitutionalProposal pendingVersion = getInstitutionalProposalService().getPendingInstitutionalProposalVersion(proposalNumber);
+            if (pendingVersion != null && pendingVersion.isFundedByAward(award.getAwardNumber(), award.getSequenceNumber())) {
+                linkedPendingProposals.add(proposalNumber);
             }
         }
-        if (!updateProposals.isEmpty()) {
-            getBusinessObjectService().save(updateProposals);
-        }
-        getBusinessObjectService().delete(award.getFundingProposals());
+        return linkedPendingProposals;
     }
+    
+    protected InstitutionalProposalService getInstitutionalProposalService() {
+        return KraServiceLocator.getService(InstitutionalProposalService.class);
+    }
+    
 }

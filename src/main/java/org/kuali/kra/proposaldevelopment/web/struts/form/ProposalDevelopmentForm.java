@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1102,7 +1102,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         // clear out the extra buttons array
         extraButtons.clear();
         ProposalDevelopmentDocument doc = this.getDocument();
-        String externalImageURL = "kra.externalizable.images.url";
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -1227,16 +1227,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
         return ( KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
-                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly() 
-                    && isCanCreateInstitutionalProposal();
+                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
     }
 
-    private boolean isCanCreateInstitutionalProposal() {
-        return KraServiceLocator.getService(UnitAuthorizationService.class).hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL_DEVELOPMENT,
-                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
-    }
-    
     public Long getVersionNumberForS2sOpportunity() {
         return versionNumberForS2sOpportunity;
     }

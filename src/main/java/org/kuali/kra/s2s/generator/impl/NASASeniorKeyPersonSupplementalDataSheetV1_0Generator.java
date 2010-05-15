@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 			int extraPersonNumber = extraPersons.size();
 			int attPersons;
 
-			NASASeniorKeyPersonSupplementalDataSheetAtt[] nasaSeniorKPAtts = new NASASeniorKeyPersonSupplementalDataSheetAtt[extraPersonNumber];
+			List<NASASeniorKeyPersonSupplementalDataSheetAtt> nasaSeniorKPAttList = new ArrayList<NASASeniorKeyPersonSupplementalDataSheetAtt>();
 			for (int begin = 0, index = 0; begin < extraPersonNumber; begin = begin + 8, index++) {
 				NASASeniorKeyPersonSupplementalDataSheetAtt nasaSeniorKPAtt = NASASeniorKeyPersonSupplementalDataSheetAtt.Factory
 						.newInstance();
@@ -134,7 +134,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				seniorKeyPersons = seniorKeyPersonList
 						.toArray(seniorKeyPersons);
 				nasaSeniorKPAtt.setSeniorKeyPersonArray(seniorKeyPersons);
-				nasaSeniorKPAtts[index] = nasaSeniorKPAtt;
+				nasaSeniorKPAttList.add(nasaSeniorKPAtt);
 
 				if (begin == 0) {
 					nasaSeniorKPDataSheet.setAttachment1(ATTACHED_ATTACHMENT_1);
@@ -148,6 +148,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 			}
 			SeniorKeyPersonAttachment seniorKeyPersonAttachment = SeniorKeyPersonAttachment.Factory
 					.newInstance();
+			NASASeniorKeyPersonSupplementalDataSheetAtt[]  nasaSeniorKPAtts =  new NASASeniorKeyPersonSupplementalDataSheetAtt[0];
+			nasaSeniorKPAtts = nasaSeniorKPAttList.toArray(nasaSeniorKPAtts);
 			seniorKeyPersonAttachment
 					.setNASASeniorKeyPersonSupplementalDataSheetAttArray(nasaSeniorKPAtts);
 			nasaSeniorKPDataSheet

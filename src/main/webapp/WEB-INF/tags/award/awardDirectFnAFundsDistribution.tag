@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -34,8 +34,15 @@
         			<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />   	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" useShortLabel="true" noColon="false" /></th>
-				<td  width="20%" align="left">          	  
-        			<kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />   	 
+				<td  width="20%" align="left">    
+				  <c:choose>
+				       <c:when test="${not empty KualiForm.document.award.hierarchyProjectEndDate}" >
+        			      <kul:htmlControlAttribute property="document.award.hierarchyProjectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" /> 	 
+				       </c:when>
+				       <c:otherwise>
+        			      <kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" /> 	 
+				       </c:otherwise>
+				   </c:choose> 
             	</td>
 			</tr>
 			<tr>

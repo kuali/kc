@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,11 +86,11 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
                 String panelName = budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
                 
                 if(budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()) {
-                    String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
+                    String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod()+panelName;
                     AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
                     if (auditCluster == null) {
                         List<AuditError> auditErrors = new ArrayList<AuditError>();
-                        auditCluster = new AuditCluster(panelName, auditErrors, Constants.AUDIT_WARNINGS);
+                        auditCluster = new AuditCluster(panelName+" Budget Period "+budgetPeriod.getBudgetPeriod(), auditErrors, Constants.AUDIT_WARNINGS);
                         GlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();

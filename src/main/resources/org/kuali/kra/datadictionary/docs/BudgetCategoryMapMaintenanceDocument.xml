@@ -17,18 +17,12 @@
       </list>
     </property>
     
-    
-    
-    
-    
     <property name="documentTypeName" value="BudgetCategoryMapMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    
     
   </bean>
 
 <!-- Maintenance Section Definitions -->
-
 
   <bean id="BudgetCategoryMapMaintenanceDocument-EditBudgetCategoryMaps" parent="BudgetCategoryMapMaintenanceDocument-EditBudgetCategoryMaps-parentBean"/>
 
