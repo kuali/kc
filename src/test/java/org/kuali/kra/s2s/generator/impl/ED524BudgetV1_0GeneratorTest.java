@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class ED524BudgetV1_0GeneratorTest extends S2STestBase<ED524BudgetV1_0Generator> {
 
 

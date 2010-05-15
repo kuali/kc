@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 <c:set var="institutionalProposalSpecialReviewExemptionAttributes" value="${DataDictionary.InstitutionalProposalSpecialReviewExemption.attributes}" />
 <c:set var="action" value="institutionalProposalSpecialReview" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.institutionalProposal.specialReview*,document.institutionalProposalList[0].specialReview*,newSpecialReview*,documentExemptNumber*,propSpecialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.institutionalProposal.specialReview*" useRiceAuditMode="false">
@@ -38,7 +39,7 @@
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.applicationDate}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.approvalDate}"noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.expirationDate}"noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.exemptionTypeCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewExemptionAttributes.exemptionTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.comments}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	
@@ -85,8 +86,6 @@
                 	<kul:htmlControlAttribute property="newSpecialReview.expirationDate" attributeEntry="${institutionalProposalSpecialReviewAttributes.expirationDate}" />
                </div>
                 </td>
-                
-                 <c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
                 <td align="left" valign="middle" class="infoline">
                		 <div align="center">
 	               		 <html:select property="newExemptionTypeCodes" multiple="true" size="4">

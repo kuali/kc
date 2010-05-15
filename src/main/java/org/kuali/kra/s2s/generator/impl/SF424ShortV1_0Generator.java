@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
-import gov.grants.apply.forms.rrSF424V11.RRSF424Document.RRSF424.ApplicantType;
-import gov.grants.apply.forms.rrSF424V11.RRSF424Document.RRSF424.ApplicantType.SmallBusinessOrganizationType.IsWomenOwned;
-import gov.grants.apply.forms.rrSF424V11.RRSF424Document.RRSF424.ApplicantType.SmallBusinessOrganizationType;
-import gov.grants.apply.forms.rrSF424V11.RRSF424Document.RRSF424.ApplicantType.SmallBusinessOrganizationType.IsSociallyEconomicallyDisadvantaged;
 import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument;
 import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument.SF424Short;
 import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
@@ -129,15 +125,15 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
-//            if (s2sOpportunity.getOpportunityId().length() > OPPORTUNITY_ID_MAX_LENGTH) {
-//                sf424Short.setFundingOpportunityNumber(s2sOpportunity.getOpportunityId().substring(0, OPPORTUNITY_ID_MAX_LENGTH));
-//            }
-//            else {
-//                sf424Short.setFundingOpportunityNumber(s2sOpportunity.getOpportunityId());
-//            }
-//            if (s2sOpportunity.getOpportunityTitle() != null) {
-//                sf424Short.setFundingOpportunityTitle(s2sOpportunity.getOpportunityTitle());
-//            }
+            if (s2sOpportunity.getOpportunityId().length() > OPPORTUNITY_ID_MAX_LENGTH) {
+                sf424Short.setFundingOpportunityNumber(s2sOpportunity.getOpportunityId().substring(0, OPPORTUNITY_ID_MAX_LENGTH));
+            }
+            else {
+                sf424Short.setFundingOpportunityNumber(s2sOpportunity.getOpportunityId());
+            }
+            if (s2sOpportunity.getOpportunityTitle() != null) {
+                sf424Short.setFundingOpportunityTitle(s2sOpportunity.getOpportunityTitle());
+            }
         }
 
         Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
@@ -263,13 +259,6 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
      */
     private ApplicantTypeCodeDataType.Enum getApplicantType(List<OrganizationType> organizationTypes, int index) {
     	
-    	ApplicantType applicantType = ApplicantType.Factory.newInstance();    	
-        ApplicantTypeCodeDataType.Enum appTypeCodeDataType = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-		SmallBusinessOrganizationType smallOrganizationType = SmallBusinessOrganizationType.Factory.newInstance();
-		IsSociallyEconomicallyDisadvantaged isSociallyEconomicallyDisadvantaged = IsSociallyEconomicallyDisadvantaged.Factory.newInstance();
-		IsWomenOwned isWomenOwned = IsWomenOwned.Factory.newInstance();
-		
-		boolean smallBusflag = false;
 		if (index < organizationTypes.size()){
         	OrganizationType orgType = organizationTypes.get(index);
         	int orgTypeCode = orgType.getOrganizationTypeCode();
@@ -311,16 +300,9 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     			break;
     		case 14:
     			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-    			isSociallyEconomicallyDisadvantaged.setStringValue(VALUE_YES);
-    			smallOrganizationType
-    					.setIsSociallyEconomicallyDisadvantaged(isSociallyEconomicallyDisadvantaged);
-    			smallBusflag = true;
     			break;
     		case 15:
     			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-    			isWomenOwned.setStringValue(VALUE_YES);
-    			smallOrganizationType.setIsWomenOwned(isWomenOwned);
-    			smallBusflag = true;
     			break;
     		case 21:
     			applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
@@ -344,17 +326,8 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
     			break;
     		}
-    		if (smallBusflag) {
-    			applicantType
-    					.setSmallBusinessOrganizationType(smallOrganizationType);
-    		}
 
-    		if (orgTypeCode == 3) {
-    			applicantType
-    					.setApplicantTypeCodeOtherExplanation("Federal Government");
-    		}
-    		applicantType.setApplicantTypeCode(applicantTypeCode);
-        return appTypeCodeDataType;
+        return applicantTypeCode;
         }else {
         	return null;
         }

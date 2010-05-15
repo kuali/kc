@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,23 +63,5 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				.getService(S2SBudgetCalculatorService.class);
 		businessObjectService = KraServiceLocator
 				.getService(BusinessObjectService.class);
-	}
-
-	protected boolean isNihSponsor(String sponsorCode) {
-		boolean isNih = false;
-		Map<String, String> sponsorHirarchyMap = new HashMap<String, String>();
-		sponsorHirarchyMap.put(Constants.HIERARCHY_NAME, SPONSOR_GROUPS);
-		List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) businessObjectService
-				.findMatching(SponsorHierarchy.class, sponsorHirarchyMap);
-		for (SponsorHierarchy sponsorHierarchy : sponsorHierarchyList) {
-			if (sponsorCode.equals(sponsorHierarchy.getSponsorCode())) {
-				String level1 = sponsorHierarchy.getLevel1();
-				if (level1.equalsIgnoreCase(Constants.NIH_SPONSOR_ACRONYM)) {
-					isNih = true;
-					break;
-				}
-			}
-		}
-		return isNih;
 	}
 }

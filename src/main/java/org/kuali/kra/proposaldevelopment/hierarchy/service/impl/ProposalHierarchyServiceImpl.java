@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,12 +79,8 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.dto.ProcessDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.service.IdentityManagementService;
@@ -102,6 +97,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 
 /**
  * This class...
@@ -121,6 +117,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private ParameterService parameterService;
     private IdentityManagementService identityManagementService;
     private KualiConfigurationService configurationService;
+    private KraDocumentRejectionService kraDocumentRejectionService;
 
     //Setters for dependency injection
     public void setIdentityManagementService(IdentityManagementService identityManagerService) {
@@ -171,7 +168,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // since a person with MAINTAIN_PROPOSAL_HIERARCHY permission is allowed to initiate IF they are creating a parent
         // we circumvent the initiator step altogether. 
         try {
-            KualiWorkflowDocument workflowDocument = KraServiceLocator.getService(WorkflowDocumentService.class).createWorkflowDocument("ProposalDevelopmentDocument", GlobalVariables.getUserSession().getPerson());
+            KualiWorkflowDocument workflowDocument = KraServiceLocator.getService(WorkflowDocumentService.class).createWorkflowDocument(PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE, GlobalVariables.getUserSession().getPerson());
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
             DocumentHeader documentHeader = new DocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
@@ -1323,14 +1320,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * Reject a proposal by sending it to the first node ( as named by PROPOSALDEVELOPMENTDOCUMENT_KEW_INITIAL_NODE_NAME )
      * @param proposalDoc The ProposalDevelopmentDocument that should be rejected.
      * @param appDocStatus the application status to set in the workflow document.
-     * @param principalName the principal name we are rejecting the document as.
+     * @param principalId the principal we are rejecting the document as.
      * @param appDocStatus the application document status to apply ( does not apply if null )
      * @throws WorkflowException
      */
-    private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalName, String appDocStatus ) throws WorkflowException  {
-            WorkflowDocument workflowDocument = new WorkflowDocument(identityManagementService.getPrincipalByPrincipalName(principalName).getPrincipalId(), proposalDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            workflowDocument.returnToPreviousNode(reason, getProposalDevelopmentInitialNodeName() );
-            workflowDocument.updateAppDocStatus( appDocStatus );
+    private void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus ) throws WorkflowException  {
+        kraDocumentRejectionService.reject(proposalDoc, reason, principalId, appDocStatus );    
     }
     
     
@@ -1341,11 +1336,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @param principalName the name of the principal that is rejecting the document.  
      * @throws ProposalHierarchyException If hierarchyParent is not a hierarchy, or there was a problem rejecting one of the documents.
      */
-    private void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalName ) throws ProposalHierarchyException {
+    private void rejectProposalHierarchy(ProposalDevelopmentDocument hierarchyParent, String reason, String principalId ) throws ProposalHierarchyException {
         
       //1. reject the parent.
         try {
-            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
+            rejectProposal( hierarchyParent, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalId, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         }
         catch (WorkflowException e) {
             throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting proposal hierarchy parent %s", hierarchyParent.getDevelopmentProposal().getProposalNumber() ),e);
@@ -1354,7 +1349,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         //2. Try to reject all of the children.
         for( ProposalDevelopmentDocument child : getChildProposalDevelopmentDocuments(hierarchyParent.getDevelopmentProposal().getProposalNumber())) {
             try {
-                rejectProposal( child, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), KEWConstants.SYSTEM_USER, renderMessage( HIERARCHY_CHILD_REJECTED_APPSTATUS ) );
+                rejectProposal( child, renderMessage( HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION, reason ), identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER ).getPrincipalId(), renderMessage( HIERARCHY_CHILD_REJECTED_APPSTATUS ) );
             } catch (WorkflowException e) {
                 throw new ProposalHierarchyException( String.format( "WorkflowException encountered rejecting child document %s", child.getDevelopmentProposal().getProposalNumber()), e );
             }
@@ -1368,7 +1363,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName ) throws WorkflowException, ProposalHierarchyException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
-        ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(getDevelopmentProposal(proposalNumber).getProposalDocument().getDocumentNumber());
+        ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
         if( !pbo.isInHierarchy() ) {
             rejectProposal( pDoc, renderMessage( PROPOSAL_ROUTING_REJECTED_ANNOTATION, reason ), principalName, renderMessage( HIERARCHY_REJECTED_APPSTATUS ) );
         } else if ( pbo.isParent() ) {
@@ -1379,30 +1374,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getProposalDevelopmentInitialNodeName()
-     */
-    public String getProposalDevelopmentInitialNodeName() {
-        DocumentTypeService dService = KEWServiceLocator.getDocumentTypeService();
-        DocumentTypeDTO proposalDevDocType = dService.getDocumentTypeVO("ProposalDevelopmentDocument");
-        ProcessDTO p = proposalDevDocType.getRoutePath().getPrimaryProcess();
-        return p.getInitialRouteNode().getRouteNodeName();
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#isProposalOnInitialRouteNode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
-    public boolean isProposalOnInitialRouteNode( ProposalDevelopmentDocument document ) {
-        boolean ret = false;
-        try {
-            if( ArrayUtils.contains(document.getDocumentHeader().getWorkflowDocument().getNodeNames(), getProposalDevelopmentInitialNodeName())) ret = true;
-        } catch ( WorkflowException we ) {
-            throw new RuntimeException( String.format( "Could not get node names for document: %s", document.getDocumentNumber()), we );
-        }
-        return ret;
-    }
     
     /**
      * Based on the hierarchy, and route status change of the parent, calculate what route action should be taken on the children.
@@ -1625,6 +1596,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
        }
        return msg;
        
+    }
+    public KraDocumentRejectionService getKraDocumentRejectionService() {
+        return kraDocumentRejectionService;
+    }
+    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+        this.kraDocumentRejectionService = kraDocumentRejectionService;
     }
 
 }

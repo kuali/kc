@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 /**
  * Tests the Budget Versions page for Proposal Development Document and Budget Document.
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";

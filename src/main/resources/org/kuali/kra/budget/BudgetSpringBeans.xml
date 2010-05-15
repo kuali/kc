@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006-2009 The Kuali Foundation.
+	Copyright 2005-2010 The Kuali Foundation.
 
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -183,6 +183,12 @@
                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewBudget" />
                 </bean>
+                
+           	    <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="rejectBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
+                </bean>
+
             </list>
         </property>
     </bean>
@@ -214,6 +220,14 @@
                 <bean class="org.kuali.kra.award.budget.document.authorizer.PostAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="postAwardBudget" />
                 </bean>
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ToggleAwardBudgetStatusAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="toggleAwardBudgetStatus" />
+                </bean>
+                 
+                <bean class="org.kuali.kra.award.budget.document.authorizer.RejectAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="rejectBudget" />
+                    <property name="requiresWritableDoc" value="true"/>
+                </bean>
                  
             </list>
         </property>
@@ -230,6 +244,13 @@
                         <property name="taskName" value="modifyBudget" />
                     </bean>
                 </entry>
+                
+                <entry key="reject">
+               	 	<bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="rejectBudget" />
+                    </bean>
+                </entry>
+                
             </map>
         </property>
     </bean>

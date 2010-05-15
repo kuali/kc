@@ -6,6 +6,7 @@
 			<description>Create/Edit a Rate Class</description>
 			<label>Rate Class Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclass.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

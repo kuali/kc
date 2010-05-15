@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -79,6 +79,7 @@
                     	    </c:when><c:otherwise>
                     		  <bean:define id="nonEditableRateFlag" name="KualiForm" property="${budgetRate}.nonEditableRateFlag"/>
                     		</c:otherwise></c:choose>
+                    		<%--
                     		<c:choose>
 							<c:when test="${nonEditableRateFlag == 'No'}">
                 				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
@@ -87,6 +88,8 @@
 		                    	<bean:write name="KualiForm" property="${budgetRate}.applicableRate"/>
                 			</c:otherwise>
                 			</c:choose>
+                			 --%>
+                				<kul:htmlControlAttribute property="${budgetRate}.applicableRate" attributeEntry="${budgetRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
                       	</span>
                       	</div>
                     </td>

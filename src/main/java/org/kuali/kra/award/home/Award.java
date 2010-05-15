@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -212,6 +212,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
+    // for Time&money direct f&a distribution
+    private Date hierarchyProjectEndDate;   
 
     /**
      * 
@@ -2837,6 +2839,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public String getLookupOspAdministratorName() {
         return lookupOspAdministratorName;
+    }
+
+    public Date getHierarchyProjectEndDate() {
+        return hierarchyProjectEndDate;
+    }
+
+    public void setHierarchyProjectEndDate(Date hierarchyProjectEndDate) {
+        this.hierarchyProjectEndDate = hierarchyProjectEndDate;
     }
 
 

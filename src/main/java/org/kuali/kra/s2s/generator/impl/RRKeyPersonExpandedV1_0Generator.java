@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -313,5 +313,11 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
         rrKeyPersonExpandedDocument.setRRKeyPersonExpanded(rrKeyPersonExpanded);
         return rrKeyPersonExpandedDocument;
     }
+
+	@Override
+	protected XmlObject getKeypersonProfileObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

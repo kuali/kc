@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * Test the Create Amendment/Renewal actions.
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class ProtocolAmendRenewWebTest extends ProtocolWebTestBase {
 
      private static final String SUMMARY = "this is a summary";

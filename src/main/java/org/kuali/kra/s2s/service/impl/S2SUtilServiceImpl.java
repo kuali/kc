@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -83,6 +84,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private KcPersonService kcPersonService;
+    private SponsorService sponsorService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
@@ -316,6 +318,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
         Award currentAward = null;
+        String federalId = null;
         if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
             currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
         }
@@ -323,32 +326,56 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
             institutionalProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
         }
-        if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
-            return null;
-        } else if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
+        if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
-                return proposal.getSponsorProposalNumber();
+                federalId = proposal.getSponsorProposalNumber();
             } else if (currentAward != null && !StringUtils.isBlank(currentAward.getSponsorAwardNumber())
                     && federalIdComesFromAward) {
-                return currentAward.getSponsorAwardNumber();
+                federalId = currentAward.getSponsorAwardNumber();
             } else { 
                 return null;
             }
-        } else if (isProposalTypeNew(proposal.getProposalTypeCode())
-                && StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), "3")
+        } else if (isProposalTypeNew(proposal.getProposalTypeCode()) && 
+                isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode())
                 || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
-                return proposal.getSponsorProposalNumber();
+                federalId = proposal.getSponsorProposalNumber();
             } else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
-                return institutionalProposal.getSponsorProposalNumber();
-            } else {
-                return null;
+                federalId = institutionalProposal.getSponsorProposalNumber();
+            }
+            if(isProposalTypeResubmission(proposal.getProposalTypeCode())){
+                if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
+                    return null;
+                }
             }
         }
-        return null;
+        if(federalId != null && sponsorService.isSponsorNih(proposal)){
+            return fromatFederalId(federalId);
+        }
+        return federalId;
     } 
 
-	/**
+    /**
+     * 
+     * This method is to format sponsor award number
+     * assume sponsor award number format is like this : 5-P01-ES05622-09, it should be formatted to ES05622 
+     * @param federalId
+     * @return
+     */
+	private String fromatFederalId(String federalId) {
+	    if(federalId.length()>7){
+	        int in = federalId.indexOf('-', 8);
+	        if(in!=-1)
+	            federalId= federalId.substring(6, in);
+	    }
+        return federalId;
+    }
+
+    private boolean isSubmissionTypeChangeCorrected(String submissionTypeCode) {
+	    return StringUtils.equalsIgnoreCase(submissionTypeCode, getParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED));
+    }
+
+    /**
 	 * This method fetches system constant parameters
 	 * 
 	 * @param parameter
@@ -858,5 +885,21 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             contactType = CONTACT_TYPE_O;
         }
         return contactType;
+    }
+
+    /**
+     * Gets the sponsorService attribute. 
+     * @return Returns the sponsorService.
+     */
+    public SponsorService getSponsorService() {
+        return sponsorService;
+    }
+
+    /**
+     * Sets the sponsorService attribute value.
+     * @param sponsorService The sponsorService to set.
+     */
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 }

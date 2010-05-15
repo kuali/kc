@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * 
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
-public class AwardAmountInfo extends AwardAssociate { 
+public class AwardAmountInfo extends AwardAssociate{ 
     
     private static final long serialVersionUID = 1L;
+    
 
     private Long awardAmountInfoId;    
     private Long transactionId;
@@ -53,6 +54,8 @@ public class AwardAmountInfo extends AwardAssociate {
     private KualiDecimal obligatedTotalDirect; 
     private KualiDecimal obligatedTotalIndirect; 
     private Integer transactionDetailItemsLength;
+    private Integer originatingAwardVersion;
+    
      
     // private AwardBudgetInfo awardBudgetInfo; 
     // private AwardAmtFnaDistribution awardAmtFnaDistribution; 
@@ -249,6 +252,8 @@ public class AwardAmountInfo extends AwardAssociate {
     }
     
     
+    
+    
 
 //    public AwardBudgetInfo getAwardBudgetInfo() {
 //        return awardBudgetInfo;
@@ -256,7 +261,7 @@ public class AwardAmountInfo extends AwardAssociate {
 //
 //    public void setAwardBudgetInfo(AwardBudgetInfo awardBudgetInfo) {
 //        this.awardBudgetInfo = awardBudgetInfo;
-//    }
+//    }A
 //
 //    public AwardAmtFnaDistribution getAwardAmtFnaDistribution() {
 //        return awardAmtFnaDistribution;
@@ -265,6 +270,22 @@ public class AwardAmountInfo extends AwardAssociate {
 //    public void setAwardAmtFnaDistribution(AwardAmtFnaDistribution awardAmtFnaDistribution) {
 //        this.awardAmtFnaDistribution = awardAmtFnaDistribution;
 //    }
+
+    /**
+     * Gets the originatingAwardVersion attribute. 
+     * @return Returns the originatingAwardVersion.
+     */
+    public Integer getOriginatingAwardVersion() {
+        return originatingAwardVersion;
+    }
+
+    /**
+     * Sets the originatingAwardVersion attribute value.
+     * @param originatingAwardVersion The originatingAwardVersion to set.
+     */
+    public void setOriginatingAwardVersion(Integer originatingAwardVersion) {
+        this.originatingAwardVersion = originatingAwardVersion;
+    }
 
     /**
      * Gets the transactionDetailItemsLength attribute. 
@@ -283,12 +304,9 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     /** {@inheritDoc} */
-    @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("awardAmountInfoId", this.getAwardAmountInfoId());
-        hashMap.put("awardNumber", this.getAwardNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());        
+        hashMap.put("awardAmountInfoId", this.getAwardAmountInfoId());      
         hashMap.put("transactionId", this.getTransactionId());
         hashMap.put("timeAndMoneyDocumentNumber", this.getTimeAndMoneyDocumentNumber());
         hashMap.put("anticipatedTotalAmount", this.getAnticipatedTotalAmount());
@@ -335,4 +353,7 @@ public class AwardAmountInfo extends AwardAssociate {
     public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
+    
+
+    
 }

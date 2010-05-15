@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.security.exceptions.Base64DecodingException;
 import org.apache.xml.security.utils.Base64;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -37,6 +38,7 @@ import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
 
 /**
@@ -49,7 +51,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     private static final Logger LOG = Logger.getLogger(S2SBaseFormGenerator.class);
 
-    private List<AttachmentData> attachments = new ArrayList<AttachmentData>();
+    private List<AttachmentData> attachments;
     public static final String TYPE_SEPARATOR = "_";
     public static final String KEY_VALUE_SEPARATOR = "-";
     public static final String DESCRIPTION = "DESCRIPTION";
@@ -125,15 +127,39 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 retVal += "_" + narrative.getNarrativeType().getDescription();
             }
         }
+        int index = getIndexOfAttachmentAlreadyAdded(retVal);
+        if(index > 0){
+            retVal+=("-"+index);
+        }
         return retVal;
     }
     
+    private int getIndexOfAttachmentAlreadyAdded(String contentId) {
+        int index = 0;
+        List<AttachmentData> attachments = getAttachments();
+        for (AttachmentData attachmentData : attachments) {
+            String attContentId = attachmentData.getContentId();
+            int lastIndex = attContentId.indexOf('-',6);
+            if(lastIndex!=-1){
+                attContentId = attContentId.substring(0, attContentId.lastIndexOf('-'));
+            }
+            if(attContentId.equals(contentId)){
+                index++;
+            }
+        }
+        return index;
+    }
+
     public String createContentId(ProposalPersonBiography biography) {
         String retVal = "B-" + biography.getProposalPersonNumber() + "_" + biography.getBiographyNumber();
         if(biography.getPropPerDocType() != null) 
             retVal += "_" + biography.getPropPerDocType().getDescription();
         if (StringUtils.isNotBlank(biography.getDescription())) {
             retVal += "_" + biography.getDescription();
+        }
+        int index = getIndexOfAttachmentAlreadyAdded(retVal);
+        if(index > 0){
+            retVal+=index;
         }
         return retVal;
     }
@@ -316,5 +342,19 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     public void setAuditErrors(List<AuditError> auditErrors) {
         this.auditErrors = auditErrors;
+    }
+    
+    protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
+		SponsorService sponsorService = KraServiceLocator
+				.getService(SponsorService.class);
+		return sponsorService.isSponsorNih(document.getDevelopmentProposal());
+	}
+
+    /**
+     * Sets the attachments attribute value.
+     * @param attachments The attachments to set.
+     */
+    public void setAttachments(List<AttachmentData> attachments) {
+        this.attachments = attachments;
     }
 }

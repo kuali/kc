@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -172,6 +172,14 @@
      <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >
      
      <div class="divAHT"><div style="padding-right: 47px;">
+     	<c:forEach items="${KualiForm.awardHierarchyNodeItems}" var="tempNode" varStatus="status">
+			<c:set var="finalExpirationDateProperty" value="${tempNode.finalExpirationDate}" />  
+			<c:set var="currentFundEffectiveDateProperty" value="${tempNode.currentFundEffectiveDate}" />
+			<c:set var="obligationExpirationDateProperty" value="${tempNode.obligationExpirationDate}" />
+			${kfunc:registerEditableProperty(KualiForm, finalExpirationDateProperty)}  
+			${kfunc:registerEditableProperty(KualiForm, currentFundEffectiveDateProperty)}
+			${kfunc:registerEditableProperty(KualiForm, obligationExpirationDateProperty)}  
+		</c:forEach> 
 		<table style="border: medium none ; width: 100%; border-collapse: collapse;">
 		<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">

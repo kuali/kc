@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.htmlunitwebtest;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -23,6 +22,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This is the integration test for Custom Data tab in Institutional Proposal module.
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class InstitutionalProposalCustomDataWebTest extends InstitutionalProposalWebTestBase {
 
     private static final String GROUP_NAME = "Personnel Items for Review";

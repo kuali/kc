@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -58,10 +58,10 @@
 	    		</c:choose>
 	    		<c:choose>
 	    			<c:when test="${empty tabErrorKeyString3}">
-	    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*,document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:otherwise>
 	    		</c:choose>			    		
     		</c:if>    		
@@ -72,7 +72,7 @@
     	</c:if>
     </c:forEach>
     
-<kul:tab tabTitle="Personnel Detail (Period ${budgetPeriod})" defaultOpen="false" tabErrorKey="*costElement*,newGroupName,newBudgetLineItems*,newBudgetPersonnelDetails.*,${tabErrorKeyString},${tabErrorKeyString2}">
+<kul:tab tabTitle="Personnel Detail (Period ${budgetPeriod})" defaultOpen="false" tabErrorKey="*costElement*,newGroupName,newBudgetLineItems*,newBudgetPersonnelDetails.*,${tabErrorKeyString},${tabErrorKeyString2}" auditCluster="budgetNonPersonnelAuditWarnings${budgetPeriod}Personnel" tabAuditKey="${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}" useRiceAuditMode="true">
 		<div class="tab-container" align="center">
 		
 		<div style="text-align:left;width: 98%" >
@@ -86,7 +86,10 @@
 			</c:forEach>
         </div><br/>
 		
-   		<h3>Add Details</h3>
+   		<h3>
+            <span class="subhead-left">Add Details</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
+        </h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
         <table border="0" cellpadding=0 cellspacing=0 summary="">

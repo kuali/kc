@@ -1,5 +1,6 @@
 :: This batch file downloads and applies the database schema and data of
-:: Kuali Coeus' DBA and/or UNT databases in an Microsoft Windows environment.
+:: Kuali Coeus' DBA, UNT, and/or embedded (client, server) databases in
+:: an Microsoft Windows environment.
 ::
 :: Requirements:
 :: - Oracle SQLPlus which should be supplied with Oracle XE. Make sure sqlplus
@@ -22,7 +23,7 @@ SET UNT_USER=KRAUNT
 SET UNT_PASS=mypassword
 
 SET EMB_CLIENT_USER=KCDEV
-SET EMB_CLIENT_PASS=mypassword
+SET EMB_CLIENT_PASS=tschneeberger
 SET EMB_SERVER_USER=RICEDEV
 SET EMB_SERVER_PASS=mypassword
 
@@ -33,7 +34,7 @@ SET EMB_CLIENT_SCRIPT_URL=https://ci.kc.kuali.org/userContent/embedded/embeddedd
 SET EMB_SERVER_SCRIPT_URL=http://ci.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
 
 :: External program locations
-SET WGET_PROG=C:\java\db\update\wget.exe
+SET WGET_PROG=C:\Progra~1\GnuWin32\bin\wget.exe
 SET ZIP_PROG=C:\Progra~1\7-Zip\7z.exe
 
 :: /* Advanced configuration */
@@ -53,6 +54,7 @@ SET WGET_OPTS=--no-check-certificate
 :: /* The code below should not need to be changed */
 
 SET CD_BASE_DIR=cd /d %~dp0
+SET UPDATED=
 
 IF "%1" == "%DBA_CMD%" GOTO DBA
 IF "%1" == "%UNT_CMD%" GOTO UNT
@@ -67,72 +69,77 @@ ECHO To update both the DBA and UNT database specify: %0 %ALL_CMD%
 ECHO To update both the EMBEDDED CLIENT and EMBEDDED SERVER database specify: %0 %EMB_CMD%
 
 ECHO.
-GOTO END
+GOTO :END
 
 :DBA
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %DBA_SCRIPT_URL%
-rmdir /s /q %DBA_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%DBA_SQL_DIR%
-cd %DBA_SQL_DIR%\sql\oracle\
-SQLPLUS %DBA_USER%/%DBA_PASS% @oracle.sql
-%CD_BASE_DIR%
-
-ECHO.
-ECHO DBA has been updated
-ECHO.
-GOTO END
+set URL=%DBA_SCRIPT_URL%
+set SQL_DIR=%DBA_SQL_DIR%
+set DB_USER=%DBA_USER%
+set DB_PASS=%DBA_PASS%
+call :UPDATE
+GOTO :SUCCESS
 
 :UNT
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %UNT_SCRIPT_URL%
-rmdir /s /q %UNT_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%UNT_SQL_DIR%
-cd %UNT_SQL_DIR%\sql\oracle\
-SQLPLUS %UNT_USER%/%UNT_PASS% @oracle.sql
-%CD_BASE_DIR%
-
-ECHO.
-ECHO UNT has been updated
-ECHO.
-GOTO END
+set URL=%UNT_SCRIPT_URL%
+set SQL_DIR=%UNT_SQL_DIR%
+set DB_USER=%UNT_USER%
+set DB_PASS=%UNT_PASS%
+call :UPDATE
+GOTO :SUCCESS
 
 :ALL
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %DBA_SCRIPT_URL%
-rmdir /s /q %DBA_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%DBA_SQL_DIR%
-cd %DBA_SQL_DIR%\sql\oracle\
-SQLPLUS %DBA_USER%/%DBA_PASS% @oracle.sql
-%CD_BASE_DIR%
+set URL=%DBA_SCRIPT_URL%
+set SQL_DIR=%DBA_SQL_DIR%
+set DB_USER=%DBA_USER%
+set DB_PASS=%DBA_PASS%
+call :UPDATE
 
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %UNT_SCRIPT_URL%
-rmdir /s /q %UNT_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%UNT_SQL_DIR%
-cd %UNT_SQL_DIR%\sql\oracle\
-SQLPLUS %UNT_USER%/%UNT_PASS% @oracle.sql
-%CD_BASE_DIR%
-
-ECHO.
-ECHO DBA and UNT has been updated
-ECHO.
-GOTO END
+set URL=%UNT_SCRIPT_URL%
+set SQL_DIR=%UNT_SQL_DIR%
+set DB_USER=%UNT_USER%
+set DB_PASS=%UNT_PASS%
+call :UPDATE
+GOTO :SUCCESS
 
 :EMB
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %EMB_CLIENT_SCRIPT_URL%
-rmdir /s /q %EMB_CLIENT_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%EMB_CLIENT_SQL_DIR%
-cd %EMB_CLIENT_SQL_DIR%\sql\oracle\
-SQLPLUS %EMB_CLIENT_USER%/%EMB_CLIENT_PASS% @oracle.sql
-%CD_BASE_DIR%
+set URL=%EMB_CLIENT_SCRIPT_URL%
+set SQL_DIR=%EMB_CLIENT_SQL_DIR%
+set DB_USER=%EMB_CLIENT_USER%
+set DB_PASS=%EMB_CLIENT_PASS%
+call :UPDATE
 
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %EMB_SERVER_SCRIPT_URL%
-rmdir /s /q %EMB_SERVER_SQL_DIR%
-%ZIP_PROG% x tmp.zip -y -o%EMB_SERVER_SQL_DIR%
-cd %EMB_SERVER_SQL_DIR%\sql\oracle\
-SQLPLUS %EMB_SERVER_USER%/%EMB_SERVER_PASS% @oracle.sql
-%CD_BASE_DIR%
+set URL=%EMB_SERVER_SCRIPT_URL%
+set SQL_DIR=%EMB_SERVER_SQL_DIR%
+set DB_USER=%EMB_SERVER_USER%
+set DB_PASS=%EMB_SERVER_PASS%
+call :UPDATE
+GOTO :SUCCESS
 
+::args: URL, SQL_DIR, DB_USER, DB_PASS
+:UPDATE
+call :CLEANUP
+%WGET_PROG% %WGET_OPTS% -O tmp.zip %URL%
+%ZIP_PROG% x tmp.zip -y -o%SQL_DIR%
+cd %SQL_DIR%\sql\oracle\
+SQLPLUS -S %DB_USER%/%DB_PASS% @oracle.sql
+%CD_BASE_DIR%
+call :CLEANUP
+
+SET UPDATED=%DB_USER% %UPDATED%
+
+GOTO :EOF
+
+::args: SQL_DIR
+:CLEANUP
+del /F /Q tmp.zip
+rmdir /s /q %SQL_DIR%
+GOTO :EOF
+
+:SUCCESS
 ECHO.
-ECHO EMBEDDED CLIENT and EMBEDDED SERVER has been updated
+ECHO [%UPDATED%] has been updated
 ECHO.
-GOTO END
+GOTO :END
 
 :END
+

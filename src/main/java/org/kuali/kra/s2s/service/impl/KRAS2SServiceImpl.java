@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -607,6 +607,8 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (opportunityForms.isEmpty()) {
 			developmentProposal.refreshReferenceObject("s2sOppForms");
 		}
+		if(attList==null)
+		    attList = new ArrayList();
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
@@ -623,11 +625,12 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 			try {
 			    s2sFormGenerator.setAuditErrors(auditErrors);
+			    s2sFormGenerator.setAttachments(attList);
 				XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 				if (s2SValidatorService.validate(formObject, auditErrors)) {
 					if (forms != null && attList != null) {
 						setFormObject(forms, formObject);
-						attList.addAll(s2sFormGenerator.getAttachments());
+//						attList.addAll(s2sFormGenerator.getAttachments());
 					}
 				} else {
 					validationSucceeded = false;

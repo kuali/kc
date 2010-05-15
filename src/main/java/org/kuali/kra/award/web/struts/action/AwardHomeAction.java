@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -392,8 +392,9 @@ public class AwardHomeAction extends AwardAction {
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
         newVersion.setAwardTransactionTypeCode(0);
-        getDocumentService().saveDocument(newAwardDocument);
+//        getDocumentService().saveDocument(newAwardDocument);
         copyBudgetData(awardDocument, newAwardDocument);
+        getDocumentService().saveDocument(newAwardDocument);
         getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
         return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);

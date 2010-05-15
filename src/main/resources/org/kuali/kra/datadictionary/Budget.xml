@@ -16,7 +16,7 @@
     
     <property name="titleAttribute" value="comments" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetVersionsHelp" p:parameterDetailType="D"/>
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetSummaryHelp" p:parameterDetailType="D"/>
     </property>
     
     <property name="attributes">

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount;
+        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
     }
     /**
      * Sets the obligatedAmount attribute value.

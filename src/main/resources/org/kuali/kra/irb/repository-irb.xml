@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2010 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -991,43 +991,4 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondence" table="BATCH_CORRESPONDENCE">
-        <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-        <field-descriptor name="defaultTimeWindow" column="DEFAULT_TIME_WINDOW" jdbc-type="INTEGER" />
-        <field-descriptor name="finalActionTypeCode" column="FINAL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="finalActionCorrespType" column="FINAL_ACTION_CORRESP_TYPE" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-
-        <collection-descriptor name="batchCorrespondenceDetails" element-class-ref="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="batchCorrespondenceTypeCode" />
-        </collection-descriptor>
-
-        <reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="finalActionCorrespType"/>
-        </reference-descriptor>
-        <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="finalActionTypeCode"/>
-        </reference-descriptor>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" table="BATCH_CORRESPONDENCE_DETAIL">
-        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_BATCH_CORRESPONDENCE" autoincrement="true"/>
-        <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="correspondenceNumber" column="CORRESPONDENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="noOfDaysTillNext" column="NO_OF_DAYS_TILL_NEXT" jdbc-type="INTEGER" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-
-        <reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="protoCorrespTypeCode"/>
-        </reference-descriptor>
-    </class-descriptor>
-            
 </descriptor-repository>

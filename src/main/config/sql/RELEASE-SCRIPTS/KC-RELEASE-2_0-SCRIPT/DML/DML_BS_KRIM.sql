@@ -1,899 +1,6401 @@
-  set define off;
-  DECLARE 
-    l_edit_doc_perm_tmpl_id VARCHAR2(40);
-    l_init_doc_perm_tmpl_id VARCHAR2(40);
-    l_save_doc_perm_tmpl_id VARCHAR2(40);
-    l_admin_routing_perm_tmpl_id VARCHAR2(40);
-    l_blanket_app_perm_tmpl_id VARCHAR2(40);
-    l_open_doc_perm_tmpl_id VARCHAR2(40);
-    l_delete_note_perm_tmpl_id VARCHAR2(40);
-    l_adhoc_rev_doc_perm_tmpl_id VARCHAR2(40);                      
-    l_assign_role_perm_tmpl_id VARCHAR2(40);                      
-    l_grant_perm_perm_tmpl_id VARCHAR2(40);                      
-    l_grant_resp_perm_tmpl_id VARCHAR2(40);  
-    l_maintain_parm_perm_tmpl_id VARCHAR2(40);
-    l_default_perm_tmpl_id VARCHAR2(40);
-    l_cancel_doc_perm_tmpl_id VARCHAR2(40);
-    l_route_doc_perm_tmpl_id VARCHAR2(40);
-    l_maintain_parm_perm_id VARCHAR2(40);
-    l_full_unmask_fld_perm_id VARCHAR2(40);
-    l_initiate_doc_perm_id VARCHAR2(40);
-    l_adhoc_review_doc_perm_id VARCHAR2(40);
-    l_copy_doc_perm_id VARCHAR2(40);
-
-    l_doc_type_id VARCHAR2(40); 
-    l_doc_type_rte_node_id VARCHAR2(40); 
-    l_doc_type_note_id VARCHAR2(40); 
-    l_unit_hier_type_id VARCHAR2(40);
-    l_unit_type_id VARCHAR2(40);
-    l_adhoc_review_type_id VARCHAR2(40);
-    l_role_type_id VARCHAR2(40);
-    l_perm_type_id VARCHAR2(40);
-    l_resp_type_id VARCHAR2(40);
-    l_parm_type_id VARCHAR2(40);
-    l_comp_fld_type_id VARCHAR2(40);
-    l_doc_type_attr_id VARCHAR2(40); 
-    l_created_by_self_attr_id VARCHAR2(40); 
-    l_action_request_attr_id VARCHAR2(40); 
-    l_namespace_attr_id VARCHAR2(40); 
-    l_comp_attr_id VARCHAR2(40); 
-    l_property_attr_id VARCHAR2(40); 
- 
-    
-  BEGIN
-
-    SELECT PERM_TMPL_ID INTO l_edit_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-NS' AND T.NM = 'Edit Document';
-    SELECT PERM_TMPL_ID INTO l_init_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-SYS' AND T.NM = 'Initiate Document';
-    SELECT PERM_TMPL_ID INTO l_save_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Save Document';
-    SELECT PERM_TMPL_ID INTO l_admin_routing_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Administer Routing for Document';
-    SELECT PERM_TMPL_ID INTO l_blanket_app_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Blanket Approve Document';
-    SELECT PERM_TMPL_ID INTO l_open_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-NS' AND T.NM = 'Open Document';
-    SELECT PERM_TMPL_ID INTO l_delete_note_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-NS' AND T.NM = 'Delete Note / Attachment';
-    SELECT PERM_TMPL_ID INTO l_adhoc_rev_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Ad Hoc Review Document';
-    SELECT PERM_TMPL_ID INTO l_cancel_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Cancel Document';
-    SELECT PERM_TMPL_ID INTO l_route_doc_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-WKFLW' AND T.NM = 'Route Document';
-
-    SELECT PERM_TMPL_ID INTO l_assign_role_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-IDM' AND T.NM = 'Assign Role';
-    SELECT PERM_TMPL_ID INTO l_grant_perm_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-IDM' AND T.NM = 'Grant Permission';
-    SELECT PERM_TMPL_ID INTO l_grant_resp_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-IDM' AND T.NM = 'Grant Responsibility';
-    SELECT PERM_TMPL_ID INTO l_maintain_parm_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KR-NS' AND T.NM = 'Maintain System Parameter';
-    SELECT PERM_TMPL_ID INTO l_default_perm_tmpl_id FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KUALI' AND T.NM = 'Default';
-
-    SELECT KIM_TYP_ID INTO l_doc_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)';
-    SELECT KIM_TYP_ID INTO l_doc_type_rte_node_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type & Routing Node or State';
-    SELECT KIM_TYP_ID INTO l_doc_type_note_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Document Type & Relationship to Note Author';
-    SELECT KIM_TYP_ID INTO l_adhoc_review_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review';
-    SELECT KIM_TYP_ID INTO l_unit_hier_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'UnitHierarchy';
-    SELECT KIM_TYP_ID INTO l_unit_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Unit';
-    SELECT KIM_TYP_ID INTO l_role_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Role';
-    SELECT KIM_TYP_ID INTO l_perm_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Permission';
-    SELECT KIM_TYP_ID INTO l_resp_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Responsibility'; 
-    SELECT KIM_TYP_ID INTO l_parm_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Parameter'; 
-    SELECT KIM_TYP_ID INTO l_comp_fld_type_id FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Component Field'; 
-    
-    SELECT KIM_ATTR_DEFN_ID INTO l_doc_type_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName';
-    SELECT KIM_ATTR_DEFN_ID INTO l_created_by_self_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'createdBySelfOnly';
-    SELECT KIM_ATTR_DEFN_ID INTO l_action_request_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionRequestCd';
-    SELECT KIM_ATTR_DEFN_ID INTO l_namespace_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'namespaceCode';
-    SELECT KIM_ATTR_DEFN_ID INTO l_comp_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'componentName';
-    SELECT KIM_ATTR_DEFN_ID INTO l_property_attr_id FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'propertyName';
-
-    INSERT INTO KRIM_ROLE_PERM_T ( ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND )
-	VALUES ( KRIM_ROLE_PERM_ID_S.NEXTVAL, '1DD197DD1EE24867A83B157DBB389FE7', 1, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'User' AND NMSPC_CD = 'KUALI'), 1088, 'Y');
-	
-	INSERT INTO KRIM_ROLE_PERM_T ( ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND )
-	VALUES ( KRIM_ROLE_PERM_ID_S.NEXTVAL, 'D309EA64643F4799832AF1AFAE57B184', 1, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'User' AND NMSPC_CD = 'KUALI'), 1089, 'Y');
-	
-	INSERT INTO KRIM_ROLE_PERM_T ( ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND )
-	VALUES ( KRIM_ROLE_PERM_ID_S.NEXTVAL, 'D68A7129791941BA9BC3555FFE424269', 1, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'User' AND NMSPC_CD = 'KUALI'), 1090, 'Y');
-	
-	-- KC Award Budget Permissions
-    INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document') , 'KC-AB', 'Blanket Approve AwardBudgetDocument', 'Blanket Approve AwardBudgetDocument', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document') , 'KC-AB', 'Submit AwardBudget', 'Submit award budget document', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action') , 'KC-AB', 'Approve AwardBudget', 'Approve award budget document', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action') , 'KC-AB', 'Post AwardBudget', 'Post award budget document', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action') , 'KC-AB', 'Create AwardBudget', 'Create award budget document', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action') , 'KC-AB', 'Maintain AwardBudgetRouting', 'Maintaining Award budget routing', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section') , 'KC-AB', 'Modify AwardBudget', 'Modify Award Budget at unit level', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_perm_t (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section') , 'KC-AB', 'View AwardBudget', 'View Award Budget at unit level', 'Y', SYS_GUID () ) ;
-
-	-- KC Award Budget Permission Attribute Data
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Approve AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Post AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain AwardBudgetRouting' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Modify AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Section' AND NMSPC_CD = 'KC-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Blanket Approve AwardBudgetDocument' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , 1, 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit AwardBudget' AND NMSPC_CD = 'KC-AB') , 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type (Permission)' AND NMSPC_CD = 'KR-SYS') , 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName' AND NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument') ;
-	
-	-- KC Award Budget Roles
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Administrator', 'KC-AB', 'Award Budget Administrator - the role grants permissions to manage any award budget at OSP level', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Maintainer', 'KC-AB', 'Maintain Award Budget - the role grants permissions to modify and submit award budget at departmental level', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Aggregator', 'KC-AB', 'Award Budget Aggregator - the role grants permissions to create and maintain award budget at department level', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Approver', 'KC-AB', 'Award Budget Approver - the role grants permissions to edit and approve award budget', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Modifier', 'KC-AB', 'Award Budget Modifier - the role grants permissions to modify or view award budget at departmental level', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'Unit' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_t (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
-	VALUES(KRIM_ROLE_ID_S.NEXTVAL, 'Award Budget Viewer', 'KC-AB', 'Award Budget Viewer - the role grants permissions to view award budget at departmental level', 
-	(SELECT KIM_TYP_ID FROM KRIM_TYP_T T1 WHERE T1.NM = 'Unit' AND NMSPC_CD = 'KC-SYS') , 'Y', TO_DATE ('2010-02-18 00:00:00', 'YYYY-MM-DD HH24:MI:SS') , SYS_GUID () ) ;
-
-	-- KC Award Budget Administrator
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Post AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain AwardBudgetRouting' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Modify AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Administrator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	-- KC Award Budget Maintainer
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Maintainer') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Maintainer') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Modify AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Maintainer') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	-- KC Award Budget Aggregator
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Aggregator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Aggregator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Submit AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Aggregator') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	-- KC Award Budget Viewer
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Viewer') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'View AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	-- KC Award Budget Modifier
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Modifier') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Modify AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-	
-	-- KC Award Budget Approver
-	INSERT INTO krim_role_perm_t (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Approver') , 
-	(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Approve AwardBudget' AND NMSPC_CD = 'KC-AB') , 'Y', SYS_GUID () ) ;
-
-	-- KC Award Budget initial approval
-	INSERT INTO KRIM_RSP_T (RSP_ID, RSP_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_RSP_ID_S.NEXTVAL, 1, 'KC-WKFLW', 'Award Budget InitialApproval', 'Award Budget Document - Initial Approval', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'documentTypeName' AND T.NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'routeNodeName' AND T.NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetInitialApproval', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'required' AND T.NMSPC_CD = 'KR-WKFLW') , 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'actionDetailsAtRoleMemberLevel' AND T.NMSPC_CD = 'KR-WKFLW') , 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_T (ROLE_RSP_ID, ROLE_ID, RSP_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Approver') , KRIM_RSP_ID_S.CURRVAL, 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID, ROLE_MBR_ID, ACTN_TYP_CD, PRIORITY_NBR, ACTN_PLCY_CD, ROLE_RSP_ID, FRC_ACTN, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL, '*', 'A', 1, 'F', KRIM_ROLE_RSP_ID_S.CURRVAL, 'N', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_T (RSP_ID, RSP_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_RSP_ID_S.NEXTVAL, 1, 'KC-WKFLW', 'Award Budget OSPApproval', 'Award Budget Document - OSP Approval', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'documentTypeName' AND T.NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetDocument', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'routeNodeName' AND T.NMSPC_CD = 'KR-WKFLW') , 'AwardBudgetOSPApproval', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'required' AND T.NMSPC_CD = 'KR-WKFLW') , 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 7, 
-	(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T T WHERE T.NM = 'actionDetailsAtRoleMemberLevel' AND T.NMSPC_CD = 'KR-WKFLW') , 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_T (ROLE_RSP_ID, ROLE_ID, RSP_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ID_S.NEXTVAL, 
-	(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Award Budget Approver') , KRIM_RSP_ID_S.CURRVAL, 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID, ROLE_MBR_ID, ACTN_TYP_CD, PRIORITY_NBR, ACTN_PLCY_CD, ROLE_RSP_ID, FRC_ACTN, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL, '*', 'A', 1, 'F', KRIM_ROLE_RSP_ID_S.CURRVAL, 'N', SYS_GUID () ) ;
-
-	-- KC Manager Role
-    insert into krim_role_t (role_id, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, last_updt_dt, obj_id) 
-    values (krim_role_id_s.nextval, 'Manager', 'KC-SYS', 'This role represents a collection of all the KC module manager roles and has permission to initiate simple maintenance documents.', (select kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), 'Y', sysdate, sys_guid());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_admin_routing_perm_tmpl_id, 'KC-SYS', 'Administer Routing for Document', 'Allows users to open KC documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).', 'Y', SYS_GUID());
-    
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_blanket_app_perm_tmpl_id, 'KC-SYS', 'Blanket Approve Document', 'Allows access to the Blanket Approval button on KC Documents.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-    
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_init_doc_perm_tmpl_id, 'KC-SYS', 'Initiate Document', 'Authorizes the initiation of KC Documents.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_open_doc_perm_tmpl_id, 'KC-SYS', 'Open Document', 'Authorizes users to open KC Documents.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_save_doc_perm_tmpl_id, 'KC-SYS', 'Save Document', 'Authorizes user to save documents answering to the KC parent document Type.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_rte_node_id, l_doc_type_attr_id, 'KC', SYS_GUID()); 
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_delete_note_perm_tmpl_id, 'KC-SYS', 'Delete Note / Attachment', 'Authorizes users to delete notes and attachments created by any user on documents answering to the KC parent document type.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_note_id, l_doc_type_attr_id, 'KC', SYS_GUID());
- 
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_note_id, l_created_by_self_attr_id, 'false', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_adhoc_rev_doc_perm_tmpl_id, 'KC-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the Approve action on KC documents Ad Hoc routed to them.', 'Y', SYS_GUID());
-    
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_action_request_attr_id, 'A', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_adhoc_rev_doc_perm_tmpl_id, 'KC-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the FYI action on KC documents Ad Hoc routed to them.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_action_request_attr_id, 'F', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_adhoc_rev_doc_perm_tmpl_id, 'KC-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the Acknowledge action on KC documents Ad Hoc routed to them.', 'Y', SYS_GUID());
- 
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_doc_type_attr_id, 'KC', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_adhoc_review_type_id, l_action_request_attr_id, 'K', SYS_GUID());
-    
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_init_doc_perm_tmpl_id, 'KC-SYS', 'Initiate Document', 'Authorizes the initiation of KC Simple Maintenance documents.', 'Y', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_doc_type_id, l_doc_type_attr_id, 'KcMaintenanceDocument', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_assign_role_perm_tmpl_id, 'KC-SYS', 'Assign Role', 'Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KRA.', 'Y', SYS_GUID());
-    --Need to decide how to include KRA* or KC*
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_role_type_id, l_namespace_attr_id, 'KRA*', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_role_type_id, l_namespace_attr_id, 'KC*', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_grant_perm_perm_tmpl_id, 'KC-SYS', 'Grant Permission', 'Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KRA.', 'Y', SYS_GUID());
-    --Need to decide how to include KRA* or KC*
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_perm_type_id, l_namespace_attr_id, 'KRA*', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_perm_type_id, l_namespace_attr_id, 'KC*', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_grant_resp_perm_tmpl_id, 'KC-SYS', 'Grant Responsibility', 'Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.', 'Y', SYS_GUID());
-    --Need to decide how to include KRA* or KC*
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_resp_type_id, l_namespace_attr_id, 'KRA*', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_resp_type_id, l_namespace_attr_id, 'KC*', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_maintain_parm_perm_tmpl_id, 'KC-SYS', 'Maintain System Parameter', 'Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.', 'Y', SYS_GUID());
-    --Need to decide how to include KRA* or KC*
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_parm_type_id, l_namespace_attr_id, 'KRA*', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, krim_perm_id_s.currval, l_parm_type_id, l_namespace_attr_id, 'KC*', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    SELECT PERM_ID INTO l_maintain_parm_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Maintain System Parameter';
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_maintain_parm_perm_id, l_parm_type_id, l_namespace_attr_id, 'KR-SYS', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_maintain_parm_perm_id, l_parm_type_id, l_namespace_attr_id, 'KR*', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, l_maintain_parm_perm_id, 'Y', SYS_GUID());
-
-    UPDATE KRIM_PERM_T T SET T.DESC_TXT = 'Authorizes users to view the password field on the Person document and inquriy.' WHERE T.NM = 'Full Unmask Field' AND T.NMSPC_CD = 'KR-SYS' AND ROWNUM = 1;
-    SELECT PERM_ID INTO l_full_unmask_fld_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field' AND DESC_TXT LIKE '%password field%';
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_full_unmask_fld_perm_id, l_comp_fld_type_id, l_comp_attr_id, 'KimPrincipalImpl', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_full_unmask_fld_perm_id, l_comp_fld_type_id, l_property_attr_id, 'password', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, l_full_unmask_fld_perm_id, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_default_perm_tmpl_id, 'KR-WKFLW', 'View Other Action List', 'Authorizes users to access other user''s action lists via the Help Desk Action List Login.', 'Y', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, obj_id) 
-    values (krim_perm_id_s.nextval, l_default_perm_tmpl_id, 'KR-WKFLW', 'Unrestricted Document Search', 'Allows power users to bypass the security associated with certain document types to limit the result set.', 'Y', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, krim_perm_id_s.currval, 'Y', SYS_GUID());
-
-    SELECT PERM_ID INTO l_full_unmask_fld_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field' AND DESC_TXT LIKE '% Tax Identification Number%';
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_full_unmask_fld_perm_id, l_comp_fld_type_id, l_comp_attr_id, 'IdentityManagementPersonDocument', SYS_GUID());
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_full_unmask_fld_perm_id, l_comp_fld_type_id, l_property_attr_id, 'taxId', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, l_full_unmask_fld_perm_id, 'Y', SYS_GUID());
-
-    insert into krim_role_mbr_t (role_mbr_id, role_id, mbr_id, mbr_typ_cd, actv_frm_dt, actv_to_dt, last_updt_dt, ver_nbr, obj_id) 
-    values (krim_role_mbr_id_s.nextval, krim_role_id_s.currval, (select grp_id from krim_grp_t where grp_nm = 'KcAdmin' and nmspc_cd = 'KC-WKFLW'), 'G', null, null, sysdate, 1, sys_guid());
-
-    SELECT PERM_ID INTO l_initiate_doc_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document';
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id)  
-    values (krim_attr_data_id_s.nextval, l_initiate_doc_perm_id, l_doc_type_id, l_doc_type_attr_id, 'RiceDocument', SYS_GUID());
-
-    insert into krim_role_perm_t (role_perm_id, role_id, perm_id, actv_ind, obj_id) 
-    values (krim_role_perm_id_s.nextval, krim_role_id_s.currval, l_initiate_doc_perm_id, 'Y', SYS_GUID());
-
-    SELECT PERM_ID INTO l_adhoc_review_doc_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Ad Hoc Review Document';
-    UPDATE KRIM_PERM_T T SET NMSPC_CD = 'KUALI', DESC_TXT = 'Authorizes users to take Approve, Acknowledge or FYI action on KUALI documents Ad Hoc routed to them.' WHERE PERM_ID = l_adhoc_review_doc_perm_id;
-    delete from krim_perm_attr_data_t where perm_id = l_adhoc_review_doc_perm_id;
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id) 
-    values(krim_attr_data_id_s.nextval, l_adhoc_review_doc_perm_id, l_adhoc_review_type_id, l_doc_type_attr_id , 'KualiDocument', sys_guid() );
-
-    SELECT PERM_ID INTO l_copy_doc_perm_id FROM KRIM_PERM_T T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Copy Document';
-    UPDATE KRIM_PERM_T T SET NMSPC_CD = 'KUALI', DESC_TXT = 'Allows access to the Copy button on KC Documents.' WHERE PERM_ID = l_copy_doc_perm_id;
-    delete from krim_perm_attr_data_t where perm_id = l_copy_doc_perm_id;
-
-    insert into krim_perm_attr_data_t (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, obj_id) 
-    values(krim_attr_data_id_s.nextval, l_copy_doc_perm_id, l_doc_type_id, l_doc_type_attr_id , 'KualiDocument', sys_guid() );
-
-	UPDATE KRIM_PERM_ATTR_DATA_T T SET T.PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document') 
-	WHERE T.PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field' AND DESC_TXT LIKE '% Tax Identification Number%') 
-	AND ATTR_VAL = 'RiceDocument' ;
-	
-	-- add standard permissions for proposal log
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_init_doc_perm_tmpl_id, 'KC-IP', 'Create Proposal Log', 'Initiate a new Proposal Log', 'Y');
-	
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_edit_doc_perm_tmpl_id, 'KC-IP', 'Edit Proposal Log', 'Edit a Proposal Log', 'Y');
-	
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_save_doc_perm_tmpl_id, 'KC-IP', 'Save Proposal Log', 'Save a Proposal Log', 'Y');
-	
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_route_doc_perm_tmpl_id, 'KC-IP', 'Submit Proposal Log', 'Submit a Proposal Log', 'Y');
-	
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_open_doc_perm_tmpl_id, 'KC-IP', 'Open Proposal Log', 'Open a Proposal Log', 'Y');
-	
-	insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind) 
-	values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_cancel_doc_perm_tmpl_id, 'KC-IP', 'Cancel Proposal Log', 'Cancel a Proposal Log', 'Y');
-	
-	-- specify doc type qualifier for proposal log permissions
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Create Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-	
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-	
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Save Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-	
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-	
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Open Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-	
-	insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val) 
-	values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Proposal Log'), l_doc_type_id, l_doc_type_attr_id, 'ProposalLogMaintenanceDocument');
-
-	-- assign proposal log permissions to OSP Administrator role
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Create Proposal Log'), 'Y');
-	
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Edit Proposal Log'), 'Y');
-	
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Save Proposal Log'), 'Y');
-	
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Submit Proposal Log'), 'Y');
-	
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Open Proposal Log'), 'Y');
-	
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select role_id from krim_role_t where role_nm = 'OSP Administrator' and actv_ind = 'Y'), (select PERM_ID from KRIM_PERM_T where NM='Cancel Proposal Log'), 'Y');
-
-	-- add a new type for Proposal Log Derived Role: PI
-	insert into krim_typ_t (kim_typ_id, obj_id, ver_nbr, nm, srvc_nm, actv_ind, nmspc_cd) 
-	values (KRIM_TYP_ID_S.nextval, sys_guid(), 1, 'Derived Role - Proposal Log PI', 'proposalLogPiDerivedRoleTypeService', 'Y', 'KC-IP');
-	
-	-- add new PI role based on new type
-	insert into krim_role_t (role_id, obj_id, ver_nbr, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind) 
-	values (KRIM_ROLE_ID_S.nextval, sys_guid(), 1, 'Proposal Log PI', 'KC-IP', 'Derived role from PI on Proposal Log', KRIM_TYP_ID_S.currval, 'Y');
-	
-	-- assign Open Document permission to the new PI role
-	insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) 
-	values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Proposal Log PI' and NMSPC_CD = 'KC-IP'), (select PERM_ID from KRIM_PERM_T where NM='Open Proposal Log'), 'Y');
-
-	-- add standard permissions for institutional proposal
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_init_doc_perm_tmpl_id, 'KC-IP', 'Create Institutional Proposal', 'Initiate a new Institutional Proposal', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_edit_doc_perm_tmpl_id, 'KC-IP', 'Edit Institutional Proposal', 'Edit a Institutional Proposal', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_save_doc_perm_tmpl_id, 'KC-IP', 'Save Institutional Proposal', 'Save a Institutional Proposal', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_route_doc_perm_tmpl_id, 'KC-IP', 'Submit Institutional Proposal', 'Submit a Institutional Proposal', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_open_doc_perm_tmpl_id, 'KC-IP', 'Open Institutional Proposal', 'Open a Institutional Proposal', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_cancel_doc_perm_tmpl_id, 'KC-IP', 'Cancel Institutional Proposal', 'Cancel a Institutional Proposal', 'Y');
-	
-	-- specify doc type qualifier for institutional proposal permissions
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), l_doc_type_id, l_doc_type_attr_id, 'InstitutionalProposalDocument');
-	
-	-- add standard permissions for IP Review
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_init_doc_perm_tmpl_id, 'KC-IP', 'Create Intellectual Property Review', 'Initiate a new Intellectual Property Review', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_edit_doc_perm_tmpl_id, 'KC-IP', 'Edit Intellectual Property Review', 'Edit a Intellectual Property Review', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_save_doc_perm_tmpl_id, 'KC-IP', 'Save Intellectual Property Review', 'Save a Intellectual Property Review', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_route_doc_perm_tmpl_id, 'KC-IP', 'Submit Intellectual Property Review', 'Submit a Intellectual Property Review', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_open_doc_perm_tmpl_id, 'KC-IP', 'Open Intellectual Property Review', 'Open a Intellectual Property Review', 'Y');
-	insert into krim_perm_t values (KRIM_PERM_ID_S.nextval, sys_guid(), 1, l_cancel_doc_perm_tmpl_id, 'KC-IP', 'Cancel Intellectual Property Review', 'Cancel a Intellectual Property Review', 'Y');
-	
-	-- specify doc type qualifier for IP Review permissions
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Create Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Edit Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Save Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	insert into krim_perm_attr_data_t values (KRIM_ATTR_DATA_ID_S.nextval, sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), l_doc_type_id, l_doc_type_attr_id, 'IntellectualPropertyReviewMaintenanceDocument');
-	
-	-- create new role: Institutional Proposal Viewer
-	insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND)
-	values (KRIM_ROLE_ID_S.nextval, sys_guid(), 1, 'Institutional Proposal Viewer', 'KC-IP', 'View Institutional Proposals', (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'), 'Y');
-	
-	-- assign institutional proposal (view) & IP (view) permissions to View Institutional Proposal role
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), 'Y');
-	
-	-- create new role: Institutional Proposal Maintainer
-	insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND)
-	values (KRIM_ROLE_ID_S.nextval, sys_guid(), 1, 'Institutional Proposal Maintainer', 'KC-IP', 'Maintain Institutional Proposals', (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'), 'Y');
-	
-	-- assign institutional proposal (mod) & IP permissions (mod) to Modify Institutional Proposal role
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Edit Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Save Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Cancel Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Create Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Edit Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Save Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), 'Y');
-	
-	-- create new role: IP Review Maintainer
-	insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND)
-	values (KRIM_ROLE_ID_S.nextval, sys_guid(), 1, 'Intellectual Property Review Maintainer', 'KC-IP', 'Maintain Intellectual Property Review', (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'), 'Y');
-	
-	-- assign institutional proposal (view) & IP (mod) permissions to IP Review Maintainer role
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Create Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Edit Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Save Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Submit Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Open Intellectual Property Review'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, KRIM_ROLE_ID_S.currval, (select PERM_ID from KRIM_PERM_T where NM='Cancel Intellectual Property Review'), 'Y');
-	
-	-- add a new type for Derived Role: Unit Administrator
-	insert into krim_typ_t values (KRIM_TYP_ID_S.nextval, sys_guid(), 1, 'Derived Role - Unit Administrator', 'unitAdministratorDerivedRoleTypeService', 'Y', 'KC-IP');
-	
-	-- add new Unit Administrator role based on Unit Administrator type
-	insert into krim_role_t (role_id, obj_id, ver_nbr, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind) 
-	values (KRIM_ROLE_ID_S.nextval, sys_guid(), 1, 'Unit Administrator', 'KC-IP', 'Derived role based on Unit', KRIM_TYP_ID_S.currval, 'Y');
-	
-	-- assign Open Document permissions to the new Unit Administrator role
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Unit Administrator'), (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
-	insert into krim_role_perm_t values (KRIM_ROLE_PERM_ID_S.nextval, sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Unit Administrator'), (select PERM_ID from KRIM_PERM_T where NM='Open Institutional Proposal'), 'Y');
-
-	INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD, OBJ_ID)
-	VALUES(KRIM_PERM_TMPL_ID_S.NEXTVAL, 'Answer Questionnaire Permission', 'Answer Questionnaire', l_doc_type_id, 'Y', 'KC-IDM', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)
-	VALUES(KRIM_PERM_ID_S.NEXTVAL, KRIM_PERM_TMPL_ID_S.CURRVAL, 'Answer Protocol Questionnaire', NULL, 'Y', 'KC-PROTOCOL', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, (select role_id from krim_role_t where role_nm = 'IRB Administrator' and nmspc_cd = 'KC-UNT'), KRIM_PERM_ID_S.CURRVAL, 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID () , '1', KRIM_PERM_ID_S.CURRVAL, l_doc_type_id, l_doc_type_attr_id, 'ProtocolDocument') ;
-	
-	---- Protocol Document / IRBReceipt - for future protocol w/f use 
-	INSERT INTO KRIM_RSP_T (RSP_ID, RSP_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_RSP_ID_S.NEXTVAL, 1, 'KC-WKFLW', 'IRB Receipt', 'Protocol Document - IRBReceipt', 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 
-	(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'), 
-	(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and nm = 'documentTypeName'), 'ProtocolDocument', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 
-	(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'), 
-	(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and nm = 'routeNodeName'), 'IRBReceipt', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 
-	(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'), 
-	(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and nm = 'required'), 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID, RSP_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID)
-	VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 
-	(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'), 
-	(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and nm = 'actionDetailsAtRoleMemberLevel'), 'false', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_T (ROLE_RSP_ID, ROLE_ID, RSP_ID, ACTV_IND, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ID_S.NEXTVAL, KRIM_ROLE_ID_S.NEXTVAL, KRIM_RSP_ID_S.CURRVAL, 'Y', SYS_GUID () ) ;
-	
-	INSERT INTO KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID, ROLE_MBR_ID, ACTN_TYP_CD, PRIORITY_NBR, ACTN_PLCY_CD, ROLE_RSP_ID, FRC_ACTN, OBJ_ID)
-	VALUES(KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL, '*', 'A', 1, 'F', KRIM_ROLE_RSP_ID_S.NEXTVAL, 'Y', SYS_GUID () ) ;
-	
-	--- update FORCE ACTION to true for all actions with resp  protocol IRBApprovers 
-	UPDATE krim_role_rsp_actn_t ACTN 
-	SET FRC_ACTN='Y' 
-	WHERE EXISTS (SELECT 's' FROM KRIM_RSP_T RESP JOIN KRIM_ROLE_RSP_T ROLE_RESP ON RESP.RSP_ID = ROLE_RESP.RSP_ID JOIN KRIM_ROLE_T ROLE ON ROLE.ROLE_ID = ROLE_RESP.ROLE_ID 
-              WHERE ACTN.ROLE_RSP_ID = ROLE_RESP.ROLE_RSP_ID
-                    AND ROLE.ROLE_NM = 'IRBApprover') ;
-		
-	COMMIT;
+SET DEFINE OFF
+SET SERVEROUTPUT ON
+DECLARE
+  MAXKIM_TYP_ID NUMBER;
+  MAXKIM_ATTR_DEFN_ID NUMBER;
+  MAXKIM_TYP_ATTR_ID NUMBER;
+  MAXPERM_TMPL_ID NUMBER;
+  MAXPERM_ID NUMBER;
+  MAXATTR_DATA_ID NUMBER;
+  MAXROLE_ID NUMBER;
+  MAXROLE_PERM_ID NUMBER;
+  MAXGRP_ID NUMBER;
+  MAXRSP_ID NUMBER;
+  MAXROLE_RSP_ID NUMBER;
+  MAXROLE_RSP_ACTN_ID NUMBER;
+  SEQKIM_TYP_ID NUMBER;
+  SEQKIM_ATTR_DEFN_ID NUMBER;
+  SEQKIM_TYP_ATTR_ID NUMBER;
+  SEQPERM_TMPL_ID NUMBER;
+  SEQPERM_ID NUMBER;
+  SEQATTR_DATA_ID NUMBER;
+  SEQROLE_ID NUMBER;
+  SEQROLE_PERM_ID NUMBER;
+  SEQGRP_ID NUMBER;
+  SEQRSP_ID NUMBER;
+  SEQROLE_RSP_ID NUMBER;
+  SEQROLE_RSP_ACTN_ID NUMBER;
+BEGIN
+  SELECT LAST_NUMBER INTO SEQKIM_TYP_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_TYP_ID_S';
+  SELECT LAST_NUMBER INTO SEQKIM_ATTR_DEFN_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ATTR_DEFN_ID_S';
+  SELECT LAST_NUMBER INTO SEQKIM_TYP_ATTR_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_TYP_ATTR_ID_S';
+  SELECT LAST_NUMBER INTO SEQPERM_TMPL_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_PERM_TMPL_ID_S';
+  SELECT LAST_NUMBER INTO SEQPERM_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_PERM_ID_S';
+  SELECT LAST_NUMBER INTO SEQATTR_DATA_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ATTR_DATA_ID_S';
+  SELECT LAST_NUMBER INTO SEQROLE_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ROLE_ID_S';
+  SELECT LAST_NUMBER INTO SEQROLE_PERM_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ROLE_PERM_ID_S';
+  SELECT LAST_NUMBER INTO SEQGRP_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_GRP_ID_S';
+  SELECT LAST_NUMBER INTO SEQRSP_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_RSP_ID_S';
+  SELECT LAST_NUMBER INTO SEQROLE_RSP_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ROLE_RSP_ID_S';
+  SELECT LAST_NUMBER INTO SEQROLE_RSP_ACTN_ID FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'KRIM_ROLE_RSP_ACTN_ID_S';
+  SELECT MAX(TO_NUMBER(KIM_TYP_ID)) INTO MAXKIM_TYP_ID FROM KRIM_TYP_T;
+  SELECT MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) INTO MAXKIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T;
+  SELECT MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) INTO MAXKIM_TYP_ATTR_ID FROM KRIM_TYP_ATTR_T;
+  SELECT MAX(TO_NUMBER(PERM_TMPL_ID)) INTO MAXPERM_TMPL_ID FROM KRIM_PERM_TMPL_T;
+  SELECT MAX(TO_NUMBER(PERM_ID)) INTO MAXPERM_ID FROM KRIM_PERM_T;
+  SELECT MAX(TO_NUMBER(ATTR_DATA_ID)) INTO MAXATTR_DATA_ID FROM KRIM_PERM_ATTR_DATA_T;
+  SELECT MAX(TO_NUMBER(ROLE_ID)) INTO MAXROLE_ID FROM KRIM_ROLE_T;
+  SELECT MAX(TO_NUMBER(ROLE_PERM_ID)) INTO MAXROLE_PERM_ID FROM KRIM_ROLE_PERM_T;
+  SELECT MAX(TO_NUMBER(GRP_ID)) INTO MAXGRP_ID FROM KRIM_GRP_T;
+  SELECT MAX(TO_NUMBER(RSP_ID)) INTO MAXRSP_ID FROM KRIM_RSP_T;
+  SELECT MAX(TO_NUMBER(ROLE_RSP_ID)) INTO MAXROLE_RSP_ID FROM KRIM_ROLE_RSP_T;
+  SELECT MAX(TO_NUMBER(ROLE_RSP_ACTN_ID)) INTO MAXROLE_RSP_ACTN_ID FROM KRIM_ROLE_RSP_ACTN_T;
+  DBMS_OUTPUT.PUT_LINE(SEQKIM_TYP_ID || ' < ' || MAXKIM_TYP_ID);
+  IF SEQKIM_TYP_ID < MAXKIM_TYP_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_TYP_ID_S by ' || MAXKIM_TYP_ID - SEQKIM_TYP_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQKIM_ATTR_DEFN_ID || ' < ' || MAXKIM_ATTR_DEFN_ID);
+  IF SEQKIM_ATTR_DEFN_ID < MAXKIM_ATTR_DEFN_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ATTR_DEFN_ID_S by ' || MAXKIM_ATTR_DEFN_ID - SEQKIM_ATTR_DEFN_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQKIM_TYP_ATTR_ID || ' < ' || MAXKIM_TYP_ATTR_ID);
+  IF SEQKIM_TYP_ATTR_ID < MAXKIM_TYP_ATTR_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_TYP_ATTR_ID_S by ' || MAXKIM_TYP_ATTR_ID - SEQKIM_TYP_ATTR_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQPERM_TMPL_ID || ' < ' || MAXPERM_TMPL_ID);
+  IF SEQPERM_TMPL_ID < MAXPERM_TMPL_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_PERM_TMPL_ID_S by ' || MAXPERM_TMPL_ID - SEQPERM_TMPL_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQPERM_ID || ' < ' || MAXPERM_ID);
+  IF SEQPERM_ID < MAXPERM_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_PERM_ID_S by ' || MAXPERM_ID - SEQPERM_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQATTR_DATA_ID || ' < ' || MAXATTR_DATA_ID);
+  IF SEQATTR_DATA_ID < MAXATTR_DATA_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ATTR_DATA_ID_S by ' || MAXATTR_DATA_ID - SEQATTR_DATA_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQROLE_ID || ' < ' || MAXROLE_ID);
+  IF SEQROLE_ID < MAXROLE_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ROLE_ID_S by ' || MAXROLE_ID - SEQROLE_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQROLE_PERM_ID || ' < ' || MAXROLE_PERM_ID);
+  IF SEQROLE_PERM_ID < MAXROLE_PERM_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ROLE_PERM_ID_S by ' || MAXROLE_PERM_ID - SEQROLE_PERM_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQGRP_ID || ' < ' || MAXGRP_ID);
+  IF SEQGRP_ID < MAXGRP_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_GRP_ID_S by ' || MAXGRP_ID - SEQGRP_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQRSP_ID || ' < ' || MAXRSP_ID);
+  IF SEQRSP_ID < MAXRSP_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_RSP_ID_S by ' || MAXRSP_ID - SEQRSP_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQROLE_RSP_ID || ' < ' || MAXROLE_RSP_ID);
+  IF SEQROLE_RSP_ID < MAXROLE_RSP_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ROLE_RSP_ID_S by ' || MAXROLE_RSP_ID - SEQROLE_RSP_ID + 1);
+  END IF;
+  DBMS_OUTPUT.PUT_LINE(SEQROLE_RSP_ACTN_ID || ' < ' || MAXROLE_RSP_ACTN_ID);
+  IF SEQROLE_RSP_ACTN_ID < MAXROLE_RSP_ACTN_ID THEN
+    DBMS_OUTPUT.PUT_LINE('Increase KRIM_ROLE_RSP_ACTN_ID_S by ' || MAXROLE_RSP_ACTN_ID - SEQROLE_RSP_ACTN_ID + 1);
+  END IF;
 END;
 /
--- Statements are order dependent, do not reorder.
-INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD, OBJ_ID)
-VALUES (KRIM_PERM_TMPL_ID_S.nextVal, 'Question Permission', 'Modify/View Question', 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 'Y', 'KC-IDM', SYS_GUID());
+  
+REM INSERTING into KRIM_TYP_T
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','Unit','unitRoleTypeService','Y',1,'77151AD4B0B79985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','UnitHierarchy','unitHierarchyRoleTypeService','Y',1,'77151AD4B0BA9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-WKFLW','Derived Role - PI','proposalRoleTypeService','Y',1,'77151AD4B1419985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-WKFLW','Derived Role - COI','proposalRoleTypeService','Y',1,'77151AD4B14A9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-WKFLW','Derived Role - KeyPerson','proposalRoleTypeService','Y',1,'77151AD4B14E9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,' KC-SYS','Document Section','defaultPermissionTypeService','Y',1,'77151AD4B2039985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','Document Action','defaultPermissionTypeService','Y',1,'77151AD4B2529985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','ProposalType','kimTypeService','Y',1,'77151AD4B29B9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','ProtocolType','kimTypeService','Y',1,'77151AD4B29E9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','CommitteeType','kimTypeService','Y',1,'77151AD4B2A19985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','AwardType','kimTypeService','Y',1,'77151AD4B2A49985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-SYS','TimeAndMoneyType','kimTypeService','Y',1,'77151AD4B2A79985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-IP','Derived Role - Proposal Log PI','proposalLogPiDerivedRoleTypeService','Y',1,'7A38AB1CDD8B6D24E0404F8189D8266C');
+
+INSERT INTO KRIM_TYP_T (KIM_TYP_ID,NMSPC_CD,NM,SRVC_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ID_S.NEXTVAL,'KC-IP','Derived Role - Unit Administrator','unitAdministratorDerivedRoleTypeService','Y',1,'7BFAFA2D2059F57CE0404F8189D861A4');
 
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)
-VALUES (KRIM_PERM_ID_S.nextVal, KRIM_PERM_TMPL_ID_S.currVal, 'Modify Question', 'Modify Question', 'Y', 'KC-QUESTIONNAIRE', SYS_GUID());
+REM INSERTING into KRIM_ATTR_DEFN_T
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','unitNumber','Unit Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B0B89985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'QuestionMaintenanceDocument') ;
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','subunits','Descend Flag','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B0BC9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(select role_id from KRIM_ROLE_T where NMSPC_CD = 'KC-UNT' and role_nm = 'IRB Administrator'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','sectionName',null,'org.kuali.rice.kim.bo.impl.KimAttributes','Y',1,'77151AD4B2049985E0404F8189D80E8B');
+
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','documentAction',null,'org.kuali.rice.kim.bo.impl.KimAttributes','Y',1,'77151AD4B2539985E0404F8189D80E8B');
+
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','proposal','Proposal Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B29C9985E0404F8189D80E8B');
+
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','protocol','Protocol Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B29F9985E0404F8189D80E8B');
+
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','committee','Committee Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B2A29985E0404F8189D80E8B');
+
+Insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','award','Award Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B2A59985E0404F8189D80E8B');
+
+INSERT INTO KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID,NMSPC_CD,NM,LBL,CMPNT_NM,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DEFN_ID_S.NEXTVAL,'KC-SYS','timeandmoney','TimeAndMoney Number','org.kuali.kra.kim.bo.KcKimAttributes','Y',1,'77151AD4B2A89985E0404F8189D80E8B');
+
+REM INSERTING into KRIM_TYP_ATTR_T
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'unitNumber'),
+'A','Y',1,'77151AD4B0B99985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'subunits'),
+'B','Y',1,'77151AD4B0BD9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'unitNumber'),
+'A','Y',1,'77151AD4B0BB9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'sectionName'),
+'a','Y',1,'77151AD4B2059985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Document Action'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'documentAction'),
+'a','Y',1,'77151AD4B2549985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'ProposalType'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'proposal'),
+'A','Y',1,'77151AD4B29D9985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'ProtocolType'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'protocol'),
+'A','Y',1,'77151AD4B2A09985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'CommitteeType'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'committee'),
+'A','Y',1,'77151AD4B2A39985E0404F8189D80E8B');
+
+Insert into KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'AwardType'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'award'),
+'A','Y',1,'77151AD4B2A69985E0404F8189D80E8B');
+
+INSERT INTO KRIM_TYP_ATTR_T (KIM_TYP_ATTR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,SORT_CD,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_TYP_ATTR_ID_S.NEXTVAL,
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'TimeAndMoneyType'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'timeandmoney'),
+'A','Y',1,'77151AD4B2A99985E0404F8189D80E8B');
 
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)
-VALUES (KRIM_PERM_ID_S.nextVal, KRIM_PERM_TMPL_ID_S.currVal, 'View Question', 'View Question', 'Y', 'KC-QUESTIONNAIRE', SYS_GUID());
+REM INSERTING into KRIM_PERM_TMPL_T
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Answer Questionnaire Permission','Answer Questionnaire',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'7C6654780F11661EE0404F8189D835B3');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'QuestionMaintenanceDocument') ;
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Question Permission','Modify/View Question',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'790FAE3F20E58E09E0404F8189D820FD');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID)
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Questionnaire Permission','Modify/View Questionnaire',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'7780B47315ECBE94E0404F8189D85075');
 
--- Questionnaire Permission 7 statments
-INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_TMPL_ID_S.nextVal, 'Questionnaire Permission', 'Modify/View Questionnaire', 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 'Y', 'KC-IDM', SYS_GUID());
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Route All Documents','Route All Documents',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'77151AD4B28F9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_ID_S.nextVal, KRIM_PERM_TMPL_ID_S.currVal, 'Modify Questionnaire', null, 'Y', 'KC-QUESTIONNAIRE', SYS_GUID());
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Perform Any Document Action','Perform Any Document Action',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'77151AD4B28C9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','View All Documents','View All Documents',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'77151AD4B2899985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'QuestionnaireMaintenanceDocument') ;
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Modify All Documents','Modify All Documents',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+'Y',1,'77151AD4B2869985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Perform Document Action','Perform Document Action',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+'Y',1,'77151AD4B2519985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','View Document Section','View Document Section',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+'Y',1,'77151AD4B22F9985E0404F8189D80E8B');
+
+INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_TMPL_ID_S.NEXTVAL,'KC-IDM','Edit Document Section','Edit Document Section',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+'Y',1,'77151AD4B2079985E0404F8189D80E8B');
 
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_ID_S.nextVal, KRIM_PERM_TMPL_ID_S.currVal, 'View Questionnaire', null, 'Y', 'KC-QUESTIONNAIRE', SYS_GUID());
+REM INSERTING into KRIM_PERM_T
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Create ProposalDevelopmentDocument','Create Proposal Development Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'77151AD4B1F39985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create ProtocolDocument','Create Protocol Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'77151AD4B1F59985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'QuestionnaireMaintenanceDocument') ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create CommitteeDocument','Add new committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'77151AD4B1F79985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID, NM, DESC_TXT, KIM_TYP_ID, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_TMPL_ID_S.nextVal, 'Answer Questionnaire Permission', 'Answer Questionnaire', 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 'Y', 'KC-IDM', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Create Award','Create Award',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'77151AD4B1F99985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_ID_S.nextVal, KRIM_PERM_TMPL_ID_S.currVal, 'Answer Protocol Questionnaire', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Submit ProposalDevelopmentDocument','Submit a Proposal for approval',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'77151AD4B1FD9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Submit Protocol','Submit a Protocol to IRB for review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'77151AD4B1FF9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'ProtocolDocument') ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify ProposalDevelopmentDocument','Modify Proposal Development Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2089985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_ID_S.nextVal, 
-(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'), 'Modify Correspondence Template', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify Budget','Create/Modify Proposal Budget',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B20B9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify Narrative','Create/Modify Proposal Narrative',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B20E9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'ProtocolCorrespondenceTemplateMaintenanceDocument') ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Modify ProposalPermissions','Assign Users to Proposal Roles',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2119985E0404F8189D80E8B');
 
--- Correspondence Permissions
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID) 
-VALUES (KRIM_PERM_ID_S.nextVal, 
-(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'), 'View Correspondence Template', null, 'Y', 'KC-PROTOCOL', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Protocol','Modify Protocol Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2149985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID) 
-VALUES (KRIM_ROLE_PERM_ID_S.nextval, 
-(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'), KRIM_PERM_ID_S.currVal, 'Y', SYS_GUID());
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify ProtocolPermissions','Assign Users to Protocol Roles',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2179985E0404F8189D80E8B');
 
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-VALUES(KRIM_ATTR_DATA_ID_S.NEXTVAL, SYS_GUID(), '1', KRIM_PERM_ID_S.currVal, 
-(SELECT KIM_TYP_T FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'), 
-(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), 'ProtocolCorrespondenceTemplateMaintenanceDocument') ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Committee','Modify existing committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B21A9985E0404F8189D80E8B');
 
---Proposal Hierarchy Permission 2 statements
-INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, OBJ_ID)
-VALUES(KRIM_PERM_ID_S.NEXTVAL, 
-(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'), 'KRA-PD', 'Maintain ProposalHierarchy', 'Create, modify and synchronize ProposalHierarchies', SYS_GUID() ) ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Schedule','Modify schedule details for committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B21D9985E0404F8189D80E8B');
 
-INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ROLE_ID, PERM_ID, OBJ_ID)
-VALUES(KRIM_ROLE_PERM_ID_S.NEXTVAL, 
-(select role_id from krim_role_t where role_nm = 'Aggregator' and nmspc_cd = 'KRA-PD'), KRIM_PERM_ID_S.CURVAL, SYS_GUID() ) ;
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Memberships','Maintain membership details in committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2209985E0404F8189D80E8B');
 
--- Print Proposal Permission 1 statement
-UPDATE krim_perm_t 
-SET NM='Print Proposal' 
-WHERE NM = 'PRINT_PROPOSAL';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Minutes','Add/modify/delete minute entries in any schedule for committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2239985E0404F8189D80E8B');
 
-UPDATE krim_grp_t 
-SET GRP_NM='ProposalAdmin' 
-WHERE GRP_NM = 'Proposal Admin'
-      AND NMSPC_CD = 'KC-WKFLW';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Modify Award','Modify Award',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B2269985E0404F8189D80E8B');
 
-UPDATE krim_rsp_attr_data_t 
-SET ATTR_VAL='OSPInitial' 
-WHERE ATTR_VAL = 'OspInitial';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Maintain Award Documents','Maintain Award Documents',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'77151AD4B22C9985E0404F8189D80E8B');
 
-UPDATE krim_role_t T 
-SET T.ROLE_NM='PI' 
-WHERE ROLE_NM = 'PrimaryInvestigator'
-      AND NMSPC_CD = 'KC-WKFLW';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Proposal','View Proposal Development Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2309985E0404F8189D80E8B');
 
-UPDATE krim_role_t T 
-SET T.ROLE_NM='COI' 
-WHERE ROLE_NM = 'CoInvestigator'
-      AND NMSPC_CD = 'KC-WKFLW';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Budget','View Proposal Budget',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2339985E0404F8189D80E8B');
 
-UPDATE krim_role_t T 
-SET T.ROLE_NM='KP' 
-WHERE ROLE_NM = 'KeyPerson'
-      AND NMSPC_CD = 'KC-WKFLW';
-      
-insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
- values (krim_role_perm_id_s.nextval, sys_guid(), '1',
-   (select role_id from krim_role_t t where t.role_nm = 'User' and t.nmspc_cd = 'KUALI'),
-   (select perm_id from krim_perm_t u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'),
-   'Y');
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','View Narratives','View Proposal Narrative',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2369985E0404F8189D80E8B');
 
-   -- KRIM_ROLE_T  
-UPDATE KRIM_ROLE_T 
-SET NMSPC_CD='KC-PD' 
-WHERE NMSPC_CD = 'KRA-PD';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Protocol','View Protocol Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2399985E0404F8189D80E8B');
 
--- KRIM_PERM_T  
-UPDATE KRIM_PERM_T 
-SET NMSPC_CD='KC-PD' 
-WHERE NMSPC_CD = 'KRA-PD';
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Minutes','View Minutes',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B23C9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Committee','View all committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B23F9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Schedule','View schedule details of committees in a unit',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2429985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Agenda','View Agenda',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2459985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Award','View Award',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B2489985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Award Documents','View Award Documents',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'77151AD4B24E9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Alter Proposal Data','Change proposal master data once the proposal is locked',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2569985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Print Proposal','Print proposal on a sponsor specific path',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2599985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Certify','Certify',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B25C9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Submit to Sponsor','Submit a Proposal to Grants.gov',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B25F9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Add Proposal Viewer','Assign User to Proposal Viewer Role',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2629985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create Ammendment','Create a new ammendment for a protocol',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2659985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Create Renewal','Create a new renewal for a protocol',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2689985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Administrative Correction','Perform Administrative Corrections on Protocols',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B26B9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Maintain Protocol Submissions','Modify Protocol Submission details',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B26E9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Add Notes','Add Protocol Notes',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2719985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Restricted Notes','View Restricted Notes in Protocols',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2749985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Agenda','Generate Agenda',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2779985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Minutes','Generate Minutes',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B27A9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Generate Schedule','Generate Schedule',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B27D9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Member Details','View membership details for a member in a committee',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'77151AD4B2809985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Any Protocol','Modify Any Protocol Document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Modify All Documents'),
+'Y',1,'77151AD4B2879985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','View Any Proposal','View Any Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View All Documents'),
+'Y',1,'77151AD4B28A9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Perform IRB Actions on a Protocol','Perform any IRB action on a protocol submitted to a committee',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Any Document Action'),
+'Y',1,'77151AD4B28D9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Proposal Log','Edit a Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
+'Y',1,'7A38AB1CDD776D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Proposal Log','Save a Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
+'Y',1,'7A38AB1CDD786D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Proposal Log','Submit a Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'7A38AB1CDD796D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','Modify Questionnaire',null,
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Questionnaire Permission'),
+'Y',1,'7780B47315EDBE94E0404F8189D85075');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','View Questionnaire',null,
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Questionnaire Permission'),
+'Y',1,'7780B47315F0BE94E0404F8189D85075');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Maintain ProposalHierarchy','Create, modify and synchronize ProposalHierarchies',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'779A6BC053D01F73E0404F8189D83CCD');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Administer Routing for Document','Allows users to open KC documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Administer Routing for Document'),
+'Y',1,'7933EDC0EFFFBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Blanket Approve Document','Allows access to the Blanket Approval button on KC Documents.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'Y',1,'7933EDC0F001BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Initiate Document','Authorizes the initiation of KC Documents.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7933EDC0F004BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Open Document','Authorizes users to open KC Documents.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'7933EDC0F006BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Save Document','Authorizes user to save documents answering to the KC parent document Type.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
+'Y',1,'7933EDC0F008BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Delete Note / Attachment','Authorizes users to delete notes and attachments created by any user on documents answering to the KC parent document type.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Delete Note / Attachment'),
+'Y',1,'7933EDC0F00BBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Approve action on KC documents Ad Hoc routed to them.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'7933EDC0F00FBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the FYI action on KC documents Ad Hoc routed to them.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'7933EDC0F012BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Ad Hoc Review Document','Authorizes users to take the Acknowledge action on KC documents Ad Hoc routed to them.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'7933EDC0F015BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Initiate Document','Authorizes the initiation of KC Simple Maintenance documents.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7933EDC0F018BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Assign Role','Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KRA.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Assign Role'),
+'Y',1,'7933EDC0F01BBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Grant Permission','Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KRA.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Permission'),
+'Y',1,'7933EDC0F01FBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Grant Responsibility','Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Grant Responsibility'),
+'Y',1,'7933EDC0F023BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-SYS','Maintain System Parameter','Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Maintain System Parameter'),
+'Y',1,'7933EDC0F027BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KR-WKFLW','View Other Action List','Authorizes users to access other user''s action lists via the Help Desk Action List Login.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',1,'7933EDC0F031BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KR-WKFLW','Unrestricted Document Search','Allows power users to bypass the security associated with certain document types to limit the result set.',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',1,'7933EDC0F033BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PD','Blanket Approve ProposalDevelopmentDocument','Blanket Approve ProposalDevelopmentDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'N',1,'7933EDC0F03BBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Blanket Approve ProtocolDocument','Blanket Approve ProtocolDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'N',1,'7933EDC0F03DBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Blanket Approve CommitteeDocument','Blanket Approve CommitteeDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'N',1,'7933EDC0F03FBAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Blanket Approve AwardDocument','Blanket Approve AwardDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'N',1,'7933EDC0F041BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AWARD','Blanket Approve TimeAndMoneyDocument','Blanket Approve TimeAndMoneyDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'N',1,'7933EDC0F045BAEFE0404F8189D834A6');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','Modify Question','Modify Question',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Question Permission'),
+'Y',1,'790FAE3F20E68E09E0404F8189D820FD');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-QUESTIONNAIRE','View Question','View Question',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Question Permission'),
+'Y',1,'790FAE3F20E98E09E0404F8189D820FD');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Proposal Log','Initiate a new Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7A38AB1CDD766D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Proposal Log','Open a Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'7A38AB1CDD7A6D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Proposal Log','Cancel a Proposal Log',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
+'Y',1,'7A38AB1CDD7B6D24E0404F8189D8266C');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Institutional Proposal','Initiate a new Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7BFAFA2D2020F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Institutional Proposal','Edit a Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
+'Y',1,'7BFAFA2D2021F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Institutional Proposal','Save a Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
+'Y',1,'7BFAFA2D2022F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Institutional Proposal','Submit a Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'7BFAFA2D2023F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Institutional Proposal','Open a Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'7BFAFA2D2024F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Institutional Proposal','Cancel a Institutional Proposal',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
+'Y',1,'7BFAFA2D2025F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Create Intellectual Property Review','Initiate a new Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7BFAFA2D202CF57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Edit Intellectual Property Review','Edit a Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
+'Y',1,'7BFAFA2D202DF57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Save Intellectual Property Review','Save a Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Save Document'),
+'Y',1,'7BFAFA2D202EF57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Submit Intellectual Property Review','Submit a Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'7BFAFA2D202FF57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Open Intellectual Property Review','Open a Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'7BFAFA2D2030F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-IP','Cancel Intellectual Property Review','Cancel a Intellectual Property Review',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Cancel Document'),
+'Y',1,'7BFAFA2D2031F57CE0404F8189D861A4');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Answer Protocol Questionnaire',null,
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Answer Questionnaire Permission'),
+'Y',1,'7C6654780F12661EE0404F8189D835B3');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-M','Create Valid Rate','Create a Valid Rates entry',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',1,'83BD8AC4129D32F7E0404F8189D814BB');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Correspondence Template',null,
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
+'Y',1,'7FD4ED85584EC062E0404F8189D80314');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Correspondence Template',null,
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'7FD4ED855851C062E0404F8189D80314');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Blanket Approve AwardBudgetDocument','Blanket Approve AwardBudgetDocument',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Blanket Approve Document'),
+'Y',1,'7FF70F5C179902F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Submit AwardBudget','Submit award budget document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Route Document'),
+'Y',1,'7FF70F5C179A02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Approve AwardBudget','Approve award budget document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'7FF70F5C179B02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Post AwardBudget','Post award budget document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'7FF70F5C179C02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Create AwardBudget','Create award budget document',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'7FF70F5C179D02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Maintain AwardBudgetRouting','Maintaining Award budget routing',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Perform Document Action'),
+'Y',1,'7FF70F5C179E02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','Modify AwardBudget','Modify Award Budget at unit level',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'Edit Document Section'),
+'Y',1,'7FF70F5C179F02F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-AB','View AwardBudget','View Award Budget at unit level',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KC-IDM' AND NM = 'View Document Section'),
+'Y',1,'7FF70F5C17A002F8E0404F8189D862FC');
+
+Insert into KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','Modify Batch Correspondence Detail','Modify Batch Correspondence Detail',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Edit Document'),
+'Y',1,'95F7D32053EF4F868C1612FA94FFF635');
+
+INSERT INTO KRIM_PERM_T (PERM_ID,NMSPC_CD,NM,DESC_TXT,PERM_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_PERM_ID_S.NEXTVAL,'KC-PROTOCOL','View Batch Correspondence Detail','View Batch Correspondence Detail',
+(SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-NS' AND NM = 'Open Document'),
+'Y',1,'F35D259D139C401EB7F74E94A8DFA3B7');
+
+
+REM INSERTING into KRIM_PERM_ATTR_DATA_T
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Submit Protocol'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'protocol'),
+'ProtocolDocument',1,'77151AD4B2009985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Submit ProposalDevelopmentDocument'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'proposal'),
+'ProposalDevelopmentDocument',1,'77151AD4B1FE9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Create Award'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'sectionName'),
+'AwardDocument',1,'77151AD4B1FA9985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create CommitteeDocument'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'subunits'),
+'CommitteeDocument',1,'77151AD4B1F89985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create ProtocolDocument'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Document Type (Permission)'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'unitNumber'),
+'ProtocolDocument',1,'77151AD4B1F69985E0404F8189D80E8B');
+
+Insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'award'),
+'proposal',1,'77151AD4B2099985E0404F8189D80E8B');
+
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,PERM_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = ' KC-SYS' AND NM = 'Document Section'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'timeandmoney'),
+'ProposalDevelopmentDocument',1,'77151AD4B20A9985E0404F8189D80E8B');
+
+
+REM INSERTING into KRIM_ROLE_T
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-SYS','Manager','This role represents a collection of all the KC module manager roles and has permission to initiate simple maintenance documents.',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'7933EDC0EFFEBAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','IRBApprover','IRB Approver',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B1659985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','OSPApprover','Office of Sponsored Projects Approver',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B1309985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Viewer','Award Budget Viewer - the role grants permissions to view award budget at departmental level',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'7FF70F5C17AE02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Modifier','Award Budget Modifier - the role grants permissions to modify or view award budget at departmental level',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'7FF70F5C17AD02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','approver','approver',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B37E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PROTOCOL','Protocol Unassigned','Protocol Unassigned - no permissions',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B36E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PROTOCOL','Protocol Viewer','Protocol Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B34A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PROTOCOL','Protocol Aggregator','Protocol Aggregator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3419985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','unassigned','Unassigned role - no permissions',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3259985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','Viewer','Proposal Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3209985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','Budget Creator','Proposal Budget Creator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3199985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','Narrative Writer','Proposal Narrative Writer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3129985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-PD','Aggregator','Proposal Aggregator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B3069985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-UNT','Proposal Creator','Proposal Creator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'),
+'Y',null,1,'77151AD4B2AA9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Approver','Award Budget Approver - the role grants permissions to edit and approve award budget',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7FF70F5C17AC02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Aggregator','Award Budget Aggregator - the role grants permissions to create and maintain award budget at department level',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7FF70F5C17AB02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Maintainer','Maintain Award Budget - the role grants permissions to modify and submit award budget at departmental level',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7FF70F5C17AA02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AB','Award Budget Administrator','Award Budget Administrator - the role grants permissions to manage any award budget at OSP level',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7FF70F5C17A902F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-IP','Intellectual Property Review Maintainer','Maintain Intellectual Property Review',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7BFAFA2D203AF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-IP','Institutional Proposal Maintainer','Maintain Institutional Proposals',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7BFAFA2D2039F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-IP','Institutional Proposal Viewer','View Institutional Proposals',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'7BFAFA2D2038F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Award Unassigned','Award Unassigned',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3919985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Template Viewer','Template Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3909985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Departments Awards Viewer','Departments Awards Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B38F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Award Documents Viewer','Award Documents Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B38D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Award Viewer','Award Viewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3899985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Award Documents Maintainer','Award Documents Maintainer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3859985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Application Administrator','Application Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B37F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-AWARD','Award Modifier','Award Modifier',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3749985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-UNT','IRB Reviewer','IRB Reviewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3659985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-UNT','IRB Administrator','IRB Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B34C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-UNT','Protocol Creator','Protocol Creator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B33C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-ADM','Proposal Submission','Proposal Submission',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B32C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-ADM','OSP Administrator','OSP Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'UnitHierarchy'),
+'Y',null,1,'77151AD4B3269985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','PI','Proposal Primary Investigator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Derived Role - PI'),
+'Y',null,1,'77151AD4B1429985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','COI','Proposal Co-Investigator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Derived Role - COI'),
+'Y',null,1,'77151AD4B14B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','DepartmentReviewer','Proposal Departmental Reviewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Derived Role - KeyPerson'),
+'Y',null,1,'77151AD4B15B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','CustomReviewer','Proposal Custom Reviewer',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Derived Role - KeyPerson'),
+'Y',null,1,'77151AD4B1529985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-WKFLW','KP','Proposal Key Persons',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Derived Role - KeyPerson'),
+'Y',null,1,'77151AD4B14F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-IP','Proposal Log PI','Derived role from PI on Proposal Log',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Derived Role - Proposal Log PI'),
+'Y',null,1,'7A38AB1CDD8C6D24E0404F8189D8266C');
+
+INSERT INTO KRIM_ROLE_T (ROLE_ID,NMSPC_CD,ROLE_NM,DESC_TXT,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_ID_S.NEXTVAL,'KC-IP','Unit Administrator','Derived role based on Unit',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Derived Role - Unit Administrator'),
+'Y',NULL,1,'7BFAFA2D205AF57CE0404F8189D861A4');
+
+
+REM INSERTING into KRIM_ROLE_PERM_T
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'Proposal Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Create ProposalDevelopmentDocument'),
+'Y',1,'77151AD4B2AB9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
+'Y',1,'77151AD4B3079985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B3089985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Narrative'),
+'Y',1,'77151AD4B3099985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B30A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Budget'),
+'Y',1,'77151AD4B30B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B30C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalPermissions'),
+'Y',1,'77151AD4B30D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
+'Y',1,'77151AD4B30E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Certify'),
+'Y',1,'77151AD4B30F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Submit ProposalDevelopmentDocument'),
+'Y',1,'77151AD4B3109985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Add Proposal Viewer'),
+'Y',1,'77151AD4B3119985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
+'Y',1,'77151AD4B3139985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B3149985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Narrative'),
+'Y',1,'77151AD4B3159985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B3169985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B3179985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Narrative Writer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
+'Y',1,'77151AD4B3189985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify ProposalDevelopmentDocument'),
+'Y',1,'77151AD4B31A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B31B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B31C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Modify Budget'),
+'Y',1,'77151AD4B31D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B31E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Budget Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
+'Y',1,'77151AD4B31F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B3219985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B3229985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B3239985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
+'Y',1,'77151AD4B3249985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B3279985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B3289985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B3299985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Alter Proposal Data'),
+'Y',1,'77151AD4B32A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Add Proposal Viewer'),
+'Y',1,'77151AD4B32B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Proposal'),
+'Y',1,'77151AD4B32D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Narratives'),
+'Y',1,'77151AD4B32E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'View Budget'),
+'Y',1,'77151AD4B32F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Alter Proposal Data'),
+'Y',1,'77151AD4B3309985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Print Proposal'),
+'Y',1,'77151AD4B3319985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'Proposal Submission'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Submit to Sponsor'),
+'Y',1,'77151AD4B3329985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'Protocol Creator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create ProtocolDocument'),
+'Y',1,'77151AD4B33D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Any Protocol'),
+'Y',1,'77151AD4B3429985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Submit Protocol'),
+'Y',1,'77151AD4B3439985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Protocol'),
+'Y',1,'77151AD4B3449985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Protocol'),
+'Y',1,'77151AD4B3459985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify ProtocolPermissions'),
+'Y',1,'77151AD4B3469985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Add Notes'),
+'Y',1,'77151AD4B3479985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create Ammendment'),
+'Y',1,'77151AD4B3489985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create Renewal'),
+'Y',1,'77151AD4B3499985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND ROLE_NM = 'Protocol Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Protocol'),
+'Y',1,'77151AD4B34B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Committee'),
+'Y',1,'77151AD4B34D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Schedule'),
+'Y',1,'77151AD4B34E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Perform IRB Actions on a Protocol'),
+'Y',1,'77151AD4B34F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Restricted Notes'),
+'Y',1,'77151AD4B3509985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Agenda'),
+'Y',1,'77151AD4B3519985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Committee'),
+'Y',1,'77151AD4B3529985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Member Details'),
+'Y',1,'77151AD4B3539985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Minutes'),
+'Y',1,'77151AD4B3549985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Schedule'),
+'Y',1,'77151AD4B3559985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Protocol'),
+'Y',1,'77151AD4B3569985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Create CommitteeDocument'),
+'Y',1,'77151AD4B3579985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Administrative Correction'),
+'Y',1,'77151AD4B3589985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Agenda'),
+'Y',1,'77151AD4B3599985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Minutes'),
+'Y',1,'77151AD4B35A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Generate Schedule'),
+'Y',1,'77151AD4B35B9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Proposal Log'),
+'Y',1,'7A38AB1CDD836D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Proposal Log'),
+'Y',1,'7A38AB1CDD846D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Proposal Log'),
+'Y',1,'7A38AB1CDD856D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Memberships'),
+'Y',1,'77151AD4B35F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Minutes'),
+'Y',1,'77151AD4B3609985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Maintain Protocol Submissions'),
+'Y',1,'77151AD4B3619985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Agenda'),
+'Y',1,'77151AD4B3669985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Committee'),
+'Y',1,'77151AD4B3679985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Member Details'),
+'Y',1,'77151AD4B3689985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Minutes'),
+'Y',1,'77151AD4B3699985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Schedule'),
+'Y',1,'77151AD4B36A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'D309EA64643F4799832AF1AFAE57B184');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'D68A7129791941BA9BC3555FFE424269');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Create Award'),
+'Y',1,'77151AD4B3759985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Modify Award'),
+'Y',1,'77151AD4B3769985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Modifier'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'77151AD4B3779985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Application Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Any Proposal'),
+'Y',1,'77151AD4B3809985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Documents Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Maintain Award Documents'),
+'Y',1,'77151AD4B3869985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Batch Correspondence Detail'),
+'Y',1,'C1FB853F1FF0435DB3D1DAA0D161C921');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'77151AD4B38A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Batch Correspondence Detail'),
+'Y',1,'16061ABBF4C94191B4A10C0F178E0E57');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AWARD' AND ROLE_NM = 'Award Documents Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award Documents'),
+'Y',1,'77151AD4B38E9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'Modify Questionnaire'),
+'Y',1,'7780B47315EEBE94E0404F8189D85075');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'View Questionnaire'),
+'Y',1,'7780B47315F1BE94E0404F8189D85075');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-PD' AND ROLE_NM = 'Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Maintain ProposalHierarchy'),
+'Y',1,'779A6BC053D11F73E0404F8189D83CCD');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Blanket Approve Document'),
+'Y',1,'7933EDC0F003BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Save Document'),
+'Y',1,'7933EDC0F00ABAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Delete Note / Attachment'),
+'Y',1,'7933EDC0F00EBAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7933EDC0F01ABAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Assign Role'),
+'Y',1,'7933EDC0F01EBAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Grant Permission'),
+'Y',1,'7933EDC0F022BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Grant Responsibility'),
+'Y',1,'7933EDC0F026BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Maintain System Parameter'),
+'Y',1,'7933EDC0F02ABAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Maintain System Parameter'),
+'Y',1,'7933EDC0F02DBAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field'),
+'Y',1,'7933EDC0F030BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'View Other Action List'),
+'Y',1,'7933EDC0F032BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Unrestricted Document Search'),
+'Y',1,'7933EDC0F034BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Full Unmask Field'),
+'Y',1,'7933EDC0F037BAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-SYS' AND NM = 'Initiate Document'),
+'Y',1,'7933EDC0F03ABAEFE0404F8189D834A6');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'Modify Question'),
+'Y',1,'790FAE3F20E88E09E0404F8189D820FD');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-QUESTIONNAIRE' AND NM = 'View Question'),
+'Y',1,'790FAE3F20EB8E09E0404F8189D820FD');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Proposal Log'),
+'Y',1,'7A38AB1CDD826D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Proposal Log'),
+'Y',1,'7A38AB1CDD866D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Proposal Log'),
+'Y',1,'7A38AB1CDD876D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Proposal Log PI'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Proposal Log'),
+'Y',1,'7A38AB1CDD8D6D24E0404F8189D8266C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Open Document'),
+'Y',1,'7A5067129D5CEFBBE0404F8189D867DD');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'7BFAFA2D203BF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
+'Y',1,'7BFAFA2D203CF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Institutional Proposal'),
+'Y',1,'7BFAFA2D203DF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Institutional Proposal'),
+'Y',1,'7BFAFA2D203EF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Institutional Proposal'),
+'Y',1,'7BFAFA2D203FF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Institutional Proposal'),
+'Y',1,'7BFAFA2D2040F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'7BFAFA2D2041F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Institutional Proposal'),
+'Y',1,'7BFAFA2D2042F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Intellectual Property Review'),
+'Y',1,'7BFAFA2D2043F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Intellectual Property Review'),
+'Y',1,'7BFAFA2D2044F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Intellectual Property Review'),
+'Y',1,'7BFAFA2D2045F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Intellectual Property Review'),
+'Y',1,'7BFAFA2D2046F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
+'Y',1,'7BFAFA2D2047F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Institutional Proposal Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Intellectual Property Review'),
+'Y',1,'7BFAFA2D2048F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'7BFAFA2D2049F57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Create Intellectual Property Review'),
+'Y',1,'7BFAFA2D204AF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Edit Intellectual Property Review'),
+'Y',1,'7BFAFA2D204BF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Save Intellectual Property Review'),
+'Y',1,'7BFAFA2D204CF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Submit Intellectual Property Review'),
+'Y',1,'7BFAFA2D204DF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Intellectual Property Review'),
+'Y',1,'7BFAFA2D204EF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Intellectual Property Review Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Cancel Intellectual Property Review'),
+'Y',1,'7BFAFA2D204FF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Unit Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'7BFAFA2D205BF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-IP' AND ROLE_NM = 'Unit Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'7BFAFA2D205CF57CE0404F8189D861A4');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Answer Protocol Questionnaire'),
+'Y',1,'7C6654780F13661EE0404F8189D835B3');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-ADM' AND ROLE_NM = 'OSP Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-M' AND NM = 'Create Valid Rate'),
+'Y',1,'83BD8AC4129F32F7E0404F8189D814BB');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PD' AND NM = 'Blanket Approve ProposalDevelopmentDocument'),
+'Y',1,'844B45D612F0DF41E0404F8189D87372');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Blanket Approve ProtocolDocument'),
+'Y',1,'844B45D612F1DF41E0404F8189D87372');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Blanket Approve CommitteeDocument'),
+'Y',1,'844B45D612F2DF41E0404F8189D87372');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Blanket Approve AwardDocument'),
+'Y',1,'844B45D612F3DF41E0404F8189D87372');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'Manager'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'Blanket Approve TimeAndMoneyDocument'),
+'Y',1,'844B45D612F4DF41E0404F8189D87372');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'Modify Correspondence Template'),
+'Y',1,'7FD4ED85584FC062E0404F8189D80314');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-UNT' AND ROLE_NM = 'IRB Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-PROTOCOL' AND NM = 'View Correspondence Template'),
+'Y',1,'7FD4ED855852C062E0404F8189D80314');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Create AwardBudget'),
+'Y',1,'7FF70F5C17AF02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Post AwardBudget'),
+'Y',1,'7FF70F5C17B002F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
+'Y',1,'7FF70F5C17B102F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Maintain AwardBudgetRouting'),
+'Y',1,'7FF70F5C17B202F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
+'Y',1,'7FF70F5C17B302F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
+'Y',1,'7FF70F5C17B402F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Administrator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE0E7D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
+'Y',1,'7FF70F5C17B502F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
+'Y',1,'7FF70F5C17B602F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
+'Y',1,'7FF70F5C17B702F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Maintainer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE117D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Create AwardBudget'),
+'Y',1,'7FF70F5C17B802F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Submit AwardBudget'),
+'Y',1,'7FF70F5C17B902F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
+'Y',1,'7FF70F5C17BA02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Aggregator'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE127D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'View AwardBudget'),
+'Y',1,'7FF70F5C17BB02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Viewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE137D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Modifier'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Modify AwardBudget'),
+'Y',1,'7FF70F5C17BC02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Modifier'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE147D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AB' AND NM = 'Approve AwardBudget'),
+'Y',1,'7FF70F5C17BD02F8E0404F8189D862FC');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'85E6BDF3CE157D5CE040DC0A1F8A441C');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KUALI' AND ROLE_NM = 'User'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Ad Hoc Review Document'),
+'Y',1,'1DD197DD1EE24867A83B157DBB389FE7');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Proposal Log'),
+'Y',1,'2EBED68E667B4D2A98770165A78346FD');
+
+Insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-IP' AND NM = 'Open Institutional Proposal'),
+'Y',1,'2BF7F3D7A59B4D518FA1111BFE566843');
+
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_PERM_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator or Reviewer'),
+(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KC-AWARD' AND NM = 'View Award'),
+'Y',1,'144B55C519713B29E040007F01003991');
+
+
+REM INSERTING into KRIM_GRP_T
+Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','KcAdmin','Kuali Coeus Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B0BF9985E0404F8189D80E8B');
+
+Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','OSP Superuser','Kuali Coeus Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B0F69985E0404F8189D80E8B');
+
+Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','ProposalAdmin','Proposal Workflow Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B0F99985E0404F8189D80E8B');
+
+Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','IRBAdmin','IRB Administrator',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',null,1,'77151AD4B1B89985E0404F8189D80E8B');
+
+Insert into KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Development - Department Reviewers','Reviewes for DepartmentalReview route node.',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',to_timestamp(14-APR-10,'DD-MON-RR HH.MI.SSXFF AM'),1,'17151AD4B0C79985E0404F8189D80E8B');
+
+INSERT INTO KRIM_GRP_T (GRP_ID,NMSPC_CD,GRP_NM,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT,VER_NBR,OBJ_ID)
+VALUES (KRIM_GRP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Development - Custom Approval Reviewers','Reviewes for CustomApproval route node.',
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default'),
+'Y',TO_TIMESTAMP(14-APR-10,'DD-MON-RR HH.MI.SSXFF AM'),1,'71151AD4B0C79985E0404F8189D80E8B');
+
+
+REM INSERTING into KRIM_RSP_T
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Initial Approval','Proposal Development Document - Initial Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1339985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Proposal OSP Office Approval','Proposal Development Document - OSP Office Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B13A9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Persons Approval','Proposal Development Document - Key Personnel Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1439985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Custom Approval','Proposal Development Document - Custom Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1549985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Proposal Departmental Approval','Proposal Development Document - Departmental Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B15E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','IRB Approve','Protocol Document - IRBApprove',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B19C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','IRB AssignedToCommittee','Protocol Document - AssignedToCommittee',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1A39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','IRB AssignedToAgenda','Protocol Document - AssignedToAgenda',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1AA9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','IRB Review','Protocol Document - IRBReview',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'77151AD4B1B19985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','IRB Receipt','Protocol Document - IRBReceipt',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'7B079DD1EA749E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Award Budget InitialApproval','Award Budget Document - Initial Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'7FF70F5C17C402F8E0404F8189D862FC');
+
+INSERT INTO KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,DESC_TXT,RSP_TMPL_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_RSP_ID_S.NEXTVAL,'KC-WKFLW','Award Budget OSPApproval','Award Budget Document - OSP Approval',
+(SELECT RSP_TMPL_ID FROM KRIM_RSP_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Review'),
+'Y',1,'7FF70F5C17CB02F8E0404F8189D862FC');
+
+
+REM INSERTING into KRIM_RSP_ATTR_DATA_T
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Receipt'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17CC02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'AwardBudgetDocument',1,'7FF70F5C17C502F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'7B079DD1EA759E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1B29985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1AB9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B1A49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProtocolDocument',1,'77151AD4B19D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B15F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1559985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1449985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B13B9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'),
+'ProposalDevelopmentDocument',1,'77151AD4B1349985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetOSPApproval',1,'7FF70F5C17CD02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AwardBudgetInitialApproval',1,'7FF70F5C17C602F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReceipt',1,'7B079DD1EA769E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBReview',1,'77151AD4B1B39985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToAgenda',1,'77151AD4B1AC9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'AssignedToCommittee',1,'77151AD4B1A59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'IRBApprove',1,'77151AD4B19E9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'DepartmentalRouting',1,'77151AD4B1609985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'UnitRouting',1,'77151AD4B1569985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'ProposalPersons',1,'77151AD4B1459985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPOfficeRouting',1,'77151AD4B13C9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'routeNodeName'),
+'OSPInitial',1,'77151AD4B1359985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17CE02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7FF70F5C17C702F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'7B079DD1EA779E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1B49985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1AD9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1A69985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B19F9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1619985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1579985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1469985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B13D9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'required'),
+'false',1,'77151AD4B1369985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17CF02F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7FF70F5C17C802F8E0404F8189D862FC');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'7B079DD1EA789E82E0404F8189D82F80');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1B59985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1AE9985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A79985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1A09985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1629985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1589985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1479985E0404F8189D80E8B');
+
+Insert into KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B13E9985E0404F8189D80E8B');
+
+INSERT INTO KRIM_RSP_ATTR_DATA_T (ATTR_DATA_ID,RSP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL,VER_NBR,OBJ_ID)
+VALUES (KRIM_ATTR_DATA_ID_S.NEXTVAL,
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Document Type, Routing Node & Action Information'),
+(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'actionDetailsAtRoleMemberLevel'),
+'false',1,'77151AD4B1379985E0404F8189D80E8B');
+
+
+REM INSERTING into KRIM_ROLE_RSP_T
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'OSPApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+'Y',1,'77151AD4B13F9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'OSPApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+'Y',1,'77151AD4B1389985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'PI'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+'Y',1,'77151AD4B1489985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'COI'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+'Y',1,'77151AD4B14C9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'KP'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+'Y',1,'77151AD4B1509985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'CustomReviewer'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+'Y',1,'77151AD4B1599985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'DepartmentReviewer'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+'Y',1,'77151AD4B1639985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+'Y',1,'77151AD4B1B69985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+'Y',1,'77151AD4B1AF9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+'Y',1,'77151AD4B1A89985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-WKFLW' AND ROLE_NM = 'IRBApprover'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+'Y',1,'77151AD4B1A19985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+'Y',1,'7FF70F5C17D002F8E0404F8189D862FC');
+
+INSERT INTO KRIM_ROLE_RSP_T (ROLE_RSP_ID,ROLE_ID,RSP_ID,ACTV_IND,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ID_S.NEXTVAL,
+(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-AB' AND ROLE_NM = 'Award Budget Approver'),
+(SELECT RSP_ID FROM KRIM_RSP_T WHERE NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+'Y',1,'7FF70F5C17C902F8E0404F8189D862FC');
+
+
+REM INSERTING into KRIM_ROLE_RSP_ACTN_T
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'OSPApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal OSP Office Approval'),
+1,'77151AD4B1409985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'OSPApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Initial Approval'),
+1,'77151AD4B1399985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','A',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'PI' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+1,'77151AD4B1499985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','A',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'COI' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+1,'77151AD4B14D9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','A',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'KP' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Persons Approval'),
+1,'77151AD4B1519985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'CustomReviewer' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Custom Approval'),
+1,'77151AD4B15A9985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'DepartmentReviewer' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Proposal Departmental Approval'),
+1,'77151AD4B1649985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'Y','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'IRBApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Review'),
+1,'77151AD4B1B79985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'Y','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'IRBApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToAgenda'),
+1,'77151AD4B1B09985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'Y','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'IRBApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB AssignedToCommittee'),
+1,'77151AD4B1A99985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'Y','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-WKFLW' AND RO.ROLE_NM = 'IRBApprover' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'IRB Approve'),
+1,'77151AD4B1A29985E0404F8189D80E8B');
+
+Insert into KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-AB' AND RO.ROLE_NM = 'Award Budget Approver' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget OSPApproval'),
+1,'7FF70F5C17D102F8E0404F8189D862FC');
+
+INSERT INTO KRIM_ROLE_RSP_ACTN_T (ROLE_RSP_ACTN_ID,ACTN_TYP_CD,ACTN_PLCY_CD,PRIORITY_NBR,FRC_ACTN,ROLE_MBR_ID,ROLE_RSP_ID,VER_NBR,OBJ_ID)
+VALUES (KRIM_ROLE_RSP_ACTN_ID_S.NEXTVAL,'A','F',1,'N','*',
+(SELECT ROLE_RSP_ID FROM KRIM_ROLE_RSP_T RR, KRIM_ROLE_T RO, KRIM_RSP_T RS
+WHERE RR.ROLE_ID = RO.ROLE_ID AND RO.NMSPC_CD = 'KC-AB' AND RO.ROLE_NM = 'Award Budget Approver' 
+AND RR.RSP_ID = RS.RSP_ID AND RS.NMSPC_CD = 'KC-WKFLW' AND NM = 'Award Budget InitialApproval'),
+1,'7FF70F5C17CA02F8E0404F8189D862FC');
+
+-- Add create institutional proposal, submit institutional proposal permissions to Proposal Submission role
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values (KRIM_ROLE_PERM_ID_S.NEXTVAL, 'EFEA9886C913436BA189CA7034CB26B4', 1, 
+(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Proposal Submission'), 
+(select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
+
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values (KRIM_ROLE_PERM_ID_S.NEXTVAL, 'EA793FFDE412441EB270C4C0D4D8BEA2', 1, 
+(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Proposal Submission'), 
+(select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), 'Y');
+
+-- Add create institutional proposal, submit institutional proposal permissions to Award Modifier role
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values (KRIM_ROLE_PERM_ID_S.NEXTVAL, '3D4CCEEC-D351-17C6-6DA5-33303E128093', 1, 
+(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Award Modifier'), 
+(select PERM_ID from KRIM_PERM_T where NM='Create Institutional Proposal'), 'Y');
+
+insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
+values (KRIM_ROLE_PERM_ID_S.NEXTVAL, '5890F4B3-CAE4-51F2-10CC-186B0C98CF99', 1, 
+(select ROLE_ID from KRIM_ROLE_T where ROLE_NM='Award Modifier'), 
+(select PERM_ID from KRIM_PERM_T where NM='Submit Institutional Proposal'), 'Y');
 
 COMMIT;

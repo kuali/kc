@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,6 +161,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.RRKeyPersonV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRSF424V1_0GeneratorTest.class,

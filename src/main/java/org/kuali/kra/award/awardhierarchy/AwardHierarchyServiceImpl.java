@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -596,6 +596,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     
     /**
      * 
+     * @throws WorkflowException 
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber) {
@@ -609,21 +610,21 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
             
-            Award award = null;
+            //Award award = null;
             VersionHistory pendingVersionHistory = null;
             //For the current award, we should always show only the pending version if it exists
-            if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(tmpAwardNumber, currentAwardNumber)) {
+//            if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(tmpAwardNumber, currentAwardNumber)) {
                 pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, currentAwardNumber, currentSequenceNumber);
-                if(pendingVersionHistory != null) {
-                    award = (Award) pendingVersionHistory.getSequenceOwner();
-                }
-            }
-            Award activeAward = activePendingTransactionsService.getActiveAwardVersion(tmpAwardNumber);
-            if(award == null) {
-                award = activeAward;  
-            }  
+//                if(pendingVersionHistory != null) {
+//                    award = (Award) pendingVersionHistory.getSequenceOwner();
+//                }
+//            }
+            Award award = activePendingTransactionsService.getWorkingAwardVersion(tmpAwardNumber);
+//            if(award == null) {
+//                award = activeAward;  
+//            }  
 
-            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(award);            
             
             awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
             awardHierarchyNode.setLeadUnitName(award.getUnitName());
@@ -651,7 +652,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             }
             
             awardHierarchyNode.setAwardDocumentNumber(documentNumber);
-            if(!awardDocumentFinalStatus && pendingVersionHistory != null && activeAward != null && !pendingVersionHistory.getSequenceOwnerSequenceNumber().equals(activeAward.getSequenceNumber())) {
+            if(!awardDocumentFinalStatus && pendingVersionHistory != null && award != null && !pendingVersionHistory.getSequenceOwnerSequenceNumber().equals(award.getSequenceNumber())) {
                 awardDocumentFinalStatus = true;   
             }
             awardHierarchyNode.setAwardDocumentFinalStatus(new Boolean(awardDocumentFinalStatus));

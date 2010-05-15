@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.rules;
 
-import junit.framework.TestCase;
+
 
 import org.junit.After;
 import org.junit.Assert;
@@ -28,7 +28,7 @@ import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareEvent;
 import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetValidationCostShareRuleTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final BudgetDecimal SHARE_AMOUNT = new BudgetDecimal(100.00);

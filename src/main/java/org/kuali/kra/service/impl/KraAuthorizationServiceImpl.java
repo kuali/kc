@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,6 +101,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
         roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        forceFlushRoleCaches();
     }
     
     /**
@@ -110,6 +111,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
         roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttributes));
+        forceFlushRoleCaches();
     }
     
     /**
@@ -234,6 +236,14 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getRoleId()), null);
         }
         return false;
+    }
+
+    /**
+     * FIXME: Rice Hack - this method needs to be called because after we update kim data the cache handling is done
+     * asynchronously and subsequent reads are likely to be reading from a dirty cache.
+     */
+    public void forceFlushRoleCaches() {
+        roleManagementService.flushRoleCaches();
     }
 
     public RoleManagementService getRoleManagementService() {

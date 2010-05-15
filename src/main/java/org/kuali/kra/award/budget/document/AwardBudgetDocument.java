@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.award.budget.document;
 
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
@@ -28,7 +29,14 @@ import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.kew.KraDocumentRejectionService;
+import org.kuali.rice.kew.dto.ActionTakenDTO;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 
@@ -37,7 +45,8 @@ import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
 
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
-
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
+    
     private BudgetDecimal obligatedTotal;
     private boolean budgetRateTypePopulated;
     /**
@@ -119,5 +128,84 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void setObligatedTotal(BudgetDecimal obligatedTotal) {
         this.obligatedTotal = obligatedTotal;
     }
+    
+    /**
+     * Added mthod to enable change of status when the document changes KEW status.
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO dto) {
+        super.doRouteStatusChange(dto);
+        String newStatus = dto.getNewRouteStatus();
+        String oldStatus = dto.getOldRouteStatus();
+        boolean changeStatus = false;
+   
+        if( LOG.isDebugEnabled() )
+            LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));
+        
+        //Only know what to do with disapproved right now, left the
+        if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED );
+        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_CANCEL_CD ) ) {
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED );
+        } else if( StringUtils.equals( newStatus, KEWConstants.ROUTE_HEADER_FINAL_CD )) {
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_TO_BE_POSTED);
+            changeStatus = true;
+        }
+        
+        if( changeStatus ) {
+            try {
+                KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException( "Could not save award document on action  taken.");
+            }
+        }  
+    }
+    
+    
+    /**
+     * Added method to detect when the document is being approved from the initial node.  In this case
+     * the document is actually being re-submitted after a rejection.  The award budget status then 
+     * changes back to In Progress.
+     * @see org.kuali.rice.kns.document.DocumentBase#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     */
+    public void doActionTaken(ActionTakenEventDTO event) {
+        super.doActionTaken(event);
+        ActionTakenDTO actionTaken = event.getActionTaken();
+        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+        if( LOG.isDebugEnabled() ) {
+            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
+        }
+        if( StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) && documentRejectionService.isDocumentOnInitialNode(this) ) {
+            //the document is being approved from the initial node.
+            //this means it was rejected and is now being approved by the initiator.
+            //set the status back to in progress
+            getAwardBudget().setAwardBudgetStatusCode( Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
+            try {
+                KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException( "Could not save award document on action  taken.");
+            }
+        }
+        
+      
+    }
 
+    
+    /**
+     * @see org.kuali.kra.budget.document.BudgetDocument#documentHasBeenRejected(java.lang.String)
+     */
+    @Override
+    public void documentHasBeenRejected( String reason ) {
+        this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
+        try {
+            KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException( "Could not save award document on action  taken.");
+        }
+    }
+
+    
 }

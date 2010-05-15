@@ -6,6 +6,7 @@
 			<description>Create/Edit a Valid Cost Element Rate Type</description>
 			<label>Valid Cost Element Rate Types Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validcostelementratetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

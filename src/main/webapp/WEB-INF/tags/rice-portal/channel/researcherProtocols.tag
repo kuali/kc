@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,11 @@
   <strong>Actions </strong>
 
       <ul class="chan">
-        <li><portal:portalLink displayTitle="false" title="Create Protocol" url="protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument">Create Protocol</portal:portalLink></li>
+       <%-- <li><portal:portalLink displayTitle="false" title="Create Protocol" url="protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument">Create Protocol</portal:portalLink></li> --%>
+       <div style="display: none;">
+<a title="Create Protocol" href="portal.do?channelTitle=Create Protocol&amp;channelUrl=protocolProtocol.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=ProtocolDocument" class="portal_link">Create Protocol</a>
+</div>
+        <li>Create Protocol</li>
         <li>Pending Protocols</li>
         <li>Protocols Pending PI Action </li>
         <li>Amend or Renew Protocol </li>
@@ -32,7 +36,8 @@
             <li>Protocols Under Development </li>
             <li>Protocols Pending Committee Action </li>
             <li>All My Protocols </li>
-            <li><portal:portalLink displayTitle="true" title="Search Protocols" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+            <li>Search Protocols</li>
+            <%-- <li><portal:portalLink displayTitle="true" title="Search Protocols" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li> --%>
         </ul>  
 </div>
 <channel:portalChannelBottom />

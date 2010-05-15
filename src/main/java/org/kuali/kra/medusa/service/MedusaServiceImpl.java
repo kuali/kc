@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -39,6 +40,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.service.AwardHierarchyUIService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -191,6 +193,13 @@ public class MedusaServiceImpl implements MedusaService {
         return devProposals;
     }
     
+    /**
+     * 
+     * Generates and returns a collection of all awards linked to the 
+     * institutional proposal
+     * @param ip
+     * @return
+     */
     private Collection<Award> getAwards(InstitutionalProposal ip) {
         Collection<Award> awards = new ArrayList<Award>();
         Collection<InstitutionalProposal> institutionalProposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", ip.getProposalNumber()));
@@ -203,13 +212,33 @@ public class MedusaServiceImpl implements MedusaService {
                 }
             }
         }
-        if (StringUtils.isNotBlank(ip.getCurrentAwardNumber()) && ip.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
-            Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", ip.getCurrentAwardNumber()));
+        InstitutionalProposal activeProposal = getNewestActiveProposal(ip.getProposalNumber());
+        if (activeProposal != null && StringUtils.isNotBlank(activeProposal.getCurrentAwardNumber()) && activeProposal.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
+            Collection<Award> proposalCurrentAwards = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", activeProposal.getCurrentAwardNumber()));
             for (Award curAward : proposalCurrentAwards) {
                 addOnlyNewestAwardVersion(awards, curAward);
             }
         }
         return awards;
+    }
+    
+    /**
+     * 
+     * Gets and returns the newest active proposal version for the proposal number.
+     * @param proposalNumber
+     * @return
+     */
+    private InstitutionalProposal getNewestActiveProposal(String proposalNumber) {
+        Collection<InstitutionalProposal> versions = getBusinessObjectService().findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", proposalNumber));
+        InstitutionalProposal newestProposal = null;
+        for (InstitutionalProposal curProposal : versions) {
+            if (newestProposal == null && curProposal.isActiveVersion()) {
+                newestProposal = curProposal;
+            } else if (curProposal.isActiveVersion() && curProposal.getSequenceNumber() > newestProposal.getSequenceNumber()) {
+                newestProposal = curProposal;
+            }
+        }
+        return newestProposal;
     }
     
     private Collection<Award> getAwards(DevelopmentProposal devProposal) {
@@ -232,6 +261,7 @@ public class MedusaServiceImpl implements MedusaService {
     private void addOnlyNewestAwardVersion(Collection<Award> currentList, Award newItem) {
         Collection<Award> awardVersions = businessObjectService.findMatching(Award.class, getFieldValues("awardNumber", newItem.getAwardNumber()));
         Award newestAward = null;
+        //loop through and grab only the newest award
         for (Award curAward : awardVersions) {
             if (newestAward == null) {
                 newestAward = curAward;
@@ -239,7 +269,17 @@ public class MedusaServiceImpl implements MedusaService {
                 newestAward = curAward;
             }
         }
+        //now make sure we don't have another award version in the list already
         if (newestAward != null) {
+            Award awardToBeRemoved = null;
+            for (Award curAward : currentList) {
+                if (curAward.getAwardNumber().equals(newestAward.getAwardNumber())) {
+                    awardToBeRemoved = curAward;
+                }
+            }
+            if (awardToBeRemoved != null) {
+                currentList.remove(awardToBeRemoved);
+            }
             currentList.add(newestAward);
         }
     }
@@ -256,18 +296,19 @@ public class MedusaServiceImpl implements MedusaService {
                 }
             }
         }
+        
         Collection <InstitutionalProposal> curAwardIps = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("currentAwardNumber", award.getAwardNumber()));
         for (InstitutionalProposal proposal : curAwardIps) {
-            if (proposal.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED) {
+            if (proposal.getStatusCode() != INST_PROPOSAL_STATUS_FUNDED && proposal.isActiveVersion()) {
                 addOnlyNewerIpVersion(ips, proposal);
             }
         }
         return ips;
     }
-    
+        
     /**
-     * Only add the newest inst prop(based on sequence number) to the list and remove older versions
-     * if they exist 
+     * Only add the newest institutional proposal(based on sequence number) 
+     * to the list and remove older versions if they exist 
      * @param currentList
      * @param newItem
      */
@@ -282,6 +323,15 @@ public class MedusaServiceImpl implements MedusaService {
             }
         }
         if (newestIP != null) {
+            InstitutionalProposal proposalToRemove = null;
+            for (InstitutionalProposal curIP : currentList) {
+                if (curIP.getProposalNumber().equals(newestIP.getProposalNumber())) {
+                    proposalToRemove = curIP;
+                }
+            }
+            if (proposalToRemove != null) {
+                currentList.remove(proposalToRemove);
+            }
             currentList.add(newestIP);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -205,6 +206,14 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    /**
+     * Gets the ActivePendingTransactionsService attribute. 
+     * @return Returns the ActivePendingTransactionsService.
+     */
+    public ActivePendingTransactionsService getActivePendingTransactionsService() {
+        return KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
     /**
@@ -524,10 +533,12 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
         TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
         if(timeAndMoneyDocument.getAward() == null) {
-            Map<String, String> map = new HashMap<String,String>();
-            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
-            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
-            timeAndMoneyDocument.setAward(awardList.get(0)); 
+//            Map<String, String> map = new HashMap<String,String>();
+//            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
+//            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
+//            timeAndMoneyDocument.setAward(awardList.get(0)); 
+               Award award = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
+               timeAndMoneyDocument.setAward(award);
         }
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
         getDocInfo().clear();

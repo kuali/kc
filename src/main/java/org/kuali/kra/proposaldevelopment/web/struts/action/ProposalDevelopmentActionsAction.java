@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,9 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.service.KcGroupService;
@@ -60,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
@@ -75,6 +77,7 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -85,6 +88,7 @@ import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -408,6 +412,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             // Use the Copy Service to copy the proposal.
             
             ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
+            KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+            
             if (proposalCopyService == null) {
                 
                 // Something bad happened. The errors are in the Global Error Map
@@ -423,14 +429,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 // go to the Proposal web page.
                 
                 proposalDevelopmentForm.setDocId(newDocId);
-                this.loadDocument(proposalDevelopmentForm);
+                this.loadDocument(proposalDevelopmentForm);  
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getDocument();
                 initializeProposalUsers(copiedDocument);//add in any default permissions
                 copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
-                
+                 
                 DocumentService docService = KraServiceLocator.getService(DocumentService.class);
                 docService.saveDocument(copiedDocument);
+                kraAuthService.forceFlushRoleCaches();
                 
                 nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
                 
@@ -473,7 +480,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             //reject the document using the service.
             ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)kualiDocumentFormBase.getDocument();
             ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
-            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason, GlobalVariables.getUserSession().getPrincipalName());
+            phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), reason, GlobalVariables.getUserSession().getPrincipalId());
             return super.returnToSender(request, mapping, kualiDocumentFormBase);
         }
         
@@ -562,11 +569,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
        
+        if (!userCanCreateInstitutionalProposal()) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
         proposalDevelopmentForm.setAuditActivated(true);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         int status = isValidSubmission(proposalDevelopmentDocument);
         
-       
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
         
@@ -618,8 +629,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if ((proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
             //GlobalVariables.getErrorMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
-        }
-        else {
+        } else {
             /* 
              * Don't know what to do about the Audit Rules.  The parent class invokes the Audit rules
              * from its execute() method.  It will stay this way for the time being because I this is
@@ -663,6 +673,36 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
             
         return state;
+    }
+    
+    /*
+     * To submit to sponsor, user must also have permission to create and submit institutional proposal documents.
+     */
+    private boolean userCanCreateInstitutionalProposal() {
+        boolean hasPermission = true;
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
+        if (!getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
+                permissionDetails)) {
+            hasPermission = false;
+            GlobalVariables.getMessageMap().putError("emptyProp", 
+                    KeyConstants.ERROR_SUBMIT_TO_SPONSOR_PERMISSONS, 
+                    GlobalVariables.getUserSession().getPrincipalName(),
+                    PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
+        }
+        if (!getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
+                permissionDetails)) {
+            hasPermission = false;
+            GlobalVariables.getMessageMap().putError("emptyProp", 
+                    KeyConstants.ERROR_SUBMIT_TO_SPONSOR_PERMISSONS, 
+                    GlobalVariables.getUserSession().getPrincipalName(),
+                    PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
+        }
+        return hasPermission;
     }
         
     /**
@@ -725,14 +765,32 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
        
-        proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
-        
-        ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-        proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
-        
+        if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
+            proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
+
+            ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
+            if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_POST_SUBMISSION);
+            } else {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(
+                        proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
+            }
+        } else {
+            if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
+            } else {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);                
+            }
+        }
+        String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         documentService.saveDocument(proposalDevelopmentDocument);
-        
+        if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
+            proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
+            proposalDevelopmentDocument.getDevelopmentProposal().refresh();
+            KraServiceLocator.getService(BusinessObjectService.class).save(proposalDevelopmentDocument.getDevelopmentProposal());
+        }
+
         if (autogenerateInstitutionalProposal()) {
             generateInstitutionalProposal(proposalDevelopmentForm);
         }
@@ -743,7 +801,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         if ("X".equals(proposalDevelopmentForm.getResubmissionOption())) {
-            GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED);
+            if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED);
+            } else {
+                GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED_INROUTE);
+            }
             return;
         }
         if ("O".equals(proposalDevelopmentForm.getResubmissionOption())) {
@@ -884,10 +946,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
         Map<String,Object> reportParameters = new HashMap<String,Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
-        AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument, 
-                ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
-        streamToResponse(dataStream, response);
-        return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        
+        // TODO fix - printing code does not catch null fields in proposal and does not fail gracefully when certain fields are blank
+        try {
+            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument, 
+                    ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
+            streamToResponse(dataStream, response);
+            return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+
+        }
+        catch (NullPointerException npe) {
+            LOG.error("Error generating print stream for proposal forms", npe);
+            GlobalVariables.getMessageMap().putError("print.nofield", KeyConstants.ERROR_PRINTING_UNKNOWN);
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+
 //        
 //        if(!printFormTemplates.isEmpty()) {
 //            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
@@ -1028,6 +1101,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (idx > 0) {
                 viewBudgetPeriodParam = "viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
             }
+            idx = methodToCallAttribute.indexOf("&activePanelName=");
+            if (idx > 0) {
+                activePanelName = methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx));
+            }
         }
         
         forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetExpenses.do?auditActivated=true&");
@@ -1035,8 +1112,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?"+viewBudgetPeriodParam); 
         }
         
-        if (StringUtils.isNotBlank(activePanelName)) {
-            forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?activePanelName=" + activePanelName + "&"); 
+        if (StringUtils.isNotBlank(activePanelName) && "Personnel".equals(activePanelName)) {
+            forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetPersonnel.do?activePanelName=" + activePanelName + "&"); 
         }
 
         return new ActionForward(forward, true);

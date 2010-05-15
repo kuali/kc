@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -242,6 +242,22 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
     
     /**
+     * Is this Proposal funded by the given Award number and version?
+     * @param awardNumber String
+     * @param awardSequence Integer
+     * @return boolean
+     */
+    public boolean isFundedByAward(String awardNumber, Integer awardSequence) {
+        for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
+            if (awardFundingProposal.getAward().getAwardNumber().equals(awardNumber) 
+                    && awardFundingProposal.getAward().getSequenceNumber().equals(awardSequence)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * This method calculates fiscal Month and fiscal Year fields.  It also adds leading 0 to Month if needed.
      */
     private void calculateFiscalMonthAndYearFields() {
@@ -274,7 +290,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         return institutionalProposalDocument;
     }
-
+    
     /**
      * Sets the institutionalProposalDocument attribute value.
      * @param institutionalProposalDocument The institutionalProposalDocument to set.
@@ -1013,6 +1029,20 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public boolean getAwardFundingProposalsExist() {
         return getAwardFundingProposals().size() > 0;
     }
+    
+    /**
+     * Get the list of only Active AwardFundingProposals.
+     * @return List<AwardFundingProposal> the list.
+     */
+    public List<AwardFundingProposal> getActiveAwardFundingProposals() {
+        List<AwardFundingProposal> activeAfps = new ArrayList<AwardFundingProposal>();
+        for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
+            if (awardFundingProposal.isActive()) {
+                activeAfps.add(awardFundingProposal);
+            }
+        }
+        return activeAfps;
+    }
 
     public void setAwardType(AwardType awardType) {
         this.awardType = awardType;
@@ -1450,7 +1480,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return
      */
     public ActivityType getActivityTypeFromCode() {
-        if(activityType == null) {
+        if (activityType == null) {
             if (activityTypeCode != null) {
                 Map<String, Object> identifiers = new HashMap<String, Object>();
                 identifiers.put("activityTypeCode", activityTypeCode);
@@ -1465,7 +1495,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return
      */
     public ProposalType getProposalTypeFromCode() {
-        if(proposalType == null) {
+        if (proposalType == null) {
             if (proposalTypeCode != null) {
                 Map<String, Object> identifiers = new HashMap<String, Object>();
                 identifiers.put("proposalTypeCode", proposalTypeCode);

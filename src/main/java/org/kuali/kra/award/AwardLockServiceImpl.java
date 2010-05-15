@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,20 +87,6 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
             return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KNSConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = new HashMap();
-        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
-        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-            if (StringUtils.equals(entry.getKey(), "addBudget")) {
-                entry.setValue("FALSE");
-            }
-        }
-        return editModeMap;
     }
     
     @SuppressWarnings("unchecked")

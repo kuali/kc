@@ -1,6 +1,6 @@
 <!--
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -176,38 +176,15 @@
 		<property name="description" value="Underrecovery Of Idc" />
 	</bean>
 
-	<bean id="AwardFandaRate-sourceAccount" parent="AwardFandaRate-sourceAccount-parentBean" />
-	<bean id="AwardFandaRate-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="sourceAccount" />
-		<property name="forceUppercase" value="false" />
+	<bean id="AwardFandaRate-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
 		<property name="label" value="Source" />
 		<property name="shortLabel" value="Source" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Source Account" />
-		<property name="description" value="Source Account" />
 	</bean>
 
-	<bean id="AwardFandaRate-destinationAccount" parent="AwardFandaRate-destinationAccount-parentBean" />
-	<bean id="AwardFandaRate-destinationAccount-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="AwardFandaRate-destinationAccount"  parent="KraAttributeReferenceDummy-sourceAccount" >
 		<property name="name" value="destinationAccount" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Destination" />
 		<property name="shortLabel" value="Destination" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
 		<property name="summary" value="Destination Account" />
 		<property name="description" value="Destination Account" />
 	</bean>
