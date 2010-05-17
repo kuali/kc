@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -52,7 +54,7 @@ public class AwardBudgetLineItemExt extends BudgetLineItem {
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount;
+        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
     }
     /**
      * Sets the obligatedAmount attribute value.

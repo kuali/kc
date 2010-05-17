@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the License);
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
 
-    private String[] exemptNumbers;
+    private List<String> exemptNumbers = new ArrayList<String>();
     private List<ProposalExemptNumber> proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
  
     private String hierarchyProposalNumber;
@@ -182,11 +182,11 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
 
     }
     
-    public String[] getExemptNumbers() {
+    public List<String> getExemptNumbers() {
         return this.exemptNumbers;
     }
 
-    public void setExemptNumbers(String[] exemptNumbers) {
+    public void setExemptNumbers(List<String> exemptNumbers) {
         this.exemptNumbers = exemptNumbers;
         this.syncExemptNumbersToProposalExemptNumbers();
     }
@@ -231,10 +231,10 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
             return;
         }
         
-        this.exemptNumbers = new String[this.proposalExemptNumbers.size()];
+        this.exemptNumbers = new ArrayList<String>();
         
         for (int i = 0; i < this.proposalExemptNumbers.size(); i++) {
-            this.exemptNumbers[i] = this.proposalExemptNumbers.get(i).getExemptionTypeCode();
+            this.exemptNumbers.add(this.proposalExemptNumbers.get(i).getExemptionTypeCode());
         }
     }
 

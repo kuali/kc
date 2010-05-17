@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,7 +165,10 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			grantApplicationType.setStateID(pdDoc.getDevelopmentProposal()
 					.getApplicantOrganization().getRolodex().getState());
 		}
-		grantApplicationType.setFederalID(s2sUtilService.getFederalId(pdDoc));
+		String federalId = s2sUtilService.getFederalId(pdDoc);
+		if (federalId != null) {
+			grantApplicationType.setFederalID(federalId);
+		}
 		grantApplicationType.setCFDANumber(pdDoc.getDevelopmentProposal()
 				.getCfdaNumber());
 		if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {

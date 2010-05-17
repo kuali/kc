@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006-2009 The Kuali Foundation.
+	Copyright 2005-2010 The Kuali Foundation.
 
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -252,8 +252,9 @@
 	</bean>
 
 		<!-- Award Printing Service Configuration Start -->
-		<bean id="awardDeltaXmlStream"
-			class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream">
+		
+		<bean id="awardBaseStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardBaseStream" abstract="true">
 			<property name="businessObjectService">
 				<ref bean="businessObjectService" />
 			</property>
@@ -263,21 +264,18 @@
 			<property name="documentService">
 				<ref bean="documentService" />
 			</property>
+			<property name="parameterService">
+				<ref bean="parameterService" />
+			</property>
+		</bean>
+		<bean id="awardDeltaXmlStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream" parent="awardBaseStream">
 			<property name="versionHistoryService">
 				<ref bean="versionHistoryService" />
 			</property>
 		</bean>
 		<bean id="awardNoticeXmlStream"
-			class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
-			<property name="dateTimeService">
-				<ref bean="dateTimeService" />
-			</property>
-			<property name="documentService">
-				<ref bean="documentService" />
-			</property>
+			class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream" parent="awardBaseStream">
 			<property name="versionHistoryService">
 				<ref bean="versionHistoryService" />
 			</property>
@@ -292,31 +290,26 @@
 			</property>
 		</bean>
 		<bean id="awardMoneyAndEndDatesHistoryXmlStream"
-			class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream">
+			class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream" parent="awardBaseStream">
+		</bean>
+		
+		<bean id="awardBudgetBaseStream"
+			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetBaseStream" abstract="true">
 			<property name="businessObjectService">
 				<ref bean="businessObjectService" />
 			</property>
 			<property name="dateTimeService">
 				<ref bean="dateTimeService" />
+			</property>
+			<property name="parameterService">
+				<ref bean="parameterService" />
 			</property>
 		</bean>
 		<bean id="awardBudgetHierarchyXmlStream"
-			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHierarchyXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
-			<property name="dateTimeService">
-				<ref bean="dateTimeService" />
-			</property>
+			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHierarchyXmlStream" parent="awardBudgetBaseStream">
 		</bean>
 		<bean id="awardBudgetHistoryTransactionXmlStream"
-			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHistoryTransactionXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
-			<property name="dateTimeService">
-				<ref bean="dateTimeService" />
-			</property>
+			class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHistoryTransactionXmlStream" parent="awardBudgetBaseStream">
 		</bean>
 	
 	

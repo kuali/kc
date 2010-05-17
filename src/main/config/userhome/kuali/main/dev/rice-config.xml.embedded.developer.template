@@ -9,8 +9,11 @@ additional.config.locations=/path/to/config/rice-config.xml
 
 <config>
 
-    <param name="http.port" override="false">8081</param>
-    <param name="application.host" override="false">127.0.0.1</param>
+	<!-- Please fill in a value for this parameter! -->
+	<param name="app.context.name">kr-${environment}</param>
+	<param name="application.url">http://127.0.0.1:8081/${app.context.name}</param>
+
+	<param name="workflow.url">${application.url}/kew</param>
 
 	<param name="plugin.dir">${user.home}/kuali/main/${environment}/rice_embedded/plugins</param>
 
@@ -20,6 +23,8 @@ additional.config.locations=/path/to/config/rice-config.xml
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	
 	<param name="attachment.dir.location">${user.home}/kuali/main/${environment}/rice_embedded/kew_attachments</param>
+
+    <param name="mail.smtp.host">localhost</param>
 
 	<!-- log4j settings -->
 	<param name="log4j.settings.path">${user.home}/kuali/main/${environment}/rice_embedded/log4j.properties</param>
@@ -36,6 +41,10 @@ additional.config.locations=/path/to/config/rice-config.xml
 
     <!-- Sample Application Flag -->
     <param name="sample.enabled">false</param>
+	
+	<!-- other added-->
+	<!--<param name="workflow.url">http://127.0.0.1:8081/kr-dev/kew</param>-->
+	<!--<param name="serviceServletUrl">http://127.0.0.1:8081/kr-dev/remoting/</param>-->
 
 	<param name="dev.mode">false</param>
 </config>

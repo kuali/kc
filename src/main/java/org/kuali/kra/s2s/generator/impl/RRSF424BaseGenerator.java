@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
@@ -31,7 +33,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
-    protected static final String ADDITIONAL_CONGRESSIONAL_DESTRICT = "59";
+    protected static final int ADDITIONAL_CONGRESSIONAL_DESTRICT = 59;
     private static final String CONTACT_TYPE_O = "O";
     protected static final String CONTACT_TYPE_I = "I";
     protected static final String STATE_REVIEW_YES = "Y";
@@ -68,4 +70,19 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         }
         return contactType;
     }
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    protected DepartmentalPerson getContactPerson(
+            ProposalDevelopmentDocument pdDoc) {
+        return s2sUtilService.getContactPerson(pdDoc);
+    }
+    
 }

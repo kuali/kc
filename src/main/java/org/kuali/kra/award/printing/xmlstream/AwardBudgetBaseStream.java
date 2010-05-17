@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * <p>
@@ -55,6 +57,7 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 	protected static final String AWARD_NUMBER_PARAMETER = "awardNumber";
 	protected static final String DOCUMENT_NUMBER = "documentNumber";
+	private ParameterService parameterService;
 	/**
 	 * <p>
 	 * This method will set the values to award transaction info xml object
@@ -84,7 +87,9 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 				.toArray(new AwardTransactionType[0]));
 		return awardTransactionInfo;
 	}
-
+    private String getProposalParameterValue(String param) {
+        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, param);
+    }
 	/*
 	 * This method will set the values to award amount transaction xml object
 	 * attributes
@@ -149,7 +154,7 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	protected SchoolInfoType2 getSchoolInfoType() {
 		SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
 		String schoolName = getAwardParameterValue(SCHOOL_NAME);
-		String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
+		String schoolAcronym = getProposalParameterValue(SCHOOL_ACRONYM);
 		if (schoolName != null) {
 			schoolInfoType.setSchoolName(schoolName);
 		}
@@ -185,4 +190,18 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 		}
 		return value;
 	}
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

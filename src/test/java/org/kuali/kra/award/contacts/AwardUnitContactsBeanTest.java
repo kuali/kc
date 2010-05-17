@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the AwardUnitContactsBean 
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class AwardUnitContactsBeanTest extends KraTestBase {
 
     private static final int THREE = 3;

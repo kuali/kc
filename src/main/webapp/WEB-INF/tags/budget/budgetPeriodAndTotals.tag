@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 <c:set var="action" value="budgetParameters" />
 <kul:tab tabTitle="Budget Periods & Totals" defaultOpen="true" tabErrorKey="newBudgetPeriod*,document.budget.budgetPeriod*" auditCluster="budgetPeriodProjectDateAuditErrors,budgetPeriodProjectDateAuditWarnings,awardBudgetTotalCostAuditErrors"  tabAuditKey="document.budget.budgetPeriod*,document.budget.totalCost" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
-    	<h3>Budget Periods</h3>
+    	<h3>
+            <span class="subhead-left">Budget Periods</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.parameters.BudgetPeriod" altText="help"/></span>
+        </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
@@ -158,6 +161,12 @@
 								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' styleClass="tinybutton" />
 		    				</c:otherwise>
 						</c:choose>
+						<c:if test="${!proposalBudgetFlag}">
+    				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
+    				    							anchor="${tabKey}" 
+    				    							lookupParameters="document.parentDocument.award.awardNumber:budgetParentId"
+    				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						
+						</c:if>
 						</kra:section>
 					</div>
 	                </td>
@@ -169,6 +178,9 @@
           	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
+          			  <c:if test="${not KualiForm.document.proposalBudgetFlag}" >  
+          				<strong>Budget Change:</strong>
+          				</c:if>
           				&nbsp;
           			</div> 
           		</td> 
@@ -213,7 +225,7 @@
                 	    <strong> &nbsp; </strong>
                 	</div>
                 </td>
-				<td width="10%" class="infoline">
+				<td width="10%" class="infoline" rowspan="3" valigh="middle">
 					<div align=center>&nbsp;
 						<kra:section permission="modifyBudgets">
 							<html:image property="methodToCall.recalculateBudgetPeriod.anchor${tabKey}"
@@ -222,6 +234,93 @@
 					</div>
                 </td>
           	</tr>        
+          	
+          	
+        <c:if test="${not KualiForm.document.proposalBudgetFlag}" >  	
+          	<tr>
+          		<td width="5%" class="infoline"> 
+          			<div align="center">
+          				Previous Budget:
+          			</div> 
+          		</td> 
+                <td width="10%" valign="middle" class="infoline">
+                	<div align="center">
+                		 <fmt:formatDate value="${KualiForm.document.budget.prevBudget.startDate}" pattern="MM/dd/yyyy" /> 
+                	</div>
+				</td>
+                <td width="10%" valign="middle" class="infoline">
+                	<div align="center">
+                		 <fmt:formatDate value="${KualiForm.document.budget.prevBudget.endDate}" pattern="MM/dd/yyyy" /> 
+                	</div>
+                </td>
+                <td width="12%" valign="middle" class="infoline">                	
+                	<div align="center">
+                	     <kul:htmlControlAttribute property="document.budget.prevBudget.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> 
+                	</div>
+				</td>
+                <td width="10%" valign="middle" class="infoline">
+                	<div align="center">
+                	     <kul:htmlControlAttribute property="document.budget.prevBudget.totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/>
+                		
+                	</div>
+                </td>
+                <td width="10%" valign="middle" class="infoline">
+                 	<div align="center">
+                	     <kul:htmlControlAttribute property="document.budget.prevBudget.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/> 
+                	</div>
+                </td>
+                <td width="12%" valign="middle" class="infoline">
+                 	<div align="center">
+                	     <kul:htmlControlAttribute property="document.budget.prevBudget.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/> 
+                	</div>
+                </td>
+                <td width="12%" valign="middle" class="infoline">
+                	<div align="center">
+                	     <kul:htmlControlAttribute property="document.budget.prevBudget.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/> 
+                	</div>
+                </td>
+                <td width="9%" valign="middle" class="infoline">
+                	<div align="center">
+                	     &nbsp; 
+                	</div>
+                </td>
+          	</tr>    
+          	
+          	
+          	
+          	          	<tr>
+          		<td width="5%" class="infoline"> 
+          			<div align="center">
+          				<strong>Obligated Total:</strong>
+          			</div> 
+          		</td> 
+                <td width="10%" valign="middle" class="infoline">
+                	<div align="center">
+                		<strong> <fmt:formatDate value="${KualiForm.document.budget.summaryPeriodStartDate}" pattern="MM/dd/yyyy" /> </strong>
+                	</div>
+				</td>
+                <td width="10%" valign="middle" class="infoline">
+                	<div align="center">
+                		<strong> <fmt:formatDate value="${KualiForm.document.budget.summaryPeriodEndDate}" pattern="MM/dd/yyyy" /> </strong>
+                	</div>
+                </td>
+                <c:forEach var="budgetTotal" items="${KualiForm.document.budget.budgetsTotals}" varStatus="status">
+                  <td valign="middle" class="infoline">
+                	<div align="center">
+                	    <strong> <kul:htmlControlAttribute property="document.budget.budgetsTotals[${status.index}]" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/> </strong>
+                	</div>
+                  </td>
+                
+                </c:forEach>
+          	    <td  class="infoline">
+          	    &nbsp;
+          	    </td>
+          	
+          	</tr>
+          	    
+         </c:if>  	
+          	
+          	
         </table>
     </div> 
 </kul:tab>

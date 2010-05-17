@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,18 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * 
@@ -46,20 +48,27 @@ public class ContactsValuesFinder extends KeyValuesBase {
     @SuppressWarnings("all")
     public List<KeyLabelPair> getKeyValues() {
         
-        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findAll(AwardSponsorContact.class);
+//        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findAll(AwardSponsorContact.class);
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select "));
         
         Long awardId = ((AwardForm) GlobalVariables.getKualiForm()).getAwardDocument().getAward().getAwardId();
         
-        refreshAwardSponsorContacts(awardSponsorContacts);
+        Map keyMap = new HashMap ();
+        keyMap.put("awardId", awardId);
+        Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findMatching(AwardSponsorContact.class, keyMap);
+
+//        refreshAwardSponsorContacts(awardSponsorContacts);
         
         for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){                      
-            if(awardId.equals(awardSponsorContact.getAward().getAwardId())){
+            //if(awardId.equals(awardSponsorContact.getAward().getAwardId())){
+                if (awardSponsorContact.getContactRole() == null) {
+                    awardSponsorContact.refreshReferenceObject("contactRole");
+                }
                 keyValues.add(new KeyLabelPair(awardSponsorContact.getAwardContactId()
                         ,awardSponsorContact.getContactRole().getRoleDescription() + " - " + awardSponsorContact.getContactOrganizationName()));    
-            }
+            //}
         }        
                 
         return keyValues;

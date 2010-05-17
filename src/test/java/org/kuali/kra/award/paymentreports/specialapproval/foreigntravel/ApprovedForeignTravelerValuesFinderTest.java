@@ -16,6 +16,7 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 /**
  * Testcase for ApprovedForeignTravelerValuesFinder
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class ApprovedForeignTravelerValuesFinderTest {
     private ApprovedForeignTravelerValuesFinder finder;
     private Award award;

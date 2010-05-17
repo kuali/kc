@@ -6,6 +6,7 @@
 			<description>Create/Edit a Rate Type</description>
 			<label>Rate Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/ratetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

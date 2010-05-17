@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@ package org.kuali.kra.printing.print;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.Source;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -135,4 +138,15 @@ public abstract class AbstractPrint implements Printable {
 		}
 		return xmlStreamMap;
 	}
+	
+	/**
+	 * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
+	 */
+    public Map<String,Source> getXSLTemplateWithBookmarks(){
+        return null;
+    }
+    public List<Source> getXSLTemplates(){
+        return null;
+    }
+	
 }

@@ -6,6 +6,7 @@
 			<description>Create/Edit a Budget Status</description>
 			<label>Budget Status</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetstatus.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -62,11 +62,11 @@
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].startDate" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].endDate" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" />
-<c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].underrecoveryAmount" />
 
-<kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabErrorKey}"/>
 
-<kra:innerTab parentTab="${innerTabParent}" defaultOpen="${hasErrors}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
+
+
+<kra:innerTab parentTab="${innerTabParent}" defaultOpen="${defaultOpen}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
 	<table border="0" cellpadding=0 cellspacing=0 summary="">
 		<tr>
 		    <th width="5%">&nbsp;</th>

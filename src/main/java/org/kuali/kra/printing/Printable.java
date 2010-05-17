@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,9 @@ public interface Printable extends Serializable {
 	 * will be converted to PDF. Note that multiple transforms are possible on
 	 * this data.
 	 */
-	public List<Source> getXSLT();
+    public List<Source> getXSLTemplates();
 
+    public Map<String,Source> getXSLTemplateWithBookmarks();
 	/**
 	 * 
 	 * This method will provide the either reflected or XML-Bean based XML for

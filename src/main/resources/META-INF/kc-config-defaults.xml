@@ -1,5 +1,5 @@
 <!--
- Copyright 2008-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@
 	<param name="rice.app.url">${application.url}</param>
 
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
-	<param name="externalizable.images.url">/${rice.app.url}/kr/static/images/</param>
+	<param name="externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">${rice.app.url}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
@@ -89,8 +89,8 @@
 	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
-	<param name="keystore.file">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
-	<param name="keystore.password">s1t0spss!xX-tst</param>
+	<param name="keystore.file">kul</param>
+	<param name="keystore.password">kulpass</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
@@ -98,10 +98,10 @@
 
 	<!-- Kuali parameters -->
 	<param name="encryption.key">7IC64w6ksLU</param>
-	<param name="keystore.alias">kul</param>
-	<param name="keystore.password">kulpass</param>
 	<param name="rice.user">true</param>
 	<param name="ActionList.norefresh">false</param>
+
+	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
@@ -131,8 +131,12 @@
 	<param name="s2s.keystore.password">keystore password</param>
 	<param name="s2s.truststore.location">path to truststore</param>
 	<param name="s2s.truststore.password">truststore password</param>
-	<param name="grants.gov.s2s.host">grants.gov host</param>
-	<param name="grants.gov.s2s.port">grants.gov port</param>
+	
+	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/app-s2s-server/services</param>
+	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/app-s2s-server/services</param>
+	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
+	
+	<param name="grants.gov.s2s.port">ApplicantIntegrationSoapPort</param>
 
 	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>

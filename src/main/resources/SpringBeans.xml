@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006-2009 The Kuali Foundation.
+	Copyright 2005-2010 The Kuali Foundation.
 
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -1382,6 +1382,12 @@
 		<property name="proposalDevelopmentService">
 			<ref bean="proposalDevelopmentService" />
 		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+		<property name="sponsorService">
+			<ref bean="sponsorService" />
+		</property>
 		
 	</bean>
 
@@ -1691,8 +1697,16 @@
 		<property name = "configurationService">
 			<ref bean = "kualiConfigurationService"/>
 		</property>
+		<property name = "kraDocumentRejectionService">
+			<ref bean = "kraDocumentRejectionService"/>
+		</property>
 	</bean>
-
+	
+	<bean id = "kraDocumentRejectionService" class = "org.kuali.kra.kew.KraDocumentRejectionServiceImpl">
+		<property name = "documentService">
+			<ref bean = "documentService"/>
+		</property>
+	</bean>
     <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
@@ -1798,6 +1812,28 @@
 				ref="institutionalProposalPrint" />
 			<property name="printingService" ref="printingService" />
 		</bean>
+		<bean id="proposalLogPrint"
+			class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogPrint">
+			<property name="xmlStream" ref="proposalLogXmlStream" />
+		</bean>		
+        <bean id="proposalLogXmlStream"
+              class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+        </bean>
+		<bean id="proposalLogPrintingService"
+			class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPrintingServiceImpl">
+			<property name="proposalLogPrint"
+				ref="proposalLogPrint" />
+			<property name="printingService" ref="printingService" />
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>			
+		</bean>
 		<!-- Institute Proposal Service Configuration End -->
 	
 		<!-- Current And Pending Support-related Beans -->
@@ -1844,7 +1880,7 @@
 		</bean>
 		<bean id="proposalSponsorFormsPrint"
 			class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype">
-			<property name="researchAndRelatedXmlStream" ref="researchAndRelatedXmlStream" />
+			<property name="nihResearchAndRelatedXmlStream" ref="nihResearchAndRelatedXmlStream" />
 			<property name="businessObjectService" ref="businessObjectService" />
 			<property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
 		</bean>
@@ -1874,6 +1910,16 @@
 			<property name="dateTimeService">
 				<ref bean="dateTimeService" />
 			</property>
+		</bean>
+		<bean id="nihResearchAndRelatedXmlStream"
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+			<property name="parameterService" ref="parameterService" /> 
 		</bean>
 		<bean id="proposalDevelopmentXmlStream"
 			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream">

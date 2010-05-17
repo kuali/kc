@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -65,7 +65,7 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              */
             KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=(KraServiceLocator.getService(ProposalHierarchyService.class).isProposalOnInitialRouteNode(doc));
+            boolean hasBeenRejected=KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
             hasPermission = !doc.isViewOnly() &&
                             hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
                             (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&

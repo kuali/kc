@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,9 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 
+/**
+ * This class leverages hooks into the Intellectual Property Review document lifecycle for custom processing.
+ */
 public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableImpl implements Maintainable, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +36,11 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
     
     /**
+     * If returning from a person lookup, default the lead unit to the selected person's home unit.
+     * 
+     * @param refreshCaller String
+     * @param fieldValues Map
+     * @param document MaintenanceDocument
      * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
      */
     @Override
@@ -40,7 +48,6 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         super.refresh(refreshCaller, fieldValues, document);
         
-        // If a person has been selected, lead unit should default to the person's home unit.
         if (KIM_PERSON_LOOKUPABLE_REFRESH_CALLER.equals(refreshCaller)) {
             IntellectualPropertyReview ipReview = (IntellectualPropertyReview) this.getBusinessObject();
             String principalId = (String) fieldValues.get(KimConstants.PrimaryKeyConstants.PRINCIPAL_ID);
@@ -49,10 +56,11 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
     }
 
     /**
+    * IP Reviews are versioned, so we need to create a new version and archive the old version here.
     *
     * @see org.kuali.core.maintenance.Maintainable#prepareForSave()
     */
-   @Override
+    @Override
     public void prepareForSave() {
         super.prepareForSave();
         if ((businessObject != null) && (businessObject instanceof IntellectualPropertyReview)) {
@@ -60,16 +68,17 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
                 IntellectualPropertyReview newVersion = getInstitutionalProposalVersioningService()
                         .createNewIntellectualPropertyReviewVersion((IntellectualPropertyReview) businessObject);
                 this.setBusinessObject(newVersion);
-            }
-            catch (VersionException ve) {
+            } catch (VersionException ve) {
                 throw new RuntimeException("Caught exception versioning intellectual property review: " + ve);
             }
         }
     }
    
    /**
-     * Set the new collection records back to true so they can be deleted (copy should act like new)
+     * Set the new collection records back to true so they can be deleted (copy should act like new).
      * 
+     * @param document MaintenanceDocument
+     * @param parameters Map<String, String[]>
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {

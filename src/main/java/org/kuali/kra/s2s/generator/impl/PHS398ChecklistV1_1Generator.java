@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,8 +83,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		phsChecklist.setApplicationType(applicationEnum);
 
 		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null
-				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
+		if (federalId != null) {
 			phsChecklist.setFederalID(federalId);
 		}
 
@@ -163,18 +162,17 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
-
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == CERTIFICATIONS_ATTACHMENT_CODE) {
-				CertificationExplanation certExplanation = CertificationExplanation.Factory
-						.newInstance();
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
 				attachedFileDataType = getAttachedFileType(narrative);
-				certExplanation.setCertifications(attachedFileDataType);
-				phsChecklist.setCertificationExplanation(certExplanation);
+				if(attachedFileDataType != null){
+					CertificationExplanation certExplanation = CertificationExplanation.Factory.newInstance();
+					certExplanation.setCertifications(attachedFileDataType);
+					phsChecklist.setCertificationExplanation(certExplanation);
+				}
 			}
 		}
 		phsChecklistDocument.setPHS398Checklist(phsChecklist);

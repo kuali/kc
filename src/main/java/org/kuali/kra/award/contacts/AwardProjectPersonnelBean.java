@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -216,8 +216,8 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     
     private AwardPersonUnitRuleAddEvent generateAddPersonUnitEvent(AwardPerson projectPerson, int addUnitPersonIndex) {
         return new AwardPersonUnitRuleAddEvent("AwardPersonUnitRuleAddEvent", "projectPersonnelBean.newAwardPersonUnit", getDocument(), 
-                                                                        projectPerson, newAwardPersonUnits[addUnitPersonIndex]);
-    }
+                projectPerson, newAwardPersonUnits[addUnitPersonIndex], addUnitPersonIndex);
+}
 
     private AwardProjectPersonRuleAddEvent generateAddProjectPersonEvent() {
         return new AwardProjectPersonRuleAddEvent("AddAwardProjectPersonRuleEvent", "projectPersonnelBean.newAwardContact", getDocument(), 

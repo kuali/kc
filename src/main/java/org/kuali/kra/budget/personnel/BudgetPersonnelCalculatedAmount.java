@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,11 @@ package org.kuali.kra.budget.personnel;
 
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt;
+import org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 
@@ -37,6 +42,15 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
 	public void setPersonNumber(Integer personNumber) {
 		this.personNumber = personNumber;
 	}
+    @Override
+    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
+        if( this instanceof AwardBudgetPersonnelCalculatedAmountExt) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("budgetPersonnelCalculatedAmountId", getBudgetPersonnelCalculatedAmountId());
+            Query delQ = QueryFactory.newQuery(BudgetPersonnelCalculatedAmount.class, crit);
+            persistenceBroker.deleteByQuery(delQ);
+        }
+    }
 
 	@SuppressWarnings("unchecked")
     @Override 

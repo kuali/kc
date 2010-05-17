@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         super.prepareForSave();
         ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
         
-        if (proposalLog.isLogTypeTemporary()) {
+        if (proposalLog.isLogTypeTemporary() && StringUtils.equalsIgnoreCase(proposalLog.getLogStatus(), ProposalLogUtils.getProposalLogPendingStatusCode())) {
             proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
         }
         
@@ -101,7 +101,12 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private void setupDefaultValues(ProposalLog proposalLog) {
         if (StringUtils.isBlank(proposalLog.getLogStatus())) {
-            proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
+            if (proposalLog.isLogTypeTemporary()) {
+                proposalLog.setLogStatus(ProposalLogUtils.getProposalLogTemporaryStatusCode());
+            }
+            else {
+                proposalLog.setLogStatus(ProposalLogUtils.getProposalLogPendingStatusCode());
+            }
         }
         if (StringUtils.isBlank(proposalLog.getProposalLogTypeCode())) {
             proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());

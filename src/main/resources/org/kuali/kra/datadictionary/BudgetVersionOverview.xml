@@ -10,6 +10,9 @@
     <property name="businessObjectClass" value="org.kuali.kra.budget.versions.BudgetVersionOverview" />
 		<property name="objectLabel" value="Budget Version Overview" />
     <property name="titleAttribute" value="name" />
+    <property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetVersionsHelp" p:parameterDetailType="D"/>
+    </property>
     <property name="attributes" >
       <list>
         <ref bean="BudgetVersionOverview-documentDescription" />

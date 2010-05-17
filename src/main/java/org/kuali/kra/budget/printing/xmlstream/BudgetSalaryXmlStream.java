@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -35,8 +34,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.KcPersonService;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary
@@ -49,7 +46,7 @@ import org.kuali.kra.service.KcPersonService;
 public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
 	private static final String BUDGET_SALARY = "Budget Salary";
-	private transient KcPersonService kcPersonService;
+
 	/**
 	 * This method generates XML for Budget Salary Report. It uses data passed
 	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
@@ -86,7 +83,8 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		for (String costElemetDesc : lineItems) {
 			setSalaryTypesForCostElement(costElemetDesc, salaryTypeVoList);
 		}
-		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList);
+		boolean includeNonPersonnel = true;
+		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
 		List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
 		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
 		budgetSalary.setSalaryArray(salaryTypeList.toArray(new SalaryType[0]));
@@ -236,29 +234,4 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 		}
 		return persons;
 	}
-
-	/*
-	 * This method returns person name of budget person
-	 */
-	private String getPersonName(String personId) {
-		String personName = null;
-        KcPerson person = this.getKcPersonService().getKcPersonByPersonId(personId);
-        if (person != null) {
-            personName = person.getFullName();
-        }
-		return personName;
-	}
-	
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
-    protected KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        
-        return this.kcPersonService;
-    }
-
 }

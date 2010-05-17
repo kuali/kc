@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,36 +83,18 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
             // budget personnel budget effective warning 
             int j = 0;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                String panelName = budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
+                
                 if(budgetLineItem.getUnderrecoveryAmount() != null && budgetLineItem.getUnderrecoveryAmount().isNegative()) {
-                    boolean isPersonnelWarning = (budgetLineItem.getBudgetPersonnelDetailsList()!=null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty());
-                    
-                    String key;
-                    String panelName;
-                    if (isPersonnelWarning) {
-                        key = "budgetPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
-                        panelName = budgetService.getPersonnelPanelName(budgetPeriod, budgetLineItem);
-                    }
-                    else {
-                        key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod();
-                        panelName = budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem);
-                    }
-                    
+                    String key = "budgetNonPersonnelAuditWarnings" + budgetPeriod.getBudgetPeriod()+panelName;
                     AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
                     if (auditCluster == null) {
                         List<AuditError> auditErrors = new ArrayList<AuditError>();
-                        auditCluster = new AuditCluster(panelName, auditErrors, Constants.AUDIT_WARNINGS);
+                        auditCluster = new AuditCluster(panelName+" Budget Period "+budgetPeriod.getBudgetPeriod(), auditErrors, Constants.AUDIT_WARNINGS);
                         GlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    
-                    String link;
-                    if (isPersonnelWarning) {
-                        link = Constants.BUDGET_PERSONNEL_PAGE + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName;
-                    }
-                    else {
-                        link = Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName;
-                    }
-                    auditErrors.add(new AuditError("document.budget.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem[" + j + "].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, link));
+                    auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+j+"].underrecoveryAmount", KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, Constants.BUDGET_EXPENSES_PAGE_METHOD + "." + budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription() + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod() + "&selectedBudgetLineItemIndex=" + j + "&activePanelName=" + panelName));
                     retval=false;
                 }
                     

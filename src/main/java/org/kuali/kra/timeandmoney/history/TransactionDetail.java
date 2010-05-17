@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
     private String comments;
     private String sourceAwardNumber;
     private String destinationAwardNumber;
+    private String transactionDetailType;
     private KualiDecimal obligatedAmount;
     private KualiDecimal anticipatedAmount;
     
@@ -228,6 +229,24 @@ public class TransactionDetail extends KraPersistableBusinessObjectBase {
      */
     public void setAnticipatedAmount(KualiDecimal anticipatedAmount) {
         this.anticipatedAmount = anticipatedAmount;
+    }
+    
+    
+
+    /**
+     * Gets the transactionDetailType attribute. 
+     * @return Returns the transactionDetailType.
+     */
+    public String getTransactionDetailType() {
+        return transactionDetailType;
+    }
+
+    /**
+     * Sets the transactionDetailType attribute value.
+     * @param transactionDetailType The transactionDetailType to set.
+     */
+    public void setTransactionDetailType(String transactionDetailType) {
+        this.transactionDetailType = transactionDetailType;
     }
 
     /**

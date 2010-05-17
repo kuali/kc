@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -199,6 +199,9 @@ public final class KeyConstants {
     public static final String ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE = "error.resubmission.invalidProposalTypeSubmissionType";
     public static final String ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION = "error.resubmission.s2sOpportunity.isApplication";
     public static final String ERROR_NOT_SELECTED_SUBMISSION_TYPE = "error.submissionType.notSelected";
+    
+    public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
+    
     // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_CHANGEDCORRECTED = "s2s.submissiontype.changedCorrected";
@@ -259,7 +262,9 @@ public final class KeyConstants {
     public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED = "message.institutionalproposal.versioned";
     public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED = "message.institutionalproposal.not.created";
     public static final String AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM = "proposaldevelopment.autogenerate.institutionalproposal";
-
+    public static final String ERROR_SUBMIT_TO_SPONSOR_PERMISSONS = "error.proposalDevelopment.permission.submitToSponsor";
+    public static final String MESSAGE_INSTITUTIONAL_PROPOSAL_NOT_CREATED_INROUTE = "message.institutionalproposal.not.created.inroute";
+    
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";
     public static final String ERROR_APPLICABLE_RATE_NOT_NUMERIC = "error.applicableRate.notNumeric";
@@ -322,6 +327,7 @@ public final class KeyConstants {
     public static final String ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.jobCode.costElement.invalid";
     public static final String ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID = "error.save.jobCode.costElement.invalid";
    
+    public static final String ERROR_AWARD_LEAD_UNIT_NOT_AUTHORIZED = "error.award.leadunit.invalid";
     // Award Approved Equipment
     public static final String ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED = "error.required";
     public static final String ERROR_AWARD_APPROVED_EQUIPMENT_ITEM_REQUIRED = ERROR_AWARD_APPROVED_EQUIPMENT_AMOUNT_REQUIRED;
@@ -388,11 +394,13 @@ public final class KeyConstants {
     public static final String QUESTION_SYNC_FULL = "document.question.syncAll.text";
     public static final String QUESTION_SYNC_PANEL_TO_EMPTY = "document.question.syncPanelToEmpty.text";
       
-    //Award Attachment Confirmation Question
+    //Award Attachments
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
+    public static final String AWARD_ATTACHMENT_TYPE_CODE_REQUIRED = "error.awardNotesAndAttachments.attachment.typeRequired";
+    public static final String AWARD_ATTACHMENT_FILE_REQUIRED = "error.awardNotesAndAttachments.attachment.fileRequired";
     
     //Award Budget
-    public static final String ERROR_AWARD_NOT_FINAL = "error.budget.award.not.final";
+    public static final String ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL = "error.budget.award.not.final";
     public static final String ERROR_AWARD_OBLIGATED_FUNDS = "error.award.obligated.funds";
 
     
@@ -666,6 +674,10 @@ public final class KeyConstants {
     public static final String ERROR_ANTICIPATED_AMOUNT_INVALID = "error.anticipated.amount.invalid";
     public static final String ERROR_TOTAL_AMOUNT_INVALID = "error.total.amount.invalid";
     public static final String ERROR_DATE_NOT_SET = "error.date.not.set";
+    public static final String ERROR_DATE_NULL = "error.date.null";
+    public static final String ERROR_OBLIGATED_DATES_INVALID = "error.obligated.dates.invalid";
+    public static final String ERROR_OBLIGATED_END_DATE = "error.obligated.end.date";
+
 
 
 
@@ -708,6 +720,7 @@ public final class KeyConstants {
     public static final String AWARD_BUDGET_STATUS_REJECTED = "awardBudgetStatusRejected";
     public static final String AWARD_BUDGET_STATUS_POSTED = "awardBudgetStatusPosted";
     public static final String AWARD_BUDGET_STATUS_TO_BE_POSTED = "awardBudgetStatusToBePosted";
+    public static final String AWARD_BUDGET_STATUS_DO_NOT_POST = "awardBudgetStatusDoNotPost";
     public static final String AWARD_BUDGET_STATUS_ERROR_IN_POSTING = "awardBudgetStatusErrorInPosting";
     public static final String AWARD_BUDGET_POST_ENABLED = "AWARD_BUDGET_POST_ENABLED";
     public static final String AWARD_BUDGET_TYPE_NEW = "awardBudgetTypeNew";

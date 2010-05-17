@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,15 @@ public interface TaskName {
     public static final String GRANT_EXEMPTION = "protocolGrantExemption";
     public static final String VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
-    public static final String APPROVE_PROTOCOL = "protocolApprove";   
+    public static final String APPROVE_PROTOCOL = "protocolApprove";
+    public static final String REOPEN_PROTOCOL = "protocolReopen";
+    public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
+    public static final String SUSPEND_PROTOCOL = "protocolSuspend";
+    public static final String SUSPEND_PROTOCOL_BY_DSMB = "protocolSuspendByDsmb";
+    public static final String CLOSE_PROTOCOL = "protocolClose";
+    public static final String EXPIRE_PROTOCOL = "protocolExpire";
+    public static final String TERMINATE_PROTOCOL = "protocolTerminate";
+    public static final String PERMIT_DATA_ANALYSIS = "protocolPermitDataAnalysis";
     public static final String PROTOCOL_ADMIN_CORRECTION = "protocolAdminCorrection";
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
@@ -129,5 +137,6 @@ public interface TaskName {
     public static final String APPROVE_AWARD_BUDGET = "approveAwardBudget";
     public static final String DISAPPROVE_AWARD_BUDGET = "disapproveAwardBudget";
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
+    public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package org.kuali.kra.budget.calculator;
 
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -145,4 +147,5 @@ public interface BudgetCalculationService {
     
     public BudgetForm getBudgetFormFromGlobalVariables();
 
+    List<Map <String, List<BudgetDecimal>>> getBudgetLimitsTotals(String budgetId);
 }

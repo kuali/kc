@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,13 +95,15 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         certificationDebarment.setAuthorizedRepresentativeName(globLibV20Generator.getHumanNameDataType(departmentalPerson));
         certificationDebarment.setAuthorizedRepresentativeSignature(authorizedRepresentativeSignature);
         certificationDebarment.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ED_CERTIFICATION_DEBARMENT) {
-                AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
                 attachedFileDataType = getAttachedFileType(narrative);
-                certificationDebarment.setAttachment(attachedFileDataType);
+                if(attachedFileDataType != null){
+                	certificationDebarment.setAttachment(attachedFileDataType);
+                	break;
+                }
             }
         }
         certificationDebarmentDocument.setCertificationDebarment(certificationDebarment);

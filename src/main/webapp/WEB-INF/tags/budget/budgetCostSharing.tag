@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -29,7 +29,10 @@
 		<c:choose>
 			<c:when test="${KualiForm.costSharingEditFormVisible}">
 			<div id="costSharingAvailable">
-		    	<h3><span class="subhead-left">Cost Sharing Distribution List</span></h3>
+		    	<h3>
+		    	 <span class="subhead-left">Cost Sharing Distribution List</span>
+		    	 <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetCostShare" altText="help"/></span>
+		    	</h3>
 				<div align="center">
 					<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Cost Shares">
 		

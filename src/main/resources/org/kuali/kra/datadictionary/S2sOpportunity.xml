@@ -17,7 +17,7 @@
     </property>
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentOpportunityHelpUrl"
             p:parameterDetailType="D" />
     </property>
@@ -124,10 +124,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Opportunity" />
     <property name="shortLabel" value="Opportunity" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
+    <property name="maxLength" value="40000000" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>

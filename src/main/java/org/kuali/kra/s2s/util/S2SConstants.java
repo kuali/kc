@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public interface S2SConstants {
     public static final String SPONSOR = "S2S";
     public static final String TASK_INFO = "taskInfo";
     public static final String VALUE_UNKNOWN = "Unknown";
-    public static final String FEDERAL_ID_NOT_FOUND = "-1";
+//    public static final String FEDERAL_ID_NOT_FOUND = "-1";
 
     public static final String KEY_REVISION_CODE = "revisionCode";
     public static final String KEY_REVISION_OTHER_DESCRIPTION = "revisionOtherDescription";

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -212,8 +212,8 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 		List<AwardAmountTransaction> awardAmountTransactions = getAwardAmountTransactions(awardNumber);
 		boolean transactionIdFound = false;
 		for (AwardAmountTransaction timeAndMoneyActionSummary : awardAmountTransactions) {
-			if (transactionId == timeAndMoneyActionSummary
-					.getAwardAmountTransactionId().intValue()) {
+			if (transactionId != null && transactionId.equals(timeAndMoneyActionSummary
+					.getAwardAmountTransactionId())) {
 				transactionIdFound = true;
 			}
 			if (transactionIdFound) {

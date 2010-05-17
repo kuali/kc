@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
      * Constructs a AwardFundingProposal.java.
      */
     public AwardFundingProposal() {
-        
+        setActive(true);
     }
     
     /**
@@ -55,35 +55,8 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         this();
         setAward(award);
         setProposal(proposal);
-        setActive(true);
     }
     
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof AwardFundingProposal))
-            return false;
-        AwardFundingProposal other = (AwardFundingProposal) obj;
-        if (awardId == null) {
-            if (other.awardId != null)
-                return false;
-        }
-        else if (!awardId.equals(other.awardId))
-            return false;
-        if (proposalId == null) {
-            if (other.proposalId != null)
-                return false;
-        }
-        else if (!proposalId.equals(other.proposalId))
-            return false;
-        return true;
-    }
     /**
      * @return Returns the award.
      */
@@ -118,19 +91,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public Long getProposalId() {
         return proposalId;
     }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((awardId == null) ? 0 : awardId.hashCode());
-        result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
-        return result;
-    }
-
+    
     /**
      * @param award The award to set.
      */
@@ -183,7 +144,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     public boolean isPersisted() {
         return this.getAwardFundingProposalId() != null;
     }
-
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -196,5 +157,44 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         map.put("proposal", proposal);
         
         return map;
+    }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof AwardFundingProposal))
+            return false;
+        AwardFundingProposal other = (AwardFundingProposal) obj;
+        if (awardId == null) {
+            if (other.awardId != null)
+                return false;
+        }
+        else if (!awardId.equals(other.awardId))
+            return false;
+        if (proposalId == null) {
+            if (other.proposalId != null)
+                return false;
+        }
+        else if (!proposalId.equals(other.proposalId))
+            return false;
+        return true;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((awardId == null) ? 0 : awardId.hashCode());
+        result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
+        return result;
     }
 }

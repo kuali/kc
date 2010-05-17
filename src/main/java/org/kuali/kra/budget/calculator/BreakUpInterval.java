@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -442,7 +442,7 @@ public class BreakUpInterval{
         And eqRCTypeAndneRCAndneRTOrneRT;
         Or neRCandneRTOrneRT;
         QueryList cvTempRates;
-        AbstractBudgetRate proposalLaRate;
+        AbstractBudgetRate budgetRate;
         //get all the EB amts. Take care to exclude EB on LA
         equalsRCType = new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         notEqualsRC = new NotEquals("rateClassCode", EBonLARateClassCode);
@@ -480,14 +480,14 @@ public class BreakUpInterval{
             
             //if rates available calculate OH & Under recovery amounts
             if (cvTempRates.size() > 0) {
-                proposalLaRate = (AbstractBudgetRate)cvTempRates.get(0);
-                applicableRate = proposalLaRate.getApplicableRate();
+                budgetRate = (AbstractBudgetRate)cvTempRates.get(0);
+                applicableRate = budgetRate.getApplicableRate();
                 
                 //If Under-recovery rate is present, then use this for Institute Rate
                 if (uRRatesBean != null) {
                     instituteRate = uRRatesBean.getInstituteRate();
                 } else {
-                    instituteRate = proposalLaRate.getInstituteRate();
+                    instituteRate = budgetRate.getInstituteRate();
                 }
                 
                 if (!amountBean.isApplyRateFlag()) {

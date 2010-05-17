@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -247,12 +247,12 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposal pendingProposal = findPendingVersion(institutionalProposal.getProposalNumber());
         
         ActionForward forward;
-        if(pendingProposal != null) {
+        if (pendingProposal != null) {
             Object question = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             forward = question == null ? showPromptForEditingPendingVersion(mapping, institutionalProposalForm, request, response) :
                                          processPromptForEditingPendingVersionResponse(mapping, request, response, institutionalProposalForm, pendingProposal);
         } else {
-            forward = createAndSaveNewAwardVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
+            forward = createAndSaveNewVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
         }
         return forward;
     }
@@ -272,14 +272,20 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward forward = super.save(mapping, form, request, response);
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-      ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
-      if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
-        //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
-          getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
-      }
-      return forward;
+        InstitutionalProposal ip = ipForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        if (!ip.getInstitutionalProposalScienceKeywords().isEmpty()) {
+            ip.setScienceCodeIndicator("1");
+        } else {
+            ip.setScienceCodeIndicator("0");
+        }
+        ActionForward forward = super.save(mapping, form, request, response);
+        ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
+        if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
+            //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+            getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
+        }
+        return forward;
     }
 
     private ProposalLog retrieveProposalLog(String proposalNumber) {
@@ -292,7 +298,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return getInstitutionalProposalVersioningService().getPendingInstitutionalProposalVersion(proposalNumber);
     }
 
-    private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm,
+    private ActionForward createAndSaveNewVersion(HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm,
             InstitutionalProposalDocument institutionalProposalDocument, InstitutionalProposal institutionalProposal) throws VersionException, 
                                                                                                          WorkflowException, 
                                                                                                          IOException {

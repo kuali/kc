@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printNotice"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Notice" styleClass="tinybutton"/></td>
+						alt="Print Award Notice" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>
 			</tr><tr> 
 				<th scope="row" style="width:150px; text-align: left;">Award Modification</th>
 				 <td style="padding: 5px;">
@@ -180,42 +180,44 @@
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printChangeReport"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Change Report" styleClass="tinybutton"/></td>			
+						alt="Print Award Change Report" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Award Hierarchy
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printHierarchy"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Hierarchy" styleClass="tinybutton"/></td>			 
-			</tr><tr>
+						alt="Print Award Hierarchy" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
+			</tr>
+			<!--<tr>
 			 <th colspan="2" style="text-align: left;">
 			  Award Hierarchy Modification
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printHierarchyModification"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Hierarchy Modification" styleClass="tinybutton"/></td>			 
+						alt="Print Award Hierarchy Modification" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Budget
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printBudget"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Budget" styleClass="tinybutton"/></td>			 
-			</tr><tr>
+						alt="Print Budget" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
+			</tr>-->
+			<tr>
 			 <th colspan="2" style="text-align: left;">
 			  Time & Money History
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTimeMoneyHistory"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Time & Money History" styleClass="tinybutton"/></td>			 
+						alt="Print Time & Money History" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Transaction Detail
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTransactionDetail"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Transaction Detail" styleClass="tinybutton"/></td>			 
+						alt="Print Transaction Detail" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
 			</tr>
 			 
 			   	

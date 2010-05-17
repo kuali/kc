@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -556,7 +556,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetDocument budgetDocument = budgetForm.getDocument();
         Budget budget = budgetDocument.getBudget();
         List<Integer> toBeDeletedLineItems;
-        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
             int i = 0;
             toBeDeletedLineItems = new ArrayList<Integer>();
@@ -585,11 +585,15 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budget);
             
             if(budgetPersonnelDetailsCheck(budgetDocument) && new BudgetPersonnelExpenseRule().processSaveCheckDuplicateBudgetPersonnel(budgetDocument)) {
-                super.save(mapping, form, request, response);
+                if (budgetForm.isAuditActivated()) {
+                    forward = super.save(mapping, form, request, response);
+                } else {
+                    super.save(mapping, form, request, response);
+                }
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
 
     private boolean budgetPersonnelDetailsCheck(BudgetDocument budgetDocument, int budgetPeriodIndex, int budgetLineItemIndex) {

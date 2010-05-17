@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -51,26 +51,26 @@
 			<tr>
 				<th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.columnName}" noColon="false" /></th>
 				<td align="left" valign="middle">
-					<kul:htmlControlAttribute property="newProposalChangedData.columnName" attributeEntry="${proposalChangedDataAttributes.columnName}" onchange="updateOtherFields(this, 'document.developmentProposalList[0].proposalNumber', updateOtherFields_Callback);" styleClass="fixed-size-select"/>
+					<kul:htmlControlAttribute readOnly="false" property="newProposalChangedData.columnName" attributeEntry="${proposalChangedDataAttributes.columnName}" onchange="updateOtherFields(this, 'document.developmentProposalList[0].proposalNumber', updateOtherFields_Callback);" styleClass="fixed-size-select"/>
 				</td>
 			</tr>
 		       	<tr>
 		                <th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.oldDisplayValue}" noColon="false" /></th>
 		                <td align="left" valign="middle">
-					<kul:htmlControlAttribute property="newProposalChangedData.oldDisplayValue" attributeEntry="${proposalChangedDataAttributes.oldDisplayValue}" />
+					<kul:htmlControlAttribute readOnly="false" property="newProposalChangedData.oldDisplayValue" attributeEntry="${proposalChangedDataAttributes.oldDisplayValue}" />
 				</td>
 		        </tr>
 		       	<tr>
 		        	<th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.displayValue}" noColon="false" /></th>
 		        	<td align="left" valign="middle">
-					<kul:htmlControlAttribute property="newProposalChangedData.displayValue" attributeEntry="${proposalChangedDataAttributes.displayValue}" />
+					<kul:htmlControlAttribute readOnly="false" property="newProposalChangedData.displayValue" attributeEntry="${proposalChangedDataAttributes.displayValue}" />
 				</td>
 			</tr>
 			<tr>
 				<th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.changedValue}" noColon="false" /></th>
 				<td align="left" valign="middle">
 					<div nowrap>
-						<kul:htmlControlAttribute property="newProposalChangedData.changedValue" attributeEntry="${proposalChangedDataAttributes.changedValue}" />
+						<kul:htmlControlAttribute readOnly="false" property="newProposalChangedData.changedValue" attributeEntry="${proposalChangedDataAttributes.changedValue}" />
 							<div id="changedValueExtraBody" >
 			                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupClass and KualiForm.newProposalChangedData.editableColumn.lookupClass != 'null'}">
 				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupPkReturn and KualiForm.newProposalChangedData.editableColumn.lookupPkReturn != 'null'}">
@@ -108,7 +108,7 @@
 			<tr>
 		         <th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.comments}" noColon="false" /></th>
 		         <td align="left" valign="middle">
-					<kul:htmlControlAttribute property="newProposalChangedData.comments" attributeEntry="${proposalChangedDataAttributes.comments}" />
+					<kul:htmlControlAttribute readOnly="false" property="newProposalChangedData.comments" attributeEntry="${proposalChangedDataAttributes.comments}" />
 				</td>
 		    </tr>
 			<tr>

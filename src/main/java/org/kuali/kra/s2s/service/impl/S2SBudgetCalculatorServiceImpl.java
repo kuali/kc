@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -39,9 +41,11 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -138,6 +142,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private static final String PARTICIPANT_OTHER_CATEGORY = "Participant Other";
 	private static final String OTHER_DIRECT_COSTS_CATEGORY = "Other Direct Costs";
 	private static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
+	private static final String KEYPERSON_OTHER = "Other (Specify)";
 	private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
 	private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
 	private static final Logger LOG = Logger
@@ -1064,9 +1069,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 		compensationInfo.setFringe(bdFringe);
 		compensationInfo.setFundsRequested(bdFunds);
 		compensationInfo.setRequestedSalary(bdSalary);
-		compensationInfo.setSummerMonths(summerMonths);
-		compensationInfo.setAcademicMonths(academicMonths);
-		compensationInfo.setCalendarMonths(calendarMonths);
+		compensationInfo.setSummerMonths(summerMonths.setScale());
+		compensationInfo.setAcademicMonths(academicMonths.setScale());
+		compensationInfo.setCalendarMonths(calendarMonths.setScale());
 
 		// start add costSaring for fedNonFedBudget report
 		compensationInfo.setFringeCostSharing(bdFringeCostSharing);
@@ -1798,46 +1803,67 @@ public class S2SBudgetCalculatorServiceImpl implements
 		KeyPersonInfo keyPerson = new KeyPersonInfo();
 		ProposalPerson principalInvestigator = s2SUtilService
 				.getPrincipalInvestigator(pdDoc);
+		
+		// Create master list of contacts
+		List<ProposalPerson> propPersons = new ArrayList<ProposalPerson>();
 		if (principalInvestigator != null) {
+			propPersons.add(principalInvestigator);
 			keyPerson.setPersonId(principalInvestigator.getPersonId());
 			keyPerson.setRolodexId(principalInvestigator.getRolodexId());
 			keyPerson
-					.setFirstName((principalInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-							: principalInvestigator.getFirstName()));
+					.setFirstName(principalInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+							: principalInvestigator.getFirstName());
 			keyPerson
-					.setLastName((principalInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-							: principalInvestigator.getLastName()));
+					.setLastName(principalInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+							: principalInvestigator.getLastName());
 			keyPerson
-					.setMiddleName((principalInvestigator.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-							: principalInvestigator.getMiddleName()));
+					.setMiddleName(principalInvestigator.getMiddleName());
 			keyPerson.setRole(PRINCIPAL_INVESTIGATOR_ROLE);
 			keyPerson
 					.setNonMITPersonFlag(isPersonNonMITPerson(principalInvestigator));
 			keyPersons.add(keyPerson);
 		}
-		for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal()
-				.getInvestigators()) {
-			if (coInvestigator.getInvestigatorFlag()
-					&& !coInvestigator.equals(principalInvestigator)) {
-				keyPerson = new KeyPersonInfo();
-				keyPerson.setPersonId(coInvestigator.getPersonId());
-				keyPerson.setRolodexId(coInvestigator.getRolodexId());
-				keyPerson
-						.setFirstName((coInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getFirstName()));
-				keyPerson
-						.setLastName((coInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getLastName()));
-				keyPerson
-						.setMiddleName((coInvestigator.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-								: coInvestigator.getMiddleName()));
-				keyPerson.setRole(KEYPERSON_CO_PD_PI);
-				keyPerson
-						.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
-				keyPersons.add(keyPerson);
-			}
+		
+		for (ProposalPerson coInvestigator : s2SUtilService.getCoInvestigators(pdDoc)) {
+			propPersons.add(coInvestigator);			
+			keyPerson = new KeyPersonInfo();
+			keyPerson.setPersonId(coInvestigator.getPersonId());
+			keyPerson.setRolodexId(coInvestigator.getRolodexId());
+			keyPerson
+					.setFirstName(coInvestigator.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+							: coInvestigator.getFirstName());
+			keyPerson
+					.setLastName(coInvestigator.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+							: coInvestigator.getLastName());
+			keyPerson
+					.setMiddleName(coInvestigator.getMiddleName());
+			keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
+			
+			keyPerson.setRole(KEYPERSON_CO_PD_PI);
+			keyPersons.add(keyPerson);
 		}
-
+		
+		for (ProposalPerson propPerson : s2SUtilService.getKeyPersons(pdDoc)) {		
+			propPersons.add(propPerson);			
+			keyPerson = new KeyPersonInfo();
+			keyPerson.setPersonId(propPerson.getPersonId());
+			keyPerson.setRolodexId(propPerson.getRolodexId());
+			keyPerson
+					.setFirstName(propPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+							: propPerson.getFirstName());
+			keyPerson
+					.setLastName(propPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+							: propPerson.getLastName());
+			keyPerson
+					.setMiddleName(propPerson.getMiddleName());
+			keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(propPerson));
+			
+			keyPerson.setRole(KEYPERSON_OTHER);
+			keyPerson.setKeyPersonRole(propPerson.getProjectRole());
+			
+			keyPersons.add(keyPerson);
+		}
+		
 		boolean personAlreadyAdded = false;
 		Map<String, String> categoryMap = new HashMap<String, String>();
 		categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_01);
@@ -1869,35 +1895,43 @@ public class S2SBudgetCalculatorServiceImpl implements
 							break;
 						}
 					}
+					budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
 					if (!personAlreadyAdded) {
-					    Rolodex rolodexPerson = null;
-					    try {
-					        // principal ID length > 10 cause numberformat exception
-						    rolodexPerson = rolodexService
-								.getRolodex(Integer
-										.parseInt(budgetPersonnelDetails
-												.getPersonId()));
-					    } catch (Exception e) {
-                            LOG.error("Rolodex not found " + e);
-					    }
-						if (rolodexPerson != null) {
-							keyPerson = new KeyPersonInfo();
-							keyPerson
-									.setRolodexId(rolodexPerson.getRolodexId());
-							keyPerson
-									.setFirstName((rolodexPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-											: rolodexPerson.getFirstName()));
-							keyPerson
-									.setLastName((rolodexPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-											: rolodexPerson.getLastName()));
-							keyPerson
-									.setMiddleName((rolodexPerson
-											.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-											: rolodexPerson.getMiddleName()));
-							keyPerson.setRole(rolodexPerson.getTitle());
-							keyPerson.setNonMITPersonFlag(true);
-							keyPersons.add(keyPerson);
-							personAlreadyAdded = true;
+						if (budgetPersonnelDetails.getNonEmployeeFlag()) {
+						    if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
+						        budgetPersonnelDetails.getBudgetPerson().refreshReferenceObject("rolodex");
+    	                        Rolodex rolodexPerson = budgetPersonnelDetails.getBudgetPerson().getRolodex();
+    							keyPerson = new KeyPersonInfo();
+    							keyPerson
+    									.setRolodexId(rolodexPerson.getRolodexId());
+    							keyPerson
+    									.setFirstName(rolodexPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+    											: rolodexPerson.getFirstName());
+    							keyPerson
+    									.setLastName(rolodexPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+    											: rolodexPerson.getLastName());
+    							keyPerson.setMiddleName(rolodexPerson.getMiddleName());
+    							keyPerson.setRole(StringUtils.isNotBlank(rolodexPerson.getTitle()) ? rolodexPerson.getTitle() : KEYPERSON_OTHER);
+    							keyPerson.setNonMITPersonFlag(true);
+    							keyPersons.add(keyPerson);
+						    } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+	                            Map<String, String> searchMap = new HashMap<String, String>();
+	                            searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
+	                            TbnPerson tbnPerson = (TbnPerson)businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
+	                            if (tbnPerson != null) {
+	                                keyPerson = new KeyPersonInfo();
+	                                keyPerson.setPersonId(tbnPerson.getJobCode());
+	                                String[] tbnNames = tbnPerson.getPersonName().split(" ");
+	                                int nameIndex = 0;
+	                                keyPerson.setPersonId(tbnPerson.getTbnId());
+	                                keyPerson.setFirstName(tbnNames.length >= 1 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
+	                                keyPerson.setMiddleName(tbnNames.length >= 3 ? tbnNames[nameIndex++] : " ");
+	                                keyPerson.setLastName(tbnNames.length >= 2 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
+	                                keyPerson.setRole(tbnPerson.getPersonName());
+	                                keyPerson.setNonMITPersonFlag(false);
+	                                keyPersons.add(keyPerson);
+	                            }
+	                        }							
 						} else {
 							KcPerson kcPerson = null;
 							try {
@@ -1911,20 +1945,17 @@ public class S2SBudgetCalculatorServiceImpl implements
 								keyPerson = new KeyPersonInfo();
 								keyPerson.setPersonId(kcPerson.getPersonId());
 								keyPerson
-										.setFirstName((kcPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
-												: kcPerson.getFirstName()));
+										.setFirstName(kcPerson.getFirstName() == null ? S2SConstants.VALUE_UNKNOWN
+												: kcPerson.getFirstName());
 								keyPerson
-										.setLastName((kcPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
-												: kcPerson.getLastName()));
-								keyPerson
-										.setMiddleName((kcPerson
-												.getMiddleName() == null ? S2SConstants.VALUE_UNKNOWN
-												: kcPerson.getMiddleName()));
+										.setLastName(kcPerson.getLastName() == null ? S2SConstants.VALUE_UNKNOWN
+												: kcPerson.getLastName());
+								keyPerson.setMiddleName(kcPerson.getMiddleName());
 								keyPerson.setNonMITPersonFlag(false);
+								keyPerson.setRole(KEYPERSON_OTHER);
 								keyPersons.add(keyPerson);
-								personAlreadyAdded = true;
 							}
-						}
+						} 
 					}
 				}
 
@@ -1992,6 +2023,22 @@ public class S2SBudgetCalculatorServiceImpl implements
 		listKeyPersons.add(nKeyPersons);
 		listKeyPersons.add(extraPersons);
 		return listKeyPersons;
+	}
+
+	private boolean budgetPersonExistInProposalPersons(
+			BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
+		for (ProposalPerson propPerson:propPersons) {
+			if (budgetPerson.getPersonId() != null) {
+				if (budgetPerson.getPersonId().equals(propPerson.getPersonId())){
+					return true;
+				}
+			} else if (budgetPerson.getRolodexId() != null) {
+				if (budgetPerson.getRolodexId().equals(propPerson.getRolodexId())){
+					return true;
+				}				
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2111,9 +2158,9 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 			}
 		}
-		compensationInfo.setAcademicMonths(academicMonths);
-		compensationInfo.setCalendarMonths(calendarMonths);
-		compensationInfo.setSummerMonths(summerMonths);
+		compensationInfo.setAcademicMonths(academicMonths.setScale());
+		compensationInfo.setCalendarMonths(calendarMonths.setScale());
+		compensationInfo.setSummerMonths(summerMonths.setScale());
 		compensationInfo.setRequestedSalary(totalSal);
 		compensationInfo.setBaseSalary(baseAmount);
 		compensationInfo.setCostSharingAmount(totalSalCostSharing);
@@ -2360,5 +2407,4 @@ public class S2SBudgetCalculatorServiceImpl implements
 	public void setRolodexService(RolodexService rolodexService) {
 		this.rolodexService = rolodexService;
 	}
-
 }

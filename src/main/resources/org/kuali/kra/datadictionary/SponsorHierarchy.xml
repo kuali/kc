@@ -8,7 +8,13 @@
 
   <bean id="SponsorHierarchy-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.SponsorHierarchy" />
-		<property name="objectLabel" value="Sponsor Hierarchy" />
+    <property name="objectLabel" value="Sponsor Hierarchy" />
+	<property name="helpDefinition" >
+      <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-GEN"
+            p:parameterName="sponsorGroupHierarchyName"
+            p:parameterDetailType="A" />
+    </property>
     <property name="inquiryDefinition" >
       <ref bean="SponsorHierarchy-inquiryDefinition" />
     </property>
