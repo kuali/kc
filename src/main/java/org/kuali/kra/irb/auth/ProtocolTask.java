@@ -36,6 +36,11 @@ public final class ProtocolTask extends Task {
         super(TaskGroupName.PROTOCOL, taskName);
         this.protocol = protocol;
     }
+    
+    public ProtocolTask(String taskName, Protocol protocol, String genericTaskName) {
+        super(TaskGroupName.PROTOCOL, taskName, genericTaskName);
+        this.protocol = protocol;
+    }
 
     /**
      * Get the Protocol.
