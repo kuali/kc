@@ -630,8 +630,8 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasGenericPermission(String genericActionName) {
-        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol());
-        return getTaskAuthorizationService().isAuthorizedForGenericAction(getUserIdentifier(), task, genericActionName);
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol(), genericActionName);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {

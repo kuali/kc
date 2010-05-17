@@ -55,26 +55,14 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
             String groupName = task.getGroupName();
             for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
                 if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
-                    TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
-                    if (taskAuthorizer != null) {
-                        isAuthorized = taskAuthorizer.isAuthorized(userId, task);
+                    TaskAuthorizer taskAuthorizer;
+                    if (task.getGenericTaskName() == null || "".equals(task.getGenericTaskName().trim())) {
+                        taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()); 
+                    } else {
+                        taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                        ((GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
                     }
-                    break;
-                }
-            }
-        }
-        return isAuthorized;
-    }
-    
-    /** {@inheritDoc} */
-    public boolean isAuthorizedForGenericAction(String userId, Task task, String genericTaskName) {
-        boolean isAuthorized = true;
-        if (taskAuthorizerGroups != null) {
-            String groupName = task.getGroupName();
-            for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
-                if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
-                    GenericProtocolAuthorizer taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
-                    taskAuthorizer.setGenericTaskName(genericTaskName);
+                    
                     if (taskAuthorizer != null) {
                         isAuthorized = taskAuthorizer.isAuthorized(userId, task);
                     }
