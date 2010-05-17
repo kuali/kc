@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -23,6 +23,10 @@
 <kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
 			 transparentBackground="true" useRiceAuditMode="true" innerTabErrorKey="document.awardList[0].projectPersons[*">
 	<div class="tab-container" align="center">
+	   <h3>
+            <span class="subhead-left">Key Personnel and Credit Split</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardPersonCreditSplit" altText="help"/></span>
+        </h3>
         <kra:innerTab tabTitle="Key Personnel" parentTab="Key Personnel and Credit Split" defaultOpen="true" 
             tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons"
             auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*">

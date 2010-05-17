@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,18 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
@@ -23,19 +34,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
 
 public class SponsorServiceImpl implements SponsorService, Constants {
-    
     private SponsorHierarchyDao sponsorHierarchyDao;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;

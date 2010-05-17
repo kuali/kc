@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -56,6 +57,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
@@ -451,6 +453,7 @@ public class PrintServiceImpl implements PrintService {
 				continue;
 			}
 			s2sFormGenerator.setAuditErrors(errors);
+			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			if (s2SValidatorService.validate(formObject, errors)) {
 
@@ -566,27 +569,23 @@ public class PrintServiceImpl implements PrintService {
 			String contentId) {
 		String[] contentIds = contentId.split("-");
 		String[] contentDesc = contentIds[1].split("_");
-		Narrative submittedNarrative = null;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			StringBuilder description = new StringBuilder();
-			description.append(contentDesc[1]);
-			description.append("_");
-			description.append(contentDesc[2]);
-			if (contentDesc[0].equals(String.valueOf(narrative
-					.getModuleNumber()))
-					&& description.toString().equals(
-							narrative.getNarrativeType().getDescription())) {
-				submittedNarrative = narrative;
-				break;
-			}
-		}
-		if (submittedNarrative != null) {
-			submittedNarrative
-					.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-			return submittedNarrative.getNarrativeAttachmentList().get(0)
-					.getContent();
-		}
+		if (StringUtils.equals(contentIds[0], "N")) {
+    		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+    				.getNarratives()) {
+				if (narrative.getModuleNumber().equals(Integer.valueOf(contentDesc[0]))) {
+				    narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+				    return narrative.getNarrativeAttachmentList().get(0).getContent();
+				}
+    		}
+		} else if (StringUtils.equals(contentIds[0], "B")){
+		    for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+		        if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
+		                && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
+		            biography.refreshReferenceObject("personnelAttachmentList");
+		            return biography.getPersonnelAttachmentList().get(0).getContent();
+		        }
+		    }
+    	}
 		return null;
 	}
 
@@ -637,9 +636,9 @@ public class PrintServiceImpl implements PrintService {
 				.keySet());
 		int index = 0;
 		for (Integer sortedIndex : sortedIndices) {
-			namespaces = sortedNamespaces.get(sortedIndex);
-			for (String namespace : namespaces) {
-				for (S2sOppForms oppForm : s2sOppForms) {
+            for (S2sOppForms oppForm : s2sOppForms) {
+                namespaces = sortedNamespaces.get(sortedIndex);
+                for (String namespace : namespaces) {
 					if (namespace.equals(oppForm.getOppNameSpace())) {
 						if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
 							orderedNamespaces.add(index++, namespace);

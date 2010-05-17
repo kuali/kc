@@ -1188,4 +1188,4 @@ insert into KRIM_ROLE_PERM_T values ('10136', '660b90dd-b63f-47b7-b863-c849988af
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID, VER_NBR) VALUES ('851', '1125','1221', 'Y', '5a6ee5ae-f34d-4635-92c8-6f66019b1aaa', 1);
 insert into KRIM_ROLE_PERM_T (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind) values ('10098', 'c2f41c3a-281f-46b9-b7f3-abd2feee33bf', 1, (select role_id from KRIM_ROLE_T t where t.role_nm = 'User' and t.nmspc_cd = 'KUALI'), (select perm_id from KRIM_PERM_T u where u.nm = 'Open Document' and u.nmspc_cd = 'KC-SYS'), 'Y');
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) VALUES('855', 'E83AB210-EB48-3BDE-2D6F-F6177869AE27', 1, '63', '840', 'Y');
-
+INSERT INTO KRIM_ROLE_PERM_T ( ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND ) VALUES ( 10239, '844B55C519713B29E040007F01003991', 1, '61', '1029', 'Y');

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -86,7 +87,9 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setSpecialReviewApprovalType(ipSpecialReview.getSpecialReviewApprovalType());
         copiedSpecialReview.setSpecialReviewCode(ipSpecialReview.getSpecialReviewCode());
         for(InstitutionalProposalSpecialReviewExemption ipExempt: ipSpecialReview.getSpecialReviewExemptions()) {
-            copiedSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+            if (StringUtils.isNotBlank(ipExempt.getExemptionTypeCode())) {
+                copiedSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+            }
         }
         copiedSpecialReview.setSpecialReviewNumber(ipSpecialReview.getSpecialReviewNumber());
         copiedSpecialReview.setValidSpecialReviewApproval(ipSpecialReview.getValidSpecialReviewApproval());

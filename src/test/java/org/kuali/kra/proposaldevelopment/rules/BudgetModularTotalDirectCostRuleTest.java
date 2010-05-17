@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -408,12 +408,11 @@ public class BudgetModularTotalDirectCostRuleTest {
             public BudgetDocument getByDocumentHeaderId(final String documentHeaderId) {
                 final BudgetDocument doc = new BudgetDocument();
                 doc.getBudget().setModularBudgetFlag(Boolean.FALSE);
-
                 final List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
 
                 final BudgetPeriod period1 = new BudgetPeriod();
                 final BudgetModular modular1 = new BudgetModular();
-                modular1.setTotalDirectCost(BudgetDecimal.ZERO);
+                modular1.setTotalDirectCost(new BudgetDecimal(1));
                 period1.setBudgetModular(modular1);
                 periods.add(period1);
 

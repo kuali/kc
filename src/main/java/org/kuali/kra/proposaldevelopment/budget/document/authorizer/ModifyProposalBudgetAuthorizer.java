@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
 
 /**
  * The Budget Modify Authorizer checks to see if the user has 
@@ -39,12 +37,11 @@ public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, BudgetTask task) {
-        ProposalHierarchyService proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         BudgetDocument budgetDocument = task.getBudgetDocument();
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        KualiWorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
-        boolean rejectedDocument = (StringUtils.equals(proposalHierarchyService.getProposalDevelopmentInitialNodeName(), wfd.getCurrentRouteNodeNames()));
-
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
+        
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
                 hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
     }

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 
 <kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budget.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="newBudgetProjectIncome.*,document.budgets[0].budgetProjectIncome*">
 	<div class="tab-container" align="center">
-		<h3>Income Details</h3>
+		<h3>
+            <span class="subhead-left">Income Details</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" altText="help"/></span>
+        </h3>
 		<div align="center">
 			<table id="budget-proj-income-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
 				<tr>
@@ -80,7 +83,10 @@
 	        </table>
 		</div>			
     
-    	<h3>Income Summary</h3>
+    	<h3>
+            <span class="subhead-left">Income Summary</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" altText="help"/></span>
+        </h3>
     
     	<div align="center">
 	    	<table id="budget-proj-income-summary-table" cellpadding="0" cellspacing="0" summary="Budget Period Income Totals">

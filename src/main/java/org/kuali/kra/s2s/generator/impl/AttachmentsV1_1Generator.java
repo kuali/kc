@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT7;
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT8;
 import gov.grants.apply.forms.attachmentsV11.AttachmentsDocument.Attachments.ATT9;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -79,84 +80,88 @@ public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
         ATT14 att14 = ATT14.Factory.newInstance();
         ATT15 att15 = ATT15.Factory.newInstance();
         int countAttachments = 0;
-
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVECODE_ATTACHMENTS) {
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType == null){
+            		continue;
+            	}
                 countAttachments++;
                 switch (countAttachments) {
                     case 1: {
-                        att1.setATT1File(getAttachedFileType(narrative));
+                        att1.setATT1File(attachedFileDataType);
                         attachments.setATT1(att1);
                         break;
                     }
                     case 2: {
-                        att2.setATT2File(getAttachedFileType(narrative));
+                        att2.setATT2File(attachedFileDataType);
                         attachments.setATT2(att2);
                         break;
                     }
                     case 3: {
-                        att3.setATT3File(getAttachedFileType(narrative));
+                        att3.setATT3File(attachedFileDataType);
                         attachments.setATT3(att3);
                         break;
                     }
                     case 4: {
-                        att4.setATT4File(getAttachedFileType(narrative));
+                        att4.setATT4File(attachedFileDataType);
                         attachments.setATT4(att4);
                         break;
                     }
                     case 5: {
-                        att5.setATT5File(getAttachedFileType(narrative));
+                        att5.setATT5File(attachedFileDataType);
                         attachments.setATT5(att5);
                         break;
                     }
                     case 6: {
-                        att6.setATT6File(getAttachedFileType(narrative));
+                        att6.setATT6File(attachedFileDataType);
                         attachments.setATT6(att6);
                         break;
                     }
                     case 7: {
-                        att7.setATT7File(getAttachedFileType(narrative));
+                        att7.setATT7File(attachedFileDataType);
                         attachments.setATT7(att7);
                         break;
                     }
                     case 8: {
-                        att8.setATT8File(getAttachedFileType(narrative));
+                        att8.setATT8File(attachedFileDataType);
                         attachments.setATT8(att8);
                         break;
                     }
                     case 9: {
-                        att9.setATT9File(getAttachedFileType(narrative));
+                        att9.setATT9File(attachedFileDataType);
                         attachments.setATT9(att9);
                         break;
                     }
                     case 10: {
-                        att10.setATT10File(getAttachedFileType(narrative));
+                        att10.setATT10File(attachedFileDataType);
                         attachments.setATT10(att10);
                         break;
                     }
                     case 11: {
-                        att11.setATT11File(getAttachedFileType(narrative));
+                        att11.setATT11File(attachedFileDataType);
                         attachments.setATT11(att11);
                         break;
                     }
                     case 12: {
-                        att12.setATT12File(getAttachedFileType(narrative));
+                        att12.setATT12File(attachedFileDataType);
                         attachments.setATT12(att12);
                         break;
                     }
                     case 13: {
-                        att13.setATT13File(getAttachedFileType(narrative));
+                        att13.setATT13File(attachedFileDataType);
                         attachments.setATT13(att13);
                         break;
                     }
                     case 14: {
-                        att14.setATT14File(getAttachedFileType(narrative));
+                        att14.setATT14File(attachedFileDataType);
                         attachments.setATT14(att14);
                         break;
                     }
                     case 15: {
-                        att15.setATT15File(getAttachedFileType(narrative));
+                        att15.setATT15File(attachedFileDataType);
                         attachments.setATT15(att15);
                         break;
                     }

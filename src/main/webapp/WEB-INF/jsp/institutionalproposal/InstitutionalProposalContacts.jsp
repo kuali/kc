@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="contacts">
+  	
+  	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Contacts" /></div>
 
 <kra-ip:institutionalProposalProjectPersonnel />
 <kra-ip:institutionalProposalUnitContacts />

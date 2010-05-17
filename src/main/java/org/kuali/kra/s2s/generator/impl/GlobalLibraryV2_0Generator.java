@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -132,6 +133,53 @@ public class GlobalLibraryV2_0Generator {
 		return addressDataType;
 	}
 
+    /**
+     * Create AddressDataType from rolodex entry
+     * 
+     * @param depPerson
+     *            Rolodex entry
+     * @return The AddressDataType corresponding to the rolodex entry.
+     */
+    public AddressDataType getAddressDataType(DepartmentalPerson depPerson) {
+
+        AddressDataType addressDataType = AddressDataType.Factory.newInstance();
+        if (depPerson != null) {
+
+            String street1 = depPerson.getAddress1();
+            addressDataType.setStreet1(street1);
+            String street2 = depPerson.getAddress2();
+            if (street2 != null && !street2.equals("")) {
+                addressDataType.setStreet2(street2);
+            }
+            String city = depPerson.getCity();
+            addressDataType.setCity(city);
+            String county = depPerson.getCounty();
+            if (county != null && !county.equals("")) {
+                addressDataType.setCounty(county);
+            }
+                        
+            String postalCode = depPerson.getPostalCode();
+            if (postalCode != null && !postalCode.equals("")) {
+                addressDataType.setZipPostalCode(postalCode);
+            }
+            String country = depPerson.getCountryCode();
+            CountryCodeDataType.Enum countryCodeDataType = getCountryCodeDataType(country);
+            addressDataType.setCountry(countryCodeDataType);
+            
+            String state = depPerson.getState();
+            if (state != null && !state.equals("")) {
+                if (countryCodeDataType != null) {
+                    if (countryCodeDataType
+                            .equals(CountryCodeDataType.USA_UNITED_STATES)) {
+                        addressDataType.setState(getStateCodeDataType(state));
+                    } else {
+                        addressDataType.setProvince(state);
+                    }
+                }
+            }
+        }
+        return addressDataType;
+    }
 
     /**
      * Create AddressDataType from Person
@@ -421,4 +469,30 @@ public class GlobalLibraryV2_0Generator {
 		return contactPerson;
 	}
 
+    public ContactPersonDataType getContactPersonDataType(ProposalDevelopmentDocument proposalDocument) {
+        ContactPersonDataType contactPerson = ContactPersonDataType.Factory.newInstance();
+        DepartmentalPerson person = s2sUtilService.getContactPerson(proposalDocument);
+        if (person != null) {
+            contactPerson.setName(getHumanNameDataType(person));
+            String phone = person.getOfficePhone();
+            if (phone != null && !phone.equals("")) {
+                contactPerson.setPhone(phone);
+            }
+            String fax = person.getFaxNumber();
+            if (fax != null && !fax.equals("")) {
+                contactPerson.setFax(fax);
+            }
+            String email = person.getEmailAddress();
+            if (email != null && !email.equals("")) {
+                contactPerson.setEmail(person.getEmailAddress());
+            }
+            String title = person.getPrimaryTitle();
+            if (title != null && !title.equals("")) {
+                contactPerson.setTitle(title);
+            }
+            contactPerson.setAddress(getAddressDataType(person));
+
+        }
+        return contactPerson;
+    }
 }

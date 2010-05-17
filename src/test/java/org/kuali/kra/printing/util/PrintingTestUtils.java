@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1193,7 +1193,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount.setApplyRateFlag(true);
 		budgetLineItemCalcAmount.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount.setRateClass(rateClass);
-		budgetLineItemCalcAmount.setRateType(rateType);
+//		budgetLineItemCalcAmount.setRateType(rateType);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount);
 
 		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount1 = (BudgetLineItemCalculatedAmount) budgetLineItem
@@ -1208,7 +1208,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount1.setApplyRateFlag(true);
 		budgetLineItemCalcAmount1.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount1.setRateClass(rateClass1);
-		budgetLineItemCalcAmount1.setRateType(rateType1);
+//		budgetLineItemCalcAmount1.setRateType(rateType1);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount1);
 		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount2 = (BudgetLineItemCalculatedAmount) budgetLineItem
 				.getNewBudgetLineItemCalculatedAmount();
@@ -1222,7 +1222,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount2.setApplyRateFlag(true);
 		budgetLineItemCalcAmount2.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount2.setRateClass(rateClass2);
-		budgetLineItemCalcAmount2.setRateType(rateType2);
+//		budgetLineItemCalcAmount2.setRateType(rateType2);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount2);
 		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount3 = (BudgetLineItemCalculatedAmount) budgetLineItem
 				.getNewBudgetLineItemCalculatedAmount();
@@ -1236,7 +1236,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount3.setApplyRateFlag(true);
 		budgetLineItemCalcAmount3.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount3.setRateClass(rateClass3);
-		budgetLineItemCalcAmount3.setRateType(rateType3);
+//		budgetLineItemCalcAmount3.setRateType(rateType3);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount3);
 		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount4 = (BudgetLineItemCalculatedAmount) budgetLineItem
 				.getNewBudgetLineItemCalculatedAmount();
@@ -1250,7 +1250,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount4.setApplyRateFlag(true);
 		budgetLineItemCalcAmount4.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount4.setRateClass(rateClass4);
-		budgetLineItemCalcAmount4.setRateType(rateType4);
+//		budgetLineItemCalcAmount4.setRateType(rateType4);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount4);
 		BudgetLineItemCalculatedAmount budgetLineItemCalcAmount5 = (BudgetLineItemCalculatedAmount) budgetLineItem
 				.getNewBudgetLineItemCalculatedAmount();
@@ -1264,7 +1264,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount5.setApplyRateFlag(true);
 		budgetLineItemCalcAmount5.setCalculatedCost(new BudgetDecimal(3794.77));
 		budgetLineItemCalcAmount5.setRateClass(rateClass5);
-		budgetLineItemCalcAmount5.setRateType(rateType5);
+//		budgetLineItemCalcAmount5.setRateType(rateType5);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount5);
 
 		// BudgetLaRate
@@ -1330,7 +1330,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount.setRateClassCode("1");
 		budgetPersCalcAmount.setRateTypeCode("1");
 		budgetPersCalcAmount.setRateClass(rateClass);
-		budgetPersCalcAmount.setRateType(rateType);
+//		budgetPersCalcAmount.setRateType(rateType);
 		budgetPersCalcAmount.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount.setVersionNumber(budgetPersDetails
@@ -1351,7 +1351,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount1.setRateClassCode("5");
 		budgetPersCalcAmount1.setRateTypeCode("1");
 		budgetPersCalcAmount1.setRateClass(rateClass1);
-		budgetPersCalcAmount1.setRateType(rateType1);
+//		budgetPersCalcAmount1.setRateType(rateType1);
 		budgetPersCalcAmount1.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount1.setVersionNumber(budgetPersDetails
@@ -1372,7 +1372,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount2.setRateClassCode("10");
 		budgetPersCalcAmount2.setRateTypeCode("1");
 		budgetPersCalcAmount2.setRateClass(rateClass2);
-		budgetPersCalcAmount2.setRateType(rateType2);
+//		budgetPersCalcAmount2.setRateType(rateType2);
 		budgetPersCalcAmount2.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount2.setVersionNumber(budgetPersDetails
@@ -1393,7 +1393,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount3.setRateClassCode("11");
 		budgetPersCalcAmount3.setRateTypeCode("1");
 		budgetPersCalcAmount3.setRateClass(rateClass3);
-		budgetPersCalcAmount3.setRateType(rateType3);
+//		budgetPersCalcAmount3.setRateType(rateType3);
 		budgetPersCalcAmount3.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount3.setVersionNumber(budgetPersDetails
@@ -1414,7 +1414,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount4.setRateClassCode("8");
 		budgetPersCalcAmount4.setRateTypeCode("1");
 		budgetPersCalcAmount4.setRateClass(rateClass4);
-		budgetPersCalcAmount4.setRateType(rateType4);
+//		budgetPersCalcAmount4.setRateType(rateType4);
 		budgetPersCalcAmount4.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount4.setVersionNumber(budgetPersDetails
@@ -1435,7 +1435,7 @@ public class PrintingTestUtils {
 		budgetPersCalcAmount5.setRateClassCode("8");
 		budgetPersCalcAmount5.setRateTypeCode("2");
 		budgetPersCalcAmount5.setRateClass(rateClass5);
-		budgetPersCalcAmount5.setRateType(rateType5);
+//		budgetPersCalcAmount5.setRateType(rateType5);
 		budgetPersCalcAmount5.setPersonNumber(budgetPersDetails
 				.getPersonNumber());
 		budgetPersCalcAmount5.setVersionNumber(budgetPersDetails
@@ -2003,6 +2003,27 @@ public class PrintingTestUtils {
 		reportParamsMap.put(TRANSACTION_ID, null);
 		//TODO need to put all the parameters associated with highestTransactionIdIndex.( AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
 //		.getAwardPrintParameter() )
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getResearchAndRelatedReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getProposalSubmissionReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getInstitutionalProposalReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	public static Map<String, Object> getProposalDevelopmentXmlStreamReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
+		return reportParamsMap;
+	}
+	
+	public static Map<String, Object> getBudgetBaseSalaryStreamReportParameters() {
+		Map<String, Object> reportParamsMap = new HashMap<String, Object>();
 		return reportParamsMap;
 	}
 }

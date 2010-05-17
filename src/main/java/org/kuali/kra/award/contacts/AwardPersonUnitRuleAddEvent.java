@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,15 @@ public class AwardPersonUnitRuleAddEvent extends KraDocumentEventBase {
     
     private AwardPersonUnit newPersonUnit;
     private AwardPerson projectPerson;
+    private int addUnitPersonIndex;
     
     protected AwardPersonUnitRuleAddEvent(String description, String errorPathPrefix, Document document, 
-                                                    AwardPerson projectPerson, AwardPersonUnit newPersonUnit) {
+                                                    AwardPerson projectPerson, AwardPersonUnit newPersonUnit,
+                                                    int addUnitPersonIndex) {
         super(description, errorPathPrefix, document);
         this.newPersonUnit = newPersonUnit;
         this.projectPerson = projectPerson;
+        this.addUnitPersonIndex = addUnitPersonIndex;
     }
 
     /**
@@ -49,6 +52,14 @@ public class AwardPersonUnitRuleAddEvent extends KraDocumentEventBase {
     
     public Class<AwardPersonUnitAddRule> getRuleInterfaceClass() {
         return AwardPersonUnitAddRule.class;
+    }
+
+    public void setAddUnitPersonIndex(int addUnitPersonIndex) {
+        this.addUnitPersonIndex = addUnitPersonIndex;
+    }
+
+    public int getAddUnitPersonIndex() {
+        return addUnitPersonIndex;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {

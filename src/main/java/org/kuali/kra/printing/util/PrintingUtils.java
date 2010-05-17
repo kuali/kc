@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -52,14 +53,22 @@ public class PrintingUtils {
 	private static final String XSL_BUDGET_CUMULATIVE = "CumulativeSummary.xsl";
 	private static final String XSL_INDUSTRIAL_BUDGET = "IndstlBudgetSummary.xsl";
 	private static final String XSL_BUDGET_COSTSHARING_SUMMARY = "CostSharingBudgetSummary.xsl";
-	private static final String XSL_AWARD_NOTICE = "awardNotice.xsl";
-	private static final String XSL_BAWARD_DELTA = "awardModification.xsl";
-	private static final String XSL_PRINT_CERTIFICATION = "printCertification.xsl";
+
+	private static final String XSL_AWARD_NOTICE = "AwardNotice.xsl";
+	private static final String XSL_AWARD_DELTA = "AwardModification.xsl";
+	
+    private static final String XSL_AWARD_BUDGET_HIERARCHY = "awardBudgetHierarchy.xsl";
+    private static final String XSL_AWARD_BUDGET_HISTORY_TRANSACTION = "awardBudgetModification.xsl";
+    private static final String XSL_AWARD_TEMPLATE = "awardTemplate.xsl";
+    private static final String XSL_MONEY_AND_END_DATES_HISTORY = "awardMoneyAndEndDatesHistory.xsl";
+	
+    private static final String XSL_PRINT_CERTIFICATION = "printCertification.xsl";
 	private static final String XSL_CURRENT_REPORT = "CurrentSupport.xsl";
 	private static final String XSL_PENDING_REPORT = "PendingSupport.xsl";
 	private static final String XSL_INSTITUTIONAL_PROPOSAL_REPORT = "instituteProposal.xsl";
     private static final String XSL_COMMITTEE_ROSTER = "CommitteeRoster.xsl";
     private static final String XSL_FUTURE_SCHEDULED_MEETINGS = "CommitteeFutureScheduledMeetings.xsl";
+    	private static final String XSL_PROPOSAL_LOG_REPORT = "proposalLog.xsl";
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 
@@ -130,8 +139,20 @@ public class PrintingUtils {
 			xsl = XSL_AWARD_NOTICE;
 		} else if (reportType.equals(AwardPrintType.AWARD_DELTA_REPORT
 				.getAwardPrintType())) {
-			xsl = XSL_BAWARD_DELTA;
-		} else if (reportType.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
+			xsl = XSL_AWARD_DELTA;
+		} else if (reportType.equals(AwardPrintType.AWARD_BUDGET_HIERARCHY
+                .getAwardPrintType())) {
+            xsl = XSL_AWARD_BUDGET_HIERARCHY;
+        } else if (reportType.equals(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
+                .getAwardPrintType())) {
+            xsl = XSL_AWARD_BUDGET_HISTORY_TRANSACTION;
+        } else if (reportType.equals(AwardPrintType.AWARD_TEMPLATE
+                .getAwardPrintType())) {
+            xsl = XSL_AWARD_TEMPLATE;
+        } else if (reportType.equals(AwardPrintType.MONEY_AND_END_DATES_HISTORY
+                .getAwardPrintType())) {
+            xsl = XSL_MONEY_AND_END_DATES_HISTORY;
+        } else if (reportType.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
 				.getBudgetPrintType())) {
 			xsl = XSL_BUDGET_SUMMARY;
 		} else if (reportType.equals(BudgetPrintType.BUDGET_SALARY_REPORT
@@ -168,6 +189,8 @@ public class PrintingUtils {
 				.equals(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 						.getInstitutionalProposalPrintType())) {
 			xsl = XSL_INSTITUTIONAL_PROPOSAL_REPORT;
+		} else if (reportType.equals(ProposalLogPrintingService.PROPOSAL_LOG_REPORT_TYPE)) {
+		    xsl = XSL_PROPOSAL_LOG_REPORT;
 		} else if (reportType
 				.equals(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT)) {
 			xsl = XSL_PRINT_CERTIFICATION;

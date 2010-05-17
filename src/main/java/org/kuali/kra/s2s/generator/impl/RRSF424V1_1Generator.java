@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,8 +109,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			rrsf424.setStateID(state);
 		}
 		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null
-				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
+		if (federalId != null) {
 			if (federalId.length() > 30) {
 				rrsf424.setFederalID(federalId.substring(0, 30));
 			} else {
@@ -160,20 +159,21 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		rrsf424.setTrustAgree(YesNoDataType.Y_YES);
 		rrsf424.setAORInfo(getAORInfoType());
 		for (Narrative narrative : devProp.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null){
-				if(Integer.parseInt(narrative.getNarrativeTypeCode()) == PRE_APPLICATION) {
-        			AttachedFileDataType preAttachment = AttachedFileDataType.Factory
-        					.newInstance();
-        			preAttachment = getAttachedFileType(narrative);
-        			rrsf424.setPreApplicationAttachment(preAttachment);
-				}
-                if (narrative.getNarrativeTypeCode().equals(ADDITIONAL_CONGRESSIONAL_DESTRICT)) {
-                    AttachedFileDataType additionalCongrDestrAttachment = AttachedFileDataType.Factory
-                            .newInstance();
-                    additionalCongrDestrAttachment = getAttachedFileType(narrative);
-                    rrsf424.setAdditionalCongressionalDistricts(additionalCongrDestrAttachment);
-                }
-            }
+            AttachedFileDataType attachedFileDataType=null;
+		    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
+		        case(PRE_APPLICATION):
+		            attachedFileDataType = getAttachedFileType(narrative);
+                    if(attachedFileDataType!=null) {
+                        rrsf424.setPreApplicationAttachment(attachedFileDataType);
+                    }
+		            break;
+		        case(ADDITIONAL_CONGRESSIONAL_DESTRICT):
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType!=null) {
+		                rrsf424.setAdditionalCongressionalDistricts(attachedFileDataType);
+		            }
+		            break;
+		    }
 		}
 		if (departmentalPerson != null) {
 			rrsf424.setAORSignature(departmentalPerson.getFullName());
@@ -262,7 +262,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			}
 		} else {
 			// contact will come from unit or unit_administrators
-			DepartmentalPerson depPerson = getContactPerson(pdDoc, contactType);
+			DepartmentalPerson depPerson = getContactPerson(pdDoc);
 			ContactPersonInfo contactInfo = ContactPersonInfo.Factory
 					.newInstance();
 			if (depPerson != null) {
@@ -308,56 +308,6 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		return appInfo;
 	}
 
-	/**
-	 * 
-	 * This method is used to get the details of Contact person
-	 * 
-	 * @param pdDoc(ProposalDevelopmentDocument)
-	 *            proposal development document.
-	 * @param contactType(String)
-	 *            for which the DepartmentalPerson has to be found.
-	 * @return depPerson(DepartmentalPerson) corresponding to the contact type.
-	 */
-	private DepartmentalPerson getContactPerson(
-			ProposalDevelopmentDocument pdDoc, String contactType) {
-		boolean isNumber = true;
-		try {
-			Integer.parseInt(contactType);
-		} catch (NumberFormatException e) {
-			isNumber = false;
-		}
-		DepartmentalPerson depPerson = new DepartmentalPerson();
-		if (isNumber) {
-			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
-					.getProposalPersons()) {
-				for (ProposalPersonUnit unit : person.getUnits()) {
-					if (unit.isLeadUnit()) {
-						Unit leadUnit = unit.getUnit();
-						leadUnit.refreshReferenceObject("unitAdministrators");
-						for (UnitAdministrator admin : leadUnit
-								.getUnitAdministrators()) {
-							if (contactType.equals(admin
-									.getUnitAdministratorTypeCode())) {
-								depPerson.setLastName(person.getLastName());
-								depPerson.setFirstName(person.getFirstName());
-								if (person.getMiddleName() != null) {
-									depPerson.setMiddleName(person
-											.getMiddleName());
-								}
-								depPerson.setEmailAddress(person
-										.getEmailAddress());
-								depPerson.setOfficePhone(person
-										.getOfficePhone());
-								depPerson.setFaxNumber(person.getFaxNumber());
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		return depPerson;
-	}
 
 	/**
 	 * 
@@ -665,38 +615,84 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					.getOrganizationTypes().get(0).getOrganizationTypeCode();
 		}
 		ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
+
 		switch (orgTypeCode) {
-		case 3: {
-			// federal
+		case 1:
+			applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
+			break;
+		case 2:
+			applicantTypeCode = ApplicantTypeCodeDataType.A_STATE_GOVERNMENT;
+			break;
+		case 3:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
 			break;
-		}
-		case 14: {
-			// disadvantaged
+		case 4:
+			applicantTypeCode = ApplicantTypeCodeDataType.M_NONPROFIT_WITH_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 5:
+			applicantTypeCode = ApplicantTypeCodeDataType.N_NONPROFIT_WITHOUT_501_C_3_IRS_STATUS_OTHER_THAN_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 6:
+			applicantTypeCode = ApplicantTypeCodeDataType.Q_FOR_PROFIT_ORGANIZATION_OTHER_THAN_SMALL_BUSINESS;
+			break;
+		case 7:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			// value is hardcoded
+			break;
+		case 8:
+			applicantTypeCode = ApplicantTypeCodeDataType.I_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_FEDERALLY_RECOGNIZED;
+			break;
+		case 9:
+			applicantTypeCode = ApplicantTypeCodeDataType.P_INDIVIDUAL;
+			break;
+		case 10:
+			applicantTypeCode = ApplicantTypeCodeDataType.O_PRIVATE_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 11:
+			applicantTypeCode = ApplicantTypeCodeDataType.R_SMALL_BUSINESS;
+			break;
+		case 14:
+			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
 			isSociallyEconomicallyDisadvantaged.setStringValue(VALUE_YES);
 			smallOrganizationType
 					.setIsSociallyEconomicallyDisadvantaged(isSociallyEconomicallyDisadvantaged);
 			smallBusflag = true;
 			break;
-		}
-		case 15: {
-			// women owned
+		case 15:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-			// value is hardcoded
 			isWomenOwned.setStringValue(VALUE_YES);
 			smallOrganizationType.setIsWomenOwned(isWomenOwned);
 			smallBusflag = true;
 			break;
-		}
-		default: {
+		case 21:
+			applicantTypeCode = ApplicantTypeCodeDataType.H_PUBLIC_STATE_CONTROLLED_INSTITUTION_OF_HIGHER_EDUCATION;
+			break;
+		case 22:
+			applicantTypeCode = ApplicantTypeCodeDataType.B_COUNTY_GOVERNMENT;
+			break;
+		case 23:
+			applicantTypeCode = ApplicantTypeCodeDataType.D_SPECIAL_DISTRICT_GOVERNMENT;
+			break;
+		case 24:
+			applicantTypeCode = ApplicantTypeCodeDataType.G_INDEPENDENT_SCHOOL_DISTRICT;
+			break;
+		case 25:
+			applicantTypeCode = ApplicantTypeCodeDataType.L_PUBLIC_INDIAN_HOUSING_AUTHORITY;
+			break;
+		case 26:
+			applicantTypeCode = ApplicantTypeCodeDataType.J_INDIAN_NATIVE_AMERICAN_TRIBAL_GOVERNMENT_OTHER_THAN_FEDERALLY_RECOGNIZED;
+			break;
+		default:
 			applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-		}
+			break;
 		}
 		if (smallBusflag) {
 			applicantType
 					.setSmallBusinessOrganizationType(smallOrganizationType);
+		}
+
+		if (orgTypeCode == 3) {
+			applicantType
+					.setApplicantTypeCodeOtherExplanation("Federal Government");
 		}
 		applicantType.setApplicantTypeCode(applicantTypeCode);
 		return applicantType;

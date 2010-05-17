@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="documentComponentId" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
+            p:parameterNamespace="KC-B"
             p:parameterName="budgetUnrecoveredFandAHelpUrl"
             p:parameterDetailType="D" />
     </property>
@@ -172,22 +172,6 @@
   </bean>
   <bean id="BudgetUnrecoveredFandA-sourceAccount" parent="BudgetUnrecoveredFandA-sourceAccount-parentBean" />
 
-  <bean id="BudgetUnrecoveredFandA-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sourceAccount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Source Account" />
-    <property name="shortLabel" value="Source Account" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
-    </property>
-    <property name="summary" value="Source Account" />
-    <property name="description" value="Source Account" />
+  <bean id="BudgetUnrecoveredFandA-sourceAccount-parentBean" parent="KraAttributeReferenceDummy-sourceAccount" >
   </bean>
 </beans>

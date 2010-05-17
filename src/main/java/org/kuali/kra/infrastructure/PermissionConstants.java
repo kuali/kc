@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,5 +94,13 @@ public interface PermissionConstants {
      */
     public static final String VIEW_BATCH_CORRESPONDENCE_DETAIL = "View Batch Correspondence Detail";
     public static final String MODIFY_BATCH_CORRESPONDENCE_DETAIL = "Modify Batch Correspondence Detail";
+    
+    /*
+     * Institutional Proposal
+     */
+    String CREATE_INSTITUTIONAL_PROPOSAL = "Create Institutional Proposal";
+    String SUBMIT_INSTITUTIONAL_PROPOSAL = "Submit Institutional Proposal";
+    
+    String DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER = "documentTypeName";
 
 }

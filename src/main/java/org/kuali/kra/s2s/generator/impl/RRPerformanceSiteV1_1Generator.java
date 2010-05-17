@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument.RRPerformanceSite;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -81,7 +82,11 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
-                rrPerformanceSite.setAttachedFile(getAttachedFileType(narrative));
+            	AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		rrPerformanceSite.setAttachedFile(attachedFileDataType);
+            		break;
+            	}
             }
         }
         rrPerformanceSiteDocument.setRRPerformanceSite(rrPerformanceSite);

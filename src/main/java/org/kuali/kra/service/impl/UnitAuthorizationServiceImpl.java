@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.PermissionAttributes;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
@@ -37,7 +40,6 @@ import org.kuali.rice.kim.service.RoleManagementService;
 public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraAuthorizationServiceImpl.class);
 
-    private static final String UNIT_NUMBER_KEY = "unitNumber";
     private UnitService unitService;
     private SystemAuthorizationService systemAuthorizationService;
     
@@ -76,7 +78,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             // in the given unit, traverse up the Unit Hierarchy to see if the user has
             // the permission in a higher-level unit with the SUBUNITS flag set to YES.
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-            qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, unitNumber);
+            qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
             
             //The UnitHierarchyRoleTypeService takes care of traversing the Unit tree.
             userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes)); 
@@ -92,11 +94,30 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*"); 
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*"); 
         userHasPermission = identityManagementService.isAuthorized(userId, namespaceCode, permissionName, new AttributeSet(permissionAttributes), new AttributeSet(qualifiedRoleAttributes));
         return userHasPermission;
     }
     
+    
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
+        List<String> roleIds = new ArrayList<String>();
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
+        roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+        
+        List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipal(userId, roleIds, new AttributeSet(qualifiedRoleAttributes));
+        List<String> units = new ArrayList<String>();    
+        for(AttributeSet qualifier : qualifiers) {
+            String tmpUnitNumber = qualifier.get(KcKimAttributes.UNIT_NUMBER);
+            if(StringUtils.isNotEmpty(tmpUnitNumber)) {
+                units.add(tmpUnitNumber);
+            }  
+        }
+        
+        return CollectionUtils.isNotEmpty(units) ;
+    }
+
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
      */
@@ -109,14 +130,30 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         // subunits the to the list.
         List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, "*");
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
         roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
         
         List<AttributeSet> qualifiers = roleManagementService.getRoleQualifiersForPrincipal(userId, roleIds, new AttributeSet(qualifiedRoleAttributes));
         for(AttributeSet qualifier : qualifiers) {
-            units.add(unitService.getUnit(qualifier.get(UNIT_NUMBER_KEY)));
+            Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
+            if(unit != null) {
+                units.add(unit);
+                if(unit != null && qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                    addDescendantUnits(unit, units);
+                }
+            }
         }
         //the above line could potentially be a performance problem - need to revisit
         return units;
+    }
+    
+    private void addDescendantUnits(Unit parentUnit, List<Unit> units) { 
+        List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
+        if(CollectionUtils.isNotEmpty(subunits)) {
+            units.addAll(subunits); 
+            for(Unit subunit : subunits) {
+                addDescendantUnits(subunit, units);
+            }
+        }
     }
 }

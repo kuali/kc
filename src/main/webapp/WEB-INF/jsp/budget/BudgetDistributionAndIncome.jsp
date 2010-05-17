@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Distribution & Income" /></div>
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Distribution%20%26%20Income" /></div>
 	
 	<div align="center">
 		<kra-b:budgetCostSharing />
@@ -47,6 +47,7 @@
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
 		viewOnly="${readOnly}"
+		suppressCancelButton="true"
 		/>
 
 </kul:documentPage>

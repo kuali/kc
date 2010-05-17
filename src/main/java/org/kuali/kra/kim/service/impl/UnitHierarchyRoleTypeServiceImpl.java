@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
             if (parentUnitNumber == null) {
                 break;
             }
-            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && StringUtils.equals("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)));
+            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && StringUtils.equalsIgnoreCase("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)));
             unitNumber = parentUnitNumber;
         }
         

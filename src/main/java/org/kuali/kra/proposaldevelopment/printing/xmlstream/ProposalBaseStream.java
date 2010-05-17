@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,25 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
+import org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class will contain all common methods that can be used across Proposal
@@ -33,13 +42,17 @@ import org.kuali.rice.kns.service.DateTimeService;
  * 
  */
 public abstract class ProposalBaseStream implements XmlStream {
-	
-	private final static Logger LOG=Logger.getLogger(ProposalBaseStream.class);
+
+	private final static Logger LOG = Logger
+			.getLogger(ProposalBaseStream.class);
 	protected DateTimeService dateTimeService;
 	protected BusinessObjectService businessObjectService = null;
 
+
 	/**
-	 * This method fetches the final/latest Budget associated with the given {@link ProposalDevelopmentDocument}
+	 * This method fetches the final/latest Budget associated with the given
+	 * {@link ProposalDevelopmentDocument}
+	 * 
 	 * @param proposalDevelopmentDocument
 	 * @return {@link Budget} final/latest version
 	 */
@@ -61,6 +74,43 @@ public abstract class ProposalBaseStream implements XmlStream {
 		return budget;
 	}
 	
+	protected Award getAward(String currentAwardNumber) {
+		Award award = null;
+		if(!(currentAwardNumber == null)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("awardNumber", currentAwardNumber);
+            List<Award> sponsors = (List<Award>)businessObjectService.findMatching(Award.class, fieldValues);
+            if(sponsors.size()>0){
+            	award = sponsors.get(0);
+            }
+		}
+		return award;
+	}
+
+	/**
+	 * @param sponsors
+	 */
+	protected AwardAmountInfo getMaxAwardAmountInfo(Award award) {
+		Integer highestSequenceNumber = 0;
+		Long highestAwardAmountInfoId = 0L;
+		//Finding higesh Sequence Awar Amount Info
+		AwardAmountInfo higeshSequenceAwarAmountInfo = null;
+		//TODO NEED TO RETURN zeroth one as award and split as a method rest of the data
+			for(AwardAmountInfo amountInfo: award.getAwardAmountInfos()){
+				if(highestSequenceNumber < amountInfo.getSequenceNumber()){
+					higeshSequenceAwarAmountInfo = amountInfo;
+					highestSequenceNumber = amountInfo.getSequenceNumber();
+					highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
+				}else if(highestSequenceNumber == amountInfo.getSequenceNumber() 
+							&& highestAwardAmountInfoId < amountInfo.getAwardAmountInfoId()){
+					higeshSequenceAwarAmountInfo = amountInfo;
+					highestSequenceNumber = amountInfo.getSequenceNumber();
+					highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
+				}
+			}
+		return higeshSequenceAwarAmountInfo;
+	}
+
 	/**
 	 * @return the dateTimeService
 	 */

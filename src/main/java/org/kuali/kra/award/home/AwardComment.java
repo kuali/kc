@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.bo.CommentType;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.meeting.MemberPresentBean;
 
 /**
  * This class is business object representation of an Award Comment

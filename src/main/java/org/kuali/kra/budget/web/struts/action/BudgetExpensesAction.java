@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,9 +153,9 @@ public class BudgetExpensesAction extends BudgetAction {
             
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);                          
             budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
-            budgetCalculationService.calculateBudgetPeriod(budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
             
             budgetCalculationService.populateCalculatedAmount(budget, newBudgetLineItem);
+            budgetCalculationService.calculateBudgetPeriod(budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
             BudgetLineItem newLineItemToAdd = budgetPeriod.getNewBudgetLineItem();
             budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex, newLineItemToAdd);
             
@@ -188,7 +188,7 @@ public class BudgetExpensesAction extends BudgetAction {
         if (new BudgetExpenseRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetForm.getBudgetDocument(), 
                     budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().get(getLineToDelete(request)), getLineToDelete(request))) {
             budgetPeriod.getBudgetLineItems().remove(sltdBudgetLineItem);        
-            budget.setBudgetLineItemDeleted(true);        
+//            budget.setBudgetLineItemDeleted(true);        
             getCalculationService().calculateBudgetPeriod(budget, budget.getBudgetPeriod(sltdBudgetPeriod));
             
             populateTabState(budgetForm, budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem));

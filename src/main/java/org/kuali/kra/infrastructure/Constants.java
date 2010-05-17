@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,11 +81,14 @@ public interface Constants {
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
+    public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
+    public static final String PROPOSAL_NARRATIVE_TYPE_GROUP_CODE = "P";    
     public static final String NARRATIVE_MODULE_STATUS_COMPLETE = "C";
+    public static final String NARRATIVE_MODULE_STATUS_INCOMPLETE = "I";
 
     public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
     public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
@@ -171,6 +174,16 @@ public interface Constants {
     public static final String BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG = "budgetUnrecoveredFandAApplicabilityFlag";
     public static final String BUDGET_COST_SHARING_ENFORCEMENT_FLAG = "budgetCostSharingEnforcementFlag";
     public static final String BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG = "budgetUnrecoveredFandAEnforcementFlag";
+    
+    //budget status codes
+    public static final String BUDGET_STATUS_CODE_IN_PROGRESS = "1";
+    public static final String BUDGET_STATUS_CODE_TO_BE_POSTED = "10";
+    public static final String BUDGET_STATUS_CODE_ERROR_IN_POSTING = "11";
+    public static final String BUDGET_STATUS_CODE_SUBMITTED = "5";
+    public static final String BUDGET_STATUS_CODE_REJECTED = "8";
+    public static final String BUDGET_STATUS_CODE_POSTED = "9";
+    public static final String BUDGET_STATUS_CODE_CANCELLED = "14";
+    public static final String BUDGET_STATUS_CODE_DISAPPROVED = "13";
     
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";

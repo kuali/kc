@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class ProposalAssignedRole extends BusinessObjectBase {
 
-    private final String roleName;
-    private final List<String> userNames;
+    private String roleName;
+    private List<String> userNames;
     
     public ProposalAssignedRole(String roleName, List<String> userNames) {
         this.roleName = roleName;
@@ -39,11 +39,9 @@ public class ProposalAssignedRole extends BusinessObjectBase {
     }
 
     @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        final LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("roleName", roleName);
-        map.put("userNames", userNames);
-        return map;
+    protected LinkedHashMap toStringMapper() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public void refresh() {

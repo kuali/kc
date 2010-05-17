@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2071,12 +2071,14 @@ public abstract class BudgetBaseStream implements XmlStream {
 		if (isRateAndBaseLASalary(budgetPersRateAndBase)) {
 			personName = ALLOCATED_ADMIN_SUPPORT;
 		} else if (budgetPerson != null) {
-			StringBuilder pNmae = new StringBuilder();
-			personName = pNmae.append(budgetPerson.getPersonName()).append(
-					OPEN_BRACES).append(quantity.toString()).append(
-					CLOSE_BRACES).toString();
-		} else if (budgetPerson != null) {
-			personName = budgetPerson.getPersonName();
+			if (budgetPerson.getPersonId() == null && budgetPerson.getRolodexId() == null) {
+				// Budget Person is TBA
+				StringBuilder pNmae = new StringBuilder();
+				personName = pNmae.append(budgetPerson.getPersonName()).append(OPEN_BRACES).append(
+						quantity.toString()).append(CLOSE_BRACES).toString();
+			} else {
+				personName = budgetPerson.getPersonName();
+			}
 		}
 		return personName;
 	}

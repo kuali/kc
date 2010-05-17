@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class KcKimAttributes extends KimAttributes {
     protected String award;
     protected String timeandmoney;
     protected String unitNumber;
-    protected boolean subunits;
+    protected Boolean subunits;
     
     protected Unit unit;
     
@@ -86,11 +86,11 @@ public class KcKimAttributes extends KimAttributes {
         this.unitNumber = unitNumber;
     }
     
-    public boolean isSubunits() {
+    public Boolean isSubunits() {
         return subunits;
     }
     
-    public void setSubunits(boolean subunits) {
+    public void setSubunits(Boolean subunits) {
         this.subunits = subunits;
     }
 

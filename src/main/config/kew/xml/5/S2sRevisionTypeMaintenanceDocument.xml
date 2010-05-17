@@ -6,6 +6,7 @@
 			<description>Create a New Revision Type Document</description>
 			<label>Revision Type Document</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/s2srevisiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

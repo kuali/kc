@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.question.CopyPeriodsQuestion;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -84,6 +83,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         ActionForward ac = super.execute(mapping, form, request, response);
+        getBudgetLimit(form);
         return ac;
     }
 
@@ -175,8 +175,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             Budget budget = budgetDocument.getBudget();
-            getBudgetRateService().syncAllBudgetRates( budgetDocument);
-//            getBudgetSummaryService().calculateBudget(budget);
             String forward = buildForwardUrl(routeHeaderId);
             if (!budget.getActivityTypeCode().equals(budgetParent.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {
                 budget.setActivityTypeCode(budgetParent.getActivityTypeCode());
@@ -341,27 +339,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         boService.save(awardDocument.getBudgetDocumentVersions());
     }    
-    
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.refresh(mapping, form, request, response);
-        final AwardForm awardForm = (AwardForm) form;
-        if (awardForm.getLookupResultsBOClassName() != null && awardForm.getLookupResultsSequenceNumber() != null) {
-            String lookupResultsSequenceNumber = awardForm.getLookupResultsSequenceNumber();
-            
-            @SuppressWarnings("unchecked")
-            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(awardForm.getLookupResultsBOClassName());
-            
-            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
-            
-            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
-                    getAwardBudgetService().createBudgetDocumentWithCopiedBudgetPeriods(rawValues, 
-                            (AwardDocument)awardForm.getDocument(),awardForm.getNewBudgetVersionName());
-            }
-        }
-        return super.reload(mapping, form, request, response);
-    }
 
     /**
      * {@inheritDoc}

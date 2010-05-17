@@ -108,8 +108,10 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 			// awardTransactionType.setTransactionTypeDesc(arg0);
 			awardTransactionType.setComments(awardAmountTransaction
 					.getComments());
-			awardTransactionType.setNoticeDate(dateTimeService
-					.getCalendar(awardAmountTransaction.getNoticeDate()));
+			if (awardAmountTransaction.getNoticeDate() != null) {
+    			awardTransactionType.setNoticeDate(dateTimeService
+    					.getCalendar(awardAmountTransaction.getNoticeDate()));
+			}
 			awardTransactionType.setTreeLevel(rowNo);
 			
 			awardTransactionTypes.add(awardTransactionType);

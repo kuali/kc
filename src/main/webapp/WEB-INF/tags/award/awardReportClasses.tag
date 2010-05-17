@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -266,9 +266,9 @@
 	    </tr>
 	    <tr>
 	        <td colspan="6">
-	        	${KualiForm.valueFinderResultDoNotCache}
-	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />
 	            ${KualiForm.valueFinderResultCache}
+	            <kra-a:awardReportRecipients innerTabParent="${reportClassLabel}" index="${status.index}" />
+	        	${KualiForm.valueFinderResultDoNotCache}
 	            <c:if test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClassKey}" >
 	            	<kra-a:awardReporting innerTabParent="${reportClassLabel}" index="${status.index}" />
 	            </c:if>		    

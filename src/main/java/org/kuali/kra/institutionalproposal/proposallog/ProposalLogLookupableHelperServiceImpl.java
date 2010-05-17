@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +104,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             if (((ProposalLog) businessObject).isSubmitted()) {
                 removeEditLink(htmlDataList);
             }
+            htmlDataList.add(getPrintLink(((ProposalLog)businessObject).getProposalNumber()));
         }
         return htmlDataList;
     }
@@ -161,6 +162,18 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         htmlData.setHref(href);
         return htmlData;
     }
+    
+    protected AnchorHtmlData getPrintLink(String proposalNumber) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("print");
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "printProposalLog");
+        parameters.put("proposalNumber", proposalNumber);
+        String href  = UrlFactory.parameterizeUrl("../printProposalLog.do", parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+    }    
     
     protected void checkIsLookupForProposalCreation(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get("backLocation");

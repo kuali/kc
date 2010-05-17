@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="budgetCostShare" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
+            p:parameterNamespace="KC-B"
             p:parameterName="budgetCostShareHelpUrl"
             p:parameterDetailType="D" />
     </property>
@@ -144,24 +144,7 @@
     <property name="summary" value="Share Percentage" />
     <property name="description" value="Share Percentage" />
   </bean>
-  <bean id="BudgetCostShare-sourceAccount" parent="BudgetCostShare-sourceAccount-parentBean" />
-
-  <bean id="BudgetCostShare-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sourceAccount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Source Account" />
-    <property name="shortLabel" value="Source Account" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
-    </property>
-    <property name="summary" value="Source Account" />
-    <property name="description" value="Source Account" />
+  <bean id="BudgetCostShare-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
   </bean>
+  
 </beans>

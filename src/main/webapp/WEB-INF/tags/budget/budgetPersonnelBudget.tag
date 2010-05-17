@@ -1,5 +1,5 @@
  <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -242,7 +242,7 @@
 				          		<c:forEach var="budgetPersonnelDetailsCalculatedAmount" items="${budgetPersonnelDetails.budgetPersonnelCalculatedAmounts}" varStatus="status1">
 					        	<tr>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateClass.description}"/></div></td>
-					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateType.description}"/></div></td>
+					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.rateTypeDescription}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.applyRateFlag}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.calculatedCost}"/></div></td>
 					        		<td><div align="left"><c:out value="${budgetPersonnelDetailsCalculatedAmount.calculatedCostSharing}"/></div></td>

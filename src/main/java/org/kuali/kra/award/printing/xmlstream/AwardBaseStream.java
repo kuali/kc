@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,10 +103,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -207,7 +209,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected BusinessObjectService businessObjectService = null;
 	private DocumentService documentService = null;
 	protected DateTimeService dateTimeService = null;
-
+	private ParameterService parameterService;
 	/**
 	 * This method
 	 * 
@@ -263,8 +265,8 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected SchoolInfoType2 getSchoolInfoType() {
 		SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
 		try {
-			String schoolName = getAwardParameterValue(SCHOOL_NAME);
-			String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
+			String schoolName = getProposalParameterValue(SCHOOL_NAME);
+			String schoolAcronym = getProposalParameterValue(SCHOOL_ACRONYM);
 			if (schoolName != null) {
 				schoolInfoType.setSchoolName(schoolName);
 			}
@@ -277,7 +279,11 @@ public abstract class AwardBaseStream implements XmlStream {
 		return schoolInfoType;
 	}
 
-	/**
+	private String getProposalParameterValue(String param) {
+        return parameterService.getParameterValue(ProposalDevelopmentDocument.class, param);
+    }
+
+    /**
 	 * <p>
 	 * This method will set the values to Award Disclosure attributes and
 	 * finally returns AwardDisclosureType XmlObject
@@ -1524,7 +1530,7 @@ public abstract class AwardBaseStream implements XmlStream {
 			reportTermDetailsType.setFrequencyBaseCode(Integer
 					.valueOf(awardReportTerm.getFrequencyBaseCode()));
 		}
-		if (awardReportTerm.getFrequencyBase().getDescription() != null) {
+		if (awardReportTerm.getFrequencyBase() != null && awardReportTerm.getFrequencyBase().getDescription() != null) {
 			reportTermDetailsType.setFrequencyBaseDesc(awardReportTerm
 					.getFrequencyBase().getDescription());
 		}
@@ -3048,10 +3054,35 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected String getAwardParameterValue(String param) {
 		String value = null;
 		try {
-			value = PrintingUtils.getParameterValue(param);
+			value = parameterService.getParameterValue(AwardDocument.class,param);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}
 		return value;
 	}
+
+    protected String getParameterValue(String param) {
+        String value = null;
+        try {
+            value = PrintingUtils.getParameterValue(AwardDocument.class,param);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return value;
+    }
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

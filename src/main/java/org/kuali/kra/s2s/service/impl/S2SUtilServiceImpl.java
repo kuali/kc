@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,32 +26,43 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.InstituteProposalDocument;
+import noNamespace.InstituteProposalDocument.InstituteProposal;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Country;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -72,14 +83,17 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private KualiConfigurationService kualiConfigurationService;
 	private ParameterService parameterService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private KcPersonService kcPersonService;
+    private SponsorService sponsorService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
 	private static final String YNQ_NOT_REVIEWED = "X";
-	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String KEY_COUNTRY_CODE = "countryCode";
 	private static final String KEY_STATE_CODE = "stateCode";
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
+    private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
+    private static final String CONTACT_TYPE_O = "O";
 	private static final Logger LOG = Logger.getLogger(S2SUtilServiceImpl.class);
 	
 	private static final String MODULE_ITEM_KEY = "moduleItemKey";
@@ -304,6 +318,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
         Award currentAward = null;
+        String federalId = null;
         if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
             currentAward = proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument);
         }
@@ -311,32 +326,56 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
             institutionalProposal = proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument);
         }
-        if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
-            return S2SConstants.FEDERAL_ID_NOT_FOUND;
-        } else if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
+        if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
-                return proposal.getSponsorProposalNumber();
+                federalId = proposal.getSponsorProposalNumber();
             } else if (currentAward != null && !StringUtils.isBlank(currentAward.getSponsorAwardNumber())
                     && federalIdComesFromAward) {
-                return currentAward.getSponsorAwardNumber();
+                federalId = currentAward.getSponsorAwardNumber();
             } else { 
-                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+                return null;
             }
-        } else if (isProposalTypeNew(proposal.getProposalTypeCode())
-                && StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), "3")
+        } else if (isProposalTypeNew(proposal.getProposalTypeCode()) && 
+                isSubmissionTypeChangeCorrected(proposal.getS2sOpportunity().getS2sSubmissionTypeCode())
                 || isProposalTypeResubmission(proposal.getProposalTypeCode())) {
             if (!StringUtils.isBlank(proposal.getSponsorProposalNumber())) {
-                return proposal.getSponsorProposalNumber();
+                federalId = proposal.getSponsorProposalNumber();
             } else if (institutionalProposal != null && !StringUtils.isBlank(institutionalProposal.getSponsorProposalNumber())) {
-                return institutionalProposal.getSponsorProposalNumber();
-            } else {
-                return S2SConstants.FEDERAL_ID_NOT_FOUND;
+                federalId = institutionalProposal.getSponsorProposalNumber();
+            }
+            if(isProposalTypeResubmission(proposal.getProposalTypeCode())){
+                if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
+                    return null;
+                }
             }
         }
-        return S2SConstants.FEDERAL_ID_NOT_FOUND;
+        if(federalId != null && sponsorService.isSponsorNih(proposal)){
+            return fromatFederalId(federalId);
+        }
+        return federalId;
     } 
 
-	/**
+    /**
+     * 
+     * This method is to format sponsor award number
+     * assume sponsor award number format is like this : 5-P01-ES05622-09, it should be formatted to ES05622 
+     * @param federalId
+     * @return
+     */
+	private String fromatFederalId(String federalId) {
+	    if(federalId.length()>7){
+	        int in = federalId.indexOf('-', 8);
+	        if(in!=-1)
+	            federalId= federalId.substring(6, in);
+	    }
+        return federalId;
+    }
+
+    private boolean isSubmissionTypeChangeCorrected(String submissionTypeCode) {
+	    return StringUtils.equalsIgnoreCase(submissionTypeCode, getParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED));
+    }
+
+    /**
 	 * This method fetches system constant parameters
 	 * 
 	 * @param parameter
@@ -543,15 +582,47 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		if (pdDoc != null) {
 			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
 					.getProposalPersons()) {
-				if (person.getProposalPersonRoleId().equals(
-						PRINCIPAL_INVESTIGATOR)) {
+				if (ContactRole.PI_CODE.equals(person.getProposalPersonRoleId())) {
 					proposalPerson = person;
 				}
 			}
 		}
 		return proposalPerson;
 	}
-
+	/**
+	 * Finds all the Investigators associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return
+	 */
+	public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
+		List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
+		if (pdDoc != null) {
+			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+					.getProposalPersons()) {
+				if(ContactRole.COI_CODE.equals(person.getProposalPersonRoleId())){
+					investigators.add(person);
+				}
+			}
+		}
+		return investigators;
+	}
+	/**
+	 * Finds all the key Person associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return
+	 */
+	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc) {
+		List<ProposalPerson> keyPersons = new ArrayList<ProposalPerson>();
+		if (pdDoc != null) {
+			for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+					.getProposalPersons()) {
+				if(ContactRole.KEY_PERSON_CODE.equals(person.getProposalPersonRoleId())){
+					keyPersons.add(person);
+				}
+			}
+		}
+		return keyPersons;
+	}
 	/**
 	 * This method is to get a Country object from the country code
 	 * 
@@ -664,6 +735,19 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return stringBuilder.toString();
 	}
+	
+	public String convertStringListToString(List<String> stringList) {
+	    String retVal = "";
+	    if (stringList != null) {
+	        for (int i = 0; i < stringList.size(); i++) {
+	            retVal += stringList.get(i);
+	            if (i != stringList.size()-1) {
+	                retVal += ", "; 
+	            }
+	        }
+	    }
+	    return retVal;
+	}
 
 	/**
 	 * Finds all the Questionnaire Answers associates with provided
@@ -714,4 +798,108 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		}
 		return highestQuestionnairSequenceNumber;
 	}
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    public DepartmentalPerson getContactPerson(
+            ProposalDevelopmentDocument pdDoc) {
+        String contactType = getContactType();
+        boolean isNumber = true;
+        try {
+            Integer.parseInt(contactType);
+        } catch (NumberFormatException e) {
+            isNumber = false;
+        }
+        DepartmentalPerson depPerson = new DepartmentalPerson();
+        if (isNumber) {
+            for (ProposalPerson person : pdDoc.getDevelopmentProposal()
+                    .getProposalPersons()) {
+                for (ProposalPersonUnit unit : person.getUnits()) {
+                    if (unit.isLeadUnit()) {
+                        Unit leadUnit = unit.getUnit();
+                        leadUnit.refreshReferenceObject("unitAdministrators");
+                        for (UnitAdministrator admin : leadUnit
+                                .getUnitAdministrators()) {
+                            if (contactType.equals(admin
+                                    .getUnitAdministratorTypeCode())) {
+                                KcPerson unitAdmin = getKcPersonService().getKcPersonByPersonId(admin.getPersonId());
+                                depPerson.setLastName(unitAdmin.getLastName());
+                                depPerson.setFirstName(unitAdmin.getFirstName());
+                                if (unitAdmin.getMiddleName() != null) {
+                                    depPerson.setMiddleName(unitAdmin.getMiddleName());
+                                }
+                                depPerson.setEmailAddress(unitAdmin.getEmailAddress());
+                                depPerson.setOfficePhone(unitAdmin.getOfficePhone());
+                                depPerson.setFaxNumber(unitAdmin.getFaxNumber());
+                                depPerson.setPrimaryTitle(unitAdmin.getPrimaryTitle());
+                                depPerson.setAddress1(unitAdmin.getAddressLine1());
+                                depPerson.setAddress2(unitAdmin.getAddressLine2());
+                                depPerson.setAddress3(unitAdmin.getAddressLine3());
+                                depPerson.setCity(unitAdmin.getCity());
+                                depPerson.setCounty(unitAdmin.getCounty());
+                                depPerson.setCountryCode(unitAdmin.getCountryCode());
+                                depPerson.setPostalCode(unitAdmin.getPostalCode());
+                                depPerson.setState(unitAdmin.getState());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return depPerson;
+    }
+
+    /**
+     * Gets the kcPersonService attribute. 
+     * @return Returns the kcPersonService.
+     */
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    /**
+     * Sets the kcPersonService attribute value.
+     * @param kcPersonService The kcPersonService to set.
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+	
+    /**
+     * 
+     * This method returns the type of contact person for a proposal
+     * 
+     * @return String contact type for the proposal
+     */
+    protected String getContactType() {
+        String contactType = getParameterValue(PROPOSAL_CONTACT_TYPE);
+        if (contactType == null || contactType.length() == 0) {
+            contactType = CONTACT_TYPE_O;
+        }
+        return contactType;
+    }
+
+    /**
+     * Gets the sponsorService attribute. 
+     * @return Returns the sponsorService.
+     */
+    public SponsorService getSponsorService() {
+        return sponsorService;
+    }
+
+    /**
+     * Sets the sponsorService attribute value.
+     * @param sponsorService The sponsorService to set.
+     */
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
+    }
 }

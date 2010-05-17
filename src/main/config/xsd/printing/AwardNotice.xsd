@@ -5,7 +5,7 @@
 	<xs:element name="AwardNotice">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="SchoolInfo" type="SchoolInfoType" minOccurs="0"/>
+				<xs:element name="SchoolInfo" type="SchoolInfoType2" minOccurs="0"/>
 				<xs:element name="AwardDisclosure" type="AwardDisclosureType" minOccurs="0"/>
 				<xs:element name="Award" type="AwardType" minOccurs="0"/>
 				<xs:element name="AODetails" minOccurs="0">
@@ -145,7 +145,7 @@
 			<xs:element name="PrintChecklist" type="xs:boolean" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="CommentType">
+	<xs:complexType name="CommentType2">
 		<xs:sequence>
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
 			<xs:element name="CommentDetails" type="CommentDetailsType" minOccurs="0"/>
@@ -219,7 +219,7 @@
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="TermDetailsType">
+	<xs:complexType name="TermDetailsType2">
 		<xs:sequence>
 			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
 			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
@@ -227,13 +227,13 @@
 			<xs:element name="TermDescription" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="TermType">
+	<xs:complexType name="TermType2">
 		<xs:sequence>
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
-			<xs:element name="TermDetails" type="TermDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TermDetails" type="TermDetailsType2" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ReportTermDetailsType">
+	<xs:complexType name="ReportTermDetailsType2">
 		<xs:sequence>
 			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
 			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
@@ -263,10 +263,10 @@
 			<xs:element name="DueDate" type="xs:date" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ReportTermType">
+	<xs:complexType name="ReportTermType2">
 		<xs:sequence>
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
-			<xs:element name="ReportTermDetails" type="ReportTermDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ReportTermDetails" type="ReportTermDetailsType2" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SpecialReviewType">
@@ -285,7 +285,7 @@
 			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="RolodexDetailsType">
+	<xs:complexType name="RolodexDetailsType2">
 		<xs:sequence>
 			<xs:element name="RolodexId" type="xs:string" minOccurs="0"/>
 			<xs:element name="LastName" type="xs:string" minOccurs="0"/>
@@ -430,7 +430,7 @@
 			<xs:element name="AwardComments" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="Comment" type="CommentType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Comment" type="CommentType2" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -465,14 +465,14 @@
 			<xs:element name="AwardTermsDetails" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="Term" type="TermType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Term" type="TermType2" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="AwardReportingDetails" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="ReportDetails" type="ReportTermType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="ReportDetails" type="ReportTermType2" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -655,7 +655,7 @@
 									<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
 									<xs:element name="ContactType" type="xs:int" minOccurs="0"/>
 									<xs:element name="ContactTypeDesc" type="xs:string" minOccurs="0"/>
-									<xs:element name="RolodexDetails" type="RolodexDetailsType" minOccurs="0"/>
+									<xs:element name="RolodexDetails" type="RolodexDetailsType2" minOccurs="0"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -732,7 +732,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="SchoolInfoType">
+	<xs:complexType name="SchoolInfoType2">
 		<xs:sequence>
 			<xs:element name="SchoolName" type="xs:string" minOccurs="0"/>
 			<xs:element name="Acronym" type="xs:string" minOccurs="0"/>

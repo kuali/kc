@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,10 @@ package org.kuali.kra.award.contacts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
@@ -288,6 +290,16 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
      */
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
+        Map<String,String> pk = new HashMap<String, String>();
+        pk.put("unitNumber", unitNumber);
+        Unit unit = (Unit)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(Unit.class, pk);
+        if (unit != null) {
+            this.unit = unit;
+        }
+        else {
+            this.unit = null;
+            this.unitNumber = null;
+        }
     }
 
     @Override

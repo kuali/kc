@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
     // this matches the hierarchy of meta-rules defined
     // in KRAMetaRuleHierarchy.xml

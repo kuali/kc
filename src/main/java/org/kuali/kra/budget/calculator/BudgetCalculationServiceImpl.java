@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,14 @@ import java.util.TreeSet;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -45,12 +48,11 @@ import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
@@ -58,6 +60,15 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  * This class implements all methods declared in BudgetCalculationService
  */
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
+    
+    private static final String EQUIPMENT = "E";
+    private static final String TRAVEL = "T";
+    private static final String PARTICIPANT_SUPPORT = "S";
+    private static final String OTHER_DIRECT = "O";
+    private static final String CALCULATED_COST = "CalculatedCost";
+    private static final String INDIRECT_COST = "IndirectCost";
+    private static final String SALARY = "Salary";
+    private static final String FRINGE = "Fringe";
     private BusinessObjectService businessObjectService;
     private BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
     
@@ -637,17 +648,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
                     for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
-                        if (budgetLineItemCalculatedAmount.getRateType() == null) {
-                            budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
-                        }
-                        if (budgetLineItemCalculatedAmount.getRateType() != null && budgetLineItemCalculatedAmount.getRateType().getRateClass() == null) {
-                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
-                        }
-                        RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+//                        if (budgetLineItemCalculatedAmount.getRateType() == null) {
+//                            budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+//                        }
+//                        if (budgetLineItemCalculatedAmount.getRateType() != null && budgetLineItemCalculatedAmount.getRateType().getRateClass() == null) {
+//                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
+//                        }
+                        RateType rateType = createRateType(budgetLineItemCalculatedAmount);
                         RateClass rateClass = null;
                         if(rateType != null) {
-                            budgetLineItemCalculatedAmount.getRateType().refreshReferenceObject("rateClass");
-                            rateClass = budgetLineItemCalculatedAmount.getRateType().getRateClass();
+                            rateType.refreshReferenceObject("rateClass");
+                            rateClass = rateType.getRateClass();
                         }
                         
                         if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassType(), "E")) || !personnelFlag) && !rateTypes.contains(rateType)) {
@@ -661,7 +672,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                                     rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
                                 }
-                                calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                                calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                             }
                             calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                             
@@ -680,6 +691,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return calculatedExpenseTotals;
     }
 
+    private RateType createRateType(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
+        RateType rateType = new RateType();
+        rateType.setRateClassCode(budgetLineItemCalculatedAmount.getRateClassCode());
+        rateType.setRateTypeCode(budgetLineItemCalculatedAmount.getRateTypeCode());
+        rateType.setDescription(budgetLineItemCalculatedAmount.getRateTypeDescription());
+        rateType.setRateClass(budgetLineItemCalculatedAmount.getRateClass());
+        return rateType;
+    }
     /**
      * 
      * @see org.kuali.kra.budget.calculator.BudgetCalculationService#calculateBudgetTotals(org.kuali.kra.budget.core.Budget)
@@ -722,10 +741,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
                 for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
-                    if (budgetLineItemCalculatedAmount.getRateType() == null) {
-                        budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
-                    }
-                    RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+//                    if (budgetLineItemCalculatedAmount.getRateType() == null) {
+//                        budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+//                    }
+                    RateType rateType = createRateType(budgetLineItemCalculatedAmount);
                     if (!rateTypes.contains(rateType)) {
                         rateTypes.add(rateType);
                         Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
@@ -737,7 +756,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                                 rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
                             }
-                            calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                            calculatedExpenseTotals.put(rateType, rateTypePeriodTotals);
                         }
                         calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                         budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));
@@ -833,4 +852,177 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return budgetForm;
     }
     
+    // Attempt for budget limit panel
+    public List<Map <String, List<BudgetDecimal>>> getBudgetLimitsTotals(String budgetId) {
+        final Map<Object, Object> fieldValues = new HashMap<Object, Object>();
+        List<Map <String, List<BudgetDecimal>>> retList = new ArrayList<Map <String, List<BudgetDecimal>>>();
+      fieldValues.put("budgetId", budgetId);
+      Budget budget
+          = (Budget)this.businessObjectService.findByPrimaryKey(AwardBudgetExt.class, fieldValues);
+
+        
+        calculateBudgetTotals(budget);
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = getPersonnelMap();
+        Map <String, List<BudgetDecimal>>  nonPersonnelBudgetLimits = getNonPersonnelMap();
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+//            budgetPeriod.refreshReferenceObject("budgetLineItems");
+            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt)budgetLineItem;
+                if (!"P".equals(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode())) {
+                    addBudgetLimits(nonPersonnelBudgetLimits.get(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode()), awardBudgetLineItem, false);
+                    getNonPersonnelCalAmt(nonPersonnelBudgetLimits, awardBudgetLineItem, false);
+                    } else {
+                    addBudgetLimits(personnelBudgetLimits.get(SALARY), awardBudgetLineItem, false);    
+                    getFringeAndCalculatedCost(personnelBudgetLimits, awardBudgetLineItem, false);
+                }
+            }
+        }
+        if (((AwardBudgetExt)budget).getPrevBudget().getBudgetId() != null) {
+            getPreviousBudgetLimits(((AwardBudgetExt)budget).getPrevBudget().getBudgetId(),
+                    personnelBudgetLimits, nonPersonnelBudgetLimits);
+        }
+        Map <String, List<BudgetDecimal>>  totallBudgetLimits = getTotalMap();
+
+        addTotals(personnelBudgetLimits, totallBudgetLimits);
+        addTotals(nonPersonnelBudgetLimits, totallBudgetLimits);
+        retList.add(personnelBudgetLimits);
+        retList.add(nonPersonnelBudgetLimits);
+        retList.add(totallBudgetLimits);
+        return retList;
+    }
+    
+    private void getPreviousBudgetLimits(Long budgetId, Map<String, List<BudgetDecimal>>  personnelBudgetLimits, Map<String, List<BudgetDecimal>>  nonPersonnelBudgetLimits) {
+        Map keyMap = new HashMap();
+        keyMap.put("budgetId", budgetId);
+        AwardBudgetExt budget = (AwardBudgetExt)getBusinessObjectService().findByPrimaryKey(AwardBudgetExt.class, keyMap);
+        if (budget != null) {
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+//              budgetPeriod.refreshReferenceObject("budgetLineItems");
+              for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                  AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt)budgetLineItem;
+                  if (!"P".equals(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode())) {
+                      addBudgetLimits(nonPersonnelBudgetLimits.get(awardBudgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode()), awardBudgetLineItem, true);
+                      getNonPersonnelCalAmt(nonPersonnelBudgetLimits, awardBudgetLineItem, true);
+                      } else {
+                      addBudgetLimits(personnelBudgetLimits.get(SALARY), awardBudgetLineItem, true);    
+                      getFringeAndCalculatedCost(personnelBudgetLimits, awardBudgetLineItem, true);
+                  }
+              }
+          }
+            
+        }
+    }
+    private List<BudgetDecimal> initBudgetLimits() {
+        
+        List<BudgetDecimal> budgetLimits = new ArrayList<BudgetDecimal>();
+        budgetLimits.add(BudgetDecimal.ZERO);
+        budgetLimits.add(BudgetDecimal.ZERO);
+        budgetLimits.add(BudgetDecimal.ZERO);
+        return budgetLimits;
+    }
+
+    private void addTotals(Map<String, List<BudgetDecimal>> budgetLimitMap, Map<String, List<BudgetDecimal>> totalsMap) {
+        List<BudgetDecimal> budgetLimits = initBudgetLimits();
+        for (Map.Entry entry : budgetLimitMap.entrySet()) {
+            List<BudgetDecimal> limit = (List<BudgetDecimal>) entry.getValue();
+            if (!INDIRECT_COST.equalsIgnoreCase((String) entry.getKey())) {
+                addToLimit(budgetLimits, limit);
+            } else {
+                addToLimit(totalsMap.get("FAndA"), limit);
+                addToLimit(totalsMap.get("Totals"), limit);
+            }
+        }
+        budgetLimitMap.put("Totals", budgetLimits);
+        addToLimit(totalsMap.get("Direct"), budgetLimits);
+        addToLimit(totalsMap.get("Totals"), budgetLimits);
+       // addToLimit(totalsMap.get("Totals"), totalsMap.get("FAndA"));
+    }
+    
+    private void addToLimit(List<BudgetDecimal> budgetLimits, List<BudgetDecimal> limits) {
+        budgetLimits.set(0, budgetLimits.get(0).add(limits.get(0)));
+        budgetLimits.set(1, budgetLimits.get(1).add(limits.get(1)));
+        budgetLimits.set(2, budgetLimits.get(2).add(limits.get(2)));                    
+    }
+    
+    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
+        if (isPrevBudget) {
+            budgetLimits.set(1, budgetLimits.get(1).add(awardBudgetLineItem.getLineItemCost()));
+        } else {
+            budgetLimits.set(0, budgetLimits.get(0).add(awardBudgetLineItem.getLineItemCost()));
+        }
+        budgetLimits.set(2, budgetLimits.get(2).add(awardBudgetLineItem.getLineItemCost()));
+
+    }
+
+    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
+        if (isPrevBudget) {
+            budgetLimits.set(1, budgetLimits.get(1).add(awardCalcAmt.getCalculatedCost()));
+        } else {
+            budgetLimits.set(0, budgetLimits.get(0).add(awardCalcAmt.getCalculatedCost()));
+        }
+        budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getCalculatedCost()));
+    }
+
+    private Map <String, List<BudgetDecimal>> getNonPersonnelMap() {
+        Map <String, List<BudgetDecimal>>  nonPersonnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        nonPersonnelBudgetLimits.put(EQUIPMENT, initBudgetLimits());
+        nonPersonnelBudgetLimits.put(TRAVEL, initBudgetLimits());
+        nonPersonnelBudgetLimits.put(PARTICIPANT_SUPPORT, initBudgetLimits());
+        nonPersonnelBudgetLimits.put(OTHER_DIRECT, initBudgetLimits());
+        nonPersonnelBudgetLimits.put(CALCULATED_COST, initBudgetLimits());
+        nonPersonnelBudgetLimits.put(INDIRECT_COST, initBudgetLimits());
+        return nonPersonnelBudgetLimits;
+    }
+    
+    private Map <String, List<BudgetDecimal>> getPersonnelMap() {
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        personnelBudgetLimits.put(SALARY, initBudgetLimits());
+        personnelBudgetLimits.put(FRINGE, initBudgetLimits());
+        personnelBudgetLimits.put(CALCULATED_COST, initBudgetLimits());
+        personnelBudgetLimits.put(INDIRECT_COST, initBudgetLimits());
+        return personnelBudgetLimits;
+    }
+    
+    private Map <String, List<BudgetDecimal>> getTotalMap() {
+        Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
+        personnelBudgetLimits.put("Direct", initBudgetLimits());
+        personnelBudgetLimits.put("FAndA", initBudgetLimits());
+        personnelBudgetLimits.put("Totals", initBudgetLimits());
+        return personnelBudgetLimits;
+    }
+    
+    private void getFringeAndCalculatedCost(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+            AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
+        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                calcExpenseAmount.refreshReferenceObject("rateClass");
+                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
+                // Check for Employee Benefits RateClassType
+                if (calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                    addBudgetLimits(personnelBudgetLimits.get(FRINGE), awardCalcAmt, isPrevBudget);
+                }
+                else if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
+                    addBudgetLimits(personnelBudgetLimits.get(CALCULATED_COST), awardCalcAmt, isPrevBudget);
+
+                } else {
+                    addBudgetLimits(personnelBudgetLimits.get(INDIRECT_COST), awardCalcAmt, isPrevBudget);
+                }
+        }
+    }
+
+    private void getNonPersonnelCalAmt(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+            AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
+        for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                calcExpenseAmount.refreshReferenceObject("rateClass");
+                AwardBudgetLineItemCalculatedAmountExt awardCalcAmt = (AwardBudgetLineItemCalculatedAmountExt) calcExpenseAmount;
+                // Check for Employee Benefits RateClassType
+                if (!calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")){
+                    addBudgetLimits(personnelBudgetLimits.get(CALCULATED_COST), awardCalcAmt, isPrevBudget);
+
+                } else {
+                    addBudgetLimits(personnelBudgetLimits.get(INDIRECT_COST), awardCalcAmt, isPrevBudget);
+                }
+        }
+    }
+
+
 }

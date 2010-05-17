@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2008 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
   	
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="canEdit" value="${KualiForm.editingMode['modifyIP'] && KualiForm.displayEditButton}" scope="request" />
+
+<div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Institutional Proposal" /></div>
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />

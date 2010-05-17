@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
@@ -430,17 +431,22 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 
         retval &= new BudgetRateAuditRule().processRunAuditBusinessRules(document);
         
-        retval &= new BudgetUnrecoveredFandAAuditRule().processRunAuditBusinessRules(document);
+        // Skipping D and I audits for Awards Budgets since we've temporarily removed the Award D&I tab
+        if (!(document instanceof AwardBudgetDocument)) {
         
-        retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
+            retval &= new BudgetUnrecoveredFandAAuditRule().processRunAuditBusinessRules(document);
+        
+            retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
 
+        }
+        
         retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
 
-        if(!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
+        if (!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
         }
-        if(retval) {
+        if (retval) {
             processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
         }
         
@@ -467,7 +473,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 }
             }
         }
-        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
             auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             retval = false;
         }

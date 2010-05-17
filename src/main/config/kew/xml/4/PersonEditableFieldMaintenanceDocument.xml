@@ -6,6 +6,7 @@
 			<description>Create a New Person Editable Field</description>
 			<label>Person Editable Field</label>
 			<parent>KcMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/persontableeditablecolumns.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

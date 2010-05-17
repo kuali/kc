@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -234,6 +234,9 @@ public class AwardHomeAction extends AwardAction {
         awardMultiLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         Award awardDocument = awardMultiLookupForm.getAwardDocument().getAward();
         getKeywordService().addKeywords(awardDocument, awardMultiLookupForm);
+        
+        awardDocument.refreshReferenceObject("sponsor");
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -252,6 +255,8 @@ public class AwardHomeAction extends AwardAction {
 //        if(GlobalVariables.getMessageMap().getErrorCount() == 0) {
 //            ((AwardForm) form).getFundingProposalBean().updateProposalStatuses();   // TODO: This save isn't in same transaction as document save
 //        }
+        AwardDocument awardDocument = ((AwardForm)form).getAwardDocument();
+        awardDocument.getAward().refreshReferenceObject("sponsor");
 
         return forward;
     }
@@ -383,38 +388,16 @@ public class AwardHomeAction extends AwardAction {
                                                         AwardDocument awardDocument, Award award) throws Exception {
         Award newVersion = getVersioningService().createNewVersion(award);
         newVersion.getFundingProposals().clear();
-        copyTimeAndMoneyData(award, newVersion);
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
         newVersion.setAwardTransactionTypeCode(0);
-        getDocumentService().saveDocument(newAwardDocument);
+//        getDocumentService().saveDocument(newAwardDocument);
         copyBudgetData(awardDocument, newAwardDocument);
+        getDocumentService().saveDocument(newAwardDocument);
         getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
         return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
-    }
-
-    /*
-     * This method copies over the time and money data that is data in AwardAmountInfo list from old Award to new Award.
-     * @param award
-     * @param newVersion
-     */
-    private void copyTimeAndMoneyData(Award award, Award newVersion) {
-        for(AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()){
-            AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
-            newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
-            newAwardAmountInfo.setSequenceNumber(awardAmountInfo.getSequenceNumber());
-            newAwardAmountInfo.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
-            newAwardAmountInfo.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            newAwardAmountInfo.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
-            newAwardAmountInfo.setTimeAndMoneyDocumentNumber(awardAmountInfo.getTimeAndMoneyDocumentNumber());
-            newAwardAmountInfo.setTransactionId(awardAmountInfo.getTransactionId());
-            
-            newAwardAmountInfo.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate()); 
-            newVersion.getAwardAmountInfos().add(newAwardAmountInfo);
-        }
     }
     
     private void copyBudgetData(AwardDocument award, AwardDocument newVersion) throws Exception {

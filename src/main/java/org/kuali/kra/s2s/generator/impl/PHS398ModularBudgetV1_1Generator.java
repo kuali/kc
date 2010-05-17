@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.DirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5.IndirectCostItems5;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -186,30 +187,43 @@ public class PHS398ModularBudgetV1_1Generator extends
 	private BudgetJustifications getBudgetJustifications() {
 		BudgetJustifications budgetJustifications = BudgetJustifications.Factory
 				.newInstance();
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null) {
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PERSONNEL_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					PersonnelJustification personnelJustification = PersonnelJustification.Factory
 							.newInstance();
 					personnelJustification
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setPersonnelJustification(personnelJustification);
 				}
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == CONSORTIUM_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					ConsortiumJustification consortiumJustification = ConsortiumJustification.Factory
 							.newInstance();
 					consortiumJustification
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setConsortiumJustification(consortiumJustification);
 				}
 				if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_JUSTIFICATION_CODE) {
+		            attachedFileDataType = getAttachedFileType(narrative);
+		            if(attachedFileDataType == null){
+		                continue;
+		            }
 					AdditionalNarrativeJustification narrativeJustification = AdditionalNarrativeJustification.Factory
 							.newInstance();
 					narrativeJustification
-							.setAttFile(getAttachedFileType(narrative));
+							.setAttFile(attachedFileDataType);
 					budgetJustifications
 							.setAdditionalNarrativeJustification(narrativeJustification);
 				}

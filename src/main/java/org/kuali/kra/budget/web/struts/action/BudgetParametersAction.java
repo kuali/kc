@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -52,6 +54,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -131,18 +135,42 @@ public class BudgetParametersAction extends BudgetAction {
                     KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                                                                                                    budget.getOnOffCampusFlag());
                 }
-                if (budget.getFinalVersionFlag()) {
+                boolean valid = true;
+                if (Boolean.valueOf(budgetDocument.getProposalBudgetFlag())) {
+                    valid = isValidToComplete(budgetDocument.getParentDocument());
+                    int errorSize = GlobalVariables.getMessageMap().size();
+                    final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+                    tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getParentDocument());
+                    if (GlobalVariables.getMessageMap().size() > errorSize) {
+                        valid = false;
+                    }
+                }
+                if (budget.getFinalVersionFlag() && valid) {
                     budgetDocument.getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
-
-                updateBudgetPeriodDbVersion(budget);
-                return super.save(mapping, form, request, response);
+                if (valid) {
+                    updateBudgetPeriodDbVersion(budget);
+                    return super.save(mapping, form, request, response);
+                }
+                else {
+                    mapping.findForward(Constants.MAPPING_BASIC);
+                }
             }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private boolean isValidToComplete(BudgetParentDocument document) throws Exception {
+        boolean valid = KraServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
+
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
+                    KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+        }
+        return valid;
+    }
+    
     /**
      * This method returns <CODE>true</CODE> if one of the two rate types has changed since the last save.
      * @param budgetForm
@@ -200,6 +228,12 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
+        if (isRateTypeChanged(budgetForm)) {
+            BudgetDocument originalBudgetDocument = (BudgetDocument) KraServiceLocator.getService(BusinessObjectService.class)
+                    .retrieve(budgetDocument);
+            budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
+            budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
+        }
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
@@ -514,10 +548,10 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetDecimal totalIndirectCost = BudgetDecimal.ZERO;
         BudgetDecimal totalCost = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-//            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO)
-//                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
+            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO)
+                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
                 budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-//            }
+            }
             totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
             totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
             totalCost = totalCost.add(budgetPeriod.getTotalCost());
@@ -537,6 +571,7 @@ public class BudgetParametersAction extends BudgetAction {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());
                 version.setBudgetStatus(budget.getBudgetStatus());
+                version.setModularBudgetFlag(budget.getModularBudgetFlag());
             }
         }
     }
@@ -685,6 +720,33 @@ public class BudgetParametersAction extends BudgetAction {
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        BudgetForm budgetForm = (BudgetForm)form;
+        if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
+            String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
+            
+            @SuppressWarnings("unchecked")
+            Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
+            
+            Collection<BusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            
+            if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
+            	String budgetPeriod = budgetForm.getLookedUpCollectionName();
+                getAwardBudgetService().copyLineItemsFromProposalPeriods(rawValues, 
+                        budgetForm.getBudgetDocument().getBudget().getBudgetPeriod(Integer.parseInt(budgetPeriod)));
+            }
+        }
+        return super.refresh(mapping, form, request, response);
+    }
+    
+    private AwardBudgetService getAwardBudgetService() {
+        return KraServiceLocator.getService(AwardBudgetService.class);
+    }    
 
     
 }

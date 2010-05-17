@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,13 +80,17 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                     rrKeyPersonExpanded.setSupportsAttached(supportsAttached);
                 }
             }
-
+            AttachedFileDataType attachedFileDataType = null;
             for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-                        additionalProfilesAttached.setAdditionalProfileAttached(getAttachedFileType(narrative));
-                        rrKeyPersonExpanded.setAdditionalProfilesAttached(additionalProfilesAttached);
+                    	attachedFileDataType = getAttachedFileType(narrative);
+                    	if(attachedFileDataType != null){
+	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+	                        rrKeyPersonExpanded.setAdditionalProfilesAttached(additionalProfilesAttached);
+	                        break;
+                    	}
                     }
                 }
             }
@@ -309,5 +313,11 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
         rrKeyPersonExpandedDocument.setRRKeyPersonExpanded(rrKeyPersonExpanded);
         return rrKeyPersonExpandedDocument;
     }
+
+	@Override
+	protected XmlObject getKeypersonProfileObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

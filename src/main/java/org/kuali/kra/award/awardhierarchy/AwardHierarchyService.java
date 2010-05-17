@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface AwardHierarchyService {
     static boolean RECURS_HIERARCHY = true;
@@ -124,6 +125,7 @@ public interface AwardHierarchyService {
      * @param awardHierarchyItems
      * @param awardHierarchyNodes
      * @param currentAward
+     * @throws WorkflowException 
      */
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber);
 }

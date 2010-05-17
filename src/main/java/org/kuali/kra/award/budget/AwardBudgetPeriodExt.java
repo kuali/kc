@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4306012301567173292L;
-    private BudgetDecimal obligatedAmount=BudgetDecimal.ZERO;
+    private BudgetDecimal obligatedAmount;
     /**
      * Gets the obligatedAmount attribute. 
      * @return Returns the obligatedAmount.
