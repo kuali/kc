@@ -30,16 +30,6 @@ public interface TaskAuthorizationService {
      * @return true if the user is authorized; otherwise false
      */
     boolean isAuthorized(String userId, Task task);
-    
-    /**
-     * 
-     * Is the user authorized to perform the given generic task?
-     * @param userId
-     * @param task
-     * @param genericTaskName
-     * @return
-     */
-    boolean isAuthorizedForGenericAction(String userId, Task task, String genericTaskName);
 
     /**
      * Is the given task defined within the system?
