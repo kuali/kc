@@ -201,14 +201,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         //save all transaction details from No Cost extension date changes.
         getBusinessObjectService().save(dateChangeTransactionDetailItems);
         timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");//don't think I need to do this.
-        Award tmpAward = getCurrentAward(timeAndMoneyDocument);
-//        if(tmpAward != null) {
-//            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
-//        } else {
-//            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null);
-//        }
-        setHierarchyProjectEndDate(timeAndMoneyDocument, tmpAward);
-
 
         return forward;
     }
@@ -424,7 +416,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             } else {
                 getAwardHierarchyService().populateAwardHierarchyNodes(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), null, null);
             }
-            setHierarchyProjectEndDate(doc, tmpAward);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -491,7 +482,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         } else {
             getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null);
         }
-        setHierarchyProjectEndDate(timeAndMoneyDocument, tmpAward);
 
         GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
         
@@ -500,24 +490,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         return forward;
     }
          
-    private void setHierarchyProjectEndDate(TimeAndMoneyDocument timeAndMoneyDocument, Award tmpAward) {
-        Date endDate = null;
-        Long awardId = null;
-        for (String key : timeAndMoneyDocument.getAwardHierarchyNodes().keySet()) {
-            if (key !=null) {
-                if (endDate == null || timeAndMoneyDocument.getAwardHierarchyNodes().get(key).getFinalExpirationDate().after(endDate)) {
-                     endDate = timeAndMoneyDocument.getAwardHierarchyNodes().get(key).getFinalExpirationDate();
-                }
-            }
-            }
-        
-        if (endDate != null) {
-            tmpAward.setHierarchyProjectEndDate(endDate);
-        } else {
-            tmpAward.setHierarchyProjectEndDate(tmpAward.getProjectEndDate());            
-        }
-       
-    }
     
     /*
      * This method retrieves AwardHierarchyService
@@ -756,16 +728,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-//        timeAndMoneyForm.getTimeAndMoneyDocument().getAward().setHierarchyProjectEndDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getFinalExpirationDate());       
-        Award tmpAward = getCurrentAward(timeAndMoneyDocument);
-//        if(tmpAward != null) {
-//            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
-//        } else {
-//            getAwardHierarchyService().populateAwardHierarchyNodes(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null);
-//        }
-        setHierarchyProjectEndDate(timeAndMoneyDocument, tmpAward);
         awardDirectFandADistributionBean.addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

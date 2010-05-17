@@ -212,8 +212,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
-    // for Time&money direct f&a distribution
-    private Date hierarchyProjectEndDate;   
 
     /**
      * 
@@ -2839,14 +2837,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public String getLookupOspAdministratorName() {
         return lookupOspAdministratorName;
-    }
-
-    public Date getHierarchyProjectEndDate() {
-        return hierarchyProjectEndDate;
-    }
-
-    public void setHierarchyProjectEndDate(Date hierarchyProjectEndDate) {
-        this.hierarchyProjectEndDate = hierarchyProjectEndDate;
     }
 
 

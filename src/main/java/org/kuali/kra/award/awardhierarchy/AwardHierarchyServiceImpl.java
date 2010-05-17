@@ -624,7 +624,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 //                award = activeAward;  
 //            }  
 
-            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(award);            
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
             
             awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
             awardHierarchyNode.setLeadUnitName(award.getUnitName());
