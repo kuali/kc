@@ -351,11 +351,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetEndDate = awardDirectFandADistribution.getEndDate();
-        //Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();
-        Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getHierarchyProjectEndDate();
-        if (projectEndDate == null) {
-            projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();            
-        }
+        Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();
         boolean valid = true;
         if (projectEndDate.before(targetEndDate)) {
             valid = false;
