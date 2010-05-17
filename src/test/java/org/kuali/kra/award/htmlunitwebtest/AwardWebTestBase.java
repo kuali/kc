@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,6 +77,8 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
     private static final String GOOGLE_SPONSOR_CODE = "005979";
     private static final String SPONSOR_AWARD_NUMBER = "1R01CA123456";
     private static final String DATE_VALUE = "03/01/2009";
+    private static final String DATE_VALUE_AFTER = "04/01/2009";
+
     private static final String END_DATE_VALUE = "09/01/2010";
     
     private static final String POUND_SIGN = "#";
@@ -165,7 +167,7 @@ public abstract class AwardWebTestBase extends KraWebTestBase {
         setFieldValue(page, MOD_NUMBER_ID, ONE);
         setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
         setFieldValue(page, SPONSOR_AWARD_NUMBER_ID, SPONSOR_AWARD_NUMBER);
-        setFieldValue(page, AWARD_EXEC_DATE_ID, DATE_VALUE);
+        setFieldValue(page, AWARD_EXEC_DATE_ID, DATE_VALUE_AFTER);
         setFieldValue(page, AWARD_EFF_DATE_ID, DATE_VALUE);
         setFieldValue(page, ACTIVITY_TYPE_CODE_ID, ONE);
         setFieldValue(page, BEGIN_DATE_ID, DATE_VALUE);

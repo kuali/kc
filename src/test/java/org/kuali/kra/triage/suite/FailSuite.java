@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(  {
 
-    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
     org.kuali.kra.award.contacts.AwardCentralAdminContactsWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsProjectPersonnelWebTest.class,
     org.kuali.kra.award.contacts.AwardContactsUnitContactsWebTest.class,
@@ -82,7 +81,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.printing.xmlstream.PendingProposalXmlStreamTest.class,
     org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceTest.class,
     org.kuali.kra.committee.bo.CommitteeScheduleTest.class,
-//    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
     org.kuali.kra.infrastructure.KraHierarchyProviderWithMetaRuleTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContactsProjectPersonnelWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCostShareWebTest.class,
@@ -96,24 +94,17 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalUnrecoveredFandAWebTest.class,
     org.kuali.kra.institutionalproposal.printing.service.InstituteProposalPrintingServiceTest.class,
     org.kuali.kra.institutionalproposal.service.InstitutionalProposalServiceTest.class,
-//    org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceTest.class,
     org.kuali.kra.irb.actions.submit.ProtocolAuthzServiceTest.class,
     org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
-    org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceTest.class,
-//    org.kuali.kra.irb.protocol.location.ProtocolLocationRuleTest.class,
     org.kuali.kra.irb.web.ProtocolAmendRenewWebTest.class,
     org.kuali.kra.irb.web.ProtocolCopyWebTest.class,
     org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class,
-    org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
     org.kuali.kra.irb.web.ProtocolHistoryWebTest.class,
     org.kuali.kra.irb.web.ProtocolNotifyIrbWebTest.class,
-//    org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolRequestWebTest.class,
-//    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class,
     org.kuali.kra.irb.web.ProtocolSummaryWebTest.class,
     org.kuali.kra.irb.web.ProtocolWithdrawWebTest.class,
     org.kuali.kra.lookup.keyvalue.ProposalTypeValuesFinderTest.class,
-//    org.kuali.kra.meeting.MeetingWebTest.class,
     org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocumentTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinderTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinderTest.class,
@@ -153,11 +144,13 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.GGLobbyingFormV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.NasaPIandAORSupplementalDataSheetV1_0GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_3GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRBudgetV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRBudgetV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRFedNonFedBudgetV1_0GeneratorTest.class,
@@ -168,6 +161,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.RRKeyPersonV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_2GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.RRSF424V1_0GeneratorTest.class,
@@ -180,6 +174,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.SF424V2_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.SFLLLV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.SFLLLV1_1GeneratorTest.class,
+    org.kuali.kra.s2s.generator.impl.BudgetV1_1GeneratorTest.class,
     org.kuali.kra.s2s.service.FindOpportunityTest.class,
     org.kuali.kra.s2s.service.S2SServiceTest.class,
     org.kuali.kra.s2s.service.SchedulerServiceTest.class,
@@ -203,7 +198,10 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
+    
+    //keep at bottom - somehow breaks the entire suite
+    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class
     
 })
 /**

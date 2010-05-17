@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 
 /**
@@ -33,7 +35,7 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount;
+        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
     }
     /**
      * Sets the obligatedAmount attribute value.
@@ -41,6 +43,14 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
+    }
+    /**
+     * 
+     * This method creates new instance of BudgetPersonnelCalculatedAmount
+     * @return
+     */
+    public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
+        return new AwardBudgetPersonnelCalculatedAmountExt();
     }
 
 }

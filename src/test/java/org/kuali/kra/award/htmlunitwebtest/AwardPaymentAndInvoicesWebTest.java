@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Reports page. 
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class AwardPaymentAndInvoicesWebTest extends AwardPaymentsAndTermsWebTest {
     
     private static final String METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS = "methodToCall.refreshPulldownOptions";    

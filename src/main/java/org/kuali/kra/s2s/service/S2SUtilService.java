@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -222,6 +222,14 @@ public interface S2SUtilService {
 	 * @return String created from StringArray
 	 */
 	public String convertStringArrayToString(String[] stringArray);
+	
+	/**
+	 * 
+	 * Converts String objects in a list into a String separated by commas
+	 * @param stringList
+	 * @return
+	 */
+	public String convertStringListToString(List<String> stringList);	
 
 	/**
 	 * Finds all the Questionnaire Answers associates with provided
@@ -233,5 +241,32 @@ public interface S2SUtilService {
 	 */
 	public List<Answer> getQuestionnaireAnswers(
 			ProposalDevelopmentDocument pdDoc,Integer questionnaireId);
+	
+	/**
+	 * Finds all the co-investigators associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return List of Co-Investigators {@link ProposalPerson}.
+	 */
+	
+	public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc);
+	
+	/**
+	 * Finds all the key Person associated with the provided pdDoc.
+	 * @param ProposalDevelopmentDocument
+	 * @return List of Key Persons {@link ProposalPerson}.
+	 */
+	
+	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc);
 
+    /**
+     * 
+     * This method is used to get the details of Contact person
+     * 
+     * @param pdDoc(ProposalDevelopmentDocument)
+     *            proposal development document.
+     * @param contactType(String)
+     *            for which the DepartmentalPerson has to be found.
+     * @return depPerson(DepartmentalPerson) corresponding to the contact type.
+     */
+    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
 }

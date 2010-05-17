@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -32,6 +33,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -174,11 +176,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken() ) );
         }
         ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
-        
+        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         if( StringUtils.equals( KEWConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken() ) ) {
             try {
             
-                if( hService.isProposalOnInitialRouteNode(this) ) {
+                if( documentRejectionService.isDocumentOnInitialNode(this) ) {
                     DocumentRouteStatusChangeDTO dto = new DocumentRouteStatusChangeDTO();
                     dto.setAppDocId(getDocumentNumber());
                     dto.setDocumentEventCode("REJECTED_APPROVED");
@@ -203,7 +205,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
        
         String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-        getDevelopmentProposal().setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, hService.isProposalOnInitialRouteNode(this)));
+        getDevelopmentProposal().setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, documentRejectionService.isDocumentOnInitialNode(this)));
         if( !StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode() )) {
             getDevelopmentProposal().refresh();
             KraServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
@@ -491,6 +493,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 return RoleConstants.PROPOSAL_ROLE_TYPE;
             }
             
+            public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+            }
         };
     }
 

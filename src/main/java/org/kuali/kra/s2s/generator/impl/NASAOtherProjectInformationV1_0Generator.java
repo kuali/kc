@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,15 +91,16 @@ public class NASAOtherProjectInformationV1_0Generator extends
 		nasaOtherInformationDocument
 				.setNASAOtherProjectInformation(nasaOtherProjectInformation);
 
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRAM_SPECIFIC_DATA) {
-				AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory
-						.newInstance();
 				attachedFileDataType = getAttachedFileType(narrative);
-				nasaOtherProjectInformation
-						.setPSDataAttach(attachedFileDataType);
+				if(attachedFileDataType != null){
+					nasaOtherProjectInformation.setPSDataAttach(attachedFileDataType);
+					break;
+				}
 			}
 		}
 
@@ -329,25 +331,19 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	 *         Narrative Type Code.
 	 */
 	private AttachedFileDataType[] getAppendixFileDataTypes() {
-		int size = 0;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
-				size++;
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					attachedFileDataTypeList.add(attachedFileDataType);
+				}
 			}
 		}
-		AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-		int attachments = 0;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
-				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-				attachments++;
-			}
-		}
-		return attachedFileDataTypes;
+		return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
 	}
 
 	/**
@@ -359,25 +355,19 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	 *         Narrative Type Code.
 	 */
 	private AttachedFileDataType[] getEndorsementFileDataTypes() {
-		int size = 0;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
-				size++;
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					attachedFileDataTypeList.add(attachedFileDataType);
+				}
 			}
 		}
-		AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-		int attachments = 0;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
-				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-				attachments++;
-			}
-		}
-		return attachedFileDataTypes;
+		return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
 	}
 
 	/**
@@ -389,25 +379,19 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	 *         Narrative Type Code.
 	 */
 	private AttachedFileDataType[] getIRBACUCLettersFileDataTypes() {
-		int size = 0;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
-				size++;
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					attachedFileDataTypeList.add(attachedFileDataType);
+				}
 			}
 		}
-		AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-		int attachments = 0;
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
-				attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-				attachments++;
-			}
-		}
-		return attachedFileDataTypes;
+		return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
 	}
 
 	/**

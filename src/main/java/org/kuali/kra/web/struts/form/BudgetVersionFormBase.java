@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,11 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
     private String lookupResultsSequenceNumber;
+    
+    /**
+     * Used to indicate which collection the lookup was being performed for
+     */
+    private String lookedUpCollectionName;
     
     
     @Override
@@ -177,6 +182,14 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
     public String getProposalHierarchyIndirectObjectCode() {
         return proposalHierarchyIndirectObjectCode;
     }
+
+	public String getLookedUpCollectionName() {
+		return lookedUpCollectionName;
+	}
+
+	public void setLookedUpCollectionName(String lookedUpCollectionName) {
+		this.lookedUpCollectionName = lookedUpCollectionName;
+	}
 
 
     

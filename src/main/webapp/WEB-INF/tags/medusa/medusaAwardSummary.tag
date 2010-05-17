@@ -26,7 +26,7 @@
     </tr>
     <tr>
       <th style="text-align: right;">Award ID:</th>
-      <td><c:out value="${node.bo.awardId}"/></td>
+      <td><c:out value="${node.bo.awardNumber}"/></td>
       <th style="text-align: right;">Award Type:</th>
       <td><c:out value="${node.bo.awardType.description}"/></td>
     </tr>
@@ -36,6 +36,12 @@
       <th style="text-align: right;">Activity Type:</th>
       <td><c:out value="${node.bo.activityType.description}"/></td>
     </tr>
+    <tr>
+      <th style="text-align: right;">Account ID:</th>
+      <td><c:out value="${node.bo.accountNumber}"/></td>
+      <th style="text-align: right;">Account Type:</th>
+      <td><c:out value="${node.bo.accountTypeDescription}"/></td>
+    </tr>    
     <tr>
       <th style="text-align: right;">Award Status:</th>
       <td colspan="3"><c:out value="${node.bo.awardStatus.description}"/></td>
@@ -55,7 +61,7 @@
       <th style="text-align: right;">Project Start Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.beginDate}"/></td>
       <th style="text-align: right;">Obligation Start Date:</th>
-      <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.awardEffectiveDate}"/></td>
+      <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.extraInfo.currentFundEffectiveDate}"/></td>
     </tr>
     <tr>
       <th style="text-align: right;">Project End Date:</th>

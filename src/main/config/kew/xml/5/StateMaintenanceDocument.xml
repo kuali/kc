@@ -6,6 +6,7 @@
 			<description>Create a New State</description>
 			<label>State</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/state.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

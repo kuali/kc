@@ -6,6 +6,7 @@
 			<description>Create a New Notice of Opportunity</description>
 			<label>Notice of Opportunity</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/noticeofopportunity.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -172,7 +172,7 @@
         <property name="control" >
             <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatusValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="proposalLogStatusCode"

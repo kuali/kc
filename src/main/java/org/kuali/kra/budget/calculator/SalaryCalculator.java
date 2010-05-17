@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -427,7 +428,11 @@ public class SalaryCalculator {
         // same job/person within the boundary.
         for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
             if (((curBudgetPerson.getPersonId() != null && curBudgetPerson.getPersonId().equals(budgetPerson.getPersonId())) || (curBudgetPerson.getRolodexId() != null && curBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId())) || (curBudgetPerson.getTbnId() != null && curBudgetPerson.getTbnId().equals(budgetPerson.getTbnId())) )
-                 && !budgetPerson.getPersonSequenceNumber().equals(curBudgetPerson.getPersonSequenceNumber()) && budgetPerson.getJobCode().equals(curBudgetPerson.getJobCode()) && budgetPerson.getEffectiveDate().after(curBudgetPerson.getEffectiveDate()) && budgetPerson.getEffectiveDate().compareTo(boundary.getStartDate()) >= 0 && budgetPerson.getEffectiveDate().compareTo(boundary.getEndDate()) <= 0) {
+                 && !budgetPerson.getPersonSequenceNumber().equals(curBudgetPerson.getPersonSequenceNumber())
+                 && StringUtils.equals(budgetPerson.getJobCode(), curBudgetPerson.getJobCode()) 
+                 && (budgetPerson.getEffectiveDate() != null && budgetPerson.getEffectiveDate().after(curBudgetPerson.getEffectiveDate()) 
+                     && budgetPerson.getEffectiveDate().compareTo(boundary.getStartDate()) >= 0 
+                     && budgetPerson.getEffectiveDate().compareTo(boundary.getEndDate()) <= 0)) {
                 return budgetPerson;
             }
         }

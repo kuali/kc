@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -34,7 +34,10 @@
 
 <kul:tabTop tabTitle="Modular Budget Overview (${periodLabel})" defaultOpen="true" tabErrorKey="document.modularBudget">
 	<div class="tab-container" align="center">
-   		<h3>Modular Budget Overview (${periodLabel})</h3>
+   		<h3>
+            <span class="subhead-left">Modular Budget Overview (${periodLabel})</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" altText="help"/></span>
+        </h3>
         <table cellpadding="0" cellspacing="0" summary="Overview Breakdown">
             <tr>
               	<th width="35%"><div align="right">${periodLabel} Start Date:</div></th>
@@ -137,7 +140,10 @@
 
 <kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
 	<div class="tab-container" align="center">
-   		<h3>F&A</h3>
+   		<h3>
+            <span class="subhead-left">F&A</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" altText="help"/></span>
+        </h3>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>
              	<tr align="center" valign="top">

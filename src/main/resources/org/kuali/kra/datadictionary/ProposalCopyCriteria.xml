@@ -11,7 +11,7 @@
 		<property name="objectLabel" value="Proposal Copy Criteria" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl"
             p:parameterDetailType="D" />
     </property>

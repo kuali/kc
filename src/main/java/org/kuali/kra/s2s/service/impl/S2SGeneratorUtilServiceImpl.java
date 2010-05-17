@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -168,7 +168,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         // TODO Implement it after institute proposal development is completed
-        return S2SConstants.FEDERAL_ID_NOT_FOUND;
+        return null;
     }
 
     /**

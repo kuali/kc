@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 
     private static final BudgetDecimal SHARE_PCT_0 =  new BudgetDecimal(0.00);

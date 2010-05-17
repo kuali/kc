@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -38,6 +38,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 /**
  * This class...
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
     private static final String KEY_PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x";

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,10 +69,30 @@ public interface InstitutionalProposalService {
     
     /**
      * Designate one or more Institutional Proposals as Funded by an Award.
-     * This will create a new Final version of the Institutional Proposal.
+     * 
+     * If the given Proposal has a Proposal Status of Pending, a new Final version of the Proposal
+     * will be created with a Proposal Status of Funded.
+     * 
+     * If the current Active version is already Funded, it will be left alone.
      * 
      * @param proposalNumbers The proposals to update.
      * @return List<InstitutionalProposal> The new Funded versions.
      */
-    List<InstitutionalProposal> updateFundedProposals(Set<String> proposalNumbers);
+    List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers);
+    
+    /**
+     * Designate the given Proposals as no longer funded by the given Award.
+     * 
+     * If the given Award was the only funding Award for a Proposal, a new Final version of the Proposal
+     * will be created with a Proposal Status of Pending.
+     * 
+     * If the Proposal has other funding Awards, it will be left alone.  It will also be left alone
+     * if it is funded by the active version of the given award number (this is a functional requirement).
+     * 
+     * @param proposalNumbers The proposals to update.
+     * @param awardNumber The Award that is de-funding the proposal.
+     * @param awardSequence The sequence number of the Award.
+     * @return List<InstitutionalProposal> The new Pending versions.
+     */
+    List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence);
 }

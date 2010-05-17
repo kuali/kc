@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 
     private static final Integer BUDGET_PERIOD_1 = 1;

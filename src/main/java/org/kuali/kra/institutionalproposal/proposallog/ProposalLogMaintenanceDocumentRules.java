@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,17 +128,22 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     }
 
     private boolean isProposalStatusChangeValid(MaintenanceDocument document) {
-        
+        boolean retval = false;
         ProposalLog oldProposalLog = (ProposalLog) document.getOldMaintainableObject().getBusinessObject();
         ProposalLog newProposalLog = (ProposalLog) document.getNewMaintainableObject().getBusinessObject();
-        if (oldProposalLog.getProposalNumber() != null
-                && oldProposalLog.getLogStatus() != newProposalLog.getLogStatus() 
-                && !(ProposalLogUtils.getProposalLogVoidStatusCode().equals(newProposalLog.getLogStatus()) 
-                        || ProposalLogUtils.getProposalLogPendingStatusCode().equals(newProposalLog.getLogStatus()))) {
-            return false;
+        String oldStatus = oldProposalLog.getLogStatus();
+        String newStatus = newProposalLog.getLogStatus();
+        if (oldProposalLog.getProposalNumber() == null) {
+        	retval = true;
         }
-        
-        return true;
+        else if (StringUtils.equalsIgnoreCase(oldStatus, newStatus) || StringUtils.equalsIgnoreCase(newStatus, ProposalLogUtils.getProposalLogVoidStatusCode())) {
+        	retval = true;
+        }
+        else if (StringUtils.equalsIgnoreCase(newStatus, ProposalLogUtils.getProposalLogTemporaryStatusCode()) == newProposalLog.isLogTypeTemporary()) {
+        	retval = true;
+        }
+
+        return retval;
     }
     
     private boolean hasUnitAuthorization(ProposalLog proposalLog) {

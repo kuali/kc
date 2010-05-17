@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument.BudgetNarrativeAttachments;
@@ -71,24 +74,19 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         Log.debug("Getting AttachedFileDataType ");
-        int size = 0;
+        List<AttachedFileDataType> attachedFileDataTypes = new ArrayList<AttachedFileDataType>();
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS) {
-                size++;
+                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS ) {
+            	attachedFileDataType = getAttachedFileType(narrative);
+            	if (attachedFileDataType != null) {
+					attachedFileDataTypes.add(attachedFileDataType);
+					Log.debug("Attachmentcount" + attachedFileDataTypes.size());
+				}
             }
         }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-        int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_ATTACHMENTS) {
-                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                attachments++;
-                Log.debug("Attachmentcount" + attachments);
-            }
-        }
-        return attachedFileDataTypes;
+        return attachedFileDataTypes.toArray(new AttachedFileDataType[0]);
     }
 
     /**

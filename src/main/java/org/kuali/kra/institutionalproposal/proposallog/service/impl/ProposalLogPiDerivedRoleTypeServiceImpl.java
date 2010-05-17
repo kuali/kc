@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,13 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 
+/**
+ * Performs matching logic for Principal Investigator derived role.
+ */
 public class ProposalLogPiDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimRoleTypeService {
     
     @Override
-    public boolean hasApplicationRole(
-            String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
-        
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
         String piId = qualification.get("piId");
         return piId != null && piId.equals(principalId);
     }

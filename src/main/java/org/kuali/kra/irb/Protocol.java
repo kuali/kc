@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -1582,6 +1583,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         return RoleConstants.PROTOCOL_ROLE_TYPE;
     }
 
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        return;
+    }
     public boolean isAmendment() {
         return protocolNumber.contains(AMENDMENT_LETTER);
     }

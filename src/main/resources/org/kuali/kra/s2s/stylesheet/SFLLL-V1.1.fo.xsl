@@ -388,13 +388,15 @@
 												</fo:table-body>
 											</fo:table>
 											<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-												<fo:table-column column-width="30pt"/>
-												<fo:table-column column-width="30pt"/>
+												<fo:table-column column-width="25pt"/>
+												<fo:table-column column-width="25pt"/>
+												<!-- 
 												<fo:table-column/>
 												<fo:table-column/>
+												 -->
 												<fo:table-body>
-													<fo:table-row width="425pt">
-														<fo:table-cell border-after-color="white" font-size="8px" display-align="before" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+													<fo:table-row>
+														<fo:table-cell border-after-color="white" font-size="8px" display-align="before" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">4.&#160; Name and Address of Reporting Entity:</fo:inline>
 																<fo:block>
@@ -402,14 +404,14 @@
 																</fo:block>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell border-after-color="white" border-end-color="black" font-size="8px" display-align="before" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-after-color="white" border-end-color="black" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">5.&#160; If Reporting Entity in No.4 is Subawardee, Enter Name and Address of Prime:</fo:inline>
 															</fo:block>
 														</fo:table-cell>
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell border-after-color="white" border-before-color="white" border-end-color="white" border-start-color="black" font-size="8px" display-align="before" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-after-color="white" border-before-color="white" border-end-color="white" border-start-color="black" font-size="8px" display-align="before" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<xsl:for-each select="SFLLL:ReportEntity">
 																	<xsl:for-each select="SFLLL:ReportEntityIsPrime">
@@ -458,12 +460,12 @@
 																</xsl:for-each>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell border-after-color="white" border-before-color="white" border-end-color="black" border-start-color="black" font-size="8px" display-align="before" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-after-color="white" border-before-color="white" border-end-color="black" border-start-color="black" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block/>
 														</fo:table-cell>
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell border-before-color="white" font-size="8px" display-align="before" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-before-color="white" font-size="8px" display-align="before" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<xsl:for-each select="SFLLL:ReportEntity">
 																	<xsl:for-each select="SFLLL:Prime">
@@ -564,7 +566,7 @@
 																</xsl:for-each>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell language="en" hyphenate="true" border-before-color="white" font-size="8px" display-align="before" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell language="en" hyphenate="true" border-before-color="white" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<xsl:for-each select="SFLLL:ReportEntity">
 																	<xsl:for-each select="SFLLL:SubAwardee">
@@ -663,7 +665,7 @@
 														</fo:table-cell>
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" height="9pt" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" height="9pt" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">6.&#160; * Federal Department/Agency: </fo:inline>
 																<fo:block>
@@ -679,7 +681,7 @@
 																</fo:block>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" height="9pt" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell language="en" hyphenate="true" font-size="8px" display-align="before" height="9pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">7.&#160; * Federal Program Name/Description: </fo:inline>
 																<xsl:for-each select="SFLLL:FederalProgramName">
@@ -711,7 +713,7 @@
 														</fo:table-cell>
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell hyphenate="true" language="en" font-size="8px" display-align="before" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell hyphenate="true" language="en" font-size="8px" display-align="before" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">8. Federal Action Number, if known:</fo:inline>
 																<fo:block>
@@ -727,7 +729,7 @@
 																</fo:block>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell hyphenate="true" language="en" font-size="8px" display-align="before" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell hyphenate="true" language="en" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">9.&#160; Award Amount, if known:</fo:inline>
 																<fo:block>

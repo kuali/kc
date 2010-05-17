@@ -6,6 +6,7 @@
 			<description>Create a New Mail By</description>
 			<label>Mail By</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/mailby.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 <c:set var="targetAwardPersonUnit" value="${newAwardPersonUnits[awardPersonIndex]}" />
 
 <kra:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
-				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit*">
+				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit[${ awardPersonIndex }]*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Units">
 		<tr>
 			<th class="infoline">
@@ -64,44 +64,26 @@
 				</th>
 			</c:if>
 			<th class="infoline">
+				<html:hidden property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitName" />
 				<div align="center">
-					<c:choose>                  
-						<c:when test="${empty targetAwardPersonUnit.unit}">
-							<div>
-								<kul:htmlAttributeLabel attributeEntry="${awardPersonUnitAttributes.unitNumber}" skipHelpUrl="true"/>
-		    	  	 	        &nbsp;
-                                <kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber"
-		    	  	 								attributeEntry="${awardPersonUnitAttributes.unitNumber}"
-		    	  	 								readOnly="false" />
-								<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber" 
-  											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber:unitNumber"/>
-		  	 				</div>
+					<c:choose>
+						<c:when test="${empty KualiForm.projectPersonnelBean.newAwardPersonUnits[awardPersonIndex].unitName}">
+							(select)
 						</c:when>
 						<c:otherwise>
-							<div align="center">
-	              				<label>
-	              				<c:out value="${targetAwardPersonUnit.unit.unitName}" />
-	              				</label>										            			
-							</div>
+							${KualiForm.projectPersonnelBean.newAwardPersonUnits[awardPersonIndex].unitName}
 						</c:otherwise>
-					</c:choose>					
+					</c:choose>
+					&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" 
+							fieldConversions="unitNumber:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber,unitName:projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitName" />
+								
 				</div>
 			</th>
 			<th class="infoline">
 				<div align="center">
-					<c:choose>                  
-						<c:when test="${empty targetAwardPersonUnit.unit}">
-							&nbsp;
-						</c:when>
-						<c:otherwise>
-							<div align="center">
-	              				<label>
-	              				<c:out value="${targetAwardPersonUnit.unit.unitNumber}" />
-	              				</label>
-																				            			
-							</div>
-						</c:otherwise>
-					</c:choose>
+                                <kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].unitNumber"
+		    	  	 								attributeEntry="${awardPersonUnitAttributes.unitNumber}"
+		    	  	 								readOnly="false" />
 				</div>
 			</th>
 			<th>

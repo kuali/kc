@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2010 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -239,6 +239,7 @@
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="rateTypeDescription" column="RATE_TYPE_DESCRIPTION" jdbc-type="VARCHAR"/>
 		
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
 
@@ -256,15 +257,15 @@
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
-		--><reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		-->
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
-			<foreignkey field-ref="rateTypeCode"/> 
-		</reference-descriptor>
+		</reference-descriptor><!--
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-	</class-descriptor>
+	--></class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" table="BUDGET_DETAILS">
 
@@ -444,10 +445,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rateClassCode"/> 
-			<foreignkey field-ref="rateTypeCode"/> 
-		</reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor><!--
@@ -572,7 +569,11 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /><!--
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/>
+		</reference-descriptor>
+		<!--
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
@@ -1090,10 +1091,10 @@
         <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.award.budget.document.AwardBudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardBudgetStatusCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="awardBudgetType" class-ref="org.kuali.kra.award.budget.AwardBudgetType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardBudgetTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>

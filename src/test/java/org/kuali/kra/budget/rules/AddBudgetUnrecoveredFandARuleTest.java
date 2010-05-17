@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetUnrecoveredFandARule;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class AddBudgetUnrecoveredFandARuleTest extends AddBudgetDistributionAndIncomeTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final BudgetDecimal AMOUNT = new BudgetDecimal(100.00);

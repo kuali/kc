@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -51,10 +51,11 @@
 
 <kul:tabTop tabTitle="Summary" defaultOpen="true" >
 	<div class="tab-container" align="center">
+	   <h3>
+            <span class="subhead-left">Summary</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.core.Budget" altText="help"/></span>
+        </h3>
         <table cellpadding=0 cellspacing=0 summary="" width="100%">
-            <tr>
-                  <td colspan="${numOfCols}" class="subhead"><span class="subhead-left"> Summary&nbsp;</span> </td>
-            </tr>
              <tr>
                   <td colspan="3" rowspan="2" width="30%" class="infoline">&nbsp; </td>
                   <td colspan="${(periodEndIndex-periodStartIndex)+1}" width="60%" class="infoline" >

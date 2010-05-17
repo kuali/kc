@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.parameters.x";

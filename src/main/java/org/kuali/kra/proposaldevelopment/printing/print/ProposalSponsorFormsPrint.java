@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,8 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream;
 import org.kuali.kra.s2s.S2SException;
@@ -51,7 +52,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProposalSponsorFormsPrint extends AbstractPrint {
 	private static final String LOCAL_PRINT_FORM_SPONSOR_CODE ="LOCAL_PRINT_FORM_SPONSOR_CODE";
     private BusinessObjectService businessObjectService;
-    private ResearchAndRelatedXmlStream researchAndRelatedXmlStream;
+    private NIHResearchAndRelatedXmlStream nihResearchAndRelatedXmlStream;
 	private ProposalDevelopmentXmlStream proposalDevelopmentXmlStream;
     /**
 	 * Fetches the {@link ResearchDocumentBase}
@@ -68,36 +69,19 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLT() {
-		ArrayList<Source> sourceList = new ArrayList<Source>(); 
-		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES);
+	public Map<String,Source> getXSLTemplateWithBookmarks() {
+		Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
+		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
 		    Map<String,Object> htData = new HashMap<String,Object>();
 		    htData.put("sponsorCode", sponsorFormTemplate.getSponsorCode());
 		    htData.put("packageNumber", sponsorFormTemplate.getPackageNumber());
 		    htData.put("pageNumber", sponsorFormTemplate.getPageNumber());
 		    SponsorFormTemplate sponsorTemplate = (SponsorFormTemplate)getBusinessObjectService().findByPrimaryKey(SponsorFormTemplate.class, htData);
-		    sourceList.add(new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
+		    sourceMap.put(sponsorFormTemplate.getPageDescription(),new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
         }
-		return sourceList;
+		return sourceMap;
 	}
-
-
-    /**
-     * Gets the researchAndRelatedXmlStream attribute. 
-     * @return Returns the researchAndRelatedXmlStream.
-     */
-    public ResearchAndRelatedXmlStream getResearchAndRelatedXmlStream() {
-        return researchAndRelatedXmlStream;
-    }
-
-    /**
-     * Sets the researchAndRelatedXmlStream attribute value.
-     * @param researchAndRelatedXmlStream The researchAndRelatedXmlStream to set.
-     */
-    public void setResearchAndRelatedXmlStream(ResearchAndRelatedXmlStream researchAndRelatedXmlStream) {
-        this.researchAndRelatedXmlStream = researchAndRelatedXmlStream;
-    }
 
     
     /**
@@ -131,7 +115,7 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 		if (pdDoc.getDevelopmentProposal().getSponsorCode().equals(getProposalParameterValue(LOCAL_PRINT_FORM_SPONSOR_CODE))){
 			setXmlStream(proposalDevelopmentXmlStream);
 		} else {
-			setXmlStream(researchAndRelatedXmlStream);
+			setXmlStream(nihResearchAndRelatedXmlStream);
 		}
 			
 		return super.renderXML();
@@ -145,5 +129,14 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 			//TODO Log Exception
 		}
 		return value;
+	}
+
+	public NIHResearchAndRelatedXmlStream getNihResearchAndRelatedXmlStream() {
+		return nihResearchAndRelatedXmlStream;
+	}
+
+	public void setNihResearchAndRelatedXmlStream(
+			NIHResearchAndRelatedXmlStream nihResearchAndRelatedXmlStream) {
+		this.nihResearchAndRelatedXmlStream = nihResearchAndRelatedXmlStream;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ public interface ProposalHierarchyService {
     public static final String HIERARCHY_ROUTING_PARENT_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.parentRejected";
     public static final String PROPOSAL_ROUTING_REJECTED_ANNOTATION = "message.proposalDevelopment.workflow.annotation.rejected";
     
+    public static final String PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE = "ProposalDevelopmentDocument";
     
 //    public static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KNSConstants.BLANK_SPACE;
 //    public static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KNSConstants.BLANK_SPACE;
@@ -163,31 +164,16 @@ public interface ProposalHierarchyService {
      */
     public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments( String parentProposalNumber ) throws ProposalHierarchyException;    
     
-    
     /**
      * Reject a proposal development document by proposal number. This will return a proposal to state almost but not quite like initiated state.
      * If the proposal is a hierarchy all of the children will be returned to the initiated state as well.
      * @param proposalNumber the proposalNumber you wish to reject
      * @param reason the reason why it is rejected.  Will be added to the route log.
-     * @param principalName The princpalName to reject the document as.
+     * @param principalId The princpal to reject the document as.
      * @throws WorkflowException if there is a problem getting the workflow document, or rejecting the document.
      * @throws ProposalHierarchyException 
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName ) throws WorkflowException, ProposalHierarchyException;
-    
-    
-    /**
-     * Get the initial node name of the ProposalDevelopmentDocument.
-     * @return The initial node name of the ProposalDevelopmentDocument obtained directly from KEW.
-     */
-    public String getProposalDevelopmentInitialNodeName();
-
-    /**
-     * Is the document on the initial route node? 
-     * @return The initial node name of the ProposalDevelopmentDocument obtained directly from KEW.
-     */
-    public boolean isProposalOnInitialRouteNode( ProposalDevelopmentDocument document );
-    
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId ) throws WorkflowException, ProposalHierarchyException;
     
     /**
      * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 

@@ -87,7 +87,7 @@ public class CurrentReportBean extends ReportBean {
         this.sponsorAwardNumber = award.getSponsorAwardNumber();
         this.awardTitle = award.getTitle();
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
-        this.projectStartDate = award.getAwardEffectiveDate();
+        this.projectStartDate = award.getBeginDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
     }
 
@@ -153,6 +153,7 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
         columns.add(createColumn("Project Start Date", "projectStartDate", projectStartDate, Date.class));
         columns.add(createColumn("Project End Date", "projectEndDate", projectEndDate, Date.class));
+        columns.add(createColumn("Effort %", "totalEffort", totalEffort, KualiDecimal.class));
         columns.add(createColumn("Academic Year Effort", "academicYearEffort", academicYearEffort, KualiDecimal.class));
         columns.add(createColumn("Summer Effort", "summerEffort", summerEffort, KualiDecimal.class));
         columns.add(createColumn("Calendar Year Effort", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));

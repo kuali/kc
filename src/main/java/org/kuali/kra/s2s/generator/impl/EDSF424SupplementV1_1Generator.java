@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument;
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDSF424Supplement;
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDSF424Supplement.AssuranceNumber;
 import gov.grants.apply.forms.edSF424SupplementV11.EDSF424SupplementDocument.EDSF424Supplement.ExemptionsNumber;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 
@@ -114,9 +115,9 @@ public class EDSF424SupplementV1_1Generator extends
 					exemptionsNumber
 							.setIsHumanResearchExempt(YesNoDataType.Y_YES);
 					if (specialReview.getExemptNumbers() != null
-							&& specialReview.getExemptNumbers().length > 0) {
+							&& specialReview.getExemptNumbers().size() > 0) {
 						exemptionsNumber.setStringValue(s2sUtilService
-								.convertStringArrayToString(specialReview
+								.convertStringListToString(specialReview
 										.getExemptNumbers()));
 					}
 					edsf424Supplement.setExemptionsNumber(exemptionsNumber);
@@ -140,12 +141,16 @@ public class EDSF424SupplementV1_1Generator extends
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
 			}
 		}
-
+		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeTypeCode() != null
 					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_TYPE_ED_SF424_SUPPLIMENT) {
-				edsf424Supplement.setAttachment(getAttachedFileType(narrative));
+				attachedFileDataType = getAttachedFileType(narrative);
+				if(attachedFileDataType != null){
+					edsf424Supplement.setAttachment(attachedFileDataType);
+					break;
+				}
 			}
 		}
 		edsf424SupplementDocument.setEDSF424Supplement(edsf424Supplement);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import gov.grants.apply.forms.otherV10.OtherNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.otherV10.OtherNarrativeAttachmentsDocument.OtherNarrativeAttachments;
@@ -61,24 +64,19 @@ public class OtherV1_0Generator extends OtherBaseGenerator {
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
 
-        int size = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENTS_FORM) {
-                size++;
-            }
-        }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-        int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENTS_FORM) {
-                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                attachments++;
-
-            }
-        }
-        return attachedFileDataTypes;
+//        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+//        AttachedFileDataType attachedFileDataType = null;
+//        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+//            if (narrative.getNarrativeTypeCode() != null
+//                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENTS_FORM) {
+//            	attachedFileDataType = getAttachedFileType(narrative);
+//            	if(attachedFileDataType != null){
+//            		attachedFileDataTypeList.add(attachedFileDataType);
+//            	}
+//            }
+//        }
+//        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
+        return getAttachedFileDataTypes(""+OTHER_ATTACHMENTS_FORM);
     }
 
     /**

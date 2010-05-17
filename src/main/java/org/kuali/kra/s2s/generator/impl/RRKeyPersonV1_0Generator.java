@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,13 +75,17 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     rrKeyPerson.setSupportsAttached(supportsAttached);
                 }
             }
-
+            AttachedFileDataType attachedFileDataType = null;
             for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-                        additionalProfilesAttached.setAdditionalProfileAttached(getAttachedFileType(narrative));
-                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+                    	attachedFileDataType = getAttachedFileType(narrative);
+                    	if(attachedFileDataType != null){
+	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+	                        break;
+                    	}
                     }
                 }
             }

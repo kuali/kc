@@ -146,44 +146,18 @@
     <property name="description" value="Cost Share Type Code" />
   </bean>
   
-  <bean id="AwardCostShare-source" parent="AwardCostShare-source-parentBean" />
-
-  <bean id="AwardCostShare-source-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardCostShare-source" parent="KraAttributeReferenceDummy-sourceAccount" >
     <property name="name" value="source" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Source" />
     <property name="shortLabel" value="Source" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
     <property name="summary" value="Source" />
     <property name="description" value="Source" />
   </bean>
   
-  <bean id="AwardCostShare-destination" parent="AwardCostShare-destination-parentBean" />
-
-  <bean id="AwardCostShare-destination-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardCostShare-destination" parent="KraAttributeReferenceDummy-sourceAccount" >
     <property name="name" value="destination" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Destination" />
     <property name="shortLabel" value="Destination" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
     <property name="summary" value="Destination" />
     <property name="description" value="Destination" />
   </bean>

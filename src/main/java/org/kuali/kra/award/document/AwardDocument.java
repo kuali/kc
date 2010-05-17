@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,6 +61,8 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
@@ -224,20 +226,22 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         super.doRouteStatusChange(statusChangeEvent);
         
         String newStatus = statusChangeEvent.getNewRouteStatus();
+        String oldStatus = statusChangeEvent.getOldRouteStatus();
         
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             LOG.debug(String.format("********************* Status Change: from %s to %s", statusChangeEvent.getOldRouteStatus(), newStatus));
         }
         
-        if(KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
-        if(newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+        if (newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            revertFundedProposals();
             getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
         
         //reset Award List with updated document - in some scenarios the change in status is not reflected.
-        for(Award award : awardList) {
+        for (Award award : awardList) {
             award.setAwardDocument(this);
         }
     }
@@ -258,7 +262,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());
         }
-        updateFundedProposals();
+    }
+    
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        if (event instanceof SaveDocumentEvent) {
+            updateFundedProposals();
+        }
     }
     
     private void updateFundedProposals() {
@@ -272,12 +282,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             }
         }
         if (modifiedProposals.size() > 0) {
-            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
+            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals);
             getAward().getFundingProposals().removeAll(pendingVersions);
             for (InstitutionalProposal institutionalProposal : fundedVersions) {
-                AwardFundingProposal awardFundingProposal = new AwardFundingProposal();
-                awardFundingProposal.setAward(getAward());
-                awardFundingProposal.setProposal(institutionalProposal);
+                AwardFundingProposal awardFundingProposal = new AwardFundingProposal(getAward(), institutionalProposal);
                 getAward().getFundingProposals().add(awardFundingProposal);
             }
         }
@@ -384,6 +392,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 return RoleConstants.AWARD_ROLE_TYPE;
             }
             
+            public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+            }
         };
     }
     @Override
@@ -526,6 +536,27 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             }
         }
         return budget;
+    }
+
+    public boolean isPlaceHolderDocument() {
+        if(getDocumentHeader() != null)
+            return PLACEHOLDER_DOC_DESCRIPTION.equals(getDocumentHeader().getDocumentDescription());
+        return false;
+    }
+    
+    /*
+     * Find all Institutional Proposals that were marked as Funded by this Award version,
+     * and revert them back to Pending.
+     */
+    private void revertFundedProposals() {
+        Set<String> proposalsToUpdate = new HashSet<String>();
+        
+        for (AwardFundingProposal awardFundingProposal : this.getAward().getFundingProposals()) {
+            proposalsToUpdate.add(awardFundingProposal.getProposal().getProposalNumber());
+        }
+        
+        getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
+                this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
     }
 
 }

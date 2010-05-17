@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,20 @@
 package org.kuali.kra.institutionalproposal.fundedawards;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Web tier helper bean for Funded Awards panel in Institutional Proposal Actions.
@@ -31,6 +40,8 @@ public class FundedAwardsBean implements Serializable {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7202420195219545687L;
+    
+    private static final String ERROR_UNLOCK_PENDING_AWARDS = "error.institutionalProposal.unlockAward.pendingVersion";
     
     private InstitutionalProposalForm institutionalProposalForm;
     
@@ -55,14 +66,24 @@ public class FundedAwardsBean implements Serializable {
      */
     public void removeUnlockedAwards() {
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
-        ArrayUtils.reverse(institutionalProposalForm.getSelectedAwardFundingProposals());
-        for (String indexToRemove : institutionalProposalForm.getSelectedAwardFundingProposals()) {
-            institutionalProposal.getAwardFundingProposals().remove(Integer.parseInt(indexToRemove));
+        
+        Set<String> linkedPendingAwards = getLinkedPendingAwards(institutionalProposal, institutionalProposalForm.getSelectedAwardFundingProposals());
+        if (!linkedPendingAwards.isEmpty()) {
+            String awardNumbers = StringUtils.join(linkedPendingAwards, ", ");
+            GlobalVariables.getMessageMap().putError("noKey", 
+                    ERROR_UNLOCK_PENDING_AWARDS, 
+                    awardNumbers);
+        } else {
+        
+            ArrayUtils.reverse(institutionalProposalForm.getSelectedAwardFundingProposals());
+            for (String indexToRemove : institutionalProposalForm.getSelectedAwardFundingProposals()) {
+                institutionalProposal.getAwardFundingProposals().remove(Integer.parseInt(indexToRemove));
+            }
+            if (institutionalProposal.getAwardFundingProposals().isEmpty()) {
+                institutionalProposal.setStatusCode(ProposalStatus.PENDING);
+            }
+            institutionalProposalForm.setSelectedAwardFundingProposals(null);
         }
-        if (institutionalProposal.getAwardFundingProposals().isEmpty()) {
-            institutionalProposal.setStatusCode(ProposalStatus.PENDING);
-        }
-        institutionalProposalForm.setSelectedAwardFundingProposals(null);
     }
     
     /**
@@ -75,6 +96,23 @@ public class FundedAwardsBean implements Serializable {
             selectedAwardFundingProposals[i] = Integer.toString(i);
         }
         institutionalProposalForm.setSelectedAwardFundingProposals(selectedAwardFundingProposals);
+    }
+    
+    /*
+     * Find linked awards to be unlocked that have a version status of Pending.
+     */
+    private Set<String> getLinkedPendingAwards(InstitutionalProposal institutionalProposal, String[] awardsToUnlock) {
+        Set<String> linkedPendingAwards = new HashSet<String>();
+        VersionHistoryService versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
+        for (String index : awardsToUnlock) {
+            AwardFundingProposal fundingProposal = institutionalProposal.getAwardFundingProposals().get(Integer.parseInt(index));
+            VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, 
+                    fundingProposal.getAward().getAwardNumber(), fundingProposal.getAward().getSequenceNumber().toString());
+            if (pendingVersionHistory != null) {
+                linkedPendingAwards.add(fundingProposal.getAward().getAwardNumber());
+            }
+        }
+        return linkedPendingAwards;
     }
 
 }

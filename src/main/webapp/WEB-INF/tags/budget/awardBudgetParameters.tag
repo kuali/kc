@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@
                 <td align="left" valign="middle">
                 	<bean:write name="KualiForm" property="document.parentDocument.budgetParent.accountNumber"/>
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.startDate}" /></div></th>
+                <th><div align="right">Budget Start Date</div></th>
                 <td align="left" valign="middle">
                 	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
                 </td>
@@ -51,7 +51,7 @@
            		<td>
            			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.awardNumber"/> 
            		</td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.endDate}" /></div></th>
+				<th><div align="right">Budget End Date</div></th>
                 <td>
                 	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
                 </td>
@@ -106,7 +106,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.description}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budget.description" attributeEntry="${awardBudgetAttributes.description}"/>
+                	<kul:htmlControlAttribute property="document.budget.description" attributeEntry="${awardBudgetAttributes.description}" readOnly="${readOnly or KualiForm.document.budget.rebudgetFlag}"/>
                 </td>
         	</tr>
         	<tr>

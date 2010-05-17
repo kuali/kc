@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,6 +133,14 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget) {
         viewLocation(viewLocation, budgetPeriod, budget.getBudgetRates());
         viewLocation(viewLocation, budgetPeriod, budget.getBudgetLaRates());        
+    }
+    
+    /**
+     * 
+     * Does nothing. Placeholder for Award Budget
+     * @param budgetDocument
+     */
+    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
     }
     
     /* sync budget rates for a panel
@@ -558,7 +566,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Set<String> instituteRateKeys = storeAllKeys((List<AbstractInstituteRate>) instituteRates);
         Set<String> budgetRateKeys = storeAllKeys((List<AbstractInstituteRate>) budgetRates);
         
-        return instituteRateKeys.containsAll(budgetRateKeys);
+        return !instituteRateKeys.containsAll(budgetRateKeys);
     }
     
     private Set<String> storeAllKeys(List<AbstractInstituteRate> rates) {
@@ -932,7 +940,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void populateInstituteRates(BudgetDocument<T> budgetDocument) {
+    protected void populateInstituteRates(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List instituteRates = (List) getInstituteRates(budgetDocument);
         filterRates(budget, instituteRates, budget.getInstituteRates()); 
