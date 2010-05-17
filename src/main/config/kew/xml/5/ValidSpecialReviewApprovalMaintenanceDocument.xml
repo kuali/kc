@@ -6,6 +6,7 @@
 			<description>Document used to create or update Valid Special Review Approval business objects.</description>
 			<label>Valid Special Review Approval Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validspecialreviewapproval.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

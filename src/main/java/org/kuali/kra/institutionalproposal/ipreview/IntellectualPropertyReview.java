@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+/**
+ * This class represents an Intellectual Property Review.
+ */
 public class IntellectualPropertyReview extends InstitutionalProposalAssociate implements SequenceOwner<IntellectualPropertyReview> {
     
     private static final long serialVersionUID = 1L;
@@ -67,7 +70,9 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private transient String generalCommentCode;
     private transient String reviewerCommentCode;
     
-    
+    /**
+     * Constructs an IntellectualPropertyReview.java.
+     */
     public IntellectualPropertyReview() {
         init();
     }

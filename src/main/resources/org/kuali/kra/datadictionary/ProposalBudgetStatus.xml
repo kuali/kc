@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="budgetStatusCode" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
+            p:parameterNamespace="KC-B"
             p:parameterName="proposalBudgetStatusHelpUrl"
             p:parameterDetailType="D" />
     </property>

@@ -19,6 +19,7 @@ import java.util.List;
 /**
  *
  */
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class CurrentAndPendingReportDaoOjbTest extends KraTestBase {
     private PendingReportDao dao;
     private InstitutionalProposal[] proposals;

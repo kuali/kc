@@ -18,7 +18,7 @@
     <property name="titleAttribute" value="id" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-PD"
+            p:parameterNamespace="KC-PD"
             p:parameterName="proposalDevelopmentCustomAttributeHelpUrl"
             p:parameterDetailType="D" />
     </property>

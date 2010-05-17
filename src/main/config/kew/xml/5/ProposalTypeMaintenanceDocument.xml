@@ -6,6 +6,7 @@
 			<description>Create/Edit a Proposal Type Code</description>
 			<label>Proposal Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/proposaltype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

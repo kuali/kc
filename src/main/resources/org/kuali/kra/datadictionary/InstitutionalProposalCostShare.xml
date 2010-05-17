@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -184,24 +184,8 @@
         <property name="description" value="Cost Share Type Code" />
     </bean>
 
-    <bean id="InstitutionalProposalCostShare-sourceAccount" parent="InstitutionalProposalCostShare-sourceAccount-parentBean" />
-    <bean id="InstitutionalProposalCostShare-sourceAccount-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="sourceAccount" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Source Account" />
-        <property name="shortLabel" value="Source Account" />
-        <property name="maxLength" value="32" />
-    	<property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	p:allowWhitespace="true" />
-    	</property>
+    <bean id="InstitutionalProposalCostShare-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
     	<property name="required" value="true" />
-    	<property name="control" >
-      		<bean parent="TextControlDefinition"
-            	p:size="7" />
-    	</property>
-        <property name="summary" value="Source Account" />
-        <property name="description" value="Source Account" />
     </bean>
 
     <bean id="InstitutionalProposalCostShare-amount" parent="InstitutionalProposalCostShare-amount-parentBean" />

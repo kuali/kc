@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
     

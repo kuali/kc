@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.kuali.kra.committee.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -370,6 +371,12 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
      */
     public String getDocumentKey() {
         return Permissionable.COMMITTEE_KEY;
+    }
+    
+    /**
+     * @see org.kuali.kra.common.permissions.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
+     */
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
     }
 
     /**

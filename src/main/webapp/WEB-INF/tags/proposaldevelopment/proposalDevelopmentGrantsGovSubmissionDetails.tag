@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -112,11 +112,11 @@
 					</tr>
 
 					<c:forEach var="form" 
-                               items="${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].s2sApplication[0].s2sAppAttachmentList}" 
+                               items="${KualiForm.document.developmentProposalList[0].s2sAppSubmission[submissionToBeDisplayed-1].s2sAppAttachmentList}" 
                                varStatus="status">		                
 						<tr>
 							<td align="left" valign="middle" colspan="4">
-	    						<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].s2sApplication[0].s2sAppAttachmentList[${status.index}].contentId" 
+	    						<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sAppSubmission[${submissionToBeDisplayed-1}].s2sAppAttachmentList[${status.index}].contentId" 
                                                           attributeEntry="${s2sAppAttachmentsAttributes.contentId}" readOnly="true" />
 							</td>
 						</tr>	

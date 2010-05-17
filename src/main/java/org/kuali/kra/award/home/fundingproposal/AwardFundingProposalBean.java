@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,13 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.service.ServiceHelper;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -43,6 +45,7 @@ public class AwardFundingProposalBean implements Serializable {
     private static final String FUNDING_PROPOSAL_ERROR_KEY = "fundingProposalBean.newFundingProposal";
     private static final String FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY = "error.fundingproposal.not.found";
     private static final String PENDING_FUNDING_PROPOSAL_VERSION_EXISTS = "error.fundingproposal.pendingVersion";
+    private static final String FUNDING_PROPOSAL_INADEQUATE_PERMISSIONS = "error.fundingproposal.noPermission";
 
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
@@ -141,22 +144,6 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     /**
-     * Update all funding proposals associated with this award from PENDING to FUNDED 
-     */
-    public void updateProposalStatuses() {
-        Set<String> modifiedProposals = new HashSet<String>();
-        for (AwardFundingProposal afp : getAward().getFundingProposals()) {
-            InstitutionalProposal proposal = afp.getProposal();
-            if (ProposalStatus.PENDING.equals(proposal.getStatusCode())) {
-                modifiedProposals.add(proposal.getProposalNumber());
-            }
-        }
-        if (modifiedProposals.size() > 0) {
-            getInstitutionalProposalService().updateFundedProposals(modifiedProposals);
-        }
-    }
-
-    /**
      * @return
      */
     BusinessObjectService getBusinessObjectService() {
@@ -238,6 +225,20 @@ public class AwardFundingProposalBean implements Serializable {
                     pendingVersion.getInstitutionalProposalDocument().getDocumentNumber(),
                     pendingVersion.getUpdateUser());
         }
+        if (!userCanCreateProposal()) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                    FUNDING_PROPOSAL_INADEQUATE_PERMISSIONS, 
+                    GlobalVariables.getUserSession().getPrincipalName(),
+                    PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
+        }
+        if (!userCanSubmitProposal()) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                    FUNDING_PROPOSAL_INADEQUATE_PERMISSIONS, 
+                    GlobalVariables.getUserSession().getPrincipalName(),
+                    PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
+        }
         return valid;
     }
     
@@ -256,8 +257,30 @@ public class AwardFundingProposalBean implements Serializable {
         }
     }
     
-    private InstitutionalProposalService getInstitutionalProposalService() {
+    private boolean userCanCreateProposal() {
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
+        return getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
+                permissionDetails);
+    }
+    
+    private boolean userCanSubmitProposal() {
+        AttributeSet permissionDetails = new AttributeSet();
+        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
+        return getIdentityManagementService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
+                permissionDetails);
+    }
+    
+    protected InstitutionalProposalService getInstitutionalProposalService() {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
+    }
+    
+    protected IdentityManagementService getIdentityManagementService() {
+        return KraServiceLocator.getService(IdentityManagementService.class);
     }
     
 }

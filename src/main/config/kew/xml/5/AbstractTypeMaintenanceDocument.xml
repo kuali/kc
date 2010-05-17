@@ -6,6 +6,7 @@
 			<description>Create a New Abstract Type</description>
 			<label>Abstract Type</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/abstracttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

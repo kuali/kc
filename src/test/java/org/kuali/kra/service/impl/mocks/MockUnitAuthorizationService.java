@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,11 @@ public class MockUnitAuthorizationService implements UnitAuthorizationService {
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
         return new ArrayList<Unit>();
     }
+
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
+        return false;
+    }
+ 
 
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)

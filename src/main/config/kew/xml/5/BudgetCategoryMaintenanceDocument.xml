@@ -6,6 +6,7 @@
 			<description>Create/Edit a Budget Category</description>
 			<label>Budget Category Maintenance Document</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/budgetcategory.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

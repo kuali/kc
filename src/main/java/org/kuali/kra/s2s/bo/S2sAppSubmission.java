@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
 	private Timestamp receivedDate;
 	private String status;
 	private List<S2sApplication> s2sApplication;
+	private List<S2sAppAttachments> s2sAppAttachmentList;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -135,5 +136,21 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
      */
     public void setS2sApplication(List<S2sApplication> s2sApplication) {
         this.s2sApplication = s2sApplication;
+    }
+
+    /**
+     * Gets the s2sAppAttachmentList attribute. 
+     * @return Returns the s2sAppAttachmentList.
+     */
+    public List<S2sAppAttachments> getS2sAppAttachmentList() {
+        return s2sAppAttachmentList;
+    }
+
+    /**
+     * Sets the s2sAppAttachmentList attribute value.
+     * @param appAttachmentList The s2sAppAttachmentList to set.
+     */
+    public void setS2sAppAttachmentList(List<S2sAppAttachments> appAttachmentList) {
+        s2sAppAttachmentList = appAttachmentList;
     }
 }

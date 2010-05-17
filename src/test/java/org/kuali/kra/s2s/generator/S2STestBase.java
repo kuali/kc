@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -63,6 +64,7 @@ public abstract class S2STestBase<T> extends KraTestBase {
         saveBO(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
         generatorObject.setAuditErrors(errors);
+        generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
         assertTrue(errors.isEmpty());

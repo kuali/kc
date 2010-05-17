@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
+import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRuleImpl;
+import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRule;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
@@ -67,6 +69,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processAwardDirectFandADistributionBusinessRules(document);
         retval &= processTimeAndMoneyAwardAmountTransactionBusinessRules(document);
+        retval &= processTimeAndMoneySaveAwardDateBusinessRules(document);
 
         return retval;
     }
@@ -88,6 +91,29 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
         TimeAndMoneyAwardAmountTransactionSaveEvent event = new TimeAndMoneyAwardAmountTransactionSaveEvent(errorPath, 
                                                             timeAndMoneyDocument);
         valid &= new TimeAndMoneyAwardAmountTransactionRuleImpl().processSaveAwardAmountTransactionBusinessRules(event);
+        errorMap.removeFromErrorPath(errorPath);
+        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+        return valid;
+    }
+    
+    /**
+    *
+    * process Direct F and A Distribution business rules.
+    * @param awardDocument
+    * @return
+    */
+    private boolean processTimeAndMoneySaveAwardDateBusinessRules(Document document) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.addToErrorPath(AWARD_ERROR_PATH);
+        String errorPath = "timeAndMoneyAwardDates";
+        errorMap.addToErrorPath(errorPath);
+        TimeAndMoneyAwardDateSaveEvent event = new TimeAndMoneyAwardDateSaveEvent(errorPath, 
+                                                            timeAndMoneyDocument);
+        valid &= new TimeAndMoneyAwardDateSaveRuleImpl().processSaveAwardDatesBusinessRules(event);
         errorMap.removeFromErrorPath(errorPath);
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);

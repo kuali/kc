@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -59,7 +59,10 @@
 		<div align="left">
     	&nbsp;&nbsp;&nbsp;Changes made in the Project Personnel panel must be saved before the corresponding results are reflected in the Personnel Details panel.<br/><br/>
     	</div>  
-    	<h3>Project Personnel (All Periods)</h3>
+    	<h3>
+            <span class="subhead-left">Project Personnel (All Periods)</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
+    	</h3>
         <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
         	<tr>
 	        	<th>&nbsp;</th>

@@ -34,6 +34,7 @@
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
+        <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
         <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
@@ -278,6 +279,10 @@
       <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
         <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
       </action>
+      <action path="/printProposalLog" name="ProposalLogPrintForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintAction">
+        <forward name="basic" path="/portal.jsp" redirect="true" />
+      </action>
+      
       
       <!--  KRA IRB Mapping START -->    
       <action path="/personnel" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolPersonnel.jsp" type="org.kuali.kra.irb.personnel.ProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

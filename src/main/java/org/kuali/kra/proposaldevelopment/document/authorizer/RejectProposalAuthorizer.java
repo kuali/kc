@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.rice.kew.exception.WorkflowException;
+
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -41,14 +40,7 @@ public class RejectProposalAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         KualiWorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        String[] currentNodes;
-        try {
-            currentNodes = workDoc.getNodeNames();
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we);
-            throw new IllegalStateException( String.format( "Workflow exception encountered getting current route node names for document %s", doc.getDocumentNumber()),we );
-        }
-        return (!workDoc.getRouteHeader().isCompleteRequested()) && (! KraServiceLocator.getService(ProposalHierarchyService.class).isProposalOnInitialRouteNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
+        return (!workDoc.getRouteHeader().isCompleteRequested()) && (! KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc)) && (workDoc.isApprovalRequested()) && (workDoc.stateIsEnroute());
     }
     
     

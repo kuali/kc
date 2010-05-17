@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2006 The Kuali Foundation.
+	Copyright 2005-2010 The Kuali Foundation.
 	
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -917,19 +917,6 @@
 
 	<!-- New S2S Forms - gg-forms3 -->
 	<Form
-		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
-		<formName>NSF_ApplicationChecklist_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_3Generator
-		</mainClass>
-		<stylesheet>
-			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.3.fo.xsl
-		</stylesheet>
-		<pkgName>
-			gov.grants.apply.forms.nsfApplicationChecklist13V13
-		</pkgName>
-	</Form>
-	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_1-V1.1">
 		<formName>PHS398_CareerDevelopmentAwardSup_1_1-V1.1</formName>
 		<mainClass>
@@ -952,6 +939,20 @@
 			org/kuali/kra/s2s/stylesheet/PHS_CoverLetter-V1.2.fo.xsl
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.phsCoverLetter12V12</pkgName>
+	</Form>
+	<!--
+	<Form
+		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
+		<formName>NSF_ApplicationChecklist_1_3-V1.3</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_3Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.3.fo.xsl
+		</stylesheet>
+		<pkgName>
+			gov.grants.apply.forms.nsfApplicationChecklist13V13
+		</pkgName>
 	</Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1">
@@ -977,7 +978,7 @@
 		</stylesheet>
 		<pkgName>gov.grants.apply.forms.nsfCoverPage13V13</pkgName>
 	</Form>
-	<!-- New S2S Forms - gg-Forms3 -->
+	-->
 	<!-- New S2S Forms - gg-Forms4 -->
 	<Form namespace="http://apply.grants.gov/forms/PerformanceSite_1_3-V1.3">
 		<formName>PerformanceSite_1_3</formName>

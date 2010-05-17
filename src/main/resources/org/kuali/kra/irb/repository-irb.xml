@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation.
+ Copyright 2005-2010 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -570,7 +570,7 @@
         <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
+        <!-- field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/ -->
         <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
         <field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
@@ -579,7 +579,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="attachmentVersion" column="ATTACHMENT_VERSION" jdbc-type="INTEGER" />
+        <!-- field-descriptor name="attachmentVersion" column="ATTACHMENT_VERSION" jdbc-type="INTEGER" / -->
         
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,27 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
@@ -50,6 +59,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * This class is to process all basic services required for AwardBudget
@@ -67,6 +77,20 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     public void post(AwardBudgetDocument awardBudgetDocument) {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+        saveDocument(awardBudgetDocument);
+    }
+
+    /**
+     * @see org.kuali.kra.award.budget.AwardBudgetService#post(org.kuali.kra.award.budget.document.AwardBudgetDocument)
+     */
+    public void toggleStatus(AwardBudgetDocument awardBudgetDocument) {
+        String currentStatusCode = awardBudgetDocument.getAwardBudget().getAwardBudgetStatusCode();
+        if (currentStatusCode.equals(getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED))) {
+            processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST);
+        }
+        else if (currentStatusCode.equals(getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_DO_NOT_POST))) {
+            processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
+        }
         saveDocument(awardBudgetDocument);
     }
 
@@ -129,8 +153,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @see org.kuali.kra.award.budget.AwardBudgetService#rebudget(org.kuali.kra.award.budget.document.AwardBudgetDocument)
      */
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
-        return createNewBudgetDocument(documentDescription, awardDocument, true);
+        AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument, true);
+        return rebudgetDocument;
     }
+
     /**
      * Get the corresponding workflow document.  
      * @param doc the document
@@ -209,9 +235,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         throws WorkflowException {
         
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
-        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
+        AwardBudgetDocument awardBudgetDocument;
+        awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
 
         return awardBudgetDocument;
+    }
+
+    private AwardBudgetDocument copyPostedBudgetVersion(AwardDocument parentDocument) {
+        AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
+        return (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
     }
 
     /**
@@ -224,7 +256,20 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     private AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
+        AwardBudgetDocument awardBudgetDocument;
+        if(isPostedBudgetExist(parentDocument)){
+            BudgetDecimal obligatedChangeAmount = getObligatedChangeAmount(parentDocument);
+            AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
+            BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
+            awardBudgetDocument =  (AwardBudgetDocument)copyBudgetVersion(postedBudgetDocument);
+            copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
+//            saveBudgetDocument(awardBudgetDocument,false);
+//            awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
+//            parentDocument.refreshReferenceObject("budgetDocumentVersions");
+
+        }else{
+            awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
+        }
         
         awardBudgetDocument.setParentDocument(parentDocument);
         awardBudgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
@@ -246,6 +291,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setUrRateClassCode(this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         awardBudget.setModularBudgetFlag(this.parameterService.getIndicatorParameter(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setBudgetStatus(this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
+
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
                     new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",
                             awardBudgetDocument.getParentDocument(),awardBudget));
@@ -253,13 +299,95 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             return null;
 
         awardBudget.setRateClassTypesReloaded(true);
-        awardBudget.setTotalCostLimit(rebudget?BudgetDecimal.ZERO:getObligatedChangeAmount(parentDocument));
+        //awardBudget.setTotalCostLimit(rebudget?BudgetDecimal.ZERO:getObligatedChangeAmount(parentDocument));
+        awardBudget.setTotalCostLimit(getObligatedChangeAmount(parentDocument));
+        if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO) && isPostedBudgetExist(parentDocument)) {
+            rebudget = true;
+        }
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
         parentDocument.refreshReferenceObject("budgetDocumentVersions");
 
         return awardBudgetDocument;
     }
+    private void copyObligatedAmountToLineItems(AwardBudgetDocument awardBudgetDocument,BudgetDecimal obligatedChangeAmount) {
+        AwardBudgetExt newAwardBudgetFromPosted = awardBudgetDocument.getAwardBudget();
+        List<BudgetPeriod> awardBudgetPeriods = newAwardBudgetFromPosted.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
+            AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
+            List<BudgetLineItem> lineItems = awardBudgetPeriod.getBudgetLineItems();
+            for (BudgetLineItem budgetLineItem : lineItems) {
+                AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt)budgetLineItem;
+                List<BudgetPersonnelDetails> personnelDetailsList = awardBudgetLineItem.getBudgetPersonnelDetailsList();
+                for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsList) {
+                    AwardBudgetPersonnelDetailsExt awardBudgetPersonnelDetails = (AwardBudgetPersonnelDetailsExt)budgetPersonnelDetails;
+                    List<AwardBudgetPersonnelCalculatedAmountExt> personnelCalcAmounts = awardBudgetPersonnelDetails.getBudgetCalculatedAmounts();
+                    for (AwardBudgetPersonnelCalculatedAmountExt awardBudgetPersonnelCalculatedAmountExt : personnelCalcAmounts) {
+                        awardBudgetPersonnelCalculatedAmountExt.setObligatedAmount(
+                                awardBudgetPersonnelCalculatedAmountExt.getObligatedAmount().add(
+                                        awardBudgetPersonnelCalculatedAmountExt.getCalculatedCost().add(
+                                                awardBudgetPersonnelCalculatedAmountExt.getCalculatedCostSharing())));
+                        awardBudgetPersonnelCalculatedAmountExt.setCalculatedCost(BudgetDecimal.ZERO);
+                        awardBudgetPersonnelCalculatedAmountExt.setCalculatedCostSharing(BudgetDecimal.ZERO);
+                    }
+                    awardBudgetPersonnelDetails.setObligatedAmount(
+                         awardBudgetPersonnelDetails.getObligatedAmount().add(
+                            awardBudgetPersonnelDetails.getSalaryRequested().add(
+                                    awardBudgetPersonnelDetails.getCostSharingAmount())));
+                    awardBudgetPersonnelDetails.setSalaryRequested(BudgetDecimal.ZERO);
+                    awardBudgetPersonnelDetails.setCostSharingAmount(BudgetDecimal.ZERO);
+                }
+                List<AwardBudgetLineItemCalculatedAmountExt> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
+                for (AwardBudgetLineItemCalculatedAmountExt budgetLineItemCalculatedAmount : calcAmounts) {
+                    budgetLineItemCalculatedAmount = (AwardBudgetLineItemCalculatedAmountExt)budgetLineItemCalculatedAmount;
+                    budgetLineItemCalculatedAmount.setObligatedAmount(
+                            budgetLineItemCalculatedAmount.getObligatedAmount().add(
+                            budgetLineItemCalculatedAmount.getCalculatedCost().add(
+                                    budgetLineItemCalculatedAmount.getCalculatedCostSharing())));
+                    budgetLineItemCalculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
+                    budgetLineItemCalculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
+                }
+                awardBudgetLineItem.setObligatedAmount(
+                        awardBudgetLineItem.getObligatedAmount().add(
+                        awardBudgetLineItem.getLineItemCost().add(
+                                awardBudgetLineItem.getCostSharingAmount())));
+                awardBudgetLineItem.setLineItemCost(BudgetDecimal.ZERO);
+                awardBudgetLineItem.setCostSharingAmount(BudgetDecimal.ZERO);
+            }
+            awardBudgetPeriod.setObligatedAmount(awardBudgetPeriod.getObligatedAmount().add(awardBudgetPeriod.getTotalCost()));
+            awardBudgetPeriod.setTotalCost(BudgetDecimal.ZERO);
+            awardBudgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
+            awardBudgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
+            awardBudgetPeriod.setTotalCostLimit(obligatedChangeAmount);
+        }
+//        getBudgetSummaryService().calculateBudget(newAwardBudgetFromPosted);
+    }
+
+    private AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
+        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
+        QueryList<AwardBudgetVersionOverviewExt> awardBudgetVersionOverviews = new QueryList<AwardBudgetVersionOverviewExt>();
+        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
+            awardBudgetVersionOverviews.add((AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview());
+        }
+        
+        Equals eqPostedStatus = new Equals("awardBudgetStatusCode",getAwardPostedStatusCode()); 
+        QueryList<AwardBudgetVersionOverviewExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
+        AwardBudgetExt postedBudget = null;
+        if(!postedVersions.isEmpty()){
+            postedVersions.sort("budgetVersionNumber",false);
+            AwardBudgetVersionOverviewExt postedVersion = postedVersions.get(0);
+            try {
+                AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)documentService.getByDocumentHeaderId(postedVersion.getDocumentNumber());
+                postedBudget = awardBudgetDocument.getAwardBudget();
+            }
+            catch (WorkflowException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return postedBudget;
+    }
+
     private BudgetDecimal getObligatedChangeAmount(AwardDocument awardDocument) {
         List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
@@ -272,6 +400,24 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
         BudgetDecimal awardObligatedAmount = new BudgetDecimal(awardDocument.getAward().getObligatedTotal().bigDecimalValue());
         return awardObligatedAmount.subtract(postedTotalAmount);
+    }
+
+    /*
+     * A utility method to check whther a budget has been posted for this award, then it can be 
+     * used as one of the condition to set rebudget type.
+     */
+    private boolean isPostedBudgetExist(AwardDocument awardDocument) {
+        boolean exist = false;
+        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
+        String postedStatusCode = getAwardPostedStatusCode();
+        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
+            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+            if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
+                exist = true;
+                break;
+            }
+        }
+        return exist;
     }
 
     private String getAwardPostedStatusCode() {
@@ -300,34 +446,15 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         Budget budget = budgetDocument.getBudget();
         AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-        budgetExt.setAwardBudgetTypeCode(getParameterValue(rebudget?KeyConstants.AWARD_BUDGET_TYPE_REBUDGET:KeyConstants.AWARD_BUDGET_TYPE_NEW));
+        budgetExt.setAwardBudgetTypeCode(getParameterValue(rebudget?KeyConstants.AWARD_BUDGET_TYPE_REBUDGET:
+            KeyConstants.AWARD_BUDGET_TYPE_NEW));
+        if(rebudget){
+            AwardBudgetType awardBudgetType=getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetType.class, 
+                    budgetExt.getAwardBudgetTypeCode()); 
+            budgetExt.setDescription(awardBudgetType.getDescription());
+        }
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS);
         saveDocument(awardBudgetDocument);
-    }
-
-    int lineItemNumber=0,personnelLineItemNumber = 0;
-    public BudgetDocument<Award> createBudgetDocumentWithCopiedBudgetPeriods(Collection rawValues, BudgetParentDocument<Award> document, String versionName) throws WorkflowException {
-        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)getNewBudgetVersion(document, "Proposal Budget Copy "+(versionName==null?"":": "+versionName));
-        if(awardBudgetDocument==null) return null;
-        Budget budget = awardBudgetDocument.getBudget();
-        List<BudgetPeriod> budgetPeriods = awardBudgetDocument.getBudget().getBudgetPeriods();
-        BudgetPeriod firstBudgetPeriod = budgetPeriods.size()>0?budgetPeriods.get(0):budget.getNewBudgetPeriod();
-        firstBudgetPeriod.setBudgetId(budget.getBudgetId());
-        lineItemNumber= 0;personnelLineItemNumber = 0;
-        for (Iterator<BudgetPeriod> iter = rawValues.iterator(); iter.hasNext();) {
-            BudgetPeriod budgetPeriod = (BudgetPeriod)iter.next();
-            budgetPeriod.refreshReferenceObject("budgetLineItems");
-            copyProposalBudgetLineItemsToAwardBudget(firstBudgetPeriod,budgetPeriod);
-            BudgetPeriod copiedBudgetPeriod = (BudgetPeriod)getDeepCopyPostProcessor().
-                                                                processDeepCopyWithDeepCopyIgnore(budgetPeriod);
-            copiedBudgetPeriod.setBudgetId(null);
-            copiedBudgetPeriod.setBudget(budget);
-        }
-        getBudgetSummaryService().calculateBudget(budget);
-        saveDocument(awardBudgetDocument);
-        awardBudgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
-//        getBusinessObjectService().save(budget);
-        return awardBudgetDocument;
     }
 
     private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
@@ -338,8 +465,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                         "budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
-            awardBudgetLineItem.setLineItemNumber(++lineItemNumber);
+            awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
+            awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
+            awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
@@ -348,12 +477,36 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
                         new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId",
                         "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList", "validToApplyInRate"});
-                awardBudgetPerDetails.setPersonNumber(++personnelLineItemNumber);
+                awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+                BudgetPerson oldBudgetPerson = budgetPersonnelDetails.getBudgetPerson();
+                BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudgetPeriod.getBudget(), 
+                		oldBudgetPerson, budgetPersonnelDetails.getJobCode());
+                if (currentBudgetPerson == null) {
+                	currentBudgetPerson = new BudgetPerson();
+                	BeanUtils.copyProperties(oldBudgetPerson, currentBudgetPerson, new String[]{"budgetId", "personSequenceNumber"});
+                	currentBudgetPerson.setBudgetId(awardBudgetPeriod.getBudgetId());
+                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getBudgetDocument().getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+                	awardBudgetPeriod.getBudget().getBudgetPersons().add(currentBudgetPerson);
+                }
+                awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);
+                awardBudgetPerDetails.setPersonSequenceNumber(currentBudgetPerson.getPersonSequenceNumber());
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
+                awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
+                awardBudgetPerDetails.setStartDate(awardBudgetLineItem.getStartDate());
+                awardBudgetPerDetails.setEndDate(awardBudgetLineItem.getEndDate());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             awardBudgetLineItems.add(awardBudgetLineItem);
         }
+    }
+    
+    private BudgetPerson findMatchingPersonInBudget(Budget budget, BudgetPerson oldBudgetPerson, String jobCode) {
+        for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
+        	if (budgetPerson.isSamePerson(oldBudgetPerson) && StringUtils.equals(budgetPerson.getJobCode(), jobCode)) {
+        		return budgetPerson;
+        	}
+        }
+        return null;
     }
 
     private DeepCopyPostProcessor getDeepCopyPostProcessor() {
@@ -394,5 +547,17 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
+    }
+
+    public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
+        awardBudgetPeriod.getBudgetLineItems().clear();
+        Iterator iter = rawValues.iterator();
+        while (iter.hasNext()) {
+            BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
+            copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod, proposalPeriod);
+        }
+        getDocumentService().saveDocument(awardBudgetPeriod.getBudget().getBudgetDocument());
+        getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
+        
     }
 }

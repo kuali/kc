@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -210,7 +210,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     protected void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
-        updateNIHDescriptions(document);     
+        updateNIHDescriptions(document);
+        setBudgetStatuses(document);
     }
     
     protected SponsorService getSponsorService() {
@@ -745,7 +746,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         boolean grantsGovErrorExists = false;
 
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
-        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null || attachmentDataSource.getContent().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
             //the GrantsGov forms tab so we don't need to turn on auditing
             Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();

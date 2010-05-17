@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+  	
+  	<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Comments%2C%20Notes%20%26%20Attachments" /></div>
   	
 <kra-a:awardComments/>
 <kra-a:awardNotes/>

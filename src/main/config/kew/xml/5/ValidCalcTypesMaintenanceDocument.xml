@@ -6,6 +6,7 @@
 			<description>Create/Edit a Valid Calculation Type</description>
 			<label>Valid Calc Types Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/validcalculationtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

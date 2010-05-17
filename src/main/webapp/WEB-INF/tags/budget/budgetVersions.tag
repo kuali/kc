@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -38,17 +38,29 @@
 </c:if>
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:set var="projectDatesString" value=""/>
-<c:if test="${proposalBudgetFlag}">
-	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
-</c:if>
  <c:set var="useRiceAuditMode" value="true" scope="request" />
 
 	<c:set var="transParent" value="false"/>
-<c:if test="${empty awardBudgetPage}">
+<c:choose>	
+<c:when test="${proposalBudgetFlag}">
+	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 	<c:set var="transParent" value="true"/>
-</c:if>
+</c:when>
+<c:otherwise>
+   <c:choose>
+    <c:when test="${not empty awardBudgetPage}">
+	  <c:set var="projectDatesString" value ="(${KualiForm.document.award.awardIdAccount})" />
+    </c:when>
+    <c:otherwise> 
+	  <div id="workarea">
+	  <c:set var="transParent" value="true"/>
+	  <c:set var="projectDatesString" value ="(${KualiForm.document.parentDocument.award.awardIdAccount})" />
+    </c:otherwise>
+   </c:choose>
+</c:otherwise>
+</c:choose>
 
 <kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
 
@@ -60,7 +72,10 @@
 			</ul>
 		</c:forEach>
 
-    	<h3>Budget Versions</h3>
+    	<h3>
+            <span class="subhead-left">Budget Versions</span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.versions.BudgetVersionOverview" altText="help"/></span>
+        </h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
 			<tr>
 				<th scope="row">&nbsp;</th>
@@ -101,11 +116,7 @@
             			</c:when>
 						<c:otherwise>
     				    	<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
-    				    	<html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> 
-    				    	<kul:multipleValueLookup boClassName="org.kuali.kra.budget.parameters.BudgetPeriod" 
-    				    							anchor="${tabKey}" 
-    				    							lookupParameters="${pathToVersions}.award.awardId:budgetParentId"
-    				    							lookedUpCollectionName="newProposalBudgetPeriods" autoSearch="yes"/>
+    				    	<%-- <html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> --%>
     					</c:otherwise>
 					</c:choose>
 					</div>
@@ -120,10 +131,11 @@
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
           		<c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" scope="request"/>
-          		<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+				<c:set var="versionTab" value="${tabKey}${status.index}"/>
+          		<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, versionTab)}"/>
           		<c:choose>
     				<c:when test="${empty currentTab}">
-        				<c:set var="isOpen" value="false" />
+        				<c:set var="isOpen" value="true" />
     				</c:when>
     				<c:when test="${!empty currentTab}" >
         				<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
@@ -135,14 +147,16 @@
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 					<c:set var="displayStyle" value="display: none;"/>
 				</c:if>
+					<html:hidden property="tabStates(${versionTab})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
+					
           		<tr>
            			<td align="right" class="tab-subhead" scope="row">
            				<div align="center">
            					<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                 				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                 				<html:image property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
                				</c:if>
                				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                 				<html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+                 				<html:image  property="methodToCall.toggleTab.tab${versionTab}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${versionTab}-imageToggle" onclick="javascript: return toggleTab(document, '${versionTab}'); " />
                				</c:if>
            				</div>
            			</td>
@@ -193,7 +207,7 @@
 	           			</td>
 	           		</kra:section>
          		</tr>
-         		<tbody style="${displayStyle}">
+         		<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
 	         		<tr>
             		<th align="right" scope="row">&nbsp;</th>
             		<td colspan="8" style="padding:0px; border-left:none">
@@ -236,7 +250,9 @@
         </table>
 	</div> 
 </kul:tab>
-<kul:panelFooter />
+<c:if test="${proposalBudgetFlag or empty awardBudgetPage}">
+  <kul:panelFooter />
+</c:if>
 <c:choose>                    	
 	<c:when test="${readonly}">
 		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />

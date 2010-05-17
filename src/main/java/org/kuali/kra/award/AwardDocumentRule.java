@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,8 +75,10 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
 import org.kuali.kra.award.permissions.AwardPermissionsRule;
+import org.kuali.kra.award.rule.AddAwardAttachmentRule;
 import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
+import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewRule;
@@ -100,6 +102,10 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
+
+
 
 /**
  * Main Business Rule class for <code>{@link AwardDocument}</code>. 
@@ -121,7 +127,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                                                                             AwardCloseoutRule,
                                                                             AwardTemplateSyncRule,
                                                                             AwardCommentsRule,
-                                                                            BusinessRuleInterface {
+                                                                            BusinessRuleInterface,
+                                                                            AddAwardAttachmentRule {
     
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String AWARD_ERROR_PATH = "awardList[0]";
@@ -131,6 +138,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
     private static final String AWARD_ERROR_PATH_PREFIX_NOARRAY = "document.award";
+    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
 
     /**
      * @see org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule
@@ -878,4 +887,26 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return retVal;
     }
 
+    /**
+     * @see org.kuali.kra.award.rule.AddAwardAttachmentRule#processsAddAttachmentRule(org.kuali.kra.award.rule.event.AddAwardAttachmentEvent)
+     */
+    public boolean processsAddAttachmentRule(AddAwardAttachmentEvent event) {
+        boolean valid = true;
+        
+        if( StringUtils.isBlank(event.getAwardAttachment().getTypeCode() )) {
+            valid = false;
+            LOG.debug(AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            reportError("awardAttachmentFormBean.newAttachment.typeCode", AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            
+        }
+        
+        
+        if( event.getAwardAttachment().getNewFile() == null || StringUtils.isEmpty(event.getAwardAttachment().getNewFile().getFileName()) ) {
+            valid = false;
+            LOG.debug(AWARD_ATTACHMENT_FILE_REQUIRED);
+            reportError("awardAttachmentFormBean.newAttachment.newFile", AWARD_ATTACHMENT_FILE_REQUIRED);
+        }
+        
+        return valid;
+    }
 }

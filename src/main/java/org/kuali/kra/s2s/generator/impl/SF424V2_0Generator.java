@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -104,10 +105,22 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
-                int proposalTypeCode = Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode());
-                if (proposalTypeCode < Integer.parseInt(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
-                    applicationTypeEnum = ApplicationType.Enum.forInt(proposalTypeCode);
+                String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+                if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM).equals(proposalTypeCode)){
+					applicationTypeEnum = ApplicationType.NEW;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM).equals(proposalTypeCode)){
+					applicationTypeEnum = ApplicationType.REVISION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.CONTINUATION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.CONTINUATION;
+                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposalTypeCode)){
+                    applicationTypeEnum = ApplicationType.REVISION;
                 }
             }
             sf424V2.setApplicationType(applicationTypeEnum);
@@ -152,7 +165,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         }
         sf424V2.setDateReceived(s2sUtilService.getCurrentCalendar());
         sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
-        sf424V2.setFederalEntityIdentifier(s2sUtilService.getFederalId(pdDoc));
+		String federalId = s2sUtilService.getFederalId(pdDoc);
+		if (federalId != null) {
+        	sf424V2.setFederalEntityIdentifier(federalId);
+		}
 
         Organization organization = null;
         organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
@@ -274,9 +290,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
-                AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-                attachedFileDataType = getAttachedFileType(narrative);
-                sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
+                AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                	sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
+                	break;
+                }
             }
         }
         if (pdDoc.getDevelopmentProposal().getRequestedStartDateInitial() != null) {
@@ -511,23 +529,18 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
      * @return AttachedFileDataType[] array of attachments for project title attachment type.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-        int size = 0;
+        List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
+        AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
-                size++;
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                	attachedFileDataTypeList.add(attachedFileDataType);
+                }
             }
         }
-        AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
-        int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
-                attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
-                attachments++;
-            }
-        }
-        return attachedFileDataTypes;
+        return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
     /**

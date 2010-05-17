@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,15 +134,6 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return Non-Personnel Panel Name for the passed in Line Item
      */
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
-    
-    /**
-     * 
-     * This method returns the Personnel Panel Name (based on the variables).
-     * @param budgetPeriod
-     * @param budgetLineItem
-     * @return Personnel Panel Name for the passed in Line Item
-     */
-    public String getPersonnelPanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
 

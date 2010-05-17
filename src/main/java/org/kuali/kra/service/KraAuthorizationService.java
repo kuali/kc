@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 
 /**
- * The Award Authorization Service handles access to Award Documents.
+ * The Authorization Service handles access to Documents.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
@@ -30,8 +30,8 @@ public interface KraAuthorizationService {
 
     /**
      * Get the list of usernames of people who have the given role with respect to
-     * the given Award.
-     * @param award the Award
+     * the given Permissionable.
+     * @param permissionable the Permissionable
      * @param roleName the name of the Role
      * @return the list of usernames 
      */
@@ -98,5 +98,6 @@ public interface KraAuthorizationService {
     public List<RolePersons> getAllRolePersons(Permissionable permissionable);
     
     public boolean hasRole(String userId, String namespace, String roleName);
-
+    
+    public void forceFlushRoleCaches();    
 }

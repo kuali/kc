@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,10 +65,12 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     @Override
     public boolean getNonEditableRateFlag() {
         boolean nonEditableRate = false;
-        if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
-            nonEditableRate = getBudget().getEbRatesNonEditable();
-        }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
-            nonEditableRate = getBudget().getOhRatesNonEditable();
+        if(getBudget()!=null){
+            if(RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(getRateClassType())){
+                nonEditableRate = getBudget().getEbRatesNonEditable();
+            }else if(RateClassType.OVERHEAD.getRateClassType().equals(getRateClassType())){
+                nonEditableRate = getBudget().getOhRatesNonEditable();
+            }
         }
         return nonEditableRate;
     }

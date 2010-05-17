@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,21 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class AwardBudgetExt extends Budget { 
     
@@ -36,6 +44,8 @@ public class AwardBudgetExt extends Budget {
     private AwardBudgetType awardBudgetType;
     private String description;
     private String budgetInitiator;
+    private BudgetVersionOverview prevBudget;
+    private List<BudgetDecimal> budgetsTotals;
     
     public AwardBudgetExt() { 
         super();
@@ -171,4 +181,58 @@ public class AwardBudgetExt extends Budget {
         this.budgetInitiator = budgetInitiator;
     }
     
+    public BudgetVersionOverview getPrevBudget() {
+        if (prevBudget == null) {
+            Integer version = 0;
+            for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
+                for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
+                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
+                            && "9".equals(((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())
+                            && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
+                        version = budgetVersionOverview.getBudgetVersionNumber();
+                        prevBudget = budgetVersionOverview;
+                    }
+                }
+            }
+            if (prevBudget == null) {
+                prevBudget = new BudgetVersionOverview();
+                prevBudget.setCostSharingAmount(BudgetDecimal.ZERO);
+                prevBudget.setTotalCost(BudgetDecimal.ZERO);
+                prevBudget.setTotalCostLimit(BudgetDecimal.ZERO);
+                prevBudget.setTotalDirectCost(BudgetDecimal.ZERO);
+                prevBudget.setTotalIndirectCost(BudgetDecimal.ZERO);
+                prevBudget.setUnderrecoveryAmount(BudgetDecimal.ZERO);
+            }
+        }
+        return prevBudget;
+    }
+    
+    
+    public void setPrevBudget(BudgetVersionOverview prevBudget) {
+        this.prevBudget = prevBudget;
+    }
+    public List<BudgetDecimal> getBudgetsTotals() {
+        addBudgetTotals();
+        return budgetsTotals;
+    }
+    public void setBudgetsTotals(List<BudgetDecimal> budgetsTotals) {
+        this.budgetsTotals = budgetsTotals;
+    }
+    
+    private void addBudgetTotals() {
+        List <BudgetDecimal> totals = new ArrayList<BudgetDecimal>();
+        totals.add(this.getTotalCost().add(getPrevBudget().getTotalCost()));
+        totals.add(this.getTotalDirectCost().add(getPrevBudget().getTotalDirectCost()));
+        totals.add(this.getTotalIndirectCost().add(getPrevBudget().getTotalIndirectCost()));
+        totals.add(this.getUnderrecoveryAmount().add(getPrevBudget().getUnderrecoveryAmount()));
+        totals.add(this.getCostSharingAmount().add(getPrevBudget().getCostSharingAmount()));
+        this.setBudgetsTotals(totals);
+
+    }
+    public String getRebudgetFlag(){
+        String rebudgetTypeCode = KraServiceLocator.getService(ParameterService.class).
+                    getParameterValue(AwardBudgetDocument.class,KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
+        return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
+    }
+
 }

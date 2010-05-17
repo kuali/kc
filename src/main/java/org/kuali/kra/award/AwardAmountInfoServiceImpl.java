@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,40 +41,97 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * @param award
      * @return
      * @throws WorkflowException 
+     * @throws WorkflowException 
      */
     @SuppressWarnings("unchecked")
-    public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) throws WorkflowException {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("awardNumber", award.getAwardNumber());
-        fieldValues.put("versionNumber", award.getVersionNumber());
-        List<AwardAmountInfo> awardAmountInfos = 
-            (List<AwardAmountInfo>)getBusinessObjectService().findMatchingOrderBy(AwardAmountInfo.class, fieldValues, "awardAmountInfoId", true);
+    public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
+        
         List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
-        //add this check for initial award creation.....the Award Amount Info object has not been persisted yet.
-        if(awardAmountInfos.size() == 0) {
-            return award.getAwardAmountInfos().get(0);
-        }else {
-            for(AwardAmountInfo aai : awardAmountInfos) {
-                if(aai.getTimeAndMoneyDocumentNumber() == null) {
-                    validAwardAmountInfos.add(aai);
-                }else {
-                    Map<String, Object> fieldValues1 = new HashMap<String, Object>();
-                    fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
-                    List<TimeAndMoneyDocument> timeAndMoneyDocuments =
-                        (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
-                    TimeAndMoneyDocument timeAndMoneyDocument = 
-                        (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
-                    if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                        if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                            validAwardAmountInfos.add(aai);
-                        }
+
+        for(AwardAmountInfo aai : award.getAwardAmountInfos()) {
+            //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
+            //if an award has been versioned, the initial transaction will be the first index in list.
+            if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && 
+                    award.getAwardAmountInfos().indexOf(aai) == 1)) {
+                validAwardAmountInfos.add(aai);
+            }else {
+                Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+                fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
+                List<TimeAndMoneyDocument> timeAndMoneyDocuments =
+                    (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
+                try {
+                TimeAndMoneyDocument timeAndMoneyDocument = 
+                    (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
+                if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
+                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                        validAwardAmountInfos.add(aai);
                     }
                 }
+                }catch (WorkflowException e) {
+                    System.out.println("Workflow exception");
+                }
+        
             }
         }
-        return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+    return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+}
 
-    }
+//    }
+//    /**
+//     * This method fetches the Award Amount Info object that is to be displayed in UI for Award.  
+//     * The rules are:
+//     * 1)the Award Amount Infos awardNumber and versionNumber must match the Award BO
+//     * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&M document that has been finalized
+//     * Users don't want this data to apply to Award until the T&M document has been approved.
+//     * @param award
+//     * @return
+//     * @throws WorkflowException 
+//     * @throws WorkflowException 
+//     */
+//    @SuppressWarnings("unchecked")
+//    public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("awardNumber", award.getAwardNumber());
+//        fieldValues.put("sequenceNumber", award.getSequenceNumber());
+//        //fieldValues.put("awardId",award.getAwardId());
+//        List<AwardAmountInfo> awardAmountInfos = 
+//            (List<AwardAmountInfo>)getBusinessObjectService().findMatchingOrderBy(AwardAmountInfo.class, fieldValues, "awardAmountInfoId", true);
+//        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
+//        //add this check for initial award creation.....the Award Amount Info object has not been persisted yet.
+//        if(awardAmountInfos.size() == 0 && award.getSequenceNumber() > 1) {
+//            return award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1);
+//        }else if(awardAmountInfos.size() == 0) {
+//            return award.getAwardAmountInfos().get(0);
+//        } else {
+//            for(AwardAmountInfo aai : awardAmountInfos) {
+//                //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
+//                //if an award has been versioned, the initial transaction will be the first index in list.
+//                if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && awardAmountInfos.indexOf(aai) == 1)
+//                        || (aai.getAwardNumber().endsWith("-00001") && awardAmountInfos.indexOf(aai) == 0 && aai.getSequenceNumber() > 1)) {
+//                    validAwardAmountInfos.add(aai);
+//                }else {
+//                    Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+//                    fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
+//                    List<TimeAndMoneyDocument> timeAndMoneyDocuments =
+//                        (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
+//                    try {
+//                    TimeAndMoneyDocument timeAndMoneyDocument = 
+//                        (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
+//                    if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
+//                        if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+//                            validAwardAmountInfos.add(aai);
+//                        }
+//                    }
+//                    }catch (WorkflowException e) {
+//                        System.out.println("Workflow exception");
+//                    }
+//            
+//                }
+//            }
+//        }
+//        return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+//
+//    }
     
     
     /**

@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Cost Sharing</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.commitments.AwardCostShare" altText="help"/></span>
         </h3>
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>

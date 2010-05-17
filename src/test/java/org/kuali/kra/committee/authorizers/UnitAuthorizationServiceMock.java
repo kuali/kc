@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,4 +39,8 @@ public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         return false;
     }
+    public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
+        return false;
+    }
+    
 }

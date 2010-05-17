@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
@@ -48,13 +52,21 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
 		return hashMap;
 	}
-
     public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
         return budgetPersonnelDetailsList;
     }
 
     public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
+    }
+    @Override
+    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
+        if( this instanceof AwardBudgetLineItemExt) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("budgetLineItemId", getBudgetLineItemId());
+            Query delQ = QueryFactory.newQuery(BudgetLineItem.class, crit);
+            persistenceBroker.deleteByQuery(delQ);
+        }
     }
 
     /**

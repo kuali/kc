@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@
 							</td>
 			                <td align="center" valign="middle">
 			                	<div align="center">			                	
-			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
+			                	<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" readOnly="false"/>			                	
 			                	</div>
 			                </td>			                
 			            </tr>    

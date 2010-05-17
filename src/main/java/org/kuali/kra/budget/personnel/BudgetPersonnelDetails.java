@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,14 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
+import org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriodType;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
@@ -53,6 +59,16 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
     }
+    @Override
+    public void afterDelete(org.apache.ojb.broker.PersistenceBroker persistenceBroker) throws org.apache.ojb.broker.PersistenceBrokerException {
+        if( this instanceof AwardBudgetPersonnelDetailsExt) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("budgetPersonnelLineItemId", getBudgetPersonnelLineItemId());
+            Query delQ = QueryFactory.newQuery(BudgetPersonnelDetails.class, crit);
+            persistenceBroker.deleteByQuery(delQ);
+        }
+    }
+    
 	public Integer getPersonNumber() {
 		return personNumber;
 	}
@@ -145,7 +161,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
      * @return Returns the nonEmployeeFlag.
      */
     public Boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
+        return getBudgetPerson()==null?false:getBudgetPerson().getNonEmployeeFlag();
     }
 
     /**

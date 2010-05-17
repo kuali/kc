@@ -45,6 +45,7 @@ import org.kuali.rice.test.data.UnitTestSql;
         @UnitTestSql("delete from OSP$SPONSOR_HIERARCHY"), @UnitTestSql("delete from OSP$PARAMETER") }, sqlFiles = {
         @UnitTestFile(filename = "classpath:sql/s2s/data/load_SPONSOR_HIERARCHY.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/s2s/data/load_OSP$PARAMETER.sql", delimiter = ";") }))
+@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
 public class S2SServiceTest extends KraTestBase{
     private static final Logger LOG = Logger.getLogger(S2SServiceTest.class);
     private String proposalNumber;

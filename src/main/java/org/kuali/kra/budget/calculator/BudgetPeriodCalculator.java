@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -42,7 +44,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -83,6 +86,9 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
+//            if (!Boolean.valueOf(budget.getBudgetDocument().getParentDocument().getProposalBudgetFlag())) {
+//                ((AwardBudgetExt)budget).setPrevBudget(getBudgetVersionOverview(budget));
+//            }
         }
         if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
         //if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() == budgetPeriod.getBudgetPeriod()){

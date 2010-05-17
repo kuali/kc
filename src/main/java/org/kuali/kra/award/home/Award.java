@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -212,6 +212,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
+    // for Time&money direct f&a distribution
+    private Date hierarchyProjectEndDate;   
 
     /**
      * 
@@ -327,16 +329,19 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
         AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(this);
         int index = 0;
+        if(!(aai.getAwardAmountInfoId() == null)) {
+            this.refreshReferenceObject("awardAmountInfos");
+        }
         for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
             if(awardAmountInfo.getAwardAmountInfoId() == null && aai.getAwardAmountInfoId() == null) {
-                break;
+                return index;
             }else if(awardAmountInfo.getAwardAmountInfoId().equals(aai.getAwardAmountInfoId())) {
-                break;
+                return index;
             }else {
                 index++;
             }
         }
-        return index;
+        throw new IllegalStateException( "AwardAmountInfo objects are in an illgeal state." );
     }
     
     /**
@@ -693,7 +698,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
     
     public Date getObligationExpirationDate() {
-        return awardAmountInfos.get(0).getObligationExpirationDate();
+        //return awardAmountInfos.get(0).getObligationExpirationDate();
+        return getLastAwardAmountInfo().getObligationExpirationDate();
     }
     
     public void setObligationExpirationDate(Date date) {
@@ -2721,7 +2727,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     protected void loadLeadUnit() {
         leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", getUnitNumber()));
     }
-
+    
+    public void populateAdditionalQualifiedRoleAttributes( Map<String,String> qualifiedRoleAttributes ) {
+       qualifiedRoleAttributes.put( "documentNumber", getAwardDocument().getDocumentNumber()); 
+    }
+   
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -2829,6 +2839,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public String getLookupOspAdministratorName() {
         return lookupOspAdministratorName;
+    }
+
+    public Date getHierarchyProjectEndDate() {
+        return hierarchyProjectEndDate;
+    }
+
+    public void setHierarchyProjectEndDate(Date hierarchyProjectEndDate) {
+        this.hierarchyProjectEndDate = hierarchyProjectEndDate;
     }
 
 

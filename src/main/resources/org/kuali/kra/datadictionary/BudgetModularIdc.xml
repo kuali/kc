@@ -12,7 +12,7 @@
     <property name="titleAttribute" value="budgetModularIdc" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KRA-B"
+            p:parameterNamespace="KC-B"
             p:parameterName="budgetModularIdcHelpUrl"
             p:parameterDetailType="D" />
     </property>

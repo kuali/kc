@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -377,9 +377,9 @@ public class InstitutionalProposalXmlStream extends
 	private CostSharingType[] getCostSharingTypes(
 			InstitutionalProposal institutionalProposal) {
 		List<CostSharingType> costSharingTypes = new ArrayList<CostSharingType>();
-		CostSharingType costSharingType = CostSharingType.Factory.newInstance();
 		for (InstitutionalProposalCostShare institutionalProposalCostShare : institutionalProposal
 				.getInstitutionalProposalCostShares()) {
+		    CostSharingType costSharingType = CostSharingType.Factory.newInstance();		    
 			if (institutionalProposalCostShare.getAmount() != null) {
 				costSharingType.setAmount(institutionalProposalCostShare
 						.getAmount().doubleValue());
@@ -472,7 +472,7 @@ public class InstitutionalProposalXmlStream extends
 							.setSpecialReviewStatus(specialReviewApprovalType
 									.getDescription());
 				}
-				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProposalNumber());
+				specialReviewType.setProtocolNumber(institutionalProposalSpecialReview.getProtocolNumber());
 			}
 			SpecialReview specialReview = institutionalProposalSpecialReview
 					.getSpecialReview();

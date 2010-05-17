@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,109 +94,170 @@ public class PHS398ResearchPlanV1_3Generator extends
         ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
+		    AttachedFileDataType attachedFileDataType=null;
 		    switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 			case INTRODUCTION_TO_APPLICATION:
+			    attachedFileDataType = getAttachedFileType(narrative);
+	            if(attachedFileDataType == null){
+	                continue;
+	            }
 				IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory
 						.newInstance();
 				introductionToApplication
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				researchPlanAttachments
 						.setIntroductionToApplication(introductionToApplication);
 				break;
 			case SPECIFIC_AIMS:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				SpecificAims specificAims = SpecificAims.Factory.newInstance();
-				specificAims.setAttFile(getAttachedFileType(narrative));
+				specificAims.setAttFile(attachedFileDataType);
 				researchPlanAttachments.setSpecificAims(specificAims);
 				break;
 			case RESEARCH_STRATEGY:
-			    researchStrategy.setAttFile(getAttachedFileType(narrative));
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
+			    researchStrategy.setAttFile(attachedFileDataType);
 				break;
 			case INCLUSION_ENROLLMENT_REPORT:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				InclusionEnrollmentReport inclusionEnrollmentReport = InclusionEnrollmentReport.Factory
 						.newInstance();
 				inclusionEnrollmentReport
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				researchPlanAttachments
 						.setInclusionEnrollmentReport(inclusionEnrollmentReport);
 				break;
 			case PROGRESS_REPORT_PUBLICATION_LIST:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
 						.newInstance();
 				progressReportPublicationList
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				researchPlanAttachments
 						.setProgressReportPublicationList(progressReportPublicationList);
 				break;
 			case PROTECTION_OF_HUMAN_SUBJECTS:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory
 						.newInstance();
 				protectionOfHumanSubjects
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				humanSubjectSection
 						.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
 				break;
 			case INCLUSION_OF_WOMEN_AND_MINORITIES:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
 						.newInstance();
 				inclusionOfWomenAndMinorities
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				humanSubjectSection
 						.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
 				break;
 			case TARGETED_PLANNED_ENROLLMENT_TABLE:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				TargetedPlannedEnrollmentTable tarPlannedEnrollmentTable = TargetedPlannedEnrollmentTable.Factory
 						.newInstance();
 				tarPlannedEnrollmentTable
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				humanSubjectSection
 						.setTargetedPlannedEnrollmentTable(tarPlannedEnrollmentTable);
 				break;
 			case INCLUSION_OF_CHILDREN:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory
 						.newInstance();
-				inclusionOfChildren.setAttFile(getAttachedFileType(narrative));
+				inclusionOfChildren.setAttFile(attachedFileDataType);
 				humanSubjectSection.setInclusionOfChildren(inclusionOfChildren);
 				break;
 			case VERTEBRATE_ANIMALS:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory
 						.newInstance();
-				vertebrateAnimals.setAttFile(getAttachedFileType(narrative));
+				vertebrateAnimals.setAttFile(attachedFileDataType);
 				otherResearchPlanSections
 						.setVertebrateAnimals(vertebrateAnimals);
 				break;
 			case SELECT_AGENT_RESEARCH:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory
 						.newInstance();
-				selectAgentResearch.setAttFile(getAttachedFileType(narrative));
+				selectAgentResearch.setAttFile(attachedFileDataType);
 				otherResearchPlanSections
 						.setSelectAgentResearch(selectAgentResearch);
 				break;
 			case MULTIPLE_PI_LEADERSHIP_PLAN:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				MultiplePDPILeadershipPlan multiplePILeadershipPlan = MultiplePDPILeadershipPlan.Factory
 						.newInstance();
 				multiplePILeadershipPlan
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				otherResearchPlanSections
 						.setMultiplePDPILeadershipPlan(multiplePILeadershipPlan);
 				break;
 			case CONSORTIUM_CONTRACTUAL_ARRANGEMENTS:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				ConsortiumContractualArrangements contractualArrangements = ConsortiumContractualArrangements.Factory
 						.newInstance();
 				contractualArrangements
-						.setAttFile(getAttachedFileType(narrative));
+						.setAttFile(attachedFileDataType);
 				otherResearchPlanSections
 						.setConsortiumContractualArrangements(contractualArrangements);
 				break;
 			case LETTERS_OF_SUPPORT:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				LettersOfSupport lettersOfSupport = LettersOfSupport.Factory
 						.newInstance();
-				lettersOfSupport.setAttFile(getAttachedFileType(narrative));
+				lettersOfSupport.setAttFile(attachedFileDataType);
 				otherResearchPlanSections.setLettersOfSupport(lettersOfSupport);
 				break;
 			case RESOURCE_SHARING_PLANS:
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType == null){
+                    continue;
+                }
 				ResourceSharingPlans resourceSharingPlans = ResourceSharingPlans.Factory
 						.newInstance();
-				resourceSharingPlans.setAttFile(getAttachedFileType(narrative));
+				resourceSharingPlans.setAttFile(attachedFileDataType);
 				otherResearchPlanSections
 						.setResourceSharingPlans(resourceSharingPlans);
 				break;

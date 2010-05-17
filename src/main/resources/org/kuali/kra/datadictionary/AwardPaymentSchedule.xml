@@ -1,5 +1,5 @@
 <!--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -30,6 +30,12 @@
 			<ref bean="AwardPaymentSchedule-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="awardPaymentScheduleId" />
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition"
+                p:parameterNamespace="KC-AWARD"
+                p:parameterName="awardPaymentsReportsAndTermsHelp"
+                p:parameterDetailType="D" />
+        </property>
 		<property name="attributes" >
 			<list>
 				<ref bean="AwardPaymentSchedule-awardPaymentScheduleId" />				

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+
 
 public class ModifyBudgetPermission extends ProposalAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = false;
-        ProposalHierarchyService proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         ProposalDevelopmentDocument doc = task.getDocument();
-        KualiWorkflowDocument wfd = doc.getDocumentHeader().getWorkflowDocument();
-        boolean rejectedDocument = (StringUtils.equals(proposalHierarchyService.getProposalDevelopmentInitialNodeName(), wfd.getCurrentRouteNodeNames()));
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
 
         hasPermission = ( (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
                 hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(RRKeyPersonV1_1Generator.class);
+	private static final Logger LOG = Logger.getLogger(RRKeyPersonV1_1Generator.class);
 
     /**
      * 
@@ -77,13 +77,17 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     rrKeyPerson.setSupportsAttached(supportsAttached);
                 }
             }
-
+            AttachedFileDataType attachedFileDataType = null;
             for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
-                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
-                        additionalProfilesAttached.setAdditionalProfileAttached(getAttachedFileType(narrative));
-                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+                    	attachedFileDataType = getAttachedFileType(narrative);
+                    	if(attachedFileDataType != null){
+	                        AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+	                        additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+	                        rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
+	                        break;
+                    	}
                     }
                 }
             }
@@ -232,7 +236,11 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-                    profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                	if(NIH.equals(pdDoc.getDevelopmentProposal().getSponsorName())){
+                		profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
+                	}else{
+                		profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
+                	}
                 }
                 else {
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.OTHER_SPECIFY);

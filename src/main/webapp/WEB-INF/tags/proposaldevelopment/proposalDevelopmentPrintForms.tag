@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="document.fillme*">
+<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="print*">
          
 	<div class="tab-container" align="center">
     	<h3>

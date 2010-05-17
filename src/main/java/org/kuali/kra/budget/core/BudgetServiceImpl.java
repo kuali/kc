@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,12 +29,12 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
@@ -42,26 +43,27 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
+import org.kuali.kra.budget.versions.AddBudgetVersionRule;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.rule.event.DocumentAuditEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -73,7 +75,6 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.FormatException;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class implements methods specified by BudgetDocumentService interface
@@ -485,31 +486,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 //            panelName.append(")");
         }
         
-        panelName = panelName.append(" - Budget Period ");
-        panelName = panelName.append(budgetPeriod.getBudgetPeriod());
-        panelName = panelName.append(" ");
-                
-        return panelName.toString();
-    }
-
-    public String getPersonnelPanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
-        StringBuffer panelName = new StringBuffer();
-        if(budgetLineItem.getBudgetCategory() == null) {
-            budgetLineItem.refreshReferenceObject("budgetCategory");
-        }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
-            budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
-        }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
-            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
-        }
-        
-        panelName = panelName.append(" Detail (Period ");
-        panelName = panelName.append(budgetPeriod.getBudgetPeriod());
-        panelName = panelName.append(") ");
-                
         return panelName.toString();
     }
 
@@ -536,13 +512,15 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-//                if (parentDocument.getBudgetParent().getBudgetStatus()!= null 
-//                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                if (parentDocument.getBudgetParent().getBudgetStatus() != null 
+                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
-//                }
+                } else {
+                    finalAndCompleteBudgetVersionFound = false;
+                }
             }
         }
-        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
             auditErrors.add(new AuditError("document.budgetDocumentVersion[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
             valid &= false;
         }
@@ -657,9 +635,15 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetPeriod.setBudgetModular(null);
         }
 
-        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        copyLineItemToPersonnelDetails(budgetDocument);
         budgetDocument.setVersionNumber(null);
+        List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
+        budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
         documentService.saveDocument(budgetDocument);
+        if (projectIncomes != null && !projectIncomes.isEmpty()) {
+            updateProjectIncomes(budgetDocument, projectIncomes);
+        }
+        budgetSummaryService.calculateBudget(budgetDocument.getBudget());
         for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
@@ -672,6 +656,52 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
         return budgetDocument;
     }
+    
+    /**
+     * 
+     * This method is to handle budgetprojectincomes independently.
+     * budgetprojectincomes is a collection of 'budget', but it also reference to budgetperiod.
+     * During copy budgetperiodid is set to null.  If save with budgetdocument, then budgetperiodid will not be set.
+     * So, has to use this to set manually.
+     * @param budgetDocument
+     * @param projectIncomes
+     */
+    private void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
+        for (BudgetProjectIncome projectIncome : projectIncomes) {
+            projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
+            for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+                if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
+                    projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                    break;
+                }
+            }
+        }
+        businessObjectService.save(projectIncomes);
+        budgetDocument.getBudget().refreshReferenceObject("budgetProjectIncomes");
+        
+    }
+    /**
+     * 
+     * Do this so that new personnel details(or copied ones) can be calculated
+     * @param budgetDocument
+     */
+    private void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
+                for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        
+                    if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
+                        for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                            budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
+                            budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+                            budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
+                            budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
+                            budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+                       }
+                    }
+                }
+            }
+        }
+    }    
     
     /**
      * Gets the budgetRatesService attribute. 

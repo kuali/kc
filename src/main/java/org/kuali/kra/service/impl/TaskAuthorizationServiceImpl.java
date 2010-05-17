@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,7 +92,7 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
             for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
                 if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), taskGroupName)) {
                     TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(taskName);
-                    return taskAuthorizer != null;
+                    return (taskAuthorizer != null);
                 }
             }
         }

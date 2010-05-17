@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.kuali.kra.award;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,6 +63,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -182,6 +184,10 @@ public class AwardForm extends BudgetVersionFormBase
     private String currentAwardNumber;
     private String currentSeqNumber;
     
+    private List<List<BudgetDecimal>>  personnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
+    private List<List<BudgetDecimal>>  nonPersonnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
+    private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
+
     /**
      *
      * Constructs a AwardForm.
@@ -1333,6 +1339,58 @@ public class AwardForm extends BudgetVersionFormBase
 
     public void setCurrentSeqNumber(String currentSeqNumber) {
         this.currentSeqNumber = currentSeqNumber;
+    }
+
+    public List<List<BudgetDecimal>> getPersonnelBudgetLimits() {
+        return personnelBudgetLimits;
+    }
+
+    public void setPersonnelBudgetLimits(List<List<BudgetDecimal>> personnelBudgetLimits) {
+        this.personnelBudgetLimits = personnelBudgetLimits;
+    }
+
+    public List<List<BudgetDecimal>> getNonPersonnelBudgetLimits() {
+        return nonPersonnelBudgetLimits;
+    }
+
+    public void setNonPersonnelBudgetLimits(List<List<BudgetDecimal>> nonPersonnelBudgetLimits) {
+        this.nonPersonnelBudgetLimits = nonPersonnelBudgetLimits;
+    }
+    
+    public List<String> getPersonnelLabel() {
+        List<String> personnelLabels = new ArrayList<String>();
+        personnelLabels.add(0, "Salary");
+        personnelLabels.add(1, "Fringe");
+        personnelLabels.add(2, "Calculated Direct Cost");
+        personnelLabels.add(3, "Personnel Subtotal");
+        return personnelLabels;
+    }
+
+    public List<String> getNonPersonnelLabel() {
+        List<String> nonPersonnelLabels = new ArrayList<String>();
+        nonPersonnelLabels.add(0, "Equipment");
+        nonPersonnelLabels.add(1, "Travel");
+        nonPersonnelLabels.add(2, "Participant Support");
+        nonPersonnelLabels.add(3, "Other Direct");
+        nonPersonnelLabels.add(4, "Calculated Direct Cost");
+        nonPersonnelLabels.add(5, "Non-Personnel Subtotal");
+        return nonPersonnelLabels;
+    }
+
+    public List<String> getTotalLabel() {
+        List<String> personnelLabels = new ArrayList<String>();
+        personnelLabels.add(0, "TOTAL DIRECT COSTS");
+        personnelLabels.add(1, "TOTAL F&A COSTS");
+        personnelLabels.add(2, "TOTAL COSTS");
+        return personnelLabels;
+    }
+
+    public List<List<BudgetDecimal>> getTotalBudgetLimits() {
+        return totalBudgetLimits;
+    }
+
+    public void setTotalBudgetLimits(List<List<BudgetDecimal>> totalBudgetLimits) {
+        this.totalBudgetLimits = totalBudgetLimits;
     }
 
 }

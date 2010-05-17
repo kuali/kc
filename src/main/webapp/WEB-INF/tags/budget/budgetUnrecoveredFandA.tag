@@ -1,5 +1,5 @@
 <%--
- Copyright 2006-2009 The Kuali Foundation
+ Copyright 2005-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,8 +28,10 @@
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
-				<h3>Unrecovered F&A Distribution List</h3>
-			
+				<h3>
+                    <span class="subhead-left">Unrecovered F&A Distribution List</span>
+                    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" altText="help"/></span>
+                </h3>
 				<div align="center">
 					<table id="budget-unrecovered-fna-table" cellpadding="0" cellspacing="0" summary="Budget Unrecovered F & A">
 						<tr>

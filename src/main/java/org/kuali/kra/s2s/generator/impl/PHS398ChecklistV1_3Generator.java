@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2005-2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,8 +105,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		}
 		phsChecklist.setApplicationType(applicationEnum);
 		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null
-				&& !federalId.equals(S2SConstants.FEDERAL_ID_NOT_FOUND)) {
+		if (federalId != null) {
 			phsChecklist.setFederalID(federalId);
 		}
 	}
