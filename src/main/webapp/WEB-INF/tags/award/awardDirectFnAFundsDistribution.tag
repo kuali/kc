@@ -34,25 +34,18 @@
         			<kul:htmlControlAttribute property="document.award.beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="true" />   	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" useShortLabel="true" noColon="false" /></th>
-				<td  width="20%" align="left">    
-				  <c:choose>
-				       <c:when test="${not empty KualiForm.document.award.hierarchyProjectEndDate}" >
-        			      <kul:htmlControlAttribute property="document.award.hierarchyProjectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" /> 	 
-				       </c:when>
-				       <c:otherwise>
-        			      <kul:htmlControlAttribute property="document.award.projectEndDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" /> 	 
-				       </c:otherwise>
-				   </c:choose> 
+				<td  width="20%" align="left">          	  
+        			<kul:htmlControlAttribute property="document.award.awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].finalExpirationDate" attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" readOnly="true" />   	 
             	</td>
 			</tr>
 			<tr>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.obligatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">            	  	
-            	  	 $<fmt:formatNumber value="${KualiForm.document.award.obligatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />           	 
+            	  	 $<fmt:formatNumber value="${KualiForm.document.award.awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].amountObligatedToDate}" type="currency" currencySymbol="" maxFractionDigits="2" />           	 
             	</td>
 				<th width="30%" align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.anticipatedTotal}" useShortLabel="true" noColon="false" /></th>
 				<td width="20%">
-            	  	 $<fmt:formatNumber value="${KualiForm.document.award.anticipatedTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+            	  	 $<fmt:formatNumber value="${KualiForm.document.award.awardAmountInfos[KualiForm.document.award.indexOfLastAwardAmountInfo].anticipatedTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
             	</td>
 			</tr>
 			</table>

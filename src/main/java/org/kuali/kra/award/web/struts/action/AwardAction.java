@@ -216,12 +216,6 @@ public class AwardAction extends BudgetParentActionBase {
         Map<String,AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
         Award currentAward = awardDocument.getAward();
         getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
-        AwardHierarchyNode awardHierarchyNode = awardHierarchyNodesMap.get(currentAward.getAwardNumber());
-        if (awardHierarchyNode != null) {
-            currentAward.setHierarchyProjectEndDate(awardHierarchyNode.getFinalExpirationDate());
-        } else {
-            currentAward.setHierarchyProjectEndDate(currentAward.getProjectEndDate());            
-        }
         awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         awardForm.setOrder(order);
