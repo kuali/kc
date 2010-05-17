@@ -24,6 +24,7 @@ public class Task {
 
     private String groupName;
     private String taskName; 
+    private String genericTaskName;
     
     /**
      * Constructs a Task.
@@ -33,6 +34,11 @@ public class Task {
     public Task(String groupName, String taskName) {
         this.groupName = groupName;
         this.taskName = taskName;
+    }
+    
+    public Task(String groupName, String taskName, String genericTaskName) {
+        this(groupName, taskName);
+        this.genericTaskName = genericTaskName;
     }
     
     /**
@@ -49,6 +55,10 @@ public class Task {
      */
     public String getTaskName() {
         return taskName;
+    }
+    
+    public String getGenericTaskName(){
+        return this.genericTaskName;
     }
     
     /**

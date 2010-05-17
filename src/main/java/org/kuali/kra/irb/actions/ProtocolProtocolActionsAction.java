@@ -1685,8 +1685,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private boolean hasGenericPermission(String genericActionName, Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, protocol);
-        return getTaskAuthorizationService().isAuthorizedForGenericAction(GlobalVariables.getUserSession().getPrincipalId(), task, genericActionName);
+        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, protocol, genericActionName);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
