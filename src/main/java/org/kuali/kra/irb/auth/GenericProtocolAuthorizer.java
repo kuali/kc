@@ -79,8 +79,6 @@ public class GenericProtocolAuthorizer extends ProtocolAuthorizer {
     
     /** {@inheritDoc} */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        //System.err.println("canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType(): " + canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()));
-        //System.err.println("hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS): " + hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS));
         return canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }

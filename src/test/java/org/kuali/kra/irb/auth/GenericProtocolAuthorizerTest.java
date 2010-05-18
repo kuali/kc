@@ -15,42 +15,43 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.validator.AssertTrue;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
-
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
+/*
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";")
+}))*/
 public class GenericProtocolAuthorizerTest extends KraTestBase {
     
     private static final String VALID_TASK_NAME = GenericProtocolAuthorizer.TERMINATE_PROTOCOL;
@@ -143,26 +144,6 @@ public class GenericProtocolAuthorizerTest extends KraTestBase {
     
     private Protocol getBaseProtocol(String protocolStatusCode, String submissionType) throws Exception{
         
-      //final UnitAuthorizationService unitAuthorizationService = context.mock(UnitAuthorizationService.class);
-        //context.checking(new Expectations() {{
-          //  one(unitAuthorizationService).hasPermission(USERNAME, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE); will(returnValue(true));
-        //}});
-        //auth.setUnitAuthorizationService(unitAuthorizationService);
-        
-        
-        //final DocumentService ds = context.mock(DocumentService.class);
-        //context.checking(new Expectations() {{
-          //  one(ds).getNewDocument("string"); will(returnValue(new ProtocolDocument()));
-            //ProtocolDocument x = null;
-            //one(ds).saveDocument(x); will(returnValue(null));
-        //}});
-        //final KraAuthorizationService ks = context.mock(KraAuthorizationService.class);
-        
-       // final PersistenceService persistenceService = context.mock(PersistenceService.class);
-        //context.checking(new Expectations() {{
-          //  one(persistenceService).retrieveReferenceObject(new Protocol(), "objectName"); will(returnValue(true));
-        //}});
-        
         ProtocolDocument pd = ProtocolFactory.createProtocolDocument("123", new Integer(1));
         pd.getProtocol().setProtocolStatusCode(protocolStatusCode);
         ProtocolSubmission ps = new ProtocolSubmission();
@@ -199,5 +180,4 @@ public class GenericProtocolAuthorizerTest extends KraTestBase {
         }
         assertFalse(validTest);
     }
-
 }
