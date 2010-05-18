@@ -76,7 +76,7 @@
                     <dl class="tabul">
              	        <dt class="licurrent" >
              	            <span class="tabright tabcurrent">
-                                <input type="submit" name="methodToCall.meetingMain" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
+                                <input type="submit" name="methodToCall.meeting" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
                             </span>
                         </dt> 
                         <dt>
