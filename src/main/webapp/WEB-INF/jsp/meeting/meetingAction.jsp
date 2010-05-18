@@ -61,7 +61,7 @@ var kualiElements = kualiForm.elements;
   <div id="tabs">
     <dl class="tabul">
      	<dt><span class="tabright">
-        <input type="submit" name="methodToCall.meetingMain" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
+        <input type="submit" name="methodToCall.meeting" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
         </span></dt> 
         <dt class="licurrent" ><span class="tabright tabcurrent">
         <c:choose>
