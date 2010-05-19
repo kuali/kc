@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +34,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.TypedAttachment;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -44,10 +46,6 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
-import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
-import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
-import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.OjbCollectionAware;
@@ -62,6 +60,40 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     
     private static final String LEAD_UNIT = "leadUnit";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String EXPIRATION_DATE = "expirationDate";
+    private static final String PROTOCOL_STATUS_CODE = "protocolStatusCode";
+    private static final String SUBMISSION_NUMBER = "submissionNumber";
+    private static final String SUBMISSION_STATUS_CODE = "submissionStatusCode";
+    private static final String PROTOCOL_SUBMISSIONS_COMMITTEE_ID = "protocolSubmissions.committeeId";
+    private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
+    private static final String UPDATE_TIMESTAMP = "updateTimestamp";
+    private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
+    
+    /**
+     * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol.
+     *   <li> 200 - Active, open to enrollment
+     *   <li> 201 - Active, closed to enrollment
+     *   <li> 202 - Active, data analysis only 
+     */
+    private static final Collection<String> ACTIVE_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"200", "201", "202"});
+    /**
+     * The REVISION_REQUESTED_PROTOCOL_STATUS_CODES contains the various status codes for protocol revision requests.
+     *   <li> 102 - Specific Minor Revision
+     *   <li> 104 - Substantive Revision Requested
+     */
+    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"102", "104"});
+    /**
+     * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions (i.e. 203).
+     */
+    private static final String APPROVED_SUBMISSION_STATUS_CODE = "203";
+    /**
+     * The REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES contains the protocol action codes for the protocol revision requests.
+     *   <li> 202 - Specific Minor Revision
+     *   <li> 203 - Substantive Revision Requested 
+     */
+    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES = Arrays.asList(new String[] {"202", "203"});
+    
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -81,6 +113,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * 
      * @see org.kuali.kra.irb.ProtocolDao#getProtocols(java.util.Map)
      */
+    @SuppressWarnings("unchecked")
     public List<Protocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
         baseLookupFieldValues = new HashMap<String, String>();
@@ -134,10 +167,87 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     }
     
     /**
+     * {@inheritDoc}
+     *  
+     */
+    // TODO: We might have a problem as the query should be joined only by protocol_number and not by 
+    //       protocol_number & sequence_number (i.e. protocol_id).
+    @SuppressWarnings("unchecked")
+    public List<Protocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
+        Criteria subCritMaxSequenceNumber = new Criteria();
+        subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
+        subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
+        
+        Criteria subCritMaxSubmissionNumber = new Criteria();
+        subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
+        subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
+        if (startDate != null) {
+            crit.addGreaterOrEqualThan("trunc(" + EXPIRATION_DATE + ")", startDate);
+        }
+        if (endDate != null) {
+            crit.addLessOrEqualThan("trunc(" + EXPIRATION_DATE + ")", endDate);
+        }
+        crit.addIn(PROTOCOL_STATUS_CODE, ACTIVE_PROTOCOL_STATUS_CODES);
+        crit.addEqualTo(SUBMISSION_STATUS_CODE, APPROVED_SUBMISSION_STATUS_CODE);
+        crit.addEqualTo(SEQUENCE_NUMBER, subQueryMaxSequenceNumber);
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, subQueryMaxProtocolSubmission);
+        Query q = QueryFactory.newQuery(Protocol.class, crit, true);
+        logQuery(q);
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+
+    /**
+     * {@inheritDoc} 
+     */
+    @SuppressWarnings("unchecked")
+    // TODO: We might have a problem as the query should be joined only by protocol_number and not by 
+    //       protocol_number & sequence_number (i.e. protocol_id).
+    public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
+        Criteria subCritMaxSequenceNumber = new Criteria();
+        subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
+        subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
+        
+        Criteria subCritMaxSubmissionNumber = new Criteria();
+        subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
+        subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
+
+        Criteria subCritProtocolAction = new Criteria();
+        subCritProtocolAction.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
+        subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
+        subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES);
+        if (startDate != null) {
+            subCritProtocolAction.addGreaterOrEqualThan("trunc(" + UPDATE_TIMESTAMP + ")", startDate);
+        }
+        if (endDate != null) {
+            subCritProtocolAction.addLessOrEqualThan("trunc(" + UPDATE_TIMESTAMP + ")", endDate);
+        }
+        ReportQueryByCriteria subQueryProtocolAction = QueryFactory.newReportQuery(ProtocolAction.class, subCritProtocolAction);
+        
+        Criteria crit = new Criteria();
+        crit.addIn(PROTOCOL_STATUS_CODE, REVISION_REQUESTED_PROTOCOL_STATUS_CODES);
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
+        crit.addEqualTo(SEQUENCE_NUMBER, subQueryMaxSequenceNumber);
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, subQueryMaxProtocolSubmission);
+        crit.addExists(subQueryProtocolAction);
+        Query q = QueryFactory.newQuery(Protocol.class, crit, true);
+        logQuery(q);
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+
+    /**
      * Logs the Query
      * @param q the query
      */
     private static void logQuery(Query q) {
+        System.out.println("logQuery:" + q.toString());
         if (LOG.isDebugEnabled()) {
             LOG.debug(q.toString());
         }
@@ -412,7 +522,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
 
      * @see org.kuali.kra.irb.ProtocolDao#getProtocolSubmissionCount(java.lang.String)
      */
-    @SuppressWarnings({ "unchecked" })
     public boolean getProtocolSubmissionCountFromProtocol(String protocolNumber) {
         Criteria crit = new Criteria();
         
