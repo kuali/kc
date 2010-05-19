@@ -18,6 +18,7 @@ package org.kuali.kra.irb;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -187,10 +188,10 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         Criteria crit = new Criteria();
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
         if (startDate != null) {
-            crit.addGreaterOrEqualThan("trunc(" + EXPIRATION_DATE + ")", startDate);
+            crit.addGreaterOrEqualThan(EXPIRATION_DATE, startDate);
         }
         if (endDate != null) {
-            crit.addLessOrEqualThan("trunc(" + EXPIRATION_DATE + ")", endDate);
+            crit.addLessOrEqualThan(EXPIRATION_DATE, nextDay(endDate));
         }
         crit.addIn(PROTOCOL_STATUS_CODE, ACTIVE_PROTOCOL_STATUS_CODES);
         crit.addEqualTo(SUBMISSION_STATUS_CODE, APPROVED_SUBMISSION_STATUS_CODE);
@@ -224,10 +225,10 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
         subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES);
         if (startDate != null) {
-            subCritProtocolAction.addGreaterOrEqualThan("trunc(" + UPDATE_TIMESTAMP + ")", startDate);
+            subCritProtocolAction.addGreaterOrEqualThan(UPDATE_TIMESTAMP, startDate);
         }
         if (endDate != null) {
-            subCritProtocolAction.addLessOrEqualThan("trunc(" + UPDATE_TIMESTAMP + ")", endDate);
+            subCritProtocolAction.addLessThan(UPDATE_TIMESTAMP, nextDay(endDate));
         }
         ReportQueryByCriteria subQueryProtocolAction = QueryFactory.newReportQuery(ProtocolAction.class, subCritProtocolAction);
         
@@ -242,6 +243,19 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    /**
+     * This method calculates the next day (i.e. adds one day to the date).
+     * 
+     * @param date
+     * @return date the next day
+     */
+    private Date nextDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        return new Date(calendar.getTimeInMillis());
+    }
+    
     /**
      * Logs the Query
      * @param q the query
