@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,10 @@ import org.kuali.rice.test.data.UnitTestFile;
                     @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";"),
-                    @UnitTestFile(filename = "classpath:sql/dml/load_protocol.sql", delimiter = ";")
+                    @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_protocol.sql", delimiter = ";"),
+                    @UnitTestFile(filename = "classpath:sql/dml/load_ProtocolDaoOjbTest_data.sql", delimiter = ";")
             }
    )
 )
@@ -81,7 +85,6 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         
     }
     
-
     private void testProtocolId() {
         Map fieldValues = new HashMap();
         fieldValues.put(PROTOCOL_ID_PROPERTY, PROTOCOL_ID_VALUE);
@@ -180,6 +183,30 @@ public class ProtocolDaoOjbTest extends KraTestBase {
         
     }
     
+    @Test
+    public void testGetExpiringProtocols() {
+        List<Protocol> protocols = getProtocolDao().getExpiringProtocols("1", Date.valueOf("2010-05-27"), null); 
+//        for (Protocol protocol: protocols) { 
+//           System.out.println(" >> Protocol ID:" + protocol.getProtocolId() + " Protocol#:" + protocol.getProtocolNumber() + " Exp:" + protocol.getExpirationDate()
+//                   + " Committee:" + protocol.getProtocolSubmission().getCommitteeId() + " Sequence #" + protocol.getSequenceNumber() +" Submission #:" + protocol.getProtocolSubmission().getSubmissionNumber());
+//       }
+       assertEquals(1, protocols.size());
+       assertEquals(Long.valueOf(9001), protocols.get(0).getProtocolId());
+       assertEquals(Long.valueOf(2),protocols.get(0).getProtocolSubmission().getSubmissionId());
+    }
+
+    @Test
+    public void testGetIrbNotifiedProtocols() {
+        List<Protocol> protocols = getProtocolDao().getIrbNotifiedProtocols("1", Date.valueOf("2010-05-27"), null);
+//        for (Protocol protocol: protocols) { 
+//            System.out.println(" >> Protocol#:" + protocol.getProtocolNumber() + " Exp:" + protocol.getExpirationDate()
+//                    + " Committee:" + protocol.getProtocolSubmission().getCommitteeId() + " Sequence #" + protocol.getSequenceNumber() +" Submission #:" + protocol.getProtocolSubmission().getSubmissionNumber() + "Protocol Action Update TimeStamp:" + protocol.getProtocolActions().get(protocol.getProtocolActions().size() - 1).getUpdateTimestamp());
+//        }
+        assertEquals(1, protocols.size());
+        assertEquals(Long.valueOf(9002), protocols.get(0).getProtocolId());
+        assertEquals(Long.valueOf(3),protocols.get(0).getProtocolSubmission().getSubmissionId());
+    }
+
     private ProtocolDao getProtocolDao() {
         return getService(ProtocolDao.class);
     }
