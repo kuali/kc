@@ -185,23 +185,15 @@ public class ProtocolDaoOjbTest extends KraTestBase {
     
     @Test
     public void testGetExpiringProtocols() {
-        List<Protocol> protocols = getProtocolDao().getExpiringProtocols("1", Date.valueOf("2010-05-27"), null); 
-//        for (Protocol protocol: protocols) { 
-//           System.out.println(" >> Protocol ID:" + protocol.getProtocolId() + " Protocol#:" + protocol.getProtocolNumber() + " Exp:" + protocol.getExpirationDate()
-//                   + " Committee:" + protocol.getProtocolSubmission().getCommitteeId() + " Sequence #" + protocol.getSequenceNumber() +" Submission #:" + protocol.getProtocolSubmission().getSubmissionNumber());
-//       }
-       assertEquals(1, protocols.size());
-       assertEquals(Long.valueOf(9001), protocols.get(0).getProtocolId());
-       assertEquals(Long.valueOf(2),protocols.get(0).getProtocolSubmission().getSubmissionId());
+        List<Protocol> protocols = getProtocolDao().getExpiringProtocols("1", Date.valueOf("2010-05-27"), Date.valueOf("2010-05-27")); 
+        assertEquals(1, protocols.size());
+        assertEquals(Long.valueOf(9001), protocols.get(0).getProtocolId());
+        assertEquals(Long.valueOf(2),protocols.get(0).getProtocolSubmission().getSubmissionId());
     }
 
     @Test
     public void testGetIrbNotifiedProtocols() {
-        List<Protocol> protocols = getProtocolDao().getIrbNotifiedProtocols("1", Date.valueOf("2010-05-27"), null);
-//        for (Protocol protocol: protocols) { 
-//            System.out.println(" >> Protocol#:" + protocol.getProtocolNumber() + " Exp:" + protocol.getExpirationDate()
-//                    + " Committee:" + protocol.getProtocolSubmission().getCommitteeId() + " Sequence #" + protocol.getSequenceNumber() +" Submission #:" + protocol.getProtocolSubmission().getSubmissionNumber() + "Protocol Action Update TimeStamp:" + protocol.getProtocolActions().get(protocol.getProtocolActions().size() - 1).getUpdateTimestamp());
-//        }
+        List<Protocol> protocols = getProtocolDao().getIrbNotifiedProtocols("1", Date.valueOf("2010-05-27"), Date.valueOf("2010-05-27"));
         assertEquals(1, protocols.size());
         assertEquals(Long.valueOf(9002), protocols.get(0).getProtocolId());
         assertEquals(Long.valueOf(3),protocols.get(0).getProtocolSubmission().getSubmissionId());
