@@ -44,7 +44,8 @@ public class CommitteeActionsHelper implements Serializable {
     private Date historyEndDate;
     private List<CommitteeBatchCorrespondence> batchCorrespondenceHistory;
     
-    private String reportType;
+    private Boolean printRooster;
+    private Boolean printFutureScheduledMeeting;
 
     /**
      * 
@@ -52,7 +53,7 @@ public class CommitteeActionsHelper implements Serializable {
      */
     public CommitteeActionsHelper() {
         setGenerateBatchCorrespondence(new CommitteeBatchCorrespondence());
-        setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());  
+        setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());
     }
     
     public String getGenerateBatchCorrespondenceTypeCode() {
@@ -119,12 +120,20 @@ public class CommitteeActionsHelper implements Serializable {
         this.batchCorrespondenceHistory = batchCorrespondenceHistory;
     }
 
-    public String getReportType() {
-        return reportType;
+    public Boolean getPrintRooster() {
+        return printRooster;
     }
 
-    public void setReportType(String reportType) {
-        this.reportType = reportType;
+    public void setPrintRooster(Boolean printRooster) {
+        this.printRooster = printRooster;
+    }
+    
+    public Boolean getPrintFutureScheduledMeeting() {
+        return printFutureScheduledMeeting;
+    }
+
+    public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
+        this.printFutureScheduledMeeting = printFutureScheduledMeeting;
     }
     
     /**
