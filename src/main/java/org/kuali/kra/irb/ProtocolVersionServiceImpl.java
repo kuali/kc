@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.jboss.util.collection.CollectionsUtil;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -37,11 +36,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
-
-import sun.security.action.GetBooleanAction;
 
 /**
  * Protocol Version Service Implementation.
