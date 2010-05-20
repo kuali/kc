@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.service;
 
+import java.util.List;
+
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -46,6 +48,6 @@ public interface CommitteePrintingService {
      *         generated PDF
      * @throws PrintingException if any errors occur during report generation
      */
-    AttachmentDataSource print(Printable printableArtifact) throws PrintingException;
+    AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException;
 
 }

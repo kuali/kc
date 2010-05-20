@@ -22,11 +22,13 @@ import org.kuali.rice.kns.document.Document;
 public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
     public static final String MSG = "print committee document";
     
-    String printType;
+    private Boolean printRooster;
+    private Boolean printFutureScheduledMeeting;
     
-    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, String printType) {
+    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
-        setPrintType(printType);
+        setPrintRooster(printRooster);
+        setPrintFutureScheduledMeeting(printFutureScheduledMeeting);
     }
 
     @SuppressWarnings("unchecked")
@@ -35,12 +37,20 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
         return new CommitteeActionPrintCommitteeDocumentRule();
     }
 
-    public String getPrintType() {
-        return printType;
+    public Boolean getPrintRooster() {
+        return printRooster;
     }
 
-    public void setPrintType(String printType) {
-        this.printType = printType;
+    public void setPrintRooster(Boolean printRooster) {
+        this.printRooster = printRooster;
+    }
+
+    public Boolean getPrintFutureScheduledMeeting() {
+        return printFutureScheduledMeeting;
+    }
+
+    public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
+        this.printFutureScheduledMeeting = printFutureScheduledMeeting;
     }
 
 }

@@ -17,6 +17,7 @@ package org.kuali.kra.committee.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.kuali.kra.committee.print.CommitteeBatchCorrespondencePrint;
 import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
@@ -66,8 +67,8 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     }
     
     @Override
-    public AttachmentDataSource print(Printable printableArtifact) throws PrintingException {
-        AttachmentDataSource attachmentDataSource = super.print(printableArtifact);
+    public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
+        AttachmentDataSource attachmentDataSource = super.print(printableArtifactList);
 
         // TODO: cniesen - Make file name nicer
         String fileName = "Committee Roster - " + Constants.PDF_FILE_EXTENSION;

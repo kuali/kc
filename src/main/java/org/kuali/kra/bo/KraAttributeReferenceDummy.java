@@ -22,7 +22,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.kns.bo.AttributeReferenceDummy;
 
 /**
- * Attribute Reference Dummy Business Object
+ * Attribute Reference Dummy Business Object.
  */
 public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
@@ -39,6 +39,7 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private String budgetName;
     private Integer sequenceNumber;
     private String sourceAccount;
+    private Boolean checkBox;
 
 
     /**
@@ -194,5 +195,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public void setSourceAccount(String sourceAccount) {
         this.sourceAccount = sourceAccount;
+    }
+
+    public Boolean getCheckBox() {
+        return checkBox;
+    }
+
+    public void setCheckBox(Boolean checkBox) {
+        this.checkBox = checkBox;
     }
 }

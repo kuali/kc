@@ -26,6 +26,8 @@
         <ref bean="KraAttributeReferenceDummy-budgetName" />
         <ref bean="KraAttributeReferenceDummy-genericAmount" />
         <ref bean="KraAttributeReferenceDummy-sequenceNumber" />
+        <ref bean="KraAttributeReferenceDummy-sourceAccount" />
+        <ref bean="KraAttributeReferenceDummy-checkBox" />
       </list>
     </property>
   </bean>
@@ -348,6 +350,15 @@
     </property>
     <property name="summary" value="Source Account" />
     <property name="description" value="Source Account" />
+  </bean>
+  
+  <bean id="KraAttributeReferenceDummy-checkBox" parent="KraAttributeReferenceDummy-checkBox-parentBean" />
+    <bean id="KraAttributeReferenceDummy-checkBox-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="checkBox" />
+    <property name="label" value="Check Box" />
+    <property name="shortLabel" value="Check Box" />
+    <property name="summary" value="Check Box" />
+    <property name="description" value="Check Box" />
   </bean>
   
 </beans>

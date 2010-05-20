@@ -29,9 +29,7 @@ public class CommitteeActionPrintCommitteeDocumentRuleTest {
 
             @Override
             protected void prerequisite() {
-                String printType = "roster";
-                
-                event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, printType);
+                event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, true, true);
                 rule = new CommitteeActionPrintCommitteeDocumentRule();
                 expectedReturnValue = true;
             }
@@ -45,9 +43,7 @@ public class CommitteeActionPrintCommitteeDocumentRuleTest {
 
             @Override
             protected void prerequisite() {
-                String printType = null;
-                
-                event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, printType);
+                event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, false, false);
                 rule = new CommitteeActionPrintCommitteeDocumentRule();
                 expectedReturnValue = false;
             }

@@ -15,20 +15,31 @@
  */
 package org.kuali.kra.committee.rules;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
+/**
+ * 
+ * This class contains the document rules of the Action Print section.
+ */
+public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase 
+                                                       implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
     private static final String PRINT_TYPE_FIELD = "committeeHelper.committeeActionsHelper.reportType";
 
+/**
+ * 
+ * This method processes the rules of the CommitteeActionPrintCommitteeDocumentEvent.
+ * 
+ * @param event to be validated against the rules.
+ * @return true if validation passed the rules, false otherwise.
+ */
     public boolean processRules(CommitteeActionPrintCommitteeDocumentEvent event) {
         boolean rulePassed = true;
         
-        if (StringUtils.isEmpty(event.getPrintType())) {
-            reportError(PRINT_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_PRINT_TYPE_NOT_SPECIFIED);
+        if (!event.getPrintRooster() && !event.getPrintFutureScheduledMeeting()) {
+            reportError(PRINT_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_PRINT_REPORT_NOT_SPECIFIED);
             rulePassed = false;
         }
         
