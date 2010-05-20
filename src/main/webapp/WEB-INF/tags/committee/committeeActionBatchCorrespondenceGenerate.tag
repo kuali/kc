@@ -64,7 +64,8 @@
                                           readOnly="false" />
                 to
                 <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.generateEndDate" 
-                                          attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
+                                          attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" 
+                                          readOnly="false" />
             </div>
         </td>
     </tr> 
