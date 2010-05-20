@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
+
 <div id="workarea">
     <kul:tab tabTitle="Print" 
              tabErrorKey="committeeHelper.committeeActionsHelper.reportType"
@@ -30,12 +32,24 @@
             
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td><div align="left">Roster</div></td> 
-                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.reportType" value="ROSTER" styleClass="radio" /></div></td>
+                    <td><div align="left">Roster ${KualiForm.committeeHelper.committeeActionsHelper.printRooster}</div></td> 
+                    <td>
+                        <div align="center">
+                            <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.printRooster" 
+                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
+                                                      readOnly="false" />
+                        </div>
+                    </td>
                 </tr>     
                 <tr>
                     <td><div align="left">Future Scheduled Meetings</div></td> 
-                    <td><div align="center"><html:radio property="committeeHelper.committeeActionsHelper.reportType" value="FUTURE_SCHEDULED_MEETINGS" styleClass="radio" /></div></td>
+                    <td>
+                        <div align="center">
+                            <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.printFutureScheduledMeeting" 
+                                                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+                                                      readOnly="false" />
+                        </div>
+                    </td>
                 </tr>     
                 <tr>
                     <td class="infoline"><div align="left">&nbsp;</div></td> 
