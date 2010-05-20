@@ -47,7 +47,7 @@ public class CommitteeBatchCorrespondencePrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
-    public List<Source> getXSLT() {
+    public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
         // TODO: cniesen - get template (create a service to get the template)
