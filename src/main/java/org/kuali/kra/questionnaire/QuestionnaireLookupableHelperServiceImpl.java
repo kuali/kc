@@ -44,7 +44,7 @@ import java.util.Collections;
  */
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String VIEW = "view";
-    private static final String DOCHANDLER_VIEW_LINK = "../kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=";
+    private static final String DOCHANDLER_VIEW_LINK = "%s/DocHandler.do?command=displayDocSearchView&readOnly=true&docId=%s";
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
@@ -112,8 +112,9 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
 
     private AnchorHtmlData getViewLink(BusinessObject businessObject) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setHref(DOCHANDLER_VIEW_LINK
-                + ((Questionnaire) businessObject).getDocumentNumber());
+        String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
+        htmlData.setHref(String.format(DOCHANDLER_VIEW_LINK, workflowUrl, ((Questionnaire) businessObject).getDocumentNumber()));
+
         htmlData.setDisplayText(VIEW);
         return htmlData;        
     }
