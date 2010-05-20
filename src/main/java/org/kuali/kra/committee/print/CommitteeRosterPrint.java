@@ -46,7 +46,7 @@ public class CommitteeRosterPrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
-    public List<Source> getXSLT() {
+    public List<Source> getXSLTemplates() {
         return PrintingUtils.getXSLTforReport(CommitteeReportType.ROSTER.getCommitteeReportType());
     }
 
