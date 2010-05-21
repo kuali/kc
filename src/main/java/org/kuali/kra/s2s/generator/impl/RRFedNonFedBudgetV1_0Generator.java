@@ -106,7 +106,7 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
         BudgetSummaryInfo budgetSummary = null;
         try {
             budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
-            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc);
+            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);

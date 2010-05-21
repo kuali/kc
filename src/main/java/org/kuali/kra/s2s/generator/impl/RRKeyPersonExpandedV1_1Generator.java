@@ -81,7 +81,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 		rrKeyPersonExpanded.setPDPI(getPersonProfilePI());
 		rrKeyPersonExpanded.setKeyPersonArray(getpersonProfileKeyPerson());
 		// TODO Save the extraKeyPerson before calling the following details.
-		addKeyPersonAttachmentsToProposal();
+		saveKeyPersonAttachmentsToProposal();
 
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
@@ -397,39 +397,39 @@ public class RRKeyPersonExpandedV1_1Generator extends
 		return rrKeyPersonExpandedDocument;
 	}
 
-	@Override
-	protected XmlObject getKeypersonProfileObject() {
-
-		if (extraPersons != null) {
-			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
-
-			extraPersonProfileList.setProposalNumber(pdDoc
-					.getDevelopmentProposal().getProposalNumber());
-			extraPersonProfileList.setExtraKeyPersonArray(getExtraKeyPersons());
-
-			PersonProfileListDocument  extraPersonDoc = PersonProfileListDocument.Factory.newInstance();
-			extraPersonDoc.setPersonProfileList(extraPersonProfileList);
-			String xmlData = extraPersonDoc.xmlText();
-			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
-			streamMap.put("", xmlData.getBytes());
-			Source xsltSource = new StreamSource(getClass()
-					.getResourceAsStream(ADDITIONALKEYPERSONPROFILES_XSL));
-			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
-			xSLTemplateWithBookmarks.put("", xsltSource);
-			
-			
-			GenericPrintable printable = new GenericPrintable();
-			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
-			printable.setStreamMap(streamMap);
-			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
-			try {
-				AttachmentDataSource printData = printingService.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
-				saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
-			} catch (PrintingException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
+//	@Override
+//	protected XmlObject getKeypersonProfileObject() {
+//
+//		if (extraPersons != null) {
+//			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
+//
+//			extraPersonProfileList.setProposalNumber(pdDoc
+//					.getDevelopmentProposal().getProposalNumber());
+//			extraPersonProfileList.setExtraKeyPersonArray(getExtraKeyPersons());
+//
+//			PersonProfileListDocument  extraPersonDoc = PersonProfileListDocument.Factory.newInstance();
+//			extraPersonDoc.setPersonProfileList(extraPersonProfileList);
+//			String xmlData = extraPersonDoc.xmlText();
+//			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
+//			streamMap.put("", xmlData.getBytes());
+//			Source xsltSource = new StreamSource(getClass()
+//					.getResourceAsStream(ADDITIONALKEYPERSONPROFILES_XSL));
+//			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
+//			xSLTemplateWithBookmarks.put("", xsltSource);
+//			
+//			
+//			GenericPrintable printable = new GenericPrintable();
+//			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
+//			printable.setStreamMap(streamMap);
+//			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+//			try {
+//				AttachmentDataSource printData = printingService.print(printable);
+//				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
+//				saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
+//			} catch (PrintingException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return null;
+//	}
 }
