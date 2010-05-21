@@ -17,11 +17,6 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -30,15 +25,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-@Entity
-@Table(name = "MEMBERSHIP_ROLE")
 public class MembershipRole extends KraPersistableBusinessObjectBase { 
-    
-    @Id
-    @Column(name = "MEMBERSHIP_ROLE_CODE")
     private String membershipRoleCode; 
-
-    @Column(name = "DESCRIPTION")
     private String description; 
     
     public MembershipRole() { 

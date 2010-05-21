@@ -193,11 +193,6 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4</version>
 		</dependency>
-		<dependency>
-		    <groupId>javax.persistence</groupId>
-		    <artifactId>persistence-api</artifactId>
-		    <version>1.0</version>
-		</dependency>
 		<!-- remove for newer app servers -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -357,16 +352,6 @@
 			<artifactId>hamcrest-library</artifactId>
 			<version>${org.hamcrest.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
-			<version>3.2.6.ga</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.3.1.GA</version>
 		</dependency>
 		<dependency>
     		<groupId>org.jdom</groupId>

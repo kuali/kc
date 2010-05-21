@@ -23,15 +23,6 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
@@ -45,71 +36,32 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-@Entity 
-@Table(name="COMM_SCHEDULE")
 public class CommitteeSchedule extends CommitteeAssociate { 
     
     private static final long serialVersionUID = -360139608123017188L;
     
-    @Transient
     private Time12HrFmt viewTime;
     
-    @Transient
     private boolean filter = true;
-    
-    @Transient
     private boolean delete = false;
-    
-    @Transient
     private transient boolean selected = false;
-    
-    @javax.persistence.Id 
-    @Column(name="ID")
     private Long id; 
-
-    @Column(name="SCHEDULE_ID")
     private String scheduleId; 
-    
-    @Column(name="SCHEDULED_DATE")
     private Date scheduledDate;
-    
-    @Column(name="PLACE")
     private String place;
-    
-    @Column(name="TIME")
     private Timestamp time;
-    
-    @Column(name="PROTOCOL_SUB_DEADLINE")
+
     private Date protocolSubDeadline;
-    
-    @Column(name="SCHEDULE_STATUS_CODE")
     private Integer scheduleStatusCode;
-    
-    @Column(name="MEETING_DATE")
     private Date meetingDate;
-    
-    @Column(name="START_TIME")
     private Timestamp startTime;
-    
-    @Column(name="END_TIME")
     private Timestamp endTime;
-    
-    @Column(name="AGENDA_PROD_REV_DATE")
     private Date agendaProdRevDate;
-    
-    @Column(name="MAX_PROTOCOLS")
     private Integer maxProtocols;
-    
-    @Column(name="COMMENTS")
     private String comments; 
 	
 // TODO : recursive reference    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMMITTEE_ID_FK", insertable=false, updatable=false)
 	private Committee committee; 
-	
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_STATUS_CODE", insertable=false, updatable=false)
     private ScheduleStatus scheduleStatus;
     
     private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        

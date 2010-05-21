@@ -17,31 +17,20 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is minute entry type code.
  */
-@Entity 
-@Table(name="MINUTE_ENTRY_TYPE")
 public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> { 
     
 
     private static final long serialVersionUID = 3106451618464691958L;
     public static final String ATTENDANCE = "2";
     public static final String PROTOCOL = "3";
-    @Id 
-    @Column(name="MINUTE_ENTRY_TYPE_CODE")
     private String minuteEntryTypeCode; 
-    @Column(name="SORT_ID")
     private Integer sortId; 
-    @Column(name="DESCRIPTION")
     private String description; 
     
         

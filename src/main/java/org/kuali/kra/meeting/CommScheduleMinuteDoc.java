@@ -18,15 +18,6 @@ package org.kuali.kra.meeting;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
@@ -34,32 +25,17 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This class is for meeting generated minute doc.
  */
-@Entity 
-@Table(name="COMM_SCHEDULE_MINUTE_DOC")
 public class CommScheduleMinuteDoc extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 2574809115702106379L;
-    @Id 
-    @Column(name="COMM_SCHEDULE_MINUTE_DOC_ID")
     private Long commScheduleMinuteDocId; 
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-    @Column(name="MINUTE_NUMBER")
     private Integer minuteNumber; 
-    @Column(name="MINUTE_NAME")
     private String minuteName; 
-    @Column(name="PDF_STORE")
     private byte[] pdfStore; 
-    @Column(name="CREATE_TIMESTAMP")
     private Timestamp createTimestamp;
-    @Column(name="CREATE_USER")
     private String createUser;
-
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
-    private CommitteeSchedule committeeSchedule;
-    
-    
+    private CommitteeSchedule committeeSchedule;    
     
     public CommScheduleMinuteDoc() { 
 

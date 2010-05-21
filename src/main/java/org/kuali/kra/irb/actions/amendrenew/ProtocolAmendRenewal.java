@@ -20,54 +20,23 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
-@Entity 
-@Table(name="PROTO_AMEND_RENEWAL")
 public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1317253368511551232L;
-    
-    @Id 
-    @Column(name="PROTO_AMEND_RENEWAL_ID")
+
     private Long id; 
-
-    @Column(name="PROTO_AMEND_REN_NUMBER")
     private String protoAmendRenNumber; 
-
-    @Column(name="DATE_CREATED")
     private Date dateCreated; 
-
-    @Lob
-    @Basic(fetch=FetchType.LAZY)
-    @Column(name="SUMMARY")
     private String summary; 
-
-    @Column(name="PROTOCOL_ID")
     private Long protocolId; 
-
-    @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
 
     private List<ProtocolAmendRenewModule> modules = new ArrayList<ProtocolAmendRenewModule>();
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
     private Protocol protocol;
     
     public ProtocolAmendRenewal() { 

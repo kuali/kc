@@ -17,22 +17,10 @@ package org.kuali.kra.irb.protocol.reference;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity 
-@Table(name="PROTOCOL_REFERENCE_TYPE")
 public class ProtocolReferenceType extends KraPersistableBusinessObjectBase { 
-	
-    @Id 
-    @Column(name="PROTOCOL_REFERENCE_TYPE_CODE")
 	private Integer protocolReferenceTypeCode; 
-    
-    @Column(name="DESCRIPTION")
 	private String description; 
 	
 	public ProtocolReferenceType() { 

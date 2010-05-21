@@ -18,51 +18,22 @@ package org.kuali.kra.questionnaire;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.apache.commons.lang.ObjectUtils;
-import org.hibernate.annotations.Type;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-@Entity 
-@Table(name = "QUESTIONNAIRE")
 public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>,SequenceOwner<Questionnaire> { 
     
     private static final long serialVersionUID = 8679896046435777084L;
-    @Id
-    @Column(name = "QUESTIONNAIRE_REF_ID")
     private Long questionnaireRefId;
-    @Column(name="QUESTIONNAIRE_ID")
     private Integer questionnaireId; 
-    @Column(name="NAME")
     private String name; 
-    @Column(name="DESCRIPTION")
     private String description; 
-    @Type(type="yes_no")
-    @Column(name="IS_FINAL")
     private boolean isFinal; 
-    
-    @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
-    @Column(name="DOCUMENT_NUMBER")
     private String documentNumber;
-
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTIONNAIRE_ID", insertable=false, updatable=false)
     private List<QuestionnaireQuestion> questionnaireQuestions;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTIONNAIRE_ID", insertable=false, updatable=false)
     private List<QuestionnaireUsage> questionnaireUsages;
         
     public Questionnaire() { 

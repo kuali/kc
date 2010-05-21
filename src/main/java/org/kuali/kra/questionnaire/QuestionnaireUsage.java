@@ -17,46 +17,22 @@ package org.kuali.kra.questionnaire;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity 
-@Table(name="QUESTIONNAIRE_USAGE")
 public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>,SequenceAssociate<Questionnaire> { 
     
     private static final long serialVersionUID = -5676341963373665440L;
-    @Id 
-    @Column(name="QUESTIONNAIRE_USAGE_ID")
     private Long questionnaireUsageId; 
-    @Column(name="MODULE_ITEM_CODE")
     private String moduleItemCode; 
-    @Column(name="MODULE_SUB_ITEM_CODE")
     private String moduleSubItemCode; 
-    @Column(name="QUESTIONNAIRE_REF_ID_FK")
     private Long questionnaireRefIdFk; 
-    @Column(name="RULE_ID")
     private Integer ruleId; 
-    @Column(name="QUESTIONNAIRE_LABEL")
     private String questionnaireLabel; 
-    @Column(name="QUESTIONNAIRE_SEQUENCE_NUMBER")
     private Integer questionnaireSequenceNumber;
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_ITEM_CODE", insertable=false, updatable=false)
     private CoeusModule coeusModule;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTIONNAIRE_REF_ID_FK", insertable=false, updatable=false)
     private Questionnaire questionnaire;
     
     private Questionnaire sequenceOwner;

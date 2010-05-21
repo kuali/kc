@@ -19,17 +19,17 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.util.IdentitySet;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
@@ -54,8 +54,7 @@ public class SequenceUtils {
      * Using an identity set to store already sequenced references.  In Java 6 and above the following can be used
      * as a Set Implementation java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<SequenceAssociate<?>, Boolean>())
      */
-    @SuppressWarnings("unchecked")
-    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new IdentitySet());
+    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new IdentityHashMap<SequenceAssociate<?>, Boolean>().keySet());
 
     /**
      * This method sequences a SequenceOwner to a new version.

@@ -21,9 +21,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
@@ -39,42 +36,17 @@ public class CommitteeMembership extends CommitteeAssociate {
     private static final long serialVersionUID = 3036751811459612428L;
 
     private final String DATE_FORMAT = "MM/dd/yyyy";
-
-    @Id
-    @Column(name = "COMM_MEMBERSHIP_ID")
     private Long committeeMembershipId;
-
-    @Column(name = "PERSON_ID")
     private String personId;
-
-    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
-
-    @Column(name = "PERSON_NAME")
     private String personName;
-
-    @Column(name = "MEMBERSHIP_ID")
     private String membershipId;
-
-    @Column(name = "PAID_MEMBER_FLAG")
     private boolean paidMember;
-
-    @Column(name = "TERM_START_DATE")
     private Date termStartDate;
-
-    @Column(name = "TERM_END_DATE")
     private Date termEndDate;
-
-    @Column(name = "MEMBERSHIP_TYPE_CODE")
     private String membershipTypeCode;
-
-    @Column(name = "COMMENTS")
     private String comments;
-
-    @Column(name = "CONTACT_NOTES")
     private String contactNotes;
-
-    @Column(name = "TRAINING_NOTES")
     private String trainingNotes;
 
     private List<CommitteeMembershipRole> membershipRoles;
