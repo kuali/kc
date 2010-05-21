@@ -442,4 +442,8 @@
         <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
+    <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 </beans>
