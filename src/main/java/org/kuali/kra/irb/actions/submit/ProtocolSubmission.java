@@ -20,105 +20,46 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 
-@Entity 
-@Table(name="PROTOCOL_SUBMISSION")
 public class ProtocolSubmission extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -5443313755174483591L;
 
-    @Id 
-    @Column(name = "SUBMISSION_ID")
     private Long submissionId;
-    
-    @Column(name="SUBMISSION_NUMBER")
     private Integer submissionNumber; 
-    
-    @Column(name="SCHEDULE_ID")
     private String scheduleId; 
-
-    @Column(name="COMMITTEE_ID")
     private String committeeId; 
-
-    @Column(name = "COMITTEE_ID_FK")
     private Long committeeIdFk;
-    
-    @Column(name = "SCHEDULE_ID_FK")
     private Long scheduleIdFk;
-    
-    @Column(name = "SUBMISSION_TYPE_CODE")
     private String submissionTypeCode;
-    
-    @Column(name = "SUBMISSION_TYPE_QUAL_CODE")
     private String submissionTypeQualifierCode;
-    
-    @Column(name = "SUBMISSION_STATUS_CODE")
     private String submissionStatusCode;
-    
-    @Column(name = "PROTOCOL_REVIEW_TYPE_CODE")
     private String protocolReviewTypeCode;
-    
-    @Column(name="SUBMISSION_DATE")
     private Timestamp submissionDate; 
-
-    @Column(name="COMMENTS")
     private String comments; 
-
-    @Column(name="YES_VOTE_COUNT")
     private Integer yesVoteCount; 
-
-    @Column(name="NO_VOTE_COUNT")
     private Integer noVoteCount; 
-
-    @Column(name="ABSTAINER_COUNT")
     private Integer abstainerCount; 
-
-    @Column(name="VOTING_COMMENTS")
     private String votingComments; 
     
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
     
     private List<ProtocolReviewer> protocolReviewers = new ArrayList<ProtocolReviewer>();
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionType protocolSubmissionType;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_TYPE_QUAL_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
     @SkipVersioning
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_REVIEW_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolReviewType protocolReviewType;
     
     @SkipVersioning
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="COMMITTEE_ID_FK", insertable=false, updatable=false)
     private Committee committee;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_STATUS_CODE", insertable=false, updatable=false)
     private ProtocolSubmissionStatus submissionStatus;    
     
     

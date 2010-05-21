@@ -17,8 +17,6 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-
 /**
  * 
  * This class is for associating common Committee properties to the extended Committee children BOs
@@ -27,7 +25,6 @@ public abstract class CommitteeAssociate extends CommitteeSequenceAssociate {
 
     private static final long serialVersionUID = -6350020738083606018L;
 
-    @Column(name = "COMMITTEE_ID_FK")
     private Long committeeIdFk;
     
     public Long getCommitteeIdFk() {

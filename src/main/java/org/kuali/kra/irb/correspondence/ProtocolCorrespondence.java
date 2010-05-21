@@ -17,63 +17,25 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 
-@Entity 
-@Table(name="PROTOCOL_CORRESPONDENCE")
 public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = 8032222937155468412L;
 
-    @Id 
-    @Column(name="ID")
     private Long id; 
-
-    @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber; 
-    
-    @Column(name = "ACTION_ID")
     private Integer actionId;
-    
-    @Column(name = "PROTOCOL_ID")
     private Long protocolId;
-    
-    @Column(name = "ACTION_ID_FK")
     private Long actionIdFk;
-    
-    @Column(name = "PROTO_CORRESP_TYPE_CODE")
     private String protoCorrespTypeCode;
-
-    @Column(name="CORRESPONDENCE")
     private byte[] correspondence; 
-    
-    @Column(name = "FINAL_FLAG")
     private boolean finalFlag;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
     private Protocol protocol;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTO_CORRESP_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolCorrespondenceType protocolCorrespondenceType;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="ACTION_ID_FK", insertable=false, updatable=false)
     private ProtocolAction protocolAction;
     
     public ProtocolCorrespondence() {

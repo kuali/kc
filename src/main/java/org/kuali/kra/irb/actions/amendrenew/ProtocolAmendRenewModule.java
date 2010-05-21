@@ -17,30 +17,15 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="PROTOCOL_AMEND_RENEW_MODULES")
 @SuppressWarnings("serial")
 public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase {
 
-    @Column(name = "PROTO_AMEND_RENEW_MODULE_ID")
     private Long protocolAmendRenewModuleId;
-    
-    @Column(name = "PROTO_AMEND_RENEWAL_NUMBER")
     private String protocolAmendRenewalNumber;
-    
-    @Column(name = "PROTO_AMEND_RENEWAL_ID")
     private Long protocolAmendRenewalId;
-    
-    @Column(name = "PROTOCOL_NUMBER")
     private String protocolNumber;
-    
-    @Column(name = "PROTOCOL_MODULE_CODE")
     private String protocolModuleTypeCode;
     
     private ProtocolAmendRenewal protocolAmendRenewal;

@@ -17,67 +17,28 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
-@Entity 
-@Table(name="COEUS_MODULE")
 public class CoeusModule extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
     public static final String IRB_MODULE_CODE = "7";
 
-    @Id 
-    @Column(name="MODULE_CODE")
     private String moduleCode; 
-    @Column(name="DESCRIPTION")
     private String description; 
     
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_ITEM_CODE", insertable=false, updatable=false)
     private QuestionnaireUsage questionnaireUsage;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private CoeusSubModule coeusSubModule;
     
     /* TODO : Implemented in the future 
     
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private ProtocolRelatedProjects protocolRelatedProjects;
     
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private CustomDataElementUsage customDataElementUsage;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private ProtocolLinks protocolLinks;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private NotifActionType notifActionType;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private PersonRoleModule personRoleModule;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private NotificationType notificationType;
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private NotificationDetails notificationDetails;
     */
     

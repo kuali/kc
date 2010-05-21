@@ -18,15 +18,6 @@ package org.kuali.kra.meeting;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
@@ -34,29 +25,18 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This class is meeting generated agenda doc.
  */
-@Entity 
-@Table(name="SCHEDULE_AGENDA")
 public class ScheduleAgenda extends KraPersistableBusinessObjectBase { 
     
 
     private static final long serialVersionUID = -3448403457020324952L;
-    @Id 
-    @Column(name="SCHEDULE_AGENDA_ID")
+
     private Long scheduleAgendaId; 
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-    @Column(name="AGENDA_NUMBER")
     private Integer agendaNumber; 
-    @Column(name="AGENDA_NAME")
     private String agendaName; 
-    @Column(name="PDF_STORE")
     private byte[] pdfStore; 
-    @Column(name="CREATE_TIMESTAMP")
     private Timestamp createTimestamp;
-    @Column(name="CREATE_USER")
     private String createUser;
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
     
     

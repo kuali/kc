@@ -19,60 +19,30 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
-@Entity 
-@Table(name="PROTOCOL_ACTIONS")
 public class ProtocolAction extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -2148599171919464303L;
     
     private static final String NEXT_ACTION_ID_KEY = "actionId";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    
-    @Id 
-    @Column(name = "PROTOCOL_ACTION_ID")
-    private Long protocolActionId;
-    
-    @Column(name="ACTION_ID")
-    private Integer actionId; 
-    
-    @Column(name = "SUBMISSION_NUMBER")
-    private Integer submissionNumber;
-    
-    @Column(name = "SUBMISSION_ID_FK")
-    private Long submissionIdFk;
-    
-    @Column(name = "PROTOCOL_ACTION_TYPE_CODE")
-    private String protocolActionTypeCode;
-    
-    @Column(name="COMMENTS")
-    private String comments; 
 
-    @Column(name = "ACTUAL_ACTION_DATE")
+    //not thread safe cannot be static
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    
+
+    private Long protocolActionId;
+    private Integer actionId; 
+    private Integer submissionNumber;
+    private Long submissionIdFk;
+    private String protocolActionTypeCode;
+    private String comments; 
     private Timestamp actualActionDate;
-    
-    @Column(name = "ACTION_DATE")
     private Timestamp actionDate;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_ID_FK", insertable=false, updatable=false)
     private ProtocolSubmission protocolSubmission;    
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ACTION_TYPE_CODE", insertable=false, updatable=false)
     private ProtocolActionType protocolActionType;
     
     public ProtocolAction() { 

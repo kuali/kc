@@ -18,15 +18,6 @@ package org.kuali.kra.irb.protocol.participant;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.irb.ProtocolAssociate;
 
 /**
@@ -35,22 +26,10 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-@Entity
-@Table(name = "PROTOCOL_VULNERABLE_SUB")
 public class ProtocolParticipant extends ProtocolAssociate {
-
-    @Id
-    @Column(name = "PROTOCOL_VULNERABLE_SUB_ID")
     private Long protocolParticipantId;
-
-    @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
     private String participantTypeCode;
-
-    @Column(name = "SUBJECT_COUNT")
     private Integer participantCount;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "VULNERABLE_SUBJECT_TYPE_CODE", insertable = true, updatable = true)
     private ParticipantType participantType;
 
     public ProtocolParticipant() {

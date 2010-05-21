@@ -17,17 +17,6 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
@@ -35,39 +24,19 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This is a Bo class for committee schedule attendance.
  */
-@Entity 
-@Table(name="COMM_SCHEDULE_ATTENDANCE")
 public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = -6010677692125364332L;
-    @Id 
-    @Column(name="COMM_SCHEDULE_ATTENDANCE_ID")
     private Long commScheduleAttendanceId; 
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-    @Column(name="PERSON_ID")
     private String personId; 
-    @Type(type="yes_no")
-    @Column(name="GUEST_FLAG")
     private boolean guestFlag; 
-    @Type(type="yes_no")
-    @Column(name="ALTERNATE_FLAG")
     private boolean alternateFlag; 
-    @Column(name="ALTERNATE_FOR")
     private String alternateFor; 
-    @Type(type="yes_no")
-    @Column(name="NON_EMPLOYEE_FLAG")
     private boolean nonEmployeeFlag; 
-    @Column(name="COMMENTS")
     private String comments; 
-    @Column(name="PERSON_NAME")
     private String personName; 
-    
-    @Transient
     private String roleName; 
-
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule; 
     
     public CommitteeScheduleAttendance() { 

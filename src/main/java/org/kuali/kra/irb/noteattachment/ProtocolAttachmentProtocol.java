@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.kuali.kra.irb.Protocol;
 
 /**
@@ -49,9 +47,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private Integer attachmentVersion;
     private List<ProtocolAttachmentProtocol> versions;
     
-    @Transient
     private boolean active = true;
-    @Transient
     private boolean changed = false;
     
     

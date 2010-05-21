@@ -17,14 +17,10 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,10 +28,8 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.DocumentAuditRule;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -47,9 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 
     
-    @Transient
     private ParameterService parameterService;
-    @Transient
     private ProposalDevelopmentService proposalDevelopmentService;
     
     public ProposalDevelopmentSponsorProgramInformationAuditRule() {

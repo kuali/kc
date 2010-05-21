@@ -17,13 +17,6 @@ package org.kuali.kra.irb.actions;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -31,40 +24,16 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 @SuppressWarnings("serial")
 public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
     
-    @Id 
-    @Column(name = "SUBMISSION_DOC_ID")
     private Long submissionDocId;
-    
-    @Column(name="PROTOCOL_NUMBER")
     private String protocolNumber; 
-
-    @Column(name="SEQUENCE_NUMBER")
     private Integer sequenceNumber;
-    
-    @Column(name = "SUBMISSION_NUMBER")
     private Integer submissionNumber;
-    
-    @Column(name = "DOCUMENT_ID")
     private Integer documentId;
-    
-    @Column(name = "PROTOCOL_ID")
     private Long protocolId;
-    
-    @Column(name = "SUBMISSION_ID_FK")
     private Long submissionIdFk;
-    
-    @Column(name = "FILE_NAME")
     private String fileName;
-    
-    @Column(name = "DOCUMENT")
     private byte[] document;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID", insertable=false, updatable=false)
     private Protocol protocol;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SUBMISSION_ID_FK", insertable=false, updatable=false)
     private ProtocolSubmission protocolSubmission;    
     
     public ProtocolSubmissionDoc() {

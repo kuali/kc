@@ -17,15 +17,8 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity 
-@Table(name="SUBMISSION_STATUS")
 public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -3005754570292744646L;
@@ -40,12 +33,7 @@ public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
     public static final String CLOSED = "207";
     public static final String TERMINATED = "208";
     public static final String WITHDRAWN = "210";
-   
-    @Id 
-    @Column(name="SUBMISSION_STATUS_CODE")
     private String protocolSubmissionStatusCode; 
-
-    @Column(name="DESCRIPTION")
     private String description; 
  
     public ProtocolSubmissionStatus() { 

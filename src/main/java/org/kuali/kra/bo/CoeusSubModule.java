@@ -17,33 +17,14 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-@Entity 
-@Table(name="OSP$COEUS_SUB_MODULE")
 public class CoeusSubModule extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 1L;
 
-    @Id 
-    @Column(name="COEUS_SUB_MODULE_ID")
     private Integer coeusSubModuleId; 
-    @Column(name="MODULE_CODE")
     private String moduleCode; 
-    @Column(name="SUB_MODULE_CODE")
     private String subModuleCode; 
-    @Column(name="DESCRIPTION")
     private String description; 
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MODULE_CODE", insertable=false, updatable=false)
     private CoeusModule coeusModule;
     
         

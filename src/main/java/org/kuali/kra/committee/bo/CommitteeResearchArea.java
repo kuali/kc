@@ -17,38 +17,19 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.ResearchArea;
 
 
 /**
  * This class implements the committee research area business object.
  */
-@javax.persistence.Entity
-@Table(name = "COMM_RESEARCH_AREAS")
 public class CommitteeResearchArea extends CommitteeAssociate {
 
     private static final long serialVersionUID = 6586026093806484327L;
 
-    @javax.persistence.Id
-    @Column(name = "ID")
     private Long id;
-
-    @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "COMMITTEE_ID", insertable = false, updatable = false)
     private Committee committee;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "RESEARCH_AREA_CODE", insertable = false, updatable = false)
     private ResearchArea researchArea;
     
     public CommitteeResearchArea() {
