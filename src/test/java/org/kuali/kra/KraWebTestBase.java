@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
@@ -215,7 +214,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
-        assertTrue(id + " not found", element != null);
+        assertTrue(id + " not found. page " + page.asText(), element != null);
         assertTrue((element != null) ? element.getClass().getName() : "element is null", element instanceof ClickableElement);
 
         return clickOn(element, nextPageTitle);
