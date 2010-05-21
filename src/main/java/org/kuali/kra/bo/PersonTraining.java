@@ -18,14 +18,6 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
@@ -33,32 +25,17 @@ import org.kuali.kra.service.KcPersonService;
  * 
  * This is BO class for person training maintenance.
  */
-@Entity 
-@Table(name="PERSON_TRAINING")
 public class PersonTraining extends KraPersistableBusinessObjectBase { 
 	
-	@Id 
-	@Column(name="PERSON_TRAINING_ID")
 	private Integer personTrainingId; 
-	@Column(name="PERSON_ID")
 	private String personId; 
-	@Column(name="TRAINING_NUMBER")
 	private Integer trainingNumber; 
-	@Column(name="TRAINING_CODE")
 	private Integer trainingCode; 
-	@Column(name="DATE_REQUESTED")
 	private Date dateRequested; 
-	@Column(name="DATE_SUBMITTED")
 	private Date dateSubmitted; 
-	@Column(name="DATE_ACKNOWLEDGED")
 	private Date dateAcknowledged; 
-	@Column(name="FOLLOWUP_DATE")
 	private Date followupDate; 
-	@Column(name="SCORE")
 	private String score; 
-	@Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="COMMENTS")
 	private String comments; 
 
 	private Training training;

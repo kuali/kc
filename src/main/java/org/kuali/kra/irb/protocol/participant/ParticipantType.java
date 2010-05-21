@@ -18,11 +18,6 @@ package org.kuali.kra.irb.protocol.participant;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -31,15 +26,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-@Entity
-@Table(name = "VULNERABLE_SUBJECT_TYPE")
 public class ParticipantType extends KraPersistableBusinessObjectBase {
-
-    @Id
-    @Column(name = "VULNERABLE_SUBJECT_TYPE_CODE")
     private String participantTypeCode;
-
-    @Column(name = "DESCRIPTION")
     private String description;
 
     public ParticipantType() {

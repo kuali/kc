@@ -17,8 +17,6 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Transient;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {

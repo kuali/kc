@@ -17,24 +17,12 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity 
-@Table(name="SCHEDULE_STATUS")
 public class ScheduleStatus extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -7318684957814299092L;
-
-    @Id 
-	@Column(name="SCHEDULE_STATUS_CODE")
 	private Integer scheduleStatusCode; 
-	
-	@Column(name="DESCRIPTION")
 	private String description; 
 	
 	public ScheduleStatus() { 

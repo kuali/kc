@@ -17,35 +17,17 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is for schedule other action type code.
  */
-@Entity 
-@Table(name="SCHEDULE_ACT_ITEM_TYPE")
 public class ScheduleActItemType extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = -2501084035126192701L;
-    @Id 
-    @Column(name="SCHEDULE_ACT_ITEM_TYPE_CODE")
     private String scheduleActItemTypeCode; 
-    @Column(name="DESCRIPTION")
     private String description; 
-    
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ACT_ITEM_TYPE_CODE", insertable=false, updatable=false)
     private CommScheduleActItem commScheduleActItems;
     
     

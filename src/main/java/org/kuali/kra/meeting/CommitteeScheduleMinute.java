@@ -19,22 +19,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.hibernate.annotations.Type;
+
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -47,60 +35,23 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This is BO class for committee schedule minute. 
  */
-@Entity 
-@Table(name="COMM_SCHEDULE_MINUTES")
 public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -2294619582524055884L;
 
-    @Id 
-    @Column(name="COMM_SCHEDULE_MINUTES_ID")
     private Long commScheduleMinutesId; 
-
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-
-    @Column(name="ENTRY_NUMBER")
     private Integer entryNumber;
-
-    @Column(name="MINUTE_ENTRY_TYPE_CODE")
     private String minuteEntryTypeCode; 
-
-    @Column(name="PROTOCOL_CONTINGENCY_CODE")
     private String protocolContingencyCode; 
-
-    @Column(name="PROTOCOL_ID_FK")
     private Long protocolIdFk; 
-
- 
-    @Column(name="SUBMISSION_ID_FK")
     private Long submissionIdFk; 
-
-    @Type(type="yes_no")
-    @Column(name="PRIVATE_COMMENT_FLAG")
     private boolean privateCommentFlag; 
-    
-    @Type(type="yes_no")
-    @Column(name="FINAL_FLAG")
     private boolean finalFlag; 
-    
-    @Column(name="REVIEWER_ID_FK")
     private Long protocolReviewerIdFk;
-
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_CONTINGENCY_CODE", insertable=false, updatable=false)
     private ProtocolContingency protocolContingency;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="MINUTE_ENTRY_TYPE_CODE", insertable=false, updatable=false)
-    private MinuteEntryType minuteEntryType;
-    
-    
+    private MinuteEntryType minuteEntryType;    
     private ProtocolReviewer protocolReviewer;
-
-    @Lob
-    @Basic(fetch=FetchType.LAZY)
-    @Column(name="MINUTE_ENTRY")
     private String minuteEntry; 
     
     // TODO : not sure how this protocols yet.
@@ -110,8 +61,6 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @SkipVersioning
     private Protocol protocol;
 
-    // Transient field 
-    @Transient
     private boolean generateAttendance = false;
     
     public CommitteeScheduleMinute() { 

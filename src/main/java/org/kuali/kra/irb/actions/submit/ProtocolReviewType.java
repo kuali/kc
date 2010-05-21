@@ -17,8 +17,6 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -32,10 +30,7 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
     public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
     public static final String EXEMPT_STUDIES_REVIEW_TYPE_CODE = "3";
 
-    @Column(name = "PROTOCOL_REVIEW_TYPE_CODE")
     private String reviewTypeCode;
-    
-    @Column(name = "DESCRIPTION")
     private String description;
     
     /**

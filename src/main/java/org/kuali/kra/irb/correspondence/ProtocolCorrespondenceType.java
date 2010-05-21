@@ -20,29 +20,16 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
-@Entity 
-@Table(name="PROTO_CORRESP_TYPE")
 public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -4725522827463252054L;
 
-    @Id 
-    @Column(name="PROTO_CORRESP_TYPE_CODE")
     private String protoCorrespTypeCode; 
-
-    @Column(name="DESCRIPTION")
     private String description; 
-
-    @Column(name="MODULE_ID")
     private String moduleId; 
     
     private List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates;

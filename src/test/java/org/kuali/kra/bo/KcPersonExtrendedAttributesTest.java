@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.bo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import org.hibernate.validator.AssertTrue;
+import java.sql.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.sql.Date;
 
 public class KcPersonExtrendedAttributesTest {
     

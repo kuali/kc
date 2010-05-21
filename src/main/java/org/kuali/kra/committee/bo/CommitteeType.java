@@ -17,8 +17,6 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -29,10 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public class CommitteeType extends KraPersistableBusinessObjectBase {
 
-    @Column(name = "COMMITTEE_TYPE_CODE")
     private String committeeTypeCode;
-    
-    @Column(name = "DESCRIPTION")
     private String description;
     
     /**

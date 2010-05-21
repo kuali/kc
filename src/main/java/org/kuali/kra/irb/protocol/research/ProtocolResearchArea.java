@@ -17,32 +17,14 @@ package org.kuali.kra.irb.protocol.research;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.ProtocolAssociate;
 
-
-@javax.persistence.Entity 
-@Table(name="PROTOCOL_RESEARCH_AREAS")
 public class ProtocolResearchArea extends ProtocolAssociate { 
 	
     private static final long serialVersionUID = -1522011425745031200L;
-
-    @javax.persistence.Id 
-    @Column(name="ID")
     private Long id; 
-
-    @Column(name="RESEARCH_AREA_CODE")
 	private String researchAreaCode; 
-	
-	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
 	private ResearchArea researchAreas; 
 	
 	public ProtocolResearchArea() { 

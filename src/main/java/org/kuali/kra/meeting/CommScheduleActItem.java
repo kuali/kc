@@ -17,15 +17,6 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
@@ -33,32 +24,16 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * 
  * This class is for schedule meeting other action.
  */
-@Entity 
-@Table(name="COMM_SCHEDULE_ACT_ITEMS")
 public class CommScheduleActItem extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 2406440045117841427L;
-    @Id 
-    @Column(name="COMM_SCHEDULE_ACT_ITEMS_ID")
     private Long commScheduleActItemsId; 
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-    @Column(name="ACTION_ITEM_NUMBER")
     private Integer actionItemNumber; 
-    @Column(name="SCHEDULE_ACT_ITEM_TYPE_CODE")
     private String scheduleActItemTypeCode; 
-    @Column(name="ITEM_DESCTIPTION")
     private String itemDesctiption; 
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
     private CommitteeSchedule committeeSchedule;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ACT_ITEM_TYPE_CODE", insertable=false, updatable=false)
-    private ScheduleActItemType scheduleActItemType;
-    
-    
+    private ScheduleActItemType scheduleActItemType;    
     
     public CommScheduleActItem() { 
 

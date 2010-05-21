@@ -17,14 +17,8 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-@Entity
-@Table(name="PROTOCOL_MODULES")
 @SuppressWarnings("serial")
 public class ProtocolModule extends KraPersistableBusinessObjectBase {
 
@@ -39,10 +33,8 @@ public class ProtocolModule extends KraPersistableBusinessObjectBase {
     public static final String OTHERS = "023";
     public static final String FUNDING_SOURCE = "024";
     
-    @Column(name = "PROTOCOL_MODULE_CODE")
     private String protocolModuleCode;
     
-    @Column(name = "DESCRIPTION")
     private String description;
     
     public ProtocolModule() {
