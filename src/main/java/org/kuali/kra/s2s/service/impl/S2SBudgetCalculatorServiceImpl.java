@@ -166,14 +166,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
 	 */
-	public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc)
+	public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
 			throws S2SException {
 		BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
 		Budget budget = budgetDocument == null ? null : budgetDocument
 				.getBudget();
 		BudgetSummaryInfo budgetSummaryInfo = new BudgetSummaryInfo();
-		List<BudgetPeriodInfo> budgetPeriodInfos = null;
-		budgetPeriodInfos = getBudgetPeriods(pdDoc);
 		if (budget == null) {
 			return budgetSummaryInfo;
 		}

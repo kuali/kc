@@ -313,11 +313,4 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
         rrKeyPersonExpandedDocument.setRRKeyPersonExpanded(rrKeyPersonExpanded);
         return rrKeyPersonExpandedDocument;
     }
-
-	@Override
-	protected XmlObject getKeypersonProfileObject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
 /**
@@ -27,19 +23,17 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class RRKeyPersonBaseGenerator extends S2SBaseFormGenerator {
+public abstract class RRKeyPersonBaseGenerator extends RRKeyPersonBase {
 
     protected static final String OTHER = "Other (Specify)";
     protected static final String BIOSKETCH = "BIOSKETCH";
     protected static final String BIOSKETCH_TYPE = "1";
     protected static final String CURRENT_PENDING_TYPE = "2";
-    protected static final int PROFILE_TYPE = 18;
     protected static final String KEYPERSON = "KP";
     protected static final String CO_INVESTIGATOR = "COI";
     protected static final int MAX_KEY_PERSON_COUNT = 8;
     protected S2SUtilService s2sUtilService;
 
-    protected List<ProposalPerson> extraPersons = null;
     protected String pIPersonOrRolodexId = null;
     protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
