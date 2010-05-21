@@ -26,9 +26,9 @@ public class EquipmentInfo {
     private List<CostInfo> cvEquipmentList;
     private BudgetDecimal totalFund;
     private List<CostInfo> cvExtraEquipmentList;
-    private BudgetDecimal totalExtraFund;
-    private BudgetDecimal totalNonFund;
-    private BudgetDecimal totalExtraNonFund;
+    private BudgetDecimal totalExtraFund = BudgetDecimal.ZERO;
+    private BudgetDecimal totalNonFund = BudgetDecimal.ZERO;
+    private BudgetDecimal totalExtraNonFund = BudgetDecimal.ZERO;
 
 
     public EquipmentInfo() {

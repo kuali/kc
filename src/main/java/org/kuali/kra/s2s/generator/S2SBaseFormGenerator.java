@@ -23,6 +23,8 @@ import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +33,12 @@ import org.apache.xml.security.exceptions.Base64DecodingException;
 import org.apache.xml.security.utils.Base64;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
@@ -349,7 +354,43 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 				.getService(SponsorService.class);
 		return sponsorService.isSponsorNih(document.getDevelopmentProposal());
 	}
-
+    
+	protected void saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
+		Narrative narrative = null;
+		narrative = new Narrative();
+		narrative.setModuleStatusCode("C");
+		narrative.setNarrativeTypeCode(narrativeTypeCode);
+		narrative.setComments(comment);
+		NarrativeType narrativeType = new NarrativeType();
+		narrativeType.setDescription(comment);
+		narrativeType.setSystemGenerated("Y");
+		narrativeType.setNarrativeTypeCode(narrativeTypeCode);
+		narrative.setNarrativeType(narrativeType);
+		narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(pdDoc));
+		NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
+		narrativeAttachment
+				.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+		narrativeAttachment.setNarrativeData(attachment);
+		narrativeAttachment.setFileName(fileName);
+		narrative.setFileName(fileName);
+		narrative.getNarrativeAttachmentList().add(narrativeAttachment);
+		KraServiceLocator.getService(NarrativeService.class).addNarrative(
+					pdDoc, narrative);
+	}
+    private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
+        List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
+        mergedNarrativeList.addAll(narrativeList);
+        mergedNarrativeList.addAll(instituteAttachmentsList);
+        if(mergedNarrativeList.isEmpty()) return 1;
+        Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
+            public int compare(Narrative n1, Narrative n2) { 
+                return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber()); 
+              } 
+        });
+        return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleSequenceNumber().intValue()+1;
+    }
     /**
      * Sets the attachments attribute value.
      * @param attachments The attachments to set.
@@ -357,4 +398,5 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public void setAttachments(List<AttachmentData> attachments) {
         this.attachments = attachments;
     }
+    
 }

@@ -34,6 +34,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchAndRelated
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchCoverPageDocument.ResearchCoverPage;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.DescriptionBlockType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProposalPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 
@@ -109,6 +110,13 @@ public class NIHResearchAndRelatedXmlStream extends
 	private static final String APPROVAL_TYPE_EXEMPT = "4";
 	protected static final String PROPOSAL_YNQ_QUESTION_16 = "16";
 
+	private static final String ACADEMIC_PERIOD = "2";
+	private static final String CALENDAR_PERIOD = "3";
+
+	private static final String PROJECT_ROLE_PI = "PI";
+	private static final String PROJECT_ROLE_COI = "COI";
+	private static final String PROJECT_ROLE_KP = "KP";
+
 	protected ParameterService parameterService;
 
 	/**
@@ -125,7 +133,6 @@ public class NIHResearchAndRelatedXmlStream extends
 	 */
 	public Map<String, XmlObject> generateXmlStream(
 			ResearchDocumentBase document, Map<String, Object> reportParameters) {
-
 		ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 		Budget budget = getBudget(proposalDevelopmentDocument);
 		ResearchAndRelatedProjectDocument researchAndRelatedProjectDocument = ResearchAndRelatedProjectDocument.Factory
@@ -133,7 +140,6 @@ public class NIHResearchAndRelatedXmlStream extends
 		researchAndRelatedProjectDocument
 				.setResearchAndRelatedProject(getResearchAndRelatedProject(
 						proposalDevelopmentDocument, budget));
-
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
 		return xmlObjectList;
@@ -160,7 +166,8 @@ public class NIHResearchAndRelatedXmlStream extends
 				.setAbstractArray(getAbstractArray(developmentProposal));
 
 		researchAndRelatedProject
-				.setProposalPersonArray(getProposalPersonArray(developmentProposal));
+				.setProposalPersonArray(getProposalPersonArray(
+						developmentProposal, budget));
 		researchAndRelatedProject
 				.setKeyPersonArray(getKeyPersonArray(developmentProposal));
 
@@ -282,14 +289,13 @@ public class NIHResearchAndRelatedXmlStream extends
 	 * @return Difference of the Months of the Dates.
 	 */
 	private BigDecimal getMonthsBetweenDates(Date startDate, Date endDate) {
-		Calendar startCalendar = getDateTimeService().getCalendar(startDate);
-		Calendar endCalendar = getDateTimeService().getCalendar(endDate);
-		int monthCount = 0;
-		while(startCalendar.before(endCalendar)){
-		    startCalendar.add(Calendar.MONTH, 1);
-		    monthCount++;
-		}
-		return new BigDecimal(monthCount);
+		BigDecimal projectDuration;
+		com.ibm.icu.util.Calendar calendar = com.ibm.icu.util.Calendar
+				.getInstance();
+		calendar.setTimeInMillis(startDate.getTime());
+		int monthDifference = calendar.fieldDifference(endDate, Calendar.MONTH);
+		projectDuration = new BigDecimal(monthDifference);
+		return projectDuration;
 	}
 
 	private String getNSFPreviousAwardNumber(
@@ -335,42 +341,180 @@ public class NIHResearchAndRelatedXmlStream extends
 	 * This method will set the values to Proposal person type attributes and
 	 * finally return ProposalPersonType xml object.
 	 */
-	// TODO Implement the code
 	private ProposalPersonType[] getProposalPersonArray(
-			DevelopmentProposal developmentProposal) {
+			DevelopmentProposal developmentProposal, Budget budget) {
 		List<ProposalPersonType> proposalPersonTypeList = new ArrayList<ProposalPersonType>();
 		List<ProposalPerson> proposalPersons = developmentProposal
 				.getProposalPersons();
 		for (ProposalPerson proposalPerson : proposalPersons) {
 			proposalPersonTypeList.add(getProposalPersonTypeWithValues(
-					developmentProposal, proposalPerson));
+					developmentProposal, proposalPerson, budget));
 		}
 		return proposalPersonTypeList.toArray(new ProposalPersonType[0]);
 	}
 
 	private ProposalPersonType getProposalPersonTypeWithValues(
 			DevelopmentProposal developmentProposal,
-			ProposalPerson proposalPerson) {
+			ProposalPerson proposalPerson, Budget budget) {
 		ProposalPersonType proposalPersonType = ProposalPersonType.Factory
 				.newInstance();
-		// proposalPersonType.setAcademicFundingMonths(proposalPerson.geta);
 		proposalPersonType.setDegree(proposalPerson.getDegree());
 		proposalPersonType.setEmail(proposalPerson.getEmailAddress());
-		// proposalPersonType.setFundingMonths(getF);
 		proposalPersonType
 				.setName(getProposalPersonFullNameType(proposalPerson));
-		// proposalPersonType.setPercentEffort(arg0);
 		proposalPersonType.setPhone(proposalPerson.getPhoneNumber());
-		// proposalPersonType.setProjectRole(proposalPerson.getProjectRole());
-		// proposalPersonType.setRequestedCost(arg0);
+		if(PROJECT_ROLE_PI.equals(proposalPerson.getProposalPersonRoleId())){
+			proposalPersonType.setProjectRole(ProjectRoleType.PI_PD);
+		}else if(PROJECT_ROLE_COI.equals(proposalPerson.getProposalPersonRoleId())){
+			proposalPersonType.setProjectRole(ProjectRoleType.CO_PI_PD);
+		}else{
+			proposalPersonType.setProjectRole(ProjectRoleType.KEY_PERSON);
+		}
+		 
 		proposalPersonType.setSSN(proposalPerson.getSocialSecurityNumber());
 		if (proposalPerson.getDateOfBirth() != null) {
 			proposalPersonType.setDOB(proposalPerson.getDateOfBirth()
 					.toString());
 		}
 
-		// proposalPersonType.setSummerFundingMonths(arg0);
+		BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
+		BudgetDecimal academicMonths = BudgetDecimal.ZERO;
+		BudgetDecimal summerMonths = BudgetDecimal.ZERO;
+		budget.refreshNonUpdateableReferences();
+		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+			if (budgetPeriod.getBudgetPeriod().intValue() == 1) {
+				for (BudgetLineItem lineItem : budgetPeriod
+						.getBudgetLineItems()) {
+					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
+							.getBudgetPersonnelDetailsList()) {
+						if ((proposalPerson.getPersonId() != null && proposalPerson
+								.getPersonId().equals(
+										budgetPersonnelDetails.getPersonId()))
+								|| (proposalPerson.getRolodexId() != null && proposalPerson
+										.getRolodexId().toString().equals(
+												budgetPersonnelDetails
+														.getPersonId()))) {
+							proposalPersonType
+									.setPercentEffort(budgetPersonnelDetails
+											.getPercentEffort()
+											.bigDecimalValue());
+							proposalPersonType
+									.setRequestedCost(budgetPersonnelDetails
+											.getSalaryRequested()
+											.bigDecimalValue());
+							if (ACADEMIC_PERIOD.equals(budgetPersonnelDetails
+									.getPeriodTypeCode())) {
+								academicMonths = academicMonths
+										.add(budgetPersonnelDetails
+												.getPercentEffort()
+												.multiply(
+														new BudgetDecimal(
+																"0.01"))
+												.multiply(
+														getNumberOfMonths(
+																budgetPersonnelDetails
+																		.getStartDate(),
+																budgetPersonnelDetails
+																		.getEndDate())));
+							} else if (CALENDAR_PERIOD
+									.equals(budgetPersonnelDetails
+											.getPeriodTypeCode())) {
+								calendarMonths = calendarMonths
+										.add(budgetPersonnelDetails
+												.getPercentEffort()
+												.multiply(
+														new BudgetDecimal(
+																"0.01"))
+												.multiply(
+														getNumberOfMonths(
+																budgetPersonnelDetails
+																		.getStartDate(),
+																budgetPersonnelDetails
+																		.getEndDate())));
+							} else
+								summerMonths = summerMonths
+										.add(budgetPersonnelDetails
+												.getPercentEffort()
+												.multiply(
+														new BudgetDecimal(
+																"0.01"))
+												.multiply(
+														getNumberOfMonths(
+																budgetPersonnelDetails
+																		.getStartDate(),
+																budgetPersonnelDetails
+																		.getEndDate())));
+						}
+					}
+				}
+			}
+		}
+		proposalPersonType.setAcademicFundingMonths(academicMonths
+				.bigDecimalValue().setScale(2));
+		proposalPersonType.setSummerFundingMonths(summerMonths
+				.bigDecimalValue().setScale(2));
+		proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2));
 		return proposalPersonType;
+	}
+
+	/**
+	 * 
+	 * This method computes the number of months between any 2 given
+	 * {@link Date} objects
+	 * 
+	 * @param dateStart
+	 *            starting date.
+	 * @param dateEnd
+	 *            end date.
+	 * 
+	 * @return number of months between the start date and end date.
+	 */
+	private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+		BudgetDecimal monthCount = BudgetDecimal.ZERO;
+		int fullMonthCount = 0;
+
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+		startDate.setTime(dateStart);
+		endDate.setTime(dateEnd);
+
+		startDate.clear(Calendar.HOUR);
+		startDate.clear(Calendar.MINUTE);
+		startDate.clear(Calendar.SECOND);
+		startDate.clear(Calendar.MILLISECOND);
+
+		endDate.clear(Calendar.HOUR);
+		endDate.clear(Calendar.MINUTE);
+		endDate.clear(Calendar.SECOND);
+		endDate.clear(Calendar.MILLISECOND);
+
+		if (startDate.after(endDate)) {
+			return BudgetDecimal.ZERO;
+		}
+		int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
+				- startDate.get(Calendar.DATE);
+		startMonthDays++;
+		int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
+		BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays)
+				.divide(new BudgetDecimal(startMonthMaxDays));
+
+		int endMonthDays = endDate.get(Calendar.DATE);
+		int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
+
+		BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays)
+				.divide(new BudgetDecimal(endMonthMaxDays));
+
+		startDate.set(Calendar.DATE, 1);
+		endDate.set(Calendar.DATE, 1);
+
+		while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
+			startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
+			fullMonthCount++;
+		}
+		fullMonthCount = fullMonthCount - 1;
+		monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(
+				startMonthFraction).add(endMonthFraction);
+		return monthCount;
 	}
 
 	private PersonFullNameType getProposalPersonFullNameType(
@@ -418,8 +562,7 @@ public class NIHResearchAndRelatedXmlStream extends
 		List<KeyPersonType> allKeyPersonList = new ArrayList<KeyPersonType>();
 		// Add PI, Investigator, KeyPerson in the same order
 		allKeyPersonList.addAll(keyPersonPIList);
-		allKeyPersonList
-				.addAll(keyPersonInvestigatorList);
+		allKeyPersonList.addAll(keyPersonInvestigatorList);
 		allKeyPersonList.addAll(keyPersonKeyPersonList);
 		return allKeyPersonList.toArray(new KeyPersonType[0]);
 	}
@@ -455,7 +598,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
-			keyPersonType.addDegree(proposalPerson.getDegree());
+			// keyPersonType.addDegree(proposalPerson.getDegree());
 			keyPersonlist.add(keyPersonType);
 		}
 		return keyPersonlist;
@@ -497,7 +640,7 @@ public class NIHResearchAndRelatedXmlStream extends
 				keyPersonType
 						.setPositionTitle(proposalPerson.getPrimaryTitle());
 			}
-			keyPersonType.addDegree(proposalPerson.getDegree());
+			// keyPersonType.addDegree(proposalPerson.getDegree());
 			keyPersonTypeList.add(keyPersonType);
 		}
 		return keyPersonTypeList;
@@ -818,40 +961,42 @@ public class NIHResearchAndRelatedXmlStream extends
 		return applicantOrganizationType;
 	}
 
-	/*
-	 * This method will set the values to key person type attributes like
-	 * organization department, organization name , position title etc ... if
-	 * key person found.
-	 */
-	private KeyPersonType getKeyPersonTypeWithValues(
-			DevelopmentProposal developmentProposal,
-			ProposalPerson proposalPerson) {
-		KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
-		PersonFullNameType personFullNameType = getPersonFullName(proposalPerson);
-		keyPersonType.setName(personFullNameType);
-		ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
-		keyPersonType.setContactInformation(contactInfoType);
-		// TODO :AuthenticationCredential Not found
-		// keyPersonType.setAuthenticationCredential();
-		// TODO :BiographicalSketch Not found
-		// keyPersonType.setBiographicalSketch();
-		KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
-		keyPersonType.setKeyPersonFlag(keyPersonFlag);
-		keyPersonType.setSocialSecurityNumber(proposalPerson
-				.getSocialSecurityNumber());
-		String unitName = getUnitName(proposalPerson);
-		if (unitName != null) {
-			keyPersonType.setOrganizationDepartment(unitName);
-		}
-		Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
-		keyPersonType.setOrganizationName(organization.getOrganizationName());
-		// TODO :OrganizationDivision Not found
-		// keyPersonType.setOrganizationDivision();
-		if (proposalPerson.getPrimaryTitle() != null) {
-			keyPersonType.setPositionTitle(proposalPerson.getPrimaryTitle());
-		}
-		return keyPersonType;
-	}
+	// /*
+	// * This method will set the values to key person type attributes like
+	// * organization department, organization name , position title etc ... if
+	// * key person found.
+	// */
+	// private KeyPersonType getKeyPersonTypeWithValues(
+	// DevelopmentProposal developmentProposal,
+	// ProposalPerson proposalPerson) {
+	// KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
+	// PersonFullNameType personFullNameType =
+	// getPersonFullName(proposalPerson);
+	// keyPersonType.setName(personFullNameType);
+	// ContactInfoType contactInfoType = getContactInfoType(proposalPerson);
+	// keyPersonType.setContactInformation(contactInfoType);
+	// // TODO :AuthenticationCredential Not found
+	// // keyPersonType.setAuthenticationCredential();
+	// // TODO :BiographicalSketch Not found
+	// // keyPersonType.setBiographicalSketch();
+	// KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
+	// keyPersonType.setKeyPersonFlag(keyPersonFlag);
+	// keyPersonType.setSocialSecurityNumber(proposalPerson
+	// .getSocialSecurityNumber());
+	// String unitName = getUnitName(proposalPerson);
+	// if (unitName != null) {
+	// keyPersonType.setOrganizationDepartment(unitName);
+	// }
+	// Organization organization =
+	// getOrganizationFromDevelopmentProposal(developmentProposal);
+	// keyPersonType.setOrganizationName(organization.getOrganizationName());
+	// // TODO :OrganizationDivision Not found
+	// // keyPersonType.setOrganizationDivision();
+	// if (proposalPerson.getPrimaryTitle() != null) {
+	// keyPersonType.setPositionTitle(proposalPerson.getPrimaryTitle());
+	// }
+	// return keyPersonType;
+	// }
 
 	/*
 	 * This method will return the unit name from the unit which is lead unit.
