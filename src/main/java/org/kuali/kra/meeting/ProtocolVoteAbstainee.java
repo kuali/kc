@@ -17,16 +17,6 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
@@ -35,35 +25,17 @@ import org.kuali.kra.irb.Protocol;
  * 
  * This class is for member abstained from vote.
  */
-@Entity 
-@Table(name="PROTOCOL_VOTE_ABSTAINEES")
 public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 6207540592702779518L;
-    @Id 
-    @Column(name="PROTOCOL_VOTE_ABSTAINEES_ID")
     private Integer protocolVoteAbstaineesId; 
-    @Column(name="PROTOCOL_ID_FK")
     private Long protocolIdFk; 
-    @Column(name="SCHEDULE_ID_FK")
     private Long scheduleIdFk; 
-    @Column(name="PERSON_ID")
     private String personId; 
-    @Type(type="yes_no")
-    @Column(name="NON_EMPLOYEE_FLAG")
     private boolean nonEmployeeFlag; 
-    @Column(name="COMMENTS")
     private String comments; 
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="PROTOCOL_ID_FK", insertable=false, updatable=false)
     private Protocol protocol;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="SCHEDULE_ID_FK", insertable=false, updatable=false)
-    private CommitteeSchedule committeeSchedule;
-    
-    
+    private CommitteeSchedule committeeSchedule;    
     
     public ProtocolVoteAbstainee() { 
 

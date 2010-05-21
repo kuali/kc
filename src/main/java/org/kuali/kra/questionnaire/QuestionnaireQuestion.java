@@ -17,58 +17,26 @@ package org.kuali.kra.questionnaire;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Type;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.question.Question;
 
-@Entity 
-@Table(name="QUESTIONNAIRE_QUESTIONS")
 public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> { 
     
     private static final long serialVersionUID = 1699439856326521334L;
-    @Id 
-    @Column(name="QUESTIONNAIRE_QUESTIONS_ID")
     private Long questionnaireQuestionsId; 
-    @Column(name="QUESTIONNAIRE_REF_ID_FK")
     private Long questionnaireRefIdFk; 
-    @Column(name="QUESTION_REF_ID_FK")
     private Long questionRefIdFk; 
-    @Column(name="QUESTION_NUMBER")
     private Integer questionNumber; 
-    @Column(name="PARENT_QUESTION_NUMBER")
     private Integer parentQuestionNumber; 
-    @Type(type="yes_no")
-    @Column(name="CONDITION_FLAG")
     private boolean conditionFlag; 
-    @Column(name="CONDITION_TYPE")
     private String condition; 
-    @Column(name="CONDITION_VALUE")
     private String conditionValue; 
-    @Column(name="QUESTION_SEQ_NUMBER")
     private Integer questionSeqNumber; 
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTION_REF_ID_FK", insertable=false, updatable=false)
     private Question question;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="QUESTIONNAIRE_REF_ID_FK", insertable=false, updatable=false)
     private Questionnaire questionnaire;
         
     private Questionnaire sequenceOwner;
-
-    @Transient
     private String deleted;
 
     public QuestionnaireQuestion() { 

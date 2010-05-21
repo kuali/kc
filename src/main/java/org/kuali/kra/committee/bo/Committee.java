@@ -20,9 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
@@ -40,43 +37,18 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 @SuppressWarnings("serial")
 public class Committee extends KraPersistableBusinessObjectBase implements Comparable<Committee>,
                                                                            SequenceOwner<Committee>,
-                                                                           Permissionable{
-
-    @Id
-    @Column(name = "ID")
+                                                                           Permissionable {
     private Long id;
-    
-    @Column(name = "COMMITTEE_ID")
     private String committeeId;
-    
-    @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
-    
-    @Column(name = "COMMITTEE_NAME")
     private String committeeName;
-    
-    @Column(name = "HOME_UNIT_NUMBER")
     private String homeUnitNumber;
-    
-    @Column(name = "DESCRIPTION")
     private String committeeDescription;
-    
-    @Column(name = "SCHEDULE_DESCRIPTION")
     private String scheduleDescription;
-    
-    @Column(name = "COMMITTEE_TYPE_CODE")
     private String committeeTypeCode;
-    
-    @Column(name = "MIN_MEMBERS_REQUIRED")
     private Integer minimumMembersRequired;
-    
-    @Column(name = "MAX_PROTOCOLS")
     private Integer maxProtocols;
-    
-    @Column(name = "ADV_SUBMISSION_DAYS_REQ")
     private Integer advancedSubmissionDaysRequired;
-    
-    @Column(name = "APPLICABLE_REVIEW_TYPE_CODE")
     private String reviewTypeCode;
     
     private Unit homeUnit;

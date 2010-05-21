@@ -17,26 +17,16 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
  * This class is standard protocol review comment.
  */
-@Entity 
-@Table(name="PROTOCOL_CONTINGENCY")
 public class ProtocolContingency extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 9043529163603762324L;
-    @Id 
-    @Column(name="PROTOCOL_CONTINGENCY_CODE")
     private String protocolContingencyCode; 
-    @Column(name="DESCRIPTION")
     private String description; 
     
     

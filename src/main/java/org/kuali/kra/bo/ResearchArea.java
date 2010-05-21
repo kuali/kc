@@ -17,43 +17,17 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-
-@Entity 
-@Table(name="RESEARCH_AREAS")
 public class ResearchArea extends KraPersistableBusinessObjectBase {
 
-    @Id 
-    @Column(name="RESEARCH_AREA_CODE")
     private String researchAreaCode; 
-    
-    @Column(name="PARENT_RESEARCH_AREA_CODE")
     private String parentResearchAreaCode; 
-    
-    @Type(type="yes_no")
-    @Column(name="HAS_CHILDREN_FLAG")
     private boolean hasChildrenFlag; 
-    
-    @Column(name="DESCRIPTION")
     private String description; 
     
     
     /*
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
     private CommResearchAreas commResearchAreas
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
     private CommMemberExpertise commMemberExpertise
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name="RESEARCH_AREA_CODE", insertable=false, updatable=false)
     private ProtocolResearchAreas protocolResearchAreas
     */
 

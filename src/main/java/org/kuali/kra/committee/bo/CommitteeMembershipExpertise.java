@@ -17,9 +17,6 @@ package org.kuali.kra.committee.bo;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-
 import org.kuali.kra.bo.ResearchArea;
 
 /**
@@ -31,14 +28,8 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
     
     private static final long serialVersionUID = 4926007164018659270L;
 
-    @Id
-    @Column(name = "COMM_MEMBER_ROLES_ID")
     private Long committeeMembershipExpertiseId;
-    
-    @Column(name = "COMM_MEMBERSHIP_ID_FK")
     private Long committeeMembershipIdFk;
-
-    @Column(name = "RESEARCH_AREA_CODE")
     private String researchAreaCode; 
     
     private ResearchArea researchArea;

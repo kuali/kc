@@ -18,9 +18,6 @@ package org.kuali.kra.committee.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-
 import org.apache.commons.lang.ObjectUtils;
 
 /**
@@ -32,20 +29,10 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
 
     private static final long serialVersionUID = 6048477313137155626L;
 
-    @Id
-    @Column(name = "COMM_MEMBER_ROLES_ID")
     private Long committeeMembershipRoleId;
-
-    @Column(name = "COMM_MEMBERSHIP_ID_FK")
     private Long committeeMembershipIdFk;
-
-    @Column(name = "MEMBERSHIP_ROLE_CODE")
     private String membershipRoleCode;
-
-    @Column(name = "START_DATE")
     private Date startDate; 
-
-    @Column(name = "END_DATE")
     private Date endDate; 
     
     private MembershipRole membershipRole;
