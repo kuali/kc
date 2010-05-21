@@ -290,8 +290,7 @@ public class NIHResearchAndRelatedXmlStream extends
 	 */
 	private BigDecimal getMonthsBetweenDates(Date startDate, Date endDate) {
 		BigDecimal projectDuration;
-		com.ibm.icu.util.Calendar calendar = com.ibm.icu.util.Calendar
-				.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(startDate.getTime());
 		int monthDifference = calendar.fieldDifference(endDate, Calendar.MONTH);
 		projectDuration = new BigDecimal(monthDifference);
