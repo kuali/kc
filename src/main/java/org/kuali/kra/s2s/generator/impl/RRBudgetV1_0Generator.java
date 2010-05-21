@@ -54,7 +54,6 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -95,7 +94,8 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 	 * @return rrBudgetDocument {@link XmlObject} of type RRBudgetDocument.
 	 */
 	private RRBudgetDocument getRRBudget() {
-
+		
+		deleteAutoGenNarratives();
 		RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory
 				.newInstance();
 		RRBudgetDocument.RRBudget rrBudget = RRBudgetDocument.RRBudget.Factory
@@ -118,13 +118,14 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		try {
 			budgetperiodList = s2sBudgetCalculatorService
 					.getBudgetPeriods(pdDoc);
-			budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc);
+			budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetperiodList);
 		} catch (S2SException e) {
 			LOG.error(e.getMessage(), e);
 			return rrBudgetDocument;
 		}
 
 		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
+			saveExtraKeyPersons(budgetPeriodData);
 			if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
 				rrBudget
 						.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
@@ -186,10 +187,12 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		IndirectCosts indirectCosts = getIndirectCosts(periodInfo);
 		if (indirectCosts != null) {
 			budgetYear.setIndirectCosts(indirectCosts);
+			budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue().add(indirectCosts.getTotalIndirectCosts()));
+		}else{
+			budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue());
 		}
 		budgetYear
 				.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
-		budgetYear.setTotalCosts(periodInfo.getTotalCosts().bigDecimalValue());
 		
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
@@ -244,14 +247,19 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 			budgetYear
 					.setParticipantTraineeSupportCosts(getParticipantTraineeSupportCosts(periodInfo));
 			budgetYear.setOtherDirectCosts(getOtherDirectCosts(periodInfo));
+			BigDecimal directCosts = null;
 			if (periodInfo.getDirectCostsTotal() != null) {
-				budgetYear.setDirectCosts(periodInfo.getDirectCostsTotal()
-						.bigDecimalValue());
+				directCosts = periodInfo.getDirectCostsTotal()
+						.bigDecimalValue();
+				budgetYear.setDirectCosts(directCosts);
 			}
-			budgetYear.setIndirectCosts(getIndirectCosts(periodInfo));
+			IndirectCosts indirectCosts = getIndirectCosts(periodInfo);
+			budgetYear.setIndirectCosts(indirectCosts);
 			budgetYear.setCognizantFederalAgency(periodInfo
 					.getCognizantFedAgency());
-			if (periodInfo.getTotalCosts() != null) {
+			if(indirectCosts != null && directCosts != null){
+				budgetYear.setTotalCosts(directCosts.add(indirectCosts.getTotalIndirectCosts()));
+			}else{
 				budgetYear.setTotalCosts(periodInfo.getTotalCosts()
 						.bigDecimalValue());
 			}
@@ -561,11 +569,11 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 				for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
 					KeyPersonDataType keyPersonDataType = KeyPersonDataType.Factory
 							.newInstance();
-					extraFunds = extraFunds.add(keyPerson.getFundsRequested());
+//					extraFunds = extraFunds.add(keyPerson.getFundsRequested());
 					keyPersonDataType.setName(globLibV10Generator
 							.getHumanNameDataType(keyPerson));
 					if (isSponsorNIH(pdDoc) && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
-						keyPersonDataType.setProjectRole(NIH_CO_INVESTIGATOR);
+						keyPersonDataType.setProjectRole(NID_PD_PI);
 					} else {
 						keyPersonDataType.setProjectRole(keyPerson.getRole());
 					}
@@ -577,6 +585,13 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 				}
 				keyPersons.setKeyPersonArray(keyPersonDataTypeArray);
 			}
+			if (periodInfo.getTotalFundsKeyPersons() != null) {
+				keyPersons.setTotalFundForKeyPersons(periodInfo
+						.getTotalFundsKeyPersons().bigDecimalValue());
+			}
+			for (KeyPersonInfo keyPerson : periodInfo.getExtraKeyPersons()) {
+				extraFunds = extraFunds.add(keyPerson.getFundsRequested());
+			}
 
 			TotalFundForAttachedKeyPersons totalFundForAttachedKeyPersons = TotalFundForAttachedKeyPersons.Factory
 					.newInstance();
@@ -586,12 +601,6 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					.bigDecimalValue());
 			keyPersons
 					.setTotalFundForAttachedKeyPersons(totalFundForAttachedKeyPersons);
-
-			if (periodInfo.getTotalFundsKeyPersons() != null) {
-				keyPersons.setTotalFundForKeyPersons(periodInfo
-						.getTotalFundsKeyPersons().bigDecimalValue());
-			}
-
 			for (Narrative narrative : pdDoc.getDevelopmentProposal()
 					.getNarratives()) {
 				if (narrative.getNarrativeTypeCode() != null
@@ -601,13 +610,6 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					FileLocation fileLocation = FileLocation.Factory
 							.newInstance();
 					attachedKeyPersons.setFileLocation(fileLocation);
-//					LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
-//					attMap.put(MODULE_NUMBER, String.valueOf(narrative
-//							.getModuleNumber()));
-//					if (narrative.getNarrativeType() != null) {
-//						attMap.put(DESCRIPTION, narrative.getNarrativeType()
-//								.getDescription());
-//					}
 					String contentId = createContentId(narrative);
 					fileLocation.setHref(contentId);
 					attachedKeyPersons.setFileLocation(fileLocation);
@@ -921,7 +923,9 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		Equipment equipment = Equipment.Factory.newInstance();
 		if (periodInfo != null && periodInfo.getEquipment() != null
 				&& periodInfo.getEquipment().size() > 0) {
+			// Evaluating Equipments.
 			List<EquipmentList> equipmentArrayList = new ArrayList<EquipmentList>();
+			BudgetDecimal totalFund = BudgetDecimal.ZERO;
 			for (CostInfo costInfo : periodInfo.getEquipment().get(0)
 					.getEquipmentList()) {
 				EquipmentList equipmentList = EquipmentList.Factory
@@ -931,21 +935,28 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					equipmentList.setFundsRequested(costInfo.getCost()
 							.bigDecimalValue());
 				}
+				totalFund = totalFund.add(costInfo.getCost());
 				equipmentArrayList.add(equipmentList);
+			}
+			// Evaluating Extra Equipments.
+			List<CostInfo> extraEquipmentArrayList = new ArrayList<CostInfo>();
+			BudgetDecimal totalExtraEquipFund = BudgetDecimal.ZERO;
+			for(CostInfo costInfo:periodInfo.getEquipment().get(0).getExtraEquipmentList()){
+				extraEquipmentArrayList.add(costInfo);
+				totalExtraEquipFund = totalExtraEquipFund.add(costInfo.getCost());
 			}
 			EquipmentList[] equipmentArray = new EquipmentList[0];
 			equipmentArray = equipmentArrayList.toArray(equipmentArray);
 			equipment.setEquipmentListArray(equipmentArray);
-			TotalFundForAttachedEquipment totalFund = TotalFundForAttachedEquipment.Factory
+			TotalFundForAttachedEquipment totalFundForAttachedEquipment = TotalFundForAttachedEquipment.Factory
 					.newInstance();
-			totalFund.setTotalFundForAttachedEquipmentExist(YesNoDataType.YES);
-			totalFund.setBigDecimalValue(periodInfo.getEquipment().get(0)
+			totalFundForAttachedEquipment.setTotalFundForAttachedEquipmentExist(YesNoDataType.YES);
+			totalFundForAttachedEquipment.setBigDecimalValue(periodInfo.getEquipment().get(0)
 					.getTotalExtraFund().bigDecimalValue());
-			equipment.setTotalFundForAttachedEquipment(totalFund);
-			if (periodInfo.getEquipment().get(0).getTotalFund() != null) {
-				equipment.setTotalFund(periodInfo.getEquipment().get(0)
-						.getTotalFund().bigDecimalValue());
-			}
+			totalFund = totalFund.add(totalExtraEquipFund);
+			equipment.setTotalFundForAttachedEquipment(totalFundForAttachedEquipment);
+			equipment.setTotalFund(totalFund.bigDecimalValue());
+			saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
 		}
 
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()

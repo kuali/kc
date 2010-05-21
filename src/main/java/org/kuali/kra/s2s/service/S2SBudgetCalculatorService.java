@@ -55,7 +55,7 @@ public interface S2SBudgetCalculatorService {
      * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
      * @throws S2SException
      */
-    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc) throws S2SException;
+    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetperiodList) throws S2SException;
 
     /**
      * 

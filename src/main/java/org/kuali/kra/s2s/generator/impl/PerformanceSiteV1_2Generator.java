@@ -119,7 +119,7 @@ public class PerformanceSiteV1_2Generator extends S2SBaseFormGenerator {
 			
 			for (ProposalSite proposalSite : proposalSites) {
 				organization = proposalSite.getOrganization();
-				if (organization != null) {
+				if (organization != null  && LOCATION_TYPE_CODE!=proposalSite.getLocationTypeCode()) {
 					SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory
 							.newInstance();
 					Rolodex rolodex = proposalSite.getRolodex();
