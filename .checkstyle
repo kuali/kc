@@ -2,7 +2,7 @@
 
 <fileset-config file-format-version="1.2.0" simple-config="false">
   <local-check-config name="KC Coding Standards" location="src/main/config/KC_Checkstyle.xml" type="project" description="">
-    <property name="checkstyle.suppressions.file" value="${basedir}/src/main/config/checkstyle_suppressions.xml"/>
+    <property name="cs.suppression.file" value="${basedir}/src/main/config/checkstyle_suppressions.xml"/>
     <additional-data name="protect-config-file" value="true"/>
   </local-check-config>
   <fileset name="all" enabled="true" check-config-name="KC Coding Standards" local="true">

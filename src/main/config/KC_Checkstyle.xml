@@ -506,7 +506,7 @@
 	
 	<!-- this property must be set by maven & the eclipse plugin -->
 	<module name="SuppressionFilter">
-    	<property name="file" value="${checkstyle.suppressions.file}"/>
+    	<property name="file" value="${cs.suppression.file}"/>
     </module>
 	
 	<module name="SuppressionCommentFilter">
