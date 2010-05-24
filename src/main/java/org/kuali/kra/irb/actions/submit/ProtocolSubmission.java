@@ -59,7 +59,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolReviewType protocolReviewType;
     
     @SkipVersioning
-    private Committee committee;
+    transient private Committee committee;
     private ProtocolSubmissionStatus submissionStatus;    
     
     
