@@ -47,7 +47,7 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
              * After the initial save, the protocol can only be modified has the required permission.
              */
             hasPermission = !protocol.getProtocolDocument().isViewOnly() &&
-                            !kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
+                            (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) || protocol.isCorrectionMode()) &&
                             hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL);
         }
         return hasPermission;

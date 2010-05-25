@@ -370,3 +370,11 @@ end
 #then	
 #	setAction(protocolAction, true);
 #end
+
+rule "Make Administrative Correction"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "304", "306"))
+then	
+	setAction(protocolAction, true);
+end

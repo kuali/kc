@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.correction;
 
-import java.io.Serializable;
+import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
-public class AdminCorrectionBean implements Serializable {
+public class AdminCorrectionBean extends ProtocolEditableBean {
 
     private String comments;
     private boolean applyCorrection;
@@ -37,4 +37,29 @@ public class AdminCorrectionBean implements Serializable {
     public void setApplyCorrection(boolean applyCorrection) {
         this.applyCorrection = applyCorrection;
     }
+    
+    private boolean generalInfoEnabled = false;
+    private boolean fundingSourceEnabled = false;
+    private boolean protocolReferencesEnabled = false;
+    private boolean protocolOrganizationsEnabled = false;
+    private boolean subjectsEnabled = false;
+    private boolean addModifyAttachmentsEnabled = false;
+    private boolean areasOfResearchEnabled = false;
+    private boolean specialReviewEnabled = false;
+    private boolean protocolPersonnelEnabled = false;
+    private boolean othersEnabled = false;
+    
+    public boolean isAmendmentRenewalOutstanding() {
+        return !(getGeneralInfoEnabled() &&  
+            getFundingSourceEnabled() && 
+            getProtocolReferencesEnabled() && 
+            getProtocolOrganizationsEnabled() && 
+            getSubjectsEnabled() && 
+            getAddModifyAttachmentsEnabled() && 
+            getAreasOfResearchEnabled() && 
+            getSpecialReviewEnabled() && 
+            getProtocolPersonnelEnabled() && 
+            getOthersEnabled());
+    }
+
 }
