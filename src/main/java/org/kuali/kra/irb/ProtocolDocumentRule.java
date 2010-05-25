@@ -26,7 +26,6 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.assignagenda.ExecuteProtocolAssignToAgendaRule;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRule;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;
@@ -35,6 +34,9 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedRule;
 import org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersRule;
+import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
+import org.kuali.kra.irb.actions.correction.ExecuteProtocolAdminCorrectionRule;
+import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
@@ -83,7 +85,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule {
+
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
@@ -372,7 +375,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= new SubmitProtocolAttachmentProtocolRuleImpl().processSubmitProtocolAttachmentProtocolRules(document);
      
         return valid;
-    }
+    } 
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
@@ -400,5 +403,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         return new ProtocolAssignReviewersRule().processAssignReviewers(document, actionBean);
+    }
+    
+    public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
+        return new ProtocolAdminCorrectionRule().processAdminCorrectionRule(document, actionBean);
     }
 }

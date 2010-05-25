@@ -39,7 +39,6 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;

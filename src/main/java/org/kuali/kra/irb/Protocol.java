@@ -175,6 +175,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
      */
     private List<ProtocolAmendRenewal> protocolAmendRenewals;
     
+    private boolean correctionMode = false;
     /**
      * 
      * Constructs an Protocol BO.
@@ -1632,4 +1633,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         return activeAttachments;
     }
     
+
+    public boolean isCorrectionMode() {
+        return correctionMode;
+    }
+
+    public void setCorrectionMode(boolean correctionMode) {
+        this.correctionMode = correctionMode;
+    }
 }

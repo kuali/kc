@@ -118,7 +118,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
      */
     public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {
-        return canPerformAction(actionTypeCode, protocol) && isAuthorizedtoPerform(actionTypeCode, protocol);
+        return canPerformAction(actionTypeCode, protocol);
     }
 
     /**
@@ -152,7 +152,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
         List<String> actionList = new ArrayList<String>();
         for (String actionTypeCode : actions) {
-            if (canPerformAction(actionTypeCode, protocol) && isAuthorizedtoPerform(actionTypeCode, protocol)) {
+            if (canPerformAction(actionTypeCode, protocol) ) {
                 actionList.add(actionTypeCode);
             }
         }

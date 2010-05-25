@@ -225,7 +225,7 @@ public class ActionHelper implements Serializable {
         protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions, currentSubmission);
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
         newRiskLevel = new ProtocolRiskLevel();
-        protocolAdminCorrectionBean = new AdminCorrectionBean();
+        protocolAdminCorrectionBean = createAdminCorrectionBean();
         committeeDecision = new CommitteeDecision();
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
@@ -355,6 +355,26 @@ public class ActionHelper implements Serializable {
         
         return amendmentBean;
     }
+  
+    /**
+     * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
+     * current outstanding amendments.  If a module is currently being modified by a
+     * an amendment, it cannot be corrected through Administrative Correction.  
+     * @return
+     * @throws Exception 
+     */
+    private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
+        AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean();
+     
+        ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
+        List<String> moduleTypeCodes = protocolAmendRenewService.getAvailableModules(getProtocol().getProtocolNumber());
+        
+        for (String moduleTypeCode : moduleTypeCodes) {
+            enableModuleOption(moduleTypeCode, adminCorrectionBean);
+        }
+        
+        return adminCorrectionBean;
+    }
     
     /**
      * Enable a module for selection by a user by setting its corresponding enabled
@@ -362,7 +382,7 @@ public class ActionHelper implements Serializable {
      * @param moduleTypeCode
      * @param amendmentBean
      */
-    private void enableModuleOption(String moduleTypeCode, ProtocolAmendmentBean amendmentBean) {
+    private void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean) {
         if (StringUtils.equals(ProtocolModule.GENERAL_INFO, moduleTypeCode)) {
             amendmentBean.setGeneralInfoEnabled(true);
         } 
