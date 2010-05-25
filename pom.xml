@@ -617,38 +617,11 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-<!-- 	<repository>
-			<id>codehaus</id>
-			<name>Codehaus</name>
-			<url>http://dist.codehaus.org</url>
-		</repository>
-		<repository>
-			<id>apache</id>
-			<name>apache</name>
-			<url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
-		</repository>-->
 		<repository>
 			<id>jboss</id>
 			<name>jboss</name>
 			<url>http://repository.jboss.com/maven2</url>
 		</repository>
-<!-- 	<repository>
-			<id>atlassian</id>
-			<name>atlassian</name>
-			<url>http://maven.atlassian.com/repository/public</url>
-		</repository>
-		<repository>
-			<snapshots />
-			<id>maven-repo1</id>
-			<name>maven2 repo</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<snapshots />
-			<id>ibiblio</id>
-			<name>ibiblio</name>
-			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
-		</repository>-->
 	</repositories>
 
 	<reporting>
@@ -758,22 +731,7 @@
 				</property>
 			</activation>
 		</profile>
-		
-<!--  remove this completely after we determine whether this will be required by hudson
- 	<profile>
-      		<id>ci</id>
-			<distributionManagement>
-				<site>
-					<id>wsa131</id>
-					<name>CI and Site deployment Server</name>
-					<url>file:///opt/hudson/home/userContent/reports/2.0</url>
-				</site>
-			</distributionManagement>
-			<properties>
-				<surefire.output.dir>/opt/hudson/home/userContent/reports/2.0</surefire.output.dir>
-			</properties>
-    	</profile>
--->
+
 		<profile>
 			<id>s2s-wsdl</id>
 			<activation>
