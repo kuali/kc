@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +29,6 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.util.IdentitySet;
 import org.kuali.kra.SeparatelySequenceableAssociate;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
@@ -39,6 +37,8 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.ObjectUtils;
+
+import com.google.common.collect.Sets;
 
 /**
  * This class provides Sequence support to the VersioningService.
@@ -55,7 +55,7 @@ public class SequenceUtils {
      * Using an identity set to store already sequenced references.  In Java 6 and above the following can be used
      * as a Set Implementation java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<SequenceAssociate<?>, Boolean>())
      */
-    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(new IdentitySet());
+    private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(Sets.newSetFromMap(new IdentityHashMap<SequenceAssociate<?>, Boolean>()));
 
     /**
      * This method sequences a SequenceOwner to a new version.
