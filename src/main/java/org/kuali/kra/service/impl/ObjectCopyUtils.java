@@ -20,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.cxf.common.i18n.UncheckedException;
 import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -36,7 +35,7 @@ public class ObjectCopyUtils {
             materializeAllProxies(bo);
         }
         catch (Exception e) {
-            throw new UncheckedException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

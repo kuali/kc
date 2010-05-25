@@ -17,6 +17,7 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -81,6 +82,10 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
         return protocol.getProtocolNumber() != null &&
                (protocol.getProtocolNumber().contains("A") ||
                 protocol.getProtocolNumber().contains("R"));
+    }
+    
+    protected final boolean isAdminCorrection(ProtocolTask task) {
+        return TaskName.PROTOCOL_ADMIN_CORRECTION.equals(task.getTaskName());
     }
     
     /**
