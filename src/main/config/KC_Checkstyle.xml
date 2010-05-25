@@ -189,6 +189,9 @@
             <property name="logLoadErrors" value="true"/>
             <property name="suppressLoadErrors" value="true"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowMissingThrowsTags" value="true"/>
+            <property name="allowMissingReturnTag" value="true"/>
             <property name="allowUndeclaredRTE" value="true"/>
 		</module>
 
