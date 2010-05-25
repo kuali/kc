@@ -220,7 +220,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Add a new protocol action to the protocol and update the status.
      * @param actionTypeCode the new action
      */
-    private void updateProtocolStatus(String actionTypeCode, String comments) {
+    public void updateProtocolStatus(String actionTypeCode, String comments) {
         ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
         protocolAction.setComments(comments);
         getProtocol().getProtocolActions().add(protocolAction);
