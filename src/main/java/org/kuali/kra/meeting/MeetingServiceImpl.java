@@ -32,6 +32,7 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -53,16 +54,43 @@ public class MeetingServiceImpl implements MeetingService {
      * @return
      */
     private Date getAgendaGenerationDate(Long scheduleId) {
-        Map<String, Long> fieldValues = new HashMap<String, Long>();
-        fieldValues.put("scheduleIdFk", scheduleId);
-        List<ScheduleAgenda> scheduleAgendas = (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(
-                ScheduleAgenda.class, fieldValues, "createTimestamp", false);
+        List<ScheduleAgenda> scheduleAgendas = getAgenda(scheduleId);
         if (scheduleAgendas.isEmpty()) {
             return null;
         }
         else {
-            return new Date(scheduleAgendas.get(0).getCreateTimestamp().getTime());
+            return new Date(scheduleAgendas.get(scheduleAgendas.size() - 1).getCreateTimestamp().getTime());
         }
+    }
+
+    private List<ScheduleAgenda> getAgenda(Long scheduleId) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("scheduleIdFk", scheduleId);
+        return (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(
+                ScheduleAgenda.class, fieldValues, "createTimestamp", true);
+    }
+
+    private List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("scheduleIdFk", scheduleId);
+        return (List<CommScheduleMinuteDoc>) businessObjectService.findMatchingOrderBy(
+                CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
+    }
+    
+    private List<ProtocolCorrespondence> getCorrespondences(CommitteeSchedule committeeSchedule) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        List<Long> protocolIds = new ArrayList<Long>();
+        List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
+        // TODO : check if want to use criteria/dao to get the list or use this loop
+        for (ProtocolSubmission submission : committeeSchedule.getProtocolSubmissions()) {
+            if (!protocolIds.contains(submission.getProtocolId())) {
+                protocolIds.add(submission.getProtocolId());
+                fieldValues.put("protocolId", submission.getProtocolId());
+                correspondences.addAll((List<ProtocolCorrespondence>) businessObjectService.findMatching(
+                        ProtocolCorrespondence.class, fieldValues));
+            }
+        }
+        return correspondences;
     }
 
     /**
@@ -510,7 +538,9 @@ public class MeetingServiceImpl implements MeetingService {
         meetingHelper.setAgendaGenerationDate(getAgendaGenerationDate(commSchedule.getId()));
         meetingHelper.setCommitteeSchedule(commSchedule);
         meetingHelper.setTabLabel(getMeetingTabTitle(meetingHelper.getCommitteeSchedule(), lineNumber));
-
+        meetingHelper.setScheduleAgendas(getAgenda(commSchedule.getId()));
+        meetingHelper.setMinuteDocs(getMinuteDoc(commSchedule.getId()));
+        meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
     }
 
     /*

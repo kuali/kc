@@ -26,8 +26,12 @@ public enum CommitteeReportType {
     ROSTER ("roster"),
 
     /** Report type for the committee future scheduled meetings. */
-    FUTURE_SCHEDULED_MEETINGS ("futureScheduledMeetings");
-    
+    FUTURE_SCHEDULED_MEETINGS ("futureScheduledMeetings"),
+
+    /** Report type for the Meeting agenda. */
+    MEETING_AGENDA ("meetingAgenda"),
+    MEETING_MINUTES ("meetingMinutes");
+
     private String committeeReportType;
 
     /**

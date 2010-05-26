@@ -18,6 +18,7 @@ package org.kuali.kra.meeting;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,11 +26,10 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.util.Collections;
 
 public class MeetingHelper implements Serializable {
 
@@ -55,6 +55,13 @@ public class MeetingHelper implements Serializable {
     private boolean jsDisabled = false;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
+    private List<ScheduleAgenda> scheduleAgendas;
+    private List<CommScheduleMinuteDoc> minuteDocs;
+    private List<ProtocolCorrespondence> correspondences;
+    private String reportType;
+    private String viewId;
+    private Boolean printRooster;
+    private Boolean printFutureScheduledMeeting;
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
@@ -66,6 +73,11 @@ public class MeetingHelper implements Serializable {
         newOtherAction = new CommScheduleActItem();
         newCommitteeScheduleMinute = new CommitteeScheduleMinute();
         newOtherPresentBean = new OtherPresentBean();
+        scheduleAgendas = new ArrayList<ScheduleAgenda>();
+        minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
+        correspondences = new ArrayList<ProtocolCorrespondence>() ;
+        printRooster = new Boolean(false);
+        printFutureScheduledMeeting = new Boolean(false);
         initDeletedList();
     }
 
@@ -325,4 +337,74 @@ public class MeetingHelper implements Serializable {
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
    }
+
+
+    public List<ScheduleAgenda> getScheduleAgendas() {
+        return scheduleAgendas;
+    }
+
+
+    public void setScheduleAgendas(List<ScheduleAgenda> scheduleAgendas) {
+        this.scheduleAgendas = scheduleAgendas;
+    }
+
+
+    public List<CommScheduleMinuteDoc> getMinuteDocs() {
+        return minuteDocs;
+    }
+
+
+    public void setMinuteDocs(List<CommScheduleMinuteDoc> minuteDocs) {
+        this.minuteDocs = minuteDocs;
+    }
+
+
+    public List<ProtocolCorrespondence> getCorrespondences() {
+        return correspondences;
+    }
+
+
+    public void setCorrespondences(List<ProtocolCorrespondence> correspondences) {
+        this.correspondences = correspondences;
+    }
+
+
+    public String getReportType() {
+        return reportType;
+    }
+
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
+    }
+
+
+    public String getViewId() {
+        return viewId;
+    }
+
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
+    }
+
+
+    public Boolean getPrintRooster() {
+        return printRooster;
+    }
+
+
+    public void setPrintRooster(Boolean printRooster) {
+        this.printRooster = printRooster;
+    }
+
+
+    public Boolean getPrintFutureScheduledMeeting() {
+        return printFutureScheduledMeeting;
+    }
+
+
+    public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
+        this.printFutureScheduledMeeting = printFutureScheduledMeeting;
+    }
 }

@@ -40,6 +40,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -515,13 +516,27 @@ public class MeetingServiceTest {
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final List<ScheduleAgenda> agendas = getAgendas();
+        final List<CommScheduleMinuteDoc> minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
+        final List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
         context.checking(new Expectations() {
             {
                 Map queryMap = new HashMap();
                 queryMap.put("scheduleIdFk", 1L);
-                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", false);
+                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
                 ;
                 will(returnValue(agendas));
+                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
+                ;
+                will(returnValue(agendas));
+                one(businessObjectService).findMatchingOrderBy(CommScheduleMinuteDoc.class, queryMap, "createTimestamp", true);
+                ;
+                will(returnValue(minuteDocs));
+                Map queryMap1 = new HashMap();
+                queryMap1.put("protocolId", 1L);
+                one(businessObjectService).findMatching(ProtocolCorrespondence.class, queryMap1);
+                ;
+                will(returnValue(correspondences));
+
 
             }
         });
@@ -545,6 +560,7 @@ public class MeetingServiceTest {
         };
         protocolSubmission.setProtocol(getProtocol());
         protocolSubmission.setSubmissionId(submissionId);
+        protocolSubmission.setProtocolId(1L);
         return protocolSubmission;
 
     }

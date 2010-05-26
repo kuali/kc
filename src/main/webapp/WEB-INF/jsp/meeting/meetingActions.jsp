@@ -19,32 +19,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html:html>
 
-<head>
-	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
-	<title>Kuali :: Meeting</title>
-	
-	<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
-        <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
-			<link href="${pageContext.request.contextPath}/${cssFile}"
-				rel="stylesheet" type="text/css" />
-        </c:if>
-    </c:forEach>
-	<c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
-        <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
-			<script language="JavaScript" type="text/javascript"
-				src="${pageContext.request.contextPath}/${javascriptFile}"></script>
-        </c:if>
-    </c:forEach>
-<SCRIPT type="text/javascript">
-var kualiForm = document.forms['KualiForm'];
-var kualiElements = kualiForm.elements;
-</SCRIPT>
-
-</head>
+    <head>
+        <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
+        <title>Kuali :: Meeting</title>
+        <style type="text/css">
+            #workarea td.tab-subhead1
+            {
+		        font-weight: bold;
+		        background-color: #939393;
+		        height: 18px;
+		        text-align: left;
+		        border-left: 1px solid #999999;
+		        color: #FFFFFF;
+		        padding: 2px 6px;
+		        border-bottom-width: 1px;
+		        border-bottom-style: solid;
+		        border-bottom-color: #B2B2B2;
+            }
+        </style>
+        <c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
+            <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+				 <link href="${pageContext.request.contextPath}/${cssFile}"
+					rel="stylesheet" type="text/css" />
+            </c:if>
+        </c:forEach>
+        <c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
+            <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+				<script language="JavaScript" type="text/javascript"
+					src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+            </c:if>
+        </c:forEach>
+        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+        <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
+        <script language="JavaScript" type="text/javascript"
+				src="dwr/interface/MeetingService.js"></script>
+    </head>
 	<body onload="if ( !restoreScrollPosition() ) {  }"
 			onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
 			
-<html:form styleId="kualiForm" action="/meetingManagement.do"
+<html:form styleId="kualiForm" action="/meetingActions.do"
 	method="post" 
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
 	
@@ -52,6 +65,10 @@ var kualiElements = kualiForm.elements;
 	<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
 
 		<a name="topOfForm"></a>
+	<%-- <div align="center" style="margin: 10px">
+	<div id="headermsg" align="left"></div>
+	<br /> --%>
+		
 <div class="headerarea" id="headerarea">
   <h1>Meeting <a href="#"> <img src="kr/static/images/my_cp_inf.gif" alt="help" width=15 height=14 border=0 align=absmiddle onClick="MM_openBrWindow('../kra-coeus-irb/help-pop.html','','scrollbars=yes,resizable=yes,width=500,height=500')"></a></h1>
 </div>
@@ -61,27 +78,37 @@ var kualiElements = kualiForm.elements;
   <div id="tabs">
     <dl class="tabul">
      	<dt><span class="tabright">
-        <input type="submit" name="methodToCall.meeting" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
-        </span></dt> 
-        <dt class="licurrent" ><span class="tabright tabcurrent">
         <c:choose>
             <c:when test="${!readOnly}">
-                <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction" value="Meeting Actions" alt="Meeting Actions">
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.management" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
             </c:when>
             <c:otherwise>
-                <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.meetingAction" value="Meeting Actions" alt="Meeting Actions">
+                <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.management" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
             </c:otherwise>
         </c:choose>
+        </span></dt> 
+        <dt class="licurrent" ><span class="tabright tabcurrent">
+        <input type="submit" name="methodToCall.actions" value="Meeting Actions" alt="Meeting  Actions">
         </span></dt>
     </dl>
   </div>
 </div>
 
-<div class="msg-excol">
-  <div class="left-errmsg">
-    <div class=""><span class="excol"> </span></div>
-  </div>
-</div>
+            <c:set var="errorKey" value="meetingHelper"/>
+            <div class="msg-excol">
+				<div class="left-errmsg">
+					<kul:errorCount auditCount="${auditCount}"/>
+					<c:if test="${!empty errorKey}">
+						<kul:errors keyMatch="${errorKey}" errorTitle=" "/>
+					</c:if>
+					<c:if test="${empty errorKey}">
+					    <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}"
+															errorTitle=" " />
+					</c:if>
+					<kul:messages/>
+					<kul:lockMessages/>
+				</div>
+            </div>
 
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
@@ -95,8 +122,10 @@ var kualiElements = kualiForm.elements;
       <kra-meeting:meetingAgenda />
     
       <kra-meeting:meetingActionMinutes />
+      <kra-meeting:meetingActionPrint />
       <kra-meeting:meetingCorrespondence />
           
+      <input type="hidden" name="meetingHelper.viewId" id="meetingHelper.viewId" value="${KualiForm.meetingHelper.viewId}"/>
           
     <!-- Tabbed Panel Footer -->    
     <div class="tab-container" align="center" id="G125" style="display: none;"></div>
@@ -122,4 +151,18 @@ var kualiElements = kualiForm.elements;
 </html:form>
 <div id="formComplete"></div> 
 </body>
+    <SCRIPT type="text/javascript">
+    var kualiForm = document.forms['KualiForm'];
+    var kualiElements = kualiForm.elements;
+
+    $(document).ready(function()     {
+       var viewId = $("#meetingHelper\\.viewId").attr("value");
+       if (viewId) {
+           $("#"+viewId).click();
+           $("#meetingHelper\\.viewId").attr("value","");
+       }
+    } ); 
+
+    </SCRIPT> 
+
 </html:html>

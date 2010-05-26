@@ -342,7 +342,7 @@
           <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommitteeMembership.jsp" />
           <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommitteeSchedule.jsp" />
           <forward name="committeeActions" path="/WEB-INF/jsp/committee/CommitteeActions.jsp" />
-          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meeting.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
       </action>
       
      <action path="/maintenance" name="KraMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.maintenance.KraMaintenanceDocumentAction">
@@ -353,9 +353,10 @@
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
      </action>    
      
-     <action path="/meetingManagement" name="MeetingForm" type="org.kuali.kra.meeting.MeetingAction" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/meeting/meeting.jsp" />
-            <forward name="meetingAction" path="/WEB-INF/jsp/meeting/meetingAction.jsp" />
+     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
+            <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
+            <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
      </action>
      
      <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
