@@ -25,6 +25,8 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.meeting.print.MeetingAgenda;
+import org.kuali.kra.meeting.print.MeetingMinutes;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -42,6 +44,8 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private CommitteeBatchCorrespondencePrint committeeBatchCorrespondencePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
+    private MeetingAgenda meetingAgenda;
+    private MeetingMinutes meetingMinutes;
 
     /**
      * {@inheritDoc}
@@ -58,6 +62,12 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
                 break;
             case FUTURE_SCHEDULED_MEETINGS :
                 printable = getCommitteeFutureScheduledMeetingsPrint();
+                break;
+            case MEETING_AGENDA :
+                printable = getMeetingAgenda();
+                break;
+            case MEETING_MINUTES :
+                printable = getMeetingMinutes();
                 break;
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
@@ -104,6 +114,22 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
 
     public void setCommitteeFutureScheduledMeetingsPrint(CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint) {
         this.committeeFutureScheduledMeetingsPrint = committeeFutureScheduledMeetingsPrint;
+    }
+
+    public MeetingAgenda getMeetingAgenda() {
+        return meetingAgenda;
+    }
+
+    public void setMeetingAgenda(MeetingAgenda meetingAgenda) {
+        this.meetingAgenda = meetingAgenda;
+    }
+
+    public MeetingMinutes getMeetingMinutes() {
+        return meetingMinutes;
+    }
+
+    public void setMeetingMinutes(MeetingMinutes meetingMinutes) {
+        this.meetingMinutes = meetingMinutes;
     }
 
 }
