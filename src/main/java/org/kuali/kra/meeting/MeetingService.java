@@ -128,4 +128,5 @@ public interface MeetingService {
      * @param itemNumber
      */
     public void deleteOtherPresent(MeetingHelper meetingHelper, int itemNumber);
+    
 }

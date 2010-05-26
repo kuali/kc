@@ -76,17 +76,17 @@
                     <dl class="tabul">
              	        <dt class="licurrent" >
              	            <span class="tabright tabcurrent">
-                                <input type="submit" name="methodToCall.meeting" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
+                                <input type="submit" name="methodToCall.management" value="${KualiForm.meetingHelper.tabLabel}" alt="Meeting">
                             </span>
                         </dt> 
                         <dt>
                             <span class="tabright">
                                 <c:choose>
                                     <c:when test="${!readOnly}">
-                                        <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.meetingAction" value="Meeting Actions" alt="Meeting Actions">
+                                        <input type="submit" name="methodToCall.headerTab.headerDispatch.save.navigateTo.actions" value="Meeting Actions" alt="Meeting Actions">
                                     </c:when>
                                     <c:otherwise>
-                                        <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.meetingAction" value="Meeting Actions" alt="Meeting Actions">
+                                        <input type="submit" name="methodToCall.headerTab.headerDispatch.reload.navigateTo.actions" value="Meeting Actions" alt="Meeting Actions">
                                     </c:otherwise>
                                 </c:choose>
                             </span>

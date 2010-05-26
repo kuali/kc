@@ -24,11 +24,20 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
     
     private Boolean printRooster;
     private Boolean printFutureScheduledMeeting;
+    private boolean onMeetingAction;
     
     public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
         setPrintRooster(printRooster);
         setPrintFutureScheduledMeeting(printFutureScheduledMeeting);
+        setOnMeetingAction(false);
+    }
+
+    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting, boolean onMeetingAction) {
+        super(MSG + getDocumentId(document), errorPathPrefix, document);
+        setPrintRooster(printRooster);
+        setPrintFutureScheduledMeeting(printFutureScheduledMeeting);
+        setOnMeetingAction(onMeetingAction);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,6 +60,14 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
 
     public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
         this.printFutureScheduledMeeting = printFutureScheduledMeeting;
+    }
+
+    public boolean isOnMeetingAction() {
+        return onMeetingAction;
+    }
+
+    public void setOnMeetingAction(boolean onMeetingAction) {
+        this.onMeetingAction = onMeetingAction;
     }
 
 }
