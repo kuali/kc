@@ -24,8 +24,8 @@ import org.kuali.kra.irb.Protocol;
 public interface ActionCorrespondenceGenerationService {
     /**
      * 
-     * This method will call the ProtocolGenerateCorrespondenceService, the ProtocolXMLStreamService(needs to be dummied up), and pass 
-     * those returns to the print service, and attach the generated PDF to the Protocol.
+     * This method will call the ProtocolGenerateCorrespondenceService, the ProtocolXMLStreamService(needs to be 
+     * dummied up), and pass those returns to the print service, and attach the generated PDF to the Protocol.
      * @param protocol a Protocol object.
      */
     void generateCorrespondenceDocumentAndAttach(Protocol protocol);
