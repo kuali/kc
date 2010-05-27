@@ -1547,8 +1547,8 @@
 -->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights" table="NARRATIVE_USER_RIGHTS">
-		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="accessType" column="ACCESS_TYPE" jdbc-type="CHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

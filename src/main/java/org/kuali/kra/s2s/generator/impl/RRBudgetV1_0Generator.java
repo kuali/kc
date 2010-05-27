@@ -125,7 +125,7 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		}
 
 		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
-			saveExtraKeyPersons(budgetPeriodData);
+//			saveExtraKeyPersons(budgetPeriodData);
 			if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
 				rrBudget
 						.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
@@ -601,44 +601,46 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					.bigDecimalValue());
 			keyPersons
 					.setTotalFundForAttachedKeyPersons(totalFundForAttachedKeyPersons);
-			for (Narrative narrative : pdDoc.getDevelopmentProposal()
-					.getNarratives()) {
-				if (narrative.getNarrativeTypeCode() != null
-						&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
-					AttachedKeyPersons attachedKeyPersons = AttachedKeyPersons.Factory
-							.newInstance();
-					FileLocation fileLocation = FileLocation.Factory
-							.newInstance();
-					attachedKeyPersons.setFileLocation(fileLocation);
-					String contentId = createContentId(narrative);
-					fileLocation.setHref(contentId);
-					attachedKeyPersons.setFileLocation(fileLocation);
-					attachedKeyPersons.setFileName(narrative.getFileName());
-					attachedKeyPersons
-							.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-					narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-					if (narrative.getNarrativeAttachmentList() != null
-							&& narrative.getNarrativeAttachmentList().size() > 0) {
-						attachedKeyPersons.setHashValue(getHashValue(narrative
-								.getNarrativeAttachmentList().get(0)
-								.getContent()));
-					}
-					AttachmentData attachmentData = new AttachmentData();
-					if (narrative.getNarrativeAttachmentList() != null
-							&& narrative.getNarrativeAttachmentList().size() > 0) {
-						attachmentData.setContent(narrative
-								.getNarrativeAttachmentList().get(0)
-								.getContent());
-					}
-					attachmentData.setContentId(contentId);
-					attachmentData
-							.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-					attachmentData.setFileName(narrative.getFileName());
-					addAttachment(attachmentData);
-					attachedKeyPersons
-							.setTotalFundForAttachedKeyPersonsExist(YesNoDataType.YES);
-					keyPersons.setAttachedKeyPersons(attachedKeyPersons);
+			Narrative narrative = saveExtraKeyPersons(periodInfo);
+//			for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//					.getNarratives()) {
+//				if (narrative.getNarrativeTypeCode() != null
+//						&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
+			if(narrative!=null){
+				AttachedKeyPersons attachedKeyPersons = AttachedKeyPersons.Factory
+						.newInstance();
+				FileLocation fileLocation = FileLocation.Factory
+						.newInstance();
+				attachedKeyPersons.setFileLocation(fileLocation);
+				String contentId = createContentId(narrative);
+				fileLocation.setHref(contentId);
+				attachedKeyPersons.setFileLocation(fileLocation);
+				attachedKeyPersons.setFileName(narrative.getFileName());
+				attachedKeyPersons
+						.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+				narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+				if (narrative.getNarrativeAttachmentList() != null
+						&& narrative.getNarrativeAttachmentList().size() > 0) {
+					attachedKeyPersons.setHashValue(getHashValue(narrative
+							.getNarrativeAttachmentList().get(0)
+							.getContent()));
 				}
+				AttachmentData attachmentData = new AttachmentData();
+				if (narrative.getNarrativeAttachmentList() != null
+						&& narrative.getNarrativeAttachmentList().size() > 0) {
+					attachmentData.setContent(narrative
+							.getNarrativeAttachmentList().get(0)
+							.getContent());
+				}
+				attachmentData.setContentId(contentId);
+				attachmentData
+						.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+				attachmentData.setFileName(narrative.getFileName());
+				addAttachment(attachmentData);
+				attachedKeyPersons
+						.setTotalFundForAttachedKeyPersonsExist(YesNoDataType.YES);
+				keyPersons.setAttachedKeyPersons(attachedKeyPersons);
+//				}
 			}
 		}
 		return keyPersons;
@@ -921,6 +923,7 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 	 */
 	private Equipment getEquipment(BudgetPeriodInfo periodInfo) {
 		Equipment equipment = Equipment.Factory.newInstance();
+		Narrative extraEquipmentNarr = null;
 		if (periodInfo != null && periodInfo.getEquipment() != null
 				&& periodInfo.getEquipment().size() > 0) {
 			// Evaluating Equipments.
@@ -956,44 +959,40 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 			totalFund = totalFund.add(totalExtraEquipFund);
 			equipment.setTotalFundForAttachedEquipment(totalFundForAttachedEquipment);
 			equipment.setTotalFund(totalFund.bigDecimalValue());
-			saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
+			extraEquipmentNarr = saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
 		}
 
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
-				AdditionalEquipmentsAttachment equipmentAttachment = AdditionalEquipmentsAttachment.Factory
-						.newInstance();
-				FileLocation fileLocation = FileLocation.Factory.newInstance();
-				equipmentAttachment.setFileLocation(fileLocation);
-//				LinkedHashMap<String, String> attMap = new LinkedHashMap<String, String>();
-//				attMap.put(MODULE_NUMBER, String.valueOf(narrative
-//						.getModuleNumber()));
-//				attMap.put(DESCRIPTION, narrative.getNarrativeType()
-//						.getDescription());
-				String contentId = createContentId(narrative);
-				fileLocation.setHref(contentId);
-				equipmentAttachment.setFileLocation(fileLocation);
-				equipmentAttachment.setFileName(narrative.getFileName());
-				equipmentAttachment
-						.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-				narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-				equipmentAttachment.setHashValue(getHashValue(narrative
-						.getNarrativeAttachmentList().get(0).getContent()));
-				AttachmentData attachmentData = new AttachmentData();
-				attachmentData.setContent(narrative
-						.getNarrativeAttachmentList().get(0).getContent());
-				attachmentData.setContentId(contentId);
-				attachmentData
-						.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-				attachmentData.setFileName(narrative.getFileName());
-				addAttachment(attachmentData);
-				equipmentAttachment
-						.setTotalFundForAttachedEquipmentExist(YesNoDataType.YES);
-				equipment
-						.setAdditionalEquipmentsAttachment(equipmentAttachment);
-			}
+//		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//				.getNarratives()) {
+//			if (narrative.getNarrativeTypeCode() != null
+//					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
+		if(extraEquipmentNarr!=null){
+			AdditionalEquipmentsAttachment equipmentAttachment = AdditionalEquipmentsAttachment.Factory
+					.newInstance();
+			FileLocation fileLocation = FileLocation.Factory.newInstance();
+			equipmentAttachment.setFileLocation(fileLocation);
+			String contentId = createContentId(extraEquipmentNarr);
+			fileLocation.setHref(contentId);
+			equipmentAttachment.setFileLocation(fileLocation);
+			equipmentAttachment.setFileName(extraEquipmentNarr.getFileName());
+			equipmentAttachment
+					.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+			extraEquipmentNarr.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+			equipmentAttachment.setHashValue(getHashValue(extraEquipmentNarr
+					.getNarrativeAttachmentList().get(0).getContent()));
+			AttachmentData attachmentData = new AttachmentData();
+			attachmentData.setContent(extraEquipmentNarr
+					.getNarrativeAttachmentList().get(0).getContent());
+			attachmentData.setContentId(contentId);
+			attachmentData
+					.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+			attachmentData.setFileName(extraEquipmentNarr.getFileName());
+			addAttachment(attachmentData);
+			equipmentAttachment
+					.setTotalFundForAttachedEquipmentExist(YesNoDataType.YES);
+			equipment
+					.setAdditionalEquipmentsAttachment(equipmentAttachment);
+//			}
 		}
 		return equipment;
 	}

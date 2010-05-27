@@ -47,10 +47,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -85,6 +87,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private ProposalDevelopmentService proposalDevelopmentService;
     private KcPersonService kcPersonService;
     private SponsorService sponsorService;
+    private NarrativeService narrativeService;
 	private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
@@ -857,6 +860,22 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return depPerson;
     }
 
+    public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc) {
+        List<Narrative> narratives = pdDoc.getDevelopmentProposal().getNarratives();
+        List<Integer> deletedItems = new ArrayList<Integer>();
+        Integer i=0;
+        for (Narrative narrative : narratives) {
+            
+            if(narrative.getNarrativeType()!=null && "Y".equals(narrative.getNarrativeType().getSystemGenerated())){
+                deletedItems.add(i);
+            }
+            i++;
+        }
+        for (int lineToDelete = deletedItems.size()-1; lineToDelete >=0; lineToDelete--) {
+            getNarrativeService().deleteProposalAttachment(pdDoc, deletedItems.get(lineToDelete));
+        }
+    }
+    
     /**
      * Gets the kcPersonService attribute. 
      * @return Returns the kcPersonService.
@@ -901,5 +920,21 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
+    }
+
+    /**
+     * Gets the narrativeService attribute. 
+     * @return Returns the narrativeService.
+     */
+    public NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    /**
+     * Sets the narrativeService attribute value.
+     * @param narrativeService The narrativeService to set.
+     */
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
     }
 }
