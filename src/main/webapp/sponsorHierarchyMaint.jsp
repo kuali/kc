@@ -186,7 +186,7 @@ tbody tr:hover {
        if (sponsorHierarchy.indexOf(":") > 0) {
             var rootNodeDesc = getRootNode(parentNode);
        		var sponsorCode=getUnitNumber(sponsorHierarchy);
-			return  "<input type=\"image\" name=\"methodToCall.performInquiry.(!!org.kuali.kra.bo.Sponsor!!).((#sponsorCode:sponsorCode#)).anchorNode\" src=\"kr/static/images/book_open.png\" onclick=\"javascript: setSponsorCode('"+sponsorCode+"');inquiryPop('org.kuali.kra.bo.Sponsor','sponsorCode:sponsorCode'); return false\" class=\"tinybutton\" title=\"Direct Inquiry\" alt=\"Direct Inquiry\">"	+
+			return  "<input type=\"image\" name=\"methodToCall.performInquiry.(!!org.kuali.kra.bo.Sponsor!!).((`sponsorCode:sponsorCode`)).anchorNode\" src=\"kr/static/images/book_open.png\" onclick=\"javascript: setSponsorCode('"+sponsorCode+"');inquiryPop('org.kuali.kra.bo.Sponsor','sponsorCode:sponsorCode'); return false\" class=\"tinybutton\" title=\"Direct Inquiry\" alt=\"Direct Inquiry\">"	+
 					"<INPUT TYPE=\"image\" src=\"${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif\" styleClass=\"tinybutton\" VALUE=\"Delete Sponsor\" ALT=\"Delete Sponsor\" NAME=\"deletenode\" onClick=\"deleteNode("+nodeKey+");return false;\" >  ";
        } else {
          	if ((parentNode.depth+1) == 0) {

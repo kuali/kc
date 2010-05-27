@@ -29,7 +29,7 @@ function sponsorHierarchy() {
 	           	var root = tree.getRoot();
 	           	// root.depth is -1
 	           	if (actionSelected == "new") {
-	           		emptyNodes="((#0#))";
+	           		emptyNodes="((`0`))";
 	           	}
 	           	for (var i=0 ; i < sponsorHierarchy_array.length;  i++) {
 					var tempNode = new SHNode( table_1 + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], root)+"</td></tr></table>", root, false, true, false, sponsorHierarchy_array[i]);
@@ -242,7 +242,7 @@ function sponsorHierarchy() {
 	                deleteSponsorHierarchy(oCurrentTextNode, "true");
 	                removeFromSponsorList(oCurrentTextNode);
 	            } else {
-	                if (emptyNodes.indexOf("((#"+getNodeseq(oCurrentTextNode)+"#))") < 0) {
+	                if (emptyNodes.indexOf("((`"+getNodeseq(oCurrentTextNode)+"`))") < 0) {
 	                	deleteSponsorHierarchy(oCurrentTextNode, "false");
 	                }
 	            }
@@ -265,7 +265,7 @@ function sponsorHierarchy() {
 	               	  parentNode.nextSibling.description = parentNode.description;
 	                  parentNode.nextSibling.isVirtualNode = false;
 	               }   	                  
-	               emptyNodes=emptyNodes.replace("((#"+getNodeseq(parentNode)+"#))", "");
+	               emptyNodes=emptyNodes.replace("((`"+getNodeseq(parentNode)+"`))", "");
 	               tree.removeNode(parentNode);	
 	            }
 				//actionList[mapKey]=actionList[mapKey]+":delete:"
@@ -358,8 +358,8 @@ function sponsorHierarchy() {
    }
 
    function updateEmptyNodes(node, isDeleteNode) {
-        var nodeSeq="((#"+getNodeseq(node)+"#))";
-        var parentNodeSeq="((#"+getNodeseq(node.parent)+"#))";
+        var nodeSeq="((`"+getNodeseq(node)+"`))";
+        var parentNodeSeq="((`"+getNodeseq(node.parent)+"`))";
         //alert(emptyNodes)
 		if (isDeleteNode == "true") {
 			emptyNodes=emptyNodes.replace(nodeSeq, "");
@@ -370,7 +370,7 @@ function sponsorHierarchy() {
 			    if (!node.isLeaf) {
 					emptyNodes=emptyNodes+nodeSeq;
 			    }
-			    //alert("replace "+"((#"+parentNodeSeq+"#))")
+			    //alert("replace "+"((`"+parentNodeSeq+"`))")
 				emptyNodes=emptyNodes.replace(parentNodeSeq, "");
 		}
         //alert(emptyNodes)
@@ -378,7 +378,7 @@ function sponsorHierarchy() {
    }
 
    function okToSave() {
-     	if (emptyNodes.indexOf("((#") >= 0) {
+     	if (emptyNodes.indexOf("((`") >= 0) {
      	  // alert(emptyNodes);
      	   alert ("Can't save hierarchy with empty group.");
      	   return false;
@@ -674,7 +674,7 @@ function sponsorHierarchy() {
             var sortid="";
             while (tempNode.depth > 0) {
                 if (includeSortid == "true") {
-                	sortid = "((#"+getSortId(tempNode)+"#))";
+                	sortid = "((`"+getSortId(tempNode)+"`))";
                 }
                 if (ascendants == "") {
                 	ascendants = tempNode.description+sortid;

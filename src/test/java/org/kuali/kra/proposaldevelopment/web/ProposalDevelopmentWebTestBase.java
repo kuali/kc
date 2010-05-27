@@ -175,7 +175,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
 //        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
 //        webClient.setJavaScriptEnabled(false);
 
-        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((`"+textAreaFieldName+":"+action+":"+textAreaLabel+"`))"+tabIndex);
         String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
         String completeText = currentValue+moreTextToBeAdded;
         setFieldValue(textAreaPopupPage, textAreaFieldName, completeText);
