@@ -35,7 +35,7 @@
 <c:if test="${!empty lookedUpBODisplayName}">
   <bean-el:message key="multiple.value.lookup.icon.label" arg0="${lookedUpBODisplayName}"/>
 </c:if>
-<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).((#${lookupParameters}#)).(:;${lookedUpCollectionName};:).((%true%)).((~${autoSearch}~)).anchor${anchor}"/>
+<c:set var="epMethodToCallAttribute" value="methodToCall.performLookup.(!!${boClassName}!!).((`${lookupParameters}`)).(:;${lookedUpCollectionName};:).((%true%)).((~${autoSearch}~)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
 <input type="image" tabindex="${tabindex}" name="${epMethodToCallAttribute}"
    src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on ${lookedUpBODisplayName}" title="Multiple Value Search on ${lookedUpBODisplayName}" />

@@ -36,7 +36,7 @@
 			<tr>
 				<td colspan="3">
 					<div class="floaters">
-						You are currently viewing <b>Proposal #${proposalNumber} (Document #${documentNumber})</b>, which is 
+						You are currently viewing <b>Proposal # ${proposalNumber} (Document # ${documentNumber})</b>, which is 
 						<c:choose>
 							<c:when test="${hierarchyStatus == hierarchyParentStatus}" >
 								a Parent Document.

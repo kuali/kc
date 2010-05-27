@@ -27,7 +27,7 @@
     <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
   </c:otherwise>
 </c:choose>
-<c:set var="epMethodToCallAttribute" value="methodToCall.performInquiry.(!!${boClassName}!!).((#${inquiryParameters}#)).anchor${anchor}"/>
+<c:set var="epMethodToCallAttribute" value="methodToCall.performInquiry.(!!${boClassName}!!).((`${inquiryParameters}`)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 
 <html:image tabindex="${tabindex}" property="${epMethodToCallAttribute}"
    onclick="javascript: inquiryPop('${boClassName}','${inquiryParameters}'); return false"

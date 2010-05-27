@@ -326,7 +326,7 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
      * @throws Exception
      */
     protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
-        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((`"+textAreaFieldName+":"+action+":"+textAreaLabel+"`))"+tabIndex);
         String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
         String completeText = currentValue+moreTextToBeAdded;
         setFieldValue(textAreaPopupPage, textAreaFieldName, completeText);
