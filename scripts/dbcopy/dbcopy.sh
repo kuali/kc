@@ -13,11 +13,11 @@ export EMB_SERVER_USER=RICEDEV
 export EMB_SERVER_PASS=RICEDEV
 
 ## URL of SQL scripts
-export DEV_SCRIPT_URL=https://ci.kc.kuali.net/userContent/dba/dbadb_oracle.zip
-export UNT_SCRIPT_URL=https://ci.kc.kuali.net/userContent/unt/untdb_oracle.zip
+export DEV_SCRIPT_URL=https://db.kc.kuali.org/userContent/dba/dbadb_oracle.zip
+export UNT_SCRIPT_URL=https://db.kc.kuali.org/userContent/unt/untdb_oracle.zip
 ##URL of SQL scripts for embedded mode. 
-export EMB_CLIENT_SCRIPT_URL=https://ci.kc.kuali.org/userContent/embedded/embeddeddb_client.zip
-export EMB_SERVER_SCRIPT_URL=http://ci.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
+export EMB_CLIENT_SCRIPT_URL=https://db.kc.kuali.org/userContent/embedded/embeddeddb_client.zip
+export EMB_SERVER_SCRIPT_URL=http://db.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
 
 
 
