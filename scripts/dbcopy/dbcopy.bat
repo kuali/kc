@@ -28,10 +28,10 @@ SET EMB_SERVER_USER=RICEDEV
 SET EMB_SERVER_PASS=RICEDEV
 
 :: URL of SQL scrips
-SET DBA_SCRIPT_URL=https://ci.kc.kuali.net/userContent/dba/dbadb_oracle.zip
-SET UNT_SCRIPT_URL=https://ci.kc.kuali.net/userContent/unt/untdb_oracle.zip
-SET EMB_CLIENT_SCRIPT_URL=https://ci.kc.kuali.org/userContent/embedded/embeddeddb_client.zip
-SET EMB_SERVER_SCRIPT_URL=http://ci.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
+SET DBA_SCRIPT_URL=https://db.kc.kuali.org/userContent/dba/dbadb_oracle.zip
+SET UNT_SCRIPT_URL=https://db.kc.kuali.org/userContent/unt/untdb_oracle.zip
+SET EMB_CLIENT_SCRIPT_URL=https://db.kc.kuali.org/userContent/embedded/embeddeddb_client.zip
+SET EMB_SERVER_SCRIPT_URL=http://db.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
 
 :: External program locations
 SET WGET_PROG=C:\cygwin\bin\wget.exe
