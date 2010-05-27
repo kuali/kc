@@ -55,10 +55,10 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     protected static final String PROTOCOL_REFERENCENUMBER2 = "0010";
     
     protected static final String PROTOCOL_DESCRIPTION_ID =  "document.protocolList[0].description";
-    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA_ID = "methodToCall.updateTextArea.((#document.protocolList[0].description:protocolProtocol:Summary/Keywords#))";
+    protected static final String PROTOCOL_DESCRIPTION_TEXTAREA_ID = "methodToCall.updateTextArea.((`document.protocolList[0].description:protocolProtocol:Summary/Keywords`))";
 
     protected static final String PROTOCOL_COMMENT_ID =  "newProtocolReference.comments";
-    protected static final String PROTOCOL_COMMENT_TEXTAREA_ID = "methodToCall.updateTextArea.((#newProtocolReference.comments:protocolProtocol:Comments:false#))";
+    protected static final String PROTOCOL_COMMENT_TEXTAREA_ID = "methodToCall.updateTextArea.((`newProtocolReference.comments:protocolProtocol:Comments:false`))";
 
     
     protected static final String PROTOCOL_TEXTAREA =  "keyword_to_test1";

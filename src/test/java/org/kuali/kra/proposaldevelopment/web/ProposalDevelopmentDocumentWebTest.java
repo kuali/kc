@@ -357,7 +357,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         webClient.setJavaScriptEnabled(false);
         final HtmlPage page5 = clickButton(page4, form1,
-                "methodToCall.updateTextArea.((#document.developmentProposalList[0].mailDescription:proposalDevelopmentProposal:Mail Description#))",
+                "methodToCall.updateTextArea.((`document.developmentProposalList[0].mailDescription:proposalDevelopmentProposal:Mail Description`))",
                 IMAGE_INPUT);
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         assertEquals("mail description", getFieldValue(form2, TEXT_AREA, "document.developmentProposalList[0].mailDescription"));
@@ -658,7 +658,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         // remove it later
         String fieldName = "document.developmentProposalList[0].title";
         String fieldText = "project title";
-        String methodToCall = "methodToCall.updateTextArea.((#" + fieldName + ":proposalDevelopmentProposal:Project Title#))";
+        String methodToCall = "methodToCall.updateTextArea.((`" + fieldName + ":proposalDevelopmentProposal:Project Title`))";
         //final HtmlPage page5 = textAreaPop(fieldName, fieldText, methodToCall, true);
         final HtmlPage page5=textAreaPop(fieldName, fieldText, methodToCall,false);
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
@@ -728,7 +728,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
         int idx1 = page.asXml().indexOf(uniqueNamePrefix);
-        //int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
+        //int idx2 = page.asXml().indexOf(".((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
         int idx2 = page.asXml().indexOf("\"", idx1);
         return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
@@ -844,7 +844,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         setFieldValue(kualiForm, TEXT_AREA, "newPropSpecialReview.comments", params[5]);
 
         final HtmlPage page = clickButton(htmlPage, kualiForm,
-                "methodToCall.updateTextArea.((#newPropSpecialReview.comments:proposalDevelopmentSpecialReview:Comments#))",
+                "methodToCall.updateTextArea.((`newPropSpecialReview.comments:proposalDevelopmentSpecialReview:Comments`))",
                 IMAGE_INPUT);
         final HtmlForm form = (HtmlForm) page.getForms().get(0);
         assertEquals(params[5], getFieldValue(form, TEXT_AREA, "newPropSpecialReview.comments"));

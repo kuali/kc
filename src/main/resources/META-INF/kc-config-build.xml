@@ -20,6 +20,4 @@ This config file only contains properties that are set by the maven build proces
 <config>
 	<param name="environment">${build.environment}</param>
 	<param name="version">${build.version}</param>
-	
-	<param name="config.location">${alt.config.location}</param>
 </config>

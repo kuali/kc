@@ -48,7 +48,7 @@
 	   		</c:otherwise>
 	  	</c:choose>
     
-       <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}:${readOnly}:${maxLength}#))"
+       <html:image property="methodToCall.updateTextArea.((`${textAreaFieldName}:${action}:${textAreaLabel}:${readOnly}:${maxLength}`))"
                    src="${srcImage}"
                    onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}','${formKey}','${readOnly}','${maxLength}');return false"
                    styleClass="tinybutton"
