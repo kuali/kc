@@ -51,7 +51,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sAppAttachments;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
@@ -608,7 +610,8 @@ public class KRAS2SServiceImpl implements S2SService {
 			developmentProposal.refreshReferenceObject("s2sOppForms");
 		}
 		if(attList==null)
-		    attList = new ArrayList();
+		    attList = new ArrayList<AttachmentData>();
+	    getS2sUtilService().deleteSystemGeneratedAttachments(pdDoc);
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
@@ -649,7 +652,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		return validationSucceeded;
 	}
 
-	/**
+    /**
 	 * 
 	 * This method is to set the formObject to MetaGrants Forms Object. The
 	 * xmlbeans Schema compiled with xsd:any does not provide a direct method to
@@ -908,4 +911,5 @@ public class KRAS2SServiceImpl implements S2SService {
 	public void setS2SValidatorService(S2SValidatorService validatorService) {
 		s2SValidatorService = validatorService;
 	}
+
 }
