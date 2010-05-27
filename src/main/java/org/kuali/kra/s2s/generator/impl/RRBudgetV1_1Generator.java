@@ -123,7 +123,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		}
 
 		for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
-			saveExtraKeyPersons(budgetPeriodData);
+//			saveExtraKeyPersons(budgetPeriodData);
 			if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
 				rrBudget
 						.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
@@ -771,6 +771,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 	 */
 	private Equipment getEquipment(BudgetPeriodInfo periodInfo) {
 		Equipment equipment = Equipment.Factory.newInstance();
+		Narrative extraEquipmentNarr = null;
 		if (periodInfo != null && periodInfo.getEquipment() != null
 				&& periodInfo.getEquipment().size() > 0) {
 			// Evaluating Equipments.
@@ -807,42 +808,43 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 			equipment.setTotalFundForAttachedEquipment(totalFundForAttachedEquipment);
 			totalFund = totalFund.add(totalExtraEquipFund);
 			equipment.setTotalFund(totalFund.bigDecimalValue());
-			saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
+			extraEquipmentNarr = saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
 		}
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
-				AdditionalEquipmentsAttachment equipmentAttachment = AdditionalEquipmentsAttachment.Factory
-						.newInstance();
-				FileLocation fileLocation = FileLocation.Factory.newInstance();
-				equipmentAttachment.setFileLocation(fileLocation);
-				String contentId = createContentId(narrative);
-				fileLocation.setHref(contentId);
-				equipmentAttachment.setFileLocation(fileLocation);
-				equipmentAttachment.setFileName(narrative.getFileName());
-				equipmentAttachment
-						.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-				narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-				if (narrative.getNarrativeAttachmentList() != null
-						&& narrative.getNarrativeAttachmentList().size() > 0) {
-					equipmentAttachment.setHashValue(getHashValue(narrative
-							.getNarrativeAttachmentList().get(0).getContent()));
-				}
-				AttachmentData attachmentData = new AttachmentData();
-				attachmentData.setContent(narrative
-						.getNarrativeAttachmentList().get(0).getContent());
-				attachmentData.setContentId(contentId);
-				attachmentData
-						.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-				attachmentData.setFileName(narrative.getFileName());
-				addAttachment(attachmentData);
-				equipmentAttachment
-						.setTotalFundForAttachedEquipmentExist(YesNoDataType.Y_YES);
-				equipment
-						.setAdditionalEquipmentsAttachment(equipmentAttachment);
+//		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//				.getNarratives()) {
+//			if (narrative.getNarrativeTypeCode() != null
+//					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
+		if(extraEquipmentNarr!=null){
+			AdditionalEquipmentsAttachment equipmentAttachment = AdditionalEquipmentsAttachment.Factory
+					.newInstance();
+			FileLocation fileLocation = FileLocation.Factory.newInstance();
+			equipmentAttachment.setFileLocation(fileLocation);
+			String contentId = createContentId(extraEquipmentNarr);
+			fileLocation.setHref(contentId);
+			equipmentAttachment.setFileLocation(fileLocation);
+			equipmentAttachment.setFileName(extraEquipmentNarr.getFileName());
+			equipmentAttachment
+					.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+			extraEquipmentNarr.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+			if (extraEquipmentNarr.getNarrativeAttachmentList() != null
+					&& extraEquipmentNarr.getNarrativeAttachmentList().size() > 0) {
+				equipmentAttachment.setHashValue(getHashValue(extraEquipmentNarr
+						.getNarrativeAttachmentList().get(0).getContent()));
 			}
+			AttachmentData attachmentData = new AttachmentData();
+			attachmentData.setContent(extraEquipmentNarr
+					.getNarrativeAttachmentList().get(0).getContent());
+			attachmentData.setContentId(contentId);
+			attachmentData
+					.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+			attachmentData.setFileName(extraEquipmentNarr.getFileName());
+			addAttachment(attachmentData);
+			equipmentAttachment
+					.setTotalFundForAttachedEquipmentExist(YesNoDataType.Y_YES);
+			equipment
+					.setAdditionalEquipmentsAttachment(equipmentAttachment);
 		}
+//		}
 		return equipment;
 	}
 
@@ -1101,43 +1103,43 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		totalFundForAttachedKeyPersons.setTotalFundForAttachedKeyPersonsExist(YesNoDataType.Y_YES);
 		totalFundForAttachedKeyPersons.setBigDecimalValue(extraFunds.bigDecimalValue());
 		keyPersons.setTotalFundForAttachedKeyPersons(totalFundForAttachedKeyPersons);
-		pdDoc.getDevelopmentProposal().refresh();
-
-		for (Narrative narrative : pdDoc.getDevelopmentProposal()
-				.getNarratives()) {
-			if (narrative.getNarrativeTypeCode() != null
-					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
-				AttachedKeyPersons attachedKeyPersons = AttachedKeyPersons.Factory
-						.newInstance();
-				FileLocation fileLocation = FileLocation.Factory.newInstance();
-				attachedKeyPersons.setFileLocation(fileLocation);
-				String contentId = createContentId(narrative);
-				fileLocation.setHref(contentId);
-				attachedKeyPersons.setFileLocation(fileLocation);
-				attachedKeyPersons.setFileName(narrative.getFileName());
+		Narrative extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
+//		for (Narrative narrative : pdDoc.getDevelopmentProposal()
+//				.getNarratives()) {
+//			if (narrative.getNarrativeTypeCode() != null
+//					&& Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
+		if(extraKeyPersonNarr!=null){
+			AttachedKeyPersons attachedKeyPersons = AttachedKeyPersons.Factory
+					.newInstance();
+			FileLocation fileLocation = FileLocation.Factory.newInstance();
+			attachedKeyPersons.setFileLocation(fileLocation);
+			String contentId = createContentId(extraKeyPersonNarr);
+			fileLocation.setHref(contentId);
+			attachedKeyPersons.setFileLocation(fileLocation);
+			attachedKeyPersons.setFileName(extraKeyPersonNarr.getFileName());
+			attachedKeyPersons
+					.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+			extraKeyPersonNarr.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+			AttachmentData attachmentData = new AttachmentData();
+			byte[] narrativeContent = null;
+			if (extraKeyPersonNarr.getNarrativeAttachmentList() != null
+					&& extraKeyPersonNarr.getNarrativeAttachmentList().size() > 0) {
+				narrativeContent = extraKeyPersonNarr
+				.getNarrativeAttachmentList().get(0).getContent();
+				
+			}
+			if(narrativeContent != null && narrativeContent.length > 0){
+				attachedKeyPersons.setHashValue(getHashValue(narrativeContent));
+				attachmentData.setContent(narrativeContent);
+				attachmentData.setContentId(contentId);
+				attachmentData
+						.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+				attachmentData.setFileName(extraKeyPersonNarr.getFileName());
+				addAttachment(attachmentData);
 				attachedKeyPersons
-						.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-				narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-				AttachmentData attachmentData = new AttachmentData();
-				byte[] narrativeContent = null;
-				if (narrative.getNarrativeAttachmentList() != null
-						&& narrative.getNarrativeAttachmentList().size() > 0) {
-					narrativeContent = narrative
-					.getNarrativeAttachmentList().get(0).getContent();
-					
-				}
-				if(narrativeContent != null && narrativeContent.length > 0){
-					attachedKeyPersons.setHashValue(getHashValue(narrativeContent));
-					attachmentData.setContent(narrativeContent);
-					attachmentData.setContentId(contentId);
-					attachmentData
-							.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-					attachmentData.setFileName(narrative.getFileName());
-					addAttachment(attachmentData);
-					attachedKeyPersons
-							.setTotalFundForAttachedKeyPersonsExist(YesNoDataType.Y_YES);
-					keyPersons.setAttachedKeyPersons(attachedKeyPersons);
-				}
+						.setTotalFundForAttachedKeyPersonsExist(YesNoDataType.Y_YES);
+				keyPersons.setAttachedKeyPersons(attachedKeyPersons);
+//				}
 			}
 		}
 		return keyPersons;
