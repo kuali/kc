@@ -1,55 +1,108 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
-import javax.xml.namespace.QName;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.resourceloader.SpringResourceLoader;
-import org.kuali.rice.test.TestHarnessServiceLocator;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+/**
+ * This class...
+ */
 public class KcUnitTestContextLifecycle extends KcUnitTestConfigLifecycle {
     private static boolean CONTEXT_LOADED = false;
-    private static boolean TRANSACTION_ACTIVE = false;
-    protected static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
-    private static SpringResourceLoader testHarnessSpringResourceLoader;
+    private boolean isTransactionActive = false;
+    private TransactionStatus transactionStatus;
 
+    private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
+    
+    private PlatformTransactionManager transactionManager;
+
+    /**
+     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestConfigLifecycle#doLaunch()
+     */
     protected void doLaunch() throws Throwable {
-        try {
         super.doLaunch();
         if (!CONTEXT_LOADED) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Loading Spring Context");
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Loading Spring Context...");
             }
-            testHarnessSpringResourceLoader = new SpringResourceLoader(new QName("TestHarnessSpringContext"), DEFAULT_TEST_HARNESS_SPRING_BEANS);
-            TestHarnessServiceLocator.setContext(testHarnessSpringResourceLoader.getContext());
-            testHarnessSpringResourceLoader.start();
             KraServiceLocator.getAppContext();
             CONTEXT_LOADED = true;
         }
-        }
-        catch (Throwable t) {
-            t.printStackTrace(System.err);
-            throw t;
-        }
     }
 
+    /**
+     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestConfigLifecycle#doShutdown()
+     */
     protected void doShutdown() throws Throwable {
-        testHarnessSpringResourceLoader.stop();
+        super.doShutdown();
     }
 
+    /**
+     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestConfigLifecycle#doStart()
+     */
     protected void doStart() throws Throwable {
+        super.doStart();
         if (!CONTEXT_LOADED) {
             throw new KcLifecycleException(new IllegalStateException("Context not loaded, transactions not available"));
         }
-        if (!TRANSACTION_ACTIVE) {
-            System.out.println("*Starting DB Transaction");
-            TRANSACTION_ACTIVE = true;
+        if (!isTransactionActive) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Starting a transaction from KcUnitTestContextLifecycle...");
+            }
+            DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+            defaultTransactionDefinition.setTimeout(3600);
+            transactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+            isTransactionActive = true;
         }
     }
 
+    /**
+     * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestConfigLifecycle#doStop()
+     */
     protected void doStop() throws Throwable {
-        if (TRANSACTION_ACTIVE) {
-            System.out.println("*Stopping DB Transaction");
-            TRANSACTION_ACTIVE = false;
+        if (isTransactionActive) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("...rolling back transaction from KcUnitTestContextLifecycle.");
+            }
+            getTransactionManager().rollback(transactionStatus);
+            isTransactionActive = false;
         }
+        super.doStop();
     }
+
+    /**
+     * This method...
+     * @return
+     */
+    private PlatformTransactionManager getTransactionManager() {
+        if (transactionManager == null) {
+            transactionManager = (PlatformTransactionManager) KraServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
+        }
+        return transactionManager;
+    }
+    
+    /**
+     * This method...
+     * @param transactionManager
+     */
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+    
 }
