@@ -355,12 +355,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 		return sponsorService.isSponsorNih(document.getDevelopmentProposal());
 	}
     
-	protected void saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
+	protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
 		Narrative narrative = null;
 		narrative = new Narrative();
 		narrative.setModuleStatusCode("C");
 		narrative.setNarrativeTypeCode(narrativeTypeCode);
 		narrative.setComments(comment);
+		narrative.setModuleTitle(comment);
 		NarrativeType narrativeType = new NarrativeType();
 		narrativeType.setDescription(comment);
 		narrativeType.setSystemGenerated("Y");
@@ -376,6 +377,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 		narrative.getNarrativeAttachmentList().add(narrativeAttachment);
 		KraServiceLocator.getService(NarrativeService.class).addNarrative(
 					pdDoc, narrative);
+		return narrative;
 	}
     private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();

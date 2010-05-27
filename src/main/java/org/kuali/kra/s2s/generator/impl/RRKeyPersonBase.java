@@ -32,6 +32,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -72,16 +73,19 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	protected static final String NIH_CO_INVESTIGATOR = "Co-Investigator";
 	
 	protected void saveKeyPersonAttachmentsToProposal() {
-		saveKeyPersonAttachments();
-		saveKeypersonProfileObject();
+	    if(extraPersons!=null && !extraPersons.isEmpty()){
+	        saveKeyPersonAttachments();
+	        saveKeypersonProfileObject();
+	    }
 	}
 
-	private void saveKeyPersonAttachments() {
+	private Narrative[] saveKeyPersonAttachments() {
 		List<String> bioSketchBookMarks = new ArrayList<String>();
 		List<String> curPendBookMarks = new ArrayList<String>();
 		List<byte[]> bioSketchDataList = new ArrayList<byte[]>();
 		List<byte[]> curPendDataList = new ArrayList<byte[]>();
 
+		Narrative[] extraKeyPersonAttachments = new Narrative[2];
 		for (ProposalPerson proposalPerson : extraPersons) {
 			setBookMarkAndData(bioSketchBookMarks, bioSketchDataList,
 					proposalPerson, BIOSKETCH_TYPE);
@@ -97,18 +101,19 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			if (bioSketchData != null && bioSketchData.length > 0) {
 				fileName = pdDoc.getDevelopmentProposal().getProposalNumber()
 						+ "_" + BIOSKETCH_COMMENT;
-				saveNarrative(bioSketchData, "" + BIOSKETCH_DOC_TYPE, fileName,
+				extraKeyPersonAttachments[0] = saveNarrative(bioSketchData, "" + BIOSKETCH_DOC_TYPE, fileName,
 						COMMENT + BIOSKETCH_COMMENT);
 			}
 			if (curPendData != null && curPendData.length > 0) {
 				fileName = pdDoc.getDevelopmentProposal().getProposalNumber()
 						+ "_" + BIOSKETCH_COMMENT;
-				saveNarrative(curPendData, "" + CURRENTPENDING_DOC_TYPE,
+				extraKeyPersonAttachments[1] = saveNarrative(curPendData, "" + CURRENTPENDING_DOC_TYPE,
 						fileName, COMMENT + CURRENT_PENDING_COMMENT);
 			}
 		} catch (PrintingException e) {
 			e.printStackTrace();
 		}
+		return extraKeyPersonAttachments;
 	}
 	
 	private void setBookMarkAndData(List<String> bookMarksList,
@@ -227,7 +232,6 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		if (document != null) {
 			try {
 				document.close();
-				new FileOutputStream(new File("c:\\test"+(new Date()).getTime()+".pdf")).write(mergedPdfReport.toByteArray());
 				return mergedPdfReport.toByteArray();
 			} catch (Exception e) {
 				LOG
@@ -438,8 +442,9 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			extraPerson.setDepartmentName(departmentName);
 
 	}
-	private void saveKeypersonProfileObject() {
-		if (extraPersons != null) {
+	private Narrative saveKeypersonProfileObject() {
+	    Narrative narrative = null;
+		if (extraPersons != null && !extraPersons.isEmpty()) {
 			PersonProfileList extraPersonProfileList = PersonProfileList.Factory.newInstance();
 
 			extraPersonProfileList.setProposalNumber(pdDoc
@@ -465,10 +470,12 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
-				saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
+				narrative = saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
 			} catch (PrintingException e) {
 				e.printStackTrace();
 			}
 		}
+		return narrative;
 	}
+	
 }

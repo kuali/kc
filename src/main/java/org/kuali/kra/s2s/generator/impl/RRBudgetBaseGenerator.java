@@ -100,12 +100,13 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				businessObjectService.delete(narrative);
 			}
 		}
-		pdDoc.getDevelopmentProposal().refresh();
+		pdDoc.getDevelopmentProposal();
 	}
 	
-	protected void saveAdditionalEquipments(BudgetPeriodInfo periodInfo,List<CostInfo> extraEquipmentArrayList) {
-		List<EquipmentInfo> equipmentInfoList = periodInfo.getEquipment();
-		if (equipmentInfoList.size() > 0) {
+	protected Narrative saveAdditionalEquipments(BudgetPeriodInfo periodInfo,List<CostInfo> extraEquipmentArrayList) {
+//		List<EquipmentInfo> equipmentInfoList = periodInfo.getEquipment();
+	    Narrative narrative = null;
+		if (extraEquipmentArrayList.size() > 0) {
 			AdditionalEquipmentList additionalEquipmentList = AdditionalEquipmentList.Factory
 					.newInstance();
 			additionalEquipmentList.setProposalNumber(pdDoc
@@ -136,12 +137,13 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				AttachmentDataSource printData = printingService
 						.print(printable);
 				String fileName=pdDoc.getDevelopmentProposal().getProposalNumber()+"_ADDITIONAL_EQUIPMENT.pdf";
-				saveNarrative(printData.getContent(),
+				narrative = saveNarrative(printData.getContent(),
 						EQUIPMENT_NARRATIVE_TYPE_CODE,fileName,"Auto generated document for Equipment");
 			} catch (PrintingException e) {
 				e.printStackTrace();
 			}
 		}
+		return narrative;
 	}
 
 	private gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[] getEquipmentListArray(
@@ -162,8 +164,9 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 		return additionalEquipmentListList
 				.toArray(new gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[0]);
 	}
-	protected void saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
-		if (periodInfo.getExtraKeyPersons() != null) {
+	protected Narrative saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
+	    Narrative extraKPNarrative = null;
+		if (periodInfo.getExtraKeyPersons() != null && !periodInfo.getExtraKeyPersons().isEmpty()) {
 			ExtraKeyPersonListDocument  extraKeyPersonListDocument = ExtraKeyPersonListDocument.Factory.newInstance();
 			ExtraKeyPersonList extraKeyPersonList = ExtraKeyPersonList.Factory.newInstance(); 
 			extraKeyPersonList.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
@@ -185,11 +188,12 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+EXTRA_KEYPERSONS;
-				saveNarrative(printData.getContent(), EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
+				extraKPNarrative = saveNarrative(printData.getContent(), EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
 			} catch (PrintingException e) {
 				e.printStackTrace();
 			}
 		}
+		return extraKPNarrative;
 	}
 	private gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[] getExtraKeyPersons(List<KeyPersonInfo> keyPersonList) {
 		List<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons> keypersonslist = new ArrayList<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons>();

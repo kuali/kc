@@ -443,6 +443,8 @@ public class PrintServiceImpl implements PrintService {
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
 
+	    getS2SUtilService().deleteSystemGeneratedAttachments(pdDoc);
+
 		for (String namespace : sortedNameSpaces) {
 			try {
 				info = new FormMappingLoader().getFormInfo(namespace);
@@ -471,8 +473,7 @@ public class PrintServiceImpl implements PrintService {
 				templates.add(xsltSource);
 				formPrintable.setXSLT(templates);
 
-				List<AttachmentData> attachmentList = s2sFormGenerator
-						.getAttachments();
+				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
 				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
 				if (attachmentList != null && !attachmentList.isEmpty()) {
 					for (AttachmentData attachmentData : attachmentList) {
@@ -497,7 +498,8 @@ public class PrintServiceImpl implements PrintService {
 		return formPrintables;
 	}
 
-	/**
+
+    /**
 	 * 
 	 * This method is to put validation errors on UI
 	 * 

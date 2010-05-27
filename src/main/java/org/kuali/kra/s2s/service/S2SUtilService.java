@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -269,4 +271,12 @@ public interface S2SUtilService {
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
+    
+    /**
+     * 
+     * This method is used to delete all auto generated pdfs as part of s2s forms creation
+     * @param ProposalDevelopmentDocument
+     */
+    public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
+
 }

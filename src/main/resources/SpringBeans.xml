@@ -1388,6 +1388,9 @@
 		<property name="sponsorService">
 			<ref bean="sponsorService" />
 		</property>
+		<property name="narrativeService">
+			<ref bean="narrativeService" />
+		</property>
 		
 	</bean>
 
