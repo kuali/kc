@@ -295,7 +295,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
 
     private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
         int idx1 = page.asXml().indexOf(uniqueNamePrefix);
-        //int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
+        //int idx2 = page.asXml().indexOf(".((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
         int idx2 = page.asXml().indexOf("\"", idx1);
         return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
