@@ -33,7 +33,7 @@ public final class KraServiceLocator {
     private static final String COMMITTEE_SPRING_BEANS = "org/kuali/kra/committee/CommitteeSpringBeans.xml";
     private static final String QUESTIONNAIRE_SPRING_BEANS = "org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
     private static final String TIME_AND_MONEY_SPRING_BEANS = "org/kuali/kra/award/AwardSpringBeans.xml";
-    public static final String BUDGET_SPRING_BEANS = "org/kuali/kra/budget/BudgetSpringBeans.xml";
+    private static final String BUDGET_SPRING_BEANS = "org/kuali/kra/budget/BudgetSpringBeans.xml";
 
     /**
      * private utility class ctor.
