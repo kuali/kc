@@ -76,9 +76,7 @@ public class ActionCorrespondenceGenerationHelper {
         protocolAttachment.setDocumentStatusCode(getDOcumentStatusCode());
         protocolAttachment.setStatusCode(getCompleteAttachmentStatusCode());     
         protocol.addAttachmentsByType(protocolAttachment);
-
         this.getBusinessObjectService().save(protocol);
-        
     }
     
     private String getProtocolNarativeTypeCode() {
@@ -86,7 +84,6 @@ public class ActionCorrespondenceGenerationHelper {
         matching.put("description", "Protocol Narrative");
         Collection<ProtocolAttachmentType> types = this.getBusinessObjectService().findMatching(ProtocolAttachmentType.class, matching);
         return types.iterator().next().getCode();
-        //return "4";
     }
     
     private String getCompleteAttachmentStatusCode() {
@@ -94,7 +91,6 @@ public class ActionCorrespondenceGenerationHelper {
         matching.put("description", "Complete");
         Collection<ProtocolAttachmentStatus> statuses = this.getBusinessObjectService().findMatching(ProtocolAttachmentStatus.class, matching);
         return statuses.iterator().next().getCode();
-        //return "2";
     }
     
     /**    
