@@ -51,7 +51,6 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KraTe
     public void setUp() throws Exception {
         super.setUp();
         service = KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
-        System.err.println("******************** grrrrr");
         Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = KraServiceLocator.getService(BusinessObjectService.class).findAll(ProtocolCorrespondenceType.class);
         for (ProtocolCorrespondenceType type : protocolCorrespondenceTypes) {
             if ("Protocol Submission Report #1".equals(type.getDescription())) {
@@ -69,12 +68,9 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KraTe
                 FormFile file = new FormFileMock();
                 template.setTemplateFile(file);
                 KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class).addDefaultProtocolCorrespondenceTemplate(type, template);
-                KraServiceLocator.getService(BusinessObjectService.class).save(template);
-                
+                KraServiceLocator.getService(BusinessObjectService.class).save(template);               
             }
         }
-        
-        //KraServiceLocator.getService(ProtocolCorrespondenceTypeService.class)
     }
 
     @After
