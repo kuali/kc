@@ -1756,6 +1756,9 @@
             <property name="committeeBatchCorrespondencePrint" ref="committeeBatchCorrespondencePrint" />
             <property name="committeeRosterPrint" ref="committeeRosterPrint" />
             <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
+            <property name="meetingAgenda" ref="meetingAgenda" />
+            <property name="meetingMinute" ref="meetingMinute" />
+            
             <property name="dateTimeService">
                 <ref bean="dateTimeService" />
             </property>
@@ -1773,6 +1776,16 @@
     
         <bean id="committeeFutureScheduledMeetingsPrint"
             class="org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+        </bean>
+        
+        <bean id="meetingAgenda"
+            class="org.kuali.kra.meeting.print.MeetingAgenda" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+        </bean>
+
+        <bean id="meetingMinute"
+            class="org.kuali.kra.meeting.print.MeetingMinute" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
 

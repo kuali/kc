@@ -19,13 +19,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.web.CommitteeScheduleWebTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -71,6 +74,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
 
     //private HtmlPage membersPage;
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
     private String scheduleDate;
     private String committeeId;
     private String scheduleId;
@@ -83,6 +87,13 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         //this.membersPage = getMembersPage();
         protocolNumbers = new ArrayList<String>();
+        committeeId = "testcommittee";
+        if (isMonday(new Date())) {
+            scheduleNumber = 2;
+        } else {
+            scheduleNumber = 1;
+        }
+
         //Date scheduleDate = new Date(dateFormat.parse("10/12/2009").getTime());
         
     }
@@ -111,7 +122,8 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         HtmlPage membersPage = getMemberPage();              
         String docNbr = this.getDocNbr(membersPage);
         membersPage = docSearch(docNbr);
-        committeeId = StringUtils.substringBetween(membersPage.asText(),"* Committee ID: ", " * Committee Name: ");
+//        committeeId = StringUtils.substringBetween(membersPage.asText(),"* Committee ID: ", " * Committee Name: ");
+        setFieldValue(membersPage, COMMITTEE_ID_ID, committeeId);
         membersPage = clickMembersHyperlink(membersPage);
         
         // set up schedule page
@@ -143,6 +155,30 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertProtocolSubmitted(meetingPage);
     }
 
+    @Test
+    public void testMeetingActionPage() throws Exception {
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("committeeId", committeeId);
+        HtmlPage committeePage = docSearch(((List<Committee>)getBusinessObjectService().findMatching(Committee.class, fieldValues)).get(0).getCommitteeDocument().getDocumentNumber());
+        HtmlPage schedulePage = clickScheduleHyperlink(committeePage);
+        HtmlPage meetingPage = clickOn(schedulePage, "methodToCall.maintainSchedule.line"+(scheduleNumber-1)+".anchor0");
+        meetingPage = clickOnTab(meetingPage, "actions");
+        assertFalse(hasError(meetingPage));
+        assertContains(meetingPage, "Agenda Generate Agenda Generate Agenda View Agenda Version Date Created Actions");
+        assertContains(meetingPage, "Minutes Minutes Generate Minutes View Minutes Version Date Created Actions");
+        assertContains(meetingPage, "Print Print Roster false unchecked Future Scheduled Meetings unchecked");
+        assertContains(meetingPage, "Correspondence Correspondence Protocol Number Correspondence Date Created Actions");
+        // there is js to open doc page after this page load is complete, so need to disable js.  otherwise, htmlunit will get the doc page instead
+        webClient.setJavaScriptEnabled(false);
+        meetingPage = clickOn(meetingPage, "methodToCall.generateAgenda.anchor");
+        // in meetingAgenda.tag, the date has been formatted to yyyy/mm/dd, but the html page is back with yyy-mm-dd hh:mm:ss
+        assertContains(meetingPage, "Agenda Generate Agenda Generate Agenda View Agenda Version Date Created Actions 1 "+dateFormat1.format(new Date()));
+        meetingPage = clickOn(meetingPage, "methodToCall.generateMinutes.anchorMinutes");
+        // in meetingActionMinute.tag, the date has been formatted to yyyy/mm/dd, but the html page is back with yyy-mm-dd hh:mm:ss
+        assertContains(meetingPage, "Minutes Minutes Generate Minutes View Minutes Version Date Created Actions 1 "+dateFormat1.format(new Date()));
+        webClient.setJavaScriptEnabled(true);
+   }
     
     /*
      * set up committee members
