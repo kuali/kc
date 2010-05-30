@@ -51,4 +51,15 @@ public interface ProtocolCorrespondenceTemplateService {
      */
     void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
             List<ProtocolCorrespondenceTemplate> deletedBos);
+    
+    /**
+     * 
+     * This method is to get the correspondence template for the protocorrespondencetype and the committeeid specified.
+     * If it is not found for this committee, then retrieve from 'DEFAULT'
+     * @param committeeId
+     * @param protoCorrespTypeCode
+     * @return
+     */
+    ProtocolCorrespondenceTemplate getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode);
+
 }

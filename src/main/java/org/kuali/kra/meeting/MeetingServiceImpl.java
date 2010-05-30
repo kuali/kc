@@ -63,6 +63,9 @@ public class MeetingServiceImpl implements MeetingService {
         }
     }
 
+    /*
+     * This method is to get the generated agenda for this committee schedule.
+     */
     private List<ScheduleAgenda> getAgenda(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
@@ -70,6 +73,9 @@ public class MeetingServiceImpl implements MeetingService {
                 ScheduleAgenda.class, fieldValues, "createTimestamp", true);
     }
 
+    /*
+     * This method is get the meeting minute documents of the selected committee schedule
+     */
     private List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
@@ -77,6 +83,10 @@ public class MeetingServiceImpl implements MeetingService {
                 CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
     }
     
+    /*
+     * This method is to get all protocol correspondences of the protocols that are related
+     * to this committee schedule. ie, protocols that have been submitted to this committee schedule.
+     */
     private List<ProtocolCorrespondence> getCorrespondences(CommitteeSchedule committeeSchedule) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         List<Long> protocolIds = new ArrayList<Long>();

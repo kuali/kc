@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.infrastructure.Constants;
@@ -65,4 +67,26 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public ProtocolCorrespondenceTemplate getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
+
+        // TODO : ProtocolCorrespondenceTemplate is using 'committeeId' not the pk (id) of committee
+        // is this ok ?
+        Map fieldValues = new HashMap();
+        fieldValues.put("committeeId", committeeId);
+        fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
+        ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = null;
+        List<ProtocolCorrespondenceTemplate> templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+        if (templates.isEmpty()) {
+            fieldValues.put("committeeId", "DEFAULT");
+            templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+            if (!templates.isEmpty()) {
+                protocolCorrespondenceTemplate = templates.get(0);
+            }
+        } else {
+            protocolCorrespondenceTemplate = templates.get(0);            
+        }
+        return protocolCorrespondenceTemplate;
+    }
+
 }

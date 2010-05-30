@@ -19,19 +19,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 public class ProtocolCorrespondenceTemplateServiceTest {
+    private static final String  COMMITTEE_ID = "commid";
+    private static final String  AGENDA_TYPE = "9";
+    private static final String  AGENDA_FILE_NAME = "agenda.xml";
 
     Mockery context = new JUnit4Mockery();
     FormFile mockedFile = null;
@@ -138,5 +147,35 @@ public class ProtocolCorrespondenceTemplateServiceTest {
         
         return correspondenceType;
     }
+
+    @Test
+    public void testGetProtocolCorrespondenceTemplate() throws Exception {
+        ProtocolCorrespondenceTemplateServiceImpl templateService = new ProtocolCorrespondenceTemplateServiceImpl();
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
+        template.setCommitteeId(COMMITTEE_ID);
+        template.setProtoCorrespTypeCode(AGENDA_TYPE);
+        template.setFileName(AGENDA_FILE_NAME);
+        final List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
+        templates.add(template);
+        context.checking(new Expectations() {
+            {
+                Map fieldValues = new HashMap();
+                fieldValues.put("committeeId", COMMITTEE_ID);
+                fieldValues.put("protoCorrespTypeCode", AGENDA_TYPE);
+                one(businessObjectService).findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+                will(returnValue(templates));
+
+
+            }
+        });
+        templateService.setBusinessObjectService(businessObjectService);
+        ProtocolCorrespondenceTemplate protocolTemplate = templateService.getProtocolCorrespondenceTemplate(COMMITTEE_ID, AGENDA_TYPE);
+        Assert.assertEquals(protocolTemplate.getCommitteeId(), COMMITTEE_ID);
+        Assert.assertEquals(protocolTemplate.getProtoCorrespTypeCode(), AGENDA_TYPE);
+        Assert.assertEquals(protocolTemplate.getFileName(), AGENDA_FILE_NAME);
+
+    }
+
 
 }

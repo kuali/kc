@@ -22,14 +22,18 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
 public class MeetingAgenda  extends AbstractPrint {
 
     private static final long serialVersionUID = -4479561442586035578L;
-
+    private static final String AGENDA_TYPE = "9";
+    
     @Override
     public ResearchDocumentBase getDocument() {
         return document;
@@ -52,5 +56,20 @@ public class MeetingAgenda  extends AbstractPrint {
         return sourceList;
     }
 
+    @Override
+    public List<Source> getXSLTemplates() {
+        Source src = new StreamSource();
+        ArrayList<Source> sourceList = new ArrayList<Source>();
+        ProtocolCorrespondenceTemplate template = getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(
+                ((CommitteeDocument) document).getCommittee().getCommitteeId(), AGENDA_TYPE);
+        if (template != null) {
+            src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
+            sourceList.add(src);
+        }
+        return sourceList;
+    }
 
+    private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
+        return KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class);
+    }
 }
