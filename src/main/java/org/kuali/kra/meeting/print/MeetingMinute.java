@@ -24,7 +24,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
 
-public class MeetingMinutes extends AbstractPrint {
+public class MeetingMinute extends AbstractPrint {
     // TODO : These classes all very similar, can we create a generic class
     // with template type property.  Then template type can be used to retrieve xsl file ?? 
 

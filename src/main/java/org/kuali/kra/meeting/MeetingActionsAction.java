@@ -38,6 +38,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -46,31 +47,60 @@ import org.kuali.rice.kns.util.WebUtils;
 
 public class MeetingActionsAction extends MeetingAction {
 
+    /**
+     * 
+     * This method is to generate Meeting Agenda.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward generateAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward  actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
+       
 //        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.MEETING_AGENDA);
 //        printable.setDocument(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument());
-//        AttachmentDataSource dataStream = getCommitteePrintingService().print(printable);
-//        if (dataStream.getContent() != null) {
-//            streamToResponse(dataStream, response);
+//        List<Printable> printableArtifactList = new ArrayList<Printable>();
+//        printableArtifactList.add(printable);
+//        AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
+//        if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
+//            String fileName = "Agenda For Schedule # " + meetingHelper.getCommitteeSchedule().getId() + Constants.PDF_FILE_EXTENSION;
+//            try {
+//                dataStream.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+//            } catch (UnsupportedEncodingException e) {
+//                dataStream.setFileName(fileName);
+//            }
+//            dataStream.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+//
+//            // use js to start 'view' document
+////            streamToResponse(dataStream, response);
 //            actionForward = null;
-//        }
         ScheduleAgenda agenda = new ScheduleAgenda();
-        MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         agenda.setAgendaName("Agenda For Schedule #  "+ (meetingHelper.getCommitteeSchedule().getId()) + " Version " + (meetingHelper.getScheduleAgendas().size()+1));
         agenda.setAgendaNumber(meetingHelper.getScheduleAgendas().size()+1);
-        agenda.setScheduleIdFk(meetingHelper.getCommitteeSchedule().getId());
-        agenda.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
-        agenda.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        agenda.setPdfStore(getFileTemp());
+//        agenda.setPdfStore(dataStream.getContent());
+        saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), agenda, getFileTemp());
         meetingHelper.setAgendaGenerationDate(new Date(agenda.getCreateTimestamp().getTime()));
-        getBusinessObjectService().save(agenda);
         meetingHelper.getScheduleAgendas().add(agenda);
         meetingHelper.setViewId("viewAgenda"+meetingHelper.getScheduleAgendas().size());
+//        }
         return actionForward;
     }
 
+    /**
+     * 
+     * This method is to generate Meeting Minute document.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward generateMinutes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward  actionForward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -85,11 +115,7 @@ public class MeetingActionsAction extends MeetingAction {
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         minuteDoc.setMinuteName("Minute For Schedule #  "+ (meetingHelper.getCommitteeSchedule().getId()) + " Version " + (meetingHelper.getMinuteDocs().size()+1));
         minuteDoc.setMinuteNumber(meetingHelper.getMinuteDocs().size()+1);
-        minuteDoc.setScheduleIdFk(meetingHelper.getCommitteeSchedule().getId());
-        minuteDoc.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
-        minuteDoc.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        minuteDoc.setPdfStore(getFileTemp());
-        getBusinessObjectService().save(minuteDoc);
+        saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), minuteDoc, getFileTemp());
         meetingHelper.getMinuteDocs().add(minuteDoc);
         meetingHelper.setViewId("viewMinute"+meetingHelper.getMinuteDocs().size());
 //        viewGeneratedMinute(mapping, form, request, response, meetingHelper.getMinuteDocs().size()-1);
@@ -101,6 +127,14 @@ public class MeetingActionsAction extends MeetingAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private void saveGeneratedDoc (Long scheduleId, GeneratedMeetingDoc generatedMeetingDoc, byte[] pdfData)  {
+        generatedMeetingDoc.setScheduleIdFk(scheduleId);
+        generatedMeetingDoc.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        generatedMeetingDoc.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        generatedMeetingDoc.setPdfStore(pdfData);
+        getBusinessObjectService().save(generatedMeetingDoc);
+    }
+    
     /*
      * TODO : a temp methods to set up a pdf file before generate is working
      * remove this when generate pdf file is working
@@ -159,6 +193,16 @@ public class MeetingActionsAction extends MeetingAction {
         }
     }
 
+    /**
+     * 
+     * This method is to view the selected agenda.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -172,6 +216,16 @@ public class MeetingActionsAction extends MeetingAction {
         return null;
     }
 
+    /**
+     * 
+     * This method is to view the selected meeting minute document.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward viewMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -185,6 +239,16 @@ public class MeetingActionsAction extends MeetingAction {
         return null;
     }
     
+    /**
+     * 
+     * This method is to view the selected correspondence.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -211,6 +275,16 @@ public class MeetingActionsAction extends MeetingAction {
         }
     }
 
+    /**
+     * 
+     * This method is to print Roster and/or future scheduling.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward printRosterFutureSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -247,4 +321,8 @@ public class MeetingActionsAction extends MeetingAction {
     private DocumentService getDocumentService() {
         return KraServiceLocator.getService(DocumentService.class);
     }
+    private PrintingService getPrintingService() {
+        return KraServiceLocator.getService(PrintingService.class);
+    }
+    
 }
