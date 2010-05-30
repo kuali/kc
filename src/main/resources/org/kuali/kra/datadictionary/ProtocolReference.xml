@@ -172,7 +172,8 @@
 		<property name="shortLabel" value="Other Identifier" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
