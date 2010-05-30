@@ -41,6 +41,8 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -516,8 +518,8 @@ public class MeetingServiceTest {
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         final List<ScheduleAgenda> agendas = getAgendas();
-        final List<CommScheduleMinuteDoc> minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
-        final List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
+        final List<CommScheduleMinuteDoc> minuteDocs = getMinuteDocs();
+        final List<ProtocolCorrespondence> correspondences = getCorrespondences();
         context.checking(new Expectations() {
             {
                 Map queryMap = new HashMap();
@@ -548,6 +550,31 @@ public class MeetingServiceTest {
         Assert.assertTrue(meetingHelper.getMemberPresentBeans().size() == 0);
         Assert.assertTrue(meetingHelper.getOtherPresentBeans().size() == 0);
         Assert.assertEquals(meetingHelper.getTabLabel(), "Test Committee #1 Meeting " + dateFormat.format(SCHEDULE_DATE));
+        Assert.assertTrue(meetingHelper.getMinuteDocs().size() == 1);
+        Assert.assertTrue(meetingHelper.getCorrespondences().size() == 1);
+        Assert.assertEquals(meetingHelper.getMinuteDocs().get(0).getScheduleIdFk().toString(), "1");
+        Assert.assertEquals(meetingHelper.getCorrespondences().get(0).getProtocolId().toString(), "1");
+
+    }
+
+    
+
+    private List<CommScheduleMinuteDoc> getMinuteDocs() {
+        List<CommScheduleMinuteDoc> minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
+        CommScheduleMinuteDoc minuteDoc = new CommScheduleMinuteDoc();
+        minuteDoc.setScheduleIdFk(1L);
+        minuteDocs.add(minuteDoc);
+        return minuteDocs;
+
+    }
+    
+    private List<ProtocolCorrespondence> getCorrespondences() {
+        List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
+        ProtocolCorrespondence correspondence = new ProtocolCorrespondence();
+        correspondence.setProtocolId(1L);
+        correspondences.add(correspondence);
+        return correspondences;
+
     }
 
     private ProtocolSubmission getProtocolSubmission(Long submissionId) {

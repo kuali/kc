@@ -26,7 +26,7 @@ import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.meeting.print.MeetingAgenda;
-import org.kuali.kra.meeting.print.MeetingMinutes;
+import org.kuali.kra.meeting.print.MeetingMinute;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -45,7 +45,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
     private MeetingAgenda meetingAgenda;
-    private MeetingMinutes meetingMinutes;
+    private MeetingMinute meetingMinute;
 
     /**
      * {@inheritDoc}
@@ -67,7 +67,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
                 printable = getMeetingAgenda();
                 break;
             case MEETING_MINUTES :
-                printable = getMeetingMinutes();
+                printable = getMeetingMinute();
                 break;
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
@@ -124,12 +124,12 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         this.meetingAgenda = meetingAgenda;
     }
 
-    public MeetingMinutes getMeetingMinutes() {
-        return meetingMinutes;
+    public MeetingMinute getMeetingMinute() {
+        return meetingMinute;
     }
 
-    public void setMeetingMinutes(MeetingMinutes meetingMinutes) {
-        this.meetingMinutes = meetingMinutes;
+    public void setMeetingMinute(MeetingMinute meetingMinute) {
+        this.meetingMinute = meetingMinute;
     }
 
 }
