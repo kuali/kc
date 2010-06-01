@@ -15,27 +15,59 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
+import java.net.BindException;
+
+import org.kuali.rice.core.config.Config;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.config.spring.ConfigFactoryBean;
+import org.kuali.rice.core.util.RiceUtilities;
+import org.kuali.rice.core.web.jetty.JettyServer;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 
 
 public class KcUnitTestServerLifecycle extends KcUnitTestContextLifecycle {
-    private static final String CONTEXT_NAME = "/kc-dev";
-    private static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
-    private static final int PORT = HtmlUnitUtil.getPort();
+    protected static final String CONTEXT_NAME = "/kc-dev";
+    protected static final String RELATIVE_WEB_ROOT = "/src/main/webapp";
+    private int port;
+    private JettyServer jetty;
     
     private static boolean SERVER_STARTED = false;
 
     protected void doLaunch() throws Throwable {
         super.doLaunch();
+        Config config = ConfigContext.getCurrentContextConfig();
         if (!SERVER_STARTED) {
-            System.out.println("*Loading Jetty Server");
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Loading Jetty Server...");
+            }
+            ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
+            port = HtmlUnitUtil.getPort();
+            jetty = new JettyServer(port, CONTEXT_NAME, RELATIVE_WEB_ROOT);
+            jetty.setFailOnContextFailure(true);
+            jetty.setTestMode(true);
+            try {
+                jetty.start();
+                
+            } catch (RuntimeException re) {
+                // add some handling to make port conflicts more easily identified
+                if (RiceUtilities.findExceptionInStack(re, BindException.class) != null) {
+                    LOG.error("Jetty encountered BindException on port: " + jetty.getPort() + "; check logs for test failures or and the config for duplicate port specifications.");
+                }
+                throw re;
+            }
+            
             SERVER_STARTED = true;
         }        
     }
 
     protected void doShutdown() throws Throwable {
-        System.out.println("*Halting Jetty Server");
-        SERVER_STARTED = false;
+        if (SERVER_STARTED) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("... stopping Jetty Server");
+            }
+            jetty.stop();
+            SERVER_STARTED = false;
+        }
         super.doShutdown();
     }
 
