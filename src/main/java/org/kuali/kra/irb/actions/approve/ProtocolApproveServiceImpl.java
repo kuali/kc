@@ -66,7 +66,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService, Actio
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-        generateCorrespondenceDocumentAndAttach(protocol);
+        //generateCorrespondenceDocumentAndAttach(protocol);
 
     }
     
