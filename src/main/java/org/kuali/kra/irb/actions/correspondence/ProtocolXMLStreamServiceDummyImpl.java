@@ -22,11 +22,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.irb.test.ProtocolFactory;
+//import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -48,12 +47,14 @@ public class ProtocolXMLStreamServiceDummyImpl implements ProtocolXMLStreamServi
         private static final long serialVersionUID = 1L;
 
         public ResearchDocumentBase getDocument(){
+            return null;
+            /*
             try {
                 ResearchDocumentBase base = ProtocolFactory.createProtocolDocument();
                 return base;
             } catch (WorkflowException e) {
                 return null;
-            }
+            }*/
         }
         
         protected byte[] getBytes(XmlObject xmlObject) {
