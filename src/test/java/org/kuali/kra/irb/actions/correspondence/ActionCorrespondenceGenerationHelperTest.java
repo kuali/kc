@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
-
-import org.apache.struts.upload.FormFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,28 +44,27 @@ public class ActionCorrespondenceGenerationHelperTest extends KraTestBase {
     
     ActionCorrespondenceGenerationHelper helper;
     Protocol protocol;
-    FormFile file;
+    //FormFile file;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         helper = new ActionCorrespondenceGenerationHelper();
         protocol = ProtocolFactory.createProtocolDocument().getProtocol();
-        file = new FormFileMock();
     }
 
     @After
     public void tearDown() throws Exception {
         helper = null;
         protocol = null;
-        file = null;
         super.tearDown();
     }
 
     @Test
     public void testBuildAndAttachProtocolAttachmentProtocol() {
         assertTrue(protocol.getAttachmentProtocols().size() == 0);
-        helper.buildAndAttachProtocolAttachmentProtocol(protocol, file, "foo bar attachment");
+        byte[] data = {'a','b','c'};
+        helper.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment");
         assertTrue(protocol.getAttachmentProtocols().size() == 1);
     }
 

@@ -64,10 +64,11 @@ public class ActionCorrespondenceGenerationHelper {
         return this.businessObjectService;
     }
     
-    public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, FormFile file, String attachmentDescription) {
+    public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription) {
         
         ProtocolAttachmentProtocol protocolAttachment = new ProtocolAttachmentProtocol();
-        AttachmentFile attachFile = AttachmentFile.createFromFormFile(file);
+        //AttachmentFile attachFile = AttachmentFile.createFromFormFile(file);
+        AttachmentFile attachFile = new AttachmentFile(attachmentDescription, "pdf", data);
         protocolAttachment.setFile(attachFile);
         protocolAttachment.setProtocol(protocol);
         protocolAttachment.setDescription(attachmentDescription);
