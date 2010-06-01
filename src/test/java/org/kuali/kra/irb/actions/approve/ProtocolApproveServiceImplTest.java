@@ -101,5 +101,11 @@ public class ProtocolApproveServiceImplTest extends KraTestBase {
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
+    
+    @Test
+    public void testGenerateCorrespondenceDocumentAndAttach() throws Exception{
+        Protocol prot = ProtocolFactory.createProtocolDocument().getProtocol();
+        protocolApproveServiceImpl.generateCorrespondenceDocumentAndAttach(prot);
+    }
 
 }

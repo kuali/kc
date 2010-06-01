@@ -444,10 +444,17 @@
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
+        <property name="protocolAttachmentService" ref="protocolAttachmentService" />
+        <property name="protocolXMLStreamService" ref="protocolXMLStreamService" />
+        <property name="printingService" ref="printingService" />
     </bean>
     
     <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">
     </bean>
     
 </beans>

@@ -15,19 +15,22 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import org.kuali.kra.printing.Printable;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 
-/**|
+/**
  * 
- * This class will be implemented by the protocol action services.
+ * This class defines the functions needed to create protocol print out.
  */
-public interface ActionCorrespondenceGenerationService {
+public interface ProtocolXMLStreamService {
     /**
      * 
-     * This method will call the ProtocolGenerateCorrespondenceService, the ProtocolXMLStreamService(needs to be 
-     * dummied up), and pass those returns to the print service, and attach the generated PDF to the Protocol.
-     * @param protocol a Protocol object.
+     * This method applies the correspondence template to the Protocol and returns an org.kuali.kra.printing.Printable Object.
+     * @param protocol a Protocol object
+     * @param template a ProtocolCorrespondenceTemplate object
+     * @return
      */
-    void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException;
+    Printable getPrintableXMLStream(Protocol protocol, ProtocolCorrespondenceTemplate template);
+
 }
