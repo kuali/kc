@@ -35,10 +35,10 @@ public class TestUnitTestA extends KcUnitTestBase {
     }
     
     @Test
-    //@KcUnitTestReqs(Req.SERVER)
+    @KcUnitTestReqs(Req.SERVER)
     public void testD() {
         System.out.println("testD");
-        assertTrue(false);
+        assertTrue(true);
     }
     
     @Override

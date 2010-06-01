@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.test.infrastructure.lifecycle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.JAXBConfigImpl;
@@ -24,7 +27,7 @@ import org.kuali.rice.core.config.spring.ConfigFactoryBean;
  * This class...
  */
 public class KcUnitTestConfigLifecycle extends KcUnitTestBaseLifecycle {
-    private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
+    protected static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
 
     private static boolean CONFIG_LOADED = false;
 
@@ -37,7 +40,10 @@ public class KcUnitTestConfigLifecycle extends KcUnitTestBaseLifecycle {
                 LOG.info("Loading Configuration from " + TEST_CONFIG_XML);
             }
             ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
-            Config config = new JAXBConfigImpl(TEST_CONFIG_XML, System.getProperties());
+            List<String> configLocations = new ArrayList<String>();
+            configLocations.add("classpath:META-INF/test-config-defaults.xml");
+            configLocations.add(TEST_CONFIG_XML);
+            Config config = new JAXBConfigImpl(configLocations, System.getProperties());
             config.parseConfig();
             ConfigContext.init(config);
             CONFIG_LOADED = true;
