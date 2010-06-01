@@ -28,7 +28,7 @@ public class KcUnitTestContextLifecycle extends KcUnitTestConfigLifecycle {
     private boolean isTransactionActive = false;
     private TransactionStatus transactionStatus;
 
-    private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
+    protected static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
     
     private PlatformTransactionManager transactionManager;
 
