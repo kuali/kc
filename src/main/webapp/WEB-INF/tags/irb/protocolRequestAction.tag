@@ -51,5 +51,6 @@
 		<kra-irb-action:closeAction />
 		<kra-irb-action:expireAction />
 		<kra-irb-action:terminateAction />
+		<kra-irb-action:undoLastAction />
 	</div>
 </kul:tabTop>
