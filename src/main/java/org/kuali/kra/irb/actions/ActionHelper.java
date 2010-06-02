@@ -40,6 +40,7 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
+import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
@@ -120,6 +121,7 @@ public class ActionHelper implements Serializable {
     private boolean canEnterRiskLevel = false;
     private boolean canMakeAdminCorrection = false;
     private boolean canRecordCommitteeDecision = false;
+    private boolean canUndoLastAction = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -148,6 +150,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolTerminateBean;
     private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
     private AdminCorrectionBean protocolAdminCorrectionBean;
+    private UndoLastActionBean undoLastActionBean;
     private CommitteeDecision committeeDecision;
     
     private transient ParameterService parameterService;
@@ -226,6 +229,7 @@ public class ActionHelper implements Serializable {
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = createAdminCorrectionBean();
+        undoLastActionBean = new UndoLastActionBean();
         committeeDecision = new CommitteeDecision();
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
@@ -457,6 +461,7 @@ public class ActionHelper implements Serializable {
         canMakeAdminCorrection = hasAdminCorrectionPermission();
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         canEnterRiskLevel = hasEnterRiskLevelPermission();
+        canUndoLastAction = hasUndoLastActionPermission();
         
         if (currentSequenceNumber == -1) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
@@ -636,6 +641,10 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
     }
     
+    private boolean hasUndoLastActionPermission() {
+        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && getLastPerformedAction() != null && UndoLastActionBean.isActionUndoable(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
     private boolean hasRecordCommitteeDecisionPermission() {
         return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
     }
@@ -789,6 +798,10 @@ public class ActionHelper implements Serializable {
         return protocolAdminCorrectionBean;
     }
     
+    public UndoLastActionBean getUndoLastActionBean() {
+        return undoLastActionBean;
+    }
+
     public CommitteeDecision getCommitteeDecision() {
         return committeeDecision;
     }
@@ -901,6 +914,10 @@ public class ActionHelper implements Serializable {
         return canMakeAdminCorrection;
     }
     
+    public boolean getCanUndoLastAction() {
+        return canUndoLastAction;
+    }
+    
     public boolean getCanRecordCommitteeDecision() {
         return canRecordCommitteeDecision;
     }
@@ -935,6 +952,17 @@ public class ActionHelper implements Serializable {
 
     public DateRangeFilter getHistoryDateRangeFilter() {
         return historyDateRangeFilter;
+    }
+    
+    public ProtocolAction getLastPerformedAction() {
+        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+     
+        return protocolActions.size() > 0 ? protocolActions.get(0) : null;
     }
     
     /**

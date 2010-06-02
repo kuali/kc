@@ -2032,7 +2032,7 @@
         <property name="lookupableHelperService">
             <ref bean="unitAdministratorLookupableHelperService" />
         </property>         
-    </bean> 
+    </bean>  
 
     <bean id="unitAdministratorLookupableHelperService" class="org.kuali.kra.service.impl.UnitAdministratorLookupableHelperServiceImpl" 
         scope="prototype" parent="lookupableHelperService">
@@ -2071,5 +2071,8 @@
             </bean>
         </property>
     </bean>
-	
+    
+    <bean id="notificationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="notificationService" />
+    </bean>
 </beans>
