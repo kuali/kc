@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions.correction;
+package org.kuali.kra.irb.actions.undo;
 
 import org.kuali.kra.irb.Protocol;
 
-public interface AdminCorrectionService {
+public interface UndoLastActionService {
     
-    void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception;
+    void undoLastAction(Protocol protocol, UndoLastActionBean undoLastActionBean) throws Exception;
 }

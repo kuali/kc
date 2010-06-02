@@ -251,6 +251,10 @@
                 <bean class="org.kuali.kra.irb.auth.AnswerProtocolQuestionnaireAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="answerProtocolQuestionnaire" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.UndoLastActionProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolUndoLastAction" />
+                </bean>
             </list>
         </property>
     </bean>
@@ -453,6 +457,15 @@
     <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+     <bean id="adminCorrectionService" class="org.kuali.kra.irb.actions.correction.AdminCorrectionServiceImpl">
+        <property name="notificationService" ref="notificationService" />
+        <property name="notificationTemplates">
+			<list>
+			    <value>/org/kuali/kra/irb/admincorrection_notification.xml</value>
+            </list>
+		</property>
+    </bean>   
     
     <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">
     </bean>
