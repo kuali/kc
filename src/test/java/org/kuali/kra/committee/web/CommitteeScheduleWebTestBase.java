@@ -124,7 +124,7 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         String datefmt = formatDate(date);
         assertContains(page,datefmt);
         
-        String submissionDate = formatDate(DateUtils.addDays(date, -1));
+        String submissionDate = formatMonth(DateUtils.addDays(date, -1));
         assertContains(page,submissionDate);
         
         String dayOfWeek = findDayOfWeek(date); 
@@ -175,6 +175,20 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
             sb.append(day).append(SLASH);
         int year = cl.get(Calendar.YEAR);
         sb.append(year);
+        return sb.toString();
+    }
+    
+    protected String formatMonth(Date date) {
+        Calendar cl = new GregorianCalendar();
+        cl.setTime(date);        
+        StringBuffer sb = new StringBuffer();
+        int month = cl.get(Calendar.MONTH);
+        month += 1;
+        if(month < 10)
+            sb.append(ZERO).append(month);
+        else
+            sb.append(month);
+        
         return sb.toString();
     }
     
