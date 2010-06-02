@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -40,22 +41,21 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";")
 }))*/
-public class ActionCorrespondenceGenerationHelperTest extends KraTestBase {
+public class ProtocolActionCorrespondenceGenerationServiceTest extends KraTestBase {
     
-    ActionCorrespondenceGenerationHelper helper;
+    ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     Protocol protocol;
-    //FormFile file;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        helper = new ActionCorrespondenceGenerationHelper();
+        protocolActionCorrespondenceGenerationService = KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
         protocol = ProtocolFactory.createProtocolDocument().getProtocol();
     }
 
     @After
     public void tearDown() throws Exception {
-        helper = null;
+        protocolActionCorrespondenceGenerationService = null;
         protocol = null;
         super.tearDown();
     }
@@ -64,7 +64,7 @@ public class ActionCorrespondenceGenerationHelperTest extends KraTestBase {
     public void testBuildAndAttachProtocolAttachmentProtocol() {
         assertTrue(protocol.getAttachmentProtocols().size() == 0);
         byte[] data = {'a','b','c'};
-        helper.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment");
+        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment");
         assertTrue(protocol.getAttachmentProtocols().size() == 1);
     }
 

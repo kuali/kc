@@ -455,7 +455,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.generator.impl.ProjectV1_1GeneratorTest.class,
     org.kuali.kra.irb.auth.GenericProtocolAuthorizerTest.class,
     org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceTest.class,
-    org.kuali.kra.irb.actions.correspondence.ActionCorrespondenceGenerationHelperTest.class
+    org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */
