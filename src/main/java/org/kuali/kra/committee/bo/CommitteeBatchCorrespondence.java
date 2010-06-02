@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
+
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * 
@@ -44,11 +47,30 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     private Committee committee; 
     
     /**
-     * 
      * Constructs a CommitteeBatchCorrespondence.java.
      */
     public CommitteeBatchCorrespondence() {
         setCommitteeBatchCorrespondenceDetails(new ArrayList<CommitteeBatchCorrespondenceDetail>());
+    } 
+    
+    /**
+     * Constructs a CommitteeBatchCorrespondence.java for a new request.
+     * (The committeeBatchCorrespondenceId is set to the next SEQ_COMMITTEE_ID sequence number and 
+     *  the batchRunDate is set to the current date.)
+     * @param batchCorrespondenceTypeCode 
+     * @param committeeId
+     * @param startDate
+     * @param endDate
+     */
+    public CommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
+        this();
+        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class)
+                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
+        setCommitteeId(committeeId);
+        setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
+        setBatchRunDate(getCurrentDate());
+        setTimeWindowStart(startDate);
+        setTimeWindowEnd(endDate);
     } 
     
     public String getCommitteeBatchCorrespondenceId() {
@@ -135,4 +157,13 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         hashMap.put("timeWindowEnd", this.getTimeWindowEnd());
         return hashMap;
     }
+    
+    /**
+     * This method returns the current date.
+     * @return current date
+     */
+    private Date getCurrentDate() {
+        return new Date(new java.util.Date().getTime());
+    }
+    
 }

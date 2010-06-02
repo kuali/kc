@@ -385,4 +385,47 @@
 		</reference-descriptor>
 	</class-descriptor>
 <!--  end meeting -->	
+
+    <class-descriptor class="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" table="COMM_BATCH_CORRESP">
+        <field-descriptor name="committeeBatchCorrespondenceId" column="COMM_BATCH_CORRESP_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="batchRunDate" column="BATCH_RUN_DATE" jdbc-type="DATE" />
+        <field-descriptor name="timeWindowStart" column="TIME_WINDOW_START" jdbc-type="DATE" />
+        <field-descriptor name="timeWindowEnd" column="TIME_WINDOW_END" jdbc-type="DATE" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="batchCorrespondence" class-ref="org.kuali.kra.irb.correspondence.BatchCorrespondence" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="batchCorrespondenceTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="committee" class-ref="org.kuali.kra.committee.bo.Committee" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="committeeId"/>
+        </reference-descriptor>
+        <collection-descriptor name="committeeBatchCorrespondenceDetails" element-class-ref="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="committeeBatchCorrespondenceId" />
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail" table="COMM_BATCH_CORRESP_DETAIL">
+        <field-descriptor name="committeeBatchCorrespondenceDetailId" column="COMM_BATCH_CORRESP_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
+        <field-descriptor name="committeeBatchCorrespondenceId" column="COMM_BATCH_CORRESP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolActionId" column="PROTOCOL_ACTION_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolCorrespondenceId" column="PROTOCOL_CORRESPONDENCE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="committeeBatchCorrespondence" class-ref="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="committeeBatchCorrespondenceId"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolAction" class-ref="org.kuali.kra.irb.actions.ProtocolAction" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolActionId"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolCorrespondence" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolCorrespondenceId"/>
+        </reference-descriptor>
+    </class-descriptor>
+            
 </descriptor-repository>
