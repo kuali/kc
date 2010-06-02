@@ -194,6 +194,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         //Click to create new protocol link
         HtmlPage page = clickOn(getPortalPage(), NEW_PROTOCOL,KUALI_PORTAL_INDEX);
         page = getInnerPages(page).get(0);
+        System.out.println(page.asXml());
         super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION_TEXTAREA_ID, PROTOCOL_TEXTAREA, PROTOCOL_TEXTAREA2);
     }
     

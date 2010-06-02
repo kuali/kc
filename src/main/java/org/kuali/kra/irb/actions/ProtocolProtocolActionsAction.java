@@ -56,6 +56,7 @@ import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
+import org.kuali.kra.irb.actions.correction.AdminCorrectionService;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
@@ -76,6 +77,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
@@ -1607,8 +1609,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolDocument.getProtocol().setCorrectionMode(false); 
         AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
         protocolForm.getProtocolDocument().updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
+         
+        AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
+        adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
         
-        //workflow notification logic goes here
+        return mapping.findForward(Constants.MAPPING_BASIC);  
+    }
+    
+    public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
