@@ -2,6 +2,10 @@
 <!-- 
 This launch file is not using the maven builder because of the following jira
 https://issues.sonatype.org/browse/MNGECLIPSE-983
+
+Also, there is no way to add the maven source container through the gui.  It has been hacked in.  This does have some limitations since
+the maven container does not take into account libraries that are available at runtime only or different libraries that are "provided" by
+the runtime versus the library compiled with.  In these cases, debugging may not work as expected.
 -->
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
