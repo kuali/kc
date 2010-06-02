@@ -15,43 +15,29 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.correspondence.ActionCorrespondenceGenerationHelper;
-import org.kuali.kra.irb.actions.correspondence.ActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService;
-import org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamService;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
  * This class handles approving a protocol status change.
  */
-public class ProtocolApproveServiceImpl implements ProtocolApproveService, ActionCorrespondenceGenerationService {
+public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
-    private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
-    private ProtocolAttachmentService protocolAttachmentService;
-    private PrintingService printingService;
-    private ProtocolXMLStreamService protocolXMLStreamService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    
    
     /**{@inheritDoc}**/
     public void approve(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
@@ -76,16 +62,11 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService, Actio
      * dummied up), and pass those returns to the print service, and attach the generated PDF to the Protocol.
      * @param protocol a Protocol object.
      */
-    public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {        
+    public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
         List<ProtocolCorrespondenceTemplate> approvedTemplates = 
-            this.protocolActionTypeToCorrespondenceTemplateService.getTemplatesByProtocolAction(ProtocolActionType.APPROVED);
-        
-        ActionCorrespondenceGenerationHelper helper = new ActionCorrespondenceGenerationHelper(this.businessObjectService);
-        for (ProtocolCorrespondenceTemplate template : approvedTemplates) {
-            Printable printable = this.protocolXMLStreamService.getPrintableXMLStream(protocol, template);
-            AttachmentDataSource ads = this.printingService.print(printable);         
-            helper.buildAndAttachProtocolAttachmentProtocol(protocol, ads.getContent(), "Approved Correspondence Template Document");
-        }
+            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.APPROVED);
+        String attachmentDescription = "Approved Correspondence Template Document";
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, attachmentDescription);
     }    
     
     /**
@@ -100,17 +81,9 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService, Actio
         this.protocolActionService = protocolActionService;
     }
     
-    public void setProtocolActionTypeToCorrespondenceTemplateService(ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService) {
-        this.protocolActionTypeToCorrespondenceTemplateService = protocolActionTypeToCorrespondenceTemplateService;
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
     
-    public void setProtocolAttachmentService(ProtocolAttachmentService protocolAttachmentService) {
-        this.protocolAttachmentService = protocolAttachmentService;
-    }
-    public void setPrintingService(PrintingService printingService){
-        this.printingService = printingService;
-    }
-    public void setProtocolXMLStreamService(ProtocolXMLStreamService protocolXMLStreamService){
-        this.protocolXMLStreamService = protocolXMLStreamService;
-    }
+    
 }
