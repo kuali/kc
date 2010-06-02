@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<!-- 
+		The default build of this project targets a servlet 2.4 web container.  Profiles are provided for
+		targeting different environments.
+	 -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.kra</groupId>
 	<artifactId>kc_project</artifactId>
@@ -62,6 +67,7 @@
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-enforcer-plugin</artifactId>
+			  <version>1.0-beta-1</version>
 			  <executions>
 			    <execution>
 			      <id>enforce-banned-dependencies</id>
@@ -104,8 +110,9 @@
 		<dependency>
 		    <groupId>com.oracle</groupId>
 		    <artifactId>ojdbc14</artifactId>
-		    <version>10.2.0.3.0</version>
-		    <scope>runtime</scope>
+		    <version>${com.oracle.version}</version>
+		    <!-- should be provided once embedded jetty is figured out -->
+		    <scope>test</scope>
 		</dependency>
 		<!-- do not change to 1.8.3 or struts breaks -->
 		<dependency>
@@ -198,18 +205,16 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4</version>
 		</dependency>
-		<!-- remove for newer app servers -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>${javax.servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- remove for newer app servers -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
+			<version>${jstl.version}</version>
 		</dependency>
 		<!-- should exclude this from being brought in once we are on java 6 -->
 		<dependency>
@@ -231,8 +236,9 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.5</version>
-			<scope>runtime</scope>
+			<version>${mysql.version}</version>
+			<!-- should be provided once embedded jetty is figured out -->
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>ojb</groupId>
@@ -486,17 +492,29 @@
 					<artifactId>jasper-compiler</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>jasper-compiler-jdt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>jasper-runtime</artifactId>
+				</exclusion>
+				<exclusion>
 					<artifactId>xml-apis</artifactId>
 					<groupId>xml-apis</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jstl</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- only here because we are using rice's embedded jetty -->
+		<!-- only here because we are using rice's embedded jetty-->
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty</artifactId>
 			<version>6.1.24</version>
-			<scope>runtime</scope>
+			<scope>test</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>
@@ -509,7 +527,21 @@
 			<groupId>tomcat</groupId>
 			<artifactId>jasper-compiler</artifactId>
 			<version>5.5.15</version>
-			<scope>runtime</scope>
+			<scope>test</scope>
+		</dependency>
+		<!-- only here because we are using rice's embedded jetty -->
+		<dependency>
+			<groupId>tomcat</groupId>
+			<artifactId>jasper-runtime</artifactId>
+			<version>5.5.15</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- only here because we are using rice's embedded jetty -->
+		<dependency>
+			<groupId>tomcat</groupId>
+			<artifactId>jasper-compiler-jdt</artifactId>
+			<version>5.5.15</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -582,6 +614,10 @@
 					<artifactId>standard</artifactId>
 					<groupId>taglibs</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>jstl</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -607,6 +643,130 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<!-- 
+			This profile defines the dependencies/plugins for targeting servlet 2.5 web containers like Tomcat 6+ & Jetty 6+
+		 -->
+		<profile>
+			<id>servlet-2.5</id>
+			<build>
+				<plugins>
+					<plugin>
+				          <groupId>org.mortbay.jetty</groupId>
+						  <artifactId>jetty-maven-plugin</artifactId>
+						  <version>7.1.0.v20100505</version>
+						  <configuration>
+							<webAppConfig>
+		            			<contextPath>${default.context.path}</contextPath>
+		          			</webAppConfig>
+						  </configuration>
+						  <dependencies>	
+							<dependency>
+							    <groupId>com.oracle</groupId>
+							    <artifactId>ojdbc14</artifactId>
+							    <version>${com.oracle.version}</version>
+							    <scope>runtime</scope>
+							</dependency>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>${mysql.version}</version>
+								<scope>runtime</scope>
+							</dependency>
+						  </dependencies>
+					</plugin>
+					
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<!-- tomcat 6.0.26 -->
+						<version>1.0</version>
+						<configuration>
+							<path>${default.context.path}</path>
+						</configuration>
+						<dependencies>	
+							<dependency>
+							    <groupId>com.oracle</groupId>
+							    <artifactId>ojdbc14</artifactId>
+							    <version>${com.oracle.version}</version>
+							    <scope>runtime</scope>
+							</dependency>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>${mysql.version}</version>
+								<scope>runtime</scope>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+
+			<properties>
+				<!-- overriding property to change versions of libraries-->
+				<jstl.version>1.2</jstl.version>
+				<javax.servlet.version>2.5</javax.servlet.version>
+			</properties>
+		</profile>
+		
+		
+		<!-- remove the war profile once we are off of IU's build process -->
+		<profile>
+			<id>war</id>
+			<activation>
+				<property>
+					<name>war</name>
+					<value>true</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>s2s-wsdl</id>
+			<activation>
+				<property>
+					<name>s2s-wsdl</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-codegen-plugin</artifactId>
+						<version>${org.apache.cxf.version}</version>
+						<executions>
+							<execution>
+								<id>generate-sources</id>
+								<phase>generate-sources</phase>
+								<inherited>false</inherited>
+								<configuration>
+									<sourceRoot>${basedir}/src/main/java</sourceRoot>
+									<wsdlOptions>
+										<wsdlOption>
+											<wsdl>${basedir}/src/main/config/wsdl/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
+											<noAddressBinding>true</noAddressBinding>
+										</wsdlOption>
+									</wsdlOptions>
+								</configuration>
+								<goals>
+									<goal>wsdl2java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>xerces</groupId>
+								<artifactId>xercesImpl</artifactId>
+								<version>2.8.1</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>
@@ -639,7 +799,6 @@
 					<reportFormat>plain</reportFormat>
 					<argLine>-Xmx1536m -XX:MaxPermSize=512m</argLine>
 					<aggregate>true</aggregate>
-					<!-- <outputDirectory>${surefire.output.dir}</outputDirectory>-->
 			</configuration>
 			</plugin>
 			<plugin>
@@ -704,12 +863,17 @@
 	</ciManagement>
 
 	<properties>
+		<com.oracle.version>10.2.0.3.0</com.oracle.version>
+		<mysql.version>5.1.5</mysql.version>
 		<org.apache.cxf.version>2.1.7</org.apache.cxf.version>
 		<org.drools.version>4.0.7</org.drools.version>
 		<org.hamcrest.version>1.1</org.hamcrest.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
 		<org.springframework.version>2.0.4</org.springframework.version>
 		<struts.version>1.2.9</struts.version>
+		<tomcat.version>5.5.23</tomcat.version>
+		<jstl.version>1.1.2</jstl.version>
+		<javax.servlet.version>2.4</javax.servlet.version>
 		
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
@@ -717,65 +881,9 @@
 		<checkstyle.enable.rules.summary>false</checkstyle.enable.rules.summary>
 
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<!-- <surefire.output.dir>${basedir}/target/surefire-reports</surefire.output.dir>-->
+    	
+    	<!-- defaults to dev unless overriden -->
+    	<build.environment>dev</build.environment>
+    	<default.context.path>/kc-${build.environment}</default.context.path>
 	</properties>
-	
-	<profiles>
-		<!-- remove the war profile once we are off of IU's build process -->
-		<profile>
-			<id>war</id>
-			<activation>
-				<property>
-					<name>war</name>
-					<value>true</value>
-				</property>
-			</activation>
-		</profile>
-
-		<profile>
-			<id>s2s-wsdl</id>
-			<activation>
-				<property>
-					<name>s2s-wsdl</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-codegen-plugin</artifactId>
-						<version>${org.apache.cxf.version}</version>
-						<executions>
-							<execution>
-								<id>generate-sources</id>
-								<phase>generate-sources</phase>
-								<inherited>false</inherited>
-								<configuration>
-									<sourceRoot>${basedir}/src/main/java</sourceRoot>
-									<wsdlOptions>
-										<wsdlOption>
-											<wsdl>${basedir}/src/main/config/wsdl/ApplicantIntegrationServices-V1_1.wsdl</wsdl>
-											<noAddressBinding>true</noAddressBinding>
-										</wsdlOption>
-									</wsdlOptions>
-								</configuration>
-								<goals>
-									<goal>wsdl2java</goal>
-								</goals>
-							</execution>
-						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>xerces</groupId>
-								<artifactId>xercesImpl</artifactId>
-								<version>2.8.1</version>
-							</dependency>
-						</dependencies>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 </project>
