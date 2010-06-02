@@ -17,12 +17,16 @@ package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -38,6 +42,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     private BusinessObjectService businessObjectService;
     private RoleService kimRoleManagementService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
 
     /**
      * Set the business object service.
@@ -55,43 +60,55 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         this.kimRoleManagementService = kimRoleManagementService;
     }
     
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
+    
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
+        String attachmentDescription = "Closed Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY, attachmentDescription);
     }
     
     /**{@inheritDoc}**/
     public void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT);
+        String attachmentDescription = "Closed for Enrollment Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolStatus.ACTIVE_CLOSED_TO_ENROLLMENT, attachmentDescription);
     }
     
     /**{@inheritDoc}**/
     public void expire(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.EXPIRED, ProtocolStatus.EXPIRED);
+        String attachmentDescription = "Expired Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.EXPIRED, ProtocolStatus.EXPIRED, attachmentDescription);
     }
 
     /**{@inheritDoc}**/
     public void permitDataAnalysis(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY);
+        String attachmentDescription = "Data Analysis Only Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolStatus.ACTIVE_DATA_ANALYSIS_ONLY, attachmentDescription);
     }
 
     /**{@inheritDoc}**/
     public void reopen(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
+        String attachmentDescription = "Reopened Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, attachmentDescription);
     }
 
     /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         if (isIrbAdministrator()) {
-            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
+            String attachmentDescription = "Suspended by IRB Correspondence Template Document";
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB, attachmentDescription);
         } else {
-            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI);
+            String attachmentDescription = "Suspended by PI Correspondence Template Document";
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI, attachmentDescription);
         }
     }
     
     /**{@inheritDoc}**/
     public void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolStatus.SUSPENDED_BY_DSMB);
+        String attachmentDescription = "Suspended by DSMB Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolStatus.SUSPENDED_BY_DSMB, attachmentDescription);
     }
     
     private boolean isIrbAdministrator() {
@@ -102,7 +119,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
+        String attachmentDescription = "Terminated Correspondence Template Document";
+        performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB, attachmentDescription);
     }
     
     /**
@@ -115,7 +133,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
      * @throws Exception
      */
     private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
-            String protocolActionType, String newProtocolStatus) throws Exception {
+            String protocolActionType, String newProtocolStatus, String attachmentDescription) throws Exception {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
@@ -124,5 +142,13 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
+        generateCorrespondenceDocumentAndAttach(protocol, protocolActionType, attachmentDescription);
+    }
+    
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, String protocolActionType, String attachmentDescription) throws PrintingException {
+        List<ProtocolCorrespondenceTemplate> approvedTemplates = 
+            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(protocolActionType);
+        //String attachmentDescription = "Approved Correspondence Template Document";
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, attachmentDescription);
     }
 }

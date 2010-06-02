@@ -17,57 +17,50 @@ package org.kuali.kra.irb.actions.correspondence;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.service.PrintingService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
- * This class provides some helper functions to build a protocol attachment.
+ * This class deals with making a protocol attachment from a template based on an action.
  */
-public class ActionCorrespondenceGenerationHelper {
-    
+public class ProtocolActionCorrespondenceGenerationServiceImpl implements ProtocolActionCorrespondenceGenerationService {
+
     private BusinessObjectService businessObjectService;
-    
-    /**
-     * 
-     * Constructs a ActionCorrespondenceGenerationHelper.java.
-     */
-    public ActionCorrespondenceGenerationHelper() {
-        
-    }
-    
-    /**
-     * 
-     * Constructs a ActionCorrespondenceGenerationHelper.java.
-     * @param businessObjectService
-     */
-    public ActionCorrespondenceGenerationHelper(BusinessObjectService businessObjectService) {
-        setBusinessObjectService(businessObjectService);
-    }
+    private PrintingService printingService;
+    private ProtocolXMLStreamService protocolXMLStreamService;
+    private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
-    private BusinessObjectService getBusinessObjectService() {
-        if (this.businessObjectService == null) {
-            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        }
-        return this.businessObjectService;
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
+    public void setProtocolXMLStreamService(ProtocolXMLStreamService protocolXMLStreamService) {
+        this.protocolXMLStreamService = protocolXMLStreamService;
+    }
+    public void setProtocolActionTypeToCorrespondenceTemplateService(ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService) {
+        this.protocolActionTypeToCorrespondenceTemplateService = protocolActionTypeToCorrespondenceTemplateService;
     }
     
+    /**{@inheritDoc}**/
     public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription) {
         
         ProtocolAttachmentProtocol protocolAttachment = new ProtocolAttachmentProtocol();
-        //AttachmentFile attachFile = AttachmentFile.createFromFormFile(file);
         AttachmentFile attachFile = new AttachmentFile(attachmentDescription, "pdf", data);
         protocolAttachment.setFile(attachFile);
         protocolAttachment.setProtocol(protocol);
@@ -77,20 +70,20 @@ public class ActionCorrespondenceGenerationHelper {
         protocolAttachment.setDocumentStatusCode(getDOcumentStatusCode());
         protocolAttachment.setStatusCode(getCompleteAttachmentStatusCode());     
         protocol.addAttachmentsByType(protocolAttachment);
-        this.getBusinessObjectService().save(protocol);
+        this.businessObjectService.save(protocol);
     }
     
     private String getProtocolNarativeTypeCode() {
         Map matching = new HashMap();
         matching.put("description", "Protocol Narrative");
-        Collection<ProtocolAttachmentType> types = this.getBusinessObjectService().findMatching(ProtocolAttachmentType.class, matching);
+        Collection<ProtocolAttachmentType> types = this.businessObjectService.findMatching(ProtocolAttachmentType.class, matching);
         return types.iterator().next().getCode();
     }
     
     private String getCompleteAttachmentStatusCode() {
         Map matching = new HashMap();
         matching.put("description", "Complete");
-        Collection<ProtocolAttachmentStatus> statuses = this.getBusinessObjectService().findMatching(ProtocolAttachmentStatus.class, matching);
+        Collection<ProtocolAttachmentStatus> statuses = this.businessObjectService.findMatching(ProtocolAttachmentStatus.class, matching);
         return statuses.iterator().next().getCode();
     }
     
@@ -103,4 +96,22 @@ public class ActionCorrespondenceGenerationHelper {
     private String getDOcumentStatusCode() {
         return "1";
     }
+    
+    /**{@inheritDoc}**/
+    public void generateCorrespondenceDocumentAndAttach(Protocol protocol, List<ProtocolCorrespondenceTemplate> templates, 
+            String attachmentDescription) throws PrintingException {        
+        for (ProtocolCorrespondenceTemplate template : templates) {
+            Printable printable = this.protocolXMLStreamService.getPrintableXMLStream(protocol, template);
+            AttachmentDataSource ads = this.printingService.print(printable);         
+            buildAndAttachProtocolAttachmentProtocol(protocol, ads.getContent(), attachmentDescription);
+        }
+    }
+    
+    /**{@inheritDoc}**/
+    public List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates(String actionType) {
+        List<ProtocolCorrespondenceTemplate> templates = 
+            this.protocolActionTypeToCorrespondenceTemplateService.getTemplatesByProtocolAction(actionType);
+        return templates;
+    }
+
 }

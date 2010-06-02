@@ -443,15 +443,13 @@
     <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kimRoleManagementService" ref="roleManagementService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
-        <property name="protocolAttachmentService" ref="protocolAttachmentService" />
-        <property name="protocolXMLStreamService" ref="protocolXMLStreamService" />
-        <property name="printingService" ref="printingService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>
     
     <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">
@@ -468,6 +466,13 @@
     </bean>   
     
     <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">
+    </bean>
+    
+    <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolXMLStreamService" ref="protocolXMLStreamService" />
+        <property name="printingService" ref="printingService" />
+        <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
     </bean>
     
 </beans>
