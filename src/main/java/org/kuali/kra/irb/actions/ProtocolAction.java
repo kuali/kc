@@ -31,7 +31,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
     //not thread safe cannot be static
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    transient private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
 
     private Long protocolActionId;
@@ -42,7 +42,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private String comments; 
     private Timestamp actualActionDate;
     private Timestamp actionDate;
-    private ProtocolSubmission protocolSubmission;    
+    transient private ProtocolSubmission protocolSubmission;    
     private ProtocolActionType protocolActionType;
     
     public ProtocolAction() { 
@@ -144,6 +144,9 @@ public class ProtocolAction extends ProtocolAssociate {
     }
 
     public ProtocolSubmission getProtocolSubmission() {
+        if (submissionIdFk != null && protocolSubmission == null) {
+            refreshReferenceObject("protocolSubmission");
+        }
         return protocolSubmission;
     }
     
