@@ -4,17 +4,11 @@
 	<param name="datasource.username">KCUNIT</param>
 	<param name="datasource.password">untpass</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">org.kuali.rice.core.database.platform.OraclePlatform</param>
-	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
-	<param name="datasource.pool.validationQuery">select 1 from dual</param>
 	
 	<!--
 	<param name="datasource.url">jdbc:mysql://localhost:3306/KCUNIT</param>
 	<param name="datasource.username">KCUNIT</param>
 	<param name="datasource.password">untpass</param>
 	<param name="datasource.ojb.platform">MySQL</param>
-	<param name="datasource.platform">org.kuali.rice.core.database.platform.MySQLDatabasePlatform</param>
-	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
-	<param name="datasource.pool.validationQuery">select 1</param>
 	-->
 </config>
