@@ -467,6 +467,13 @@
     
     <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">
     </bean>
+
+    <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolDao">
+            <ref bean="protocolDao" />
+        </property>
+    </bean>
     
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
