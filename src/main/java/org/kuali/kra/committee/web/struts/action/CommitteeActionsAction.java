@@ -30,6 +30,7 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
+import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -70,9 +71,8 @@ public class CommitteeActionsAction extends CommitteeAction {
         
         if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                 batchCorrespondenceTypeCode, startDate, endDate))) {
-            System.out.println("GenerateBatchCorrespondence: committeeId:" + committeeId + " batchCorrespondenceTypeCode:" 
-                + batchCorrespondenceTypeCode + " startDate:" + startDate + " endDate:" + endDate);
-        }
+            getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+       }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -143,6 +143,10 @@ public class CommitteeActionsAction extends CommitteeAction {
         }
 
         return actionForward;
+    }
+    
+    private CommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
+        return KraServiceLocator.getService(CommitteeBatchCorrespondenceService.class);
     }
     
     private CommitteePrintingService getCommitteePrintingService() {
