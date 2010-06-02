@@ -55,7 +55,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
     @SkipVersioning
-    private CommitteeSchedule committeeSchedule;
+    transient private CommitteeSchedule committeeSchedule;
     private ProtocolReviewType protocolReviewType;
     
     @SkipVersioning
