@@ -4,7 +4,7 @@
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 
 <kul:tab defaultOpen="false" tabTitle="Minutes"
-    tabErrorKey="document.committee*">
+    tabErrorKey="meetingHelper.meetingMinute">
 
 <div class="tab-container" align="center">
     <h3>
