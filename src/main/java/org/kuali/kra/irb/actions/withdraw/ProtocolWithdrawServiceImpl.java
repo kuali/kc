@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -25,10 +26,13 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -43,6 +47,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolActionService protocolActionService;
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
 
     /**
      * Set the document service.
@@ -62,6 +67,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     
     public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
         this.protocolAssignToAgendaService = protocolAssignToAgendaService;
+    }
+    
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
     
     /**
@@ -133,8 +142,21 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         }        
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
+        generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol());
         return newProtocolDocument;
     }
+    
+    /**
+     * 
+     * This method will generate a correspondence document, and attach it to the protocol.
+     * @param protocol a Protocol object.
+     */
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
+        List<ProtocolCorrespondenceTemplate> withdrawTemplates = 
+            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.WITHDRAWN);
+        String attachmentDescription = "Withdraw Correspondence Template Document";
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, withdrawTemplates, attachmentDescription);
+    } 
 
     /**
      * By canceling the protocol in workflow, we are preventing it from being
