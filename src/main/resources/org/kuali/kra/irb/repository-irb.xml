@@ -765,7 +765,7 @@
         <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
         <field-descriptor name="actionIdFk" column="ACTION_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="correspondence" column="CORRESPONDENCE" jdbc-type="BINARY" />
+        <field-descriptor name="correspondence" column="CORRESPONDENCE" jdbc-type="LONGVARBINARY" />
         <field-descriptor name="finalFlag" column="FINAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -987,7 +987,7 @@
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="correspondenceTemplate" column="CORRESPONDENCE_TEMPLATE" jdbc-type="BINARY" />
+        <field-descriptor name="correspondenceTemplate" column="CORRESPONDENCE_TEMPLATE" jdbc-type="LONGVARBINARY" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

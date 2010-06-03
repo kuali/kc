@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.meeting;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,13 +32,16 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.web.CommitteeScheduleWebTestBase;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -157,7 +164,10 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
 
     @Test
     public void testMeetingActionPage() throws Exception {
-        
+        transactionalLifecycle.stop();
+        setProtocolCorrTemplate();
+        transactionalLifecycle.start();
+       
         Map fieldValues = new HashMap();
         fieldValues.put("committeeId", committeeId);
         HtmlPage committeePage = docSearch(((List<Committee>)getBusinessObjectService().findMatching(Committee.class, fieldValues)).get(0).getCommitteeDocument().getDocumentNumber());
@@ -179,7 +189,47 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertContains(meetingPage, "Minutes Minutes Generate Minutes View Minutes Version Date Created Actions 1 "+dateFormat1.format(new Date()));
         webClient.setJavaScriptEnabled(true);
    }
-    
+
+    /*
+     * set up protocol corr template for testing
+     */
+    private void setProtocolCorrTemplate() {
+        ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
+        template.setFileName("test");
+        template.setCorrespondenceTemplate(getFileTemp());
+        template.setProtoCorrespTypeCode("9");
+        template.setCommitteeId("DEFAULT");
+        getBusinessObjectService().save(template);
+        template.setProtoCorrespTypeCode("10");
+        template.setProtoCorrespTemplId(null);
+        getBusinessObjectService().save(template);
+
+    }
+
+    private byte[] getFileTemp() {
+        try {
+            File file = new File("src/test/resources/org/kuali/kra/printing/stylesheet/CorresReportAgenda.xsl");
+            InputStream inStream = new FileInputStream(file);
+            // BufferedInputStream bis = new BufferedInputStream(inStream);
+            // return new byte[bis.available()];
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum; (readNum = inStream.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum); // no doubt here is 0
+                // Writes len bytes from the specified byte array starting at offset off to this byte array output stream.
+                System.out.println("read " + readNum + " bytes,");
+            }
+            System.out.println("bos size " + bos.size());
+
+            return bos.toByteArray();
+
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     /*
      * set up committee members
      */

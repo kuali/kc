@@ -1756,8 +1756,8 @@
             <property name="committeeBatchCorrespondencePrint" ref="committeeBatchCorrespondencePrint" />
             <property name="committeeRosterPrint" ref="committeeRosterPrint" />
             <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
-            <property name="meetingAgenda" ref="meetingAgenda" />
-            <property name="meetingMinute" ref="meetingMinute" />
+            <property name="meetingAgendaPrint" ref="meetingAgendaPrint" />
+            <property name="meetingMinutePrint" ref="meetingMinutePrint" />
             
             <property name="dateTimeService">
                 <ref bean="dateTimeService" />
@@ -1779,14 +1779,16 @@
             <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
         
-        <bean id="meetingAgenda"
-            class="org.kuali.kra.meeting.print.MeetingAgenda" scope="prototype">
+        <bean id="meetingAgendaPrint"
+            class="org.kuali.kra.meeting.print.MeetingAgendaPrint" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
+            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>
 
-        <bean id="meetingMinute"
-            class="org.kuali.kra.meeting.print.MeetingMinute" scope="prototype">
+        <bean id="meetingMinutePrint"
+            class="org.kuali.kra.meeting.print.MeetingMinutePrint" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
+            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>
 
         <bean id="committeeXmlStream"
@@ -2075,4 +2077,33 @@
     <bean id="notificationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="notificationService" />
     </bean>
+	
+	<!--  questionnaire print -->
+	<!--  
+        <bean id="questionnaireXmlStream"
+            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream">
+            <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+            </property>
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+        </bean>
+	    <bean id="questionnairePrint"
+            class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
+            <property name="xmlStream" ref="questionnaireXmlStream" />
+        </bean>
+	    <bean id="questionnaireAnswerPrint"
+            class="org.kuali.kra.questionnaire.print.QuestionnaireAnswerPrint" scope="prototype">
+            <property name="xmlStream" ref="questionnaireXmlStream" />
+        </bean>
+
+	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+            <property name="questionnairePrint" ref="questionnairePrint" />
+            <property name="questionnaireAnswerPrint" ref="questionnaireAnswerPrint" />
+	</bean>
+	-->
 </beans>

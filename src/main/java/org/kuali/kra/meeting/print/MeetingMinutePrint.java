@@ -24,16 +24,18 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
-public class MeetingAgenda  extends AbstractPrint {
+public class MeetingMinutePrint extends AbstractPrint {
+    // TODO : These classes all very similar, can we create a generic class
+    // with template type property.  Then template type can be used to retrieve xsl file ?? 
 
-    private static final long serialVersionUID = -4479561442586035578L;
-    private static final String AGENDA_TYPE = "9";
-    
+    private static final String MEETING_MINUTE_TYPE = "10";
+    private static final long serialVersionUID = 5642130271512806030L;
+    private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
+
     @Override
     public ResearchDocumentBase getDocument() {
         return document;
@@ -45,31 +47,29 @@ public class MeetingAgenda  extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
-    public List<Source> getXSLT() {
-        // TODO : should we override Print's 'getXSLTemplates' method, instead of implementing this method.
-        Source src = new StreamSource();
-        ArrayList<Source> sourceList = new ArrayList<Source>();
-        // TODO: cniesen - get template (create a service to get the template)
-        ProtocolCorrespondenceTemplate template = new ProtocolCorrespondenceTemplate();
-        src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
-        sourceList.add(src);
-        return sourceList;
-    }
+
 
     @Override
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplate template = getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(
-                ((CommitteeDocument) document).getCommittee().getCommitteeId(), AGENDA_TYPE);
+        ProtocolCorrespondenceTemplate template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
+                ((CommitteeDocument) document).getCommittee().getCommitteeId(), MEETING_MINUTE_TYPE);
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
             sourceList.add(src);
         }
         return sourceList;
+//        Source src = new StreamSource(new PrintingUtils().getClass()
+//                .getResourceAsStream(XSL_CONTEXT_DIR + "/CorresReportAgenda.xsl"));
+//        List<Source> sourceList = new ArrayList<Source>();
+//        sourceList.add(src);
+//        return sourceList;
     }
 
-    private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class);
+    public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
+        this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
     }
+
+
 }
