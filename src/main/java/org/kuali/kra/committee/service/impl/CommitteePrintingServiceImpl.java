@@ -25,8 +25,8 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.print.MeetingAgenda;
-import org.kuali.kra.meeting.print.MeetingMinute;
+import org.kuali.kra.meeting.print.MeetingAgendaPrint;
+import org.kuali.kra.meeting.print.MeetingMinutePrint;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -44,8 +44,8 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private CommitteeBatchCorrespondencePrint committeeBatchCorrespondencePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
-    private MeetingAgenda meetingAgenda;
-    private MeetingMinute meetingMinute;
+    private MeetingAgendaPrint meetingAgendaPrint;
+    private MeetingMinutePrint meetingMinutePrint;
 
     /**
      * {@inheritDoc}
@@ -64,10 +64,10 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
                 printable = getCommitteeFutureScheduledMeetingsPrint();
                 break;
             case MEETING_AGENDA :
-                printable = getMeetingAgenda();
+                printable = getMeetingAgendaPrint();
                 break;
             case MEETING_MINUTES :
-                printable = getMeetingMinute();
+                printable = getMeetingMinutePrint();
                 break;
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
@@ -116,20 +116,21 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         this.committeeFutureScheduledMeetingsPrint = committeeFutureScheduledMeetingsPrint;
     }
 
-    public MeetingAgenda getMeetingAgenda() {
-        return meetingAgenda;
+    public MeetingAgendaPrint getMeetingAgendaPrint() {
+        return meetingAgendaPrint;
     }
 
-    public void setMeetingAgenda(MeetingAgenda meetingAgenda) {
-        this.meetingAgenda = meetingAgenda;
+    public void setMeetingAgendaPrint(MeetingAgendaPrint meetingAgendaPrint) {
+        this.meetingAgendaPrint = meetingAgendaPrint;
     }
 
-    public MeetingMinute getMeetingMinute() {
-        return meetingMinute;
+    public MeetingMinutePrint getMeetingMinutePrint() {
+        return meetingMinutePrint;
     }
 
-    public void setMeetingMinute(MeetingMinute meetingMinute) {
-        this.meetingMinute = meetingMinute;
+    public void setMeetingMinutePrint(MeetingMinutePrint meetingMinutePrint) {
+        this.meetingMinutePrint = meetingMinutePrint;
     }
+
 
 }

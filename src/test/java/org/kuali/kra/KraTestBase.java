@@ -131,6 +131,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_sponsor_forms.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTO_CORRESP_TYPE.sql", delimiter = ";")
             }
         )
     )
