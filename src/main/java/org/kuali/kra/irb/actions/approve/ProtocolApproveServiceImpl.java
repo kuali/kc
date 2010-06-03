@@ -58,8 +58,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     /**
      * 
-     * This method will call the ProtocolGenerateCorrespondenceService, the ProtocolXMLStreamService(needs to be 
-     * dummied up), and pass those returns to the print service, and attach the generated PDF to the Protocol.
+     * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
     public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {

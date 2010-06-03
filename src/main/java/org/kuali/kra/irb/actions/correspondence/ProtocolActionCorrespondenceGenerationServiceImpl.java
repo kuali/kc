@@ -65,7 +65,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         protocolAttachment.setFile(attachFile);
         protocolAttachment.setProtocol(protocol);
         protocolAttachment.setDescription(attachmentDescription);
-        protocolAttachment.setTypeCode(getProtocolNarativeTypeCode());
+        protocolAttachment.setTypeCode(getProtocolOtherTypeCode());
         protocolAttachment.setDocumentId(protocol.getSequenceNumber());
         protocolAttachment.setDocumentStatusCode(getDOcumentStatusCode());
         protocolAttachment.setStatusCode(getCompleteAttachmentStatusCode());     
@@ -73,9 +73,9 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         this.businessObjectService.save(protocol);
     }
     
-    private String getProtocolNarativeTypeCode() {
+    private String getProtocolOtherTypeCode() {
         Map matching = new HashMap();
-        matching.put("description", "Protocol Narrative");
+        matching.put("description", "Other");
         Collection<ProtocolAttachmentType> types = this.businessObjectService.findMatching(ProtocolAttachmentType.class, matching);
         return types.iterator().next().getCode();
     }
