@@ -318,7 +318,7 @@
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="minuteNumber" column="MINUTE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="minuteName" column="MINUTE_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="BINARY" />
+		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="LONGVARBINARY" />
 		<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -334,7 +334,7 @@
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="agendaNumber" column="AGENDA_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="BINARY" />
+		<field-descriptor name="pdfStore" column="PDF_STORE" jdbc-type="LONGVARBINARY" />
 		<field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

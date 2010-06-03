@@ -29,8 +29,7 @@ import org.kuali.rice.test.data.UnitTestFile;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-               @UnitTestFile(filename = "classpath:sql/dml/load_PROTO_CORRESP_TYPE.sql", delimiter = ";")
-              ,@UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+              @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
               ,@UnitTestFile(filename = "classpath:sql/dml/load_COMMITTEE_DOCUMENT.sql", delimiter = ";")
               ,@UnitTestFile(filename = "classpath:sql/dml/load_COMMITTEE.sql", delimiter = ";")
             }

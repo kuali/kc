@@ -3,7 +3,7 @@
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 
-<kul:tabTop defaultOpen="false" tabTitle="Agenda" tabErrorKey="document.committee*">
+<kul:tabTop defaultOpen="false" tabTitle="Agenda" tabErrorKey="meetingHelper.scheduleAgenda">
 
 <div class="tab-container" align="center">
     <h3>
@@ -47,8 +47,11 @@
 								<%-- <html:image property="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Agenda" onclick="excludeSubmitRestriction = true;"/> --%>
-				                  <input type="image" alt="View Agenda" class="tinybutton" onclick="excludeSubmitRestriction = true;" id="viewAgenda${status.index+1}"
+				                  <input type="image" alt="View Agenda" class="tinybutton" onclick="excludeSubmitRestriction = true;"  id="viewAgenda${status.index+1}"
 				                  src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
+<%--				                  
+<a href="${pageContext.request.contextPath}/meetingActions.do?command=viewAgenda&line=${status.index}" id="viewAgenda${status.index+1}" target="_blank" >
+  <img alt="View Agenda" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" /></a> --%>
 							</div>
 		                </td>
 	            </tr>
