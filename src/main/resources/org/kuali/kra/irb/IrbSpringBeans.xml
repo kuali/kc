@@ -353,6 +353,7 @@
     
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
@@ -376,6 +377,7 @@
         <property name="protocolCopyService" ref="protocolCopyService" />
         <property name="documentService" ref="documentService" />
         <property name="kraLookupDao" ref="kraLookupDao" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">
@@ -445,6 +447,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">

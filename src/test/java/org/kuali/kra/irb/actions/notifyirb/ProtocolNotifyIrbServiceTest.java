@@ -38,6 +38,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.irb.actions.request.MockFormFile;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -73,7 +74,8 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
     private static final String REASON = "my test reason";
     
     private ProtocolNotifyIrbServiceImpl protocolNotifyIrbService;
-    private BusinessObjectService businessObjectService;   
+    private BusinessObjectService businessObjectService;  
+    private ProtocolActionService protocolActionService;
     
     @Before
     public void setUp() throws Exception {
@@ -82,6 +84,8 @@ public class ProtocolNotifyIrbServiceTest extends KraTestBase {
         protocolNotifyIrbService = new ProtocolNotifyIrbServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolNotifyIrbService.setBusinessObjectService(businessObjectService);
+        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        protocolNotifyIrbService.setProtocolActionService(protocolActionService);
     }
 
     @After
