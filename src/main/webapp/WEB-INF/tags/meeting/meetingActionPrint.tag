@@ -27,7 +27,7 @@
             
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td><div align="left">Roster ${KualiForm.meetingHelper.printRooster}</div></td> 
+                    <td><div align="left">Roster</div></td> 
                     <td>
                         <div align="center">
                             <kul:htmlControlAttribute property="meetingHelper.printRooster" 
