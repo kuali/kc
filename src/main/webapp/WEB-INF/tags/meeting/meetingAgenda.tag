@@ -47,9 +47,15 @@
 								<%-- <html:image property="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Agenda" onclick="excludeSubmitRestriction = true;"/> --%>
-				                  <input type="image" alt="View Agenda" class="tinybutton" onclick="excludeSubmitRestriction = true;"  id="viewAgenda${status.index+1}"
+										<%-- must have '0','false' specified for opennewwindow.  it does not matter anyway --%>
+				                  <input type="image" alt="View Agenda" class="tinybutton" 
+										onclick="openNewWindow('meetingActions','viewAgenda','${status.index}',0,'false'); return false;"
+					                   id="viewAgenda${status.index+1}"
 				                  src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
-<%--				                  
+				          
+				                    <%--onclick="excludeSubmitRestriction = true;"  --%>
+	<%-- 		onclick="excludeSubmitRestriction = true; openNewWindow('meetingActions','viewAgenda','${status.index}',0,'false'); return false;"
+			                  
 <a href="${pageContext.request.contextPath}/meetingActions.do?command=viewAgenda&line=${status.index}" id="viewAgenda${status.index+1}" target="_blank" >
   <img alt="View Agenda" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" /></a> --%>
 							</div>

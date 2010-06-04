@@ -42,7 +42,7 @@ public class MeetingManagementAction extends MeetingAction {
      * @throws Exception
      */
     public ActionForward markAbsent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+        throws Exception {
         getMeetingService().markAbsent(((MeetingForm) form).getMeetingHelper().getMemberPresentBeans(),
                 ((MeetingForm) form).getMeetingHelper().getMemberAbsentBeans(), getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -98,7 +98,7 @@ public class MeetingManagementAction extends MeetingAction {
 
     /**
      * 
-     * This method is to add the selected person/rolodex to otehr present.
+     * This method is to add the selected person/rolodex to other present.
      * 
      * @param mapping
      * @param form
