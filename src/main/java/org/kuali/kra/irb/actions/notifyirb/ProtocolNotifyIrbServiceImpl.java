@@ -19,6 +19,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -31,6 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     
     private BusinessObjectService businessObjectService;
+    private ProtocolActionService protocolActionService;
 
     /**
      * Set the business object service.
@@ -38,6 +41,9 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
 
     /**
@@ -53,7 +59,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.NOTIFY_IRB);
         protocolAction.setComments(notifyIrbBean.getComment());
         protocol.getProtocolActions().add(protocolAction);
-        
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         businessObjectService.save(protocol.getProtocolDocument());
     }
     
