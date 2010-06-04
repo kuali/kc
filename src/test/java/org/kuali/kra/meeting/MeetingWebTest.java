@@ -177,7 +177,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertFalse(hasError(meetingPage));
         assertContains(meetingPage, "Agenda Generate Agenda Generate Agenda View Agenda Version Date Created Actions");
         assertContains(meetingPage, "Minutes Minutes Generate Minutes View Minutes Version Date Created Actions");
-        assertContains(meetingPage, "Print Print Roster false unchecked Future Scheduled Meetings unchecked");
+        assertContains(meetingPage, "Print Print Roster unchecked Future Scheduled Meetings unchecked");
         assertContains(meetingPage, "Correspondence Correspondence Protocol Number Correspondence Date Created Actions");
         // there is js to open doc page after this page load is complete, so need to disable js.  otherwise, htmlunit will get the doc page instead
         webClient.setJavaScriptEnabled(false);
