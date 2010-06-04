@@ -83,12 +83,13 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
                 // add a new protocol action
                 ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
                 protocolAction.setComments(actionBean.getComments());
-                protocolActionService.updateProtocolStatus(protocolAction, protocol);
                 protocol.getProtocolActions().add(protocolAction);
+                protocolActionService.updateProtocolStatus(protocolAction, protocol);
             } else {
                 // update the comment of an existing protocol action
                 ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
                 pa.setComments(actionBean.getComments());
+                protocolActionService.updateProtocolStatus(pa, protocol);
                 documentService.saveDocument(protocol.getProtocolDocument());
                 return;
             }
@@ -98,6 +99,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
             ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
             pa.setProtocolActionTypeCode(ProtocolActionType.DISAPPROVED);
             pa.setComments(actionBean.getComments());
+            protocolActionService.updateProtocolStatus(pa, protocol);
             documentService.saveDocument(protocol.getProtocolDocument());
             return;
         }

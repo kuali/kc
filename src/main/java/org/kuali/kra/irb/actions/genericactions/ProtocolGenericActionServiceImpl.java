@@ -25,6 +25,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
@@ -43,6 +44,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private BusinessObjectService businessObjectService;
     private RoleService kimRoleManagementService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private ProtocolActionService protocolActionService;
 
     /**
      * Set the business object service.
@@ -62,6 +64,10 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
+    
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
     }
     
     /**{@inheritDoc}**/
@@ -141,6 +147,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         businessObjectService.save(protocol);
         generateCorrespondenceDocumentAndAttach(protocol, protocolActionType, attachmentDescription);
     }
