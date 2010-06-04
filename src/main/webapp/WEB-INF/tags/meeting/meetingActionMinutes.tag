@@ -49,7 +49,7 @@
 								<%-- <html:image property="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Minute" onclick="excludeSubmitRestriction = true;"/> --%>
-				                  <input type="image" alt="View Minute" class="tinybutton" onclick="excludeSubmitRestriction = true;" id="viewMinute${status.index+1}"
+				                  <input type="image" alt="View Minute" class="tinybutton" onclick="openNewWindow('meetingActions','viewMinute','${status.index}',0,'false'); return false;" id="viewMinute${status.index+1}"
 				                  src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}">
 				             </div>
 		                </td>
