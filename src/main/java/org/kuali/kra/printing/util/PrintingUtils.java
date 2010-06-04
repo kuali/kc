@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.printing.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
@@ -34,11 +37,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.WebUtils;
 
 public class PrintingUtils {
 
@@ -268,4 +273,34 @@ public class PrintingUtils {
 		}
 		return description;
 	}
+	
+    /*
+     * This method is copied from KratrasactionalDocumentBase.   It is referenced by meeting.
+     * TODO : refactor other references from kratransactiondocumentbase to this method ?
+     */
+    public static void streamToResponse(AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
+
 }

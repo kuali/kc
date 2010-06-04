@@ -28,9 +28,11 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
+/**
+ * 
+ * This class is the printable for meeting minutes.
+ */
 public class MeetingMinutePrint extends AbstractPrint {
-    // TODO : These classes all very similar, can we create a generic class
-    // with template type property.  Then template type can be used to retrieve xsl file ?? 
 
     private static final String MEETING_MINUTE_TYPE = "10";
     private static final long serialVersionUID = 5642130271512806030L;
@@ -60,11 +62,6 @@ public class MeetingMinutePrint extends AbstractPrint {
             sourceList.add(src);
         }
         return sourceList;
-//        Source src = new StreamSource(new PrintingUtils().getClass()
-//                .getResourceAsStream(XSL_CONTEXT_DIR + "/CorresReportAgenda.xsl"));
-//        List<Source> sourceList = new ArrayList<Source>();
-//        sourceList.add(src);
-//        return sourceList;
     }
 
     public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
