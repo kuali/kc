@@ -212,21 +212,28 @@
           // contains text value
             isMatched = ((parentAnswer.toUpperCase()).indexOf(conditionValue.toUpperCase()) >= 0);
         } else if (condition == 2) {
-          // match text   
-            isMatched = (conditionValue.toUpperCase() == parentAnswer.toUpperCase());
-        } else if (condition >= 3 && condition <= 7) {
+            // begins with text   
+              isMatched = (parentAnswer.toUpperCase().startsWith(conditionValue.toUpperCase()));
+        } else if (condition == 3) {
+            // ends text   
+            isMatched = (parentAnswer.toUpperCase().endsWith(conditionValue.toUpperCase()));
+        } else if (condition == 4) {
+            // match text   
+              isMatched = (conditionValue.toUpperCase() == parentAnswer.toUpperCase());
+        } else if (condition >= 5 && condition <= 10) {
             if (isNaN(parentAnswer)) {
     		   alert("Value must be a number");
             } else if (!_isInteger(parentAnswer)){
      		   alert("Value must be a positive integer");
             } else {
-            	isMatched = (condition == 3 && (Number(parentAnswer) < Number(conditionValue))) ||
-            	            (condition == 4 && (Number(parentAnswer) <= Number(conditionValue))) ||
-            	            (condition == 5 && (Number(parentAnswer) == Number(conditionValue))) ||
-            	            (condition == 6 && (Number(parentAnswer) >= Number(conditionValue))) ||
-            	            (condition == 7 && (Number(parentAnswer) > Number(conditionValue)));
+            	isMatched = (condition == 5 && (Number(parentAnswer) < Number(conditionValue))) ||
+            	            (condition == 6 && (Number(parentAnswer) <= Number(conditionValue))) ||
+            	            (condition == 7 && (Number(parentAnswer) == Number(conditionValue))) ||
+            	            (condition == 8 && (Number(parentAnswer) != Number(conditionValue))) ||
+            	            (condition == 9 && (Number(parentAnswer) >= Number(conditionValue))) ||
+            	            (condition == 10 && (Number(parentAnswer) > Number(conditionValue)));
             }    
-    	} else if (condition > 7) {
+    	} else if (condition > 10) {
         	if (!isDate(parentAnswer, 'MM/dd/yyyy')) {
     		    alert("Not a Valid Date (mm/dd/yyyy)");
         	} else {
@@ -252,7 +259,13 @@
 	     var date1 = new Date(yr1, mon1, dt1);
 	     var date2 = new Date(yr2, mon2, dt2);
 
-		 return (condition == 8 && (date1 < date2)) ||
-		            (condition == 9 && (date1 > date2));
+		 return (condition == 11 && (date1 < date2)) ||
+		            (condition == 12 && (date1 > date2));
 	 }
 		
+
+	String.prototype.startsWith = function(str)
+	{return (this.match("^"+str)==str)}
+	
+	String.prototype.endsWith = function(str)
+	{return (this.match(str+"$")==str)}
