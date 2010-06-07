@@ -453,31 +453,37 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /*
-     * Following are supported condition : var responseArray = [ 'select', 'Contains text value', 'Matches text', 'Less than
-     * number', 'Less than or equals number', 'Equals number', 'Greater than or equals number', 'Greater than number', 'Before
-     * date', 'After date' ];
+     * Following are supported condition : var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
+     *  'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
+     *   'Greater than or equals number', 'Greater than number', 'Before date',
+     *   'After date' ];
      */
 
     private boolean isAnswerMatched(String condition, String parentAnswer, String conditionValue) {
         boolean valid = false;
         if (ConditionType.CONTAINS_TEXT.getCondition().equals(condition)) {
             valid = StringUtils.containsIgnoreCase(parentAnswer, conditionValue);
-        }
-        else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
+        } else if (ConditionType.BEGINS_WITH_TEXT.getCondition().equals(condition)) {
+            valid = (StringUtils.startsWithIgnoreCase(parentAnswer, conditionValue));
+        } else if (ConditionType.ENDS_WITH_TEXT.getCondition().equals(condition)) {
+            valid = (StringUtils.endsWithIgnoreCase(parentAnswer, conditionValue));
+        } else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
             valid = parentAnswer.equalsIgnoreCase(conditionValue);
         }
-        else if (Integer.parseInt(condition) >= 3 && Integer.parseInt(condition) <= 7) {
+        else if (Integer.parseInt(condition) >= 5 && Integer.parseInt(condition) <= 10) {
             valid = (ConditionType.LESS_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) < Integer
                     .parseInt(conditionValue)))
                     || (ConditionType.LESS_THAN_OR_EQUALS_NUMBER.getCondition().equals(condition) && (Integer
                             .parseInt(parentAnswer) <= Integer.parseInt(conditionValue)))
                     || (ConditionType.EQUALS_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) == Integer
                             .parseInt(conditionValue)))
+                    || (ConditionType.NOT_EQUAL_TO_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) != Integer
+                            .parseInt(conditionValue)))
                     || (ConditionType.GREATER_THAN_OR_EQUALS_NUMBER.getCondition().equals(condition) && (Integer
                             .parseInt(parentAnswer) >= Integer.parseInt(conditionValue)))
                     || (ConditionType.GREATER_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) > Integer
                             .parseInt(conditionValue)));
-        } else if (Integer.parseInt(condition) >= 8) {
+        } else if (Integer.parseInt(condition) >= 11) {
             try {
                 Date date1 = new Date(dateFormat.parse(parentAnswer).getTime());
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
@@ -495,8 +501,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * enum for conditions.  
      */
     private enum ConditionType {
-        CONTAINS_TEXT("1"), MATCH_TEXT("2"), LESS_THAN_NUMBER("3"), LESS_THAN_OR_EQUALS_NUMBER("4"), EQUALS_NUMBER("5"), GREATER_THAN_OR_EQUALS_NUMBER(
-                "6"), GREATER_THAN_NUMBER("7"), BEFORE_DATE("8"), AFTER_DATE("9");
+        CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), 
+        LESS_THAN_OR_EQUALS_NUMBER("6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), 
+        GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE("11"), AFTER_DATE("12");
 
         String condition;
 
