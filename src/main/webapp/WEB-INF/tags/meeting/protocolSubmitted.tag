@@ -98,9 +98,9 @@
 	                                           <div align="left"> ${protocolSubmission.submissionStatus.description} </div>
 					                       </td>
 	                                       <td align="left" valign="middle">
-	                                           <div align="left">               				
+	                                                         				
 	                                               <fmt:formatDate value="${protocolSubmission.submissionDate}" pattern="MM/dd/yyyy" />
-	                                            </div>
+	                                            
 					                       </td>
 
                                           <c:if test="${!readOnly}">
