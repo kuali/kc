@@ -1175,9 +1175,9 @@ function okToAddRequirement(response, value) {
 		alert("Please enter a value");
 	} else if (response == 0) {
 		alert("Please select a response");
-	} else if (response >= 3 && response <= 7 && isNaN(value)) {
+	} else if (response >= 5 && response <= 10 && isNaN(value)) {
 		alert("Value must be a number");
-	} else if (response > 7 && !isDate(value, 'MM/dd/yyyy')) {
+	} else if (response > 10 && !isDate(value, 'MM/dd/yyyy')) {
 		alert("Not a Valid Date (mm/dd/yyyy)");
 	} else {
 		valid = true;
@@ -1596,8 +1596,8 @@ var moduleCodes = [ 'select', 'Award', 'Institute Proposal',
 		'Development Proposal', 'Subcontracts', 'Negotiations', 'Person',
 		'IRB', 'Annual Coi Disclosure' ];
 var opArray = [ 'select', 'and', 'or' ];
-var responseArray = [ 'select', 'Contains text value', 'Matches text',
-		'Less than number', 'Less than or equals number', 'Equals number',
+var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
+		'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
 		'Greater than or equals number', 'Greater than number', 'Before date',
 		'After date' ];
 var questionType = [ 'select', 'Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text',
@@ -1607,16 +1607,19 @@ var responseOptions = $('<select name="CustomData"></select>');
 $('<option value="0" selected="selected">select</option>').appendTo(
 		responseOptions);
 $('<option value="1">Contains text value</option>').appendTo(responseOptions);
-$('<option value="2">Matches text</option>').appendTo(responseOptions);
-$('<option value="3">Less than number</option>').appendTo(responseOptions);
-$('<option value="4">Less than or equals number</option>').appendTo(
+$('<option value="2">Begins with text</option>').appendTo(responseOptions);
+$('<option value="3">Ends with text</option>').appendTo(responseOptions);
+$('<option value="4">Matches text</option>').appendTo(responseOptions);
+$('<option value="5">Less than number</option>').appendTo(responseOptions);
+$('<option value="6">Less than or equals number</option>').appendTo(
 		responseOptions);
-$('<option value="5">Equals number</option>').appendTo(responseOptions);
-$('<option value="6">Greater than or equals number</option>').appendTo(
+$('<option value="7">Equals number</option>').appendTo(responseOptions);
+$('<option value="8">Not Equal to number</option>').appendTo(responseOptions);
+$('<option value="9">Greater than or equals number</option>').appendTo(
 		responseOptions);
-$('<option value="7">Greater than number</option>').appendTo(responseOptions);
-$('<option value="8">Before date</option>').appendTo(responseOptions);
-$('<option value="9">After date</option>').appendTo(responseOptions);
+$('<option value="10">Greater than number</option>').appendTo(responseOptions);
+$('<option value="11">Before date</option>').appendTo(responseOptions);
+$('<option value="12">After date</option>').appendTo(responseOptions);
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
 $("#addUsage")
