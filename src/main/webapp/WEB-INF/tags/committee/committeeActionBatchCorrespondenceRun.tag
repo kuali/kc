@@ -71,11 +71,11 @@
         
         <table class=tab cellpadding=0 cellspacing="0"> 
             <tr>
-                <th>
+                <th width ="25">
                     <div align="center">
                     </div>
                 </th>
-                <th>
+                <th width="75">
                     <div align="center">
                         Protocol Number
                     </div>
@@ -85,22 +85,22 @@
                         Title
                     </div>
                 </th>
-                <th>
+                <th width="75">
                     <div align="center">
                         Approval Date
                     </div>
                 </th>
-                <th>
+                <th width="75">
                     <div align="center">
-                        Expiration
+                        Expiration Date
                     </div>
                 </th>
-                <th>
+                <th width="40%">
                     <div align="center">
                         Description
                     </div>
                 </th>
-                <th>
+                <th width="50">
                     <div align="center">
                         Actions
                     </div>
@@ -111,11 +111,11 @@
             <tr>
                 <th>
                     <div align="right">
-                        ${status.index + 1}
+                        ${status.index + 100}
                     </div>
                 </th>
                 <td>
-                    <div align="left">
+                    <div align="center">
                         <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocol.protocolNumber" 
                                                   attributeEntry="${protocolAttributes.protocolNumber}" 
                                                   readOnly="true" />
@@ -152,24 +152,12 @@
                 <td>
                     <div align="center">
                         <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].selected" 
-                                                  attributeEntry="${committeeBatchCorrespondenceDetailAttributes.selected}" />
+                                                  attributeEntry="${committeeBatchCorrespondenceDetailAttributes.selected}" 
+                                                  readOnly="false" />
                     </div>                         
                 </td>
             </tr>
         </c:forEach>
-
-            <tr>
-                <td colspan="6">
-                    &nbsp;
-                </td>
-                <td>
-                    <div align="center">
-                        <html:image property="methodToCall.viewBatchCorrespondence"
-                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-                                    styleClass="tinybutton"/>
-                    </div>                         
-                </td>
-            </tr>
 
         </table>
     </div>

@@ -57,7 +57,8 @@
                         <div align="center">                    
                             <html:image property="methodToCall.printCommitteeDocument"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
-                                        styleClass="tinybutton"/>                         
+                                        styleClass="tinybutton"
+                                        onclick="excludeSubmitRestriction = true;" />                         
                         </div>
                     </td>
                 </tr>     

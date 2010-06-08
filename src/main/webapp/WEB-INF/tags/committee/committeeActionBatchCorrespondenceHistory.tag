@@ -83,6 +83,10 @@
 <c:if test="${not empty KualiForm.committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode}">
     <p>&nbsp;</p>
     
+    <div align="left">
+        <kul:errors keyMatch="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory*" /> <br>
+    </div>
+
     <h3>
         <span class="subhead-left">
             Batch Type:
@@ -97,11 +101,24 @@
         <table cellpadding=0 cellspacing=0 border=0>
             <c:forEach items="${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
                 <tr>
-                    <td class="neutral" >
+                    <td class="infoline" colspan="2">
                         <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" index="${status.index}" />
                     </td>
                 </tr>
             </c:forEach>
+                <tr>
+                    <td class="neutral" style="background-color: #e4e4e4;">
+                        &nbsp;
+                    </td>
+                    <td  style="background-color: #e4e4e4;" width="63">
+                        <div align="center">
+                            <html:image property="methodToCall.viewBatchCorrespondence"
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+                                        styleClass="tinybutton"
+                                        onclick="excludeSubmitRestriction = true;" />
+                        </div>                         
+                    </td>
+                </tr>
         </table>
     </c:if>            
 </c:if>            

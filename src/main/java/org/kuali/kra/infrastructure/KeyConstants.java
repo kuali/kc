@@ -640,6 +640,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_ACTION_HISTORY_START_DATE_NOT_SPECIFIED = "error.committee.action.history.start.date.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_NOT_SPECIFIED = "error.committee.action.history.end.date.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_HISTORY_END_DATE_BEFORE_START_DATE = "error.committee.action.history.end.date.before.start.date";
+    public static final String ERROR_COMMITTEE_ACTION_HISTORY_VIEW_NOT_SPECIFIED = "error.committee.action.history.view.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_PRINT_REPORT_NOT_SPECIFIED = "error.committee.action.print.report.not.specified";
     
     // IRB Questions
