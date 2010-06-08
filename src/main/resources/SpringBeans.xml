@@ -2079,7 +2079,6 @@
     </bean>
 	
 	<!--  questionnaire print -->
-	<!--  
         <bean id="questionnaireXmlStream"
             class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream">
             <property name="businessObjectService">
@@ -2105,5 +2104,5 @@
             <property name="questionnairePrint" ref="questionnairePrint" />
             <property name="questionnaireAnswerPrint" ref="questionnaireAnswerPrint" />
 	</bean>
-	-->
+
 </beans>
