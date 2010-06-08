@@ -18,6 +18,7 @@ package org.kuali.kra.committee.bo;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * 
@@ -282,19 +284,32 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     /**
-     * Returns if the committee membership is active or inactive. (Current date within term dates.)
+     * Returns if the committee membership is active or inactive.  This is based on the person's role, that is, the status is 
      * 
-     * @return <code>active</code> if the current date is within the committee membership's term, <code>inactive</code> otherwise
-     * @throws NullPointerException - if either the termStartDate or termEndDate are null.
+     *   <code>inactive</code> if the person has a role of Inactive for a period that includes today's date
+     *   <code>active</code> if the person has one or more roles for a period that includes today's date
+     *   <code>inactive</code> otherwise
+     *   
+     * Note that a role of Inactive should overrule any other role date periods.
+     *   
+     * @return <code>active</code> if a role is not Inactive and contains the current date, <code>inactive</code> otherwise
+     * @throws NullPointerException - if any role's membershipRoleCode, startDate, or endDate are null.
      */
     public String getStatus() {
-        java.util.Date currentDate = new java.util.Date();
-        if (currentDate.before(getTermStartDate()) || currentDate.after(getTermEndDate())) {
-            return "inactive";
+        boolean isActive = false;
+        
+        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+        for (CommitteeMembershipRole role : membershipRoles) {
+            if (!currentDate.before(role.getStartDate()) && !currentDate.after(role.getEndDate())) {
+                if (role.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
+                    return "inactive";
+                } else {
+                    isActive = true;
+                }
+            }
         }
-        else {
-            return "active";
-        }
+        
+        return isActive ? "active" : "inactive";
     }
 
     /**
