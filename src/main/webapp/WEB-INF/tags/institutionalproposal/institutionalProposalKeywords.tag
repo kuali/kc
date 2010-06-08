@@ -19,7 +19,7 @@
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="document.institutionalProposalList[0].keyword">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>

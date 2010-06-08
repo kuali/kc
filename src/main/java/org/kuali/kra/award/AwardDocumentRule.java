@@ -46,6 +46,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
+import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
@@ -88,6 +89,8 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
@@ -308,6 +311,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
+        retval &=processKeywordBusinessRule(awardDocument);
         
         return retval;
     }
@@ -348,6 +352,24 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return success;
+    }
+    
+    private boolean processKeywordBusinessRule(AwardDocument awardDocument) {
+        
+       List<AwardScienceKeyword> keywords= awardDocument.getAward().getKeywords();
+        
+       for ( AwardScienceKeyword keyword : keywords ) {
+            for ( AwardScienceKeyword keyword2 : keywords ) {
+                if ( keyword == keyword2 ) {
+                    continue;
+                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
+                    GlobalVariables.getErrorMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
+                   
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
     private boolean processAddPaymentScheduleBusinessRules(ErrorMap errorMap, AddAwardPaymentScheduleRuleEvent event) {

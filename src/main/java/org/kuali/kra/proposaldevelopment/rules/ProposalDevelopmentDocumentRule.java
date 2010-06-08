@@ -127,7 +127,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         GlobalVariables.getErrorMap().addToErrorPath("document.developmentProposalList[0]");
-        
         // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
         final boolean VALIDATION_REQUIRED = true;
         final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
@@ -415,12 +414,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     
     private boolean processKeywordBusinessRule(ProposalDevelopmentDocument document) {
         List<PropScienceKeyword> keywords = document.getDevelopmentProposal().getPropScienceKeywords();
+        
         for ( PropScienceKeyword keyword : keywords ) {
             for ( PropScienceKeyword keyword2 : keywords ) {
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
-                    GlobalVariables.getErrorMap().putError("developmentProposalList[0].propScienceKeyword", "error.proposalKeywords.duplicate");
+                    GlobalVariables.getErrorMap().putError("propScienceKeyword", "error.proposalKeywords.duplicate");
+                   
                     return false;
                 }
             }
