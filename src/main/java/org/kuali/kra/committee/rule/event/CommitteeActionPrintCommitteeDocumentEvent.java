@@ -20,7 +20,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.kns.document.Document;
 
 public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
-    public static final String MSG = "print committee document";
+    private static final String MSG = "print committee document";
     
     private Boolean printRooster;
     private Boolean printFutureScheduledMeeting;

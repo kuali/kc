@@ -165,6 +165,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.rules.CommitteeScheduleDayRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeActionFilterBatchCorrespondenceHistoryRuleTest.class,
+    org.kuali.kra.committee.rules.CommitteeActionViewBatchCorrespondenceRuleTest.class,
     org.kuali.kra.committee.rules.CommitteeActionPrintCommitteeDocumentRuleTest.class,
     org.kuali.kra.web.struts.action.AuditMapSorterTest.class,
     org.kuali.kra.meeting.AlternateForValuesFinderTest.class,
