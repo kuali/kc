@@ -155,6 +155,7 @@ public class NSFCoverPageV1_3GeneratorTest extends
 		s2sOpportunity.setCfdaNumber("00.000");
 		s2sOpportunity.setProposalNumber(document.getDevelopmentProposal()
 				.getProposalNumber());
+		s2sOpportunity.setOpportunity(" ");
 		s2sOpportunity.setClosingDate(new Timestamp(new Date().getTime()));
 		document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
 	}
