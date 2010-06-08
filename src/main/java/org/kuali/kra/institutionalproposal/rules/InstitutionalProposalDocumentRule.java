@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
@@ -26,8 +28,11 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonS
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
@@ -90,11 +95,12 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processSpecialReviewBusinessRule(document);
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
+        retval &= processKeywordBusinessRule(document);
         
         return retval;
     }    
@@ -189,6 +195,22 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         return new InstitutionalProposalCreditSplitBean(institutionalProposalDocument).recalculateCreditSplit();
     }
     
+    private boolean processKeywordBusinessRule(Document document) {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        List<InstitutionalProposalScienceKeyword> keywords = institutionalProposalDocument.getInstitutionalProposal().getKeywords();
+        for ( InstitutionalProposalScienceKeyword keyword : keywords ) {
+            for ( InstitutionalProposalScienceKeyword keyword2 : keywords ) {
+                if ( keyword == keyword2 ) {
+                    continue;
+                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
+                    GlobalVariables.getErrorMap().putError("document.institutionalProposalList[0].keyword", "error.proposalKeywords.duplicate");
+                   
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
      * @param proposalDevelopmentDocument
