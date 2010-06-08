@@ -16,41 +16,58 @@
 package org.kuali.kra.test.infrastructure.lifecycle;
 
 /**
- * This interface models a unit test lifecycle which has both a "per test" aspect (start and stop) and a persistent or "per run"
- * apsect (launch and shutdown)
+ * This interface models a unit test lifecycle which has a "per test" component, a "per class" component and a "per suite" component.
  */
 public interface KcUnitTestLifecycle {
     /**
      * This method starts the "per test" portion of the lifecycle.
      */
-    public void start();
+    public void startPerTest();
 
     /**
      * This method stops the "per test" portion of the lifecycle
      */
-    public void stop();
+    public void stopPerTest();
 
     /**
-     * This method launches the persistent or "per run" portion of the lifecycle
+     * This method starts the "per class" portion of the lifecycle
      */
-    public void launch();
+    public void startPerClass();
 
     /**
-     * This method shuts down the persistent or "per run" portion of the lifecycle
+     * This method stops the "per class" portion of the lifecycle
      */
-    public void shutdown();
+    public void stopPerClass();
+
+    /**
+     * This method starts the "per suite" portion of the lifecycle
+     */
+    public void startPerSuite();
+
+    /**
+     * This method stops the "per suite" portion of the lifecycle
+     */
+    public void stopPerSuite();
 
     /**
      * This method indicates whether the "per test" portion of the lifecycle is running
      * 
      * @return the state of the "per test" portion of the lifecycle
      */
-    public boolean isStarted();
+    public boolean isPerTestStarted();
 
     /**
-     * This method indicates whether the persistent or "per run" portion of the lifecycle is running
+     * This method indicates whether the "per class" portion of the lifecycle is running
      * 
-     * @return the state of the persistent or "per run" portion of the lifecycle
+     * @return the state of the "per class" portion of the lifecycle
      */
-    public boolean isLaunched();
+    public boolean isPerClassStarted();
+
+    /**
+     * This method indicates whether the "per suite" portion of the lifecycle is running
+     * 
+     * @return the state of the "per suite" portion of the lifecycle
+     */
+    public boolean isPerSuiteStarted();
+
 }

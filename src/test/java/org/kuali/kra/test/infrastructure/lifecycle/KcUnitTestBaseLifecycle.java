@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * This abstract lifecyle does the following:
  * <ul>
- * <li>wraps start, stop, launch and shutdown exceptions</li>
+ * <li>wraps start and stop exceptions</li>
  * <li>logs lifecycle events</li>
  * <li>calculates and logs the amount of time a lifecycle stage takes</li>
  * <li>simplifies the implementation of a lifecycle through templating</li>
@@ -35,158 +35,251 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
     // non static logger to allow it to be named after the runtime class
     protected final Log LOG = LogFactory.getLog(this.getClass());
 
-    private boolean started;
-    private boolean launched;
+    private boolean perTestStarted;
+    private boolean perClassStarted;
+    private boolean perSuiteStarted;
 
     /**
-     * Hook to execute launch logic.
+     * Hook to execute "per test" start logic.
      * 
      * @throws Throwable just propagate any exceptions
      */
-    protected abstract void doLaunch() throws Throwable;
+    protected abstract void doPerTestStart() throws Throwable;
 
     /**
-     * Hook to execute shutdown logic.
+     * Hook to execute "per test" stop logic.
      * 
      * @throws Throwable just propagate any exceptions
      */
-    protected abstract void doShutdown() throws Throwable;
+    protected abstract void doPerTestStop() throws Throwable;
 
     /**
-     * Hook to execute start logic.
+     * Hook to execute "per class" start logic.
      * 
      * @throws Throwable just propagate any exceptions
      */
-    protected abstract void doStart() throws Throwable;
+    protected abstract void doPerClassStart() throws Throwable;
 
     /**
-     * Hook to execute stop logic.
+     * Hook to execute "per class" stop logic.
      * 
      * @throws Throwable just propagate any exceptions
      */
-    protected abstract void doStop() throws Throwable;
+    protected abstract void doPerClassStop() throws Throwable;
 
+    /**
+     * Hook to execute "per suite" start logic.
+     * 
+     * @throws Throwable just propagate any exceptions
+     */
+    protected abstract void doPerSuiteStart() throws Throwable;
+
+    /**
+     * Hook to execute "per suite" stop logic.
+     * 
+     * @throws Throwable just propagate any exceptions
+     */
+    protected abstract void doPerSuiteStop() throws Throwable;
+    
     /** {@inheritDoc} */
-    public final void launch() {
-        if (this.launched) {
-            throw new IllegalStateException("lifecycle already launched");
+    public void startPerTest() {
+        if (this.perTestStarted) {
+            throw new IllegalStateException("per test lifecycle already started");
         }
 
         final StopWatch watch = new StopWatch();
 
         if (LOG.isDebugEnabled()) {
             watch.start();
-            LOG.debug("launching lifecycle");
+            LOG.debug("starting per test lifecycle");
         }
 
         try {
-            doLaunch();
-            launched = true;
+            doPerTestStart();
+            perTestStarted = true;
         }
         catch (Throwable e) {
-            launched = false;
+            perTestStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per test lifecycle failed to start cleanly", e);
+            }
             throw new KcLifecycleException(e);
         }
 
         if (LOG.isDebugEnabled()) {
             watch.stop();
-            LOG.debug("lifecycle launched in " + watch + " time");
+            LOG.debug("per test lifecycle started in " + watch + " time");
         }
     }
 
-
     /** {@inheritDoc} */
-    public final void shutdown() {
-        if (!this.launched) {
-            throw new IllegalStateException("lifecycle already shutdown");
+    public void stopPerTest() {
+        if (!this.perTestStarted) {
+            throw new IllegalStateException("per test lifecycle already stopped");
         }
 
         final StopWatch watch = new StopWatch();
 
         if (LOG.isDebugEnabled()) {
             watch.start();
-            LOG.debug("shuttingdown lifecycle");
+            LOG.debug("stopping per test lifecycle");
         }
 
         try {
-            doShutdown();
-            launched = false;
+            doPerTestStop();
+            perTestStarted = false;
         }
         catch (Throwable e) {
-            launched = false;
+            perTestStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per test lifecycle failed to stop cleanly", e);
+            }
             throw new KcLifecycleException(e);
         }
 
         if (LOG.isDebugEnabled()) {
             watch.stop();
-            LOG.debug("lifecycle shutdown in " + watch + " time");
+            LOG.debug("per test lifecycle stopped in " + watch + " time");
         }
     }
 
     /** {@inheritDoc} */
-    public final void start() {
-        if (this.started) {
-            throw new IllegalStateException("lifecycle already started");
+    public final boolean isPerTestStarted() {
+        return this.perTestStarted;
+    }
+
+    /** {@inheritDoc} */
+    public void startPerClass() {
+        if (this.perClassStarted) {
+            throw new IllegalStateException("per class lifecycle already started");
         }
 
         final StopWatch watch = new StopWatch();
 
         if (LOG.isDebugEnabled()) {
             watch.start();
-            LOG.debug("starting lifecycle");
+            LOG.debug("starting per class lifecycle");
         }
 
         try {
-            doStart();
-            started = true;
+            doPerClassStart();
+            perClassStarted = true;
         }
         catch (Throwable e) {
-            started = false;
+            perClassStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per class lifecycle failed to start cleanly", e);
+            }
             throw new KcLifecycleException(e);
         }
 
         if (LOG.isDebugEnabled()) {
             watch.stop();
-            LOG.debug("lifecycle started in " + watch + " time");
+            LOG.debug("per class lifecycle started in " + watch + " time");
         }
     }
 
     /** {@inheritDoc} */
-    public final void stop() {
-        if (!this.started) {
-            throw new IllegalStateException("lifecycle already stopped");
+    public void stopPerClass() {
+        if (!this.perClassStarted) {
+            throw new IllegalStateException("per class lifecycle already stopped");
         }
 
         final StopWatch watch = new StopWatch();
 
         if (LOG.isDebugEnabled()) {
             watch.start();
-            LOG.debug("stopping lifecycle");
+            LOG.debug("stopping per class lifecycle");
         }
 
         try {
-            doStop();
-            started = false;
+            doPerClassStop();
+            perClassStarted = false;
         }
         catch (Throwable e) {
-            started = false;
+            perClassStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per class lifecycle failed to stop cleanly", e);
+            }
             throw new KcLifecycleException(e);
         }
 
         if (LOG.isDebugEnabled()) {
             watch.stop();
-            LOG.debug("lifecycle stopped in " + watch + " time");
+            LOG.debug("per class lifecycle stopped in " + watch + " time");
         }
     }
 
     /** {@inheritDoc} */
-    public final boolean isStarted() {
-        return this.started;
+    public final boolean isPerClassStarted() {
+        return this.perClassStarted;
     }
 
     /** {@inheritDoc} */
-    public final boolean isLaunched() {
-        return this.launched;
+    public void startPerSuite() {
+        if (this.perSuiteStarted) {
+            throw new IllegalStateException("per suite lifecycle already started");
+        }
+
+        final StopWatch watch = new StopWatch();
+
+        if (LOG.isDebugEnabled()) {
+            watch.start();
+            LOG.debug("starting per suite lifecycle");
+        }
+
+        try {
+            doPerSuiteStart();
+            perSuiteStarted = true;
+        }
+        catch (Throwable e) {
+            perSuiteStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per suite lifecycle failed to start cleanly", e);
+            }
+            throw new KcLifecycleException(e);
+        }
+
+        if (LOG.isDebugEnabled()) {
+            watch.stop();
+            LOG.debug("per suite lifecycle started in " + watch + " time");
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void stopPerSuite() {
+        if (!this.perSuiteStarted) {
+            throw new IllegalStateException("per suite lifecycle already stopped");
+        }
+
+        final StopWatch watch = new StopWatch();
+
+        if (LOG.isDebugEnabled()) {
+            watch.start();
+            LOG.debug("stopping per suite lifecycle");
+        }
+
+        try {
+            doPerSuiteStop();
+            perSuiteStarted = false;
+        }
+        catch (Throwable e) {
+            perSuiteStarted = false;
+            if (LOG.isErrorEnabled()) {
+                LOG.error("per suite lifecycle failed to stop cleanly", e);
+            }
+            throw new KcLifecycleException(e);
+        }
+
+        if (LOG.isDebugEnabled()) {
+            watch.stop();
+            LOG.debug("per suite lifecycle stopped in " + watch + " time");
+        }
+    }
+
+    /** {@inheritDoc} */
+    public final boolean isPerSuiteStarted() {
+        return this.perSuiteStarted;
     }
 
     /** exception that wraps any lifecycle failures. */
