@@ -17,11 +17,9 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
@@ -30,12 +28,12 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
-import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AwardFundingProposalBean implements Serializable {
@@ -46,7 +44,9 @@ public class AwardFundingProposalBean implements Serializable {
     private static final String FUNDING_PROPOSAL_NOT_FOUND_ERROR_KEY = "error.fundingproposal.not.found";
     private static final String PENDING_FUNDING_PROPOSAL_VERSION_EXISTS = "error.fundingproposal.pendingVersion";
     private static final String FUNDING_PROPOSAL_INADEQUATE_PERMISSIONS = "error.fundingproposal.noPermission";
-
+    private static final String FUNDING_PROPOSAL_ALREADY_ADDED= "error.fundingProposal.alreadyAdded";
+    private static final String FUNDING_PROPOSAL_INVALID_STATUS= "error.fundingProposal.invalidStatus";
+    
     private AwardForm awardForm;
     private InstitutionalProposal newFundingProposal;
     
@@ -65,6 +65,7 @@ public class AwardFundingProposalBean implements Serializable {
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
+        
         if (getNewFundingProposal() != null) {
             if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
@@ -239,9 +240,59 @@ public class AwardFundingProposalBean implements Serializable {
                     GlobalVariables.getUserSession().getPrincipalName(),
                     PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
         }
+        if(proposalAlreadyAdded()) {
+            valid=false;
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                        FUNDING_PROPOSAL_ALREADY_ADDED);
+            
+        }
+        if(!validProposalStatus()) {
+            valid=false;
+            String proposalStatus = newFundingProposal.getProposalStatus().getDescription();
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+                    FUNDING_PROPOSAL_INVALID_STATUS, proposalStatus);
+        }
         return valid;
     }
     
+    private boolean validProposalStatus() {
+        
+        int proposalStatusCode = newFundingProposal.getProposalStatus().getProposalStatusCode();
+        List<String> validCodes= KraServiceLocator.getService(ParameterService.class).getParameterValues("KC-IP", "D", "validFundingProposalStatusCodes");
+        ListIterator itr= validCodes.listIterator();
+        while(itr.hasNext()) {
+            Object currentCode= itr.next();
+            String[] codes= ((String) currentCode).split(","); 
+            for(int i=0; i < codes.length; i++) {
+                int code= Integer.parseInt(codes[i]);
+                if(proposalStatusCode == code) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    private boolean proposalAlreadyAdded() {
+        String proposalNumber = newFundingProposal.getProposalNumber();
+        Long proposalId = newFundingProposal.getProposalId();
+        
+        Award currentAward= awardForm.getAwardDocument().getAward();
+        List<AwardFundingProposal> fundingProposals= currentAward.getFundingProposals();
+        ListIterator itr= fundingProposals.listIterator();
+        
+        while(itr.hasNext()) {
+            AwardFundingProposal currentFundingProposal= (AwardFundingProposal) itr.next();
+            Long id= currentFundingProposal.getProposalId();
+            
+            if(id.equals(proposalId)) {
+               return true;
+            }
+        }
+        return false;
+    }
+
     private void initializeAwardCustomDataIfNecessary(Award award) {
         if (award.getAwardCustomDataList().isEmpty()) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = awardForm.getAwardDocument().getCustomAttributeDocuments();
