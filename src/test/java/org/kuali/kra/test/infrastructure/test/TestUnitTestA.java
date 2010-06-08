@@ -1,44 +1,35 @@
 package org.kuali.kra.test.infrastructure.test;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.KraServiceLocatorConfigurer;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.kra.test.infrastructure.KcUnitTestReqs;
-import org.kuali.kra.test.infrastructure.KcUnitTestReqs.Req;
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.kuali.rice.test.web.HtmlUnitUtil;
 
 public class TestUnitTestA extends KcUnitTestBase {
 	@Test
-	public void testA() {
-		System.out.println("testA");
-		assertNull("Config loaded prematurely", ConfigContext.getCurrentContextConfig());
+	public void testConfig() {
+		assertNotNull("Config not loaded", ConfigContext.getCurrentContextConfig());
 	}
 
 	@Test
-	@KcUnitTestReqs(Req.CONFIG)
-	public void testB() {
-		System.out.println("testB");
-        assertNotNull("Config not loaded appropriately", ConfigContext.getCurrentContextConfig());
-        assertFalse("Context loaded prematurely", GlobalResourceLoader.isInitialized());
+	public void testContext() {
+        assertTrue("Context not loaded", KraServiceLocatorConfigurer.isApplicationContextInitialized());
 	}
     
     @Test
-    @KcUnitTestReqs(Req.CONTEXT)
-    public void testC() {
-        assertTrue("Context not loaded appropriately", GlobalResourceLoader.isInitialized());
-//        PlatformTransactionManager txMgr = KraServiceLocator.getService("transactionManager");
-//        txMgr.
-    }
-    
-    @Test
-    @KcUnitTestReqs(Req.SERVER)
-    public void testD() {
-        System.out.println("testD");
-        assertTrue(true);
+    public void testServer() throws Throwable {
+        int port = HtmlUnitUtil.getPort();
+        URL url = new URL("http://localhost:"+port+"/kc-dev/");
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        int responseCode = connection.getResponseCode();
+        connection.disconnect();
+        assertTrue("Server not loaded", responseCode==200);
     }
     
     @Override

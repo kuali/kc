@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
     TestUnitTestA.class,
-    TestUnitTestB.class
 })
 public class TestSuite {
 
