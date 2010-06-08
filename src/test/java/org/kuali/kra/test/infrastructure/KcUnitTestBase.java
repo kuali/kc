@@ -17,12 +17,17 @@ package org.kuali.kra.test.infrastructure;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
+import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestMainLifecycle;
 
 /**
  * This class serves as a base test class for all KC unit tests. It handles ensuring all of the necessary lifecycles are properly
@@ -30,33 +35,41 @@ import org.junit.runner.notification.RunListener;
  */
 @RunWith(KcUnitTestRunner.class)
 public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
-    private Method method;
+    // non static logger to allow it to be named after the runtime class
+    protected final Log LOG = LogFactory.getLog(this.getClass());
 
+    private static KcUnitTestMainLifecycle LIFECYCLE = new KcUnitTestMainLifecycle();
+    private static RunListener RUN_LISTENER = new KcUnitTestRunListener(LIFECYCLE);
+
+    private Method method;
+    
     /**
-     * This method executes before each unit test and ensures the necessary lifecycles have been started and launched
+     * This method executes before each unit test and ensures the necessary lifecycles have been started
      */
     @Before
-    public final void beforeMethod() {
-        if (method.isAnnotationPresent(KcUnitTestReqs.class)) {
-            for (KcUnitTestReqs.Req req : method.getAnnotation(KcUnitTestReqs.class).value()) {
-                if (!req.isLaunched()) {
-                    req.launch();
-                }
-                req.start();
-            }
-        }
+    public final void baseBeforeTest() {
+        LIFECYCLE.startPerTest();
     }
 
     /**
      * This method executes after each unit test and makes sure the necessary lifecycles have been stopped
      */
     @After
-    public final void afterMethod() {
-        if (method.isAnnotationPresent(KcUnitTestReqs.class)) {
-            for (KcUnitTestReqs.Req req : method.getAnnotation(KcUnitTestReqs.class).value()) {
-                req.stop();
-            }
+    public final void baseAfterTest() {
+        LIFECYCLE.stopPerTest();
+    }
+    
+    @BeforeClass
+    public static final void baseBeforeClass() {
+        if (!LIFECYCLE.isPerSuiteStarted()) {
+            LIFECYCLE.startPerSuite();
         }
+        LIFECYCLE.startPerClass();
+    }
+    
+    @AfterClass
+    public static final void baseAfterClass() {
+        LIFECYCLE.stopPerClass();
     }
 
     /**
@@ -92,26 +105,12 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     public void setTestMethod(Method method) {
         this.method = method;
     }
-    
-    /*
-     * This class provides the mechanism to shut down the persistent portions of lifecycles at the end of a full test run.
-     */
-    private static RunListener runListener = new RunListener() {
-        /**
-         * @see org.junit.runner.notification.RunListener#testRunFinished(org.junit.runner.Result)
-         */
-        @Override
-        public void testRunFinished(Result result) throws Exception {
-            KcUnitTestReqs.Req.shutdownAll();
-            super.testRunFinished(result);
-        }  
-    };
-    
+        
     /**
      * This method returns the <code>RunListener</code> needed to ensure the KC persistent lifecycles shut down properly
      * @return the RunListener responsible for shutting down all KC persistent lifecycles
      */
     public static RunListener getRunListener() {
-        return runListener;
+        return RUN_LISTENER;
     }
 }
