@@ -156,6 +156,7 @@ public class NSFCoverPageV1_2GeneratorTest extends
 		s2sOpportunity
 				.setOpportunityTitle("OpportunityTitle for faith based survey");
 		s2sOpportunity.setCfdaNumber("00.000");
+        s2sOpportunity.setOpportunity(" ");
 		s2sOpportunity.setProposalNumber(document.getDevelopmentProposal()
 				.getProposalNumber());
 		s2sOpportunity.setClosingDate(new Timestamp(new Date().getTime()));
