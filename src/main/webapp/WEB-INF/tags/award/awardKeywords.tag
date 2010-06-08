@@ -17,7 +17,7 @@
 
 <c:set var="awardKeywordAttributes" value="${DataDictionary.AwardScienceKeyword.attributes}" />
 <c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
-<kul:tab tabTitle="Keywords" defaultOpen="false" useCurrentTabIndexAsKey="false" >
+<kul:tab tabTitle="Keywords" defaultOpen="false" useCurrentTabIndexAsKey="false" tabErrorKey="document.awardList[0].keywords">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Keywords</span>
