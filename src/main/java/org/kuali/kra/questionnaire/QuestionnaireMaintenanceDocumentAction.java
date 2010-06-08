@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.questionnaire;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,6 +34,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
@@ -379,8 +384,40 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     }
 
 
+    /**
+     * 
+     * This method is to print Questionnaire
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : this is only available after questionnaire is saved ?
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        reportParameters.put("documentNumber", qnForm.getDocument().getDocumentNumber());
+
+        // TODO : this is not a transaction document, so set to null ?
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
+        if (dataStream.getContent() != null) {
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+
+
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
         return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
+    }
+    
+    private QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
 }
