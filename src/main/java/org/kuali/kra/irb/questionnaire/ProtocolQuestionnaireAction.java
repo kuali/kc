@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.irb.questionnaire;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,9 +28,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerRule;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -146,6 +154,31 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+    }
+
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : this is only available after questionnaire is saved ?
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        final int answerHeaderIndex = this.getSelectedLine(request);
+        //((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId();
+        // TODO : a flag to check whether to print answer or not
+        // reportParameters.put("printAnswer", protocolForm.printAnswer);
+         reportParameters.put("questionnaireId", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
+
+        // TODO : this is not a transaction document, so set to null ?
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument(), reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+
+    private QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
 }
