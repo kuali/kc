@@ -18,7 +18,6 @@ package org.kuali.kra.committee.bo;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -302,7 +301,8 @@ public class CommitteeMembership extends CommitteeAssociate {
         for (CommitteeMembershipRole role : membershipRoles) {
             if (!currentDate.before(role.getStartDate()) && !currentDate.after(role.getEndDate())) {
                 if (role.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
-                    return "inactive";
+                    isActive = false;
+                    break;
                 } else {
                     isActive = true;
                 }
