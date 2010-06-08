@@ -14,15 +14,16 @@
     <c:if test="${status.first}">
 		<c:set var="transparent" value="true" />
 	</c:if>
+	
+	<%-- Create Tab Title --%>
+	<c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)} (${membership.status})" />
 
-    <%-- Create Tab Title & Description --%>
+    <%-- Create Tab Description --%>
     <c:choose>
         <c:when test="${empty membership.termStartDate && empty membership.termEndDate}">
-            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)}" />
             <c:set var="tabDescriptionValue" value=" " />
         </c:when>
         <c:otherwise>
-            <c:set var="tabTitleValue" value="${fn:substring(membership.personName, 0, 22)} (${membership.status})" />
             <c:set var="tabDescriptionValue" value="Term ${membership.formattedTermStartDate} - ${membership.formattedTermEndDate}" />
         </c:otherwise>
     </c:choose>
