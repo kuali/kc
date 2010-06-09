@@ -200,11 +200,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
-            
-            //ProtocolAssignReviewersBean assignReviewerBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
-            //submitAction.setReviewers(assignReviewerBean.getReviewers());
-            
+            ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();            
             if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
                 if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
                     return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
