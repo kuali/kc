@@ -54,7 +54,7 @@ public interface ProtocolCorrespondenceTemplateService {
     
     /**
      * 
-     * This method is to get the correspondence template for the protocorrespondencetype and the committeeid specified.
+     * This method is to get the correspondence template for the protoCorrespondenceType and the committeeId specified.
      * If it is not found for this committee, then retrieve from 'DEFAULT'
      * @param committeeId
      * @param protoCorrespTypeCode
