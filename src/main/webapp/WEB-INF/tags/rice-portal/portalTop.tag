@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2010 The Kuali Foundation
+ Copyright 2005-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,9 +13,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%-- KC Modification Start --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%-- KC Modification End --%>
 
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
@@ -23,7 +20,6 @@
 <html>
 <head>
 <title>Kuali Portal Index</title>
-<%-- KC Modification Start --%>
 <c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
 	<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
         <link href="${pageContext.request.contextPath}/${fn:trim(cssFile)}" rel="stylesheet" type="text/css" />
@@ -33,8 +29,7 @@
 	<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
         <script language="JavaScript" type="text/javascript" src="${ConfigProperties.application.url}/${fn:trim(javascriptFile)}"></script>
 	</c:if>
-</c:forEach>
-<%-- KC Modification End --%>
+</c:forEach> 
 
 <script language="javascript" >
 if (top.location != self.location) {
