@@ -193,6 +193,7 @@
             							<include>kr/</include>
             							<include>ksb/</include>
             							<include>rice-portal/</include>
+            							<include>WEB-INF/jsp/dummy_login.jsp</include>
             							<include>WEB-INF/tags/kew/</include>
             							<include>WEB-INF/tags/kim/</include>
             							<include>WEB-INF/tags/kr/</include>
@@ -201,6 +202,7 @@
             							<include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
             							<include>WEB-INF/tags/rice-portal/channel/portalChannelTop.tag</include>
             							<include>WEB-INF/tags/rice-portal/administrationTab.tag</include>
+            							<include>WEB-INF/tags/rice-portal/iframePortletContainer.tag</include>
             							<include>WEB-INF/tags/rice-portal/immutableBar.tag</include>
             							<include>WEB-INF/tags/rice-portal/maintenanceTab.tag</include>
             							<include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
@@ -954,7 +956,7 @@
 		<org.drools.version>4.0.7</org.drools.version>
 		<org.hamcrest.version>1.1</org.hamcrest.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
-		<org.kuali.rice.version>1.0.2.1-KC-01</org.kuali.rice.version>
+		<org.kuali.rice.version>1.0.2.1-KC-02</org.kuali.rice.version>
 		<org.springframework.version>2.0.4</org.springframework.version>
 		<struts.version>1.2.9</struts.version>
 		<tomcat.version>5.5.23</tomcat.version>
@@ -987,10 +989,8 @@
 			
 			acknowledgments.jsp,
 			portal.jsp,
-			WEB-INF/jsp/dummy_login.jsp,
 			WEB-INF/tags/kr/tab.tag,
 			WEB-INF/tags/kr/tabTop.tag,
-			WEB-INF/tags/rice-portal/iframePortletContainer.tag,
 			WEB-INF/tags/rice-portal/portalBody.tag,
 			WEB-INF/tags/rice-portal/portalTabs.tag,
 			WEB-INF/tags/rice-portal/portalTop.tag,
