@@ -19,4 +19,7 @@ VALUES('KC-IP', 'D', 'PROPOSAL_LOG_PERMANENT_TYPE_CODE', 'CONFG', '1', 'Code cor
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID)
 VALUES('KC-IP', 'D', 'PROPOSAL_LOG_TEMPORARY_TYPE_CODE', 'CONFG', '2', 'Code corresponding to Proposal Log type code Temporary', 'A', 'D8BDAA693EE44FF5A78A623C11A0F809') ;
 
+INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID)
+VALUES ('KC-IP', 'D', 'validFundingProposalStatusCodes', 'CONFG', '1,2,6', 'comma delimited list of valid codes for proposal status on the institutional proposal tab', 'A', '7367da3c033e42b182cb54fcaee7263d') ;
+
 COMMIT;
