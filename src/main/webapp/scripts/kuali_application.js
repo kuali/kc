@@ -952,17 +952,24 @@ function getUsers() {
 /*
  * Load the person's full name based on the person's username.
  */
-function loadPersonName(usernameFieldName, fullnameElementId) {
+function loadPersonName(usernameFieldName, fullnameElementId, 
+						unitNumberElementId, unitNameElementId) {
     if (document.getElementById(fullnameElementId) != null) {
 		var username = DWRUtil.getValue( usernameFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
+		var unitNumberElement= document.getElementById(unitNumberElementId);
+		var unitNameElement= document.getElementById(unitNameElementId);
+		
 		if (username == '') {
 			fullNameElement.innerHTML = "&nbsp;";
 		} else {
 			var dwrReply = {
 				callback:function(data) {
 					if ( data != null ) {
-					    fullNameElement.innerHTML = data.name;
+						fullNameElement.innerHTML = data.fullName;
+						unitNumberElement.innerHTML= data.unit['unitNumber'];
+						unitNameElement.innerHTML= data.unit['unitName'];
+						
 					} else {
 						fullNameElement.innerHTML = wrapError( "not found" );
 					}
@@ -972,8 +979,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 					fullNameElement.innerHTML = wrapError( "not found" );
 				}
 			};
-			//KraPersonService.getPersonFullname(username, dwrReply);
-			KraPersonService.getPersonByPrincipalName(username, dwrReply);
+			KraPersonService.getKcPersonByUserName(username, dwrReply);
 		}
 	}
 }
@@ -985,8 +991,7 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
   
   var lookupReturnName ;
  function updateLookupReturn( lookupClassField, callbackFunction ) {
-    //alert ("enter update"+lookupClassField.name);
-
+   
     if (lookupClassField.name.lastIndexOf("lookupClass") == 0) {
     	lookupReturnName = "lookupReturn" ;
     } else if (lookupClassField.name.lastIndexOf("lookupClass") > 0) {
