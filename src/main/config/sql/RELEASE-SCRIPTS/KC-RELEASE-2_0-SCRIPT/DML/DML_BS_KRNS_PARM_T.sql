@@ -25,77 +25,80 @@ VALUES('KC-AB', 'D', 'awardBudgetTypeNew', 'CONFG', '1', 'This system parameter 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-AB', 'D', 'awardBudgetTypeRebudget', 'CONFG', '2', 'This system parameter maps the AwardBudget type Rebudget', 'A') ;
 
-INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardHomeHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Home Help', 'A') ;
+INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID)
+VALUES('KUALI', 'KC-AB', 'D', 'awardBudgetStatusDoNotPost', 1, 'CONFG', '12', 'This system parameter maps the AwardBudget status Do Not Post', 'A', '8220798A9106418787B7A3F038796D13') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardContactsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Contacts Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardHomeHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Home Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCommitmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Commitments Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardContactsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Contacts Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardTimeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Time and Money Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCommitmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/commitmentstab.htm', 'Award Commitments Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardPaymentsReportsAndTermsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Payments Reports and Terms Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardTimeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/timeandmoneysubpanel.htm', 'Award Time and Money Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardSpecialReviewHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Special Review Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardPaymentsReportsAndTermsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awardpaymentschedulesection.htm', 'Award Payments Reports and Terms Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCustomDataHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Custom Data Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardSpecialReviewHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/specialreviewpanel.htm', 'Award Special Review Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardQuestionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Questions Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCustomDataHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/kcawardtabs.htm', 'Award Custom Data Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardNoteAndAttachmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Note and Attachments Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardQuestionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Questions Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardActionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Actions Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardNoteAndAttachmentsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/commentsnotesattachmentstab.htm', 'Award Note and Attachments Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardApprovedEquipmentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Equipment Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardActionsHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Actions Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardApprovedForeignTravelHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Foreign Travel Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardApprovedEquipmentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/specialapprovalpanel.htm', 'Award Approved Equipment Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardApprovedSubawardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Approved Subaward Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardApprovedForeignTravelHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/specialapprovalpanel.htm', 'Award Approved Foreign Travel Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCommentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Comment Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardApprovedSubawardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/subawardpanel.htm', 'Award Approved Subaward Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardContactHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Contact Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCommentHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Comment Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCostShareHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Cost Share Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardContactHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Contact Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Custom Data Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCostShareHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Cost Share Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardPersonCreditSplitHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Person Credit Split Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/kcawardtabs.htm', 'Award Custom Data Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'CommentTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Comment Type Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardPersonCreditSplitHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Person Credit Split Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'CostShareTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Cost Share Type Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'CommentTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/commenttype.htm', 'Award Comment Type Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardFandaRateHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award F and A Rate Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'CostShareTypeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/costsharingtype.htm', 'Award Cost Share Type Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardReportTermHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Report Term Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardFandaRateHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/faratessubpanel.htm', 'Award F and A Rate Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardCloseoutHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Report Term Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardReportTermHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Report Term Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardAttachmentsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Attachments Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardCloseoutHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Report Term Help', 'A') ;
+
+INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES('KC-AWARD', 'D', 'awardAttachmentsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/attachmentspanel.htm', 'Award Attachments Help', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES ('KC-AWARD', 'D', 'award.creditsplit.enabled', SYS_GUID () , 1, 'CONFG', 'Y', 'Determines whether the Credit Split is turned on for Award', 'A', 'WorkflowAdmin', 'Y') ;
@@ -119,7 +122,7 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, P
 VALUES ('KC-AWARD', 'D', 'mit.idc.validation.enabled', 'CONFG', '1', 'MitIdcValidationEnabled is configurable at impl time', 'A', 'WorkflowAdmin', 'Y', SYS_GUID () , '1') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Help', 'A') ;
+VALUES('KC-AWARD', 'D', 'awardHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awarddocument.htm', 'Award Help', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, GRP_NM, ACTV_IND)
 VALUES('KC-AWARD', 'D', 'reportClassForPaymentsAndInvoices', SYS_GUID () , 1, 'CONFG', '6', 'Report Class For Payments And Invoices', 'A', 'WorkflowAdmin', 'Y') ;
@@ -140,7 +143,7 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 VALUES('KC-AWARD', 'D', 'contactTypeOther', SYS_GUID () , 1, 'CONFG', '8', 'Contact Type Code For Contact Type Other', 'A', 'WorkflowAdmin', 'Y') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-AWARD', 'A', 'ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST', 'CONFG', '2143', 'obligated direct indirect cost', 'A') ;
+VALUES('KC-AWARD', 'D', 'ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST', 'CONFG', '2143', 'obligated direct indirect cost', 'A') ;
 
 --comment types  
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
@@ -169,21 +172,25 @@ INSERT INTO KRNS_PARM_T(APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_
 VALUES ('KUALI', 'KC-AWARD', 'D', 'TXN_TYPE_DEF_COPIED_AWARD', 'CONFG', '9', 'New Transaction', 'A');
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
+VALUES('KC-GEN', 'D', 'permissionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/permissionstab.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-GEN', 'DocumentType', 'customAttributeDocumentType', 'CONFG', 'AWRD=Award;INPR=Institutional Proposal;PRDV=Proposal Development;PROT=Protocol', 'List of Custom Attribute Document type name.', 'A') ;
 
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
-    PARM_DTL_TYP_CD='A' 
+    PARM_DTL_TYP_CD='A',
+    PARM_TYP_CD = 'CONFG'
+    TXT='Sponsor Groups'
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'sponsorGroupHierarchyName';
 
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-GEN', 
-    PARM_DTL_TYP_CD='A' 
+    PARM_DTL_TYP_CD='A',
+    PARM_TYP_CD = 'CONFG'
+    TXT='NIH'
 WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_DTL_TYP_CD = 'D'
       AND PARM_NM = 'sponsorLevelHierarchy';
@@ -251,31 +258,31 @@ WHERE NMSPC_CD = 'KRA-PD'
       AND PARM_NM = 'proposaldevelopment.personrole.readonly.roles';
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalUnitAdministratorHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Unit Administrator Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalUnitAdministratorHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/institutionalproposaldocument.htm', 'Institutional Proposal Unit Administrator Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/institutionalproposaldocument.htm', 'Institutional Proposal Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalConstactsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Contacts Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalConstactsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/institutionalproposaldocument.htm', 'Institutional Proposal Contacts Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Custom Data Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalCustomDataHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/customdatatab2.htm', 'Institutional Proposal Custom Data Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalSpecialReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Special Review Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalSpecialReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/specialreviewtab1.htm', 'Institutional Proposal Special Review Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Review Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/intellectualpropertyreviewtab.htm', 'Institutional Proposal Intellectual Property Review Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalDistributionHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Distribution Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalDistributionHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/distributiontab.htm', 'Institutional Proposal Distribution Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalActionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Actions Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalActionsHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/institutionalproposalactionstab.htm', 'Institutional Proposal Actions Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewActivityHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
+VALUES('KC-IP', 'D', 'InstitutionalProposalIPReviewActivityHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/institutionalproposaldocument.htm', 'Institutional Proposal Intellectual Property Reivew Activity Help', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, ACTV_IND)
 VALUES('KC-IP', 'D', 'proposalcommenttype.generalcomment', 'CONFG', '16', 'Code for General Proposal Comment Type', 'A', 'Y') ;
@@ -311,32 +318,25 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, P
 VALUES('KC-QUESTIONNAIRE', 'P', 'associateModuleQuestionnairePermission', 'CONFG', 'Modify ProposalDevelopmentDocument:KRA-PD;Modify Protocol:KC-PROTOCOL', 'List of permissions that are allowed to associate a module with questionnaire.', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-T', 'D', 'timeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Time And Money Help', 'A') ;
+VALUES('KC-T', 'D', 'timeAndMoneyHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/timeandmoneysubpanel.htm', 'Time And Money Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-T', 'D', 'TransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Transaction Help', 'A') ;
+VALUES('KC-T', 'D', 'TransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/transactionspanel.htm', 'Transaction Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-T', 'D', 'PendingTransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm', 'Pending Transaction Help', 'A') ;
+VALUES('KC-T', 'D', 'PendingTransactionHelp', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/transactionspanel.htm', 'Pending Transaction Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
+VALUES('KC-T', 'D', 'awardHierarchyNodeHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awardhierarchypanel.htm', 'Award Hierarchy Help', 'A') ;
 
 INSERT INTO krns_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm', 'Award Hierarchy Help', 'A') ;
+VALUES('KC-T', 'D', 'awardHierarchyHelpUrl', SYS_GUID () , 1, 'HELP', 'default.htm?turl=Documents/awardhierarchypanel.htm', 'Award Hierarchy Help', 'A') ;
 
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_DOCUMENT_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from the Action List will load the Document in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'ActionList', 'ACTION_LIST_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from the Action List will load the Route Log in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window.', 'A') ;
-
-INSERT INTO krns_parm_t (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC', 'KR-WKFLW', 'DocSearchCriteriaDTO', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND', SYS_GUID () , 1, 'CONFG', 'N', 'Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window.', 'A') ;
-
+UPDATE KRNS_PARM_T T 
+SET T.TXT='N' 
+WHERE T.PARM_NM IN('ACTION_LIST_DOCUMENT_POPUP_IND', 'ACTION_LIST_ROUTE_LOG_POPUP_IND', 'DOCUMENT_SEARCH_POPUP_IND', 'DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND')
+                  AND T.APPL_NMSPC_CD = 'KUALI';
+                  
 UPDATE KRNS_PARM_T 
 SET TXT='4',NMSPC_CD = 'KC-PD'
 WHERE NMSPC_CD = 'KRA-PD'
@@ -392,16 +392,16 @@ INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PA
 VALUES('KC-PD', 'D', 'GENERIC_SPONSOR_CODE', SYS_GUID () , 1, 'CONFG', '009800', 'Generic sponsor code used for printing sponsor form', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-PD', 'A', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A') ;
+VALUES('KC-PD', 'D', 'SCHOOL_NAME', 'CONFG', 'Kuali Coeus', 'School Name', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-PD', 'A', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
+VALUES('KC-PD', 'D', 'SCHOOL_ACRONYM', 'CONFG', 'KC', 'School acronym', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-PD', 'A', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
+VALUES('KC-AWARD', 'D', 'FELLOWSHIP_OSP_ADMIN', 'CONFG', 'qucikStart', 'Fellowship admin name', 'A') ;
 
-INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
-VALUES('KC-PD', 'D', 's2sschedulercronExpressionstarttime', 'CONFG', '01-JAN-2010 00:00 AM', 'Starttime for s2s scheduler cron job to start', 'A') ;
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
+VALUES ('KUALI', 'KC-PD', 'D', 's2sschedulercronExpressionstarttime', '22f44dbf-23b6-4aa9-9d72-f83a227eeedd', 1, 'CONFG', '01-JAN-2010 01:00 AM', 'Start Time expression for the S2S Polling Process. The S2S Polling Process will only start if this parameters date is before today. Must be formatted as "dd-MMM-yyyy hh:mm a". For example "01-JAN-2010 01:00 AM".', 'A') ;
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KC-PD', 'D', 'PI_CITIZENSHIP_FROM_CUSTOM_DATA', 'CONFG', '1', 'It defines where the citizenship info should fetch from', 'A') ;
@@ -469,6 +469,12 @@ VALUES('KUALI', 'KC-PD', 'D', 'PROPOSAL_TYPE_CODE_REVISION',  '1', 'CONFG',  '5'
 INSERT INTO KRNS_PARM_T(APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD)
 VALUES('KUALI', 'KC-PD', 'D', 'PROPOSAL_TYPE_CODE_TASK_ORDER',  '1', 'CONFG',  '6', 'Code corresponding to Proposal Type: Task Order.',  'A');
 
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
+VALUES ('KUALI','KC-M','D','sponsorHierarchyHelp',1,'HELP','default.htm?turl=Documents%2Fsponsorhierarchy.htm','Sponsor Hierarchy Help','A','51FFE3D4890B4A9293E46CE58385B536');
+
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
+VALUES ('KUALI','KC-M','D','sponsorHierarchyCreateNewHelp',1,'HELP','default.htm?turl=Documents%2Fsponsorhierarchy.htm','Sponsor Hierarchy Help','A','A169E3D48f8C4A9293E46CE58385B536');
+
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-PD' 
 WHERE NMSPC_CD = 'KRA-PD';
@@ -480,5 +486,375 @@ WHERE NMSPC_CD = 'KRA-B';
 UPDATE KRNS_PARM_T 
 SET NMSPC_CD='KC-M' 
 WHERE NMSPC_CD = 'KRA-M';
+
+DELETE FROM KRNS_PARM_T 
+WHERE APPL_NMSPC_CD='KUALI' 
+AND NMSPC_CD='KC-PD' 
+AND PARM_DTL_TYP_CD='D' 
+AND PARM_NM='creditSplitEnabled';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/abstracttype.htm' 
+WHERE PARM_NM = 'abstractTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/activitytype.htm' 
+WHERE PARM_NM = 'activityTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetactionstab.htm' 
+WHERE PARM_NM = 'budgetActionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/personneldetailpanel.htm' 
+WHERE PARM_NM = 'budgetbudgetPersonnelDetailsHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetcategory.htm' 
+WHERE PARM_NM = 'budgetCategoryHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetcategory.htm' 
+WHERE PARM_NM = 'budgetCategoryMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetcategorymaps.htm' 
+WHERE PARM_NM = 'budgetCategoryMapMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetcategorymapping.htm' 
+WHERE PARM_NM = 'budgetCategoryMappingMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetcategorytype.htm' 
+WHERE PARM_NM = 'budgetCategoryTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/costsharingpanel.htm' 
+WHERE PARM_NM = 'budgetCostShareHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/distributionincometab.htm' 
+WHERE PARM_NM = 'budgetDistributionAndIncomeHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetdocument.htm' 
+WHERE PARM_NM = 'budgetDocumentHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/expensestabactionbutton.htm' 
+WHERE PARM_NM = 'budgetExpensesHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/lineitemdetailssubpanel.htm' 
+WHERE PARM_NM = 'budgetLineItemHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/modularbudgettab.htm' 
+WHERE PARM_NM = 'budgetModularBudgetHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/modularbudgetoverviewpanel.htm' 
+WHERE PARM_NM = 'budgetModularHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/modularbudgetoverviewpanel.htm' 
+WHERE PARM_NM = 'budgetModularIdcHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/nonpersonneltab.htm' 
+WHERE PARM_NM = 'budgetNonPersonnelHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/parameterstab.htm' 
+WHERE PARM_NM = 'budgetParametersHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetperiodstotalspanel.htm' 
+WHERE PARM_NM = 'budgetPeriodHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetperiodstotals.htm' 
+WHERE PARM_NM = 'budgetPersonHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/personneldetailpanel.htm' 
+WHERE PARM_NM = 'budgetPersonnelDetailsHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/personneltab.htm' 
+WHERE PARM_NM = 'budgetPersonnelHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/projectincomepanel.htm' 
+WHERE PARM_NM = 'budgetProjectIncomeHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/rateclassessubpanelontheobjectcodenamesubpanel.htm' 
+WHERE PARM_NM = 'budgetRateClassHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/rateclassessubpanelontheobjectcodenamesubpanel.htm' 
+WHERE PARM_NM = 'budgetRatesHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetstatus.htm' 
+WHERE PARM_NM = 'budgetStatusHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetstatus.htm' 
+WHERE PARM_NM = 'budgetStatusMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/summarypanel.htm' 
+WHERE PARM_NM = 'budgetSummaryHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/summarytab.htm' 
+WHERE PARM_NM = 'budgetTotalsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/unrecoveredfapanel.htm' 
+WHERE PARM_NM = 'budgetUnrecoveredFandAHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetversionspanel.htm' 
+WHERE PARM_NM = 'budgetVersionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/costelement.htm' 
+WHERE PARM_NM = 'costElementMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/customattribute.htm' 
+WHERE PARM_NM = 'customAttributeDocumentMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/customattributedocument.htm' 
+WHERE PARM_NM = 'customAttributeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/deadlinetype.htm' 
+WHERE PARM_NM = 'deadlineTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/degreetype.htm' 
+WHERE PARM_NM = 'degreeTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/institutelarate.htm' 
+WHERE PARM_NM = 'instituteLaRateMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/instituterate.htm' 
+WHERE PARM_NM = 'instituteRateMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/investigatorcredittype.htm' 
+WHERE PARM_NM = 'investigatorCreditTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/mailby.htm' 
+WHERE PARM_NM = 'mailByMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/narrativestatus.htm' 
+WHERE PARM_NM = 'narrativeStatusMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/narrativetype.htm' 
+WHERE PARM_NM = 'narrativeTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/noticeofopportunity.htm' 
+WHERE PARM_NM = 'noticeOfOpportunityMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/organization.htm' 
+WHERE PARM_NM = 'organizationMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/persontableeditablecolumns.htm' 
+WHERE PARM_NM = 'personEditableFieldMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/personmaintenancedocument.htm' 
+WHERE PARM_NM = 'personMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetstatus.htm' 
+WHERE PARM_NM = 'proposalBudgetStatusHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/abstractspanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentAbstractHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/abstractsandattachmentstab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentAbstractsAttachmentsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/proposalactionstab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentActionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/budgetversionspanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentBudgetVersionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/copytonewdocumentpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentCopyCriteriaHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/combinedcreditsplitpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentCreditSplitHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/customattributedocument.htm' 
+WHERE PARM_NM = 'proposalDevelopmentCustomAttributeHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/customdatatab1.htm' 
+WHERE PARM_NM = 'proposalDevelopmentCustomDataHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/proposaldevelopmentdocument.htm' 
+WHERE PARM_NM = 'proposalDevelopmentDocumentHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/grantsgovtab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentGrantsGovHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/keypersonneltab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentKeyPersonnelHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/keywordspanel1.htm' 
+WHERE PARM_NM = 'proposalDevelopmentKeywordsHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/organizationlocationpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentLocationHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/mailby.htm' 
+WHERE PARM_NM = 'proposalDevelopmentMailByHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/abstractsandattachmentstab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentNarrativeHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/grantsgovlookup.htm' 
+WHERE PARM_NM = 'proposalDevelopmentOpportunityHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/organizationlocationpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentOrganizationHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/permissionstab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentPermissionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/personpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentPersonHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/proposalpagetab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentProposalHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/requiredfieldsforsavingdocumentpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentProposalTypeHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/questionstab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentQuestionsHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/specialreviewtab.htm' 
+WHERE PARM_NM = 'proposalDevelopmentSpecialReviewHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/specialreviewpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentSpecialReviewHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/sponsorprograminformationpanel.htm' 
+WHERE PARM_NM = 'proposalDevelopmentSponsorHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/proposalquestionspanelexample.htm' 
+WHERE PARM_NM = 'proposalDevelopmentYnqHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/proposaltypemaintenancedocument.htm' 
+WHERE PARM_NM = 'proposalTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/userspanel.htm' 
+WHERE PARM_NM = 'proposalUserHelpUrl';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/rateclassmaintenancedocument.htm' 
+WHERE PARM_NM = 'rateClassMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/rateclasstypemaintenancedocument.htm' 
+WHERE PARM_NM = 'rateClassTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/ratetypemaintenancedocument.htm' 
+WHERE PARM_NM = 'rateTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/s2srevisiontypemaintenancedocument.htm' 
+WHERE PARM_NM = 's2sRevisionTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/s2ssubmissiontypemaintenancedocument.htm' 
+WHERE PARM_NM = 's2sSubmissionTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/sciencekeywordmaintenancedocument.htm' 
+WHERE PARM_NM = 'scienceKeywordMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/specialreviewapprovalstatusmaintenancedocument.htm' 
+WHERE PARM_NM = 'specialReviewApprovalStatusMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/specialreviewapprovaltypemaintenancedocument.htm' 
+WHERE PARM_NM = 'specialReviewApprovalTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/sponsormaintenancedocument.htm' 
+WHERE PARM_NM = 'sponsorMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/statemaintenancedocument.htm' 
+WHERE PARM_NM = 'stateMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/transactionspanel.htm' 
+WHERE PARM_NM = 'TransactionHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/validcalculationtypemaintenancedocument.htm' 
+WHERE PARM_NM = 'validCalcTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/validcostelementratetypemaintenancedocument.htm' 
+WHERE PARM_NM = 'validCeRateTypeMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/validspecialreviewapprovalmaintenancedocument.htm' 
+WHERE PARM_NM = 'validSpecialReviewApprovalMaintenanceHelp';
+
+UPDATE krns_parm_t 
+SET TXT='default.htm?turl=Documents/ynqmaintenancedocument.htm' 
+WHERE PARM_NM = 'ynqMaintenanceHelp';
 
 COMMIT;
