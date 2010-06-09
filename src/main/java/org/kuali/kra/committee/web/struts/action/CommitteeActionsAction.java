@@ -148,7 +148,7 @@ public class CommitteeActionsAction extends CommitteeAction {
                 for (CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail : committeeBatchCorrespondence
                         .getCommitteeBatchCorrespondenceDetails()) {
                     if (committeeBatchCorrespondenceDetail.getSelected()) {
-                        bookmarksList.add(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getProtocolNumber() + ": "
+                        bookmarksList.add("Protocol " + committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getProtocolNumber() + ": "
                                 + committeeBatchCorrespondenceDetail.getProtocolAction().getComments());
                         pdfBaosList.add(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getCorrespondence());
                     }
