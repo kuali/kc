@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.print;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,12 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
 /**
- * This class provides the implementation for printing Committee Roster.
+ * This class provides the implementation for printing Committee Batch Correspondence.
  * It generates XML that conforms with Certification Report XSD, fetches
  * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
  * that would use this XML and XSls for any purpose like report generation, PDF
@@ -35,6 +38,11 @@ import org.kuali.kra.printing.print.AbstractPrint;
 public class CommitteeBatchCorrespondencePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -370310478073561152L;
+
+    private String committeeId; 
+    private String protoCorrespTypeCode; 
+
+    private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
 
     @Override
     public ResearchDocumentBase getDocument() {
@@ -50,9 +58,36 @@ public class CommitteeBatchCorrespondencePrint extends AbstractPrint {
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        // TODO: cniesen - get template (create a service to get the template)
-        sourceList.add(src);
+        ProtocolCorrespondenceTemplate template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
+                (String) getReportParameters().get("committeeId") , (String) getReportParameters().get("protoCorrespTypeCode"));
+        if (template != null) {
+            src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
+            sourceList.add(src);
+        }
         return sourceList;
     }
 
+    public String getCommitteeId() {
+        return committeeId;
+    }
+
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
+    }
+
+    public String getProtoCorrespTypeCode() {
+        return protoCorrespTypeCode;
+    }
+
+    public void setProtoCorrespTypeCode(String protoCorrespTypeCode) {
+        this.protoCorrespTypeCode = protoCorrespTypeCode;
+    }
+
+    /**
+     * Populated by Spring Beans.
+     * @param protocolCorrespondenceTemplateService
+     */
+    public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
+        this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
+    }
 }

@@ -102,7 +102,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
             }
 
             if (!correspondencePreviouslyGenerated(protocol, protocolCorrespondenceType)) {
-                committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(createBatchCorrespondenceDetail(protocol, 
+                committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(createBatchCorrespondenceDetail(committeeId, protocol, 
                         protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode));
             }
         }
@@ -136,7 +136,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @return the populated CommitteeBatchCorrespondenceDetail
      * @throws PrintingException 
      */
-    private CommitteeBatchCorrespondenceDetail createBatchCorrespondenceDetail(Protocol protocol, 
+    private CommitteeBatchCorrespondenceDetail createBatchCorrespondenceDetail(String committeeId, Protocol protocol, 
             ProtocolCorrespondenceType protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
             String protocolActionTypeCode) throws PrintingException {
         CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail = new CommitteeBatchCorrespondenceDetail();
@@ -147,7 +147,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
                 protocolCorrespondenceType, protocolActionTypeCode));
         committeeBatchCorrespondenceDetail.setProtocolActionId(committeeBatchCorrespondenceDetail.getProtocolAction().getProtocolActionId());
 
-        committeeBatchCorrespondenceDetail.setProtocolCorrespondence(createAndSaveProtocolCorrespondence(
+        committeeBatchCorrespondenceDetail.setProtocolCorrespondence(createAndSaveProtocolCorrespondence(committeeId,
                 protocol, protocolCorrespondenceType, committeeBatchCorrespondenceDetail.getProtocolAction()));
         committeeBatchCorrespondenceDetail.setProtocolCorrespondenceId(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getId());
         
@@ -180,7 +180,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @return the populated ProtocolCorrespondence
      * @throws PrintingException 
      */
-    private ProtocolCorrespondence createAndSaveProtocolCorrespondence(Protocol protocol, 
+    private ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, Protocol protocol, 
             ProtocolCorrespondenceType protocolCorrespondenceType, ProtocolAction protocolAction) throws PrintingException {
         ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
         
@@ -191,13 +191,17 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         protocolCorrespondence.setActionId(protocolAction.getActionId());
         protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
         
-        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
+        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.BATCH_CORRESPONDENCE);
         printable.setDocument(protocol.getProtocolDocument());
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put("committeeId", committeeId);
+        reportParameters.put("protoCorrespTypeCode", protocolCorrespondenceType.getProtoCorrespTypeCode());
+        printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
         protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
 
-        protocolCorrespondence.setFinalFlag(false); //TODO: ???
+        protocolCorrespondence.setFinalFlag(false);
         
         businessObjectService.save(protocolCorrespondence);
         return protocolCorrespondence;

@@ -41,6 +41,7 @@ public abstract class AbstractPrint implements Printable {
 
 	private XmlStream xmlStream;
 	protected ResearchDocumentBase document;
+	 // reportParameters used to pass parameters to CommitteeBatchCorrespondencePrint.java
 	private Map<String, Object> reportParameters;
 	private Map<String, byte[]> attachments;
 
