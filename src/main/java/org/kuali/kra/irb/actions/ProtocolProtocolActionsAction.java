@@ -73,6 +73,7 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -84,7 +85,6 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -202,15 +202,51 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (isAuthorized(task)) {
             ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
             
-            ProtocolAssignReviewersBean assignReviewerBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
-            submitAction.setReviewers(assignReviewerBean.getReviewers());
+            //ProtocolAssignReviewersBean assignReviewerBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
+            //submitAction.setReviewers(assignReviewerBean.getReviewers());
             
             if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
                 if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
                     return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
                             CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
+                }               
+                
+                /**
+                 * The assign reviewers are added to the HTML page via the "setReviewers" function in kuali_application.js .
+                 * This is done based on the schedule select list.  Because the display is handled this way, the collection of 
+                 * ProtocolReviewerBeans in the submitAction bean isn't automatically populated by the framework.
+                 * @TODO fix how this is done to be handled in a cleaner way, if possible.
+                 */
+                int listIndex = -1;
+                for (ProtocolReviewerBean bean : submitAction.getReviewers()) {
+                    listIndex++;
+                    if (bean.getFullName() == null) {
+                        //manually populate from the request
+                        String baseString = "actionHelper.protocolSubmitAction.reviewer[" + listIndex;
+                        String personIdKey = baseString + "].personId";
+                        String checkedKey = baseString + "].checked";
+                        String fullNameKey = baseString + "].fullName";
+                        String nonEmployeeFlagKey = baseString + "].nonEmployeeFlag";
+                        String reviewerTypeCodeKey = baseString + "].reviewerTypeCode";
+                        if (request.getParameterMap().containsKey(personIdKey)) {
+                            bean.setPersonId(request.getParameter(personIdKey));
+                        }
+                        if (request.getParameterMap().containsKey(checkedKey)) {
+                            bean.setChecked(request.getParameter(checkedKey).equals("on"));
+                        }
+                        if (request.getParameterMap().containsKey(fullNameKey)) {
+                            bean.setFullName(request.getParameter(fullNameKey));
+                        }
+                        if (request.getParameterMap().containsKey(nonEmployeeFlagKey)) {
+                            bean.setNonEmployeeFlag(request.getParameter(nonEmployeeFlagKey).equals("Y"));
+                        }
+                        if (request.getParameterMap().containsKey(reviewerTypeCodeKey)) {
+                            bean.setReviewerTypeCode(request.getParameter(reviewerTypeCodeKey));
+                        }
+                    }
                 }
-                getProtocolActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
+                
+                getProtocolSubmitActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
 
                 forward = super.route(mapping, form, request, response);
             }
@@ -247,7 +283,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
-            getProtocolActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
+            getProtocolSubmitActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
         }
 
         return mapping.findForward(MAPPING_BASIC);
@@ -1750,7 +1786,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(ProtocolCopyService.class);
     }
     
-    private ProtocolSubmitActionService getProtocolActionService() {
+    private ProtocolSubmitActionService getProtocolSubmitActionService() {
         return KraServiceLocator.getService(ProtocolSubmitActionService.class);
     }
     
