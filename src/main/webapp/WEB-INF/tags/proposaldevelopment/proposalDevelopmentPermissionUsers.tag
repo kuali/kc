@@ -55,7 +55,8 @@
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="newProposalUser.username" 
 	                	                          attributeEntry="${proposalUserAttributes.username}" 
-	                	                          onblur="loadPersonName('newProposalUser.username', 'fullname');"/>
+	                	                          onblur="loadPersonName('newProposalUser.username', 
+	                	                          						'fullname', 'unitNumber', 'unitName');"/>
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
 	                	            fieldConversions="userName:newProposalUser.username" 
 	                	            lookupParameters="lookup.ownedByUnitNumber:organizationIdentifier"
@@ -63,8 +64,8 @@
 					</td>
 					
 					<td id="fullname" align="left" valign="middle">&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
+					<td id="unitNumber">&nbsp;</td>
+					<td id="unitName">&nbsp;</td>
 					
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="newProposalUser.roleName" 

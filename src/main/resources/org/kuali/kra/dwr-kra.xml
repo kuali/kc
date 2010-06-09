@@ -51,9 +51,8 @@
 			<include method="getSubUnitsForTreeView" />
 		</create>
 		<create creator="spring" javascript="KraPersonService">
-			<param name="beanName" value="personService" />
-			<include method="getPersonByPrincipalName" />
-			<include method="getPerson" />
+			<param name="beanName" value="kcPersonService" />
+			<include method="getKcPersonByUserName" />
 		</create>
 		<create creator="spring" javascript="CustomAttributeService">
 			<param name="beanName" value="customAttributeService" />
