@@ -55,11 +55,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
      */
     @Override
     protected void doPerClassStart() throws Throwable {
-//        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
-//        defaultTransactionDefinition.setTimeout(3600);
-//        defaultTransactionDefinition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
-//        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
-//        perClassTransactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
     }
 
     /**
@@ -67,7 +62,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
      */
     @Override
     protected void doPerClassStop() throws Throwable {
-//        getTransactionManager().rollback(perClassTransactionStatus);
     }
 
     /**
@@ -97,7 +91,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         loader = new SpringResourceLoader(new QName("TestHarnessSpringContext"), DEFAULT_TEST_HARNESS_SPRING_BEANS);
         TestHarnessServiceLocator.setContext(loader.getContext());
         loader.start();
-        //KraServiceLocator.getAppContext();
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Jetty Server...");
         }
@@ -122,8 +115,6 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
     protected void doPerTestStart() throws Throwable {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         defaultTransactionDefinition.setTimeout(3600);
-        //defaultTransactionDefinition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
-        //defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
         perTestTransactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
     }
 

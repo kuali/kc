@@ -21,8 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-    TestUnitTestA.class
+    LifecycleTest.class,
+    DbTransactionTest.class
 })
-public class TestSuite {
-
-}
+public class TestInfrastructureSuite {}
