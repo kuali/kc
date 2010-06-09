@@ -24,10 +24,12 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestMainLifecycle;
+import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class serves as a base test class for all KC unit tests. It handles ensuring all of the necessary lifecycles are properly
@@ -40,6 +42,13 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
 
     private static KcUnitTestMainLifecycle LIFECYCLE = new KcUnitTestMainLifecycle();
     private static RunListener RUN_LISTENER = new KcUnitTestRunListener(LIFECYCLE);
+    private static final String DEFAULT_USER = "quickstart";
+
+    private long startTime;
+    private long totalMem;
+    private long freeMem;
+    
+    private final String memStatFormat = "[%1$-7s] total: %2$10d, free: %3$10d";
 
     private Method method;
     
@@ -48,7 +57,10 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
      */
     @Before
     public final void baseBeforeTest() {
+        logBeforeRun();
         LIFECYCLE.startPerTest();
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
     }
 
     /**
@@ -56,7 +68,10 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
      */
     @After
     public final void baseAfterTest() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
+        logAfterRun();
     }
     
     @BeforeClass
@@ -113,4 +128,48 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     public static RunListener getRunListener() {
         return RUN_LISTENER;
     }
+    
+    protected void logBeforeRun() {
+        if (LOG.isInfoEnabled()) {
+            statsBegin();
+            LOG.info("##############################################################");
+            LOG.info("# Starting test " + getFullTestName() + "...");
+            LOG.info("##############################################################");
+        }
+    }
+
+    protected void logAfterRun() {
+        if (LOG.isInfoEnabled()) {
+            LOG.info("##############################################################");
+            LOG.info("# ...finished test " + getFullTestName());
+            for (String stat : statsEnd()) {
+                LOG.info("# " + stat);
+            }
+            LOG.info("##############################################################");
+        }
+    }
+    
+    
+    private void statsBegin() {
+        startTime = System.currentTimeMillis();
+        totalMem = Runtime.getRuntime().totalMemory();
+        freeMem = Runtime.getRuntime().freeMemory();
+    }
+
+    protected String[] statsEnd() {
+        long currentTime = System.currentTimeMillis();
+        long currentTotalMem = Runtime.getRuntime().totalMemory();
+        long currentFreeMem = Runtime.getRuntime().freeMemory();
+        return new String[]{
+                String.format(memStatFormat, "MemPre", totalMem, freeMem),
+                String.format(memStatFormat, "MemPost", currentTotalMem, currentFreeMem),
+                String.format(memStatFormat, "MemDiff", totalMem-currentTotalMem, freeMem-currentFreeMem),
+                String.format("[ElapsedTime] %1$d ms", currentTime-startTime)
+        };
+    }
+    
+    protected String getFullTestName() {
+        return getClass().getSimpleName() + "." + method.getName();
+    }
+
 }
