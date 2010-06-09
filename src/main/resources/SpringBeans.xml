@@ -1767,6 +1767,7 @@
         <bean id="committeeBatchCorrespondencePrint"
             class="org.kuali.kra.committee.print.CommitteeBatchCorrespondencePrint" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
+            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>
 	
         <bean id="committeeRosterPrint"
