@@ -36,7 +36,7 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public class CommitteeSchedule extends CommitteeAssociate { 
+public class CommitteeSchedule extends CommitteeAssociate implements Comparable<CommitteeSchedule>{ 
     
     private static final long serialVersionUID = -360139608123017188L;
     
@@ -360,6 +360,17 @@ public class CommitteeSchedule extends CommitteeAssociate {
         int result = 1;
         result = PRIME * result + (this.getId() == null ? 0 : this.getId().hashCode());
         return result;     
+    }
+    
+    /**
+     * Compares the schedule dates for two instances of <code>CommitteeSchedule</code>
+     * in order to enforce an ordering.
+     * 
+     * @param other The CommitteeSchedule to be compared.
+     * @return the result of comparing this <code>scheduledDate</code> to the other <code>scheduledDate</code>
+     */
+    public int compareTo(CommitteeSchedule other) {
+        return getScheduledDate().compareTo(other.getScheduledDate());
     }
     
     @SuppressWarnings("unchecked")
