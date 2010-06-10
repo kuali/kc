@@ -16,6 +16,7 @@
 package org.kuali.kra.test.infrastructure;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,8 +27,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.RunListener;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestMainLifecycle;
+import org.kuali.rice.core.util.OrmUtils;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
@@ -51,6 +58,9 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     private final String memStatFormat = "[%1$-7s] total: %2$10d, free: %3$10d";
 
     private Method method;
+    
+    private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     /**
      * This method executes before each unit test and ensures the necessary lifecycles have been started
@@ -149,7 +159,6 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         }
     }
     
-    
     private void statsBegin() {
         startTime = System.currentTimeMillis();
         totalMem = Runtime.getRuntime().totalMemory();
@@ -172,4 +181,66 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         return getClass().getSimpleName() + "." + method.getName();
     }
 
+    protected BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null) {
+            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+    
+    protected void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    protected DocumentService getDocumentService() {
+        if(documentService == null) {
+            documentService = KNSServiceLocator.getDocumentService();
+        }
+        return documentService;
+    }
+
+    protected void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    protected Document getDocument(String documentNumber) throws Exception {
+        
+        // Unfortunately, I can only clear the cache for OJB.  I have been
+        // unable to force a refresh on a document when it is in the cache.
+        // This is a pain if I need to recheck a document after the database
+        // has been changed.  Therefore, for OJB, I clear the cache which
+        // will force a new instance of the document to be retrieved from the database
+        // instead of the cache.
+        if (!OrmUtils.isJpaEnabled()) {
+            KNSServiceLocator.getPersistenceServiceOjb().clearCache();
+        }
+        Document doc=getDocumentService().getByDocumentHeaderId(documentNumber);
+        return doc;
+
+    }
+    
+    /**
+     *  Delegate to <code>{@link KraServiceLocator#getService(Class)}</code>
+     * @param <T>
+     * @param serviceClass class of service to get instance for
+     * @return Service instance
+     */
+    protected final <T> T getService(Class<T> serviceClass) {
+        return KraServiceLocator.getService(serviceClass);
+    }
+    
+    public int getPort() {
+        return LIFECYCLE.getPort();
+    }
+
+    /**
+     * Gets the path of a given class file.
+     * @param clazz the class
+     * @return the path
+     */
+    protected String getFilePath(Class<?> clazz) {
+        URL fileUrl = getClass().getResource("/" + clazz.getCanonicalName().replaceAll("\\.", "/") + ".class");
+        assertNotNull(fileUrl);
+        return fileUrl.getPath();
+    }
 }
