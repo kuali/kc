@@ -261,6 +261,7 @@ public class CommitteeServiceTest {
         for (int i = 0; i < 3; i++) {
             CommitteeSchedule schedule = new CommitteeSchedule();
             schedule.setScheduleId(Integer.toString(i+1));
+            schedule.setScheduledDate(getDate(i+1));
             committee.getCommitteeSchedules().add(schedule);
         }
        
