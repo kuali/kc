@@ -144,6 +144,9 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
     public void setTransactionManager(PlatformTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
-    
+
+    public int getPort() {
+        return port;
+    }
 
 }
