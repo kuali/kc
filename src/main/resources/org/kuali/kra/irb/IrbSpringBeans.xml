@@ -369,6 +369,7 @@
                 <value>org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl</value>
             </list>
         </property>
     </bean>
