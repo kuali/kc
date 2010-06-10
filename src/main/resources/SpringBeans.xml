@@ -1753,19 +1753,17 @@
         
         <bean id="committeePrintingService"
             class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl">
-            <property name="committeeBatchCorrespondencePrint" ref="committeeBatchCorrespondencePrint" />
+            <property name="committeeTemplatePrint" ref="committeeTemplatePrint" />
             <property name="committeeRosterPrint" ref="committeeRosterPrint" />
             <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
-            <property name="meetingAgendaPrint" ref="meetingAgendaPrint" />
-            <property name="meetingMinutePrint" ref="meetingMinutePrint" />
             
             <property name="dateTimeService">
                 <ref bean="dateTimeService" />
             </property>
         </bean>
 
-        <bean id="committeeBatchCorrespondencePrint"
-            class="org.kuali.kra.committee.print.CommitteeBatchCorrespondencePrint" scope="prototype">
+        <bean id="committeeTemplatePrint"
+            class="org.kuali.kra.committee.print.CommitteeTemplatePrint" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
             <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>
@@ -1780,18 +1778,6 @@
             <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
         
-        <bean id="meetingAgendaPrint"
-            class="org.kuali.kra.meeting.print.MeetingAgendaPrint" scope="prototype">
-            <property name="xmlStream" ref="committeeXmlStream" />
-            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
-        </bean>
-
-        <bean id="meetingMinutePrint"
-            class="org.kuali.kra.meeting.print.MeetingMinutePrint" scope="prototype">
-            <property name="xmlStream" ref="committeeXmlStream" />
-            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
-        </bean>
-
         <bean id="committeeXmlStream"
             class="org.kuali.kra.committee.print.CommitteeXmlStream">
             <property name="businessObjectService">

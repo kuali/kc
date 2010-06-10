@@ -28,14 +28,14 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
 /**
- * This class provides the implementation for printing Committee Batch Correspondence.
+ * This class provides the implementation for printing Committee reports from the appropriate template.
  * It generates XML that conforms with Certification Report XSD, fetches
  * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
  * that would use this XML and XSls for any purpose like report generation, PDF
  * streaming etc.
  * 
  */
-public class CommitteeBatchCorrespondencePrint extends AbstractPrint {
+public class CommitteeTemplatePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -370310478073561152L;
 

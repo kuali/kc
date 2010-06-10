@@ -19,7 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +45,9 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingActionsAction extends MeetingAction {
-    
+
+    private static final String AGENDA_TYPE = "9";
+    private static final String MEETING_MINUTE_TYPE = "10";
 
     /**
      * 
@@ -61,7 +65,7 @@ public class MeetingActionsAction extends MeetingAction {
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
 
         List<Printable> printableArtifactList = getPrintableArtifacts(((MeetingForm) form).getMeetingHelper()
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), CommitteeReportType.MEETING_AGENDA);
+                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), AGENDA_TYPE);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.scheduleAgenda",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
@@ -85,10 +89,14 @@ public class MeetingActionsAction extends MeetingAction {
     /*
      * get the printable and add to printable list. 
      */
-    private List<Printable> getPrintableArtifacts(CommitteeDocument document, CommitteeReportType reportType) {
+    private List<Printable> getPrintableArtifacts(CommitteeDocument document, String protoCorrespTypeCode) {
 
-        Printable printable = getCommitteePrintingService().getCommitteePrintable(reportType);
+        Printable printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.TEMPLATE);
         ((AbstractPrint) printable).setDocument(document);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put("committeeId", document.getCommittee().getCommitteeId());
+        reportParameters.put("protoCorrespTypeCode", protoCorrespTypeCode);
+        ((AbstractPrint) printable).setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
         return printableArtifactList;
@@ -123,7 +131,7 @@ public class MeetingActionsAction extends MeetingAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         List<Printable> printableArtifactList = getPrintableArtifacts(((MeetingForm) form).getMeetingHelper()
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), CommitteeReportType.MEETING_AGENDA);
+                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), MEETING_MINUTE_TYPE);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.meetingMinute",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
