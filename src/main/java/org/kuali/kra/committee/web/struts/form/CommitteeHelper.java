@@ -17,6 +17,7 @@ package org.kuali.kra.committee.web.struts.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -86,14 +87,15 @@ public class CommitteeHelper implements Serializable {
     }
     
     /**
-     * Helper method prepares view for deleteable CommitteeSchedules.
+     * Helper method prepares a view for deleteable CommitteeSchedules, sorted by the scheduled date.
      */
-    private void prepareCommitteeScheduleDeleteView(){
-    
+    private void prepareCommitteeScheduleDeleteView() {
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        Collections.sort(committeeSchedules);
+        
         boolean flag = false;
         CommitteeScheduleService service = getCommitteeScheduleService();
-        for(CommitteeSchedule committeeSchedule: committeeSchedules) {            
+        for (CommitteeSchedule committeeSchedule : committeeSchedules) {            
             flag = service.isCommitteeScheduleDeletable(committeeSchedule);
             committeeSchedule.setDelete(flag);
         }    
@@ -187,31 +189,36 @@ public class CommitteeHelper implements Serializable {
     }
     
     /**
-     * This method prepares view to filter dates between start and end date.
+     * This method prepares a view to filter dates between start and end date, sorted by the scheduled date.
      * @param startDate
      * @param endDate
      */
     public void prepareFilterDatesView(Date startDate, Date endDate) {
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+        Collections.sort(committeeSchedules);
+        
         startDate = DateUtils.addDays(startDate, -1);
         endDate = DateUtils.addDays(endDate, 1);
         Date scheduleDate = null;
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {            
+        for (CommitteeSchedule committeeSchedule : committeeSchedules) {            
             scheduleDate = committeeSchedule.getScheduledDate();
-            if(scheduleDate.after(startDate) && scheduleDate.before(endDate)) 
+            if (scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
                 committeeSchedule.setFilter(true);            
-            else
+            } else {
                 committeeSchedule.setFilter(false);
+            }
         }
     }
 
     /**
-     * This method prepares view to reset filtered dates.
+     * This method prepares view to reset filtered dates and sorts them by the scheduled date.
      */
     public void resetFilterDatesView() {
         List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
-                committeeSchedule.setFilter(true);            
+        Collections.sort(committeeSchedules);
+        
+        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
+            committeeSchedule.setFilter(true);            
         }
         getScheduleData().setFilterStartDate(null);
         getScheduleData().setFilerEndDate(null);
