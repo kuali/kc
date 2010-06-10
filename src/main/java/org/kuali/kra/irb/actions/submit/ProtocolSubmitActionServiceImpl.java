@@ -108,8 +108,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
-        documentService.saveDocument(protocol.getProtocolDocument());
-        
         if (protocol.isAmendment()) {
             addActionToOriginalProtocol(AMENDMENT, protocol.getProtocolNumber());
         }
@@ -118,6 +116,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         }
         
         this.protocolAssignReviewersService.assignReviewers(protocol, submitAction.getReviewers());
+        
+        documentService.saveDocument(protocol.getProtocolDocument());
         
         protocol.refresh();
     }
