@@ -972,11 +972,15 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 						
 					} else {
 						fullNameElement.innerHTML = wrapError( "not found" );
+						unitNameElement.innerHTML= wrapError("not found");
+						unitNumberElement.innerHTML= wrapError("not found");
 					}
 				},
 				errorHandler:function( errorMessage ) {
 					window.status = errorMessage;
 					fullNameElement.innerHTML = wrapError( "not found" );
+					unitNameElement.innerHTML= wrapError("not found");
+					unitNumberElement.innerHTML= wrapError("not found");
 				}
 			};
 			KraPersonService.getKcPersonByUserName(username, dwrReply);
