@@ -16,13 +16,23 @@
 package org.kuali.kra.irb.actions.undo;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class UndoLastActionBean implements Serializable {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.EXPIRED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION};
     
     private String comments;
+    private List<ProtocolAction> actionsPerformed;
     
     public String getComments() {
         return comments;
@@ -32,6 +42,14 @@ public class UndoLastActionBean implements Serializable {
         this.comments = comments;
     }
     
+    public List<ProtocolAction> getActionsPerformed() {
+        return actionsPerformed;
+    }
+
+    public void setActionsPerformed(List<ProtocolAction> actionsPerformed) {
+        this.actionsPerformed = actionsPerformed;
+    }
+
     public static boolean isActionUndoable(String actionTypeCode) {
         for(int i=0; i <NOT_UNDOABLE_ACTIONS.length; i++) {
             if(actionTypeCode.equalsIgnoreCase(NOT_UNDOABLE_ACTIONS[i])) {
@@ -39,5 +57,32 @@ public class UndoLastActionBean implements Serializable {
             }
         }
         return true;
+    }
+    
+    public ProtocolAction getPrevToLastPerformedAction() {
+        Collections.sort(actionsPerformed, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+     
+        return actionsPerformed.size() > 1 ? actionsPerformed.get(1) : null;
+    }
+    
+    public ProtocolAction getLastPerformedAction() {
+        Collections.sort(actionsPerformed, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+     
+        return actionsPerformed.size() > 0 ? actionsPerformed.get(0) : null;
+    }
+    
+    public boolean canUndoLastAction() {
+        if(getLastPerformedAction() != null){
+            return isActionUndoable(getLastPerformedAction().getProtocolActionTypeCode());
+        }
+        return false;
     }
 }

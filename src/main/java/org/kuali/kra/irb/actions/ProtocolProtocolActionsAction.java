@@ -78,6 +78,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
+import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
@@ -1618,6 +1619,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
+        UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
+        undoLastActionService.undoLastAction(protocolDocument.getProtocol(), undoLastActionBean);  
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

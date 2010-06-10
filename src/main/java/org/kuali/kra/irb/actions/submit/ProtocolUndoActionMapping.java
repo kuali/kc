@@ -22,28 +22,25 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 /*
  * This is the post condition attributes for a protocol action
  */
-public class ProtocolActionUpdateMapping implements FactBean {
+public class ProtocolUndoActionMapping implements FactBean {
     
     String actionTypeCode;
-    
     String submissionTypeCode;
-    
     String protocolStatusCode;
     
-    String protocolNumberARCondition;
-
+    boolean protocolSubmissionToBeDeleted = false;
+    
     Protocol protocol;
     
     ProtocolSubmission protocolSubmission;
     
     ProtocolAction protocolAction;
     
-    public ProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
+    public ProtocolUndoActionMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode) {
         super();
         this.actionTypeCode=actionTypeCode;
         this.submissionTypeCode = submissionTypeCode;
         this.protocolStatusCode = protocolStatusCode;
-        this.protocolNumberARCondition = specialCondition;
     }
     
     public ProtocolSubmission getProtocolSubmission() {
@@ -62,18 +59,10 @@ public class ProtocolActionUpdateMapping implements FactBean {
         this.actionTypeCode = actionTypeCode;
     }
     
-    public Protocol getProtocol() {
-        return protocol;
-    }
-    
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-    
     public String getSubmissionTypeCode() {
         return submissionTypeCode;
     }
-    
+
     public void setSubmissionTypeCode(String submissionTypeCode) {
         this.submissionTypeCode = submissionTypeCode;
     }
@@ -85,15 +74,15 @@ public class ProtocolActionUpdateMapping implements FactBean {
     public void setProtocolStatusCode(String protocolStatusCode) {
         this.protocolStatusCode = protocolStatusCode;
     }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
     
-    public String getProtocolNumberARCondition() {
-        return protocolNumberARCondition;
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
-
-    public void setProtocolNumberARCondition(String protocolNumberARCondition) {
-        this.protocolNumberARCondition = protocolNumberARCondition;
-    }
-
+    
     public ProtocolAction getProtocolAction() {
         return protocolAction;
     }
@@ -101,4 +90,13 @@ public class ProtocolActionUpdateMapping implements FactBean {
     public void setProtocolAction(ProtocolAction protocolAction) {
         this.protocolAction = protocolAction;
     }
+
+    public boolean isProtocolSubmissionToBeDeleted() {
+        return protocolSubmissionToBeDeleted;
+    }
+
+    public void setProtocolSubmissionToBeDeleted(boolean protocolSubmissionToBeDeleted) {
+        this.protocolSubmissionToBeDeleted = protocolSubmissionToBeDeleted;
+    }
+    
 }

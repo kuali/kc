@@ -52,6 +52,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
 
     private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
+    
+    private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
 
     private static final int PERMISSIONS_LEADUNIT_RULE = 0;
 
@@ -64,6 +66,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final int PERFORMACTION_RULE = 4;
 
     private static final int UPDATE_RULE = 5;
+    
+    private static final int UNDO_UPDATE_RULE = 6;
 
     private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
 
@@ -249,6 +253,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             specialCondition);
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UPDATE_RULE).executeRules(protocolAction);
         businessObjectService.save(protocol);
         
@@ -256,6 +261,15 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         //protocol.setProtocolSubmission(null);
     }
 
+    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
+        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), protocolActionBo.getProtocolSubmission().getSubmissionTypeCode(), protocol.getProtocolStatusCode());
+        protocolAction.setProtocol(protocol);
+        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.setProtocolAction(protocolActionBo);
+        rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
+        businessObjectService.save(protocol);
+    }
+    
     /*
      * Compile rules if rulehandler is not set
      */

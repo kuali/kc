@@ -65,7 +65,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         List<ProtocolCorrespondenceTemplate> approvedTemplates = 
             protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.APPROVED);
         String attachmentDescription = "Approved Correspondence Template Document";
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, attachmentDescription);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, ProtocolActionType.APPROVED);
     }    
     
     /**
