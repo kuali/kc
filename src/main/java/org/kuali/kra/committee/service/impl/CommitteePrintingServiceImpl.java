@@ -19,14 +19,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import org.kuali.kra.committee.print.CommitteeBatchCorrespondencePrint;
 import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
+import org.kuali.kra.committee.print.CommitteeTemplatePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.print.MeetingAgendaPrint;
-import org.kuali.kra.meeting.print.MeetingMinutePrint;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -41,11 +39,9 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
 
     private static final String ERROR_MESSAGE = "Unknown report type specified";
     
-    private CommitteeBatchCorrespondencePrint committeeBatchCorrespondencePrint;
+    private CommitteeTemplatePrint committeeTemplatePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
-    private MeetingAgendaPrint meetingAgendaPrint;
-    private MeetingMinutePrint meetingMinutePrint;
 
     /**
      * {@inheritDoc}
@@ -54,20 +50,14 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         AbstractPrint printable = null;
         
         switch(reportType) {
-            case BATCH_CORRESPONDENCE :
-                printable = getCommitteeBatchCorrespondencePrint();
+            case TEMPLATE :
+                printable = getCommitteeTemplatePrint();
                 break;
             case ROSTER :
                 printable = getCommitteeRosterPrint();
                 break;
             case FUTURE_SCHEDULED_MEETINGS :
                 printable = getCommitteeFutureScheduledMeetingsPrint();
-                break;
-            case MEETING_AGENDA :
-                printable = getMeetingAgendaPrint();
-                break;
-            case MEETING_MINUTES :
-                printable = getMeetingMinutePrint();
                 break;
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
@@ -92,12 +82,12 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         return attachmentDataSource;
     }
     
-    public CommitteeBatchCorrespondencePrint getCommitteeBatchCorrespondencePrint() {
-        return committeeBatchCorrespondencePrint;
+    public CommitteeTemplatePrint getCommitteeTemplatePrint() {
+        return committeeTemplatePrint;
     }
 
-    public void setCommitteeBatchCorrespondencePrint(CommitteeBatchCorrespondencePrint committeeBatchCorrespondencePrint) {
-        this.committeeBatchCorrespondencePrint = committeeBatchCorrespondencePrint;
+    public void setCommitteeTemplatePrint(CommitteeTemplatePrint committeeTemplatePrint) {
+        this.committeeTemplatePrint = committeeTemplatePrint;
     }
 
     public CommitteeRosterPrint getCommitteeRosterPrint() {
@@ -115,22 +105,5 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     public void setCommitteeFutureScheduledMeetingsPrint(CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint) {
         this.committeeFutureScheduledMeetingsPrint = committeeFutureScheduledMeetingsPrint;
     }
-
-    public MeetingAgendaPrint getMeetingAgendaPrint() {
-        return meetingAgendaPrint;
-    }
-
-    public void setMeetingAgendaPrint(MeetingAgendaPrint meetingAgendaPrint) {
-        this.meetingAgendaPrint = meetingAgendaPrint;
-    }
-
-    public MeetingMinutePrint getMeetingMinutePrint() {
-        return meetingMinutePrint;
-    }
-
-    public void setMeetingMinutePrint(MeetingMinutePrint meetingMinutePrint) {
-        this.meetingMinutePrint = meetingMinutePrint;
-    }
-
 
 }
