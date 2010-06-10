@@ -73,7 +73,6 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -206,41 +205,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
                             CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
                 }               
-                
-                /**
-                 * The assign reviewers are added to the HTML page via the "setReviewers" function in kuali_application.js .
-                 * This is done based on the schedule select list.  Because the display is handled this way, the collection of 
-                 * ProtocolReviewerBeans in the submitAction bean isn't automatically populated by the framework.
-                 * @TODO fix how this is done to be handled in a cleaner way, if possible.
-                 */
-                int listIndex = -1;
-                for (ProtocolReviewerBean bean : submitAction.getReviewers()) {
-                    listIndex++;
-                    if (bean.getFullName() == null) {
-                        //manually populate from the request
-                        String baseString = "actionHelper.protocolSubmitAction.reviewer[" + listIndex;
-                        String personIdKey = baseString + "].personId";
-                        String checkedKey = baseString + "].checked";
-                        String fullNameKey = baseString + "].fullName";
-                        String nonEmployeeFlagKey = baseString + "].nonEmployeeFlag";
-                        String reviewerTypeCodeKey = baseString + "].reviewerTypeCode";
-                        if (request.getParameterMap().containsKey(personIdKey)) {
-                            bean.setPersonId(request.getParameter(personIdKey));
-                        }
-                        if (request.getParameterMap().containsKey(checkedKey)) {
-                            bean.setChecked(request.getParameter(checkedKey).equals("on"));
-                        }
-                        if (request.getParameterMap().containsKey(fullNameKey)) {
-                            bean.setFullName(request.getParameter(fullNameKey));
-                        }
-                        if (request.getParameterMap().containsKey(nonEmployeeFlagKey)) {
-                            bean.setNonEmployeeFlag(request.getParameter(nonEmployeeFlagKey).equals("Y"));
-                        }
-                        if (request.getParameterMap().containsKey(reviewerTypeCodeKey)) {
-                            bean.setReviewerTypeCode(request.getParameter(reviewerTypeCodeKey));
-                        }
-                    }
-                }
                 
                 getProtocolSubmitActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
 

@@ -353,4 +353,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
     }
+    
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer")) {
+            return true;
+        } else {
+            return super.isPropertyEditable(propertyName);
+        }
+    }
+
 }
