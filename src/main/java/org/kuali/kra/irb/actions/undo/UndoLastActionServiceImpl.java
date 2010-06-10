@@ -16,12 +16,32 @@
 package org.kuali.kra.irb.actions.undo;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class UndoLastActionServiceImpl implements UndoLastActionService {
+    private ProtocolActionService protocolActionService;
+    private BusinessObjectService businessObjectService;
+    
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+        this.protocolActionService = protocolActionService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
     public void undoLastAction(Protocol protocol, UndoLastActionBean undoLastActionBean) throws Exception {
-        // TODO Auto-generated method stub
+        //Undo Protocol Status and Submission Status update
+        undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
+        protocolActionService.resetProtocolStatus(undoLastActionBean.getLastPerformedAction(), protocol);
+        businessObjectService.save(protocol);
+
+        //Revert any correspondence that was sent out
         
+        //Clear the Audit trail - Action history created
+        protocol.getProtocolActions().remove(undoLastActionBean.getLastPerformedAction());
+        businessObjectService.delete(undoLastActionBean.getLastPerformedAction());
     }
 
 }

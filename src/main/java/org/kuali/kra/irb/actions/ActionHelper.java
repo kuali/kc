@@ -40,7 +40,6 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
-import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
@@ -53,6 +52,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
@@ -229,7 +229,7 @@ public class ActionHelper implements Serializable {
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
         newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = createAdminCorrectionBean();
-        undoLastActionBean = new UndoLastActionBean();
+        undoLastActionBean = createUndoLastActionBean(this.form.getProtocolDocument().getProtocol());
         committeeDecision = new CommitteeDecision();
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
@@ -369,15 +369,24 @@ public class ActionHelper implements Serializable {
      */
     private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
         AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean();
-     
-        ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
-        List<String> moduleTypeCodes = protocolAmendRenewService.getAvailableModules(getProtocol().getProtocolNumber());
+        List<String> moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
         
         for (String moduleTypeCode : moduleTypeCodes) {
             enableModuleOption(moduleTypeCode, adminCorrectionBean);
         }
         
         return adminCorrectionBean;
+    }
+    
+    private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
+        undoLastActionBean = new UndoLastActionBean();
+        Collections.sort(protocol.getProtocolActions(), new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+        undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
+        return undoLastActionBean;
     }
     
     /**
@@ -642,7 +651,7 @@ public class ActionHelper implements Serializable {
     }
     
     private boolean hasUndoLastActionPermission() {
-        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && getLastPerformedAction() != null && UndoLastActionBean.isActionUndoable(getLastPerformedAction().getProtocolActionTypeCode());
+        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
     }
     
     private boolean hasRecordCommitteeDecisionPermission() {
