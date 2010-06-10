@@ -42,6 +42,14 @@ public interface ProtocolActionService {
     
     /**
      * 
+     * This method is to undo the protocol status or submission status update.
+     * @param protocolActionBo
+     * @param protocol
+     */
+    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+
+    /**
+     * 
      * This method is to check if this protocol action can be performed based on protocol status or submission status
      * and also check if the user is authorized to perform this action.
      * @param actionTypeCode

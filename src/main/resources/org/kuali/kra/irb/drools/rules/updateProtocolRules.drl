@@ -12,6 +12,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
 function void setProtocolSubmissionStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolSubmissionStatusCode) {
 	//TODO Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
+	protocolAction.getProtocolAction().setPrevSubmissionStatusCode(protocolAction.getProtocolSubmission().getSubmissionStatusCode());
     protocolAction.getProtocolSubmission().setSubmissionStatusCode(newProtocolSubmissionStatusCode);  
 } 
 
@@ -39,6 +40,7 @@ function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolActio
 }
 
 function void setProtocolStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {
+	protocolAction.getProtocolAction().setPrevProtocolStatusCode(protocolAction.getProtocol().getProtocolStatusCode());
     protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
 } 
 
