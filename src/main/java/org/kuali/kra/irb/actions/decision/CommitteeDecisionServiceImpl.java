@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -48,20 +49,25 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
      */
     public void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) {
         ProtocolSubmission submission = getSubmission(protocol);
+        System.err.println("got to setCommitteeDecision");
         if (submission != null) {
+            System.err.println("submission is not null");
             submission.setYesVoteCount(committeeDecision.getYesCount());
             submission.setNoVoteCount(committeeDecision.getNoCount());
             submission.setAbstainerCount(committeeDecision.getAbstainCount());
             submission.setVotingComments(committeeDecision.getVotingComments());
+            
             addReviewerComments(submission, committeeDecision.getReviewComments());
             
             String protocolActionTypeToUse = "";
             boolean doAddProtocolAction = false;
-            String motionToCompareFrom = committeeDecision.getMotion() == null ? committeeDecision.getMotion() : committeeDecision.getMotion().trim(); 
+            String motionToCompareFrom = committeeDecision.getMotion() == null ? committeeDecision.getMotion() : committeeDecision.getMotion().trim();
+            
             if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom)) {
                 protocolActionTypeToUse = ProtocolActionType.APPROVED;
                 doAddProtocolAction = true;
-            } else if (MotionValuesFinder.DISAPPROVE.equals(committeeDecision.getMotion().trim())) {
+            } else if (MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom)) {
+                System.err.println("I think I am disapproving");
                 protocolActionTypeToUse = ProtocolActionType.DISAPPROVED;
                 doAddProtocolAction = true;
             }
@@ -82,8 +88,12 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
 
     private ProtocolSubmission getSubmission(Protocol protocol) {
+        System.err.println("got to getSubmission(), looking for: " + ProtocolSubmissionStatus.IN_AGENDA + " or " + ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) {
+            System.err.println("          " + submission.getSubmissionStatusCode());
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
+                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+                System.err.println("          return the above one");
                 return submission;
             }
         }
