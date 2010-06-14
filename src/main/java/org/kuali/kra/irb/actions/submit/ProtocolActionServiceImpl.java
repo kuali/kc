@@ -18,13 +18,16 @@ package org.kuali.kra.irb.actions.submit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -267,7 +270,13 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
-        businessObjectService.save(protocol);
+        if(protocolAction.isProtocolSubmissionToBeDeleted()) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
+            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
+            protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
+        }
     }
     
     /*
