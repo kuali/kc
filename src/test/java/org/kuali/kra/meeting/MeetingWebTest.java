@@ -288,7 +288,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(page.asText().contains("Other Actions Other Actions * Type * Desctiption Actions "));
         assertTrue(page.asText().contains("Attendance Attendance Voting Members Present: 0 Person Name Alternate For Comments Actions Other Presents: 0 Add: Employee Search Non-employee Search Person Name Role Comments Actions Members Absent or Available: 2"));
         assertTrue(page.asText().contains("Name Actions 1 Ho, Pauline 2 Joe Tester "));
-        assertTrue(page.asText().contains("Minutes Minutes * Entry Type Protocol Description Standard Review Comment Generate Attendance Private Final Actions "));
+        assertTrue(page.asText().contains("Minutes Minutes * Entry Type Generate Attendance Protocol Other Business Description Standard Review Comment Private Final Actions "));
     }
     
     /*
