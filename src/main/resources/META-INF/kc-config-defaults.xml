@@ -150,8 +150,6 @@
 	<param name="bus.refresh.rate">30</param>
 	<param name="threadPool.size">5</param>
 	
-	<param name="message.delivery">synchronous</param>
-	
 	<!-- image overrides -->
 	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
 	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
