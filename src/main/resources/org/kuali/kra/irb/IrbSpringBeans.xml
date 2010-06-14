@@ -470,6 +470,11 @@
 		</property>
     </bean>   
     
+    <bean id="undoLastActionService" class="org.kuali.kra.irb.actions.undo.UndoLastActionServiceImpl">
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="documentService" ref="documentService" />
+    </bean>   
+    
     <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">
     </bean>
 
