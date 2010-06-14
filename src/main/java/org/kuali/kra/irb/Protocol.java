@@ -577,6 +577,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         
         managedLists.add(getProtocolPersons());
         managedLists.add(getSpecialReviews());
+        managedLists.add(getProtocolActions());
+        managedLists.add(getProtocolSubmissions());
         return managedLists;
     }
     
