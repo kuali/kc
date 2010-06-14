@@ -9,22 +9,39 @@
 <c:set var="hidediv" value="display :none"/>
 
 <c:choose>
-    <c:when test="${empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode or KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '3'}">
-        <c:set var="pcHeaderDivStyle" value="display :block"/>
-        <c:set var="genAttHeaderDivStyle" value="display :none"/>
-        <c:set var="pcDivStyle" value="display :block"/>
-        <c:set var="genAttDivStyle" value="display :none"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="pcHeaderDivStyle" value="display :none"/>
-        <c:set var="pcDivStyle" value="display :none"/>
+    <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '2'}">
         <c:set var="genAttHeaderDivStyle" value="display :block"/>
         <c:set var="genAttDivStyle" value="display :block"/>
+        <c:set var="pcHeaderDivStyle" value="display :none"/>
+        <c:set var="pcDivStyle" value="display :none"/>
+        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
+        <c:set var="otherBusDivStyle" value="display :none"/>
+    </c:when>
+    <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '3'}">
+        <c:set var="genAttHeaderDivStyle" value="display :none"/>
+        <c:set var="genAttDivStyle" value="display :none"/>
+        <c:set var="pcHeaderDivStyle" value="display :block"/>
+        <c:set var="pcDivStyle" value="display :block"/>
+        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
+        <c:set var="otherBusDivStyle" value="display :none"/>
+    </c:when>
+    <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '4'}">
+        <c:set var="genAttHeaderDivStyle" value="display :none"/>
+        <c:set var="genAttDivStyle" value="display :none"/>
+        <c:set var="pcHeaderDivStyle" value="display :none"/>
+        <c:set var="pcDivStyle" value="display :none"/>
+        <c:set var="otherBusHeaderDivStyle" value="display :block"/>
+        <c:set var="otherBusDivStyle" value="display :block"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="genAttHeaderDivStyle" value="display :none"/>
+        <c:set var="genAttDivStyle" value="display :none"/>
+        <c:set var="pcHeaderDivStyle" value="display :block"/>
+        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
+        <c:set var="otherBusDivStyle" value="display :none"/>
+        <c:set var="pcDivStyle" value="display :none"/>
     </c:otherwise>
 </c:choose>
-<c:if test="${empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode}">
-    <c:set var="pcDivStyle" value="display :none"/>
-</c:if>
 <kul:tab defaultOpen="false" tabTitle="Minutes"
     tabErrorKey="meetingHelper.newCommitteeScheduleMinute.*">
 
@@ -39,12 +56,13 @@
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" scope="col" />
-        		<kul:htmlAttributeHeaderCell literalLabel="Protocol" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" scope="col" />
-                <th>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Standard Review Comment</div>
+        		<th>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv" style="${genAttHeaderDivStyle}">Generate Attendance</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Protocol</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv" style="${otherBusHeaderDivStyle}">Other Business</div>
                 </th> 
+				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" scope="col" />
+				<kul:htmlAttributeHeaderCell literalLabel="Standard Review Comment" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" scope="col" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" scope="col" />
 				<c:if test="${!readOnly}">
@@ -67,7 +85,11 @@
 	            	    </div>
 				    </td>
 	                <td align="left" valign="middle" class="infoline" width="20%">
-	               	    <div align="center">
+	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.genAttDiv" style="${genAttDivStyle}">
+                            <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.generateAttendance" attributeEntry="${attributeReferenceDummyAttributes.genericBoolean}" 
+                               onclick="generateAttendance(this, ${fn:length(KualiForm.meetingHelper.memberPresentBeans)}, ${fn:length(KualiForm.meetingHelper.otherPresentBeans)});" />
+                        </div>
+	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcSelectDiv" style="${pcDivStyle}">
 	                        <c:set var="hasProtocolError" value="false"/>
           	                <c:set var="fieldName" value="meetingHelper.newCommitteeScheduleMinute.protocolIdFk" />
 			                <c:forEach items="${ErrorPropertyList}" var="key">
@@ -92,6 +114,24 @@
 	 		                    <kul:fieldShowErrorIcon />
                             </c:if>
 	               		</div>
+                        <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.otherBusDiv"  style="${otherBusDivStyle}">
+                            <html:select property="meetingHelper.newCommitteeScheduleMinute.protocolIdFk" tabindex="0"  >                               
+                                <c:forEach items="${krafn:getOptionList('org.kuali.kra.meeting.OtherBusinessValuesFinder', paramMap)}" var="option">
+                                    <c:choose>                      
+                                        <c:when test="${KualiForm.meetingHelper.newCommitteeScheduleMinute.protocolIdFk == option.key}">
+                                            <option value="${option.key}" selected>${option.label}</option>
+                                        </c:when>
+                                        <c:otherwise>                               
+                                            <c:out value="${option.label}"/>
+                                            <option value="${option.key}">${option.label}</option>
+                                        </c:otherwise>
+                                    </c:choose>                                                
+                                </c:forEach>
+                            </html:select>
+                        </div>
+                        <noscript>
+                             <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
+                        </noscript>
 				    </td>
 			
 	                <td align="left" valign="middle" class="infoline" width="65%">
@@ -102,16 +142,12 @@
 	                    </div>	
 	                </td>
 	                <td align="left" valign="middle" class="infoline" width="20%">
-	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcDiv"  style="${pcDivStyle}">
+	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcCommentDiv"  style="${pcDivStyle}">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode" attributeEntry="${committeeScheduleMinuteAttributes.protocolContingencyCode}" onblur="loadStandardReviewComment('meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode', 'meetingHelper.newCommitteeScheduleMinute.minuteEntry');"  />
                             <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
                                     fieldConversions="protocolContingencyCode:meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode,description:meetingHelper.newCommitteeScheduleMinute.minuteEntry" />
                    	    </div>
-	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.genAttDiv" style="${genAttDivStyle}">
-	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.generateAttendance" attributeEntry="${attributeReferenceDummyAttributes.genericBoolean}" 
-	               		       onclick="generateAttendance(this, ${fn:length(KualiForm.meetingHelper.memberPresentBeans)}, ${fn:length(KualiForm.meetingHelper.otherPresentBeans)});" />
-                   	    </div>
-                        <noscript>
+                   	    <noscript>
                              <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
                         </noscript>
 				    </td>
