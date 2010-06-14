@@ -668,6 +668,8 @@ public final class KeyConstants {
     public static final String ERROR_EMPTY_PROTOCOL = "error.empty.protocol";
     public static final String ERROR_EMPTY_PROTOCOL_CONTINGENCY = "error.empty.protocol.contingency";
     public static final String ERROR_NON_EMPTY_PROTOCOL = "error.non.empty.protocol";
+    public static final String ERROR_EMPTY_ACTION_ITEMS = "error.empty.action.items";
+    public static final String ERROR_EMPTY_OTHER_BUSINESS = "error.empty.other.business";
 
     
     //Time And Money
