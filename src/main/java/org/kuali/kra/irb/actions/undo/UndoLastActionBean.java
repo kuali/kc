@@ -20,8 +20,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 
 public class UndoLastActionBean implements Serializable {
     /**
@@ -30,6 +32,8 @@ public class UndoLastActionBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final String[] NOT_UNDOABLE_ACTIONS = {ProtocolActionType.PROTOCOL_CREATED, ProtocolActionType.SUBMIT_TO_IRB, ProtocolActionType.RENEWAL_CREATED, ProtocolActionType.AMENDMENT_CREATED, ProtocolActionType.EXPIRED, ProtocolActionType.WITHDRAWN, ProtocolActionType.APPROVED, ProtocolActionType.ADMINISTRATIVE_CORRECTION};
+    private static final String AMEND = "A";
+    private static final String RENEW = "R";
     
     private String comments;
     private List<ProtocolAction> actionsPerformed;
@@ -79,9 +83,20 @@ public class UndoLastActionBean implements Serializable {
         return actionsPerformed.size() > 0 ? actionsPerformed.get(0) : null;
     }
     
+    private boolean isActionProtocolApproval(ProtocolAction action, String protocolNumber) {
+        String protocolNumberUpper = protocolNumber.toUpperCase();
+        boolean amendmentOrRenewal = protocolNumberUpper.contains(AMEND) || protocolNumberUpper.contains(RENEW);
+        return ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode()) && !amendmentOrRenewal;
+    }
+    
+    private boolean isProtocolDeleted(Protocol protocol) {
+        return ProtocolStatus.DELETED.equals(protocol.getProtocolStatusCode());
+    }
+    
     public boolean canUndoLastAction() {
-        if(getLastPerformedAction() != null){
-            return isActionUndoable(getLastPerformedAction().getProtocolActionTypeCode());
+        ProtocolAction action = getLastPerformedAction();
+        if(action != null){
+            return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(action.getProtocol());
         }
         return false;
     }
