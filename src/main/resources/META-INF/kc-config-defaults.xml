@@ -144,7 +144,6 @@
 	<param name="portal.show.sample.app">false</param>
 	
 	<param name="transaction.timeout">3600</param>
-	<param name="maintain.users.locally">true</param>
 
 	<param name="bus.refresh.rate">30</param>
 	<param name="threadPool.size">5</param>
