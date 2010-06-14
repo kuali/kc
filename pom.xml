@@ -235,9 +235,9 @@
 		    <version>2.2</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.google.collections</groupId>
-		    <artifactId>google-collections</artifactId>
-		    <version>1.0</version>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>r05</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle</groupId>
@@ -315,9 +315,9 @@
 		    </exclusions>
 		</dependency>
 		<dependency>
-			<groupId>htmlunit</groupId>
+			<groupId>net.sourceforge.htmlunit</groupId>
 			<artifactId>htmlunit</artifactId>
-			<version>1.13</version>
+			<version>1.14</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>
