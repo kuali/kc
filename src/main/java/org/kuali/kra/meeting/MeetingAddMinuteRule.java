@@ -16,6 +16,7 @@
 package org.kuali.kra.meeting;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +32,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEvent> {
 
     private static final String PROTOCOL_ENTRY_TYPE = "3";
+    private static final String OTHER_BUSINESS_ENTRY_TYPE = "4";
 
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
@@ -65,6 +67,16 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                 }
             }
         } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(OTHER_BUSINESS_ENTRY_TYPE)) {
+            if (!otherBusinessActionsAvailable(event)) {
+                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
+                rulePassed = false;
+            }
+            if (committeeScheduleMinute.getProtocolIdFk() == null) {
+                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_OTHER_BUSINESS);
+                rulePassed = false;
+            }
+        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
                 && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)
                 && committeeScheduleMinute.getProtocolIdFk() != null) {
             errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
@@ -72,5 +84,18 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
 
         }
         return rulePassed;
+    }
+    
+    private boolean otherBusinessActionsAvailable(MeetingAddMinuteEvent event) {
+        List<CommScheduleActItem> commScheduleActItems = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems();
+        
+        boolean available = false;
+        for (CommScheduleActItem commScheduleActItem : commScheduleActItems) {
+            if (commScheduleActItem.getScheduleActItemType().getScheduleActItemTypeCode().equals(ScheduleActItemType.OTHER_BUSINESS)) {
+                available = true;
+                break;
+            }
+        }
+        return available;
     }
 }

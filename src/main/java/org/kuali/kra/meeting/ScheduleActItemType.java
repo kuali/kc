@@ -25,6 +25,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class ScheduleActItemType extends KraPersistableBusinessObjectBase { 
     
+    public static final String OTHER_BUSINESS = "1";
+    
     private static final long serialVersionUID = -2501084035126192701L;
     private String scheduleActItemTypeCode; 
     private String description; 
