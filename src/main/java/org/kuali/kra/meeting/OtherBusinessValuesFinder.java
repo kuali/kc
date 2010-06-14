@@ -30,8 +30,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class OtherBusinessValuesFinder extends KeyValuesBase {
     
-    private static final String OTHER_BUSINESS_ITEM_TYPE_CODE = "1";
-    
     private static final int TRUNCATE_LENGTH = 20;
     private static final String TRUNCATE_END = "...";
     
@@ -64,7 +62,7 @@ public class OtherBusinessValuesFinder extends KeyValuesBase {
     private List<CommScheduleActItem> getOtherBusinessActionItem() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        fieldValues.put("scheduleActItemTypeCode", OTHER_BUSINESS_ITEM_TYPE_CODE);
+        fieldValues.put("scheduleActItemTypeCode", ScheduleActItemType.OTHER_BUSINESS);
         return (List<CommScheduleActItem>) getBusinessObjectService().findMatching(CommScheduleActItem.class, fieldValues);
     }
     
