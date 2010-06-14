@@ -29,6 +29,8 @@
 	<param name="ActionList.norefresh">true</param>
 	<param name="notification.quartz.autostartup">false</param>
 	
+	<param name="message.delivery">synchronous</param>
+	
 	<!--Test params-->
 	<param name="use.clearDatabaseLifecycle">true</param>
 	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
