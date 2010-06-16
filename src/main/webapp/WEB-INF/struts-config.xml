@@ -290,7 +290,7 @@
 		  &protocol_forwards;
       </action>
       
-      <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/protocolNoteAndAttachment" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" type="org.kuali.kra.irb.noteattachment.ProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
 		&protocol_forwards;
       </action>
