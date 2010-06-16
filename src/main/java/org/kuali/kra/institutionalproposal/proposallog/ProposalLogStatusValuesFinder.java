@@ -27,6 +27,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.struts.form.InquiryForm;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -60,7 +61,7 @@ public class ProposalLogStatusValuesFinder extends KeyValuesBase {
         KualiForm form = GlobalVariables.getKualiForm();
         retval.add(new KeyLabelPair("", "select"));
         boolean filterResults = true;
-        if (form instanceof LookupForm) {
+        if (form instanceof LookupForm || form instanceof InquiryForm) {
             filterResults = false;
         }
         else {
