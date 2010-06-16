@@ -39,10 +39,10 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
         try {
             notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
             Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            recipientUser.setTextContent(protocol.getPrincipalInvestigatorId());
+            recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName()); 
 
             Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
-            sender.setTextContent(GlobalVariables.getUserSession().getPrincipalId());
+            sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
             message.setTextContent(adminCorrectionBean.getComments());
