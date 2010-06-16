@@ -66,7 +66,8 @@ public class ProposalLogStatusValuesFinder extends KeyValuesBase {
         }
         else {
             ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getDocumentBusinessObject());
-            if (proposalLog == null || proposalLog.getProposalType() == null) {
+            
+            if (proposalLog == null || proposalLog.getProposalLogType() == null) {
                 filterResults = false;
             }
             else if (StringUtils.equalsIgnoreCase(proposalLog.getProposalLogType().getProposalLogTypeCode(), ProposalLogUtils.getProposalLogTemporaryTypeCode())) {
