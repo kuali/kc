@@ -60,7 +60,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        new AuditActionHelper().auditConditionally((ProtocolForm) form);
+        if(GlobalVariables.getAuditErrorMap().isEmpty()) {
+            new AuditActionHelper().auditConditionally((ProtocolForm) form);
+        }
         
         return forward;
     }
