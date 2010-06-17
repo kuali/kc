@@ -38,23 +38,23 @@ public final class ProposalLogUtils {
     }
     
     public static String getProposalLogSubmittedStatusCode() {
-        return "PROPOSAL_LOG_SUBMITTED_STATUS_CODE";
+        return getCodeValue("PROPOSAL_LOG_SUBMITTED_STATUS_CODE");
     }
     
     public static String getProposalLogVoidStatusCode() {
-        return "PROPOSAL_LOG_VOID_STATUS_CODE";
+        return getCodeValue("PROPOSAL_LOG_VOID_STATUS_CODE");
     }
     
     public static String getProposalLogTemporaryStatusCode() {
-        return "PROPOSAL_LOG_TEMPORARY_STATUS_CODE";
+        return getCodeValue("PROPOSAL_LOG_TEMPORARY_STATUS_CODE");
     }
     
     public static String getProposalLogPermanentTypeCode() {
-        return "PROPOSAL_LOG_PERMANENT_TYPE_CODE";
+        return getCodeValue("PROPOSAL_LOG_PERMANENT_TYPE_CODE");
     }
     
     public static String getProposalLogTemporaryTypeCode() {
-        return "PROPOSAL_LOG_TEMPORARY_TYPE_CODE";
+        return getCodeValue("PROPOSAL_LOG_TEMPORARY_TYPE_CODE");
     }
     
     private static String getCodeValue(String paramName) {
