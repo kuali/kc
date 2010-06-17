@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.rice.kns.service.ParameterService;
+
 /**
  * This class is a set of common convenience methods used by Proposal Log related classes.
  */
@@ -25,31 +30,36 @@ public final class ProposalLogUtils {
     }
     
     public static String getProposalLogPendingStatusCode() {
-        return "1";
+        return getCodeValue("PROPOSAL_LOG_PENDING_STATUS_CODE");
     }
     
     public static String getProposalLogMergedStatusCode() {
-        return "2";
+        return getCodeValue("PROPOSAL_LOG_MERGED_STATUS_CODE");
     }
     
     public static String getProposalLogSubmittedStatusCode() {
-        return "3";
+        return "PROPOSAL_LOG_SUBMITTED_STATUS_CODE";
     }
     
     public static String getProposalLogVoidStatusCode() {
-        return "4";
+        return "PROPOSAL_LOG_VOID_STATUS_CODE";
     }
     
     public static String getProposalLogTemporaryStatusCode() {
-        return "5";
+        return "PROPOSAL_LOG_TEMPORARY_STATUS_CODE";
     }
     
     public static String getProposalLogPermanentTypeCode() {
-        return "1";
+        return "PROPOSAL_LOG_PERMANENT_TYPE_CODE";
     }
     
     public static String getProposalLogTemporaryTypeCode() {
-        return "2";
+        return "PROPOSAL_LOG_TEMPORARY_TYPE_CODE";
+    }
+    
+    private static String getCodeValue(String paramName) {
+        return KraServiceLocator.getService(ParameterService.class).getParameterValue(
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, paramName);
     }
 
 }
