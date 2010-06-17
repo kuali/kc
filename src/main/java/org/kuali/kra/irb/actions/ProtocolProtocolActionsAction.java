@@ -198,18 +198,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        protocolForm.setAuditActivated(true);
+        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, protocolDocument.getProtocol());
         if (isAuthorized(task)) {
             ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();            
-            if (applyRules(new ProtocolSubmitActionEvent(protocolForm.getProtocolDocument(), submitAction))) {
-                if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
-                    return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
-                            CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
-                }               
-                
-                getProtocolSubmitActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
-
-                forward = super.route(mapping, form, request, response);
+            if (applyRules(new ProtocolSubmitActionEvent(protocolDocument, submitAction))) {
+                AuditActionHelper auditActionHelper = new AuditActionHelper();
+                if (auditActionHelper.auditUnconditionally(protocolDocument)) {
+                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
+                        return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
+                                CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
+                    }               
+                    
+                    getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+    
+                    forward = super.route(mapping, form, request, response);
+                } else {
+                    GlobalVariables.getMessageMap().clearErrorMessages();
+                    GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+                }
             }
         }
 
