@@ -25,7 +25,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * Unit test of the {@link PersonEditableFieldValuesFinder} 
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PersonEditableFieldValuesFinderTest extends ValuesFinderTestBase {
     
     @Override

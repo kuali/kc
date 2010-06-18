@@ -32,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 //            }
 //        )
 //    )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
   // private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "APP-S2S-TEST-SF424-V2";
     private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "CWG-05";

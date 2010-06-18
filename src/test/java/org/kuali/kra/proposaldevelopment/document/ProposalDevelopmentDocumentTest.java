@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class tests the ProposalDevelopmentDocument
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
     private DocumentService documentService = null;

@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for F and A Rate Tab. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardFandaRateWebTest extends AwardTimeAndMoneyWebTest {
     
     

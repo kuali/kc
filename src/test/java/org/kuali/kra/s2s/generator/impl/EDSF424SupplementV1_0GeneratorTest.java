@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the EDSF424SupplementV1_0Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class EDSF424SupplementV1_0GeneratorTest extends S2STestBase<EDSF424SupplementV1_0Generator> {
 
     @Override

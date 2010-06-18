@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * This class tests tests the Sponsor & Program Information panel of the Proposal Development
  * Proposal web page.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWebTestBase {
 
 

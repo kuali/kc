@@ -22,7 +22,7 @@ import org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetCostShareRuleImpl;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AddBudgetCostShareRuleTest extends AddBudgetDistributionAndIncomeTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final BudgetDecimal SHARE_AMOUNT = new BudgetDecimal(100.00);

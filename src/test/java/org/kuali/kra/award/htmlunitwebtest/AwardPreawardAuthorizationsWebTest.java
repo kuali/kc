@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award PreawardAuthorizations Tab. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardPreawardAuthorizationsWebTest extends AwardTimeAndMoneyWebTest {
 
     

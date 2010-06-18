@@ -31,7 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
     
     private static final String USERNAME_FIELD_ID = "newProposalUser.username";

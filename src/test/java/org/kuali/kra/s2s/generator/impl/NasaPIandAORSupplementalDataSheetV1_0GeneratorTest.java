@@ -28,7 +28,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the NasaPIandAORSupplementalDataSheetV1_0 Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class NasaPIandAORSupplementalDataSheetV1_0GeneratorTest extends S2STestBase<NasaPIandAORSupplementalDataSheetV1_0Generator> {
 
     @Override

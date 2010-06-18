@@ -36,7 +36,7 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.kns.service.BusinessObjectService;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetDocumentTest {
     
     private static final int DEVIATION_LIMIT_MS = 1000;

@@ -25,7 +25,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * Tests the Non-Nih Roles Finder
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class NonNihProposalPersonRoleValuesFinderTest extends ValuesFinderTestBase {
     
     @Override

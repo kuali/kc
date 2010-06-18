@@ -25,7 +25,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the PHS398ChecklistV1_0 generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PHS398ChecklistV1_0GeneratorTest extends S2STestBase<PHS398ChecklistV1_0Generator> {
 
     @Override

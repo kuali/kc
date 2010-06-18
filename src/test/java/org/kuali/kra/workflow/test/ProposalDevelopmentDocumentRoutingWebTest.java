@@ -213,7 +213,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         GlobalVariables.setUserSession(null);
         //Login as jtester User
         GlobalVariables.setUserSession(new UserSession("jtester"));
-        final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
         final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
         final HtmlPage pageAfterLogin = login(newWebClient, url, "kew/ActionList.do", "jtester");
         assertNotNull(pageAfterLogin);

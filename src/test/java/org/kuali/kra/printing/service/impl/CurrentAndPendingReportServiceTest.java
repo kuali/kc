@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * are part of Institute Proposal printing.
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CurrentAndPendingReportServiceTest extends
 		PrintingServiceTestBase {
 	private CurrentAndPendingReportService currentAndPendingReportService;

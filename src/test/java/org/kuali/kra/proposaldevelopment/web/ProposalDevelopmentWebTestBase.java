@@ -60,9 +60,10 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
     protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
     protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000001";
+    protected static final String PROPOSAL_DEVOPMENT_DOCUMENT_NAME = "Kuali :: Proposal Development Document";
     
     private HtmlPage proposalDevelopmentPage;
-    private HtmlPage portalPage;
+    //private HtmlPage portalPage;
     
     /**
      * Web test setup overloading. Sets up Portal Page and ProposalDevelopment page access.
@@ -87,7 +88,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
         HtmlPage retval = clickOn(getPortalPage(), "Create Proposal", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
 
-        assertTrue("Kuali :: Proposal Development Document".equals(retval.getTitleText()));
+        assertTrue(PROPOSAL_DEVOPMENT_DOCUMENT_NAME.equals(retval.getTitleText()));
         return retval;
     }
 

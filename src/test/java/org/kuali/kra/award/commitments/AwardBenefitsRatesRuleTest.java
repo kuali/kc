@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class tests Award Benefits Rates business rules.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 @RunWith(JMock.class)
 public class AwardBenefitsRatesRuleTest {
     

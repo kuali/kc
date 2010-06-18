@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This class is integration tests for Institutional Proposal Cost Share panel.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalCostShareWebTest extends InstitutionalProposalDistributionWebTest {
 
     private static final String COSTSHARE_FIELD_PREFIX = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare.";

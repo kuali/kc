@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * This class tests AwardPrintingService. It tests all reports that are part of
  * award printing.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardPrintingServiceTest extends PrintingServiceTestBase {
 	private AwardPrintingService awardPrintingService;
 

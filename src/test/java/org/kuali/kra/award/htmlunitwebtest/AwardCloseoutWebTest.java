@@ -24,7 +24,7 @@ import org.junit.Test;
  * 
  * This is the integration test for Award Closeout panel. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardCloseoutWebTest extends AwardPaymentsAndTermsWebTest {
         
     public static final String ADD_AWARD_CLOSEOUT = "methodToCall.addAwardCloseout.anchorAwardCloseout";

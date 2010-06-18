@@ -20,18 +20,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.BaseFrame;
-import com.gargoylesoftware.htmlunit.html.ClickableElement;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -75,8 +78,14 @@ public abstract class KraWebTestBase extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        webClient = new WebClient();
-
+        //many of our unit tests only work with IE 6 mode :-(
+        webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_6);
+        webClient.setRedirectEnabled(true);
+        webClient.setPrintContentOnFailingStatusCode(true);
+        webClient.setThrowExceptionOnFailingStatusCode(true);
+        webClient.setThrowExceptionOnScriptError(true);
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        
         setPortalPage(buildPageFromUrl("http://127.0.0.1:" + getPort() + "/kc-dev/", "Kuali Portal Index"));
     }
 
@@ -88,8 +97,12 @@ public abstract class KraWebTestBase extends KraTestBase {
     @Override
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        webClient = null;
+        try {
+            super.tearDown();
+        } finally {
+            webClient.closeAllWindows();
+            webClient = null;
+        }
     }
 
     /**
@@ -148,8 +161,6 @@ public abstract class KraWebTestBase extends KraTestBase {
      * <li>If not found, search for the first HTML element with a <b>name</b> attribute that matches.</li>
      * <li>If not found, search for the first HTML element with a <b>title</b> attribute that matches.</li>
      * </ol>
-     * If an HTML element is not found or the element is not clickable,
-     * an assertion will cause the test case to fail.
      *
      * Using any of the <b>clickOn()</b> methods is the preferred way to click on an HTML element
      * due to the Login process.  If the Login web page is encountered, the user will be
@@ -172,8 +183,6 @@ public abstract class KraWebTestBase extends KraTestBase {
      * <li>If not found, search for the first HTML element with a <b>name</b> attribute that matches.</li>
      * <li>If not found, search for the first HTML element with a <b>title</b> attribute that matches.</li>
      * </ol>
-     * If an HTML element is not found or the element is not clickable,
-     * an assertion will cause the test case to fail.
      *
      * Using any of the <b>clickOn()</b> methods is the preferred way to click on an HTML element
      * due to the Login process.  If the Login web page is encountered, the user will be
@@ -197,8 +206,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * <li>If not found, search for the first HTML element with a <b>name</b> attribute that matches.</li>
      * <li>If not found, search for the first HTML element with a <b>title</b> attribute that matches.</li>
      * </ol>
-     * If an HTML element is not found or the element is not clickable,
-     * an assertion will cause the test case to fail.  Also, if the <i>nextPageTitle</i>
+     * If the <i>nextPageTitle</i>
      * is not null, the test case will fail if the next web page doesn't have the
      * expected title.
      *
@@ -215,7 +223,6 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
         assertTrue(id + " not found. page " + page.asText(), element != null);
-        assertTrue((element != null) ? element.getClass().getName() : "element is null", element instanceof ClickableElement);
 
         return clickOn(element, nextPageTitle);
     }
@@ -251,18 +258,14 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     protected final HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
-        assertTrue((element != null) ? element.getClass().getName() : "element is null", element instanceof ClickableElement);
-
-        ClickableElement clickable = (ClickableElement) element;
-        Page nextPage = clickable.click();
+        Page nextPage = element.click();
         assertTrue((nextPage != null) ? nextPage.getClass().getName() : "nextPage is null", nextPage instanceof HtmlPage);
 
         HtmlPage htmlNextPage = (HtmlPage) nextPage;
-
         htmlNextPage = checkForLoginPage(htmlNextPage);
-
+        
         if (nextPageTitle != null) {
-            assertEquals(nextPageTitle, htmlNextPage.getTitleText());
+            assertEquals("page: " + htmlNextPage.asText(), nextPageTitle, htmlNextPage.getTitleText());
         }
 
         return htmlNextPage;
@@ -293,6 +296,40 @@ public abstract class KraWebTestBase extends KraTestBase {
 
         return clickOn(element);
     }
+    
+    /**
+     * Simulate clicking on the Expand all icon.
+     *
+     * If the Expand all HTML element is not found, an assertion will cause
+     * the test to fail.
+     *
+     * @param page the HTML web page.
+     * @return the expanded web page.
+     * @throws IOException
+     */
+    protected final HtmlPage clickOnExpandAll(HtmlPage page) throws IOException {
+        HtmlElement element = getElementByName(page, "methodToCall.showAllTabs");
+        assertTrue("element is null", element != null);
+
+        return clickOn(element);
+    }
+    
+    /**
+     * Simulate clicking on the Collapse all icon.
+     *
+     * If the Collapse all HTML element is not found, an assertion will cause
+     * the test to fail.
+     *
+     * @param page the HTML web page.
+     * @return the collapsed web page.
+     * @throws IOException
+     */
+    protected final HtmlPage clickOnCollapseAll(HtmlPage page) throws IOException {
+        HtmlElement element = getElementByName(page, "methodToCall.hideAllTabs");
+        assertTrue("element is null", element != null);
+
+        return clickOn(element);
+    }
 
     /**
      * Asserts that the given web page contains the given text.
@@ -300,7 +337,67 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to look for in the web page.
      */
     protected final void assertContains(HtmlPage page, String text) {
-        assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text, page.asText().contains(text));
+        assertContains(page, text, false);
+    }
+    
+    /**
+     * Asserts that the given web page does <b>not</b> contain the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     */
+    protected final void assertDoesNotContain(HtmlPage page, String text) {
+        assertDoesNotContain(page, text, false);
+    }
+    
+    /**
+     * Asserts that the given web page contains the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
+     */
+    protected final void assertContains(HtmlPage page, String text, boolean strictWhitespace) {
+        if (!strictWhitespace) {
+            final String regex = insertWhitespaceRegex(text);
+            Pattern p = Pattern.compile(regex);
+            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text + "\nas regex:\n" + regex, p.matcher(page.asText()).find()); 
+        } else {
+            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text, page.asText().contains(text));    
+        }
+    }
+    
+    /**
+     * Asserts that the given web page does <b>not</b> contain the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
+     */
+    protected final void assertDoesNotContain(HtmlPage page, String text, boolean strictWhitespace) {
+        if (!strictWhitespace) {
+            final String regex = insertWhitespaceRegex(text);
+            Pattern p = Pattern.compile(regex);
+            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text + "\nas regex:\n" + regex, !p.matcher(page.asText()).find());
+        } else {
+            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text, !page.asText().contains(text));    
+        }
+    }
+    
+    /**
+     * Inserts regex to match against newlines and any amount of spaces.
+     * @param text the text to insert regex
+     * @return the modified text
+     */
+    private static String insertWhitespaceRegex(String text) {
+        if (!text.contains(" ")) {
+            return Pattern.quote(text.trim());
+        }
+        
+        String regex = "(?m)";
+        for (String token : text.trim().split(" ")) {
+            if (!token.equals("") && !token.equals(" ")) {
+                regex += Pattern.quote(token)+ "[\\s]*";
+            }
+        }
+        return regex.substring(0, regex.length() - 5);
     }
 
     /**
@@ -310,15 +407,6 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final void assertXmlContains(HtmlPage page, String text) {
         assertTrue("page xml:\n" + page.asXml() + "\n does not contain:\n" + text, page.asXml().contains(text));
-    }
-    
-    /**
-     * Asserts that the given web page does <b>not</b> contain the given text.
-     * @param page the HTML web page.
-     * @param text the string to look for in the web page.
-     */
-    protected final void assertDoesNotContain(HtmlPage page, String text) {
-        assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text, !page.asText().contains(text));
     }
 
     /**
@@ -467,11 +555,9 @@ public abstract class KraWebTestBase extends KraTestBase {
         if(!checkNoDataFoundCase.booleanValue()){
             assertTrue("No data to return", table != null);
             HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
-            @SuppressWarnings("unchecked")
             List<HtmlTableRow> rows = body.getRows();
 
             HtmlTableRow row = rows.get(0);
-            @SuppressWarnings("unchecked")
             List<HtmlTableCell> cells = row.getCells();
             HtmlTableCell cell = cells.get(0);
             anchor = (HtmlAnchor) getFirstChild(cell);
@@ -571,7 +657,7 @@ public abstract class KraWebTestBase extends KraTestBase {
     private void setCheckboxes(HtmlPage page) {
         List<HtmlElement> elements = getInputElements(page, "checkbox");
         for (HtmlElement element : elements) {
-            element.setAttributeValue("value", "checked");
+            element.setAttribute("value", "checked");
         }
     }
 
@@ -580,12 +666,10 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     private List<HtmlElement> getInputElements(HtmlPage page, String type) {
         List<HtmlElement> elements = new ArrayList<HtmlElement>();
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = page.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
+
+        for (HtmlElement e : page.getAllHtmlChildElements()) {
             if (StringUtils.equalsIgnoreCase("input", e.getTagName())) {
-                String value = e.getAttributeValue("type");
+                String value = e.getAttribute("type");
                 if (StringUtils.equalsIgnoreCase(type, value)) {
                     elements.add(e);
                 }
@@ -872,14 +956,14 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlElement field = getElement(page, textAreaId);
         assertTrue("field is null", field != null);
         
-        ClickableElement btn = (ClickableElement) this.getNextSibling(field, "input");
+        HtmlElement btn =  this.getNextSibling(field, "input");
         assertTrue("btn is null", btn != null);
         
         //If pencil icon is not located next TextArea following alternate method will be used if iconTextAreaId is not null.
         if(null == btn && null != iconTextAreaId) {
             HtmlElement expandedField = getElement(page, iconTextAreaId);
             if(null != expandedField) {
-                btn = (ClickableElement)expandedField;
+                btn = expandedField;
             }
         }
         
@@ -1029,7 +1113,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElement(HtmlPage page, String name, String value, String title) {
-        HtmlElement element = getElement(page.getDocumentHtmlElement(), name, value, title);
+        HtmlElement element = getElement(page.getDocumentElement(), name, value, title);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1059,13 +1143,10 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     private HtmlElement getElement(HtmlElement element, String name, String value, String title) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement child = iterator.next();
-            String nameValue = child.getAttributeValue("name");
-            String valueValue = child.getAttributeValue("value");
-            String titleValue = child.getAttributeValue("title");
+        for (HtmlElement child : element.getAllHtmlChildElements()) {
+            String nameValue = child.getAttribute("name");
+            String valueValue = child.getAttribute("value");
+            String titleValue = child.getAttribute("title");
             if ((name == null || name.equals(nameValue)) &&
                 (value == null || value.equals(valueValue)) &&
                 (title == null || title.equals(titleValue))) {
@@ -1170,7 +1251,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByName(HtmlPage page, String name, boolean startsWith) {
-        HtmlElement element = getElementByName(page.getDocumentHtmlElement(), name, startsWith);
+        HtmlElement element = getElementByName(page.getDocumentElement(), name, startsWith);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1195,11 +1276,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("name");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("name");
             if (!startsWith && name.equals(value)) {
                 return e;
             } else if (startsWith && value != null && value.startsWith(name)) {
@@ -1223,7 +1301,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByNameEndsWith(HtmlPage page, String name) {
-        HtmlElement element = getElementByNameEndsWith(page.getDocumentHtmlElement(), name);
+        HtmlElement element = getElementByNameEndsWith(page.getDocumentElement(), name);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1248,11 +1326,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByNameEndsWith(HtmlElement element, String name) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("name");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("name");
             if (value.endsWith(name)) {
                 return e;
             }
@@ -1273,7 +1348,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByTitle(HtmlPage page, String title) {
-        HtmlElement element = getElementByTitle(page.getDocumentHtmlElement(), title);
+        HtmlElement element = getElementByTitle(page.getDocumentElement(), title);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1296,11 +1371,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByTitle(HtmlElement element, String title) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("title");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("title");
             if (title.equals(value)) {
                 return e;
             }
@@ -1317,11 +1389,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByClass(HtmlElement element, String classname) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("class");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("class");
             if (classname.equals(value)) {
                 return e;
             }
@@ -1331,12 +1400,9 @@ public abstract class KraWebTestBase extends KraTestBase {
     
     
     protected final List<HtmlElement> getErrorElementsByStyle(HtmlElement element, String stylePrefix) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
         List<HtmlElement> errorElements = new ArrayList<HtmlElement>();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("style");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("style");
             if (value.startsWith(stylePrefix)) {
                 errorElements.add(e);
             }
@@ -1361,7 +1427,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the Lookup's HTML element or null if not found.
      */
     protected final HtmlImageInput getLookup(HtmlPage page, String tag) {
-        HtmlImageInput element = getLookup(page.getDocumentHtmlElement(), tag);
+        HtmlImageInput element = getLookup(page.getDocumentElement(), tag);
 
         List<HtmlPage> innerPages = getInnerPages(page);
         for (Iterator<HtmlPage> page_it = innerPages.iterator(); page_it.hasNext() && element == null;) {
@@ -1385,12 +1451,9 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the Lookup's HTML element or null if not found.
      */
     private final HtmlImageInput getLookup(HtmlElement element, String tag) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
             if (e instanceof HtmlImageInput) {
-                String name = e.getAttributeValue("name");
+                String name = e.getAttribute("name");
                 LOG.info("Found name attribute " + name);
                 if (name != null && name.startsWith("methodToCall.performLookup") && name.contains(tag)) {
                     return (HtmlImageInput) e;
@@ -1419,10 +1482,7 @@ public abstract class KraWebTestBase extends KraTestBase {
             table = (HtmlTable) element;
         }
         else {
-            @SuppressWarnings("unchecked")
-            Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-            while (iterator.hasNext()) {
-                HtmlElement e = iterator.next();
+            for (HtmlElement e : element.getAllHtmlChildElements()) {
                 if (e instanceof HtmlTable) {
                     table = (HtmlTable) e;
                     break;
@@ -1441,7 +1501,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML Anchor element or null if not found.
      */
     protected final HtmlAnchor getAnchor(HtmlPage page, String tag) {
-        HtmlAnchor element = getAnchor(page.getDocumentHtmlElement(), tag);
+        HtmlAnchor element = getAnchor(page.getDocumentElement(), tag);
 
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1465,12 +1525,9 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML Anchor element or null if not found.
      */
     private HtmlAnchor getAnchor(HtmlElement element, String tag) {
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
             if (e instanceof HtmlAnchor) {
-                String href = e.getAttributeValue("href");
+                String href = e.getAttribute("href");
                 if (href != null && href.contains(tag)) {
                     return (HtmlAnchor) e;
                 }
@@ -1490,7 +1547,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the list of Help HTML elements.
      */
     protected final List<HtmlAnchor> findHelpLinks(HtmlPage page) {
-        List <HtmlAnchor> helpLinks = findHelpLinks(page.getDocumentHtmlElement());
+        List <HtmlAnchor> helpLinks = findHelpLinks(page.getDocumentElement());
 
         List<HtmlPage> innerPages = getInnerPages(page);
         for (HtmlPage innerPage : innerPages) {
@@ -1509,12 +1566,9 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     private List<HtmlAnchor> findHelpLinks(HtmlElement element) {
         List<HtmlAnchor> helpLinks = new ArrayList<HtmlAnchor>();
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
             if (e instanceof HtmlAnchor) {
-                String target = e.getAttributeValue("target");
+                String target = e.getAttribute("target");
                 if (target != null && target.equals("helpWindow")) {
                     helpLinks.add((HtmlAnchor) e);
                 }
@@ -1537,7 +1591,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected final List<HtmlElement> getAllElementsByName(HtmlPage page, String name, boolean startsWith) {
-        List<HtmlElement> elements = getAllElementsByName(page.getDocumentHtmlElement(), name, startsWith);
+        List<HtmlElement> elements = getAllElementsByName(page.getDocumentElement(), name, startsWith);
 
         List<HtmlPage> innerPages = getInnerPages(page);
         for (HtmlPage innerPage : innerPages) {
@@ -1558,11 +1612,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final List<HtmlElement> getAllElementsByName(HtmlElement element, String name, boolean startsWith) {
         List<HtmlElement> elements = new ArrayList<HtmlElement>();
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String value = e.getAttributeValue("name");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("name");
             if (!startsWith && name.equals(value)) {
                 elements.add(e);
             } else if (startsWith && value != null && value.startsWith(name)) {
@@ -1581,8 +1632,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final List<HtmlPage> getInnerPages(HtmlPage page) {
         List<HtmlPage> innerPages = new ArrayList<HtmlPage>();
-        
-        @SuppressWarnings("unchecked")
+
         List<FrameWindow> frames = page.getFrames();
         for (int i = 0; i < frames.size(); i++) {
             FrameWindow frame = frames.get(i);
@@ -1606,8 +1656,8 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlElement getFirstChild(HtmlElement element) {
         HtmlElement firstChild = null;
-        @SuppressWarnings("unchecked")
-        Iterator<HtmlElement> iterator = element.getChildElementsIterator();
+
+        Iterator<HtmlElement> iterator = element.getChildElements().iterator();
         if (iterator.hasNext()) {
             firstChild = iterator.next();
         }
@@ -1622,11 +1672,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlElement getNextSibling(HtmlElement element) {
         HtmlElement sibling = null;
-        DomNode node = element.getParentDomNode();
+        DomNode node = element.getParentNode();
         if (node instanceof HtmlElement) {
             HtmlElement parent = (HtmlElement) node;
-            @SuppressWarnings("unchecked")
-            Iterator<HtmlElement> iterator = parent.getChildElementsIterator();
+
+            Iterator<HtmlElement> iterator = parent.getChildElements().iterator();
             while (iterator.hasNext()) {
                 HtmlElement e = iterator.next();
                 if (e == element) {
@@ -1647,11 +1697,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next sibling HTML element or null if there is none.
      */
     protected final HtmlElement getNextSibling(HtmlElement element, String elementName) {
-        DomNode node = element.getParentDomNode();
+        DomNode node = element.getParentNode();
         if (node instanceof HtmlElement) {
             HtmlElement parent = (HtmlElement) node;
-            @SuppressWarnings("unchecked")
-            Iterator<HtmlElement> iterator = parent.getChildElementsIterator();
+
+            Iterator<HtmlElement> iterator = parent.getChildElements().iterator();
             while (iterator.hasNext()) {
                 HtmlElement e = iterator.next();
                 if (e == element) {
@@ -1832,7 +1882,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         assertTrue(element.getClass().getName(), element instanceof HtmlSelect);
 
         HtmlSelect selectField = (HtmlSelect) element;
-        @SuppressWarnings("unchecked") List<HtmlOption> options = selectField.getOptions();
+        List<HtmlOption> options = selectField.getOptions();
         for (HtmlOption option : options) {
             String value = option.getValueAttribute();
             if (!value.equals("")) {
@@ -1853,7 +1903,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         assertTrue(element instanceof HtmlSelect);
 
         HtmlSelect selectField = (HtmlSelect) element;
-        @SuppressWarnings("unchecked") List<HtmlOption> options = selectField.getOptions();
+        List<HtmlOption> options = selectField.getOptions();
         selectField.setSelectedAttribute(options.get(optionOrdinalPosition).getValueAttribute(), true);
     }
     

@@ -16,8 +16,6 @@
 package org.kuali.kra.budget.web;
 
 
-import java.util.Iterator;
-
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
@@ -118,9 +116,7 @@ public abstract class BudgetRatesWebTestBase extends ProposalDevelopmentWebTestB
         HtmlTable table = getTable(page, tableName);
         assertNotNull(table);
         String applicableRateId = null;
-        Iterator iterator = table.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement child = (HtmlElement) iterator.next();
+        for (HtmlElement child : table.getAllHtmlChildElements()) {
             if(child.getId().startsWith(APPLICABLE_RATE_ELEMENT_NAME_START)) {
                 applicableRateId = child.getId();
                 break;

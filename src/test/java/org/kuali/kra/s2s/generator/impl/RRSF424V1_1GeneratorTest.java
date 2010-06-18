@@ -45,7 +45,7 @@ import org.kuali.kra.s2s.generator.util.S2STestUtils;
  * 
  * This class is used to test RRSF424V1_1 form
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class RRSF424V1_1GeneratorTest extends S2STestBase<RRSF424V1_1Generator> {
 
     @Override

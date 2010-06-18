@@ -20,7 +20,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_SUMMARY_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.parameters.x";

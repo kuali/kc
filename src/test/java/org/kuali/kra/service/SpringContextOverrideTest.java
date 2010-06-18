@@ -25,7 +25,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * Test class for overriding SpringContext using KraServiceLocatorConfigurer
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class SpringContextOverrideTest extends org.junit.Assert {
     
     @Test

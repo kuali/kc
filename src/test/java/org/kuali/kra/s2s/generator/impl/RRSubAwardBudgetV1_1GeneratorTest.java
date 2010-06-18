@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class RRSubAwardBudgetV1_1GeneratorTest extends S2STestBase<RRSubAwardBudgetV1_1Generator> {
 
     @Override

@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * Test the Person.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PersonWebTest extends KraWebTestBase {
     
     private static final long SLEEP_TIME = 3000; // 3 seconds

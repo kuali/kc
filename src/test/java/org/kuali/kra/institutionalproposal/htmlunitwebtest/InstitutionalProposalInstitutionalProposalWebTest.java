@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Integration test for Institutional Proposal Page on IP Home page.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalInstitutionalProposalWebTest extends InstitutionalProposalHomeWebTest {
 
 private static final String SAVE_METHOD = "methodToCall.save";

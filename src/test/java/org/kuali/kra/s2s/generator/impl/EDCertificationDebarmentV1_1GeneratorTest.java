@@ -24,7 +24,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
  * 
  * This class is used to test EDCertificationDebarmentV1_1 form
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class EDCertificationDebarmentV1_1GeneratorTest extends S2STestBase<EDCertificationDebarmentV1_1Generator> {
 
     @Override

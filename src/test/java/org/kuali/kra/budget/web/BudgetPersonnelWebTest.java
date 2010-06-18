@@ -37,7 +37,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private static final String PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String EXPENSES_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.expenses.x";
