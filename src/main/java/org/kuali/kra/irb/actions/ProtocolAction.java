@@ -31,7 +31,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
     //not thread safe cannot be static
-    transient private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    transient private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
 
     private Long protocolActionId;
@@ -61,6 +61,7 @@ public class ProtocolAction extends ProtocolAssociate {
         setActualActionDate(new Timestamp(System.currentTimeMillis()));
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
+        setProtocol(protocol);
         if (protocolSubmission != null) {
             setSubmissionIdFk(protocolSubmission.getSubmissionId());
             setSubmissionNumber(protocolSubmission.getSubmissionNumber());
@@ -166,14 +167,25 @@ public class ProtocolAction extends ProtocolAssociate {
         if (getActualActionDate() == null) {
             return "";
         }
-        return dateFormat.format(getActualActionDate());
+        return getDateFormat().format(getActualActionDate());
     }
     
     public String getActionDateString() {
         if (getActionDate() == null) {
             return "";
         }
-        return dateFormat.format(getActionDate());
+        return getDateFormat().format(getActionDate());
+    }
+    
+    /*
+     * Simpledateformat cause serialization issue if it not static final, so make it transient.
+     * Also, need to recreate if it is retrieved from serialized doc.
+     */
+    private SimpleDateFormat getDateFormat() {
+        if (dateFormat == null) {
+            dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+        }
+        return dateFormat;
     }
     
     public String getSubmissionStatusString() {
