@@ -52,7 +52,9 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-        generateCorrespondenceDocumentAndAttach(protocol);
+        generateCorrespondenceDocumentAndAttach(protocol); 
+        
+        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
 
     }
     

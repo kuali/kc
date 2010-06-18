@@ -380,6 +380,7 @@ public class ActionHelper implements Serializable {
     
     private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
         undoLastActionBean = new UndoLastActionBean();
+        undoLastActionBean.setProtocol(protocol);
         Collections.sort(protocol.getProtocolActions(), new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());

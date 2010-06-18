@@ -134,9 +134,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
-        protocolActionService.updateProtocolStatus(protocolAction, protocol);
         businessObjectService.save(protocol);
         generateCorrespondenceDocumentAndAttach(protocol, protocolActionType);
     }

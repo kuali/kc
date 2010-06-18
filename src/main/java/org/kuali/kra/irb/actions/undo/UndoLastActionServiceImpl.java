@@ -41,7 +41,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         this.documentService = documentService;
     }
 
-    public void undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception {
+    public ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception {
         //Undo Protocol Status and Submission Status update
         Protocol protocol = protocolDocument.getProtocol();
         undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
@@ -50,7 +50,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         protocolActionService.resetProtocolStatus(lastActionPerformed, protocol);
         
         //Undo possible workflow actions
-        undoWorkflowRouting(protocolDocument, lastActionPerformed);
+        ProtocolDocument updatedDocument = undoWorkflowRouting(protocolDocument, lastActionPerformed);
         
         //Revert any correspondence that was sent out
 
@@ -60,7 +60,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         }
         
         //Save the updated Protocol object
-        documentService.saveDocument(protocolDocument);
+        documentService.saveDocument(updatedDocument);
+        return updatedDocument;
     }
     
     private void resetProtocolStatus(Protocol protocol) {
@@ -71,7 +72,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         protocol.setActive(true);
     }
     
-    private void undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
+    private ProtocolDocument undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
         KualiWorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
         
         //Do we need additional check to see if this is not a Renewal/Amendment Approval? since we already eliminated those options within Authz Logic
@@ -81,6 +82,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
             protocolDocument = KraServiceLocator.getService(ProtocolCopyService.class).copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
         }
+        
+        return protocolDocument;
     }
 
 }

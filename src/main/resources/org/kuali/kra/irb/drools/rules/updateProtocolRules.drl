@@ -10,12 +10,18 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
+function void createAuditTrail(ProtocolActionUpdateMapping protocolAction) {
+	if(protocolAction.getProtocol().getProtocolSubmission() != null) {
+		protocolAction.getProtocolAction().setPrevSubmissionStatusCode(protocolAction.getProtocol().getProtocolSubmission().getSubmissionStatusCode());
+		protocolAction.getProtocolAction().setSubmissionTypeCode(protocolAction.getProtocol().getProtocolSubmission().getSubmissionTypeCode());
+	}
+    protocolAction.getProtocolAction().setPrevProtocolStatusCode(protocolAction.getProtocol().getProtocolStatusCode());
+}
 function void setProtocolSubmissionStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolSubmissionStatusCode) {
 	//TODO Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
-	protocolAction.getProtocolAction().setPrevSubmissionStatusCode(protocolAction.getProtocolSubmission().getSubmissionStatusCode());
     protocolAction.getProtocolSubmission().setSubmissionStatusCode(newProtocolSubmissionStatusCode);  
 } 
-
+ 
 function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolAction, String submissionTypeCode, String reviewCode, String submissionStatusCode) {
 	ProtocolSubmission protocolSubmission = new ProtocolSubmission();
 
@@ -35,12 +41,12 @@ function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolActio
 	//TODO check submission number and increment to 1 if mounted bo does not contain latest submission number
 	protocolSubmission.setSubmissionNumber(protocolAction.getProtocol().getProtocolSubmission().getSubmissionNumber() + 1);
 	
+	protocolAction.getProtocolAction().setSubmissionTypeCode(submissionTypeCode);
 	//TODO should it be set to one to many or one to one mount
 	protocolAction.getProtocol().setProtocolSubmission(protocolSubmission);
 }
 
 function void setProtocolStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {
-	protocolAction.getProtocolAction().setPrevProtocolStatusCode(protocolAction.getProtocol().getProtocolStatusCode());
     protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
 } 
 
@@ -49,6 +55,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "200")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "101");
 end
 
@@ -57,6 +64,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "201")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "206");
 	setProtocolStatusCode(protocolAction, "103");
 end
@@ -66,6 +74,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "202")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "201");
 	setProtocolStatusCode(protocolAction, "104");
 end
@@ -75,6 +84,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition in ("A", "R") )
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 end
 
@@ -83,6 +93,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition not in ("A", "R"))
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 	setProtocolStatusCode(protocolAction, "200");
 end
@@ -92,6 +103,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "203")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "202");
 	setProtocolStatusCode(protocolAction, "102");
 end
@@ -101,6 +113,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "300", submissionTypeCode == "109")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "207");
 	setProtocolStatusCode(protocolAction, "301");
 end
@@ -110,6 +123,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "300", submissionTypeCode != "109")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "300");
 end
 
@@ -118,6 +132,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "301", submissionTypeCode == "108")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "208");
 	setProtocolStatusCode(protocolAction, "303");
 end
@@ -127,6 +142,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "301", submissionTypeCode != "108")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "307");
 end
 
@@ -135,6 +151,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "302", submissionTypeCode == "110")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "209");
 	setProtocolStatusCode(protocolAction, "302");
 end
@@ -144,6 +161,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "302", submissionTypeCode != "110")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "308");
 end
 
@@ -152,6 +170,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "306", submissionTypeCode == "110")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "209");
 	setProtocolStatusCode(protocolAction, "311");
 end
@@ -161,6 +180,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "306", submissionTypeCode != "110")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "311");
 end
 
@@ -169,6 +189,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "305")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "305");
 end
 
@@ -177,6 +198,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "303")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "210");
 end
 
@@ -185,6 +207,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "303", protocolStatusCode == "101")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "304");
 end
 
@@ -193,6 +216,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "304")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "205");
 	setProtocolStatusCode(protocolAction, "306");
 end
@@ -202,6 +226,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "205", protocolNumberARCondition in ("A", "R"))
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 end
 
@@ -210,6 +235,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "205", protocolNumberARCondition not in ("A", "R"))
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 	setProtocolStatusCode(protocolAction, "200");
 end
@@ -219,6 +245,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "206")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "204");
 	setProtocolStatusCode(protocolAction, "203");
 end
@@ -228,6 +255,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "210")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "104");
 	setProtocolStatusCode(protocolAction, "310");
 end
@@ -237,6 +265,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207", submissionTypeCode == "111")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "201");
 end
@@ -246,6 +275,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "201");
 end
 
@@ -286,6 +316,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "109")
 then	
+	createAuditTrail(protocolAction);
 	//TODO update all protocol submission's and committee schedule, following statement should be removed
 	setNewProtocolSubmission(protocolAction, "111", "1", "102");
 end
@@ -295,6 +326,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "208", protocolNumberARCondition in ("A", "R") )
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 end
 
@@ -303,6 +335,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "208", protocolNumberARCondition not in ("A", "R"))
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 	setProtocolStatusCode(protocolAction, "200");
 end
@@ -312,6 +345,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "209")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "212");
 end
 
@@ -336,6 +370,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "116")
 then	
+	createAuditTrail(protocolAction);
 	setNewProtocolSubmission(protocolAction, "112", "7", "102");
 end
 
@@ -344,6 +379,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode == "111")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "202");
 end
@@ -353,6 +389,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode != "111")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "202");
 end
 
@@ -361,6 +398,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode == "115")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "200");
 end
@@ -370,6 +408,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode != "115")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "200");
 end
 
@@ -386,6 +425,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "103")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "105");
 end
 rule "fn_table:  Protocol Status = 106 (Tabled)" 
@@ -393,6 +433,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "102")
 then	
+	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "106");
 end
 
