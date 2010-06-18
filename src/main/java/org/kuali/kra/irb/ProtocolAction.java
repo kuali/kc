@@ -150,15 +150,17 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getDocument().getProtocol());
+        boolean validToSave = false;
         if (isAuthorized(task)) {
             if (isValidSave(protocolForm)) {
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
+                validToSave = true;
             }
         }
         
-        if (protocolForm.getMethodToCall().equals("save") && protocolForm.isAuditActivated()) {
+        if (protocolForm.getMethodToCall().equals("save") && protocolForm.isAuditActivated() && validToSave) {
             actionForward = mapping.findForward("protocolActions");
         }
 
