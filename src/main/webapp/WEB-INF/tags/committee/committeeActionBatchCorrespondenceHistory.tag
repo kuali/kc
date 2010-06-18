@@ -102,7 +102,7 @@
             <c:forEach items="${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
                 <tr>
                     <td class="infoline" colspan="2">
-                        <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" index="${status.index}" />
+                        <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" committeeBatchCorrespondenceProperty="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${status.index}]" />
                     </td>
                 </tr>
             </c:forEach>
@@ -112,7 +112,7 @@
                     </td>
                     <td  style="background-color: #e4e4e4;" width="63">
                         <div align="center">
-                            <html:image property="methodToCall.viewBatchCorrespondence"
+                            <html:image property="methodToCall.viewBatchCorrespondenceHistory"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
                                         styleClass="tinybutton"
                                         onclick="excludeSubmitRestriction = true;" />

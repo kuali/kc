@@ -27,10 +27,12 @@ public class CommitteeActionViewBatchCorrespondenceEvent extends CommitteeAction
     private static final String MSG = "view batch correspondence";
     
     private List<CommitteeBatchCorrespondence> committeeBatchCorrespondences;
+    private boolean viewGenerated;
 
-    public CommitteeActionViewBatchCorrespondenceEvent(String errorPathPrefix, Document document, List<CommitteeBatchCorrespondence> committeeBatchCorrespondences) {
+    public CommitteeActionViewBatchCorrespondenceEvent(String errorPathPrefix, Document document, List<CommitteeBatchCorrespondence> committeeBatchCorrespondences, boolean viewGenerated) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
         setCommitteeBatchCorrespondences(committeeBatchCorrespondences);
+        setViewGenerated(viewGenerated);
     }
     
     @SuppressWarnings("unchecked")
@@ -45,6 +47,14 @@ public class CommitteeActionViewBatchCorrespondenceEvent extends CommitteeAction
 
     public void setCommitteeBatchCorrespondences(List<CommitteeBatchCorrespondence> committeeBatchCorrespondences) {
         this.committeeBatchCorrespondences = committeeBatchCorrespondences;
+    }
+
+    public void setViewGenerated(boolean viewGenerated) {
+        this.viewGenerated = viewGenerated;
+    }
+
+    public boolean isViewGenerated() {
+        return viewGenerated;
     }
 
 }

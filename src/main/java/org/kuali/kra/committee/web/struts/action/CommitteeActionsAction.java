@@ -88,7 +88,9 @@ public class CommitteeActionsAction extends CommitteeAction {
         
         if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                 batchCorrespondenceTypeCode, startDate, endDate))) {
-            getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().clear();
+            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().add(
+                    getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate));
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -124,7 +126,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     
     /**
      * 
-     * This method returns the selected batch correspondence documents for viewing.
+     * This method returns the selected batch correspondence that just have been generated documents for viewing.
      * @param mapping
      * @param form
      * @param request
@@ -132,18 +134,54 @@ public class CommitteeActionsAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward viewBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward viewBatchCorrespondenceGenerated(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper().getCommitteeActionsHelper()
+                .getGenerateBatchCorrespondence();
+        
+        return viewBatchCorrespondence(mapping, committeeForm, committeeBatchCorrespondences, true, response);
+    }
+        
+    /**
+     * 
+     * This method returns the selected batch correspondence history documents for viewing.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper().getCommitteeActionsHelper()
                 .getBatchCorrespondenceHistory();
         
+        return viewBatchCorrespondence(mapping, committeeForm, committeeBatchCorrespondences, false, response);
+    }
+        
+    /**
+     * 
+     * This method returns the selected batch correspondence documents for viewing.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception 
+     */
+    private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommitteeForm committeeForm, 
+            List<CommitteeBatchCorrespondence> committeeBatchCorrespondences, boolean viewBatch, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         List<String> bookmarksList = new ArrayList<String>();
         List<byte[]> pdfBaosList = new ArrayList<byte[]>();
 
-        if (applyRules(new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeBatchCorrespondences))) {
+        if (applyRules(new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeBatchCorrespondences, viewBatch))) {
             for (CommitteeBatchCorrespondence committeeBatchCorrespondence : committeeBatchCorrespondences) {
                 for (CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail : committeeBatchCorrespondence
                         .getCommitteeBatchCorrespondenceDetails()) {

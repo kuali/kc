@@ -25,8 +25,8 @@ public class SendCorrespondenceValuesFinder extends KeyValuesBase {
 
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("BEFORE", "Before"));
-        keyValues.add(new KeyLabelPair("AFTER", "After"));
+        keyValues.add(new KeyLabelPair(BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT, "Before"));
+        keyValues.add(new KeyLabelPair(BatchCorrespondence.SEND_CORRESPONDENCE_AFTER_EVENT, "After"));
         return keyValues;
     }
 
