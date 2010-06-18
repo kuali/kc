@@ -32,6 +32,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -258,6 +259,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UPDATE_RULE).executeRules(protocolAction);
+        //businessObjectService.save(protocolActionBo);
         businessObjectService.save(protocol);
         
         // if there is submission just added, then force this to get the last one.
@@ -265,7 +267,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     }
 
     public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
-        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), protocolActionBo.getProtocolSubmission().getSubmissionTypeCode(), protocol.getProtocolStatusCode());
+        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
