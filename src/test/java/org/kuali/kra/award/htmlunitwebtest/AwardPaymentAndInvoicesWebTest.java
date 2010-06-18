@@ -28,7 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Reports page. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardPaymentAndInvoicesWebTest extends AwardPaymentsAndTermsWebTest {
     
     private static final String METHOD_TO_CALL_REFRESH_PULL_DOWN_MENUS = "methodToCall.refreshPulldownOptions";    

@@ -24,7 +24,7 @@ import org.junit.Test;
  * 
  * This is the integration test for InstitutionalProposal Graduate Student Tab. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalGraduateStudentWebTest extends InstitutionalProposalHomeWebTest {
 
     private static final String SAVE_METHOD = "methodToCall.save";

@@ -36,7 +36,7 @@ import org.kuali.kra.s2s.generator.util.S2STestUtils;
 /**
  * This class tests the RRPerformanceSite
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class RRPerformanceSiteV1_0GeneratorTest extends S2STestBase<RRPerformanceSiteV1_0Generator> {
 
     @Override

@@ -25,7 +25,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PerformanceSiteV1_2GeneratorTest extends
 		S2STestBase<PerformanceSiteV1_2Generator> {
 

@@ -26,7 +26,7 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 import org.kuali.kra.s2s.service.S2SService;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class TestSearchOpportunity extends Assert {
     
     private static final Logger LOG = Logger.getLogger(TestSearchOpportunity.class);

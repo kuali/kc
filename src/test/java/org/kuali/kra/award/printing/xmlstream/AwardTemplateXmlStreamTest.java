@@ -25,7 +25,7 @@ import org.kuali.kra.printing.util.XmlStreamTestBase;
  * This class tests generation and validation of XML for Award Template Report
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardTemplateXmlStreamTest extends
 		XmlStreamTestBase<AwardTemplateXmlStream> {
 

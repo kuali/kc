@@ -22,7 +22,7 @@ import org.junit.Test;
 import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String DOCUMENT_SAVED = "Document was successfully saved";
@@ -79,7 +79,7 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
         final HtmlPage pageAfterKeywordLookup = saveAndVerifyData(pageKeywordLookup);
 
         /* Test javascript for select all */
-        final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentElement());
+        final ScriptResult scriptResult = null;//pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentElement());
         //final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", true, pageAfterKeywordLookup.getDocumentElement());
         final HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
 

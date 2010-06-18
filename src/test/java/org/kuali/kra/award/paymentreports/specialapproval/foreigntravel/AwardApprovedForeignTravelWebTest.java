@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This class tests the ApprovedEquipment panel
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardApprovedForeignTravelWebTest extends AwardPaymentsAndTermsWebTest {
     private static final String UNIQUE_ERROR_MSG = "A row duplicates another";
     private static final String TRAVELER_NAME_ERROR_CONTEXT = "Traveler Name";    

@@ -42,7 +42,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_IP_REVIEW_RESULT_TYPE.sql", delimiter = ";")
                 })
         )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalIntellectualPropertyReviewWebTest extends InstitutionalProposalWebTestBase {
     
     private static final String IP_REVIEW_TAB_NAME = "intellectualPropertyReview.x";

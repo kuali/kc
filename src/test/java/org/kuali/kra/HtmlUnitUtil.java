@@ -17,7 +17,6 @@ package org.kuali.kra;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
@@ -41,7 +40,7 @@ public class HtmlUnitUtil {
     public static HtmlAnchor getAnchorByTitle(HtmlPage page, String anchorTitle) {
         List<HtmlAnchor> anchors = page.getAnchors();
         for (HtmlAnchor anchor : anchors) {
-            if (anchor.getTitleAttribute().equals(anchorTitle)) {
+            if (anchor.getAttribute("title").equals(anchorTitle)) {
                 return anchor;
             }
         }
@@ -161,10 +160,8 @@ public class HtmlUnitUtil {
     }
 
     protected static final HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
-        Iterator iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = (HtmlElement) iterator.next();
-            String value = e.getAttributeValue("name");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("name");
             if (!startsWith && name.equals(value)) {
                 return e;
             } else if (startsWith && value != null && value.startsWith(name)) {
@@ -188,10 +185,8 @@ public class HtmlUnitUtil {
     }
     
     protected static final HtmlElement getElementByTitle(HtmlElement element, String title) {
-        Iterator iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = (HtmlElement) iterator.next();
-            String value = e.getAttributeValue("title");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String value = e.getAttribute("title");
             if (title.equals(value)) {
                 return e;
             }

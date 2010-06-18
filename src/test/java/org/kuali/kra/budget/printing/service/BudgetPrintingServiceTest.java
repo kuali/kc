@@ -29,7 +29,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * Budget printing.
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 	private BudgetPrintingService budgetPrintingService;
 	private BudgetDocument budgetDoc;

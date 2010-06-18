@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
    
     /**

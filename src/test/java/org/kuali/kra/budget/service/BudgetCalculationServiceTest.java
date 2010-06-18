@@ -49,7 +49,7 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetCalculationServiceTest extends KraTestBase {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory

@@ -24,7 +24,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the SFLLLV1_0GeneratorTest
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class SFLLLV1_0GeneratorTest extends S2STestBase<SFLLLV1_0Generator> {
 
     @Override

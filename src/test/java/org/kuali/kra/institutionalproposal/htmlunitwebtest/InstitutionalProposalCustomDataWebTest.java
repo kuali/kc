@@ -22,7 +22,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This is the integration test for Custom Data tab in Institutional Proposal module.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalCustomDataWebTest extends InstitutionalProposalWebTestBase {
 
     private static final String GROUP_NAME = "Personnel Items for Review";

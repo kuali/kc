@@ -31,7 +31,7 @@ import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServic
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetDistributionAndIncomeServiceTest extends BudgetDistributionAndIncomeTest {
     private static final String finalStatusParameterValue = "1";
     private BudgetDistributionAndIncomeService bdiService;

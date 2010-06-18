@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.web;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -164,16 +163,13 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     private void assertSelectedValue(HtmlTableRow row, int cellIndex, String expectedValue) {
         HtmlTableCell cell = row.getCell(cellIndex);
         HtmlElement element = getElementByValue(cell, expectedValue);
-        String selected = element.getAttributeValue("selected");
+        String selected = element.getAttribute("selected");
         assertTrue(expectedValue + " was not selected", selected != null && selected.equals("selected"));
     }
-    
-    @SuppressWarnings("unchecked")
+
     private HtmlElement getElementByValue(HtmlElement element, String value) {
-        Iterator<HtmlElement> iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = iterator.next();
-            String elementValue = e.getAttributeValue("value");
+        for (HtmlElement e : element.getAllHtmlChildElements()) {
+            String elementValue = e.getAttribute("value");
             if (elementValue.equals(value)) {
                 return e;
             }

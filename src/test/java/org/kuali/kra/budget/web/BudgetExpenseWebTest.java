@@ -22,7 +22,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_EXPENSE_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.expenses.x";

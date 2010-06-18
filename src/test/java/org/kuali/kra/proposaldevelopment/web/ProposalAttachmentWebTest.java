@@ -38,7 +38,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 /**
  * This class...
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
     private static final String KEY_PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x";

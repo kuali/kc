@@ -38,7 +38,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the SF424V1_0 generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class SF424V2_0GeneratorTest extends S2STestBase<SF424V2_0Generator> {
 
 

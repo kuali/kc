@@ -33,7 +33,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
  * 
  * This class tests RRKeyPerson form
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class RRKeyPersonV1_0GeneratorTest extends S2STestBase<RRKeyPersonV1_0Generator> {
 
     @Override

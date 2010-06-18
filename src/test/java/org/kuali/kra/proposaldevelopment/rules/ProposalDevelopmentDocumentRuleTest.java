@@ -48,7 +48,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class tests the ProposalDevelopmentDocumentRule class
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
 
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005889";

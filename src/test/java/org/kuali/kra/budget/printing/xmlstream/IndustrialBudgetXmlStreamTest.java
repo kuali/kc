@@ -32,7 +32,7 @@ import org.kuali.kra.printing.util.XmlStreamTestBase;
  * Report
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class IndustrialBudgetXmlStreamTest extends
 		XmlStreamTestBase<IndustrialBudgetXmlStream> {
 

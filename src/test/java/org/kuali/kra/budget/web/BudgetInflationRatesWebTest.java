@@ -22,7 +22,7 @@ import org.junit.Test;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetInflationRatesWebTest extends BudgetRatesWebTestBase {
     private static final String PERSONNEL_INFLATION_SYNC_TEXT = "Faculty Salaries (6/1) No 2000 07/01/1999";
     private static final String BUDGET_RATE_TYPE = "Administrative Salaries (7/1)";

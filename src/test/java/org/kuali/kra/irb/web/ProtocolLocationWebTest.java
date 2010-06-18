@@ -29,10 +29,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for protocol location / organization panel. 
  */
-@SuppressWarnings("unchecked")
 public class ProtocolLocationWebTest extends ProtocolWebTestBase{
     
-    HtmlPage protocolPage;
+    private HtmlPage protocolPage;
     protected static final String NEW_ORGANIZATION_ID =  "protocolHelper.newProtocolLocation.organizationId";
     protected static final String NEW_ORGANIZATION_VALUE =  "000001";
     protected static final String ADDRESS_LINE_1 =  "Address Line 1";

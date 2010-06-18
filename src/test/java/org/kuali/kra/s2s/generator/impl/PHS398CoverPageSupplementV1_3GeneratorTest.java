@@ -32,7 +32,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
  * 
  * This class tests PHS398CoverPageSupplement form V1.3
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PHS398CoverPageSupplementV1_3GeneratorTest extends
 		S2STestBase<PHS398CoverPageSupplementV1_3Generator> {
 

@@ -35,7 +35,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
     // this matches the hierarchy of meta-rules defined
     // in KRAMetaRuleHierarchy.xml

@@ -27,7 +27,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the NASASeniorKeyPersonSupplementalDataSheetV1_0 Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class NASASeniorKeyPersonSupplementalDataSheetV1_0GeneratorTest extends
         S2STestBase<NASASeniorKeyPersonSupplementalDataSheetV1_0Generator> {
 

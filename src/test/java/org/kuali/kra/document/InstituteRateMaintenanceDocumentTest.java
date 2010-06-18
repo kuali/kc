@@ -38,7 +38,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
     public void testCreateNewInstituteRate() throws Exception {
         HtmlPage instituteRateMaintenancePage = getMaintenanceDocumentPage("Institute Rate","org.kuali.kra.bo.InstituteRate","Kuali :: Institute Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(instituteRateMaintenancePage,"Edit Institute Rates New * Activity Type Code: * Fiscal Year: * On/Off Campus Flag: unchecked * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
+        assertContains(instituteRateMaintenancePage,"Edit Institute Rates New * Activity Type Code: * Fiscal Year: * On/Off Campus Flag: on * Rate Class Code: * Rate Type Code: * Start Date: * Unit Number: * Rate: ");
         setFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentDescription", "Institute Rates - test");
         setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.activityTypeCode", "1");
         setFieldValue(instituteRateMaintenancePage, "document.newMaintainableObject.rateClassCode", "5");

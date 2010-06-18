@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the PHS398CareerDevelopmentAwardSupV1_0Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PHS398CareerDevelopmentAwardSupV1_0GeneratorTest extends
 		S2STestBase<PHS398CareerDevelopmentAwardSupV1_0Generator> {
 

@@ -40,7 +40,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Report
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class PrintCertificationXmlStreamTest extends
 		XmlStreamTestBase<PrintCertificationXmlStream> {
 

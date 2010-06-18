@@ -24,7 +24,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
  * 
  * This class is used to test GGLobbyingFormV1_0 form
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class GGLobbyingFormV1_0GeneratorTest extends S2STestBase<GGLobbyingFormV1_0Generator> {
 
     @Override

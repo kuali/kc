@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.DateUtils;
 /**
  * This class tests the AwardApprovedEquipment BO
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardApprovedForeignTravelTest {
 
     private static final String JOHN_DOE = "John Doe";

@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This class is integration test for Instituional Proposal Financial tab.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalFinancialWebTest extends InstitutionalProposalHomeWebTest {
 
     private static final String SAVE_METHOD = "methodToCall.save";

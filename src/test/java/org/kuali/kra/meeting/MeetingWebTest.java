@@ -218,9 +218,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
             for (int readNum; (readNum = inStream.read(buf)) != -1;) {
                 bos.write(buf, 0, readNum); // no doubt here is 0
                 // Writes len bytes from the specified byte array starting at offset off to this byte array output stream.
-                System.out.println("read " + readNum + " bytes,");
             }
-            System.out.println("bos size " + bos.size());
 
             return bos.toByteArray();
 
@@ -382,7 +380,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         options = selectField.getOptions();
         option = (HtmlOption)options.get(options.size() - 1);
         if (StringUtils.isBlank(scheduleId)) {
-            scheduleId = option.getAttributeValue("value");
+            scheduleId = option.getAttribute("value");
         }
      //   int optionSize = selectField.getOptionSize();
         setFieldValue(protocolActionsPage, "actionHelper.protocolSubmitAction.scheduleId", scheduleId);
@@ -532,7 +530,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         List options = selectField.getOptions();
         HtmlOption option = (HtmlOption)options.get(1);
 
-        setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.protocolIdFk", option.getAttributeValue("value"));
+        setFieldValue(pageAfterAdd, "meetingHelper.newCommitteeScheduleMinute.protocolIdFk", option.getAttribute("value"));
         pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addCommitteeScheduleMinute", true);
         assertFalse(hasError(pageAfterAdd));
         pageAfterSave = clickOn(pageAfterAdd, "save");

@@ -23,7 +23,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the FaithBasedSurveyOnEEOV1_0Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class FaithBasedSurveyOnEEOV1_0GeneratorTest extends S2STestBase<FaithBasedSurveyOnEEOV1_0Generator> {
 
     @Override
