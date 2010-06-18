@@ -86,8 +86,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCostShareWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCustomDataWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalFinancialWebTest.class,
-    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
-    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalIntellectualPropertyReviewWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalKeywordWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalSponsorAndProgramInformationWebTest.class,
@@ -95,7 +93,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.printing.service.InstituteProposalPrintingServiceTest.class,
     org.kuali.kra.institutionalproposal.service.InstitutionalProposalServiceTest.class,
     org.kuali.kra.irb.actions.submit.ProtocolAuthzServiceTest.class,
-    org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
     org.kuali.kra.irb.web.ProtocolAmendRenewWebTest.class,
     org.kuali.kra.irb.web.ProtocolCopyWebTest.class,
     org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class,
@@ -200,9 +197,33 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
     org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     
+    //FROM HTMLUNIT UPGRADE START
+    org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
+    org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentWebTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDeliveryInfoWebTest.class,
+    org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolLocationWebTest.class,
+    org.kuali.kra.proposaldevelopment.web.DeliveryInfoPanelWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardDataValidationWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardAttachmentsWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardCommentWebTest.class,
+    org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
+    org.kuali.kra.irb.web.ProtocolParticipantPanelWebTest.class,
+    org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
+    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
+    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class,
+    org.kuali.kra.meeting.MeetingWebTest.class,
+    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
+    org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
+    org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
+    //FROM HTMLUNIT UPGRADE END
+    
     //keep at bottom - somehow breaks the entire suite
     org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class
-    
 })
 /**
  * these are all the test class where a least one the test method is failing (or erroring).  Some of these test

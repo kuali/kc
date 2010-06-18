@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardApprovedForeignTravelRuleTest {
     private static final double ZERO_AMOUNT = 0.00;
     private static final double AMOUNT1 = 100.00;

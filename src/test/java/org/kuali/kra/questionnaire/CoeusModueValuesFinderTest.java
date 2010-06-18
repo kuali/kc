@@ -30,7 +30,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         }
     )
 )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CoeusModueValuesFinderTest extends ValuesFinderTestBase {
     
     @Override

@@ -63,7 +63,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
                 ,@UnitTestFile(filename = "classpath:sql/dml/update_institute_rates.sql", delimiter = ";")
                 })
         )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")    
+    
 public class BudgetPersonnelExpenseWebTest extends BudgetExpenseWebTest {
     private static final String BDOC_BUDGET_PERSONNEL_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String BDOC_ADD_PERSONNEL_EXPENSE_LINK_NAME = "methodToCall.addPersonnelLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnelDetail";

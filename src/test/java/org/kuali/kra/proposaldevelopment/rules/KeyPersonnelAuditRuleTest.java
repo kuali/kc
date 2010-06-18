@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditModeRule
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class KeyPersonnelAuditRuleTest extends KraTestBase {
     private static final String PARAMETER_NAME_PROPERTY   = "parameterName";
     private static final String CREDIT_SPLIT_ENABLED_NAME = "proposaldevelopment.creditsplit.enabled";

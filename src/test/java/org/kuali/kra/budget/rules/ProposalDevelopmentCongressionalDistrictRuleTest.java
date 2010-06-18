@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.CongressionalDistrictHe
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalDevelopmentCongressionalDistrictRuleTest extends ProposalDevelopmentRuleTestBase {
     private static final String ERROR_PATH_PREFIX = "document.developmentProposalList[0]";
     

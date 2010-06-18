@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.Constants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetRatesWebTest extends BudgetRatesWebTestBase {
     private static final String BDOC_BUDGET_RATES_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.rates.x";
     private static final String UPDATE_VIEW_BUTTON = "methodToCall.updateRatesView";

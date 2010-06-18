@@ -63,7 +63,7 @@ import org.kuali.rice.test.data.UnitTestSql;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_calc_service_test_valid_ce_rate_types.sql", delimiter = ";")
                 })
         )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetCalculatorServiceTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetCalculatorServiceTest.class);
     private DocumentService documentService = null;

@@ -67,7 +67,7 @@ import org.kuali.rice.test.data.UnitTestSql;
                 ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_INSTITUTE_LA_RATES.sql", delimiter = ";")
                 })
         )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class LineItemCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
     private DocumentService documentService = null;

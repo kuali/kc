@@ -124,7 +124,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
     public void testCreateNewCostElementMaintenanceDocument() throws Exception {
         HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage(CE_MAINT_TITLE, "org.kuali.kra.budget.core.CostElement", "Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
+        assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: on");
         setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.description", "test new cost element");

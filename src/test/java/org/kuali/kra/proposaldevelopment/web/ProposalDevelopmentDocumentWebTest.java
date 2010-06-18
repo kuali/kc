@@ -48,7 +48,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 /**
  * This class tests the KraServiceLocator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTestBase {
 
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentDocumentWebTest.class);
@@ -293,7 +293,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         final HtmlForm kualiForm = (HtmlForm) savedProposalPage.getForms().get(0);
         final HtmlSelect proposalTypeCode = kualiForm.getSelectByName("document.developmentProposalList[0].proposalTypeCode");
-        assertEquals("background-color:#FFD5D5", proposalTypeCode.getStyleAttribute());
+        assertEquals("background-color:#FFD5D5", proposalTypeCode.getAttribute("style"));
     }
 
     @Test public void testSaveProposalDevelopmentDocumentWithoutProposalType() throws Exception {
@@ -414,7 +414,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      */
     @Test
     public void testInstituteAttachment() throws Exception {
-        final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
         final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
         String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
         String[] description = {"desc","desc1"};

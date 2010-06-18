@@ -29,7 +29,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 /**
  * This class is Template implementation of BoAttributeTestBase<T> class, to test CommitteeSchedule BO for toStringMapper.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule> {
     
     private static final int ATTRIBUTE_COUNT = 14;

@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 /**
  * This class...
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalKeywordWebTest extends InstitutionalProposalHomeWebTest {
 
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
@@ -55,7 +55,7 @@ public class InstitutionalProposalKeywordWebTest extends InstitutionalProposalHo
         final HtmlPage pageAfterInitSave = saveAndVerifyData(institutionalProposalHomePage);
         HtmlPage pageKeywordLookup = scienceKeywordLookupTest(pageAfterInitSave);
         final HtmlPage pageAfterKeywordLookup = saveAndVerifyData(pageKeywordLookup);
-        final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentHtmlElement());
+        final ScriptResult scriptResult = null;//pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentElement());
         final HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
         assertContains(pageAfterSelectAll, FIRST_ROW_DATA_CHECKED);
         setFieldValue(pageAfterSelectAll, SCIENCE_KEYWORD_CHECKBOX_FIELD, CHECKBOX_UNCHECKED);

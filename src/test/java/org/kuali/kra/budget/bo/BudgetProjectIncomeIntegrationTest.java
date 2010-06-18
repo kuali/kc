@@ -26,7 +26,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 
     private static final Integer BUDGET_PERIOD_1 = 1;

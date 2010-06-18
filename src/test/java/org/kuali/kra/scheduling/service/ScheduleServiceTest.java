@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ScheduleServiceTest {
     
     private static final String time_23_59 = "23:59";

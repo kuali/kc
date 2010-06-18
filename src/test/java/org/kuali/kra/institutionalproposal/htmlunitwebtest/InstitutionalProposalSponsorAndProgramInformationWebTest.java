@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * Integration test for Sponsor & Program Information panel on Institutional Proposal Home page.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalSponsorAndProgramInformationWebTest extends InstitutionalProposalHomeWebTest {
 
 private static final String SAVE_METHOD = "methodToCall.save";

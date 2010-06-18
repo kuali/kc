@@ -66,7 +66,7 @@ import org.kuali.rice.test.data.UnitTestSql;
                 ,@UnitTestFile(filename = "classpath:sql/dml/update_institute_rates.sql", delimiter = ";")
                 })
         )
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetPersonnelCalculationTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonnelCalculationTest.class);
     private DocumentService documentService = null;

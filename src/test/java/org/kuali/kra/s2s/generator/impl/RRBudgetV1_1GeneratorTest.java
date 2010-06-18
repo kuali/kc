@@ -40,7 +40,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class RRBudgetV1_1GeneratorTest extends S2STestBase<RRBudgetV1_1Generator> {
 
 

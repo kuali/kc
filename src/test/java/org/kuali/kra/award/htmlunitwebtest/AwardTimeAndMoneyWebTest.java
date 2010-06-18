@@ -30,7 +30,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Time and Money Page. 
  */
-@SuppressWarnings("unchecked")
 public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     
     protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
@@ -45,7 +44,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        awardTimeAndMoneyPage = clickOnTab(getAwardHomePage(), TIME_AND_MONEY_BUTTON_NAME);
+        awardTimeAndMoneyPage = clickOn(getAwardHomePage(), TIME_AND_MONEY_BUTTON_NAME);
     }
 
     /**
@@ -69,7 +68,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
      */
     protected HtmlPage getAwardTimeAndMoneyPage() throws Exception {
         HtmlPage awardHomePage = this.getAwardHomePage();
-        HtmlPage awardTimeAndMoneyPage = clickOnTab(awardHomePage, TIME_AND_MONEY_BUTTON_NAME);
+        HtmlPage awardTimeAndMoneyPage = clickOn(awardHomePage, TIME_AND_MONEY_BUTTON_NAME);
         return awardTimeAndMoneyPage;
     }
     

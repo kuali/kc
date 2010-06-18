@@ -33,7 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the BudgetV1_1 Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
 
     @Override

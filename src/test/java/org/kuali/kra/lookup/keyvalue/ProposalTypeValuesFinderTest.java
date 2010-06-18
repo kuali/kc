@@ -24,7 +24,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 /**
  * This class tests ProposalTypeValuesFinder.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalTypeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase {
 
     public ProposalTypeValuesFinderTest() {

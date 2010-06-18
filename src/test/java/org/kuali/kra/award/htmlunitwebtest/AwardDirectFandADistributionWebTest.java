@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -40,29 +38,7 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
     private String ADD_METHOD = "methodToCall.addAwardDirectFandADistribution.anchorDirectFAFundsDistribution";
     private static final String SAVE_METHOD = "methodToCall.save";
     private static final String END_DATE_FIELD_STRING = "document.award.awardDirectFandADistributions[0].endDate";
-    
-    
-
-    /**
-     * The set up method calls the parent super method and gets the 
-     * award Time and Money page after that.
-     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#setUp()
-     */
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
-     * This method calls parent tear down method and than sets awardTimeAndMoneyPage to null
-     * @see org.kuali.kra.award.htmlunitwebtest.AwardWebTestBase#tearDown()
-     */
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-    
-    
+ 
     /**
      * 
      * This method tests Award Direct F and A Distribution Panel. First Adding an invalid date range and
