@@ -68,7 +68,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private static final String SUBMISSION_STATUS_CODE = "submissionStatusCode";
     private static final String PROTOCOL_SUBMISSIONS_COMMITTEE_ID = "protocolSubmissions.committeeId";
     private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
-    private static final String UPDATE_TIMESTAMP = "updateTimestamp";
+    private static final String ACTUAL_ACTION_DATE = "actualActionDate";
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
     
     /**
@@ -171,8 +171,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * {@inheritDoc}
      *  
      */
-    // TODO: We might have a problem as the query should be joined only by protocol_number and not by 
-    //       protocol_number & sequence_number (i.e. protocol_id).
     @SuppressWarnings("unchecked")
     public List<Protocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritMaxSequenceNumber = new Criteria();
@@ -206,8 +204,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * {@inheritDoc} 
      */
     @SuppressWarnings("unchecked")
-    // TODO: We might have a problem as the query should be joined only by protocol_number and not by 
-    //       protocol_number & sequence_number (i.e. protocol_id).
     public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritMaxSequenceNumber = new Criteria();
         subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
@@ -225,10 +221,10 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
         subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES);
         if (startDate != null) {
-            subCritProtocolAction.addGreaterOrEqualThan(UPDATE_TIMESTAMP, startDate);
+            subCritProtocolAction.addGreaterOrEqualThan(ACTUAL_ACTION_DATE, startDate);
         }
         if (endDate != null) {
-            subCritProtocolAction.addLessThan(UPDATE_TIMESTAMP, nextDay(endDate));
+            subCritProtocolAction.addLessThan(ACTUAL_ACTION_DATE, nextDay(endDate));
         }
         ReportQueryByCriteria subQueryProtocolAction = QueryFactory.newReportQuery(ProtocolAction.class, subCritProtocolAction);
         

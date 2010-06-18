@@ -1,12 +1,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="committeeBatchCorrespondence" description="The committee batch correspondence." required="true" %>
-<%@ attribute name="index" description="The index." required="true" %>
+<%@ attribute name="committeeBatchCorrespondence" type="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" description="The committee batch correspondence." required="true" %>
+<%@ attribute name="committeeBatchCorrespondenceProperty" description="The property of committee batch correspondence." required="true" %>
 
 <c:set var="committeeBatchCorrespondenceDetailAttributes" value="${DataDictionary.CommitteeBatchCorrespondenceDetail.attributes}" />
-<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
 
-<c:set var="batchRunTitle" value="${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[index].timeWindowStart} through ${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[index].timeWindowStart}" />
+<c:set var="batchRunTitle" value="${committeeBatchCorrespondence.formattedTimeWindowStart} through ${committeeBatchCorrespondence.formattedTimeWindowEnd}" />
 
 <kra:innerTab tabTitle="${batchRunTitle}" 
               parentTab="$Batch Correspondence" 
@@ -23,9 +22,7 @@
                 </th>
                 <td>
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].batchRunDate" 
-                                                  attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" 
-                                                  readOnly="true" />
+                        ${committeeBatchCorrespondence.formattedBatchRunDate}
                     </div>
                 </td>
                 <th>
@@ -35,9 +32,7 @@
                 </th>
                 <td> 
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].batchRunDate" 
-                                                  attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" 
-                                                  readOnly="true" />
+                        ${committeeBatchCorrespondence.formattedBatchRunTime} 
                     </div>
                 </td>
             </tr>
@@ -49,9 +44,7 @@
                 </th>
                 <td>
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].updateUser" 
-                                                  attributeEntry="${committeeAttributes.committeeName}" 
-                                                  readOnly="true" />
+                        ${committeeBatchCorrespondence.updateUser} 
                     </div>
                 </td>
                 <th>
@@ -61,9 +54,7 @@
                 </th>
                 <td>
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceId" 
-                                                  attributeEntry="${committeeAttributes.committeeName}" 
-                                                  readOnly="true" />
+                        ${committeeBatchCorrespondence.committeeBatchCorrespondenceId} 
                     </div>
                 </td>
             </tr>
@@ -107,51 +98,41 @@
                 </th>
             </tr>
             
-        <c:forEach items="${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[index].committeeBatchCorrespondenceDetails}" var="batchCorrespondenceDetails" varStatus="status">
+        <c:forEach items="${committeeBatchCorrespondence.committeeBatchCorrespondenceDetails}" var="batchCorrespondenceDetails" varStatus="status">
             <tr>
                 <th>
                     <div align="right">
-                        ${status.index + 100}
+                        ${status.index + 1}
                     </div>
                 </th>
                 <td>
                     <div align="center">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocol.protocolNumber" 
-                                                  attributeEntry="${protocolAttributes.protocolNumber}" 
-                                                  readOnly="true" />
+                        ${batchCorrespondenceDetails.protocolCorrespondence.protocol.protocolNumber} 
                     </div>
                 </td>
                 <td>
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocol.title" 
-                                                  attributeEntry="${protocolAttributes.title}" 
-                                                  readOnly="true" />
+                        ${batchCorrespondenceDetails.protocolCorrespondence.protocol.title} 
                     </div>
                 </td>
                 <td>
                     <div align="center">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocol.approvalDate" 
-                                                  attributeEntry="${protocolAttributes.approvalDate}" 
-                                                  readOnly="true" />
+                        ${batchCorrespondenceDetails.protocolCorrespondence.protocol.approvalDate} 
                     </div>
                 </td>
                 <td>
                     <div align="center">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocol.expirationDate" 
-                                                  attributeEntry="${protocolAttributes.expirationDate}" 
-                                                  readOnly="true" />
+                        ${batchCorrespondenceDetails.protocolCorrespondence.protocol.expirationDate} 
                     </div>
                 </td>
                 <td>
                     <div align="left">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].protocolCorrespondence.protocolCorrespondenceType.description" 
-                                                  attributeEntry="${protocolAttributes.expirationDate}" 
-                                                  readOnly="true" />
+                        ${batchCorrespondenceDetails.protocolCorrespondence.protocolCorrespondenceType.description} 
                     </div>
                 </td>
                 <td>
                     <div align="center">
-                        <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${index}].committeeBatchCorrespondenceDetails[${status.index}].selected" 
+                        <kul:htmlControlAttribute property="${committeeBatchCorrespondenceProperty}.committeeBatchCorrespondenceDetails[${status.index}].selected" 
                                                   attributeEntry="${committeeBatchCorrespondenceDetailAttributes.selected}" 
                                                   readOnly="false" />
                     </div>                         

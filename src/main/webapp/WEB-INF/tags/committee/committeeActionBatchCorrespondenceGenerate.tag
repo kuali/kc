@@ -79,3 +79,40 @@
         </td>
     </tr> 
 </table>
+
+<c:if test="${not empty KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence}">
+    <p>&nbsp;</p>
+        
+    <div align="left">
+        <kul:errors keyMatch="committeeHelper.committeeActionsHelper.generateBatchCorrespondence" /> <br>
+    </div>
+
+    <h3>
+        <span class="subhead-left">
+            Generated Batch Correspondence
+        </span>
+        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" altText="help" /></span>
+    </h3>
+
+    <table cellpadding=0 cellspacing=0 border=0>
+        <tr>
+            <td class="infoline" colspan="2">
+                <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0]}" committeeBatchCorrespondenceProperty="committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0]" />
+            </td>
+        </tr>
+        <tr>
+            <td class="neutral" style="background-color: #e4e4e4;">
+                &nbsp;
+            </td>
+            <td  style="background-color: #e4e4e4;" width="63">
+                <div align="center">
+                    <html:image property="methodToCall.viewBatchCorrespondenceGenerated"
+                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+                                styleClass="tinybutton"
+                                onclick="excludeSubmitRestriction = true;" />
+                </div>                         
+            </td>
+        </tr>
+    </table>
+</c:if>            
+

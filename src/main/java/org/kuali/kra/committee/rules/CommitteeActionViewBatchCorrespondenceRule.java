@@ -29,7 +29,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeActionViewBatchCorrespondenceRule extends ResearchDocumentRuleBase 
                                                         implements BusinessRuleInterface<CommitteeActionViewBatchCorrespondenceEvent> {
     
-    private static final String PRINT_TYPE_FIELD = "committeeHelper.committeeActionsHelper.batchCorrespondenceHistory";
+    private static final String BATCH_VIEW_ERROR_FIELD = "committeeHelper.committeeActionsHelper.generateBatchCorrespondence";
+    private static final String HISTORY_VIEW_ERROR_FIELD = "committeeHelper.committeeActionsHelper.batchCorrespondenceHistory";
 
     /**
      * 
@@ -48,7 +49,11 @@ public class CommitteeActionViewBatchCorrespondenceRule extends ResearchDocument
             }
         }
         
-        reportError(PRINT_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_VIEW_NOT_SPECIFIED);
+        if (event.isViewGenerated()) {
+            reportError(BATCH_VIEW_ERROR_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_GENERATE_VIEW_NOT_SPECIFIED);
+        } else {
+            reportError(HISTORY_VIEW_ERROR_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_HISTORY_VIEW_NOT_SPECIFIED);
+        }
         return false;
     }
 

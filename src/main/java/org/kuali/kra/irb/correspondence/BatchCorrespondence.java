@@ -26,10 +26,11 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class BatchCorrespondence extends KraPersistableBusinessObjectBase { 
     
+    public static final String SEND_CORRESPONDENCE_BEFORE_EVENT ="BEFORE";
+    public static final String SEND_CORRESPONDENCE_AFTER_EVENT ="AFTER";
+
     private static final long serialVersionUID = 1L;
     
-    private static final String SEND_CORRESPONDENCE_BEFORE_EVENT ="BEFORE";
-
     private String batchCorrespondenceTypeCode; 
     private String description; 
     private String daysToEventUiText; 
