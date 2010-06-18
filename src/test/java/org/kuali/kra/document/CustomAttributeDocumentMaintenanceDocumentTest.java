@@ -119,7 +119,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
     public void testCreateNewCustomAttribute() throws Exception {
         HtmlPage customAttributeDocumentMaintenancePage = getMaintenanceDocumentPage("Custom Attribute Document","org.kuali.kra.bo.CustomAttributeDocument","Kuali :: CustomAttributeDocument Maintenance Document");
         String documentNumber = getFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(customAttributeDocumentMaintenancePage,"Edit CustomAttributeDocument New * Custom Attribute ID: * Document Type Code: select Required: unchecked Type Name:");
+        assertContains(customAttributeDocumentMaintenancePage,"Edit CustomAttributeDocument New * Custom Attribute ID: * Document Type Code: select Required: on Type Name:");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute Document - test");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.customAttributeId", "99");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.documentTypeName", INPR_TYPE);

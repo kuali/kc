@@ -27,7 +27,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalRoleValuesFinderTest extends ValuesFinderTestBase {
 
     @Override

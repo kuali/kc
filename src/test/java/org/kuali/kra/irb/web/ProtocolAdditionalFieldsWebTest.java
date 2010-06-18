@@ -145,7 +145,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlElement expandedField = getElement(page, PROTOCOL_ISBILLABLE_ID);
         
         //Assert that quickstart user doesn't have permission to edit billable checkbox
-        assertEquals("disabled",expandedField.getAttributeValue("disabled"));
+        assertEquals("disabled",expandedField.getAttribute("disabled"));
         
         //Required Fields to begin with for saving protocol document
         //setRequiredFields(page);
@@ -181,7 +181,7 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         HtmlElement expandedFieldAfterSave = getElement(page, PROTOCOL_ISBILLABLE_ID);
         
         //Check after save checkbox value persistance
-        assertEquals("on",expandedFieldAfterSave.getAttributeValue("value"));
+        assertEquals("on",expandedFieldAfterSave.getAttribute("value"));
     }
    
     /**
@@ -194,7 +194,6 @@ public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
         //Click to create new protocol link
         HtmlPage page = clickOn(getPortalPage(), NEW_PROTOCOL,KUALI_PORTAL_INDEX);
         page = getInnerPages(page).get(0);
-        System.out.println(page.asXml());
         super.checkExpandedTextArea(page, PROTOCOL_DESCRIPTION_ID, PROTOCOL_DESCRIPTION_TEXTAREA_ID, PROTOCOL_TEXTAREA, PROTOCOL_TEXTAREA2);
     }
     

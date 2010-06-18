@@ -33,7 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 /**
  * Tests the Budget Versions page for Proposal Development Document and Budget Document.
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";

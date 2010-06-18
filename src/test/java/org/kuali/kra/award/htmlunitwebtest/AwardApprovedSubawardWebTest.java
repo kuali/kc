@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Approved Subawards Tab. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardApprovedSubawardWebTest extends AwardHomeWebTest {
     
     private static final String APPROVED_SUBAWARD_FIELD_PREFIX = 

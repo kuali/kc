@@ -27,7 +27,7 @@ import org.kuali.kra.printing.xmlstream.CurrentProposalXmlStream;
  * proposal Report
  * 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CurrentProposalXmlStreamTest extends
 		XmlStreamTestBase<CurrentProposalXmlStream> {
 

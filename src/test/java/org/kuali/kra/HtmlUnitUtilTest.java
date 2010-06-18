@@ -18,6 +18,7 @@ package org.kuali.kra;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  * WARNING: This test is affected by the side effects other tests cause and will fail if not executed first.
  */
 public class HtmlUnitUtilTest extends KraTestBase {
-    private static String kraHomePageUrl;
+    private String kraHomePageUrl;
     private ProposalDevelopmentDocument document;
     private static final String PROPOSAL_DOCUMENT_DESC = "ProposalDevelopmentDocumentTest";
     private ProposalDevelopmentService proposalDevelopmentService;
@@ -77,8 +78,8 @@ public class HtmlUnitUtilTest extends KraTestBase {
         final HtmlTable table = (HtmlTable) docSearchResultsPage.getHtmlElementById("row");
         assertNotNull(table);
         assertEquals(2, table.getRowCount());
-        assertTrue(docSearchResultsPage.asText(), docSearchResultsPage.asText().contains("Document/Notification Id Type Title Route Status Document Status Initiator Date Created Route Log Copy Document"));                                                          
-        assertTrue(docSearchResultsPage.asText(), docSearchResultsPage.asText().contains(docId+" Proposal Development Document Proposal Development Document - " + PROPOSAL_DOCUMENT_DESC + " SAVED "));
+        assertContains(docSearchResultsPage, "Document/Notification Id Type Title Route Status Document Status Initiator Date Created Route Log Copy Document");                                                          
+        assertContains(docSearchResultsPage, docId+" Proposal Development Document Proposal Development Document - " + PROPOSAL_DOCUMENT_DESC + " SAVED ");
     }
     
     private ProposalDevelopmentDocument createDocument() {
@@ -133,5 +134,76 @@ public class HtmlUnitUtilTest extends KraTestBase {
 
     public void setDocument(ProposalDevelopmentDocument document) {
         this.document = document;
+    }
+    
+    //HACK HACK HACK - this class should extend KraWebTestBase or have access to static methods containing the logic in KraWebTestBase
+    //************************************copied from KraWebTestBase **********************************************************************
+    /**
+     * Asserts that the given web page contains the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     */
+    protected final void assertContains(HtmlPage page, String text) {
+        assertContains(page, text, false);
+    }
+    
+    /**
+     * Asserts that the given web page does <b>not</b> contain the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     */
+    protected final void assertDoesNotContain(HtmlPage page, String text) {
+        assertDoesNotContain(page, text, false);
+    }
+    
+    /**
+     * Asserts that the given web page contains the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
+     */
+    protected final void assertContains(HtmlPage page, String text, boolean strictWhitespace) {
+        if (!strictWhitespace) {
+            final String regex = insertWhitespaceRegex(text);
+            Pattern p = Pattern.compile(regex);
+            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text + "\nas regex:\n" + regex, p.matcher(page.asText()).find()); 
+        } else {
+            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text, page.asText().contains(text));    
+        }
+    }
+    
+    /**
+     * Asserts that the given web page does <b>not</b> contain the given text.
+     * @param page the HTML web page.
+     * @param text the string to look for in the web page.
+     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
+     */
+    protected final void assertDoesNotContain(HtmlPage page, String text, boolean strictWhitespace) {
+        if (!strictWhitespace) {
+            final String regex = insertWhitespaceRegex(text);
+            Pattern p = Pattern.compile(regex);
+            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text + "\nas regex:\n" + regex, !p.matcher(page.asText()).find());
+        } else {
+            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text, !page.asText().contains(text));    
+        }
+    }
+    
+    /**
+     * Inserts regex to match against newlines and any amount of spaces.
+     * @param text the text to insert regex
+     * @return the modified text
+     */
+    private static String insertWhitespaceRegex(String text) {
+        if (!text.contains(" ")) {
+            return Pattern.quote(text.trim());
+        }
+        
+        String regex = "(?m)";
+        for (String token : text.trim().split(" ")) {
+            if (!token.equals("") && !token.equals(" ")) {
+                regex += Pattern.quote(token)+ "[\\s]*";
+            }
+        }
+        return regex.substring(0, regex.length() - 5);
     }
 }

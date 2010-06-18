@@ -37,7 +37,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 /**
  * This class tests the AwardUnitContactsBean 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardUnitContactsBeanTest extends KraTestBase {
 
     private static final int THREE = 3;

@@ -46,7 +46,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBase {
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     protected static final String PROPOSAL_PAGE_LINK_NAME = "actions.x";
@@ -158,7 +158,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
 
         GlobalVariables.setUserSession(null);
         GlobalVariables.setUserSession(new UserSession("jtester"));
-        final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
         final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
         final HtmlPage pageAfterLogin = login(newWebClient, url, "kew/ActionList.do", "jtester");
         assertNotNull(pageAfterLogin);
@@ -174,7 +174,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         assertNotNull(approvalConfirmationPage);
 
         GlobalVariables.setUserSession(new UserSession("tdurkin"));
-        final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kc-dev/");
         final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "kew/ActionList.do", "tdurkin");
         assertNotNull(pageAfterLogin1);

@@ -113,7 +113,7 @@ public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     public void testCreateNewRateClassType() throws Exception {
         HtmlPage rateClassTypeMaintenancePage = getMaintenanceDocumentPage("Rate Class Type","org.kuali.kra.budget.rates.RateClassType","Kuali :: Rate Class Type Maintenance Document");
         String documentNumber = getFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(rateClassTypeMaintenancePage,"Edit Rate Class Types New * Rate Class Type: * Description: * Prefix Activity Type?: unchecked Sort Id:");
+        assertContains(rateClassTypeMaintenancePage,"Edit Rate Class Types New * Rate Class Type: * Description: * Prefix Activity Type?: on Sort Id:");
         setFieldValue(rateClassTypeMaintenancePage, "document.documentHeader.documentDescription", "Rate Class Type - test");
         setFieldValue(rateClassTypeMaintenancePage, "document.newMaintainableObject.rateClassType", "A");
         setFieldValue(rateClassTypeMaintenancePage, "document.newMaintainableObject.sortId", "9");

@@ -33,7 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
 
     private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x";

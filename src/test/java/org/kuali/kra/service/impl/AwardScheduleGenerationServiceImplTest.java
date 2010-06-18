@@ -48,7 +48,7 @@ import org.kuali.rice.kns.service.ParameterService;
  * 
  * This class tests the helper methods in AwardScheduleGenerationServiceImpl
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 @RunWith(JMock.class)
 public class AwardScheduleGenerationServiceImplTest {
     

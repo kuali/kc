@@ -21,7 +21,7 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String DOCUMENT_SAVED = "Document was successfully saved";

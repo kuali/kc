@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * This class tests the ApprovedEquipment panel
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardCentralAdminContactsWebTest extends AwardContactsWebTest {
     private static final String CONTACT_ROLE_CODE = "1";
     private static final String CONTACT_ROLE_CONTEXT = "centralAdminContactsBean.contactRoleCode";

@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.s2s.service.impl.SchedulerServiceImpl;
 
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class SchedulerServiceTest extends Assert{
 
     private static final Logger LOG = Logger.getLogger(SchedulerServiceTest.class);

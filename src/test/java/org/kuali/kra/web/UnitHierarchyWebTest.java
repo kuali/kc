@@ -34,7 +34,7 @@ import org.kuali.rice.kns.service.LookupService;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class UnitHierarchyWebTest extends KraWebTestBase {
     
     private LookupService lookupService;

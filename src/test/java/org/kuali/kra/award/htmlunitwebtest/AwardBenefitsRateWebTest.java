@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for Award Benefits Rate on Rates Tab. 
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class AwardBenefitsRateWebTest extends AwardTimeAndMoneyWebTest {
     
     private static final String DOCUMENT_AWARD_OFFCAMPUS = "document.awardList[0].specialEbRateOffCampus";

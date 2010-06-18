@@ -26,7 +26,7 @@ import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeIntegrationTest {
 
     private static final BudgetDecimal SHARE_PCT_0 =  new BudgetDecimal(0.00);

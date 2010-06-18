@@ -28,7 +28,7 @@ import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareEvent;
 import org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class BudgetValidationCostShareRuleTest {
     private static final int BUDGET_FISCAL_YEAR = 2008;
     private static final BudgetDecimal SHARE_AMOUNT = new BudgetDecimal(100.00);

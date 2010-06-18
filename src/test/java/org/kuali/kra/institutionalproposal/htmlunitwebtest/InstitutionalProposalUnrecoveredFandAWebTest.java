@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This class...
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class InstitutionalProposalUnrecoveredFandAWebTest extends InstitutionalProposalDistributionWebTest {
 
     private static final String UNRECOVERED_FNA_FIELD_PREFIX = "institutionalProposalUnrecoveredFandABean.newInstitutionalProposalUnrecoveredFandA.";

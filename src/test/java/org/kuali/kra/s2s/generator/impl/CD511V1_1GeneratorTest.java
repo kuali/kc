@@ -23,7 +23,7 @@ import org.kuali.kra.s2s.generator.S2STestBase;
 /**
  * This class tests the CD511V1_1 Generator
  */
-@org.junit.Ignore("This test is not meant to be run against the 2.0 release")
+
 public class CD511V1_1GeneratorTest extends S2STestBase<CD511V1_1Generator> {
 
     @Override

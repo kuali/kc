@@ -98,7 +98,6 @@
 
 	<!-- Kuali parameters -->
 	<param name="encryption.key">7IC64w6ksLU</param>
-	<param name="ActionList.norefresh">false</param>
 
 	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
@@ -114,8 +113,6 @@
 	<param name="useQuartzDatabase">false</param>
 
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
-
-	<param name="secure.workflowutility.soapservice.endpoint">true</param>
 
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>
@@ -139,14 +136,8 @@
 
 	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
-
-	<param name="title.inquiry.url.value.prependtext"></param>
-	<param name="portal.show.sample.app">false</param>
 	
 	<param name="transaction.timeout">3600</param>
-
-	<param name="bus.refresh.rate">30</param>
-	<param name="threadPool.size">5</param>
 	
 	<!-- image overrides -->
 	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
