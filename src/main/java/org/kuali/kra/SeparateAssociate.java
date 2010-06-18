@@ -18,7 +18,7 @@ package org.kuali.kra;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
+ 
 /**
  * This class is meant to be a common base class for SeparatelySequenceableAssociate BOs (for BOs that haven't already
  * extended a class).
