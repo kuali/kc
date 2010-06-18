@@ -684,6 +684,9 @@
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="prevSubmissionStatusCode" column="PREV_SUBMISSION_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="prevProtocolStatusCode" column="PREV_PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP" />

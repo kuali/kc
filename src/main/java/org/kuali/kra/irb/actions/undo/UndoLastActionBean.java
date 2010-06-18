@@ -37,6 +37,7 @@ public class UndoLastActionBean implements Serializable {
     
     private String comments;
     private List<ProtocolAction> actionsPerformed;
+    private Protocol protocol;
     
     public String getComments() {
         return comments;
@@ -52,6 +53,14 @@ public class UndoLastActionBean implements Serializable {
 
     public void setActionsPerformed(List<ProtocolAction> actionsPerformed) {
         this.actionsPerformed = actionsPerformed;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 
     public static boolean isActionUndoable(String actionTypeCode) {
@@ -96,7 +105,7 @@ public class UndoLastActionBean implements Serializable {
     public boolean canUndoLastAction() {
         ProtocolAction action = getLastPerformedAction();
         if(action != null){
-            return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(action.getProtocol());
+            return isActionUndoable(action.getProtocolActionTypeCode()) || isActionProtocolApproval(action, action.getProtocolNumber()) || isProtocolDeleted(getProtocol());
         }
         return false;
     }

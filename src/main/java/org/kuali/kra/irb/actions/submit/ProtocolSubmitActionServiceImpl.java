@@ -94,10 +94,16 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
          * The submission is saved first so that its new primary key can be added
          * to the protocol action entry.
          */
-        ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);
+        String prevSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
+        ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);  
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(SUBMIT_TO_IRB);
+        //For the purpose of audit trail
+        protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
+        protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatus);
+        protocolAction.setSubmissionTypeCode(submissionTypeCode);
         protocol.getProtocolActions().add(protocolAction);
 
         //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
