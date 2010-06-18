@@ -402,6 +402,7 @@ public class ProtocolAttachmentVersioningUtility {
             newAttachment.setFileId(null);
         }
         newAttachment.setUpdateTimestamp(null);
+        newAttachment.setCreateTimestamp(null);
         newAttachment.setUpdateUser(null);
         newAttachment.setDocumentStatusCode(ATTACHMENT_DRAFTED);
         newAttachment.setId(null);

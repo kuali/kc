@@ -22,7 +22,12 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class represents the Protocol Attachment Protocol.
@@ -45,6 +50,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     private String description;
     private String documentStatusCode;
     private Integer attachmentVersion;
+    private Timestamp createTimestamp;
     private List<ProtocolAttachmentProtocol> versions;
     
     private boolean active = true;
@@ -417,7 +423,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         if (getDocumentStatusCode() == null || updateTimestamp == null || getUpdateTimestamp() == null
                 || isAttachmentUpdated()) {
             super.setUpdateTimestamp(updateTimestamp);
-            // timestamp us updated after user, so setchanged to false.
+            // timestamp is updated after user, so setchanged to false.
             setChanged(false);
         }
     }
@@ -451,6 +457,25 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     public void setChanged(boolean changed) {
         this.changed = changed;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        if (getCreateTimestamp() == null || createTimestamp == null) {
+            this.createTimestamp = createTimestamp;
+        }
+    }
+
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeInsert(persistenceBroker);
+        if (getCreateTimestamp() == null) {
+            setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME))
+                    .getCurrentTimestamp());
+        }
     }
 
 
