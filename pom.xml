@@ -80,6 +80,14 @@
 			            <excludes>
 			              <!-- jdom's groupid was changed causing duplicates to be included - excluding the old jdom -->
 			              <exclude>jdom:jdom</exclude>
+			              <!-- already including a geronimo version of this -->
+			              <exclude>stax-api</exclude>
+			              <!-- already including a geronimo version of this -->
+			              <exclude>javax.activation:activation</exclude>
+			              <!-- already including a geronimo version of this -->
+			              <exclude>javax.mail:mail</exclude>
+			              <!-- already including cglib -->
+			              <exclude>cglib:cglib-nodep</exclude>
 			            </excludes>
 			          </bannedDependencies>
 			        </rules>
@@ -327,11 +335,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>mail</artifactId>
-		    <version>1.4</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>${javax.servlet.version}</version>
@@ -342,7 +345,7 @@
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
-		<!-- should exclude this from being brought in once we are on java 6 -->
+		<!-- remove once we are on jdk 6 -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -351,6 +354,10 @@
 				<exclusion>
 					<artifactId>stax-api</artifactId>
 					<groupId>javax.xml.stream</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>activation</artifactId>
+					<groupId>javax.activation</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -405,12 +412,6 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
 			<version>${org.apache.cxf.version}</version>
-			<exclusions>
-				<exclusion><!-- avoids conflict with javamail -->
-					<groupId>org.apache.geronimo.specs</groupId>
-					<artifactId>geronimo-javamail_1.4_spec</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -422,11 +423,20 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>${org.apache.cxf.version}</version>
 		</dependency>
+		<!-- replaces banned dependency javax.activation -->
+		<!-- remove once we are on jdk 6 -->
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-activation_1.1_spec</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		<!-- replaces banned dependency javax.mail -->
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-javamail_1.4_spec</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<!-- remove once we are on jdk 6 -->
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-jaxws_2.1_spec</artifactId>
@@ -437,20 +447,33 @@
 			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
 			<version>1.1.2</version>
 		</dependency>
+		<!-- including it because it is required as a transitive dependency - replaces banned dependency stax-api -->
+		<!-- remove once we are on jdk 6 -->
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-stax-api_1.0_spec</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.santuario</groupId>
 			<artifactId>xmlsec</artifactId>
-			<version>1.4.2</version>
+			<version>1.4.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
 			<artifactId>xmlbeans</artifactId>
 			<version>2.4.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>stax-api</artifactId>
+					<groupId>stax</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
-			<version>0.93</version>
+			<version>0.95</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>xmlParserAPIs</artifactId>
@@ -480,14 +503,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			<version>${org.hamcrest.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
-			<version>${org.hamcrest.version}</version>
+			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -506,6 +523,12 @@
 			<artifactId>jmock-legacy</artifactId>
 			<version>${org.jmock.version}</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib-nodep</artifactId>
+				</exclusion>			
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
@@ -569,6 +592,10 @@
 			<artifactId>rice-impl</artifactId>
 			<version>${org.kuali.rice.version}</version>
 			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib-nodep</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>com.oracle</groupId>
 					<artifactId>ojdbc14</artifactId>
@@ -637,6 +664,10 @@
 				<exclusion>
 					<artifactId>commons-httpclient</artifactId>
 					<groupId>commons-httpclient</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -720,11 +751,6 @@
 					<artifactId>spring</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>struts</groupId>
@@ -997,8 +1023,7 @@
 		<com.oracle.version>10.2.0.3.0</com.oracle.version>
 		<mysql.version>5.1.5</mysql.version>
 		<org.apache.cxf.version>2.1.7</org.apache.cxf.version>
-		<org.drools.version>4.0.7</org.drools.version>
-		<org.hamcrest.version>1.1</org.hamcrest.version>
+		<org.drools.version>5.0.1</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
 		<org.kuali.rice.version>1.0.2.1-KC-03</org.kuali.rice.version>
 		<org.mortbay.jetty.version>7.1.4.v20100610</org.mortbay.jetty.version>
