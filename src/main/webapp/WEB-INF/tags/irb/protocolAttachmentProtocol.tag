@@ -247,7 +247,8 @@
 			         		</th>
 			         		<td align="left" valign="middle">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>
+	                                <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="MM/dd/yyyy HH:mm" />
+			                	<%--	<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>  --%>
 				            	</div>
 							</td>
 							<th>
@@ -303,7 +304,7 @@
 			           			<%-- this assumes that the versions collection is sorted descending by sequence number --%>
 			           			<c:set var="doVersionsExist" value="${fn:length(attachmentProtocol.versions) > 0}" />
 			           			<c:if test="${doVersionsExist}">
-				           			<kra:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" defaultOpen="false">
+				           			<kra:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description} - ${itrStatus.index}" defaultOpen="false">
 										<div class="innerTab-container" align="left">
 				         					<table class=tab cellpadding=0 cellspacing="0" summary="" width="100%">
 			         							<tr>
@@ -313,6 +314,9 @@
 					         						<th style="width: 20%">
 					         							Created Date
 					         						</th>
+					         						<th style="width: 20%">
+					         							Last Modified Date
+					         						</th>
 					         						<th style="width: 60%">
 					         							Comments
 					         						</th>
@@ -320,13 +324,20 @@
 							         			<c:forEach var="attachmentProtocolVersion" items="${attachmentProtocol.versions}" varStatus="innerItrStatus">
 						         					<tr>
 						         						<td style="width: 20%">
-						         							${attachmentProtocolVersion.updateUser}
+						         							${attachmentProtocolVersion.authorPersonName}
 						         						</td>
 						         						<td style="width: 20%">
-						         							${attachmentProtocolVersion.updateTimestamp}
+	                                                       <fmt:formatDate value="${attachmentProtocolVersion.createTimestamp}" pattern="MM/dd/yyyy HH:mm" />
+						         							
+						         						</td>
+						         						<td style="width: 20%">
+	                                                       <fmt:formatDate value="${attachmentProtocolVersion.updateTimestamp}" pattern="MM/dd/yyyy HH:mm" />
+						         							
 						         						</td>
 														<td style="width: 60%">
+														   <div align="left">
 						         							${attachmentProtocolVersion.comments}
+						         							</div>
 						         						</td>
 						         					</tr>
 							         			</c:forEach>
