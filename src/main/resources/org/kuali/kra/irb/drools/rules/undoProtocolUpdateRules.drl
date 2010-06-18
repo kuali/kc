@@ -5,8 +5,8 @@ package updateProtocol
 
 import org.kuali.kra.irb.actions.submit.ProtocolUndoActionMapping;
 
-function void resetProtocolSubmissionStatusCode(ProtocolUndoActionMapping protocolAction) {
-    protocolAction.getProtocolSubmission().setSubmissionStatusCode(protocolAction.getProtocolAction().getPrevSubmissionStatusCode());  
+function void resetProtocolSubmissionStatusCode(ProtocolUndoActionMapping protocolAction) { 
+    protocolAction.getProtocol().getProtocolSubmission().setSubmissionStatusCode(protocolAction.getProtocolAction().getPrevSubmissionStatusCode());  
 } 
 
 function void deleteNewProtocolSubmission(ProtocolUndoActionMapping protocolAction) {

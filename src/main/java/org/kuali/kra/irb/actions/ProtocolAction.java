@@ -43,6 +43,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private Timestamp actualActionDate;
     private Timestamp actionDate;
     private String prevSubmissionStatusCode;
+    private String submissionTypeCode;
     private String prevProtocolStatusCode;
     
     transient private ProtocolSubmission protocolSubmission;    
@@ -233,6 +234,14 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setPrevSubmissionStatusCode(String prevSubmissionStatusCode) {
         this.prevSubmissionStatusCode = prevSubmissionStatusCode;
+    }
+
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
+    }
+
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
     }
 
     public String getPrevProtocolStatusCode() {

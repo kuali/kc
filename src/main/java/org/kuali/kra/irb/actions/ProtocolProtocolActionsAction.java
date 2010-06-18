@@ -1628,7 +1628,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
         UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
-        undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);  
+        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);  
+        
+        if(!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) { 
+            protocolForm.setDocId(updatedDocument.getDocumentNumber());
+            loadDocument(protocolForm);
+            protocolForm.getProtocolHelper().prepareView();
+            return mapping.findForward(PROTOCOL_TAB);
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -56,12 +56,21 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
          */
+        String prevSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
+
         ProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
+        String submissionTypeCode = submission.getSubmissionTypeCode();
         protocol.setProtocolSubmission(submission);
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, requestBean.getProtocolActionTypeCode());        
         protocolAction.setComments(requestBean.getReason());
         protocolAction.setProtocol(protocol);
+        
+        //Creating an audit trail
+        protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
+        protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
+        protocolAction.setSubmissionTypeCode(submissionTypeCode);
+        
         protocol.getProtocolActions().add(protocolAction);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
