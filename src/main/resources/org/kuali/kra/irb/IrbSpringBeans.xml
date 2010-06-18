@@ -480,9 +480,8 @@
 
     <bean id="committeeBatchCorrespondenceService" class="org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolDao">
-            <ref bean="protocolDao" />
-        </property>
+        <property name="protocolDao" ref="protocolDao" />
+        <property name="protocolGenericActionService" ref="protocolGenericActionService" />
     </bean>
     
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">

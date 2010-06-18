@@ -15,36 +15,43 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Date;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * 
  * This class implements the CommitteeBatchCorrespondence business object.
  */
-public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase {
+public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase implements Comparable<CommitteeBatchCorrespondence> {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "h:mm a";
 
     private String committeeBatchCorrespondenceId; 
     private String committeeId; 
     private String batchCorrespondenceTypeCode; 
-    private Date batchRunDate; 
+    private Timestamp batchRunDate; 
     private Date timeWindowStart; 
     private Date timeWindowEnd;
     
     private List<CommitteeBatchCorrespondenceDetail> committeeBatchCorrespondenceDetails;
     
     private BatchCorrespondence batchCorrespondence; 
-    private Committee committee; 
+    private Committee committee;
+    
+    private transient DateTimeService dateTimeService;
     
     /**
      * Constructs a CommitteeBatchCorrespondence.java.
@@ -68,7 +75,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
                 .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
         setCommitteeId(committeeId);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
-        setBatchRunDate(getCurrentDate());
+        setBatchRunDate(getDateTimeService().getCurrentTimestamp());
         setTimeWindowStart(startDate);
         setTimeWindowEnd(endDate);
     } 
@@ -97,12 +104,20 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
     }
 
-    public Date getBatchRunDate() {
+    public Timestamp getBatchRunDate() {
         return batchRunDate;
     }
 
-    public void setBatchRunDate(Date batchRunDate) {
+    public void setBatchRunDate(Timestamp batchRunDate) {
         this.batchRunDate = batchRunDate;
+    }
+    
+    public String getFormattedBatchRunDate() {
+        return new SimpleDateFormat(DATE_FORMAT).format(batchRunDate);
+    }
+    
+    public String getFormattedBatchRunTime() {
+        return new SimpleDateFormat(TIME_FORMAT).format(batchRunDate);
     }
 
     public Date getTimeWindowStart() {
@@ -113,12 +128,20 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         this.timeWindowStart = timeWindowStart;
     }
 
+    public String getFormattedTimeWindowStart() {
+        return new SimpleDateFormat(DATE_FORMAT).format(timeWindowStart);
+    }
+
     public Date getTimeWindowEnd() {
         return timeWindowEnd;
     }
 
     public void setTimeWindowEnd(Date timeWindowEnd) {
         this.timeWindowEnd = timeWindowEnd;
+    }
+
+    public String getFormattedTimeWindowEnd() {
+        return new SimpleDateFormat(DATE_FORMAT).format(timeWindowEnd);
     }
 
     public List<CommitteeBatchCorrespondenceDetail> getCommitteeBatchCorrespondenceDetails() {
@@ -158,12 +181,30 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         return hashMap;
     }
     
-    /**
-     * This method returns the current date.
-     * @return current date
-     */
-    private Date getCurrentDate() {
-        return new Date(new java.util.Date().getTime());
+    public int compareTo(CommitteeBatchCorrespondence arg) {
+        int timeWindowStartDiff = this.getTimeWindowStart().compareTo(arg.getTimeWindowStart());
+        if (timeWindowStartDiff != 0) {
+            return timeWindowStartDiff;
+        }
+        
+        int timeWindowEndDiff = this.getTimeWindowEnd().compareTo(arg.getTimeWindowEnd());
+        if (timeWindowEndDiff != 0) {
+            return timeWindowEndDiff;
+        }
+        
+        int batchRunDateDiff = this.getBatchRunDate().compareTo(arg.getBatchRunDate());
+        if (batchRunDateDiff != 0) {
+            return batchRunDateDiff;
+        }
+        
+        return this.getCommitteeBatchCorrespondenceId().compareTo(arg.getCommitteeBatchCorrespondenceId());
     }
-    
+
+    private DateTimeService getDateTimeService() {
+        if (this.dateTimeService == null) {
+            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+        }
+        return this.dateTimeService;
+    }
+
 }
