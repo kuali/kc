@@ -18,6 +18,7 @@ package org.kuali.kra.committee.web.struts.form;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class CommitteeActionsHelper implements Serializable {
     private String generateBatchCorrespondenceTypeCode;
     private Date generateStartDate;
     private Date generateEndDate;
-    private CommitteeBatchCorrespondence generateBatchCorrespondence;
+    private List<CommitteeBatchCorrespondence> generateBatchCorrespondence;
     
     private String historyBatchCorrespondenceTypeCode;
     private Date historyStartDate;
@@ -52,7 +53,7 @@ public class CommitteeActionsHelper implements Serializable {
      * Constructs a CommitteeActionsHelper.java.
      */
     public CommitteeActionsHelper() {
-        setGenerateBatchCorrespondence(new CommitteeBatchCorrespondence());
+        setGenerateBatchCorrespondence(new ArrayList<CommitteeBatchCorrespondence>());
         setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());
     }
     
@@ -104,15 +105,16 @@ public class CommitteeActionsHelper implements Serializable {
         this.historyEndDate = historyEndDate;
     }
 
-    public CommitteeBatchCorrespondence getGenerateBatchCorrespondence() {
+    public List<CommitteeBatchCorrespondence> getGenerateBatchCorrespondence() {
         return generateBatchCorrespondence;
     }
 
-    public void setGenerateBatchCorrespondence(CommitteeBatchCorrespondence generateBatchCorrespondence) {
+    public void setGenerateBatchCorrespondence(List<CommitteeBatchCorrespondence> generateBatchCorrespondence) {
         this.generateBatchCorrespondence = generateBatchCorrespondence;
     }
 
     public List<CommitteeBatchCorrespondence> getBatchCorrespondenceHistory() {
+        Collections.sort(batchCorrespondenceHistory);
         return batchCorrespondenceHistory;
     }
 

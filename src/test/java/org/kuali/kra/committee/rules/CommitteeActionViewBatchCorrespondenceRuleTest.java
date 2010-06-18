@@ -41,7 +41,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
                 List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondence>();
                 committeeBatchCorrespondences.add(committeeBatchCorrespondence);
                 
-                event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences);
+                event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
                 rule = new CommitteeActionViewBatchCorrespondenceRule();
                 expectedReturnValue = true;
             }
@@ -56,7 +56,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
             @Override
             protected void prerequisite() {
                 List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondence>();
-                event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences);
+                event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
                 rule = new CommitteeActionViewBatchCorrespondenceRule();
                 expectedReturnValue = false;
             }
