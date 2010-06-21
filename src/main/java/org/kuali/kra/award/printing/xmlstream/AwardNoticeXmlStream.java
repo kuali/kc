@@ -72,7 +72,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SponsorType;
-import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Training;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.BudgetCategory;
@@ -88,9 +87,8 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -681,15 +679,16 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private String getStateDescription(String value, String lookupReturn) {
 		String description = null;
 		if (lookupReturn.equals(STATE)) {
-			Map<String, String> stateMap = new HashMap<String, String>();
-			stateMap.put(STATE_CODE_PARAMETER, value);
-			List<State> state = (List<State>) businessObjectService
-					.findMatching(State.class, stateMap);
-			if (state != null && !state.isEmpty()) {
-				description = state.get(0).getDescription();
+			State state = getStateService().getByPrimaryId(value);
+			if (state != null) {
+				description = state.getPostalStateName();
 			}
 		}
 		return description;
+	}
+	
+	private StateService getStateService() {
+	    return KraServiceLocator.getService(StateService.class);
 	}
 
 	/*

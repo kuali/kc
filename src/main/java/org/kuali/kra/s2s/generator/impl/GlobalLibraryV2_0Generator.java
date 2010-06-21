@@ -21,16 +21,17 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.State;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kns.bo.State;
 
 public class GlobalLibraryV2_0Generator {
 
@@ -76,9 +77,9 @@ public class GlobalLibraryV2_0Generator {
 		State state = s2sUtilService.getStateFromName(stateName);
 		if (state != null) {
 			StringBuilder stateDetail = new StringBuilder();
-			stateDetail.append(state.getStateCode());
+			stateDetail.append(state.getPostalStateCode());
 			stateDetail.append(": ");
-			stateDetail.append(state.getDescription());
+			stateDetail.append(WordUtils.capitalizeFully(state.getPostalStateName()));
 			stateCodeDataType = StateCodeDataType.Enum.forString(stateDetail
 					.toString());
 		}

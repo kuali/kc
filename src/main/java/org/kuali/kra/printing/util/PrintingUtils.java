@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.Country;
-import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -41,8 +39,10 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.WebUtils;
 
 public class PrintingUtils {
@@ -112,21 +112,14 @@ public class PrintingUtils {
 	 * @return State object matching the name.
 	 * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
 	 */
-	public static State getStateFromName(String stateName,
-			BusinessObjectService businessObjectService) {
-		State state = null;
-		Map<String, String> stateMap = new HashMap<String, String>();
-		stateMap.put(KEY_STATE_CODE, stateName);
-		Iterator<State> stateList = businessObjectService.findMatching(
-				State.class, stateMap).iterator();
-		while (stateList.hasNext()) {
-			state = stateList.next();
-			if (state.getStateCode().equals(stateName)) {
-				break;
-			}
-		}
+	public static State getStateFromName(String stateName) {
+		State state = getStateService().getByPrimaryId(stateName);
 		return state;
 	}
+	
+	private static StateService getStateService() {
+        return KraServiceLocator.getService(StateService.class);
+    }
 
 	/**
 	 * This method fetches the stylesheet for a given report and returns it as a
