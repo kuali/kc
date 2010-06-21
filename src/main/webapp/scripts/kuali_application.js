@@ -1926,7 +1926,7 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	var reviewersArr = reviewerData.split(";");
 	var arrLength = reviewersArr.length;
 	var numReviewers = Math.floor(reviewersArr.length / 3);
-	var numRows = Math.floor((numReviewers+1) / 3);
+	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
 	setReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft);
