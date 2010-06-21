@@ -15,16 +15,27 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.StateService;
 
 public class CongDistrictStateCodeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
 
     @Override
-    public List<KeyLabelPair> getKeyValues(){
-        List<KeyLabelPair> labels = super.getKeyValues();
+    public List<KeyLabelPair> getKeyValues() {
+        List<State> codes = KraServiceLocator.getService(StateService.class).findAllStates();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        labels.add(new KeyLabelPair("", ""));
+        for (State state : codes) {
+            if (state.isActive()) {
+                labels.add(new KeyLabelPair(state.getPostalStateCode(), state.getPostalStateCode()));
+            }
+        }
         
         labels.add(1, new KeyLabelPair("US", "US"));
         labels.add(2, new KeyLabelPair("00", "00"));

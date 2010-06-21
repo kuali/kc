@@ -128,14 +128,10 @@
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
-    <property name="control" >
+    <property name="control">
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.State"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="stateCode"
-            p:labelAttribute="description" />
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="State" />
     <property name="description" value="State" />
