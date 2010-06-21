@@ -16,20 +16,18 @@
 package org.kuali.kra.s2s.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Country;
-import org.kuali.kra.bo.State;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
+import org.kuali.rice.kns.bo.State;
 
 /**
  * 
@@ -171,7 +169,7 @@ public interface S2SUtilService {
 	 * Finds a State object from the state name
 	 * 
 	 * @param stateName
-	 *            Name of the state
+	 *            Name of the state (two-letter state code)
 	 * @return State object matching the name.
 	 */
 	public State getStateFromName(String stateName);

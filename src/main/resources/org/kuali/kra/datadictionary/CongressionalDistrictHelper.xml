@@ -20,18 +20,11 @@
   <!-- Attribute Definitions -->
 
   <bean id="CongressionalDistrictHelper-newState" parent="CongressionalDistrictHelper-newState-parentBean" />
-  <bean id="CongressionalDistrictHelper-newState-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CongressionalDistrictHelper-newState-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
     <property name="name" value="newState" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="State" />
-    <property name="shortLabel" value="State" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.State"
+            p:businessObjectClass="org.kuali.rice.kns.bo.State"
             p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CongDistrictStateCodeValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"

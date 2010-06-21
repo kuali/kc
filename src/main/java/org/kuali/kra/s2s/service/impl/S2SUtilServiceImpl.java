@@ -26,9 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import noNamespace.InstituteProposalDocument;
-import noNamespace.InstituteProposalDocument.InstituteProposal;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.award.home.Award;
@@ -37,15 +34,12 @@ import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.State;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -57,7 +51,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -65,11 +58,12 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * 
@@ -651,19 +645,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	 * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String)
 	 */
 	public State getStateFromName(String stateName) {
-		State state = null;
-		Map<String, String> stateMap = new HashMap<String, String>();
-		stateMap.put(KEY_STATE_CODE, stateName);
-		Iterator<State> stateList = businessObjectService.findMatching(
-				State.class, stateMap).iterator();
-		while (stateList.hasNext()) {
-			state = stateList.next();
-			if (state.getStateCode().equals(stateName)) {
-				break;
-			}
-		}
+		State state = getStateService().getByPrimaryId(stateName);
 		return state;
 	}
+	
+	private static StateService getStateService() {
+        return KraServiceLocator.getService(StateService.class);
+    }
 
 	/**
 	 * This method compares a proposal person with budget person. It checks
