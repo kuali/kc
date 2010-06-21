@@ -22,23 +22,24 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
 
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.State;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * 
@@ -202,17 +203,17 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public StateCodeDataType.Enum getStateCodeDataType(String stateName) {
         StateCodeDataType.Enum stateCodeDataType = null;
-        Map<String, String> stateMap = new HashMap<String, String>();
-        stateMap.put("stateCode", stateName);
-        Iterator<State> stateList = businessObjectService.findMatching(State.class, stateMap).iterator();
-        while (stateList.hasNext()) {
-            State state = stateList.next();
-            if (state.getStateCode().equals(stateName)) {
-                stateCodeDataType = StateCodeDataType.Enum.forString(state.getStateCode() + ": " + state.getDescription());
-                break;
-            }
+        
+        State state = getStateService().getByPrimaryId(stateName);
+        if (state != null) {
+            stateCodeDataType = StateCodeDataType.Enum.forString(state.getPostalStateCode() + ": " + state.getPostalStateName());
         }
+        
         return stateCodeDataType;
+    }
+    
+    private static StateService getStateService() {
+        return KraServiceLocator.getService(StateService.class);
     }
 
     /**

@@ -96,7 +96,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.State;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -1697,10 +1697,9 @@ public abstract class AwardBaseStream implements XmlStream {
 	private String getState(Rolodex rolodex) {
 		String stateDesc = null;
 		if (rolodex.getState() != null) {
-			State state = PrintingUtils.getStateFromName(rolodex.getState(),
-					businessObjectService);
+			State state = PrintingUtils.getStateFromName(rolodex.getState());
 			if (state != null) {
-				stateDesc = state.getDescription();
+				stateDesc = state.getPostalStateName();
 			}
 		}
 		return stateDesc;
