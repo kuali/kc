@@ -36,7 +36,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     private Long fileId;
     private Integer documentId;
 
-    private AttachmentFile file;
+    private transient AttachmentFile file;
     private transient FormFile newFile;
     
     /**
@@ -64,6 +64,9 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      * @return the Protocol Attachment Base File
      */
     public AttachmentFile getFile() {
+        if (this.fileId != null && this.file == null) {
+            refreshReferenceObject("file");
+        }
         return this.file;
     }
     
