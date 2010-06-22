@@ -1754,6 +1754,8 @@
         <bean id="committeePrintingService"
             class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl">
             <property name="committeeTemplatePrint" ref="committeeTemplatePrint" />
+            <property name="scheduleTemplatePrint" ref="scheduleTemplatePrint" />
+            <property name="protocolCorrespondenceTemplatePrint" ref="protocolCorrespondenceTemplatePrint" />
             <property name="committeeRosterPrint" ref="committeeRosterPrint" />
             <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
             
@@ -1764,6 +1766,18 @@
 
         <bean id="committeeTemplatePrint"
             class="org.kuali.kra.committee.print.CommitteeTemplatePrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
+        </bean>
+	
+        <bean id="scheduleTemplatePrint"
+            class="org.kuali.kra.committee.print.ScheduleTemplatePrint" scope="prototype">
+            <property name="xmlStream" ref="committeeXmlStream" />
+            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
+        </bean>
+	
+        <bean id="protocolCorrespondenceTemplatePrint"
+            class="org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint" scope="prototype">
             <property name="xmlStream" ref="committeeXmlStream" />
             <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>

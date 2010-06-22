@@ -91,7 +91,7 @@ public class MeetingActionsAction extends MeetingAction {
      */
     private List<Printable> getPrintableArtifacts(CommitteeDocument document, String protoCorrespTypeCode) {
 
-        Printable printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.TEMPLATE);
+        Printable printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
         ((AbstractPrint) printable).setDocument(document);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", document.getCommittee().getCommitteeId());

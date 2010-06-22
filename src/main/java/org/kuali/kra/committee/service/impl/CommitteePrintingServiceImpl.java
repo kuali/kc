@@ -23,6 +23,8 @@ import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.print.CommitteeTemplatePrint;
+import org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint;
+import org.kuali.kra.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
@@ -40,6 +42,8 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private static final String ERROR_MESSAGE = "Unknown report type specified";
     
     private CommitteeTemplatePrint committeeTemplatePrint;
+    private ScheduleTemplatePrint scheduleTemplatePrint;
+    private ProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
@@ -50,8 +54,14 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         AbstractPrint printable = null;
         
         switch(reportType) {
-            case TEMPLATE :
+            case COMMITTEE_TEMPLATE :
                 printable = getCommitteeTemplatePrint();
+                break;
+            case SCHEDULE_TEMPLATE :
+                printable = getScheduleTemplatePrint();
+                break;
+            case PROTOCOL_CORRESPONDENCE_TEMPLATE :
+                printable = getProtocolCorrespondenceTemplatePrint();
                 break;
             case ROSTER :
                 printable = getCommitteeRosterPrint();
@@ -88,6 +98,22 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
 
     public void setCommitteeTemplatePrint(CommitteeTemplatePrint committeeTemplatePrint) {
         this.committeeTemplatePrint = committeeTemplatePrint;
+    }
+
+    public ScheduleTemplatePrint getScheduleTemplatePrint() {
+        return scheduleTemplatePrint;
+    }
+
+    public void setScheduleTemplatePrint(ScheduleTemplatePrint scheduleTemplatePrint) {
+        this.scheduleTemplatePrint = scheduleTemplatePrint;
+    }
+
+    public ProtocolCorrespondenceTemplatePrint getProtocolCorrespondenceTemplatePrint() {
+        return protocolCorrespondenceTemplatePrint;
+    }
+
+    public void setProtocolCorrespondenceTemplatePrint(ProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint) {
+        this.protocolCorrespondenceTemplatePrint = protocolCorrespondenceTemplatePrint;
     }
 
     public CommitteeRosterPrint getCommitteeRosterPrint() {
