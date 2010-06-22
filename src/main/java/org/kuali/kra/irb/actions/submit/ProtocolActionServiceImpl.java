@@ -259,7 +259,6 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UPDATE_RULE).executeRules(protocolAction);
-        //businessObjectService.save(protocolActionBo);
         businessObjectService.save(protocol);
         
         // if there is submission just added, then force this to get the last one.
@@ -278,6 +277,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             fieldValues.put("protocolNumber", protocol.getProtocolNumber());
             businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
             protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
+            protocol.setProtocolSubmission(null); 
         }
     }
     

@@ -15,13 +15,21 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
@@ -44,15 +52,29 @@ import org.kuali.rice.test.data.UnitTestFile;
 public class ProtocolActionCorrespondenceGenerationServiceTest extends KraTestBase {
     
     ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    BusinessObjectService businessObjectService;
     Protocol protocol;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         protocolActionCorrespondenceGenerationService = KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+        businessObjectService  = KraServiceLocator.getService(BusinessObjectService.class);
         protocol = ProtocolFactory.createProtocolDocument().getProtocol();
+        createActionHistory();
     }
 
+    private void createActionHistory() {
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.PROTOCOL_CREATED);
+        protocolAction.setProtocolNumber(protocol.getProtocolNumber());
+        protocolAction.setSequenceNumber(protocol.getSequenceNumber());
+        protocolAction.setProtocolId(protocol.getProtocolId());
+        protocolAction.setActionId(protocol.getNextValue("actionId"));
+        protocolAction.setComments("Protocol created");
+        protocol.getProtocolActions().add(protocolAction);
+        getBusinessObjectService().save(protocol);
+    }
+    
     @After
     public void tearDown() throws Exception {
         protocolActionCorrespondenceGenerationService = null;
@@ -60,12 +82,22 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KraTestBa
         super.tearDown();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testBuildAndAttachProtocolAttachmentProtocol() {
-        assertTrue(protocol.getAttachmentProtocols().size() == 0);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolNumber", protocol.getProtocolNumber());
+        fieldValues.put("sequenceNumber", protocol.getSequenceNumber().toString());
+        assertNotNull(protocol.getLastProtocolAction());
+        fieldValues.put("actionIdFk", protocol.getLastProtocolAction().getProtocolActionId().toString());
+        List<ProtocolCorrespondence> correspondenceList = (List<ProtocolCorrespondence>) businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues);
+        assertTrue(correspondenceList == null || correspondenceList.size() == 0);
         byte[] data = {'a','b','c'};
-        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment");
-        assertTrue(protocol.getAttachmentProtocols().size() == 1);
+        //Generating a Protocol Optional Report #1
+        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment", "13");
+        correspondenceList = (List<ProtocolCorrespondence>) businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues);
+        assertNotNull(correspondenceList);
+        assertTrue(correspondenceList.size() == 1);
     }
 
 }
