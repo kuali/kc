@@ -28,9 +28,9 @@
         </h3>    	        
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
-    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" /></div></th>
-    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.noticeDate}" scope="col" /></div></th>
-    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.comments}" scope="col" /></div></th>
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" />
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.noticeDate}" scope="col" />
+    		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.comments}" scope="col" />
     	</tr>
     	<tr>
     		<c:choose>
@@ -123,9 +123,9 @@
 		</c:if>
 	
 		<c:if test="${KualiForm.inSingleNodeHierarchy}" >
-	
-    			<table cellpadding="0" cellspacing="0" summary="">	
-    			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
+			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
+    		<table cellpadding="0" cellspacing="0" summary="">	
+    			
 			<tr>
 				<th>
 					&nbsp;

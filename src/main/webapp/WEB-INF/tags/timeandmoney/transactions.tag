@@ -29,12 +29,12 @@
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.transactionId}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.comments}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}" scope="col" /></div></th>          		
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.destinationAwardNumber}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.obligatedAmount}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedAmount}" scope="col" /></div></th>          		
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.transactionId}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.comments}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.sourceAwardNumber}" scope="col" />          		
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.destinationAwardNumber}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.obligatedAmount}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedAmount}" scope="col" />        		
           		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
           	</tr> 
           	<%-- Header --%>
