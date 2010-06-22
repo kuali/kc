@@ -53,5 +53,5 @@ public interface ProtocolActionCorrespondenceGenerationService {
      * @param data
      * @param attachmentDescription
      */
-    void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription);
+    void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription, String correspondenceTypeCode);
 }

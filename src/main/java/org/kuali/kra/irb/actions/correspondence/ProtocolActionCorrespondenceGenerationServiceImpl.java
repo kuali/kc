@@ -24,8 +24,10 @@ import java.util.Map;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
@@ -97,18 +99,26 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     }
     
     /**{@inheritDoc}**/
-    public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription) {
+    public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription, String correspTypeCode) {
+        //Temp code since printing impl is not in place
+        byte[] bytes = {'a', 'b', 'c','d'};
         
-        ProtocolAttachmentProtocol protocolAttachment = new ProtocolAttachmentProtocol();
-        AttachmentFile attachFile = new AttachmentFile(attachmentDescription, "pdf", data);
-        protocolAttachment.setFile(attachFile);
-        protocolAttachment.setProtocol(protocol);
-        protocolAttachment.setDescription(attachmentDescription);
-        protocolAttachment.setTypeCode(getProtocolOtherTypeCode());
-        protocolAttachment.setDocumentId(protocol.getSequenceNumber());
-        protocolAttachment.setDocumentStatusCode(getDOcumentStatusCode());
-        protocolAttachment.setStatusCode(getCompleteAttachmentStatusCode());     
-        protocol.addAttachmentsByType(protocolAttachment);
+        ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
+        protocolCorrespondence.setProtocol(protocol);
+        protocolCorrespondence.setProtocolId(protocol.getProtocolId());
+        protocolCorrespondence.setProtocolNumber(protocol.getProtocolNumber());
+        protocolCorrespondence.setSequenceNumber(protocol.getSequenceNumber());
+        protocolCorrespondence.setProtoCorrespTypeCode(correspTypeCode);
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        protocolCorrespondence.setProtocolAction(lastAction);
+        protocolCorrespondence.setActionIdFk(lastAction.getProtocolActionId());
+        protocolCorrespondence.setCorrespondence(bytes); 
+        protocolCorrespondence.setActionId(lastAction.getActionId());
+        //No placeholder for attachment description???
+        //What is Final flag used for?
+        protocolCorrespondence.setFinalFlag(true);
+        this.businessObjectService.save(protocolCorrespondence);
+        
         this.businessObjectService.save(protocol);
     }
     
@@ -153,7 +163,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         for (ProtocolCorrespondenceTemplate template : templates) {
             Printable printable = this.protocolXMLStreamService.getPrintableXMLStream(protocol, template);
             AttachmentDataSource ads = this.printingService.print(printable);         
-            buildAndAttachProtocolAttachmentProtocol(protocol, ads.getContent(), attachmentDescription);
+            buildAndAttachProtocolAttachmentProtocol(protocol, ads.getContent(), attachmentDescription, template.getProtoCorrespTypeCode());
         }
     }
     
