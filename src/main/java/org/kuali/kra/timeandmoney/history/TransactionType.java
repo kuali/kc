@@ -13,18 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.timeandmoney.service;
+package org.kuali.kra.timeandmoney.history;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.timeandmoney.AwardVersionHistory;
-import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
-import org.kuali.rice.kew.exception.WorkflowException;
-
-public interface TimeAndMoneyHistoryService {
-    
-    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) throws WorkflowException;
-
-    void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection);
+/**
+ * This class...
+ */
+public enum TransactionType {
+    DATE, MONEY, INITIAL
 }

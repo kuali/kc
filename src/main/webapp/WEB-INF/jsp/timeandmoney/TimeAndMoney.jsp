@@ -37,7 +37,7 @@
 <kra-a:awardDirectFnAFundsDistribution />
 <kra-timeandmoney:summary />
 <kra-timeandmoney:actionSummary />
-<kra-timeandmoney:history />
+<kra-timeandmoney:timeAndMoneyHistory />
 
 <kul:adHocRecipients />
 <kul:routeLog />

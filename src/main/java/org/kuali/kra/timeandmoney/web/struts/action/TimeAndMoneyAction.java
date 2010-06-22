@@ -64,9 +64,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private static final String PENDING_VIEW = "1";
     private static final String ACTIVE_VIEW = "0";
     private static final String PENDING_TRANSACTIONS_ATTRIBUTE_NAME = "pendingTransactions";
-    private static final String OBLIGATED_START_COMMENT = "Obligation start date was changed";
-    private static final String OBLIGATED_END_COMMENT = "Obligation end date was extended";
-    private static final String PROJECT_END_COMMENT = "Project end date was extended.";
+    private static final String OBLIGATED_START_COMMENT = "Obligated Start";
+    private static final String OBLIGATED_END_COMMENT = "Obligated End";
+    private static final String PROJECT_END_COMMENT = "Project End";
     private static final String ZERO = "0";
     private static final Integer TEN = 10;
     BusinessObjectService businessObjectService;
@@ -609,6 +609,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
         
+        timeAndMoneyDocument.getAwardVersionHistoryList().clear();
+        tamhs.buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), timeAndMoneyDocument.getAwardVersionHistoryList());
         TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
         timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
