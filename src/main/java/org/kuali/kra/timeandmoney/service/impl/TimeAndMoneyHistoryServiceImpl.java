@@ -20,17 +20,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.timeandmoney.AwardAmountInfoHistory;
+import org.kuali.kra.timeandmoney.AwardVersionHistory;
+import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
+import org.kuali.kra.timeandmoney.history.TransactionType;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -38,7 +40,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.web.ui.HeaderField;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
     
@@ -189,7 +192,217 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                
             }
            }
+    
+    @SuppressWarnings("unchecked")
+    public void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) {
+        List<Award> awardVersionList = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);
+        //we want the list in reverse chronological order.
+        Collections.reverse(awardVersionList);       
+        List<TimeAndMoneyDocument> docs = null;
+        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+        //get the root award number.
+        fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(awardVersionList.get(0).getAwardNumber()));
+        docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+        //we don't want canceled docs to show in history.
+        removeCanceledDocs(docs);
+        for(Award award : awardVersionList) {
+            AwardVersionHistory awardVersionHistory = new AwardVersionHistory();
+            awardVersionHistory.setDocumentUrl(buildDocumentUrl(award.getAwardDocument().getDocumentNumber()));
+            awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
+            awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
+            
+            awardVersionHistoryCollection.add(awardVersionHistory);
+        }  
+    }
         
+    private List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
+            List<AwardAmountInfo> awardAmountInfos, Award award) {
+        List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
+        List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
+        List<TimeAndMoneyDocument> awardVersionDocs = getValidDocumentsCreatedForAwardVersion(docs, validInfos);
+        //we want the list in reverse chronological order.
+        Collections.reverse(awardVersionDocs);
+        for(TimeAndMoneyDocument doc : awardVersionDocs) {
+            TimeAndMoneyDocumentHistory docHistory = new TimeAndMoneyDocumentHistory();
+            docHistory.setTimeAndMoneyDocument(doc);
+            docHistory.setDocumentUrl(buildDocumentUrl(doc.getDocumentNumber()));
+            docHistory.setTimeAndMoneyDocumentDescriptionLine(buildNewTimeAndMoneyDescriptionLine(doc));
+            docHistory.setValidAwardAmountInfoHistoryList(retrieveAwardAmountInfosFromPrimaryTransactions(doc, validInfos));
+            timeAndMoneyDocumentHistoryList.add(docHistory);
+        }
+        
+        return timeAndMoneyDocumentHistoryList;
+    }
+    
+    private List<AwardAmountInfoHistory> retrieveAwardAmountInfosFromPrimaryTransactions(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+        List <AwardAmountInfoHistory> primaryInfos = new ArrayList<AwardAmountInfoHistory>();
+        primaryInfos.addAll(captureMoneyInfos(doc, validInfos));
+        primaryInfos.addAll(captureDateInfos(doc, validInfos));
+        primaryInfos.addAll(captureInitialTransactionInfo(doc, validInfos));
+        return primaryInfos;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<AwardAmountInfoHistory> captureMoneyInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+        List <AwardAmountInfoHistory> moneyInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
+        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+        Map<String, Object> fieldValues1a = new HashMap<String, Object>();
+        Map<String, Object> fieldValues2 = new HashMap<String, Object>();
+
+        for(AwardAmountInfo awardAmountInfo : validInfos){
+            if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+                    if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
+                        //get all Transaction Details for a node.  It can be the source or a destination of the transaction.
+                        fieldValues1.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
+                        fieldValues1.put("transactionId", awardAmountInfo.getTransactionId());
+                        fieldValues1.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
+                        fieldValues1a.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
+                        fieldValues1a.put("transactionId", awardAmountInfo.getTransactionId());
+                        fieldValues1a.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
+                        fieldValues2.put("transactionId", awardAmountInfo.getTransactionId());
+                        fieldValues2.put("transactionDetailType", TransactionDetailType.INTERMEDIATE.toString());
+                        List<TransactionDetail> transactionDetails = 
+                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues1, "transactionDetailId", true));
+                        List<TransactionDetail> transactionDetailsA = 
+                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues1a, "transactionDetailId", true));
+                        //we do a join on this list, but there can only be one possible since we are searching by Award Amount Info and there can only be
+                        //one transaction associated.
+                        transactionDetails.addAll(transactionDetailsA);
+                        List<TransactionDetail> transactionDetailsB = 
+                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues2, "transactionDetailId", true));
+                        if (transactionDetails.size() > 0) {
+                            AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
+                            awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
+                            awardAmountInfoHistory.setTransactionType(TransactionType.MONEY.toString());
+                            awardAmountInfoHistory.setPrimaryDetail(transactionDetails.get(0));
+                            awardAmountInfoHistory.setIntermediateDetails(transactionDetailsB);
+                            moneyInfoHistoryList.add(awardAmountInfoHistory);
+                        }
+                    }
+                }
+            }
+            return moneyInfoHistoryList;
+        }
+
+        
+    
+    @SuppressWarnings("unchecked")
+    private List<AwardAmountInfoHistory> captureDateInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+        List <AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        for(AwardAmountInfo awardAmountInfo : validInfos){  
+            if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+                    if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
+                        if(awardAmountInfo.getTransactionId() == null) {
+                            fieldValues.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
+                            fieldValues.put("transactionId", "-1");
+                            fieldValues.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
+                            List<TransactionDetail> dateTransactionDetails = 
+                                ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues, "sourceAwardNumber", true));
+                            if (dateTransactionDetails.size() > 0) {
+                                AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
+                                awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
+                                awardAmountInfoHistory.setTransactionType(TransactionType.DATE.toString());
+                                dateInfoHistoryList.add(awardAmountInfoHistory);
+                            }
+                        }
+                    }
+            }
+        }
+        return dateInfoHistoryList;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<AwardAmountInfoHistory> captureInitialTransactionInfo(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+        List <AwardAmountInfoHistory> initialInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        for(AwardAmountInfo awardAmountInfo : validInfos){
+            if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+                    if(StringUtils.equalsIgnoreCase(doc.getDocumentNumber(),awardAmountInfo.getTimeAndMoneyDocumentNumber())){ 
+                        fieldValues.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
+                        fieldValues.put("transactionId", 0);
+                        fieldValues.put("timeAndMoneyDocumentNumber", awardAmountInfo.getTimeAndMoneyDocumentNumber());
+                        fieldValues.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
+                        List<TransactionDetail> transactionDetailsA = 
+                            ((List<TransactionDetail>)businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues, "sourceAwardNumber", true));
+                        if(transactionDetailsA.size() > 0) {
+                            AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
+                            awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
+                            awardAmountInfoHistory.setTransactionType(TransactionType.INITIAL.toString());
+                            initialInfoHistoryList.add(awardAmountInfoHistory);
+                            break;
+                        }else {
+                            break;
+                        }
+                    }
+            }
+        }
+        return initialInfoHistoryList;  
+    }
+    
+    private String buildNewTimeAndMoneyDescriptionLine(TimeAndMoneyDocument doc) {
+        AwardAmountTransaction aat = doc.getAwardAmountTransactions().get(0);
+        String noticeDate;
+        String transactionTypeDescription;
+        
+        if(!(aat.getNoticeDate() == null)) {
+            noticeDate = aat.getNoticeDate().toString();
+        }else {
+            noticeDate = "empty";
+        }
+        if(!(aat.getAwardTransactionType() == null)) {
+            transactionTypeDescription = aat.getAwardTransactionType().getDescription();
+        }else {
+            transactionTypeDescription = "empty";
+        }
+        return "Time And Money Document: " + transactionTypeDescription + 
+                    ": notice date: " + noticeDate + ", updated : " + getUpdateTimeAndUser(doc) + " Comments: " + aat.getComments();
+    }
+    
+    private List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
+        List<AwardAmountInfo> validInfos = new ArrayList<AwardAmountInfo>();
+        for(AwardAmountInfo awardAmountInfo : awardAmountInfos) {
+            if(!(awardAmountInfo.getOriginatingAwardVersion() == null)) {
+                if(awardAmountInfo.getOriginatingAwardVersion().equals(award.getSequenceNumber())) {
+                    validInfos.add(awardAmountInfo);
+                }
+            }
+        }
+        return validInfos;
+    }
+    
+    private List<TimeAndMoneyDocument> getValidDocumentsCreatedForAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> validInfos) {
+        List<TimeAndMoneyDocument> validDocs = new ArrayList<TimeAndMoneyDocument>();
+            for(TimeAndMoneyDocument doc : docs) {
+                if(isInValidInfosCollection(doc, validInfos)) {
+                    validDocs.add(doc);
+                }
+            }
+        return validDocs;
+    }
+    
+    private Boolean isInValidInfosCollection(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+        Boolean valid = false;
+        for(AwardAmountInfo awardAmountInfo : validInfos) {
+            if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(doc.getDocumentNumber())) {
+                valid = true;
+                break;
+            }
+        }
+        return valid;
+    }
+    
+    private void removeCanceledDocs(List<TimeAndMoneyDocument> docs) {
+        List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<TimeAndMoneyDocument>();
+        for(TimeAndMoneyDocument doc : docs) {
+            if(doc.getDocumentHeader().hasWorkflowDocument()) {
+                if(doc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                   tempCanceledDocs.add(doc); 
+                }
+            }
+        }
+        docs.removeAll(tempCanceledDocs);
+    }
                      
     
     
@@ -300,12 +513,44 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
     }
     
+    private String buildNewAwardDescriptionLine(Award award) {
+        String noticeDate;
+        String transactionTypeDescription;
+        String versionNumber;
+        
+        versionNumber = award.getSequenceNumber().toString();
+   
+        if(!(award.getNoticeDate() == null)) {
+            noticeDate = award.getNoticeDate().toString();
+        }else {
+            noticeDate = "empty";
+        }
+        if(!(award.getAwardTransactionType() == null)) {
+            transactionTypeDescription = award.getAwardTransactionType().getDescription();
+        }else {
+            transactionTypeDescription = "empty";
+        }
+        return "Award Version " + versionNumber + ": " + transactionTypeDescription + 
+                    ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award) 
+                    + " Comments:" + award.getAwardCurrentActionComments().getComments();
+    }
+    
     private String getUpdateTimeAndUser(Award award) {
         String createDateStr = null;
         String updateUser = null;
         if (award.getUpdateTimestamp() != null) {
             createDateStr = KNSServiceLocator.getDateTimeService().toString(award.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = award.getUpdateUser().length() > NUMBER_30 ? award.getUpdateUser().substring(0, NUMBER_30) : award.getUpdateUser(); 
+        }
+        return createDateStr + ", " + updateUser;
+    }
+    
+    private String getUpdateTimeAndUser(TimeAndMoneyDocument doc) {
+        String createDateStr = null;
+        String updateUser = null;
+        if (doc.getUpdateTimestamp() != null) {
+            createDateStr = KNSServiceLocator.getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
+            updateUser = doc.getUpdateUser().length() > NUMBER_30 ? doc.getUpdateUser().substring(0, NUMBER_30) : doc.getUpdateUser(); 
         }
         return createDateStr + ", " + updateUser;
     }
