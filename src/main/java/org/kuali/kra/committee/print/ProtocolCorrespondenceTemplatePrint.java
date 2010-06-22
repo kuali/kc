@@ -19,8 +19,8 @@ package org.kuali.kra.committee.print;
  * 
  * This class identifies the template print functionality for committee reports.
  */
-public class CommitteeTemplatePrint extends TemplatePrint {
+public class ProtocolCorrespondenceTemplatePrint extends TemplatePrint {
 
-    private static final long serialVersionUID = 8819040007652342082L;
+    private static final long serialVersionUID = 8304381236192765809L;
 
 }

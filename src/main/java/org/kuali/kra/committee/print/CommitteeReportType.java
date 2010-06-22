@@ -20,7 +20,13 @@ package org.kuali.kra.committee.print;
  */
 public enum CommitteeReportType {
     /** Report type for the committee reports that utilize templates. */
-    TEMPLATE ("template"),
+    COMMITTEE_TEMPLATE ("committee_template"),
+
+    /** Report type for the committee schedule reports that utilize templates. */
+    SCHEDULE_TEMPLATE ("schedule_template"),
+
+    /** Report type for the protocol correspondence reports that utilize templates. */
+    PROTOCOL_CORRESPONDENCE_TEMPLATE ("protocol_correspondence_template"),
 
     /** Report type for the committee roster. */
     ROSTER ("roster"),
