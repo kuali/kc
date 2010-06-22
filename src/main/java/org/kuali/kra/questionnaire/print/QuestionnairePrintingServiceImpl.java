@@ -28,7 +28,6 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
-    private QuestionnaireAnswerPrint questionnaireAnswerPrint;
 
     /**
      * 
@@ -62,7 +61,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
     public AttachmentDataSource printQuestionnaireAnswer(ResearchDocumentBase document, Map<String, Object> reportParameters)
             throws PrintingException {
         AttachmentDataSource source = null;
-        AbstractPrint printable = getQuestionnaireAnswerPrint();
+        AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {
             printable.setDocument(document);
             printable.setReportParameters(reportParameters);
@@ -93,14 +92,6 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     public void setQuestionnairePrint(QuestionnairePrint questionnairePrint) {
         this.questionnairePrint = questionnairePrint;
-    }
-
-    public QuestionnaireAnswerPrint getQuestionnaireAnswerPrint() {
-        return questionnaireAnswerPrint;
-    }
-
-    public void setQuestionnaireAnswerPrint(QuestionnaireAnswerPrint questionnaireAnswerPrint) {
-        this.questionnaireAnswerPrint = questionnaireAnswerPrint;
     }
 
 

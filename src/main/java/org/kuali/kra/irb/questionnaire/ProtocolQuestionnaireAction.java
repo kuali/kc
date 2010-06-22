@@ -163,12 +163,10 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         ProtocolForm protocolForm = (ProtocolForm) form;
         final int answerHeaderIndex = this.getSelectedLine(request);
-        //((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId();
         // TODO : a flag to check whether to print answer or not
-        // reportParameters.put("printAnswer", protocolForm.printAnswer);
-         reportParameters.put("questionnaireId", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
+        // for release 3 : if questionnaire questions has answer, then print answer. 
+       reportParameters.put("questionnaireId", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
 
-        // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument(), reportParameters);
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);
