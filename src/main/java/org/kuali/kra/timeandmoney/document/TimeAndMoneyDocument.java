@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.document;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.RolePersons;
@@ -35,6 +35,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.AwardVersionHistory;
+import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
@@ -71,6 +73,8 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     private Award award;
     private AwardAmountTransaction newAwardAmountTransaction;
     private List<AwardDirectFandADistribution> awardDirectFandADistributions;
+    private List<AwardVersionHistory> awardVersionHistoryList;
+    private List<String> order;
     
     /**
      * Constructs a AwardDocument object
@@ -110,25 +114,47 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         awardHierarchyItems = new HashMap<String, AwardHierarchy>();
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
-//        AwardAmountTransaction aat = new AwardAmountTransaction();
-//        aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
-//        aat.setDocumentNumber(getDocumentNumber());
-//        aat.setTransactionTypeCode(9);
-//        awardAmountTransactions.add(aat);
         timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
         timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>(); 
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         newAwardAmountTransaction = new AwardAmountTransaction();
+        awardVersionHistoryList = new ArrayList<AwardVersionHistory>();
+        order = new ArrayList<String>();
+
     }
     
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD, statusChangeEvent.getNewRouteStatus())){
-            this.setAwardHierarchyNodes(((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
-                    GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes());
+            this.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, getOrder()));
+            this.setAwardNumber(rootAwardNumber);  
+            
+            Award tmpAward = getCurrentAward(this);
+            this.setAward(tmpAward);
+            if(tmpAward != null) {
+                getAwardHierarchyService().populateAwardHierarchyNodes(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString());
+            } else {
+                getAwardHierarchyService().populateAwardHierarchyNodes(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), null, null);
+            }
             getActivePendingTransactionsService().approveTransactions(this, awardAmountTransactions.get(0));
         }
+    }
+    
+    /*
+     * This method retrieves AwardHierarchyService
+     */
+    protected AwardHierarchyService getAwardHierarchyService(){        
+        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
+    }
+    
+    private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
+        Award tmpAward = timeAndMoneyDocument.getAward();
+        if(tmpAward == null) {
+            tmpAward = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
+        }
+        
+        return tmpAward;
     }
     
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
@@ -362,4 +388,38 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
         //FIXME: verify
         return RoleConstants.AWARD_ROLE_TYPE;
     }
+
+    /**
+     * Gets the awardVersionHistoryList attribute. 
+     * @return Returns the awardVersionHistoryList.
+     */
+    public List<AwardVersionHistory> getAwardVersionHistoryList() {
+        return awardVersionHistoryList;
+    }
+
+    /**
+     * Sets the awardVersionHistoryList attribute value.
+     * @param awardVersionHistoryList The awardVersionHistoryList to set.
+     */
+    public void setAwardVersionHistoryList(List<AwardVersionHistory> awardVersionHistoryList) {
+        this.awardVersionHistoryList = awardVersionHistoryList;
+    }
+    
+    /**
+     * Gets the order attribute. 
+     * @return Returns the order.
+     */
+    public List<String> getOrder() {
+        return order;
+    }
+
+    /**
+     * Sets the order attribute value.
+     * @param order The order to set.
+     */
+    public void setOrder(List<String> order) {
+        this.order = order;
+    }
+    
+    
 }
