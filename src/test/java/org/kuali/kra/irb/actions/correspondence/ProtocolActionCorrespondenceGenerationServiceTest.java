@@ -94,7 +94,7 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KraTestBa
         assertTrue(correspondenceList == null || correspondenceList.size() == 0);
         byte[] data = {'a','b','c'};
         //Generating a Protocol Optional Report #1
-        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolAttachmentProtocol(protocol, data, "foo bar attachment", "13");
+        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolCorrespondence(protocol, data, "foo bar attachment", "13");
         correspondenceList = (List<ProtocolCorrespondence>) businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues);
         assertNotNull(correspondenceList);
         assertTrue(correspondenceList.size() == 1);
