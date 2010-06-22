@@ -98,6 +98,7 @@ public class ProtocolApproveServiceImplTest extends KraTestBase {
         actionBean.setExpirationDate(BASIC_ACTION_DATE);
         businessObjectService.save(prot);
         protocolApproveService.approve(prot, actionBean);
+        businessObjectService.save(prot);
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
