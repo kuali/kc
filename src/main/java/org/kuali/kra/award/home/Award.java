@@ -242,6 +242,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         setSpecialReviewIndicator(YES_FLAG);
         setTransferSponsorIndicator(YES_FLAG);
         awardComments = new TypedArrayList(AwardComment.class);
+        setCurrentActionComments("");
     }
     
     /**
