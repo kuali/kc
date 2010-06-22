@@ -15,30 +15,24 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -99,7 +93,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     }
     
     /**{@inheritDoc}**/
-    public void buildAndAttachProtocolAttachmentProtocol(Protocol protocol, byte[] data, String attachmentDescription, String correspTypeCode) {
+    public void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String attachmentDescription, String correspTypeCode) {
         //Temp code since printing impl is not in place
         byte[] bytes = {'a', 'b', 'c','d'};
         
@@ -163,7 +157,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         for (ProtocolCorrespondenceTemplate template : templates) {
             Printable printable = this.protocolXMLStreamService.getPrintableXMLStream(protocol, template);
             AttachmentDataSource ads = this.printingService.print(printable);         
-            buildAndAttachProtocolAttachmentProtocol(protocol, ads.getContent(), attachmentDescription, template.getProtoCorrespTypeCode());
+            buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), attachmentDescription, template.getProtoCorrespTypeCode());
         }
     }
     
