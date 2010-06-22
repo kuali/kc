@@ -2079,17 +2079,12 @@
             class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
             <property name="xmlStream" ref="questionnaireXmlStream" />
         </bean>
-	    <bean id="questionnaireAnswerPrint"
-            class="org.kuali.kra.questionnaire.print.QuestionnaireAnswerPrint" scope="prototype">
-            <property name="xmlStream" ref="questionnaireXmlStream" />
-        </bean>
 
 	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
 		<property name="printingService">
 			<ref bean="printingService" />
 		</property>
             <property name="questionnairePrint" ref="questionnairePrint" />
-            <property name="questionnaireAnswerPrint" ref="questionnaireAnswerPrint" />
 	</bean>
 
 </beans>
