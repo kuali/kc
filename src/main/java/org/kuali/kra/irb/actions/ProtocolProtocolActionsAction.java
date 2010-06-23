@@ -212,7 +212,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     }               
                     
                     getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-    
+                    protocolForm.getActionHelper().getAssignCmtSchedBean().init();
+                    protocolForm.getActionHelper().getAssignToAgendaBean().init();
                     forward = super.route(mapping, form, request, response);
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
@@ -844,6 +845,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             CONFIRM_ASSIGN_CMT_SCHED_KEY, "");
                 }
                 getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                protocolForm.getActionHelper().getAssignToAgendaBean().init();
             }
         }
 
