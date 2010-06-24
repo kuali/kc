@@ -29,24 +29,6 @@ public class InstitutionalProposalSponsorAndProgramInformationWebTest extends In
 private static final String SAVE_METHOD = "methodToCall.save";
     
     /**
-     * The set up method calls the parent super method.
-     * @see org.kuali.kra.award.htmlunitwebtest.InstitutionalProposalWebTestBase#setUp()
-     */
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    
-    /**
-     * @see org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalHomeWebTest#tearDown()
-     */
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-    
-    /**
      * 
      * This method tests the recalculate on Award Cost Share Recalculate on Time & Money page.
      * @throws Exception
@@ -54,13 +36,13 @@ private static final String SAVE_METHOD = "methodToCall.save";
     @Test
     public void testAddFieldsAndSave() throws Exception{
         
-        setFieldValue(proposalHomePage, "document.institutionalProposal.sponsorCode", "005891");
-        setFieldValue(proposalHomePage, "document.institutionalProposal.primeSponsorCode", "005889");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].sponsorCode", "005891");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].primeSponsorCode", "005889");
         setFieldValue(proposalHomePage, "document.institutionalProposal.sponsorProposalNumber", "1234");
         setFieldValue(proposalHomePage, "document.institutionalProposal.nsfCode", "J.02");
         setFieldValue(proposalHomePage, "document.institutionalProposal.noticeOfOpportunityCode", "1");
         setFieldValue(proposalHomePage, "document.institutionalProposal.awardTypeCode", "1");
-        setFieldValue(proposalHomePage, "document.institutionalProposal.opportunity", "testopportunity");
+        setFieldValue(proposalHomePage, "document.institutionalProposalList[0].opportunity", "testopportunity");
         setFieldValue(proposalHomePage, "document.institutionalProposal.cfdaNumber", "2345");
         proposalHomePage = clickOn(proposalHomePage, SAVE_METHOD);
         assertContains(proposalHomePage, SAVE_SUCCESS_MESSAGE);
