@@ -231,6 +231,7 @@ public class ActionHelper implements Serializable {
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(this.form.getProtocolDocument().getProtocol());
         committeeDecision = new CommitteeDecision();
+        committeeDecision.init(this.form.getProtocolDocument().getProtocol());
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
     
