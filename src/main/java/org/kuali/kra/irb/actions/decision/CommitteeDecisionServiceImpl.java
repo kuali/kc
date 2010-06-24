@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -26,6 +32,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -35,6 +42,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
+    private CommitteeService committeeService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -43,15 +51,16 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     public void setProtocolActionService(ProtocolActionService protocolActionService){
         this.protocolActionService = protocolActionService;
     }
+    public void setCommitteeService(CommitteeService committeeService){
+        this.committeeService = committeeService;
+    }
     
     /**
      * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#setCommitteeDecision(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
     public void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) {
         ProtocolSubmission submission = getSubmission(protocol);
-        System.err.println("got to setCommitteeDecision");
         if (submission != null) {
-            System.err.println("submission is not null");
             submission.setYesVoteCount(committeeDecision.getYesCount());
             submission.setNoVoteCount(committeeDecision.getNoCount());
             submission.setAbstainerCount(committeeDecision.getAbstainCount());
@@ -67,7 +76,6 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 protocolActionTypeToUse = ProtocolActionType.APPROVED;
                 doAddProtocolAction = true;
             } else if (MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom)) {
-                System.err.println("I think I am disapproving");
                 protocolActionTypeToUse = ProtocolActionType.DISAPPROVED;
                 doAddProtocolAction = true;
             }
@@ -80,6 +88,51 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 businessObjectService.save(protocolAction);
             }
             
+            List<CommitteeMembership> committeeMemberships =  
+                committeeService.getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
+                        protocol.getProtocolSubmission().getScheduleId());
+            
+            
+            if (!committeeDecision.getAbstainers().isEmpty()) {
+                //there are abstainers, lets save them
+                for (CommitteePerson person : committeeDecision.getAbstainers()) {
+                    for (CommitteeMembership membership : committeeMemberships) {
+                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                            //check to see if it is already been persisted
+                            Map fieldValues = new HashMap();
+                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
+                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
+                            fieldValues.put("PERSON_ID", membership.getPersonId());
+                            if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
+                                //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                                ProtocolVoteAbstainee abstainee = new ProtocolVoteAbstainee();
+                                abstainee.setProtocol(protocol);
+                                abstainee.setProtocolIdFk(protocol.getProtocolId());
+                                abstainee.setScheduleIdFk(submission.getScheduleIdFk());
+                                abstainee.setPersonId(membership.getPersonId());
+                                businessObjectService.save(abstainee);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if (!committeeDecision.getAbstainersToDelete().isEmpty()) {
+                for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
+                    for (CommitteeMembership membership : committeeMemberships) {
+                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                            Map fieldValues = new HashMap();
+                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
+                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
+                            fieldValues.put("PERSON_ID", membership.getPersonId());
+                            businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
+                        }
+                    }
+                }
+                committeeDecision.getAbstainersToDelete().clear();
+            }
+            
             businessObjectService.save(submission);
             businessObjectService.save(protocol);
             
@@ -88,12 +141,9 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
 
     private ProtocolSubmission getSubmission(Protocol protocol) {
-        System.err.println("got to getSubmission(), looking for: " + ProtocolSubmissionStatus.IN_AGENDA + " or " + ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            System.err.println("          " + submission.getSubmissionStatusCode());
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
                     || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                System.err.println("          return the above one");
                 return submission;
             }
         }
