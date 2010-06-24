@@ -37,7 +37,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     public static final int FOUR_DIGIT_YEAR_LENGTH = 4;
     public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
     public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
-    DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
+    
     private ParameterService parameterService;
     
     /**
@@ -58,7 +58,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {            
             String budgetFiscalYearStart
                 = this.parameterService.getParameterValue(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
-            
+            DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             for(Date date:getFiscalYearStartAndDates(
                                 Integer.valueOf(fiscalYear), budgetFiscalYearStart.split("/"))){
                 listDates.add(dateFormat.format(date));

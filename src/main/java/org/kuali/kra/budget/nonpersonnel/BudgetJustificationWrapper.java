@@ -31,8 +31,6 @@ public class BudgetJustificationWrapper implements Serializable {
     private String justificationText;        
     private String lastUpdateTime;
     private String lastUpdateUser;        
-    
-    private static DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
     private static final Log LOG = LogFactory.getLog(BudgetJustificationWrapper.class);
     
     public BudgetJustificationWrapper(String budgetJustificationAsXML) {
@@ -68,6 +66,7 @@ public class BudgetJustificationWrapper implements Serializable {
     }
     
     public void setLastUpdateTime(Date lastUpdateTime) {
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         this.lastUpdateTime = formatter.format(lastUpdateTime);
     }
 

@@ -29,7 +29,7 @@ public class ProtocolSummary implements Serializable {
 
     private static final long serialVersionUID = 1880834136103817283L;
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
     private String lastProtocolActionDescription;
     private String protocolNumber;
