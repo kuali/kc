@@ -28,7 +28,7 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase { 
     
     private static final long serialVersionUID = 6207540592702779518L;
-    private Integer protocolVoteAbstaineesId; 
+    private Long protocolVoteAbstaineesId; 
     private Long protocolIdFk; 
     private Long scheduleIdFk; 
     private String personId; 
@@ -41,11 +41,11 @@ public class ProtocolVoteAbstainee extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getProtocolVoteAbstaineesId() {
+    public Long getProtocolVoteAbstaineesId() {
         return protocolVoteAbstaineesId;
     }
 
-    public void setProtocolVoteAbstaineesId(Integer protocolVoteAbstaineesId) {
+    public void setProtocolVoteAbstaineesId(Long protocolVoteAbstaineesId) {
         this.protocolVoteAbstaineesId = protocolVoteAbstaineesId;
     }
 
