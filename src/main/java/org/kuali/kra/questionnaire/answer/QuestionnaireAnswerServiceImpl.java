@@ -46,7 +46,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String YES = "Y";
     private static final String NO = "N";
     private BusinessObjectService businessObjectService;
-    private DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
     /*
      * Get the questionnaire that is 'final' for the specified module.
@@ -484,6 +483,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     || (ConditionType.GREATER_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) > Integer
                             .parseInt(conditionValue)));
         } else if (Integer.parseInt(condition) >= 11) {
+            final DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             try {
                 Date date1 = new Date(dateFormat.parse(parentAnswer).getTime());
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
