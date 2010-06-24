@@ -24,7 +24,7 @@
      <div align="center">
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
-          		<th width="5%"><div align="center">&nbsp</div></th> 
+          		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
           		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
           		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		

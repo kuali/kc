@@ -66,6 +66,8 @@ public abstract class KraWebTestBase extends KraTestBase {
     static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
     private static final String QUICKSTART_USER = "quickstart";
 
+    public static final String PROTOCOL_AND_HOST = "http://127.0.0.1";
+    
     protected WebClient webClient;
     private HtmlPage portalPage;
 
@@ -86,7 +88,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         webClient.setThrowExceptionOnScriptError(true);
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         
-        setPortalPage(buildPageFromUrl("http://127.0.0.1:" + getPort() + "/kc-dev/", "Kuali Portal Index"));
+        setPortalPage(buildPageFromUrl(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/", "Kuali Portal Index"));
     }
 
     /**

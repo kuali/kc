@@ -19,6 +19,7 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.KraWebTestBase;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -28,7 +29,7 @@ public class BaseLineAppStartTest extends KraTestBase {
 
     @Test public void testHomePage() throws Exception {
          final WebClient webClient = new WebClient();
-         final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+         final URL url = new URL(KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
          final HtmlPage page = (HtmlPage)webClient.getPage(url);
          assertEquals("Kuali Portal Index", page.getTitleText() );
     }

@@ -13,7 +13,7 @@
       <div id="usagepanelcontent">
         <table id = "usage-table" cellpadding="0" cellspacing="0" summary="">
             <tr>
-                <th><div align="left">&nbsp</div></th> 
+                <th><div align="left">&nbsp;</div></th> 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" noColon="true" /></div></th>
                 <kul:htmlAttributeHeaderCell literalLabel="Version" scope="col"/>

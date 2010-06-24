@@ -30,7 +30,7 @@
                                     
                 <%-- Table headers --%>
                 <tr>
-                    <th><div align="left">&nbsp</div></th> 
+                    <th><div align="left">&nbsp;</div></th> 
                     <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />

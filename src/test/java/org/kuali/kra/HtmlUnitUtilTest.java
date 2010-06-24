@@ -54,7 +54,7 @@ public class HtmlUnitUtilTest extends KraTestBase {
         transactionalLifecycle = null;
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         //transactionalLifecycle.start(); 
-        kraHomePageUrl = "http://localhost:" + getPort() + "/kc-dev/";
+        kraHomePageUrl = KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
     }
     
     @Test

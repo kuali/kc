@@ -30,7 +30,7 @@
         
         <table id="specialReviewTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
-          		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><nobr><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" noColon="true" /></nobr></div></th>

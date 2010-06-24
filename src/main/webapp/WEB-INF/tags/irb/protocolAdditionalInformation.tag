@@ -207,7 +207,7 @@
        
         <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
-              	<th><div align="left">&nbsp</div></th>  
+              	<th><div align="left">&nbsp;</div></th>  
 				<th><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></th>
               	<c:if test="${!readOnly}">
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>

@@ -33,9 +33,9 @@
                     <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" altText="help"/></span>
                 </h3>
 				<div align="center">
-					<table id="budget-unrecovered-fna-table" cellpadding="0" cellspacing="0" summary="Budget Unrecovered F & A">
+					<table id="budget-unrecovered-fna-table" cellpadding="0" cellspacing="0" summary="Budget Unrecovered F &amp; A">
 						<tr>
-							<th width="5%">&nbsp</th>
+							<th width="5%">&nbsp;</th>
 							<th width="15%"><div align="center">Fiscal Year</div></th>
 							<th width="15%"><div align="center">Applicable Rate</div></th>
 							<th width="15%"><div align="center">Campus</div></th>
@@ -152,7 +152,7 @@
 				<h3>Unrecovered F&A Summary</h3>
 				
 				<div align="center">
-			    	<table id="budget-unrecovered-fna-summary-table" cellpadding="0" cellspacing="0" summary="Unrecovered F & A Amounts to be Allocated">
+			    	<table id="budget-unrecovered-fna-summary-table" cellpadding="0" cellspacing="0" summary="Unrecovered F &amp; A Amounts to be Allocated">
 			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status">
 							<tr>
 						    	<th width="70.5%" class="infoline"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>

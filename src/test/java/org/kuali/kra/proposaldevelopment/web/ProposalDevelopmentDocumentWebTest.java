@@ -90,7 +90,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
 
         // Administration Tab - LOGIN
         final HtmlPage page3 = login(webClient, url, "portal.do?selectedTab=portalAdministrationBody");
@@ -115,7 +115,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testSpecialReviewPage() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
 
         final HtmlPage page3 = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
@@ -176,7 +176,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testSaveProposalDevelopmentDocumentWeb() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
@@ -203,7 +203,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testHeaderFields() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         
         assertContains(page3,"Sponsor Name:");
@@ -230,7 +230,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         String proposalTypeCodes[] = { "2", "3", "5" };
         final WebClient webClient = new WebClient();
         
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         HtmlPage page = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         assertEquals("Kuali :: Proposal Development Document", page.getTitleText() );
         
@@ -298,7 +298,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     @Test public void testSaveProposalDevelopmentDocumentWithoutProposalType() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
 
         final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
 
@@ -327,7 +327,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testDeliveryInfoPanel() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         final HtmlPage page3 = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
@@ -415,7 +415,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testInstituteAttachment() throws Exception {
         final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
         String[] description = {"desc","desc1"};
         final HtmlPage pageAfterLogin = login(webClient, url,
@@ -504,7 +504,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     @Test
     public void testPersonnelAttachment() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         String[] personName={"Terry Durkin","Geoff McGregor"};
         String[] documentTypeDescription = {"Budget Details","Biosketch"};
         String[] documentTypeCode = {"3","1"};
@@ -625,7 +625,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         final HtmlPage page3 = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
@@ -690,7 +690,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     /* multiple return value lookup - select all records and return data */
     private HtmlPage multipleValuelookup(HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue,
             String searchField) throws Exception {
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
         final HtmlPage pageInit = clickButton(htmlPage, htmlForm,uniqueLookupButtonName,IMAGE_INPUT);
         final HtmlForm formLookup = (HtmlForm) pageInit.getForms().get(0);
         setFieldValue(formLookup, TEXT_INPUT, searchField, selectedFieldValue);
@@ -711,7 +711,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     // should be able to make one lookup method for all single value lookup
     private HtmlPage lookup(WebClient webClient, HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue, String returnProperty,
             String searchField) throws Exception {
-        final URL url = new URL("http://localhost:" + getPort() + "/kc-dev/");
+        final URL url = new URL(PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
 
         final HtmlPage page1 = clickButton(htmlPage, htmlForm,uniqueLookupButtonName,IMAGE_INPUT);
         final HtmlForm lookupForm = (HtmlForm) page1.getForms().get(0);
