@@ -29,7 +29,7 @@ public class SpecialReviewSummary implements Serializable {
 
     private static final long serialVersionUID = -8047038042526446451L;
     
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     
     private String type;
     private String approvalStatus;

@@ -43,11 +43,9 @@ public class PerformanceMeasurementFilter implements Filter {
     private FilterConfig filterConfig;
     
     private Calendar _performanceLogCalendar;
-    private DateFormat dateFormatter;
     
     public void destroy() {
         setPerformanceLogCalendar(null);
-        dateFormatter = null;
         filterConfig = null;
     }
 
@@ -67,7 +65,7 @@ public class PerformanceMeasurementFilter implements Filter {
         this.filterConfig = filterConfig;
         
         setPerformanceLogCalendar(getDateOnlyCalendar());
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        
     }
     
     private String getPerformanceLogFileName() {
@@ -75,7 +73,7 @@ public class PerformanceMeasurementFilter implements Filter {
         if(isNewFileNeeded(todayCalendar)) {            
             setPerformanceLogCalendar(todayCalendar);
         }
-        
+        final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         return new StringBuilder("Real-time Performance Log ").append(dateFormatter.format(getPerformanceLogCalendar().getTime())).append(".xml").toString();
     }
 

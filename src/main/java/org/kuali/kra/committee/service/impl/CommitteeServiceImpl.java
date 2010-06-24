@@ -43,9 +43,6 @@ public class CommitteeServiceImpl implements CommitteeService {
 
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
-    
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
     private BusinessObjectService businessObjectService;
 
@@ -174,6 +171,8 @@ public class CommitteeServiceImpl implements CommitteeService {
      */
     private String getDescription(CommitteeSchedule schedule) {
         Date date = schedule.getScheduledDate();
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         if (schedule.getPlace() == null) {
             return dateFormat.format(date) + ", " + NO_PLACE + ", " + timeFormat.format(schedule.getActualTime());
         }
