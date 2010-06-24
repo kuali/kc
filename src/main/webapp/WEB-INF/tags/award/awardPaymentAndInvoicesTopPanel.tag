@@ -26,7 +26,7 @@
 
 
 <h3>
-	<span class="subhead-left">Payment & Invoices</span>
+	<span class="subhead-left">Payment &amp; Invoices</span>
 	<span class="subhead-right">
 		<kul:help businessObjectClassName="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" altText="help"/>
 	</span>	

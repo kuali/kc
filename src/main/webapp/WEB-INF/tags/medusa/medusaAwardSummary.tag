@@ -51,7 +51,7 @@
       <td colspan="3"><c:out value="${node.bo.title}"/></td>
     </tr>
     <tr>
-      <th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;">Dates & Amounts</th>
+      <th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;">Dates &amp; Amounts</th>
     </tr>
     <tr>
       <th style="text-align: right;">Sponsor:</th>

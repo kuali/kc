@@ -97,8 +97,8 @@
             <c:when test="${KualiForm.document.developmentProposalList[0].sponsorNihMultiplePi}">
             <br>
              <strong>PI/Contact is a required Proposal Role prior to submission. Only one PI/Contact is allowed. 
-            For single PI submissions, please designate the lead investigator as PI/Contact & other senior personnel as Key Persons. 
-            For multiple PI submissions, please designate one PI/Contact, additional lead investigators as PI/Multiple, & other senior personnel as Key Persons. </strong>
+            For single PI submissions, please designate the lead investigator as PI/Contact &amp; other senior personnel as Key Persons. 
+            For multiple PI submissions, please designate one PI/Contact, additional lead investigators as PI/Multiple, &amp; other senior personnel as Key Persons. </strong>
             <br>
             </c:when>
             <c:otherwise>

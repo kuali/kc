@@ -34,10 +34,10 @@
           	<%-- Header --%>
           	<tr>
           		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
-          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.organizationId}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.rolodexId}" scope="col" /></div></th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" /></div></th>
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.organizationId}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.rolodexId}" scope="col" />
+          		<kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" />
           		<c:if test="${!readOnly}">
           		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
           		</c:if>
@@ -128,8 +128,8 @@
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.addressLine3},
 						</c:if>
 						<c:if test="${!empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.city || !empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state || !empty KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}">
-							${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.city}, &nbsp
-				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state} &nbsp
+							${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.city}, &nbsp;
+				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.state} &nbsp;
 				            ${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodex.postalCode}
 						</c:if>
 						<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">  
@@ -143,6 +143,7 @@
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].organization.humanSubAssurance" readOnly="true" attributeEntry="${protocolLocationAttributes.sequenceNumber}" />
                 		<html:hidden property="document.protocolList[0].protocolLocations[${status.index}].organization.humanSubAssurance"/>
+                		<input type="hidden" name="document.protocolList[0].protocolLocations[${status.index}].rolodexId" value="${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodexId}">
 					</div>
 				  </td>
 				  <c:if test="${!readOnly}">
@@ -156,8 +157,6 @@
 		              </td>
 		           </c:if>
 	            </tr>
-				<input type="hidden" name="document.protocolList[0].protocolLocations[${status.index}].rolodexId" value="${KualiForm.document.protocolList[0].protocolLocations[status.index].rolodexId}">
-
         	</c:forEach> 
             <%-- Existing data --%>
         </table>

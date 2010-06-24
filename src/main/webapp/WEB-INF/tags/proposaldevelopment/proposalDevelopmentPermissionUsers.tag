@@ -33,7 +33,7 @@
         	<%-- Table headers --%>
         	
           	<tr>
-          		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalUserAttributes.username}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="center">Full Name</div></th>
           		<th><div align="center">Unit #</div></th>

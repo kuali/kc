@@ -27,7 +27,7 @@
         
         <table id="researchAreaTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
-          		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center">Code/Description</div></th>
               	<c:if test="${!readOnly}"> 
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>

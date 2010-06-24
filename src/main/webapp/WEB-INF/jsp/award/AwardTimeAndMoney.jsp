@@ -24,7 +24,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="timeAndMoney">
   	
-This is the Award Time & Money - Under Construction
+This is the Award Time &amp; Money - Under Construction
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="TimeAndMoney" /></div>
 
 <kra-a:awardTimeAndMoney />

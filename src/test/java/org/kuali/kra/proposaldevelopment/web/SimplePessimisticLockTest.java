@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.HtmlUnitUtil;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.KraWebTestUtil;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -57,7 +58,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
         boService = KNSServiceLocator.getBusinessObjectService();
         document = createDocument();
         transactionalLifecycle.start(); 
-        kraHomePageUrl = "http://localhost:" + getPort() + "/kc-dev/";
+        kraHomePageUrl = KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
     }
     
     private PessimisticLock findDocumentProposalLock() {
