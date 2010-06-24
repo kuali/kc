@@ -92,7 +92,7 @@
 		</table>
         
         <h3>
-    		<span class="subhead-left">Dates & Amounts</span>
+    		<span class="subhead-left">Dates &amp; Amounts</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
         </h3>
         <table cellpadding="0" cellspacing="0" summary="">

@@ -32,7 +32,7 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
-          		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.specialReviewCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.approvalTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalSpecialReviewAttributes.protocolNumber}" noColon="true" /></div></th>

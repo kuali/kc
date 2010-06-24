@@ -296,7 +296,7 @@
 			           			</div>
 			           			<div align="left" id="attachmentProtocolFileName${itrStatus.index}">
 			           			   <c:if test="${attachmentProtocol.documentStatusCode == '3'}">
-			           			      <font color="red">Deleted -&nbsp</font>
+			           			      <font color="red">Deleted -&nbsp;</font>
 			           			   </c:if>
 			              			${attachmentProtocol.file.name}
 			           			</div>

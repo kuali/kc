@@ -102,7 +102,7 @@
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
         <table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
-          		<th width="6%" class="darkInfoline"><div align="center">&nbsp</div></th> 
+          		<th width="6%" class="darkInfoline"><div align="center">&nbsp;</div></th> 
           		<th width="33%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costElement}" noColon="true" /></div></th>
           		<th width="20%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemDescription}" noColon="true" /></div></th>
           		<th width="6%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.quantity}" noColon="true" /></div></th>

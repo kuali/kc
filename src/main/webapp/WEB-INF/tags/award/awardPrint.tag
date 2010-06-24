@@ -206,11 +206,11 @@
 			</tr>-->
 			<tr>
 			 <th colspan="2" style="text-align: left;">
-			  Time & Money History
+			  Time &amp; Money History
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTimeMoneyHistory"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Time & Money History" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
+						alt="Print Time &amp; Money History" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
 			</tr><tr>
 			 <th colspan="2" style="text-align: left;">
 			  Transaction Detail

@@ -82,7 +82,7 @@
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
-          		<th width="5%"><div align="center">&nbsp</div></th> 
+          		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}" noColon="true" /></div></th>
           		<%--<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.jobCode}" noColon="true" /></div></th>--%>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}" noColon="true" /></div></th>
@@ -112,7 +112,7 @@
                 	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}"/>
                 	</c:when>
                 	<c:otherwise>
-                	  &nbsp
+                	  &nbsp;
                 	</c:otherwise>
                 	</c:choose>
                 	</div>

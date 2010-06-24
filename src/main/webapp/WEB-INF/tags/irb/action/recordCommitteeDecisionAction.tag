@@ -91,7 +91,7 @@
                                     
                                         <%-- Table headers --%>
                                         <tr>
-                                            <th><div align="left">&nbsp</div></th> 
+                                            <th><div align="left">&nbsp;</div></th> 
                                             <kul:htmlAttributeHeaderCell literalLabel="Person" scope="col" />
                                             <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                                         </tr>
@@ -149,7 +149,7 @@
                                     
                                         <%-- Table headers --%>
                                         <tr>
-                                            <th><div align="left">&nbsp</div></th> 
+                                            <th><div align="left">&nbsp;</div></th> 
                                             <kul:htmlAttributeHeaderCell literalLabel="Person" scope="col" />
                                             <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                                         </tr>

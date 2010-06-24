@@ -31,7 +31,7 @@
         
         <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
-          		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.specialReviewCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.approvalTypeCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalSpecialReviewAttributes.protocolNumber}" noColon="true" /></div></th>

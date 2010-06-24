@@ -37,7 +37,7 @@
 					<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Cost Shares">
 		
 						<tr>
-							<th width="5%"><div align="left">&nbsp</div></th>
+							<th width="5%"><div align="left">&nbsp;</div></th>
 							<th width="17%"><div align="center">Fiscal Year</div></th>
 							<th width="17%"><div align="center">Percentage</div></th>
 							<th width="29%"><div align="center">Source Account</div></th>

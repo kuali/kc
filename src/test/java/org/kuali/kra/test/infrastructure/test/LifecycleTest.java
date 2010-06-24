@@ -5,6 +5,7 @@ import java.net.URL;
 
 import org.junit.Test;
 import org.kuali.kra.KraServiceLocatorConfigurer;
+import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.test.web.HtmlUnitUtil;
@@ -23,7 +24,7 @@ public class LifecycleTest extends KcUnitTestBase {
     @Test
     public void testServer() throws Throwable {
         int port = HtmlUnitUtil.getPort();
-        URL url = new URL("http://localhost:"+port+"/kc-dev/");
+        URL url = new URL(KraWebTestBase.PROTOCOL_AND_HOST + ":"+port+"/kc-dev/");
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         int responseCode = connection.getResponseCode();
         connection.disconnect();
