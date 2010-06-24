@@ -27,7 +27,7 @@
 		<div align="center">
 			<table id="budget-proj-income-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
 				<tr>
-					<th><div align="left">&nbsp</div></th>
+					<th><div align="left">&nbsp;</div></th>
 					<th><div align="center">*Period</div></th>
 					<th><div align="center">*Income</div></th>
 					<th><div align="center">*Description</div></th>

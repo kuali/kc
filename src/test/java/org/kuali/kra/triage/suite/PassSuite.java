@@ -438,7 +438,11 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.GenericProtocolAuthorizerTest.class,
     org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceTest.class,
     org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceTest.class,
-    org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class
+    org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
+    org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

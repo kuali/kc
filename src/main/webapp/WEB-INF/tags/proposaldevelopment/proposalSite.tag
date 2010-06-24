@@ -122,8 +122,8 @@
                         <br/>
                     </c:if>
                     <c:if test="${!empty proposalSiteBo.rolodex.city || !empty proposalSiteBo.rolodex.state || !empty proposalSiteBo.rolodex.postalCode}">
-                        <c:out value="${proposalSiteBo.rolodex.city}," />&nbsp
-                        <c:out value="${proposalSiteBo.rolodex.state}" />&nbsp
+                        <c:out value="${proposalSiteBo.rolodex.city}," />&nbsp;
+                        <c:out value="${proposalSiteBo.rolodex.state}" />&nbsp;
                         <c:out value="${proposalSiteBo.rolodex.postalCode}" />
                     </c:if>
                 </c:if>

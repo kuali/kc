@@ -195,7 +195,7 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
+    //org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     
     //FROM HTMLUNIT UPGRADE START
     org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
@@ -217,9 +217,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.meeting.MeetingWebTest.class,
     org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
     org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
-    org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
-    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
-    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
     //FROM HTMLUNIT UPGRADE END
     
     //keep at bottom - somehow breaks the entire suite

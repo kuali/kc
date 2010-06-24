@@ -287,7 +287,7 @@
 </table>
 </kra:innerTab>	
 
-<!-- Time & Money -->
+<!-- Time &amp; Money -->
 
 <kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
 

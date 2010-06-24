@@ -19,7 +19,7 @@
 <div class="body">
   <ul class="chan">
     <li>Degree Information</li>
-    <li>Current & Pending Support</li>
+    <li>Current &amp; Pending Support</li>
     <li>Bio-sketches</li>
     <li>All my Training</li>
   </ul>

@@ -29,7 +29,7 @@
             
                 <%-- Table headers --%>
                 <tr>
-                    <th><div align="left">&nbsp</div></th> 
+                    <th><div align="left">&nbsp;</div></th> 
                     <kul:htmlAttributeHeaderCell attributeEntry="${attributes.riskLevelCode}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${attributes.dateAssigned}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${attributes.dateUpdated}" />

@@ -95,8 +95,8 @@
                 <br/>
             </c:if>
             <c:if test="${!empty newProposalSite.rolodex.city || !empty newProposalSite.rolodex.state || !empty newProposalSite.rolodex.postalCode}">
-                <c:out value="${newProposalSite.rolodex.city}," />&nbsp
-                <c:out value="${newProposalSite.rolodex.state}" />&nbsp
+                <c:out value="${newProposalSite.rolodex.city}," />&nbsp;
+                <c:out value="${newProposalSite.rolodex.state}" />&nbsp;
                 <c:out value="${newProposalSite.rolodex.postalCode}" />
             </c:if>
         </c:if>

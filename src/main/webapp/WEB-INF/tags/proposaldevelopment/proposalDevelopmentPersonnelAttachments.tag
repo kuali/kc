@@ -35,7 +35,7 @@
         <table cellpadding=0 cellspacing=0 summary="">
         	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
           	<tr>
-          	    <th><div align="left">&nbsp</div></th> 
+          	    <th><div align="left">&nbsp;</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateUser}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.proposalPersonNumber}" noColon="true" /></div></th>
