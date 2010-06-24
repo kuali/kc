@@ -85,7 +85,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 	private static final Logger LOG = Logger
 			.getLogger(ProposalDevelopmentXmlStream.class);
 	private static final String HIPHEN = " - ";
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy");
 	private ProposalDevelopmentDocument proposalDevelopmentDocument;
 	private static final String YES = "y";
