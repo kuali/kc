@@ -498,6 +498,7 @@ public interface Constants {
     public static final String PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY = "actionHelper.protocolAssignToAgendaAction";
     public static final String PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY = "actionHelper.protocolAssignReviewersAction";
     public static final String PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY = "actionHelper.protocolAdminCorrectionBean";
+    public static final String PROTOCOL_RECORD_COMMITTEE_KEY = "actionHelper.committeeDecision";
     
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;

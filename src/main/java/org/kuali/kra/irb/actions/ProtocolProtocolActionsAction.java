@@ -59,6 +59,7 @@ import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionService;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
@@ -86,6 +87,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
@@ -1646,13 +1648,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        
-        getCommitteeDecisionService().setCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
-                                                           protocolForm.getActionHelper().getCommitteeDecision());
-        
-        getReviewerCommentsService().persistReviewerComments(
-                protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
-                protocolForm.getProtocolDocument().getProtocol());
+        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
+            getCommitteeDecisionService().setCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
+                                                               protocolForm.getActionHelper().getCommitteeDecision());
+            getReviewerCommentsService().persistReviewerComments(
+                    protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
+                    protocolForm.getProtocolDocument().getProtocol());
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1683,11 +1685,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        decision.getAbstainers().add(decision.getNewAbstainer());
-        decision.setNewAbstainer(new CommitteePerson());
+        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
+            decision.getAbstainers().add(decision.getNewAbstainer());
+            decision.setNewAbstainer(new CommitteePerson());
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1697,8 +1700,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        decision.getAbstainers().remove(getLineToDelete(request));
-        
+        CommitteePerson person = decision.getAbstainers().get(getLineToDelete(request));
+        if (person != null) {
+            decision.getAbstainersToDelete().add(person);
+            decision.getAbstainers().remove(getLineToDelete(request));
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1707,8 +1713,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        decision.getRecused().add(decision.getNewRecused());
-        decision.setNewRecused(new CommitteePerson());
+        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
+            decision.getRecused().add(decision.getNewRecused());
+            decision.setNewRecused(new CommitteePerson());
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1718,7 +1726,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        decision.getRecused().remove(getLineToDelete(request));
+        
+        CommitteePerson person = decision.getRecused().get(getLineToDelete(request));
+        if (person != null) {
+            decision.getRecusedToDelete().add(person);
+            decision.getRecused().remove(getLineToDelete(request));
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

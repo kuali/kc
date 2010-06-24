@@ -434,6 +434,7 @@
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
+        <property name="committeeService" ref="committeeService" />
     </bean>
     
     <bean id="protocolCorrespondenceTemplateService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl">
