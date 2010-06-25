@@ -18,7 +18,9 @@ package org.kuali.kra.irb.actions;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.HeaderTokenizer;
@@ -26,6 +28,7 @@ import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -69,6 +72,8 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
+import org.kuali.kra.irb.actions.print.ProtocolPrintType;
+import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
@@ -84,10 +89,14 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
@@ -110,6 +119,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
+    
+    
+    private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
+        {
+            put("summary", "PROTOCOL_SUMMARY_VIEW_REPORT");
+            put("full", "PROTOCOL_FULL_PROTOCOL_REPORT");
+            put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
+            put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
+    }};
+
     
     /** {@inheritDoc} */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
@@ -646,7 +665,41 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward(MAPPING_BASIC);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        if (StringUtils.isBlank(protocolForm.getActionHelper().getPrintTag())) {
+            // validation error
+        } else if (protocolForm.getActionHelper().getPrintTag().startsWith("attachment:")) {
+            // attachment
+            int index = Integer.parseInt(protocolForm.getActionHelper().getPrintTag().substring(protocolForm.getActionHelper().getPrintTag().indexOf(":")+1));
+            ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocols().get(index);
+            forward = printAttachmentProtocol(mapping, response, attachment);
+        } else {
+            // print protocol
+            ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(protocolForm.getActionHelper().getPrintTag()));
+            List<Printable> printableArtifactList = getPrintableArtifacts(protocolForm.getProtocolDocument(), printType);
+            AttachmentDataSource dataStream = getProtocolPrintingService().print(printableArtifactList);
+            if(dataStream.getContent()!=null){
+                dataStream.setFileName(printType.getTemplate().substring(0, printType.getTemplate().indexOf(".")));
+                streamToResponse(dataStream, response);
+                forward = null;
+            }
+        }
+        return forward;
+    }
+
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
+
+
+
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
     }
 
     /**
@@ -1736,6 +1789,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private List<Printable> getPrintableArtifacts(ProtocolDocument document, ProtocolPrintType protocolPrintType) {
+
+        Printable printable = getProtocolPrintingService().getProtocolPrintable(protocolPrintType);
+        ((AbstractPrint) printable).setDocument(document);
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        printableArtifactList.add(printable);
+        return printableArtifactList;
+    }
+
+    private ProtocolPrintingService getProtocolPrintingService() {
+        return KraServiceLocator.getService(ProtocolPrintingService.class);
+    }
+
     private ActionForward addReviewComment(ActionMapping mapping, ReviewerComments comments, ProtocolDocument protocolDocument) throws Exception {
         comments.addNewComment(protocolDocument.getProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC);
