@@ -60,6 +60,7 @@ public class BudgetPeriod extends BudgetAssociate {
     //this is for lookup from award budget
     private String budgetParentId;
     
+    // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
 	public BudgetPeriod(){
