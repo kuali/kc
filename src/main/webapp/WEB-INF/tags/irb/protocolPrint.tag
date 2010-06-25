@@ -6,6 +6,7 @@
 <c:set var="protocolAttachmentFileAttributes" value="${DataDictionary.ProtocolAttachmentFile.attributes}" />
 <c:set var="protocolAttachmentTypeAttributes" value="${DataDictionary.ProtocolAttachmentType.attributes}" />
 <c:set var="protocolAttachmentStatusAttributes" value="${DataDictionary.ProtocolAttachmentStatus.attributes}" />
+${kfunc:registerEditableProperty(KualiForm, "actionHelper.printTag")}
 
 <kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="">
     <div class="tab-container" align="left">
@@ -35,13 +36,14 @@
             <tr>
                 <td class="tab-subhead" colspan="2">Attachments</td>
             </tr>
-            
-            <c:forEach var="protocolAttachment" items="${protocol.attachmentProtocols}" varStatus="status">
+
+            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocols}" varStatus="status">
                 <tr>
                     <td>
-                        <kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocol[${status.index}].file.description"
+                        ${protocolAttachment.description} - ${protocolAttachment.status.description} (${protocolAttachment.file.name})
+                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
                                                   attributeEntry="${protocolAttachmentBaseAttributes.description}"
-                                                  readOnly="true" />
+                                                  readOnly="true" /> --%>
                     </td>
                     <td style="text-align:center;"><input name="actionHelper.printTag" type="radio" class="nobord" value="attachment:${status.index}"></td>
                 </tr>     
@@ -52,7 +54,7 @@
                 <td class="infoline" style="text-align:center;">
                     <html:image property="methodToCall.printProtocolDocument.line${ctr}.anchor${currentTabIndex}"
                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' 
-                                styleClass="tinybutton"/>                         
+                                styleClass="tinybutton" onclick="excludeSubmitRestriction = true;"/>                         
                 </td>
             </tr>
         </table>

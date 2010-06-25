@@ -26,7 +26,9 @@ public class AttachmentSummary implements Serializable {
     private long dataLength;
     
     private boolean fileNameChanged;
-    
+    private String attachmentType;
+    private String description;
+
     public AttachmentSummary() {
         
     }
@@ -62,5 +64,21 @@ public class AttachmentSummary implements Serializable {
     public void compare(ProtocolSummary other) {
         AttachmentSummary otherAttachment = other.findAttachment(fileName, fileType, dataLength);
         fileNameChanged = (otherAttachment == null);
+    }
+
+    public String getAttachmentType() {
+        return attachmentType;
+    }
+
+    public void setAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
