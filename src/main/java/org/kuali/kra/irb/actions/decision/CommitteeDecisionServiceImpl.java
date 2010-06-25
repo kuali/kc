@@ -33,6 +33,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -118,6 +119,31 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 }
             }
             
+            if (!committeeDecision.getRecused().isEmpty()) {
+                //there are abstainers, lets save them
+                for (CommitteePerson person : committeeDecision.getRecused()) {
+                    for (CommitteeMembership membership : committeeMemberships) {
+                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                            //check to see if it is already been persisted
+                            Map fieldValues = new HashMap();
+                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
+                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
+                            fieldValues.put("PERSON_ID", membership.getPersonId());
+                            if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
+                                //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                                ProtocolVoteRecused recused = new ProtocolVoteRecused();
+                                recused.setProtocol(protocol);
+                                recused.setProtocolIdFk(protocol.getProtocolId());
+                                recused.setScheduleIdFk(submission.getScheduleIdFk());
+                                recused.setPersonId(membership.getPersonId());
+                                businessObjectService.save(recused);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
             if (!committeeDecision.getAbstainersToDelete().isEmpty()) {
                 for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
                     for (CommitteeMembership membership : committeeMemberships) {
@@ -131,6 +157,21 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                     }
                 }
                 committeeDecision.getAbstainersToDelete().clear();
+            }
+            
+            if (!committeeDecision.getRecusedToDelete().isEmpty()) {
+                for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
+                    for (CommitteeMembership membership : committeeMemberships) {
+                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                            Map fieldValues = new HashMap();
+                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
+                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
+                            fieldValues.put("PERSON_ID", membership.getPersonId());
+                            businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
+                        }
+                    }
+                }
+                committeeDecision.getRecusedToDelete().clear();
             }
             
             businessObjectService.save(submission);
