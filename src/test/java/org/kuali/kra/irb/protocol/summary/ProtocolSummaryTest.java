@@ -35,6 +35,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.ProtocolType;
@@ -362,6 +363,12 @@ public class ProtocolSummaryTest extends KraTestBase {
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         AttachmentFile file = new AttachmentFile();
         file.setName(FILE_NAME);
+        attachment.setDocumentStatusCode("1");
+        attachment.setDescription("protocol attachment");
+        ProtocolAttachmentType attachmentType = new ProtocolAttachmentType();
+        attachmentType.setDescription("Test Attach type");
+        attachment.setType(attachmentType);
+        
         attachment.setFile(file);
         protocol.getAttachmentProtocols().add(attachment);
         

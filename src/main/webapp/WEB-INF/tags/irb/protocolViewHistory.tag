@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="dateRangeFilterAttributes" value="${DataDictionary.DateRangeFilter.attributes}" />
+${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 
 <kra:innerTab tabTitle="History" parentTab="" defaultOpen="false">
 
@@ -85,7 +86,7 @@
             		    <tr>
             		        <td class="infoline">&nbsp;</td>
             		        <td colspan="5">
-            		        <kra:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="" defaultOpen="false" tabErrorKey="">
+            		        <kra:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
     
                                 <div class="innerTab-container" align="left">
                                 
