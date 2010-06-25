@@ -34,6 +34,7 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
+import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -196,6 +197,13 @@ public class PrintingUtils {
             xsl = XSL_COMMITTEE_ROSTER;
         } else if (reportType.equals(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType())) {
             xsl = XSL_FUTURE_SCHEDULED_MEETINGS;
+        } else if (ProtocolPrintType.getReportTypes().contains(reportType)) {
+            for (ProtocolPrintType protocolPrintType : ProtocolPrintType.values()) {
+                if (reportType.equals(protocolPrintType.getProtocolPrintType())) {
+                    xsl = protocolPrintType.getTemplate();
+                    break;
+                }
+            }
         }
 
 		Source src = new StreamSource(new PrintingUtils().getClass()

@@ -492,4 +492,43 @@
         <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
     </bean>
     
+    <!-- Protocol Print -->
+        <bean id="protocolXmlStream"
+            class="org.kuali.kra.irb.actions.print.ProtocolXmlStream">
+            <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+            </property>
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+        </bean>
+        <bean id="protocolPrintingService"
+            class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl">
+            <property name="protocolFullProtocolPrint" ref="protocolFullProtocolPrint" />
+            <property name="protocolHistoryPrint" ref="protocolHistoryPrint" />
+            <property name="protocolReviewCommentsPrint" ref="protocolReviewCommentsPrint" />
+            <property name="protocolSummaryViewPrint" ref="protocolSummaryViewPrint" />
+            
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+        </bean>
+
+        <bean id="protocolFullProtocolPrint"
+            class="org.kuali.kra.irb.actions.print.ProtocolFullProtocolPrint" scope="prototype">
+            <property name="xmlStream" ref="protocolXmlStream" />
+        </bean>
+        <bean id="protocolHistoryPrint"
+            class="org.kuali.kra.irb.actions.print.ProtocolHistoryPrint" scope="prototype">
+            <property name="xmlStream" ref="protocolXmlStream" />
+        </bean>
+        <bean id="protocolReviewCommentsPrint"
+            class="org.kuali.kra.irb.actions.print.ProtocolReviewCommentsPrint" scope="prototype">
+            <property name="xmlStream" ref="protocolXmlStream" />
+        </bean>
+        <bean id="protocolSummaryViewPrint"
+            class="org.kuali.kra.irb.actions.print.ProtocolSummaryViewPrint" scope="prototype">
+            <property name="xmlStream" ref="protocolXmlStream" />
+        </bean>
+
 </beans>
