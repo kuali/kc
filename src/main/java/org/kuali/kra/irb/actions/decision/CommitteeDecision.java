@@ -31,6 +31,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @SuppressWarnings("serial")
@@ -65,6 +66,7 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
             absenteeLookFields.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
             
             Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
+            Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
             List<CommitteeMembership> committeeMemberships =  
                 KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
                         protocol.getProtocolSubmission().getScheduleId());
@@ -76,6 +78,18 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
                         CommitteePerson person = new CommitteePerson();
                         person.setMembershipId(membership.getCommitteeMembershipId());
                         this.abstainers.add(person);
+                        break;
+                    }
+                }
+            }
+            
+            for (ProtocolVoteRecused recusee : protocolVoteRecused) {
+                for (CommitteeMembership membership : committeeMemberships) {
+                    if (recusee.getPersonId().equals(membership.getPersonId())) {
+                        //this committee person is an recusee
+                        CommitteePerson person = new CommitteePerson();
+                        person.setMembershipId(membership.getCommitteeMembershipId());
+                        this.recused.add(person);
                         break;
                     }
                 }
