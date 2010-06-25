@@ -73,6 +73,7 @@ import org.kuali.rice.test.data.UnitTestFile;
 public class ProtocolRouteTest extends KraTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
+    private static final String VALID_SUBMISSION_QUALIFIER = "2";
     private static final String VALID_PROTOCOL_REVIEW_TYPE = "1";
     private static final String SUMMARY = "my test summary";
     
@@ -202,6 +203,7 @@ public class ProtocolRouteTest extends KraTestBase {
     private ProtocolSubmitAction createSubmitAction() {
         ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
         submitAction.setSubmissionTypeCode(VALID_SUBMISSION_TYPE);
+        submitAction.setSubmissionQualifierTypeCode(VALID_SUBMISSION_QUALIFIER);
         submitAction.setProtocolReviewTypeCode(VALID_PROTOCOL_REVIEW_TYPE);
         return submitAction;
     }
