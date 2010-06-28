@@ -19,10 +19,17 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * This class...
+ * This class defines the methods needed for committee decision rules.
  */
 public interface ExecuteCommitteeDecisionRule extends BusinessRule {
-    
+   
+    /**
+     * 
+     * This method will check for valid user input and attach error message to fields as needed.
+     * @param document the ProtocolDocument
+     * @param actionBean a CommitteeDecision bean
+     * @return a boolean as to whether the user input is valid
+     */
     boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision actionBean);
 
 }

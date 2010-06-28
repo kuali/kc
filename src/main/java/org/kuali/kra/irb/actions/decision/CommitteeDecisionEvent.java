@@ -44,9 +44,9 @@ public class CommitteeDecisionEvent extends KraDocumentEventBase {
 
         LOG.debug(logMessage);
     }
-
-    public Class getRuleInterfaceClass() {
-        return CommitteeDecisionRule.class;
+    
+    public Class<ExecuteCommitteeDecisionRule> getRuleInterfaceClass() {
+        return ExecuteCommitteeDecisionRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
