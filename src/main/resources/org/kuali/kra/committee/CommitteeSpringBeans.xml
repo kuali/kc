@@ -89,6 +89,7 @@
   	
 	<bean id="meetingService" class="org.kuali.kra.meeting.MeetingServiceImpl">
 	    <property name="businessObjectService" ref="businessObjectService" />
+	    <property name="sequenceAccessorService" ref="sequenceAccessorService" />
 	</bean>
 
 	<bean id="committeeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

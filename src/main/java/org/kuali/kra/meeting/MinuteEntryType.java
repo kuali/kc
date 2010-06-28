@@ -25,10 +25,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class MinuteEntryType extends KraPersistableBusinessObjectBase implements Comparable<MinuteEntryType> { 
     
-
-    private static final long serialVersionUID = 3106451618464691958L;
     public static final String ATTENDANCE = "2";
     public static final String PROTOCOL = "3";
+    public static final String ACTION_ITEM = "4";
+    
+    private static final long serialVersionUID = 3106451618464691958L;
+
     private String minuteEntryTypeCode; 
     private Integer sortId; 
     private String description; 

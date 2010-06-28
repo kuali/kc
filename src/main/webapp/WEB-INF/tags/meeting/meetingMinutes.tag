@@ -10,35 +10,39 @@
 
 <c:choose>
     <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '2'}">
+        <c:set var="defaultHeaderDivStyle" value="display :none"/>
         <c:set var="genAttHeaderDivStyle" value="display :block"/>
         <c:set var="genAttDivStyle" value="display :block"/>
         <c:set var="pcHeaderDivStyle" value="display :none"/>
         <c:set var="pcDivStyle" value="display :none"/>
-        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
-        <c:set var="otherBusDivStyle" value="display :none"/>
+        <c:set var="actionItemHeaderDivStyle" value="display :none"/>
+        <c:set var="actionItemDivStyle" value="display :none"/>
     </c:when>
     <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '3'}">
+        <c:set var="defaultHeaderDivStyle" value="display :none"/>
         <c:set var="genAttHeaderDivStyle" value="display :none"/>
         <c:set var="genAttDivStyle" value="display :none"/>
         <c:set var="pcHeaderDivStyle" value="display :block"/>
         <c:set var="pcDivStyle" value="display :block"/>
-        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
-        <c:set var="otherBusDivStyle" value="display :none"/>
+        <c:set var="actionItemHeaderDivStyle" value="display :none"/>
+        <c:set var="actionItemDivStyle" value="display :none"/>
     </c:when>
     <c:when test="${not empty KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode and KualiForm.meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode == '4'}">
+        <c:set var="defaultHeaderDivStyle" value="display :none"/>
         <c:set var="genAttHeaderDivStyle" value="display :none"/>
         <c:set var="genAttDivStyle" value="display :none"/>
         <c:set var="pcHeaderDivStyle" value="display :none"/>
         <c:set var="pcDivStyle" value="display :none"/>
-        <c:set var="otherBusHeaderDivStyle" value="display :block"/>
-        <c:set var="otherBusDivStyle" value="display :block"/>
+        <c:set var="actionItemHeaderDivStyle" value="display :block"/>
+        <c:set var="actionItemDivStyle" value="display :block"/>
     </c:when>
     <c:otherwise>
+        <c:set var="defaultHeaderDivStyle" value="display :block"/>
         <c:set var="genAttHeaderDivStyle" value="display :none"/>
         <c:set var="genAttDivStyle" value="display :none"/>
-        <c:set var="pcHeaderDivStyle" value="display :block"/>
-        <c:set var="otherBusHeaderDivStyle" value="display :none"/>
-        <c:set var="otherBusDivStyle" value="display :none"/>
+        <c:set var="pcHeaderDivStyle" value="display :none"/>
+        <c:set var="actionItemHeaderDivStyle" value="display :none"/>
+        <c:set var="actionItemDivStyle" value="display :none"/>
         <c:set var="pcDivStyle" value="display :none"/>
     </c:otherwise>
 </c:choose>
@@ -57,9 +61,10 @@
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" scope="col" />
         		<th>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv" style="${defaultHeaderDiv}">Entry Type Detail</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv" style="${genAttHeaderDivStyle}">Generate Attendance</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Protocol</div>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv" style="${otherBusHeaderDivStyle}">Other Business</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv" style="${actionItemHeaderDivStyle}">Other Business</div>
                 </th> 
 				<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" scope="col" />
 				<kul:htmlAttributeHeaderCell literalLabel="Standard Review Comment" scope="col" />
@@ -114,26 +119,44 @@
 	 		                    <kul:fieldShowErrorIcon />
                             </c:if>
 	               		</div>
-                        <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.otherBusDiv"  style="${otherBusDivStyle}">
-                            <html:select property="meetingHelper.newCommitteeScheduleMinute.protocolIdFk" tabindex="0"  >                               
-                                <c:forEach items="${krafn:getOptionList('org.kuali.kra.meeting.OtherBusinessValuesFinder', paramMap)}" var="option">
-                                    <c:choose>                      
-                                        <c:when test="${KualiForm.meetingHelper.newCommitteeScheduleMinute.protocolIdFk == option.key}">
-                                            <option value="${option.key}" selected>${option.label}</option>
+                        <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.actionItemDiv"  style="${actionItemDivStyle}">
+                            <c:set var="hasActionItemError" value="false"/>
+                            <c:set var="actionItemFieldName" value="meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk" />
+                            <c:forEach items="${ErrorPropertyList}" var="key">
+                                <c:if test="${key eq actionItemFieldName }">
+                                    <c:set var="hasActionItemError" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                            <html:select property="meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk" tabindex="0"  >                               
+                                <c:forEach items="${KualiForm.meetingHelper.committeeSchedule.commScheduleActItems}" var="option">
+                                    <c:choose>
+                                        <c:when test="${fn:length(option.itemDesctiption) > 30}">
+                                            <c:set var="label" value="${fn:substring(option.itemDesctiption, 0, 30)}..."/>
                                         </c:when>
-                                        <c:otherwise>                               
-                                            <c:out value="${option.label}"/>
-                                            <option value="${option.key}">${option.label}</option>
-                                        </c:otherwise>
+                                        <c:otherwise>
+                                            <c:set var="label" value="${option.itemDesctiption}"/>
+							            </c:otherwise>
+							        </c:choose>
+                                    <c:choose>
+                                        <c:when test="${KualiForm.meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk == option.commScheduleActItemsId}">
+                                            <option value="${option.commScheduleActItemsId}" selected>${label}</option>
+                                        </c:when>
+	                                    <c:otherwise>                               
+	                                        <c:out value="${label}"/>
+	                                        <option value="${option.commScheduleActItemsId}">${label}</option>
+	                                    </c:otherwise>
                                     </c:choose>                                                
                                 </c:forEach>
                             </html:select>
+                            <c:if test="${hasActionItemError}">
+                                <kul:fieldShowErrorIcon />
+                            </c:if>
                         </div>
+
                         <noscript>
                              <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
                         </noscript>
 				    </td>
-			
 	                <td align="left" valign="middle" class="infoline" width="65%">
 	                    <div id="meetingHelper.newCommitteeScheduleMinute.minuteEntry.div" align="left">
 	               	        <div align="left">
@@ -185,6 +208,10 @@
 	                <td align="left" valign="middle">
 	                    <c:if test="${!empty committeeScheduleMinute.protocolIdFk}" >
 	                        ${committeeScheduleMinute.protocol.protocolNumber}
+	                    </c:if>
+	                    <c:if test="${!empty committeeScheduleMinute.commScheduleActItemsIdFk}" >
+	                       ${committeeScheduleMinute.commScheduleActItem.scheduleActItemType.description}:
+	                       ${committeeScheduleMinute.commScheduleActItem.itemDesctiption}
 	                    </c:if>
 	               		<%--<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].protocolIdFk" attributeEntry="${committeeScheduleMinuteAttributes.protocolIdFk}" readOnly="false" />--%>
 					</td>

@@ -45,6 +45,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 @RunWith(JMock.class)
 public class MeetingServiceTest {
@@ -190,8 +191,17 @@ public class MeetingServiceTest {
     @Test
     public void testAddOtherAction() throws Exception {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
-        CommScheduleActItem newOtherAction = getOtherActionItem(1L, "1", 0);
+        final SequenceAccessorService sequenceAccessorService = context.mock(SequenceAccessorService.class);
+        final CommScheduleActItem newOtherAction = getOtherActionItem(1L, "1", 0);
         newOtherAction.setScheduleActItemTypeCode("1");
+        context.checking(new Expectations() {
+            {
+                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_MEETING_ID");
+                will(returnValue(newOtherAction.getCommScheduleActItemsId()));
+
+            }
+        });
+        meetingService.setSequenceAccessorService(sequenceAccessorService);
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         committeeSchedule.setCommScheduleActItems(new ArrayList<CommScheduleActItem>());
         meetingService.addOtherAction(newOtherAction, committeeSchedule);
