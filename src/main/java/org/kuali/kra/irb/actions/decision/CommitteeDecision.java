@@ -34,8 +34,12 @@ import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * 
+ * This class is a bean for managing the input for a committee decision.
+ */
 @SuppressWarnings("serial")
-public class CommitteeDecision extends ReviewerCommentsBean implements Serializable{
+public class CommitteeDecision extends ReviewerCommentsBean implements Serializable {
 
     private String motion;
     private Integer noCount;
@@ -51,6 +55,11 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     private List<CommitteePerson> abstainersToDelete = new ArrayList<CommitteePerson>();
     private List<CommitteePerson> recusedToDelete = new ArrayList<CommitteePerson>();
     
+    /**
+     * 
+     * This method initializes the class.
+     * @param protocol as Protocol object
+     */
     public void init(Protocol protocol) {
         ProtocolSubmission submission = getSubmission(protocol);
         if (submission != null) {
@@ -59,42 +68,63 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
             this.abstainCount = submission.getAbstainerCount();
             this.votingComments = submission.getVotingComments();
             
-            //not sure if I really need to deal with protocol actions
-            
-            Map absenteeLookFields = new HashMap();
-            absenteeLookFields.put("PROTOCOL_ID_FK", protocol.getProtocolId());
-            absenteeLookFields.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
-            
-            Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
-            Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
-            List<CommitteeMembership> committeeMemberships =  
-                KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
-                        protocol.getProtocolSubmission().getScheduleId());
-            
-            for (ProtocolVoteAbstainee abstainee : protocolVoteAbstainees) {
-                for (CommitteeMembership membership : committeeMemberships) {
-                    if (abstainee.getPersonId().equals(membership.getPersonId())) {
-                        //this committee person is an abstainee
-                        CommitteePerson person = new CommitteePerson();
-                        person.setMembershipId(membership.getCommitteeMembershipId());
-                        this.abstainers.add(person);
-                        break;
-                    }
+            //not sure if I really need to deal with protocol actions            
+            initializeAbstainees(protocol, submission.getScheduleIdFk());
+            initializeRecused(protocol, submission.getScheduleIdFk());          
+        }
+    }
+    
+    private Map<String, Long> getLookUpFields(Long protocolId, Long scheduleIdFk) {
+        Map<String, Long> lookUpFields = new HashMap<String, Long>();
+        lookUpFields.put("PROTOCOL_ID_FK", protocolId);
+        lookUpFields.put("SCHEDULE_ID_FK", scheduleIdFk);
+        return lookUpFields;
+    }
+    
+    private List<CommitteeMembership> getCommitteeMemberships(Protocol protocol) {
+        List<CommitteeMembership> committeeMemberships =  
+            KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
+                    protocol.getProtocolSubmission().getScheduleId());
+        return committeeMemberships;
+    }
+    
+    private void initializeAbstainees(Protocol protocol, Long scheduleIdFk) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), scheduleIdFk);
+        
+        Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
+        
+        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships(protocol);
+        
+        for (ProtocolVoteAbstainee abstainee : protocolVoteAbstainees) {
+            for (CommitteeMembership membership : committeeMemberships) {
+                if (abstainee.getPersonId().equals(membership.getPersonId())) {
+                    //this committee person is an abstainee
+                    CommitteePerson person = new CommitteePerson();
+                    person.setMembershipId(membership.getCommitteeMembershipId());
+                    this.abstainers.add(person);
+                    break;
                 }
             }
-            
-            for (ProtocolVoteRecused recusee : protocolVoteRecused) {
-                for (CommitteeMembership membership : committeeMemberships) {
-                    if (recusee.getPersonId().equals(membership.getPersonId())) {
-                        //this committee person is an recusee
-                        CommitteePerson person = new CommitteePerson();
-                        person.setMembershipId(membership.getCommitteeMembershipId());
-                        this.recused.add(person);
-                        break;
-                    }
+        }
+    }
+    
+    private void initializeRecused(Protocol protocol, Long scheduleIdFk) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), scheduleIdFk);
+        
+        Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
+        
+        List<CommitteeMembership> committeeMemberships = getCommitteeMemberships(protocol);
+        
+        for (ProtocolVoteRecused recusee : protocolVoteRecused) {
+            for (CommitteeMembership membership : committeeMemberships) {
+                if (recusee.getPersonId().equals(membership.getPersonId())) {
+                    //this committee person is an recusee
+                    CommitteePerson person = new CommitteePerson();
+                    person.setMembershipId(membership.getCommitteeMembershipId());
+                    this.recused.add(person);
+                    break;
                 }
             }
-            
         }
     }
     
@@ -187,19 +217,4 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     public void setNewRecused(CommitteePerson newRecused) {
         this.newRecused = newRecused;
     }
-    
-    /*
-    public boolean validCommitteePersonToAddToLists(CommitteePerson person) {
-        for (CommitteePerson existingPerson : this.getAbstainers()) {
-            if (existingPerson.getMembershipId().equals(person.getMembershipId())){
-                return false;
-            }
-        }
-        for (CommitteePerson existingPerson : this.getRecused()) {
-            if (existingPerson.getMembershipId().equals(person.getMembershipId())){
-                return false;
-            }
-        }
-        return true;
-    }*/
 }
