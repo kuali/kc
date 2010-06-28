@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +40,6 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     

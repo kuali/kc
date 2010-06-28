@@ -424,7 +424,9 @@
     </bean>
     
     <bean id="protocolGrantExemptionService" class="org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>
     
     <bean id="protocolExpediteApprovalService" class="org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalServiceImpl">
@@ -474,6 +476,7 @@
     <bean id="undoLastActionService" class="org.kuali.kra.irb.actions.undo.UndoLastActionServiceImpl">
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>   
     
     <bean id="protocolXMLStreamService" class="org.kuali.kra.irb.actions.correspondence.ProtocolXMLStreamServiceDummyImpl">

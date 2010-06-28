@@ -16,6 +16,7 @@
 package org.kuali.kra.timeandmoney.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
     
