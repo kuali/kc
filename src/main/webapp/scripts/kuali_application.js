@@ -2274,37 +2274,41 @@ function fillCongressionalDistrictNumber(stateField, districtNumberField) {
  */
 function showHideDiv(minuteEntryTypeCode) {
     if (minuteEntryTypeCode.value == '2') {
+    	document.getElementById('meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'block'; 
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'block';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcSelectDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcCommentDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemDiv').style.display = 'none';
     } else if (minuteEntryTypeCode.value == '3') {
+    	document.getElementById('meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none'; 
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcSelectDiv').style.display = 'block';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcCommentDiv').style.display = 'block';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemDiv').style.display = 'none';
     } else if (minuteEntryTypeCode.value == '4') {
+    	document.getElementById('meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none'; 
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcSelectDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcCommentDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv').style.display = 'block';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusDiv').style.display = 'block';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv').style.display = 'block';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemDiv').style.display = 'block';
     } else {	
+    	document.getElementById('meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv').style.display = 'block';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttDiv').style.display = 'none'; 
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'block';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcSelectDiv').style.display = 'none';
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.pcCommentDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusHeaderDiv').style.display = 'none';
-        document.getElementById('meetingHelper.newCommitteeScheduleMinute.otherBusDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv').style.display = 'none';
+        document.getElementById('meetingHelper.newCommitteeScheduleMinute.actionItemDiv').style.display = 'none';
     } 
 		
 }

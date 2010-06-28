@@ -36,6 +36,7 @@
 				<ref bean="CommitteeScheduleMinute-entryNumber" />
 				<ref bean="CommitteeScheduleMinute-minuteEntryTypeCode" />
 				<ref bean="CommitteeScheduleMinute-protocolIdFk" />
+				<ref bean="CommitteeScheduleMinute-commScheduleActItemsIdFk" />
 				<ref bean="CommitteeScheduleMinute-submissionIdFk" />
 				<ref bean="CommitteeScheduleMinute-privateCommentFlag" />
 				<ref bean="CommitteeScheduleMinute-finalFlag" />
@@ -143,7 +144,24 @@
 		<property name="summary" value="Protocol Id Fk" />
 		<property name="description" value="Protocol Id Fk" />
 	</bean>
-
+	
+    <bean id="CommitteeScheduleMinute-commScheduleActItemsIdFk" parent="CommitteeScheduleMinute-commScheduleActItemsIdFk-parentBean" />
+    <bean id="CommitteeScheduleMinute-commScheduleActItemsIdFk-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="commScheduleActItemsIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Action Item" />
+        <property name="shortLabel" value="Action Item" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="summary" value="CommScheduleActItems Id Fk" />
+        <property name="description" value="CommScheduleActItems Id Fk" />
+    </bean>
 
 	<bean id="CommitteeScheduleMinute-submissionIdFk" parent="CommitteeScheduleMinute-submissionIdFk-parentBean" />
 	<bean id="CommitteeScheduleMinute-submissionIdFk-parentBean"

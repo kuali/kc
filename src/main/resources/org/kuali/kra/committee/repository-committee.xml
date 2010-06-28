@@ -243,6 +243,7 @@
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="commScheduleActItemsIdFk" column="COMM_SCHEDULE_ACT_ITEMS_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
@@ -262,6 +263,9 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolIdFk"/>
 		</reference-descriptor>
+		<reference-descriptor name="commScheduleActItem" class-ref="org.kuali.kra.meeting.CommScheduleActItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="commScheduleActItemsIdFk"/>
+        </reference-descriptor>
 		<reference-descriptor name="protocolReviewer" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolReviewerIdFk"/>
 		</reference-descriptor>

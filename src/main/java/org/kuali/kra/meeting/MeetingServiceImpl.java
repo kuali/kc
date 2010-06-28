@@ -36,6 +36,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MeetingServiceImpl implements MeetingService {
 
     BusinessObjectService businessObjectService;
+    
+    SequenceAccessorService sequenceAccessorService;
 
     /*
      * 
@@ -159,6 +162,10 @@ public class MeetingServiceImpl implements MeetingService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
 
     /**
      * 
@@ -167,9 +174,15 @@ public class MeetingServiceImpl implements MeetingService {
      */
     public void addOtherAction(CommScheduleActItem newOtherAction, CommitteeSchedule committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
+        newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId());
         newOtherAction.setScheduleIdFk(committeeSchedule.getId());
         newOtherAction.setActionItemNumber(getNextActionItemNumber(committeeSchedule));
         committeeSchedule.getCommScheduleActItems().add(newOtherAction);
+    }
+    
+    private Long getNextCommScheduleActItemId() {
+        Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
+        return nextCommScheduleActItemId;
     }
 
     /*
@@ -435,6 +448,7 @@ public class MeetingServiceImpl implements MeetingService {
     public void addCommitteeScheduleMinute(MeetingHelper meetingHelper) {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("minuteEntryType");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("protocol");
+        meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("commScheduleActItem");
         meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(meetingHelper.getCommitteeSchedule().getId());
         meetingHelper.getNewCommitteeScheduleMinute()
                 .setEntryNumber(getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule()));
@@ -444,6 +458,13 @@ public class MeetingServiceImpl implements MeetingService {
             meetingHelper.getNewCommitteeScheduleMinute().setMinuteEntry(
                     generateAttendanceComment(meetingHelper.getMemberPresentBeans(), meetingHelper.getOtherPresentBeans(),
                             meetingHelper.getCommitteeSchedule()));
+        }
+        if (MinuteEntryType.ACTION_ITEM.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())
+                && meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk() != null) {
+            // in case adding non-persisted action item
+            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(
+                    getActionItem(meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk(),
+                            meetingHelper.getCommitteeSchedule().getCommScheduleActItems()));
         }
         meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes().add(meetingHelper.getNewCommitteeScheduleMinute());
         meetingHelper.setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
@@ -505,6 +526,22 @@ public class MeetingServiceImpl implements MeetingService {
             }
         }
         return personName;
+    }
+    
+    /*
+     * Utility to find a CommScheduleActItem with ID commScheduleActItemsIdFk
+     */
+    private CommScheduleActItem getActionItem(Long commScheduleActItemsIdFk, List<CommScheduleActItem> commScheduleActItems) {
+        CommScheduleActItem actionItem = null;
+        
+        for (CommScheduleActItem commScheduleActItem : commScheduleActItems) {
+            if (commScheduleActItem.getCommScheduleActItemsId().equals(commScheduleActItemsIdFk)) {
+                actionItem = commScheduleActItem;
+                break;
+            }
+        }
+        
+        return actionItem;
     }
 
 
