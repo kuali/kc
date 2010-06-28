@@ -45,12 +45,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private String minuteEntryTypeCode; 
     private String protocolContingencyCode; 
     private Long protocolIdFk; 
+    private Long commScheduleActItemsIdFk;
     private Long submissionIdFk; 
     private boolean privateCommentFlag; 
     private boolean finalFlag; 
     private Long protocolReviewerIdFk;
     private ProtocolContingency protocolContingency;
-    private MinuteEntryType minuteEntryType;    
+    private MinuteEntryType minuteEntryType;
+    private CommScheduleActItem commScheduleActItem;
     private ProtocolReviewer protocolReviewer;
     private String minuteEntry; 
     
@@ -98,7 +100,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     public void setProtocolIdFk(Long protocolIdFk) {
         this.protocolIdFk = protocolIdFk;
     }
+    
+    public Long getCommScheduleActItemsIdFk() {
+        return commScheduleActItemsIdFk;
+    }
 
+    public void setCommScheduleActItemsIdFk(Long commScheduleActItemsIdFk) {
+        this.commScheduleActItemsIdFk = commScheduleActItemsIdFk;
+    }
 
     public Long getSubmissionIdFk() {
         return submissionIdFk;
@@ -134,7 +143,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     public void setMinuteEntry(String minuteEntry) {
         this.minuteEntry = minuteEntry;
     }
-    
+
     @Override
     public String toString(){
         StringBuffer retVal = new StringBuffer(50);
@@ -160,6 +169,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         hashMap.put("entryNumber", this.getEntryNumber());
         hashMap.put("minuteEntryTypeCode", this.getMinuteEntryTypeCode());
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
+        hashMap.put("commScheduleActItemsIdFk", this.getCommScheduleActItemsIdFk());
         hashMap.put("submissionIdFk", this.getSubmissionIdFk());
         hashMap.put("privateCommentFlag", this.getPrivateCommentFlag());
         hashMap.put("finalFlag", this.isFinalFlag());
@@ -197,6 +207,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setMinuteEntryType(MinuteEntryType minuteEntryType) {
         this.minuteEntryType = minuteEntryType;
+    }
+    
+    public CommScheduleActItem getCommScheduleActItem() {
+        return commScheduleActItem;
+    }
+
+    public void setCommScheduleActItem(CommScheduleActItem commScheduleActItem) {
+        this.commScheduleActItem = commScheduleActItem;
     }
 
     public List<Protocol> getProtocols() {

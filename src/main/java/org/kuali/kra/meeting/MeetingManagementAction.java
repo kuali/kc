@@ -227,8 +227,14 @@ public class MeetingManagementAction extends MeetingAction {
      */
     public ActionForward deleteOtherAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        getMeetingService().deleteOtherAction(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
-                getLineToDelete(request), ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
+        MeetingForm meetingForm = (MeetingForm) form;
+        MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
+        int lineToDelete = getLineToDelete(request);
+        if (applyRules(new MeetingDeleteOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
+                .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR, lineToDelete))) {
+            getMeetingService().deleteOtherAction(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
+                    lineToDelete, ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
