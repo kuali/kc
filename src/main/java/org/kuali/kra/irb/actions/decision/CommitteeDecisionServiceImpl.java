@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
@@ -49,10 +48,10 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         this.businessObjectService = businessObjectService;
     }
     
-    public void setProtocolActionService(ProtocolActionService protocolActionService){
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
-    public void setCommitteeService(CommitteeService committeeService){
+    public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
     }
     
@@ -93,92 +92,97 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 committeeService.getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
                         protocol.getProtocolSubmission().getScheduleId());
             
-            
-            if (!committeeDecision.getAbstainers().isEmpty()) {
-                //there are abstainers, lets save them
-                for (CommitteePerson person : committeeDecision.getAbstainers()) {
-                    for (CommitteeMembership membership : committeeMemberships) {
-                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                            //check to see if it is already been persisted
-                            Map fieldValues = new HashMap();
-                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
-                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
-                            fieldValues.put("PERSON_ID", membership.getPersonId());
-                            if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
-                                //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                                ProtocolVoteAbstainee abstainee = new ProtocolVoteAbstainee();
-                                abstainee.setProtocol(protocol);
-                                abstainee.setProtocolIdFk(protocol.getProtocolId());
-                                abstainee.setScheduleIdFk(submission.getScheduleIdFk());
-                                abstainee.setPersonId(membership.getPersonId());
-                                businessObjectService.save(abstainee);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            if (!committeeDecision.getRecused().isEmpty()) {
-                //there are abstainers, lets save them
-                for (CommitteePerson person : committeeDecision.getRecused()) {
-                    for (CommitteeMembership membership : committeeMemberships) {
-                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                            //check to see if it is already been persisted
-                            Map fieldValues = new HashMap();
-                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
-                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
-                            fieldValues.put("PERSON_ID", membership.getPersonId());
-                            if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
-                                //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                                ProtocolVoteRecused recused = new ProtocolVoteRecused();
-                                recused.setProtocol(protocol);
-                                recused.setProtocolIdFk(protocol.getProtocolId());
-                                recused.setScheduleIdFk(submission.getScheduleIdFk());
-                                recused.setPersonId(membership.getPersonId());
-                                businessObjectService.save(recused);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            if (!committeeDecision.getAbstainersToDelete().isEmpty()) {
-                for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
-                    for (CommitteeMembership membership : committeeMemberships) {
-                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                            Map fieldValues = new HashMap();
-                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
-                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
-                            fieldValues.put("PERSON_ID", membership.getPersonId());
-                            businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
-                        }
-                    }
-                }
-                committeeDecision.getAbstainersToDelete().clear();
-            }
-            
-            if (!committeeDecision.getRecusedToDelete().isEmpty()) {
-                for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
-                    for (CommitteeMembership membership : committeeMemberships) {
-                        if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                            Map fieldValues = new HashMap();
-                            fieldValues.put("PROTOCOL_ID_FK", protocol.getProtocolId());
-                            fieldValues.put("SCHEDULE_ID_FK", submission.getScheduleIdFk());
-                            fieldValues.put("PERSON_ID", membership.getPersonId());
-                            businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
-                        }
-                    }
-                }
-                committeeDecision.getRecusedToDelete().clear();
-            }
-            
+            proccessAbstainers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk());
+            proccessRecusers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk());
+
             businessObjectService.save(submission);
             businessObjectService.save(protocol);
             
             protocol.refresh();
         }
+    }
+    
+    private void proccessAbstainers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
+            Protocol protocol, Long scheduleIdFk) {       
+        if (!committeeDecision.getAbstainers().isEmpty()) {
+            //there are abstainers, lets save them
+            for (CommitteePerson person : committeeDecision.getAbstainers()) {
+                for (CommitteeMembership membership : committeeMemberships) {
+                    if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                        //check to see if it is already been persisted
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
+                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                            ProtocolVoteAbstainee abstainee = new ProtocolVoteAbstainee();
+                            abstainee.setProtocol(protocol);
+                            abstainee.setProtocolIdFk(protocol.getProtocolId());
+                            abstainee.setScheduleIdFk(scheduleIdFk);
+                            abstainee.setPersonId(membership.getPersonId());
+                            businessObjectService.save(abstainee);
+                        }
+                        break;
+                    }
+                }
+            }
+        }       
+        if (!committeeDecision.getAbstainersToDelete().isEmpty()) {
+            for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
+                for (CommitteeMembership membership : committeeMemberships) {
+                    if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
+                    }
+                }
+            }
+            committeeDecision.getAbstainersToDelete().clear();
+        }
+        
+    }
+    
+    private void proccessRecusers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
+            Protocol protocol, Long scheduleIdFk) {     
+        
+        if (!committeeDecision.getRecused().isEmpty()) {
+            //there are recusers, lets save them
+            for (CommitteePerson person : committeeDecision.getRecused()) {
+                for (CommitteeMembership membership : committeeMemberships) {
+                    if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                        //check to see if it is already been persisted
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
+                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                            ProtocolVoteRecused recused = new ProtocolVoteRecused();
+                            recused.setProtocol(protocol);
+                            recused.setProtocolIdFk(protocol.getProtocolId());
+                            recused.setScheduleIdFk(scheduleIdFk);
+                            recused.setPersonId(membership.getPersonId());
+                            businessObjectService.save(recused);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (!committeeDecision.getRecusedToDelete().isEmpty()) {
+            for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
+                for (CommitteeMembership membership : committeeMemberships) {
+                    if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
+                    }
+                }
+            }
+            committeeDecision.getRecusedToDelete().clear();
+        }
+    }
+    
+    private Map<String, String> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
+        fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
+        fieldValues.put("PERSON_ID", personId);
+        return fieldValues;
     }
 
     private ProtocolSubmission getSubmission(Protocol protocol) {

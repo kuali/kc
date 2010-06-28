@@ -23,20 +23,38 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * 
+ * This class runs the rules needed for committee decision recording.
+ */
 public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule {
 
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
     public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
+        boolean abstaineeResults = proccessCommitteeDecisionRuleForNewAbstainee(document, committeeDecision);
+        boolean recusedResults = proccessCommitteeDecisionRuleNewRecused(document, committeeDecision);
+        return abstaineeResults && recusedResults;
+    }
+    
+    private boolean proccessCommitteeDecisionRuleForNewAbstainee(ProtocolDocument document, CommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!checkCommitteePerson(committeeDecision.getAbstainers(), committeeDecision.getNewAbstainer())
                 || !checkCommitteePerson(committeeDecision.getRecused(), committeeDecision.getNewAbstainer())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".abstainers.membershipIp", 
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".newAbstainer.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORED_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
             retVal = false;
         }
-        
+        return retVal;
+    }
+    
+    private boolean proccessCommitteeDecisionRuleNewRecused(ProtocolDocument document, CommitteeDecision committeeDecision) {
+        boolean retVal = true;        
         if (!checkCommitteePerson(committeeDecision.getAbstainers(), committeeDecision.getNewRecused())
                 || !checkCommitteePerson(committeeDecision.getRecused(), committeeDecision.getNewRecused())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".recused.membershipIp", 
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".newRecused.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORED_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
             retVal = false;
         }
@@ -45,7 +63,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     
     private boolean checkCommitteePerson(List<CommitteePerson> people, CommitteePerson committeePersonToCheck) {
         for (CommitteePerson listPerson : people) {
-            if (listPerson.getMembershipId().equals(committeePersonToCheck.getMembershipId())){
+            if (listPerson.getMembershipId().equals(committeePersonToCheck.getMembershipId())) {
                 return false;
             }
         }
