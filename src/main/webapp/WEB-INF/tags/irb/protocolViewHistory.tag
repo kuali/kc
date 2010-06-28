@@ -38,7 +38,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                <th>Description</th>
 	                <th>Date</th>
 	                <th><nobr>Action Date</nobr></th>
-	                <th><nobr>Submission Status</nobr></th>
 	                <th style="width:50%;">Comments</th>
                 </tr>
                 <c:forEach items="${KualiForm.actionHelper.filteredProtocolActions}" var="protocolAction" varStatus="status">
@@ -64,9 +63,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		        <nobr>${protocolAction.actionDateString}</nobr>
             		    </td>
             		    <td class="infoline">
-            		        <nobr>${protocolAction.submissionStatusString}&nbsp;</nobr>
-            		    </td>
-            		    <td class="infoline">
             		        <c:choose>
             		            <c:when test="${fn:length(protocolAction.comments) > 0}">
                                     <kra:truncateComment textAreaFieldName="actionHelper.filteredProtocolActions[${status.index}].comments" 
@@ -85,7 +81,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		<c:if test="${protocolAction.submissionNumber != null && fn:length(protocolAction.protocol.attachmentProtocols) > 0}">
             		    <tr>
             		        <td class="infoline">&nbsp;</td>
-            		        <td colspan="5">
+            		        <td colspan="4">
             		        <kra:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
     
                                 <div class="innerTab-container" align="left">
@@ -124,7 +120,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		</c:if>
             	</c:forEach>
             	<tr>
-            	    <td class="infoline" colspan="6">
+            	    <td class="infoline" colspan="5">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-load.gif' 
                                     styleClass="tinybutton" style="vertical-align:bottom"/>  
