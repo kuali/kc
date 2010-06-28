@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.undo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -23,6 +26,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -32,6 +37,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
@@ -39,6 +45,15 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    private void removeAttachedCorrespondences(ProtocolAction protocolAction) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
+        fieldValues.put("sequenceNumber", protocolAction.getSequenceNumber().toString());
+        
+        businessObjectService.deleteMatching(ProtocolCorrespondence.class, fieldValues);
     }
 
     public ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception {
@@ -53,7 +68,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         ProtocolDocument updatedDocument = undoWorkflowRouting(protocolDocument, lastActionPerformed);
         
         //Revert any correspondence that was sent out
-
+        removeAttachedCorrespondences(lastActionPerformed); 
+        
         //Clear the Audit trail - Action history created
         if(!protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             protocol.getProtocolActions().remove(undoLastActionBean.getLastPerformedAction());
@@ -86,4 +102,8 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         return protocolDocument;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
 }
