@@ -16,7 +16,6 @@
 package org.kuali.kra.meeting;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,11 +31,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEvent> {
 
     private static final String PROTOCOL_ENTRY_TYPE = "3";
-    private static final String OTHER_BUSINESS_ENTRY_TYPE = "4";
+    private static final String COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE = "4";
 
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
-
+    private static final String NEW_COMM_SCHD_MINUTE_ACT_ITEMS = "meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk";
+    
     private ErrorReporter errorReporter;
 
     /**
@@ -67,35 +67,27 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                 }
             }
         } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(OTHER_BUSINESS_ENTRY_TYPE)) {
-            if (!otherBusinessActionsAvailable(event)) {
-                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
-                rulePassed = false;
-            }
-            if (committeeScheduleMinute.getProtocolIdFk() == null) {
-                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_OTHER_BUSINESS);
-                rulePassed = false;
-            }
-        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
                 && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)
                 && committeeScheduleMinute.getProtocolIdFk() != null) {
             errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
             rulePassed = false;
-
+        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)) {
+            if (event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().isEmpty()) {
+                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
+                rulePassed = false;
+            }
+            if (committeeScheduleMinute.getCommScheduleActItemsIdFk() == null) {
+                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
+                rulePassed = false;
+            }
+        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)
+                && committeeScheduleMinute.getCommScheduleActItemsIdFk() != null) {
+            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_NON_EMPTY_ACTION_ITEMS);
+            rulePassed = false;
         }
         return rulePassed;
     }
-    
-    private boolean otherBusinessActionsAvailable(MeetingAddMinuteEvent event) {
-        List<CommScheduleActItem> commScheduleActItems = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems();
-        
-        boolean available = false;
-        for (CommScheduleActItem commScheduleActItem : commScheduleActItems) {
-            if (commScheduleActItem.getScheduleActItemType().getScheduleActItemTypeCode().equals(ScheduleActItemType.OTHER_BUSINESS)) {
-                available = true;
-                break;
-            }
-        }
-        return available;
-    }
+
 }

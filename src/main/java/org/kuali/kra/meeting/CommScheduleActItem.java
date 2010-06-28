@@ -106,6 +106,43 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
     public void setScheduleIdFk(Long scheduleIdFk) {
         this.scheduleIdFk = scheduleIdFk;
     }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        CommScheduleActItem other = (CommScheduleActItem) obj;
+        if (commScheduleActItemsId == null) {
+            if (other.commScheduleActItemsId != null) {
+                return false;
+            }
+        }
+        else if (!commScheduleActItemsId.equals(other.commScheduleActItemsId)) {
+            return false;
+        }
+        return true;
+    }
+    
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((commScheduleActItemsId == null) ? 0 : commScheduleActItemsId.hashCode());
+        return result;
+    }
 
 }
