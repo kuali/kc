@@ -802,7 +802,7 @@ INSERT INTO krns_PARM_T
 INSERT INTO krns_PARM_T 
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
-	('KC-IP','D','InstitutionalProposalIPReviewActivityHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
+	('KC-IP','D','IntellectualPropertyReviewActivityHelpUrl',sys_guid(),1,'HELP','default.htm','Institutional Proposal Intellectual Property Reivew Activity Help','A');
 INSERT INTO krns_PARM_T 
 	(nmspc_cd, parm_dtl_typ_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_cd, txt, parm_desc_txt, cons_cd) 
 	VALUES 
