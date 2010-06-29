@@ -31,7 +31,7 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
     private Long scheduleIdFk; 
     private Integer actionItemNumber; 
     private String scheduleActItemTypeCode; 
-    private String itemDesctiption; 
+    private String itemDescription; 
     private CommitteeSchedule committeeSchedule;
     private ScheduleActItemType scheduleActItemType;    
     
@@ -63,12 +63,12 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         this.scheduleActItemTypeCode = scheduleActItemTypeCode;
     }
 
-    public String getItemDesctiption() {
-        return itemDesctiption;
+    public String getItemDescription() {
+        return itemDescription;
     }
 
-    public void setItemDesctiption(String itemDesctiption) {
-        this.itemDesctiption = itemDesctiption;
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
     }
 
 
@@ -88,7 +88,7 @@ public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
         hashMap.put("scheduleIdFk", this.getScheduleIdFk());
         hashMap.put("actionItemNumber", this.getActionItemNumber());
         hashMap.put("scheduleActItemTypeCode", this.getScheduleActItemTypeCode());
-        hashMap.put("itemDesctiption", this.getItemDesctiption());
+        hashMap.put("itemDescription", this.getItemDescription());
         return hashMap;
     }
     public CommitteeSchedule getCommitteeSchedule() {
