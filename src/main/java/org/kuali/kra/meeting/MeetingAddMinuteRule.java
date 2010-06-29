@@ -67,11 +67,6 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                 }
             }
         } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)
-                && committeeScheduleMinute.getProtocolIdFk() != null) {
-            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_NON_EMPTY_PROTOCOL);
-            rulePassed = false;
-        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
                 && committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)) {
             if (event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().isEmpty()) {
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
@@ -81,11 +76,6 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
                 rulePassed = false;
             }
-        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && !committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)
-                && committeeScheduleMinute.getCommScheduleActItemsIdFk() != null) {
-            errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_NON_EMPTY_ACTION_ITEMS);
-            rulePassed = false;
         }
         return rulePassed;
     }
