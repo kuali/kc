@@ -304,7 +304,7 @@
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="actionItemNumber" column="ACTION_ITEM_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="itemDesctiption" column="ITEM_DESCTIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="itemDescription" column="ITEM_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
