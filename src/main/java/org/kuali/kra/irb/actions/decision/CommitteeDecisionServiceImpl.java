@@ -31,6 +31,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -113,12 +114,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
                         if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            ProtocolVoteAbstainee abstainee = new ProtocolVoteAbstainee();
-                            abstainee.setProtocol(protocol);
-                            abstainee.setProtocolIdFk(protocol.getProtocolId());
-                            abstainee.setScheduleIdFk(scheduleIdFk);
-                            abstainee.setPersonId(membership.getPersonId());
-                            businessObjectService.save(abstainee);
+                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId());
                         }
                         break;
                     }
@@ -151,12 +147,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
                         if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            ProtocolVoteRecused recused = new ProtocolVoteRecused();
-                            recused.setProtocol(protocol);
-                            recused.setProtocolIdFk(protocol.getProtocolId());
-                            recused.setScheduleIdFk(scheduleIdFk);
-                            recused.setPersonId(membership.getPersonId());
-                            businessObjectService.save(recused);
+                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId());
                         }
                         break;
                     }
@@ -175,6 +166,14 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             }
             committeeDecision.getRecusedToDelete().clear();
         }
+    }
+    
+    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId) {
+        voter.setProtocol(protocol);
+        voter.setProtocolIdFk(protocol.getProtocolId());
+        voter.setScheduleIdFk(scheduleIdFk);
+        voter.setPersonId(personId);
+        businessObjectService.save(voter);
     }
     
     private Map<String, String> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId) {
