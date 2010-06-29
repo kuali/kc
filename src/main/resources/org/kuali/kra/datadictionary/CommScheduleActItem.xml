@@ -36,7 +36,7 @@
                 <ref bean="CommScheduleActItem-scheduleIdFk" />
                 <ref bean="CommScheduleActItem-actionItemNumber" />
                 <ref bean="CommScheduleActItem-scheduleActItemTypeCode" />
-                <ref bean="CommScheduleActItem-itemDesctiption" />
+                <ref bean="CommScheduleActItem-itemDescription" />
                 <ref bean="CommScheduleActItem-versionNumber" />
             </list>
         </property>
@@ -122,13 +122,13 @@
         <property name="description" value="Schedule Act Item Type Code" />
     </bean>
 
-    <bean id="CommScheduleActItem-itemDesctiption" parent="CommScheduleActItem-itemDesctiption-parentBean" />
-    <bean id="CommScheduleActItem-itemDesctiption-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="itemDesctiption" />
+    <bean id="CommScheduleActItem-itemDescription" parent="CommScheduleActItem-itemDescription-parentBean" />
+    <bean id="CommScheduleActItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="itemDescription" />
         <property name="forceUppercase" value="false" />
         <property name="required" value="true" />
-        <property name="label" value="Desctiption" />
-        <property name="shortLabel" value="Desctiption" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" 
@@ -139,7 +139,7 @@
               p:rows="5"
               p:cols="60" />
         </property>
-        <property name="description" value="Item Desctiption" />
+        <property name="description" value="Item Description" />
     </bean>
 
     <bean id="CommScheduleActItem-versionNumber" parent="CommScheduleActItem-versionNumber-parentBean" />
@@ -167,7 +167,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="scheduleActItemTypeCode" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="itemDesctiption" />
+                                p:attributeName="itemDescription" />
                         </list>
                     </property>
                 </bean>
@@ -196,7 +196,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="scheduleActItemTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="itemDesctiption" />
+                    p:attributeName="itemDescription" />
             </list>
         </property>
         <property name="resultFields" >
@@ -211,7 +211,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="scheduleActItemTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="itemDesctiption" />
+                    p:attributeName="itemDescription" />
             </list>
         </property>
     </bean>

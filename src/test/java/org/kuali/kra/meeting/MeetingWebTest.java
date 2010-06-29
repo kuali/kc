@@ -283,7 +283,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(page.asText().contains("Agenda Generation: Schedule Status Code: Scheduled Start Time: 12:00 checked AM unchecked PM End Time: 12:00 checked AM unchecked PM Comments: "));
         assertTrue(page.asText().contains("Scheduled Date: "+scheduleDate));
         assertTrue(page.asText().contains("Protocol Submitted Protocol Submitted Protocol No PI Protocol Title Submission Type Sub. Type Qualifier Sub. Review Type Submission Status Submission Date Actions "));
-        assertTrue(page.asText().contains("Other Actions Other Actions * Type * Desctiption Actions "));
+        assertTrue(page.asText().contains("Other Actions Other Actions * Type * Description Actions "));
         assertTrue(page.asText().contains("Attendance Attendance Voting Members Present: 0 Person Name Alternate For Comments Actions Other Presents: 0 Add: Employee Search Non-employee Search Person Name Role Comments Actions Members Absent or Available: 2"));
         assertTrue(page.asText().contains("Name Actions 1 Ho, Pauline 2 Joe Tester "));
         assertTrue(page.asText().contains("Minutes Minutes * Entry Type Generate Attendance Protocol Other Business Description Standard Review Comment Private Final Actions "));
@@ -462,11 +462,11 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         assertTrue(hasError(pageAfterAdd));
         assertTrue(pageAfterAdd.asText().contains("1 error(s) found")); 
         
-        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDesctiption", "Other Action description 1");
+        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDescription", "Other Action description 1");
         pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addOtherAction.anchor", true);
         assertFalse(hasError(pageAfterAdd));
         setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.scheduleActItemTypeCode", "2");
-        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDesctiption", "Other Action description 2");
+        setFieldValue(pageAfterAdd, "meetingHelper.newOtherAction.itemDescription", "Other Action description 2");
         pageAfterAdd = clickOnByName(pageAfterAdd,"methodToCall.addOtherAction.anchor", true);
         assertFalse(hasError(pageAfterAdd));
 

@@ -18,7 +18,7 @@
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${commScheduleActItemAttributes.scheduleActItemTypeCode}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${commScheduleActItemAttributes.itemDesctiption}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${commScheduleActItemAttributes.itemDescription}" scope="col" />
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -40,7 +40,7 @@
 			
 	            <td align="left" valign="middle" class="infoline" width="65%">
 	               	<div align="left">
-	               	    <kul:htmlControlAttribute property="meetingHelper.newOtherAction.itemDesctiption" attributeEntry="${commScheduleActItemAttributes.itemDesctiption}" readOnly="false" />
+	               	    <kul:htmlControlAttribute property="meetingHelper.newOtherAction.itemDescription" attributeEntry="${commScheduleActItemAttributes.itemDescription}" readOnly="false" />
 	               	</div>
 	            </td>
 	
@@ -64,7 +64,7 @@
 	                    <div align="left"> ${otherAction.scheduleActItemType.description} </div>
 					</td>
 	                <td align="left" valign="middle">
-		                <kra:truncateComment textAreaFieldName="meetingHelper.committeeSchedule.commScheduleActItems[${status.index}].itemDesctiption" action="meetingManagement" textAreaLabel="${commScheduleActItemAttributes.itemDesctiption.label}"  textValue="${otherAction.itemDesctiption}" displaySize="200"/>
+		                <kra:truncateComment textAreaFieldName="meetingHelper.committeeSchedule.commScheduleActItems[${status.index}].itemDescription" action="meetingManagement" textAreaLabel="${commScheduleActItemAttributes.itemDescription.label}"  textValue="${otherAction.itemDescription}" displaySize="200"/>
 					</td>
                    <c:if test="${!readOnly}">
 						<td>
