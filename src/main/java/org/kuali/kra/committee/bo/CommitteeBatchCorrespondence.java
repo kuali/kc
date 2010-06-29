@@ -51,6 +51,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     private BatchCorrespondence batchCorrespondence; 
     private Committee committee;
     
+    private transient int finalActionCounter;
     private transient DateTimeService dateTimeService;
     
     /**
@@ -78,6 +79,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         setBatchRunDate(getDateTimeService().getCurrentTimestamp());
         setTimeWindowStart(startDate);
         setTimeWindowEnd(endDate);
+        setFinalActionCounter(0);
     } 
     
     public String getCommitteeBatchCorrespondenceId() {
@@ -200,6 +202,14 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         return this.getCommitteeBatchCorrespondenceId().compareTo(arg.getCommitteeBatchCorrespondenceId());
     }
 
+    public int getFinalActionCounter() {
+        return finalActionCounter;
+    }
+    
+    public void setFinalActionCounter(int finalActionCounter) {
+        this.finalActionCounter = finalActionCounter;
+    }
+    
     private DateTimeService getDateTimeService() {
         if (this.dateTimeService == null) {
             dateTimeService = KraServiceLocator.getService(DateTimeService.class);
