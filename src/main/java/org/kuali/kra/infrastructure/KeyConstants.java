@@ -715,6 +715,7 @@ public final class KeyConstants {
     public static final String ERROR_CORRESPONDENCE_TEMPLATE_INVALID_FILE = "error.correspondence.template.invalid.file";
     public static final String ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NOT_SPECIFIED = "error.batch.correspondence.days.to.event.not.specified";
     public static final String ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID = "error.batch.correspondence.days.to.event.invalid";
+    public static final String ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NEGATIVE = "error.batch.correspondence.days.to.event.negative";
     public static final String ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED = "error.batch.correspondence.proto.corresp.type.code.not.specified";
     public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_NOT_SPECIFIED = "error.batch.correspondence.final.action.day.not.specified";
     public static final String ERROR_BATCH_CORRESPONDENCE_FINAL_ACTION_DAY_INVALID = "error.batch.correspondence.final.action.day.invalid";
