@@ -1028,6 +1028,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
