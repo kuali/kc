@@ -24,7 +24,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents an Intellectual Property Review Activity.
  */
-public class InstitutionalProposalIpReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> { 
+public class IntellectualPropertyReviewActivity extends KraPersistableBusinessObjectBase implements SequenceAssociate<IntellectualPropertyReview> { 
     
     private static final long serialVersionUID = 1L;
 
@@ -40,9 +40,9 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
     private IntellectualPropertyReview intellectualPropertyReview;
     
     /**
-     * Constructs an InstitutionalProposalIpReviewActivity.java.
+     * Constructs an IntellectualPropertyReviewActivity.java.
      */
-    public InstitutionalProposalIpReviewActivity() { 
+    public IntellectualPropertyReviewActivity() { 
 
     } 
     
@@ -194,7 +194,7 @@ public class InstitutionalProposalIpReviewActivity extends KraPersistableBusines
         if (getClass() != obj.getClass()) {
             return false;
         }
-        InstitutionalProposalIpReviewActivity other = (InstitutionalProposalIpReviewActivity) obj;
+        IntellectualPropertyReviewActivity other = (IntellectualPropertyReviewActivity) obj;
         if (activityDate == null) {
             if (other.activityDate != null) {
                 return false;

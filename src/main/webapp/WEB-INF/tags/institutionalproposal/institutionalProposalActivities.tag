@@ -17,7 +17,7 @@
 
 <%@ attribute name="readOnly" required="false" %>
 
-<c:set var="ipReviewActivityAttributes" value="${DataDictionary.InstitutionalProposalIpReviewActivity.attributes}" />
+<c:set var="ipReviewActivityAttributes" value="${DataDictionary.IntellectualPropertyReviewActivity.attributes}" />
 
 <kul:tab tabTitle="Activities" defaultOpen="false" tabErrorKey="">
 
@@ -25,7 +25,7 @@
 
 <h3>
     <span class="subhead-left">Activities</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" altText="help"/></span>
+    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" altText="help"/></span>
 </h3>
 
 <table summary="" align="center" cellpadding="0" cellspacing="0">

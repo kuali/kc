@@ -629,12 +629,12 @@
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
          -->
-        <collection-descriptor name="ipReviewActivities" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="ipReviewActivities" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="ipReviewId"/>
         </collection-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" table="PROPOSAL_IP_REV_ACTIVITY">
+    <class-descriptor class="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" table="PROPOSAL_IP_REV_ACTIVITY">
         <field-descriptor name="proposalIpReviewActivityId" column="PROPOSAL_IP_REV_ACTIVITY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IP_REV_ACTIVITY_ID" />
         <field-descriptor name="ipReviewId" column="IP_REVIEW_ID" jdbc-type="BIGINT" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />

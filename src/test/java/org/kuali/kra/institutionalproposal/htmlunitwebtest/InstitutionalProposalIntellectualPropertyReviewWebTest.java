@@ -147,7 +147,7 @@ public class InstitutionalProposalIntellectualPropertyReviewWebTest extends Inst
         setFieldValue(ipReviewMaintenancePage, "document.newMaintainableObject.add.ipReviewActivities.activityDate", "07/09/2009");
         setFieldValue(ipReviewMaintenancePage, "document.newMaintainableObject.add.ipReviewActivities.comments", comment);
         HtmlElement addBtn = getElementByName(ipReviewMaintenancePage, 
-                "methodToCall.addLine.ipReviewActivities.(!!org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity!!)", true);
+                "methodToCall.addLine.ipReviewActivities.(!!org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity!!)", true);
         return clickOn(addBtn);
     }
 
