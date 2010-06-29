@@ -19,41 +19,41 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="InstitutionalProposalIpReviewActivity" parent="InstitutionalProposalIpReviewActivity-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity" />
+    <bean id="IntellectualPropertyReviewActivity" parent="IntellectualPropertyReviewActivity-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity" />
 		<property name="objectLabel" value="Institutional Proposal Ip Review Activity" />
 		<property name="helpDefinition" >
       		<bean parent="HelpDefinition"
             	p:parameterNamespace="KC-IP"
-            	p:parameterName="InstitutionalProposalIPReviewActivityHelpUrl"
+            	p:parameterName="IntellectualPropertyReviewActivityHelpUrl"
             	p:parameterDetailType="D" />
     	</property>
         <property name="inquiryDefinition" >
-            <ref bean="InstitutionalProposalIpReviewActivity-inquiryDefinition" />
+            <ref bean="IntellectualPropertyReviewActivity-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="InstitutionalProposalIpReviewActivity-lookupDefinition" />
+            <ref bean="IntellectualPropertyReviewActivity-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="proposalIpRevActivityId" />
         <property name="attributes" >
             <list>
-                <ref bean="InstitutionalProposalIpReviewActivity-proposalIpReviewActivityId" />
-                <ref bean="InstitutionalProposalIpReviewActivity-proposalNumber" />
-                <ref bean="InstitutionalProposalIpReviewActivity-sequenceNumber" />
-                <ref bean="InstitutionalProposalIpReviewActivity-activityNumber" />
-                <ref bean="InstitutionalProposalIpReviewActivity-ipReviewActivityTypeCode" />
-                <ref bean="InstitutionalProposalIpReviewActivity-activityDate" />
-                <ref bean="InstitutionalProposalIpReviewActivity-comments" />
-                <ref bean="InstitutionalProposalIpReviewActivity-versionNumber" />
+                <ref bean="IntellectualPropertyReviewActivity-proposalIpReviewActivityId" />
+                <ref bean="IntellectualPropertyReviewActivity-proposalNumber" />
+                <ref bean="IntellectualPropertyReviewActivity-sequenceNumber" />
+                <ref bean="IntellectualPropertyReviewActivity-activityNumber" />
+                <ref bean="IntellectualPropertyReviewActivity-ipReviewActivityTypeCode" />
+                <ref bean="IntellectualPropertyReviewActivity-activityDate" />
+                <ref bean="IntellectualPropertyReviewActivity-comments" />
+                <ref bean="IntellectualPropertyReviewActivity-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="InstitutionalProposalIpReviewActivity-proposalIpReviewActivityId" parent="InstitutionalProposalIpReviewActivity-proposalIpReviewActivityId-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-proposalIpReviewActivityId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-proposalIpReviewActivityId" parent="IntellectualPropertyReviewActivity-proposalIpReviewActivityId-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-proposalIpReviewActivityId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalIpReviewActivityId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Ip Rev Activity Id" />
@@ -70,8 +70,8 @@
         <property name="description" value="Proposal Ip Rev Activity Id" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-proposalNumber" parent="InstitutionalProposalIpReviewActivity-proposalNumber-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-proposalNumber" parent="IntellectualPropertyReviewActivity-proposalNumber-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Number" />
@@ -88,8 +88,8 @@
         <property name="description" value="Proposal Number" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-sequenceNumber" parent="InstitutionalProposalIpReviewActivity-sequenceNumber-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-sequenceNumber" parent="IntellectualPropertyReviewActivity-sequenceNumber-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="sequenceNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sequence Number" />
@@ -106,8 +106,8 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-activityNumber" parent="InstitutionalProposalIpReviewActivity-activityNumber-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-activityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-activityNumber" parent="IntellectualPropertyReviewActivity-activityNumber-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-activityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="activityNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Activity Number" />
@@ -125,8 +125,8 @@
         <property name="description" value="Activity Number" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-ipReviewActivityTypeCode" parent="InstitutionalProposalIpReviewActivity-ipReviewActivityTypeCode-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-ipReviewActivityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-ipReviewActivityTypeCode" parent="IntellectualPropertyReviewActivity-ipReviewActivityTypeCode-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-ipReviewActivityTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="ipReviewActivityTypeCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="IP Review Activity Type Code" />
@@ -148,8 +148,8 @@
         <property name="description" value="IP Review Activity Type Code" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-activityDate" parent="InstitutionalProposalIpReviewActivity-activityDate-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-activityDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+    <bean id="IntellectualPropertyReviewActivity-activityDate" parent="IntellectualPropertyReviewActivity-activityDate-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-activityDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="activityDate" />
         <property name="label" value="Activity Date" />
         <property name="shortLabel" value="Activity Date" />
@@ -157,8 +157,8 @@
         <property name="description" value="Activity Date" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-comments" parent="InstitutionalProposalIpReviewActivity-comments-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IntellectualPropertyReviewActivity-comments" parent="IntellectualPropertyReviewActivity-comments-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-comments-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="comments" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Comments" />
@@ -176,13 +176,13 @@
         <property name="description" value="Comments" />
     </bean>
 
-    <bean id="InstitutionalProposalIpReviewActivity-versionNumber" parent="InstitutionalProposalIpReviewActivity-versionNumber-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    <bean id="IntellectualPropertyReviewActivity-versionNumber" parent="IntellectualPropertyReviewActivity-versionNumber-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="InstitutionalProposalIpReviewActivity-inquiryDefinition" parent="InstitutionalProposalIpReviewActivity-inquiryDefinition-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="IntellectualPropertyReviewActivity-inquiryDefinition" parent="IntellectualPropertyReviewActivity-inquiryDefinition-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Proposal Ip Rev Activity Id" />
         <property name="inquirySections" >
             <list>
@@ -214,8 +214,8 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="InstitutionalProposalIpReviewActivity-lookupDefinition" parent="InstitutionalProposalIpReviewActivity-lookupDefinition-parentBean" />
-    <bean id="InstitutionalProposalIpReviewActivity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="IntellectualPropertyReviewActivity-lookupDefinition" parent="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" />
+    <bean id="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Proposal Ip Rev Activity Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
