@@ -67,6 +67,7 @@ public class ReviewerComments implements Serializable {
      */
     public void addNewComment(Protocol protocol) {
         newComment.setProtocol(protocol);
+        newComment.setProtocolIdFk(protocol.getProtocolId());
         comments.add(newComment);
         newComment = new CommitteeScheduleMinute();
     }
