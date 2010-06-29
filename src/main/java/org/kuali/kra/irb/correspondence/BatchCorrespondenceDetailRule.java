@@ -55,8 +55,33 @@ public class BatchCorrespondenceDetailRule {
                     KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID, 
                     Integer.toString(batchCorrespondence.getFinalActionDay() - 1));
             isValid = false;
+        } else if (isDuplicate(batchCorrespondence, newBatchCorrespondenceDetails)) {
+            GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_DUPLICATE);
+            isValid = false;
         }
         return isValid;
+    }
+
+    /**
+     * 
+     * This method checks if the daysToEvents exists already.
+     * @param batchCorrespondence
+     * @param newBatchCorrespondenceDetails
+     * @return
+     */
+    private boolean isDuplicate(BatchCorrespondence batchCorrespondence, BatchCorrespondenceDetail newBatchCorrespondenceDetails) {
+        if (batchCorrespondence.getFinalActionDay().equals(newBatchCorrespondenceDetails.getDaysToEvent())) {
+            return true;
+        }
+        
+        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
+            if (batchCorrespondenceDetail.getDaysToEvent().equals(newBatchCorrespondenceDetails.getDaysToEvent())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private boolean validateProtoCorrespTypeCode(BatchCorrespondenceDetail newBatchCorrespondenceDetails) {
