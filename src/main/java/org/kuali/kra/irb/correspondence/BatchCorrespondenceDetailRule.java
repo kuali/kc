@@ -45,10 +45,9 @@ public class BatchCorrespondenceDetailRule {
             GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
                     KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NOT_SPECIFIED);
             isValid = false;
-        } else if (newBatchCorrespondenceDetails.getDaysToEvent() < 1) { 
+        } else if (newBatchCorrespondenceDetails.getDaysToEvent() < 0) { 
             GlobalVariables.getMessageMap().putError(PROPERTY_NAME_DAYS_TO_EVENT, 
-                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID, 
-                    Integer.toString(batchCorrespondence.getFinalActionDay() - 1));
+                    KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_NEGATIVE);
             isValid = false;
         } else if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), SEND_CORRESPONDENCE_AFTER_EVENT)  
                 && (newBatchCorrespondenceDetails.getDaysToEvent() >= batchCorrespondence.getFinalActionDay())) { 
