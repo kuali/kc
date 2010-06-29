@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.ipreview.InstitutionalProposalIpReviewActivity;
+import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -36,7 +36,7 @@ public class IntellectualPropertyReviewVersioningTest {
         ipReview.setProposalNumber("1");
         ipReview.setSequenceNumber(1);
         
-        InstitutionalProposalIpReviewActivity ipReviewActivity = new InstitutionalProposalIpReviewActivity();
+        IntellectualPropertyReviewActivity ipReviewActivity = new IntellectualPropertyReviewActivity();
         ipReviewActivity.setProposalIpReviewActivityId(new Long(1));
         ipReviewActivity.setProposalNumber("1");
         ipReviewActivity.setSequenceNumber(1);

@@ -54,7 +54,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     private String reviewResultCode; 
     private String ipReviewer; 
     private List<ProposalComment> comments;
-    private List<InstitutionalProposalIpReviewActivity> ipReviewActivities;
+    private List<IntellectualPropertyReviewActivity> ipReviewActivities;
     private IntellectualPropertyReviewRequirementType ipReviewRequirementType;
     private IntellectualPropertyReviewResultType reviewResult;
     private String generalComments;
@@ -79,7 +79,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     
     protected void init() {
         comments = new ArrayList<ProposalComment>();
-        ipReviewActivities = new ArrayList<InstitutionalProposalIpReviewActivity>();
+        ipReviewActivities = new ArrayList<IntellectualPropertyReviewActivity>();
         proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
         this.setIpReviewSequenceStatus(VersionStatus.PENDING.toString());
     }
@@ -156,11 +156,11 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         this.reviewerComments = reviewerComments;
     }
 
-    public List<InstitutionalProposalIpReviewActivity> getIpReviewActivities() {
+    public List<IntellectualPropertyReviewActivity> getIpReviewActivities() {
         return ipReviewActivities;
     }
 
-    public void setIpReviewActivities(List<InstitutionalProposalIpReviewActivity> ipReviewActivities) {
+    public void setIpReviewActivities(List<IntellectualPropertyReviewActivity> ipReviewActivities) {
         this.ipReviewActivities = ipReviewActivities;
     }
     
@@ -338,7 +338,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
     }
     
     protected void setReferenceFields() {
-        for (InstitutionalProposalIpReviewActivity ipReviewActivity : ipReviewActivities) {
+        for (IntellectualPropertyReviewActivity ipReviewActivity : ipReviewActivities) {
             ipReviewActivity.setIpReviewId(this.getIpReviewId());
             ipReviewActivity.setProposalNumber(this.getProposalNumber());
             ipReviewActivity.setSequenceNumber(this.getSequenceNumber());

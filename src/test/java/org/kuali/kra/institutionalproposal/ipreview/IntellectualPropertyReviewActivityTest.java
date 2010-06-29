@@ -24,7 +24,7 @@ public class IntellectualPropertyReviewActivityTest {
     
     private static final int INTELLECTUAL_PROPERTY_REVIEW_ACTIVITY_ATTRIBUTES_COUNT = 7;
     
-    private InstitutionalProposalIpReviewActivity intellectualPropertyReviewActivity;
+    private IntellectualPropertyReviewActivity intellectualPropertyReviewActivity;
     
     /**
      *
@@ -32,7 +32,7 @@ public class IntellectualPropertyReviewActivityTest {
      */
     @Before
     public void setUp() throws Exception {
-        intellectualPropertyReviewActivity = new InstitutionalProposalIpReviewActivity();
+        intellectualPropertyReviewActivity = new IntellectualPropertyReviewActivity();
     }
 
     /**
