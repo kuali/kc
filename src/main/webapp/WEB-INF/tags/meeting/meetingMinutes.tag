@@ -131,11 +131,11 @@
                                 <option value="">select</option>
                                 <c:forEach items="${KualiForm.meetingHelper.committeeSchedule.commScheduleActItems}" var="option">
                                     <c:choose>
-                                        <c:when test="${fn:length(option.itemDesctiption) > 30}">
-                                            <c:set var="label" value="${fn:substring(option.itemDesctiption, 0, 30)}..."/>
+                                        <c:when test="${fn:length(option.itemDescription) > 30}">
+                                            <c:set var="label" value="${fn:substring(option.itemDescription, 0, 30)}..."/>
                                         </c:when>
                                         <c:otherwise>
-                                            <c:set var="label" value="${option.itemDesctiption}"/>
+                                            <c:set var="label" value="${option.itemDescription}"/>
 							            </c:otherwise>
 							        </c:choose>
                                     <c:choose>
@@ -212,7 +212,7 @@
 	                    </c:if>
 	                    <c:if test="${!empty committeeScheduleMinute.commScheduleActItemsIdFk}" >
 	                       ${committeeScheduleMinute.commScheduleActItem.scheduleActItemType.description}:
-	                       ${committeeScheduleMinute.commScheduleActItem.itemDesctiption}
+	                       ${committeeScheduleMinute.commScheduleActItem.itemDescription}
 	                    </c:if>
 	               		<%--<kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].protocolIdFk" attributeEntry="${committeeScheduleMinuteAttributes.protocolIdFk}" readOnly="false" />--%>
 					</td>
