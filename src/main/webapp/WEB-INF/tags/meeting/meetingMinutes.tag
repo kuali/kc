@@ -127,7 +127,8 @@
                                     <c:set var="hasActionItemError" value="true"/>
                                 </c:if>
                             </c:forEach>
-                            <html:select property="meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk" tabindex="0"  >                               
+                            <html:select property="meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk" tabindex="0"  >
+                                <option value="">select</option>
                                 <c:forEach items="${KualiForm.meetingHelper.committeeSchedule.commScheduleActItems}" var="option">
                                     <c:choose>
                                         <c:when test="${fn:length(option.itemDesctiption) > 30}">

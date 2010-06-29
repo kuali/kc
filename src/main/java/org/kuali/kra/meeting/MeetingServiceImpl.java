@@ -31,6 +31,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -466,6 +467,17 @@ public class MeetingServiceImpl implements MeetingService {
                     getActionItem(meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk(),
                             meetingHelper.getCommitteeSchedule().getCommScheduleActItems()));
         }
+        if (!MinuteEntryType.PROTOCOL.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())) {
+            // Set protocol fields to null if MinuteEntryType is not PROTOCOL
+            meetingHelper.getNewCommitteeScheduleMinute().setProtocolIdFk(null);
+            meetingHelper.getNewCommitteeScheduleMinute().setProtocol(null);
+        }
+        if (!MinuteEntryType.ACTION_ITEM.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())) {
+         // Set action item fields to null if MinuteEntryType is not ACTION_ITEM
+            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItemsIdFk(null);
+            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(null);
+        }
+        
         meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes().add(meetingHelper.getNewCommitteeScheduleMinute());
         meetingHelper.setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
 
