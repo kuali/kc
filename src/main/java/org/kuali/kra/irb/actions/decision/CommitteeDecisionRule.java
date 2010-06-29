@@ -34,12 +34,12 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
     public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
-        boolean abstaineeResults = proccessCommitteeDecisionRuleForNewAbstainee(document, committeeDecision);
-        boolean recusedResults = proccessCommitteeDecisionRuleNewRecused(document, committeeDecision);
+        boolean abstaineeResults = proccessCommitteeDecisionRuleForNewAbstainee(committeeDecision);
+        boolean recusedResults = proccessCommitteeDecisionRuleNewRecused(committeeDecision);
         return abstaineeResults && recusedResults;
     }
     
-    private boolean proccessCommitteeDecisionRuleForNewAbstainee(ProtocolDocument document, CommitteeDecision committeeDecision) {
+    private boolean proccessCommitteeDecisionRuleForNewAbstainee(CommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!checkCommitteePerson(committeeDecision.getAbstainers(), committeeDecision.getNewAbstainer())
                 || !checkCommitteePerson(committeeDecision.getRecused(), committeeDecision.getNewAbstainer())) {
@@ -50,7 +50,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         return retVal;
     }
     
-    private boolean proccessCommitteeDecisionRuleNewRecused(ProtocolDocument document, CommitteeDecision committeeDecision) {
+    private boolean proccessCommitteeDecisionRuleNewRecused(CommitteeDecision committeeDecision) {
         boolean retVal = true;        
         if (!checkCommitteePerson(committeeDecision.getAbstainers(), committeeDecision.getNewRecused())
                 || !checkCommitteePerson(committeeDecision.getRecused(), committeeDecision.getNewRecused())) {
