@@ -129,6 +129,37 @@ public class BatchCorrespondenceDetailRuleTest {
     
     /**
      * 
+     * This test simulates a batch correspondence being added whose daysToEvent is duplicate.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testAddBatchCorrespondenceDetailDuplicateDaysToEvent() throws Exception {
+        BatchCorrespondence batchCorrespondence = getBatchCorrespondenceAfter();
+        BatchCorrespondenceDetail newBatchCorrespondenceDetail = getBachCorrespondenceDetail();
+        newBatchCorrespondenceDetail.setDaysToEvent(15);
+        boolean rulePassed = new BatchCorrespondenceDetailRule().processAddBatchCorrespondenceDetailRules(batchCorrespondence, newBatchCorrespondenceDetail);
+        assertFalse(rulePassed);
+
+        /*
+         * There should be one error.
+         */
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        assertEquals(1, messageMap.getErrorCount());
+        
+        /*
+         * Verify that the error key of the daysToEvent fields is in the MessageMap.
+         */
+        assertTrue(messageMap.doesPropertyHaveError("newBatchCorrespondenceDetail.daysToEvent"));
+
+        /*
+         * Verify that the correct error messages are in the MessageMap.
+         */
+        List<ErrorMessage> errorMessages = messageMap.getErrorMessagesForProperty("newBatchCorrespondenceDetail.daysToEvent");
+        assertEquals(KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_DUPLICATE, errorMessages.get(0).getErrorKey());
+    }
+    
+    /** 
      * This test simulates the batch correspondence details successfully being saved.
      * @throws Exception
      */
