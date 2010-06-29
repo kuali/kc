@@ -57,6 +57,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private BusinessObjectService businessObjectService;
     private ProtocolDao protocolDao;
     private ProtocolGenericActionService protocolGenericActionService;
+    private int finalActionCounter;
 
     /**
      * This method generates the batch correspondence for a committee.
@@ -70,6 +71,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
             Date endDate) throws Exception {
         BatchCorrespondence batchCorrespondence = null;
         List<Protocol> protocols = null;
+        finalActionCounter = 0;
 
         CommitteeBatchCorrespondence committeeBatchCorrespondence = new CommitteeBatchCorrespondence(batchCorrespondenceTypeCode, 
                 committeeId, startDate, endDate);
@@ -98,6 +100,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         }
 
         businessObjectService.save(committeeBatchCorrespondence);
+        
+        committeeBatchCorrespondence.setFinalActionCounter(finalActionCounter);
         
         return committeeBatchCorrespondence;
     }
@@ -199,10 +203,12 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         
         if (StringUtils.equals(ProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
             protocolGenericActionService.suspend(protocol, actionBean);
+            finalActionCounter++;
         }
         
         if (StringUtils.equals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, batchCorrespondence.getFinalActionTypeCode())) {
             protocolGenericActionService.close(protocol, actionBean);
+            finalActionCounter++;
         }
     }
     
@@ -353,5 +359,5 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     public void setProtocolGenericActionService(ProtocolGenericActionService protocolGenericActionService) {
         this.protocolGenericActionService = protocolGenericActionService;
     }
-    
+
 }

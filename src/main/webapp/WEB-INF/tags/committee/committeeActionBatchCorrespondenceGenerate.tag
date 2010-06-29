@@ -114,5 +114,10 @@
             </td>
         </tr>
     </table>
+    
+    <div style="center">
+        Number of protocols on which final action has been performed: 
+        ${KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0].finalActionCounter}
+    </div>
 </c:if>            
 
