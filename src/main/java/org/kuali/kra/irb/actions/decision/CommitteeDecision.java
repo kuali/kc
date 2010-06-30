@@ -68,9 +68,12 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
             this.abstainCount = submission.getAbstainerCount();
             this.votingComments = submission.getVotingComments();
             
-            //not sure if I really need to deal with protocol actions            
-            initializeAbstainees(protocol, submission.getScheduleIdFk());
-            initializeRecused(protocol, submission.getScheduleIdFk());          
+            //not sure if I really need to deal with protocol actions    
+            //ES: Please remove condition before checking in.
+            if( submission.getScheduleIdFk() != null ) {
+                initializeAbstainees(protocol, submission.getScheduleIdFk());
+                initializeRecused(protocol, submission.getScheduleIdFk());
+            }
         }
     }
     

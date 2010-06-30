@@ -1,0 +1,213 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.kuali.kra.irb;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.ObjectUtils;
+
+/**
+ * 
+ * This class represents the Protocol Review Document Object.
+ * ProtocolReviewDocument has a 1:1 relationship with ProtocolReview Business Object.
+ * We have declared a list of Protocol BOs in the ProtocolDocument at the same time to
+ * get around the OJB anonymous keys issue of primary keys of different data types.
+ * Also we have provided convenient getter and setter methods so that to the outside world;
+ * Protocol and ProtocolDocument can have a 1:1 relationship.
+ */
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
+@COMPONENT(component=Constants.PARAMETER_COMPONENT_DOCUMENT)
+public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+	
+    private static final String DOCUMENT_TYPE_CODE = "PTRV";
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 803158468103165087L;
+    private List<ProtocolOnlineReview> protocolOnlineReviewList;
+
+    /**
+     * Constructs a ProtocolDocument object
+     */
+	public ProtocolOnlineReviewDocument() { 
+        super();
+        protocolOnlineReviewList = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview newProtocolReview = new ProtocolOnlineReview();
+        newProtocolReview.setProtocolOnlineReviewDocument(this);
+        protocolOnlineReviewList.add(newProtocolReview);
+	} 
+	
+    public void initialize() {
+        super.initialize();
+    }
+
+    
+    /**
+     * 
+     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
+     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+     * @return
+     */
+    public ProtocolOnlineReview getProtocolOnlineReview() {
+        if (protocolOnlineReviewList.size() == 0) return null;
+        return protocolOnlineReviewList.get(0);
+    }
+
+    /**
+     * 
+     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
+     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+     * @param protocol
+     */
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        protocolOnlineReviewList.set(0, protocolOnlineReview);
+    }
+
+
+    /**
+     * 
+     * This method is used by OJB to get around with anonymous keys issue.
+     * Warning : Developers should never use this method.
+     * @return List<Protocol>
+     */
+    public List<ProtocolOnlineReview> getProtocolOnlineReviewList() {
+        return protocolOnlineReviewList;
+    }
+
+    /**
+     * 
+     * This method is used by OJB to get around with anonymous keys issue.
+     * Warning : Developers should never use this method
+     * @param protocolList
+     */
+    public void setProtocolOnlineReviewList(List<ProtocolOnlineReview> protocolOnlineReviewList) {
+        this.protocolOnlineReviewList = protocolOnlineReviewList;
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        if (getProtocolOnlineReview() != null) {
+            managedLists.addAll(getProtocolOnlineReview().buildListOfDeletionAwareLists());
+        }
+        managedLists.add(protocolOnlineReviewList);
+        return managedLists;
+    }
+    
+    /**
+     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+     */
+    @Override
+    protected List<RolePersons> getAllRolePersons() {
+        KraAuthorizationService kraAuthService = 
+               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
+    }
+    
+    public String getDocumentTypeCode() {
+        return DOCUMENT_TYPE_CODE;
+    }
+    
+    
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+    }
+  
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doActionTaken(org.kuali.rice.kew.dto.ActionTakenEventDTO)
+     */
+    @Override
+    public void doActionTaken( ActionTakenEventDTO event ) {
+        super.doActionTaken(event);
+    }
+
+    private ProtocolVersionService getProtocolVersionService() {
+        return KraServiceLocator.getService(ProtocolVersionService.class);
+    }
+
+    private ProtocolFinderDao getProtocolFinder() {
+        return KraServiceLocator.getService(ProtocolFinderDao.class);
+    }
+    
+    private DocumentService getDocumentService() {
+        return KraServiceLocator.getService(DocumentService.class);
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    /**
+     * Has the document entered the final state in workflow?
+     * @param statusChangeEvent
+     * @return
+     */
+    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    }
+    
+    /**
+     * Has the document entered the disapproval state in workflow?
+     * @param statusChangeEvent
+     * @return
+     */
+    private boolean isDisapproved(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return StringUtils.equals(KEWConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
+    }
+
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
+    }
+    
+}

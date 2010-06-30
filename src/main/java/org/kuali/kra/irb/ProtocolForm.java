@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.AbstractSpecialReview;
@@ -32,6 +34,9 @@ import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
+import org.kuali.kra.irb.onlinereview.OnlineReviewActionHelper;
+import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
@@ -47,6 +52,7 @@ import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -57,6 +63,12 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     private static final long serialVersionUID = -7633960906991275328L;
     
+    /**
+     * When true, the online review header will not be displayed when it is disabled.
+     */
+    private static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
+    private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
+    
     private ProtocolHelper protocolHelper;
     private PersonnelHelper personnelHelper;
     private PermissionsHelper permissionsHelper;
@@ -64,6 +76,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private CustomDataHelper customDataHelper;
     private SpecialReviewHelper specialReviewHelper;
     private ActionHelper actionHelper;
+    private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
@@ -92,7 +105,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @throws Exception 
      */
     public void initialize() throws Exception {
-        initializeHeaderNavigationTabs(); 
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
@@ -104,6 +116,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setAttachmentsHelper(new ProtocolAttachmentHelper(this));
         setNotepadHelper(new ProtocolNotepadHelper(this));
         setNewProtocolReference(new ProtocolReference());
+        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
     
     /**
@@ -115,18 +128,74 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return (ProtocolDocument) super.getDocument();
     }
 
+    
     /**
-     * 
-     * This method initializes the loads the header navigation tabs.
+     * Disable the online review tab, and remove it from the nav list if HIDE_ONLINE_REVIEW_WHEN_DISABLED is true
+     * @param navList
+     * @return
      */
-    protected void initializeHeaderNavigationTabs(){
+    protected List<HeaderNavigation> disableOnlineReviewTab(List<HeaderNavigation> navList) {
+        HeaderNavigation onlineReview = null;
+        for (HeaderNavigation nav : navList) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
+                onlineReview = nav;
+            }
+        }
+        if (onlineReview != null) {
+            onlineReview.setDisabled(true);
+            if (HIDE_ONLINE_REVIEW_WHEN_DISABLED) {
+                navList.remove(onlineReview); 
+            }
+        }
+        
+        return navList;
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     * 
+     * We only enable the Online Review tab if the protocol is in a state to be reviewed and
+     * the user has the IRB Admin role or the user has an Online Review. 
+     * 
+     * If HIDE_ONLINE_REVIEW_WHEN_DISABLED is true, then the tab will be removed from the tabs 
+     * List if it is disabled.
+     * 
+     */
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
         DataDictionaryService dataDictionaryService = getDataDictionaryService();
+        ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
+        //RoleService roleService = KraServiceLocator.getService(RoleService.class);
+        
         DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
                                     .getDocumentEntry(org.kuali.kra.irb.ProtocolDocument.class.getName());
         List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
+        
+        if( getProtocolDocument() != null && getProtocolDocument().getProtocol() != null ) {
+            boolean isUserOnlineReviewer = onlineReviewService.isUserAnOnlineReviewerOfProtocol(GlobalVariables.getUserSession().getPrincipalId(), getProtocolDocument().getProtocol());
+            boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
+            boolean isUserIrbAdmin = false;
+            
+            //TODO: Actually use an authorizer
+            //Collection<String> members = roleService.getRoleMemberPrincipalIds("KC-UNT", "IRB Administrator", new AttributeSet());
+            //if( members != null && members.contains(GlobalVariables.getUserSession().getPrincipalId())) {
+            //    isUserIrbAdmin = true;
+            //}
+            //END TODO
+            
+            if (!(isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin))) { 
+                navList = disableOnlineReviewTab(navList);
+            } else {
+                //leave the onlinereview tab enabled.
+            }
+        } else {
+            navList = disableOnlineReviewTab(navList);
+        }
+        
         navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
+        super.setHeaderNavigationTabs(list);
+        return list;
     }
     
     /**
@@ -138,6 +207,17 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
 
+    /**
+     * 
+     * This method is a wrapper method for getting ProtocolOnlineReviewerService service.
+     * @return
+     */
+    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+    }
+
+    
+    
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
@@ -161,6 +241,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
+        onlineReviewsActionHelper.init(true);
         getSpecialReviewHelper().reset();
     }
     
@@ -353,7 +434,15 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
     }
-    
+
+    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
+        this.onlineReviewsActionHelper = onlineReviewActionHelper;
+    }
+
+    public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
+        return onlineReviewsActionHelper;
+    }
+ 
     @Override
     public boolean isPropertyEditable(String propertyName) {
         if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer")) {
