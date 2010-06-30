@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.rice.kim.bo.Person;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
@@ -36,6 +40,8 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
     private ProtocolReviewerType protocolReviewerType;
+
+    private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
 
     public ProtocolReviewer() {
         
@@ -137,6 +143,22 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.protocolReviewerType = protocolReviewerType;
     }
 
+    /**
+     * Gets the protocolOnlineReviews attribute. 
+     * @return Returns the protocolOnlineReviews.
+     */
+    public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
+        return protocolOnlineReviews;
+    }
+
+    /**
+     * Sets the protocolOnlineReviews attribute value.
+     * @param protocolOnlineReviews The protocolOnlineReviews to set.
+     */
+    public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
+        this.protocolOnlineReviews = protocolOnlineReviews;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -152,4 +174,5 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         map.put("reviewerTypeCode", getReviewerTypeCode());
         return map;
     }
+
 }

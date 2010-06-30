@@ -18,7 +18,7 @@
 <%@ attribute name="renderIndex" required = "true" description="The index into the action helpers array list for this review."%>
  
 <c:set var="onlineReviewAttributes" value="${DataDictionary.ProtocolOnlineReview.attributes}" />
-<c:set var="actionHelper" value = "${KualiForm.onlineReviewActionHelper}"/>
+<c:set var="actionHelper" value = "${KualiForm.onlineReviewsActionHelper}"/>
 <c:set var="readOnly" value = "false"/>
 
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
@@ -27,7 +27,7 @@
 <c:set var="documentOverviewReadOnly" value = "false"/>
 
 
-<kul:tab tabTitle="Online Review: ${KualiForm.onlineReviewActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.committeeMembership.personName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tab tabTitle="Online Review: ${KualiForm.onlineReviewsActionHelper.reviewerPersons[renderIndex].fullName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 
 	<div class="tab-container" align=center>
 		  <!-- DOC OVERVIEW TABLE -->
@@ -92,7 +92,7 @@
 		          		horizontal="true" width = "25%" rowspan="2"
 		          	/>
 		      		<td align="left" valign="middle" width = "25%">
-		      			<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.documentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${documentOverviewReadOnly}"/>
+		      			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.documentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${documentOverviewReadOnly}"/>
 		      		</td>
 		      		<kul:htmlAttributeHeaderCell
                   		labelFor="document.documentHeader.explanation"
@@ -102,10 +102,10 @@
                   	/>
 		      		<td align="left" valign="middle" rowspan="2" width = "25%">
                   		<kul:htmlControlAttribute
-                      		property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.explanation"
+                      		property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.explanation"
                       		attributeEntry="${docHeaderAttributes.explanation}"
                       		readOnly="${documentOverviewReadOnly}"
-                      		readOnlyAlternateDisplay="${fn:replace(fn:escapeXml(onlineReviewActionHelper.protocolOnlineReviewDocuments[renderIndex].documentHeader.explanation), Constants.NEWLINE, '<br/>')}"
+                      		readOnlyAlternateDisplay="${fn:replace(fn:escapeXml(onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].documentHeader.explanation), Constants.NEWLINE, '<br/>')}"
                       	/>
               		</td>
 		    	</tr>
@@ -116,7 +116,7 @@
 		        		horizontal="true" width = "25%"
 		      		/>			  
               		<td align="left" valign="middle" width = "25%">
-              			<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.organizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${documentOverviewReadOnly}"/>
+              			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.organizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${documentOverviewReadOnly}"/>
               		</td>
             	</tr>
 			</table>   
@@ -128,11 +128,11 @@
 				<tr>
                 	<th width = "25%" class="grid">
                 		<div align="right">
-                			*Reviewer:
+                			Reviewer:
                 		</div>
                 	</th>
                 	<td width = "25%" nowrap class="grid">
-						<c:out value = "${KualiForm.onlineReviewActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.committeeMembership.personName}"/>
+						<c:out value = "${KualiForm.onlineReviewsActionHelper.reviewerPersons[renderIndex].fullName}"/>
 					</td>
                 <th width = "25%" class="grid">
                 	<div align="right">
@@ -140,7 +140,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid">
-					<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${readOnly}" />
+					<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${readOnly}" />
                 </td>
               </tr>
               <tr>
@@ -150,7 +150,7 @@
 					</div>
 				</th>
               	<td width = "25%" class = "grid">
-              		<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewStatusCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewStatusCode}" datePicker="false" readOnly="${readOnly}" />
+              		<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewStatusCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewStatusCode}" datePicker="false" readOnly="${readOnly}" />
               	</td>
                 <th width = "25%" class="grid">
                 	<div align="right">
@@ -158,7 +158,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${readOnly}" />
                 </td>
               </tr>
 			  <tr>
@@ -169,7 +169,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewDeterminationRecommendationCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewDeterminationRecommendationCode}" datePicker="false" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewDeterminationRecommendationCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewDeterminationRecommendationCode}" datePicker="false" readOnly="${readOnly}" />
                 </td>
                 <th width = "25%" class="grid">
                 	<div align="right">
@@ -180,23 +180,15 @@
               </tr>
          	</table>
 			</kra:innerTab>
-			<c:out value = "${onlineReviewActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}"/>
+		
 		
 			<kra-irb-olr:onlineReviewComments actionName="Online" 
-       										  bean="${onlineReviewActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}" 
+       										  bean="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
-       										  property="onlineReviewActionHelper.protocolOnlineReviewsReviewsCommentsList[${renderIndex}]"></kra-irb-olr:onlineReviewComments>
+       										  property="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${renderIndex}]"
+       										  reviewIndex = "${renderIndex}"></kra-irb-olr:onlineReviewComments>
 		
-			<%-- Route log for the review document --%>
-		  		
-       	
-       		<kra:innerTab tabTitle="Route Log" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
-       			<c:if test="${ConfigProperties.test.mode ne 'true'}">
-	  				<iframe onload="setRouteLogIframeDimensions();" name="routeLogIFrame" id="routeLogIFrame" src="${ConfigProperties.workflow.url}/RouteLog.do?routeHeaderId=${KualiForm.onlineReviewActionHelper.protocolOnlineReviewDocuments[renderIndex].documentHeader.documentNumber}" height="500" width="95%" hspace='0' vspace='0' frameborder='0' title='Workflow Route Log for document id: ${KualiForm.onlineReviewActionHelper.protocolOnlineReviewDocuments[renderIndex].documentHeader.documentNumber}'>
-	  				</iframe>
-				</c:if>
-			</kra:innerTab>
 
 			<kra:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
 				<div class = "globalbuttons">

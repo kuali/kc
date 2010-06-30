@@ -28,6 +28,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -50,10 +51,13 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private boolean privateCommentFlag; 
     private boolean finalFlag; 
     private Long protocolReviewerIdFk;
+    private Long protocolOnlineReviewIdFk;
     private ProtocolContingency protocolContingency;
     private MinuteEntryType minuteEntryType;
     private CommScheduleActItem commScheduleActItem;
     private ProtocolReviewer protocolReviewer;
+    
+    private ProtocolOnlineReview protocolOnlineReview;
     private String minuteEntry; 
     
     // TODO : not sure how this protocols yet.
@@ -175,6 +179,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         hashMap.put("finalFlag", this.isFinalFlag());
         hashMap.put("protocolContingencyCode", this.getProtocolContingencyCode());
         hashMap.put("minuteEntry", this.getMinuteEntry());
+        hashMap.put("protocolOnlineReviewIdFk", getProtocolOnlineReviewIdFk() );
         return hashMap;
     }
 
@@ -263,6 +268,39 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
 
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
         this.protocolReviewer = protocolReviewer;
+    }
+    
+    /**
+     * Gets the protocolReviewIdFk attribute. 
+     * @return Returns the protocolReviewIdFk.
+     */
+    public Long getProtocolOnlineReviewIdFk() {
+        return protocolOnlineReviewIdFk;
+    }
+
+    /**
+     * Sets the protocolReviewIdFk attribute value.
+     * @param protocolOnlineReviewIdFk The protocolReviewIdFk to set.
+     */
+    public void setProtocolOnlineReviewIdFk(Long protocolOnlineReviewIdFk) {
+        this.protocolOnlineReviewIdFk = protocolOnlineReviewIdFk;
+    }
+
+    
+    /**
+     * Gets the protocolReview attribute. 
+     * @return Returns the protocolReview.
+     */
+    public ProtocolOnlineReview getProtocolOnlineReview() {
+        return protocolOnlineReview;
+    }
+
+    /**
+     * Sets the protocolReview attribute value.
+     * @param protocolReview The protocolReview to set.
+     */
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolReview) {
+        this.protocolOnlineReview = protocolReview;
     }
 
     /**
