@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
 <c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
@@ -59,7 +60,7 @@
 				</th>
          		<th>
 					<div align="center">
-						<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentPersonnelAttributes['fileId']}" noColon="false"/>
+						<kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false"/>
 					</div>
 				</th>
          		<th>
