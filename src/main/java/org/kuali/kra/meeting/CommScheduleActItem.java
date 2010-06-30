@@ -26,7 +26,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  */
 public class CommScheduleActItem extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 2406440045117841427L;
+    private static final long serialVersionUID = 5688256868516863628L;
     private Long commScheduleActItemsId; 
     private Long scheduleIdFk; 
     private Integer actionItemNumber; 
