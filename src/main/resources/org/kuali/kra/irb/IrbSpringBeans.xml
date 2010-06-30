@@ -15,6 +15,7 @@
     limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
+    	xmlns:p="http://www.springframework.org/schema/p"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
@@ -90,6 +91,16 @@
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolActionService" ref="protocolActionService" />
+    </bean>
+    
+    <bean id = "protocolOnlineReviewService" class = "org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewServiceImpl">
+   		<property name = "kraAuthorizationService" ref = "kraAuthorizationService"/>
+   		<property name = "businessObjectService" ref = "businessObjectService"/>
+   		<property name = "documentService" ref = "documentService"/>
+   		<property name = "protocolAssignReviewersService" ref = "protocolAssignReviewersService"/>
+   		<property name = "personService" ref = "personService"/>
+   		<property name = "identityManagementService" ref = "identityManagementService"/>
+   		<property name = "committeeService" ref = "committeeService"/>
     </bean>
     
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
@@ -494,6 +505,20 @@
         <property name="printingService" ref="printingService" />
         <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
     </bean>
+
+	<bean id="protocolOnlineReviewRoleTypeService"
+			  class="org.kuali.kra.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">
+		<property name="protocolOnlineReviewService">
+			<ref bean="protocolOnlineReviewService" />
+		</property>		
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="protocolOnlineReviewRoleTypeService"
+	      p:localServiceName="protocolOnlineReviewRoleTypeService" />
+	  </property>
+	</bean>
     
     <!-- Protocol Print -->
         <bean id="protocolXmlStream"

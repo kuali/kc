@@ -1,0 +1,64 @@
+<%--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ page import="org.kuali.kra.infrastructure.Constants"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<script src="scripts/jquery/jquery.js"></script>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+</script>
+
+<c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
+
+<style type="text/css">
+   .compare { color: #666666 }
+   .compare td, .compare th { color:#666666; }
+</style>
+
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="protocolOnlineReview"
+	documentTypeName="ProtocolDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="onlineReview">
+  	
+<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Online Review" /></div>
+
+<kra-irb-olr:newOnlineReview/>
+
+<c:forEach items = "${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsForCurrentSubmission}" var = "review" varStatus = "status">
+	<kra-irb-olr:onlineReview renderIndex = "${status.index}"/>
+</c:forEach>
+
+
+<kul:panelFooter />
+<%-- <kul:panelFooter /> --%>
+	<kul:documentControls 
+		transactionalDocument="true"
+		suppressRoutingControls="false"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
+
+
+<script language="javascript">enableJavaScript()</script>
+
+</kul:documentPage>

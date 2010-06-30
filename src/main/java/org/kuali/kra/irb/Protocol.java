@@ -56,6 +56,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
@@ -166,7 +167,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
-    
+    private List<ProtocolOnlineReview> protocolOnlineReviews;
+  
     private ProtocolSubmission protocolSubmission;
     
     /*
@@ -198,6 +200,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         specialReviews = new ArrayList<ProtocolSpecialReview>();
         setProtocolActions(new ArrayList<ProtocolAction>());
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>());
+        setProtocolOnlineReviews( new ArrayList<ProtocolOnlineReview>() );
         protocolAmendRenewals = new ArrayList<ProtocolAmendRenewal>();
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
@@ -411,6 +414,23 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setRelatedProjectsIndicator(String relatedProjectsIndicator) {
         this.relatedProjectsIndicator = relatedProjectsIndicator;
+    }
+
+    
+    /**
+     * Gets the protocolOnlineReviews attribute. 
+     * @return Returns the protocolOnlineReviews.
+     */
+    public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
+        return protocolOnlineReviews;
+    }
+
+    /**
+     * Sets the protocolOnlineReviews attribute value.
+     * @param protocolOnlineReviews The protocolOnlineReviews to set.
+     */
+    public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
+        this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
 

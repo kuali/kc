@@ -25,6 +25,7 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
 public class ProtocolSubmission extends ProtocolAssociate { 
 
@@ -49,6 +50,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
+    private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
     
     private List<ProtocolReviewer> protocolReviewers = new ArrayList<ProtocolReviewer>();
     private ProtocolSubmissionType protocolSubmissionType;
@@ -227,6 +229,22 @@ public class ProtocolSubmission extends ProtocolAssociate {
         return protocolReviewers;
     }
 
+    /**
+     * Gets the protocolReviews attribute. 
+     * @return Returns the protocolReviews.
+     */
+    public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
+        return protocolOnlineReviews;
+    }
+
+    /**
+     * Sets the protocolReviews attribute value.
+     * @param protocolOnlineReviews The protocolReviews to set.
+     */
+    public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
+        this.protocolOnlineReviews = protocolOnlineReviews;
+    }
+    
     public ProtocolReviewType getProtocolReviewType() {
         return protocolReviewType;
     }

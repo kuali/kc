@@ -13,6 +13,7 @@
 <forward name="permissionsEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsEditRoles.jsp" />
 <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/irb/ProtocolPermissionsCloseEditRoles.jsp" />
 <forward name="noteAndAttachment" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+<forward name="onlineReview" path = "/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp"/>
 <forward name="protocolActions" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
 <forward name="customData" path="/WEB-INF/jsp/irb/ProtocolCustomData.jsp" />
 <forward name="specialReview" path="/WEB-INF/jsp/irb/ProtocolSpecialReview.jsp" />

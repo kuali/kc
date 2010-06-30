@@ -22,8 +22,11 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>
 <%@ attribute name="allowReadOnly" required="true" %>
+<%@ attribute name="reviewIndex" required = "true" %>
 
-<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+<c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
+
+<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -46,7 +49,7 @@
                                 (select)
                             </c:when>
                             <c:otherwise>
-                                ${bean.newComment.protocolContingencyCode}
+                                <%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>
                             </c:otherwise>
                         </c:choose> 
                     </td>
@@ -54,8 +57,10 @@
                     <td align="left" valign="middle">
                         <c:choose>
                             <c:when test="${empty bean.newComment.protocolContingencyCode}">
-                                <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
-                                                          attributeEntry="${minutesAttributes.minuteEntry}" />
+                              <c:set var = "prop" value = "${property}.newComment.minuteEntry"/>
+                 	          <kul:htmlControlAttribute property="${prop}" 
+                                                        attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "false" />
+                              	<%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>  
                             </c:when>
                             <c:otherwise>
                                 ${bean.newComment.minuteEntry}
@@ -64,18 +69,22 @@
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
-                        <kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
+                  		<c:set var = "prop" value = "${property}.newComment.privateCommentFlag"/>
+                 	          
+                        <kul:htmlControlAttribute property="${prop}" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" />
+                       <%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>
                     </td>
 					
 					<td valign="middle" style="text-align:center">
+						<c:set var = "prop" value = "${prop}"/>
                         <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
                                                   attributeEntry="${minutesAttributes.finalFlag}" />
                     </td>
 
                     <td>
                         <div align="center">
-                            <html:image property="methodToCall.add${actionName}ReviewComment.anchor${tabKey}"
+                            <html:image property="methodToCall.add${actionName}ReviewComment.${reviewIndex}.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
@@ -90,7 +99,7 @@
                         		</c:when>
                         	</c:choose>>
                     	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
-                    	
+                    	<c:set var="readOnly" value = "false"/>
                         <th>
                         	<%--${status.index + 1} --%>
                         	<c:choose>
