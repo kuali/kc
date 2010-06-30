@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.ProtocolAttachmentProtocol.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="attachmentsHelper" value="${KualiForm.attachmentsHelper}" />
 <c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments}" />
 <c:set var="action" value="protocolNoteAndAttachment" />
@@ -147,7 +148,7 @@
 	         	<tr>
 	         		<th>
 						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
+							<kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
 						</div>
 					</th>
 	       			<td align="left" valign="middle" colspan="3">
@@ -287,7 +288,7 @@
 			         	<tr>
 			         	<th>
 								<div align="right">
-									<kul:htmlAttributeLabel attributeEntry="${protocolAttachmentProtocolAttributes['fileId']}" noColon="false" />
+									<kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
 								</div>
 							</th>
 			       			<td align="left" valign="middle" colspan="3">
@@ -383,7 +384,7 @@
 		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].contactPhoneNumber" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].contactPhoneNumber}" />
 		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].comments" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].comments}" />
 		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].description}" />
-		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].fileId" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].fileId}" />
+		      <html:hidden property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].file.name" value="${KualiForm.document.protocolList[0].attachmentProtocols[itrStatus.index].file.name}" />
 		    </c:otherwise>
 		  </c:choose>
 		</c:forEach>
