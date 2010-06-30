@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
@@ -105,6 +107,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @throws Exception 
      */
     public void initialize() throws Exception {
+        initializeHeaderNavigationTabs(); 
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
@@ -127,28 +130,19 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public ProtocolDocument getDocument() {
         return (ProtocolDocument) super.getDocument();
     }
-
     
     /**
-     * Disable the online review tab, and remove it from the nav list if HIDE_ONLINE_REVIEW_WHEN_DISABLED is true
-     * @param navList
-     * @return
+     * 
+     * This method initializes the loads the header navigation tabs.
      */
-    protected List<HeaderNavigation> disableOnlineReviewTab(List<HeaderNavigation> navList) {
-        HeaderNavigation onlineReview = null;
-        for (HeaderNavigation nav : navList) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
-                onlineReview = nav;
-            }
-        }
-        if (onlineReview != null) {
-            onlineReview.setDisabled(true);
-            if (HIDE_ONLINE_REVIEW_WHEN_DISABLED) {
-                navList.remove(onlineReview); 
-            }
-        }
-        
-        return navList;
+    protected void initializeHeaderNavigationTabs(){
+        DataDictionaryService dataDictionaryService = getDataDictionaryService();
+        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
+                                    .getDocumentEntry(org.kuali.kra.irb.ProtocolDocument.class.getName());
+        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
+        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
+        navList.toArray(list);
+        super.setHeaderNavigationTabs(list); 
     }
     
     /**
@@ -163,39 +157,36 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      */
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
+        
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        
         ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
-        //RoleService roleService = KraServiceLocator.getService(RoleService.class);
-        
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.irb.ProtocolDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+        boolean onlineReviewTabEnabled = false;
+
         if( getProtocolDocument() != null && getProtocolDocument().getProtocol() != null ) {
             boolean isUserOnlineReviewer = onlineReviewService.isUserAnOnlineReviewerOfProtocol(GlobalVariables.getUserSession().getPrincipalId(), getProtocolDocument().getProtocol());
             boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
-            boolean isUserIrbAdmin = false;
-            
-            //TODO: Actually use an authorizer
-            //Collection<String> members = roleService.getRoleMemberPrincipalIds("KC-UNT", "IRB Administrator", new AttributeSet());
-            //if( members != null && members.contains(GlobalVariables.getUserSession().getPrincipalId())) {
-            //    isUserIrbAdmin = true;
-            //}
-            //END TODO
-            
-            if (!(isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin))) { 
-                navList = disableOnlineReviewTab(navList);
-            } else {
-                //leave the onlinereview tab enabled.
-            }
-        } else {
-            navList = disableOnlineReviewTab(navList);
+            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
+            onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
         }
         
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list);
-        return list;
+            //We have to copy the HeaderNavigation elements into a new collection as the 
+            //List returned by DD is it's cached copy of the header navigation list.
+        for (HeaderNavigation nav : navigation) {
+            if (!StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
+                resultList.add(nav);
+            } else {
+                nav.setDisabled(!onlineReviewTabEnabled);
+                if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
+                    resultList.add(nav);
+                }
+            }
+        }
+        
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
     }
     
     /**
@@ -450,6 +441,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         } else {
             return super.isPropertyEditable(propertyName);
         }
+    }
+    
+    public KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService( KraAuthorizationService.class);
     }
 
 }
