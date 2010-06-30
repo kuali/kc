@@ -19,9 +19,6 @@
 		<bean id="ProtocolDocument" parent="ProtocolDocument-parentBean"/>
 		<bean id="ProtocolDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     	
-    	
-    	
-    	
     	<property name="usePessimisticLocking" value="true"/>
     	<property name="useWorkflowPessimisticLocking" value="false"/>
     	
@@ -89,6 +86,14 @@
 	          	<property name="headerTabDisplayName" value="Protocol Actions"/>
 	          	<property name="headerTabNavigateTo" value="protocolActions"/>
         	</bean>
+        	<bean parent="HeaderNavigation">
+	          	<property name="helpDefinition">
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="D"/>
+	          	</property>
+	          	<property name="headerTabDisplayName" value="Online Review"/>
+	          	<property name="headerTabNavigateTo" value="onlineReview"/>
+        	</bean>
+        	
       	</list>
     	</property>
     	

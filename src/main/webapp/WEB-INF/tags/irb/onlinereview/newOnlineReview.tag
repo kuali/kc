@@ -36,10 +36,10 @@
               <tr>
                 <th class="grid"><div align="right">*Reviewer:</div></th>
                 <td nowrap class="grid">
-					<html:select property="onlineReviewActionHelper.newReviewCommitteeMembershipId" tabindex="0">
+					<html:select property="onlineReviewsActionHelper.newProtocolReviewPersonId" tabindex="0">
 						<option value = "">Select...</option>
-						<c:forEach items = "${KualiForm.onlineReviewActionHelper.availableCommitteeMembersForCurrentSubmission}" var = "member">
-							<option value = "${member.committeeMembershipId}" <c:if test = "${KualiForm.onlineReviewActionHelper.newReviewCommitteeMembershipId eq member.committeeMembershipId}">selected="true"</c:if>>
+						<c:forEach items = "${KualiForm.onlineReviewsActionHelper.availableCommitteeMembersForCurrentSubmission}" var = "member">
+							<option value = "${member.personId}" <c:if test = "${KualiForm.onlineReviewsActionHelper.newProtocolReviewPersonId eq member.personId}">selected="true"</c:if>>
 								${member.personName}
 							</option>
 						</c:forEach>
@@ -48,7 +48,7 @@
 				</td>
                 <th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateRequested}" noColon="false" /></div></th>
                 <td class="grid" >
-					<kul:htmlControlAttribute property="onlineReviewActionHelper.newReviewDateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${readOnly}" />
+					<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${readOnly}" />
                 </td>
               </tr>
               <tr>
@@ -57,7 +57,7 @@
               
                 <th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" /></div></th>
                 <td class="grid" >
-					<kul:htmlControlAttribute property="onlineReviewActionHelper.newReviewDateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${readOnly}" />
+					<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${readOnly}" />
                 </td>
               
               </tr>
@@ -70,7 +70,7 @@
 		          horizontal="true"
 		          />
 		      <td align="left" valign="middle">
-		      	<kul:htmlControlAttribute property="onlineReviewActionHelper.newReviewDocumentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${readOnly}"/>
+		      	<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDocumentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${readOnly}"/>
 		      </td>
 		      <kul:htmlAttributeHeaderCell
                   labelFor="document.documentHeader.explanation"
@@ -80,10 +80,10 @@
                   />
 		      <td align="left" valign="middle" rowspan="2">
                   <kul:htmlControlAttribute
-                      property="onlineReviewActionHelper.newReviewExplanation"
+                      property="onlineReviewsActionHelper.newReviewExplanation"
                       attributeEntry="${docHeaderAttributes.explanation}"
                       readOnly="${readOnly}"
-                      readOnlyAlternateDisplay="${fn:replace(fn:escapeXml(onlineReviewActionHelper.newReviewExplanation), Constants.NEWLINE, '<br/>')}"
+                      readOnlyAlternateDisplay="${fn:replace(fn:escapeXml(onlineReviewsActionHelper.newReviewExplanation), Constants.NEWLINE, '<br/>')}"
                       />
               </td>
 		    </tr>
@@ -94,7 +94,7 @@
 		        horizontal="true"
 		      />			  
               <td align="left" valign="middle">
-              	<kul:htmlControlAttribute property="onlineReviewActionHelper.newReviewOrganizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${readOnly}"/>
+              	<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewOrganizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${readOnly}"/>
               </td>
             </tr>
 			</table>   

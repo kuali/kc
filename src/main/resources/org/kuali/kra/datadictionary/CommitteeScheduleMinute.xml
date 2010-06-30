@@ -43,6 +43,7 @@
 				<ref bean="CommitteeScheduleMinute-protocolContingencyCode" />
 				<ref bean="CommitteeScheduleMinute-minuteEntry" />
 				<ref bean="CommitteeScheduleMinute-protocolReviewerIdFk" />
+				<ref bean="CommitteeScheduleMinute-protocolOnlineReviewIdFk" />
 				<ref bean="CommitteeScheduleMinute-versionNumber" />
 			</list>
 		</property>
@@ -257,6 +258,24 @@
         </property>
         <property name="summary" value="Reviewers" />
         <property name="description" value="Reviewers" />
+     </bean>
+
+	<bean id="CommitteeScheduleMinute-protocolOnlineReviewIdFk" parent="CommitteeScheduleMinute-protocolOnlineReviewIdFk-parentBean" />
+    <bean id="CommitteeScheduleMinute-protocolOnlineReviewIdFk-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="protocolOnlineReviewIdFk" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewers" />
+        <property name="shortLabel" value="Reviewers" />
+        <property name="maxLength" value="1000" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+        <property name="summary" value="Protocol Online Review" />
+        <property name="description" value="Protocol Online Review" />
      </bean>
 
 	<bean id="CommitteeScheduleMinute-versionNumber" parent="CommitteeScheduleMinute-versionNumber-parentBean" />

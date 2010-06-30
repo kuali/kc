@@ -38,6 +38,7 @@
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
         <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
+        <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
     </form-beans>
 
 <!-- Rice content Start -->
@@ -312,6 +313,16 @@
       
       <action path="/protocolProtocolActions" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" type="org.kuali.kra.irb.actions.ProtocolProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolProtocolActions.jsp" />
+	    &protocol_forwards;
+      </action>
+      
+      <action path="/protocolOnlineReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
+	    &protocol_forwards;
+      </action>
+      
+      <action path="/protocolOnlineReviewRedirect" name="ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
 	    &protocol_forwards;
       </action>
       
