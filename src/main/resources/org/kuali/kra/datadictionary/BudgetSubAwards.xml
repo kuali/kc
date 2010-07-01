@@ -31,6 +31,8 @@
         <ref bean="BudgetSubAwards-xmlUpdateTimestamp" />
         <ref bean="BudgetSubAwards-xmlUpdateUser" />
         <ref bean="BudgetSubAwards-versionNumber" />
+        <ref bean="BudgetSubAwards-namespace" />
+        <ref bean="BudgetSubAwards-formName" />
       </list>
     </property>
   </bean>
@@ -125,7 +127,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="60" />
+            p:size="40" />
     </property>
     <property name="summary" value="Organization Name" />
     <property name="description" value="Organization Name" />
@@ -240,6 +242,44 @@
   <bean id="BudgetSubAwards-versionNumber" parent="BudgetSubAwards-versionNumber-parentBean" />
 
   <bean id="BudgetSubAwards-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+  <bean id="BudgetSubAwards-namespace" parent="BudgetSubAwards-namespace-parentBean" />
+
+  <bean id="BudgetSubAwards-namespace-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="namespace" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Namespace" />
+    <property name="shortLabel" value="Namespace" />
+    <property name="maxLength" value="200" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Namespace" />
+    <property name="description" value="Namespace" />
+  </bean>
+  <bean id="BudgetSubAwards-formName" parent="BudgetSubAwards-formName-parentBean" />
+
+  <bean id="BudgetSubAwards-formName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="formName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Form Name" />
+    <property name="shortLabel" value="Form Name" />
+    <property name="maxLength" value="100" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Form Name" />
+    <property name="description" value="Form Name" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

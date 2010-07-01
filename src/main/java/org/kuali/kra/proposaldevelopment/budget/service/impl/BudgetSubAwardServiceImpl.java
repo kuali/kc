@@ -41,6 +41,8 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
+import org.kuali.kra.s2s.formmapping.FormMappingInfo;
+import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -60,7 +62,6 @@ import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.XfaForm;
-import com.lowagie.text.pdf.codec.Base64;
 
 /**
  * This class...
@@ -99,8 +100,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXmlFileData()));
         }
         budgetSubAwardFiles.setSubAwardXfdFileName(budgetSubAwardBean.getSubAwardXfdFileName());
-//        budgetSubAwardFiles.setProposalNumber(budgetSubAwardBean.getProposalNumber());
-//        budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwardBean.getBudgetVersionNumber());
         budgetSubAwardFiles.setBudgetId(budgetSubAwardBean.getBudgetId());
         budgetSubAwardFiles.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
         budgetSubAwardBean.setSubAwardXfdFileName(budgetSubAwardBean.getSubAwardXfdFileName());
@@ -108,7 +107,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         budgetSubAwardBean.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
         budgetSubAwardBean.setXmlUpdateUser(getLoggedInUserNetworkId());
         budgetSubAwardBean.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
-//        budgetSubAwardBean.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
     }
     /**
      * This method return loggedin user id
@@ -116,31 +114,28 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private String getLoggedInUserNetworkId() {
         return GlobalVariables.getUserSession().getPrincipalName();
     }
-    private List<BudgetSubAwardAttachment> getSubAwardAttachments(BudgetSubAwards budgetSubAwardBean) {
-        List<BudgetSubAwardAttachment> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachment>) budgetSubAwardBean.getBudgetSubAwardAttachments();
-        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
-        if(budgetSubAwardBeanAttachments!=null)
-        for(BudgetSubAwardAttachment budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
-            BudgetSubAwardAttachment budgetSubAwardAttachment = new BudgetSubAwardAttachment();
-            try {
-                BeanUtils.copyProperties(budgetSubAwardAttachment, budgetSubAwardAttachmentBean);
-//                budgetSubAwardAttachment.setProposalNumber(budgetSubAwardBean.getProposalNumber());
-//                budgetSubAwardAttachment.setBudgetVersionNumber(budgetSubAwardBean.getBudgetVersionNumber());
-                budgetSubAwardAttachment.setBudgetId(budgetSubAwardBean.getBudgetId());
-                budgetSubAwardAttachment.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
-            }
-            catch (IllegalAccessException e) {
-                LOG.warn(e);
-            }
-            catch (InvocationTargetException e) {
-                LOG.warn(e);
-            }
-//            budgetSubAwardAttachment.setBudgetVersionNumber(budgetSubAwardAttachmentBean.getBudgetVersionNumber());
-            budgetSubAwardAttachment.setBudgetId(budgetSubAwardAttachmentBean.getBudgetId());
-            budgetSubAwardAttachments.add(budgetSubAwardAttachment);            
-        }
-        return budgetSubAwardAttachments;
-    }
+//    private List<BudgetSubAwardAttachment> getSubAwardAttachments(BudgetSubAwards budgetSubAwardBean) {
+//        List<BudgetSubAwardAttachment> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachment>) budgetSubAwardBean.getBudgetSubAwardAttachments();
+//        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
+//        if(budgetSubAwardBeanAttachments!=null)
+//        for(BudgetSubAwardAttachment budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
+//            BudgetSubAwardAttachment budgetSubAwardAttachment = new BudgetSubAwardAttachment();
+//            try {
+//                BeanUtils.copyProperties(budgetSubAwardAttachment, budgetSubAwardAttachmentBean);
+//                budgetSubAwardAttachment.setBudgetId(budgetSubAwardBean.getBudgetId());
+//                budgetSubAwardAttachment.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
+//            }
+//            catch (IllegalAccessException e) {
+//                LOG.warn(e);
+//            }
+//            catch (InvocationTargetException e) {
+//                LOG.warn(e);
+//            }
+//            budgetSubAwardAttachment.setBudgetId(budgetSubAwardAttachmentBean.getBudgetId());
+//            budgetSubAwardAttachments.add(budgetSubAwardAttachment);            
+//        }
+//        return budgetSubAwardAttachments;
+//    }
     
     /**
      * extracts XML from PDF
@@ -172,7 +167,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         Map fileMap = new HashMap();
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
-
         if (names != null) {
             PdfDictionary embFiles = (PdfDictionary)
             PdfReader.getPdfObject(names.get(new PdfName("EmbeddedFiles")));
@@ -184,12 +178,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                     if(fileMap.containsKey(fileInfo[0])) {
                         throw new RuntimeException(DUPLICATE_FILE_NAMES);
                     }
-
                     fileMap.put(fileInfo[0], fileInfo[1]);
                 }
             }
         }
-
         for (int k = 1; k <= reader.getNumberOfPages(); ++k) {
             PdfArray annots = (PdfArray) PdfReader.getPdfObject(reader.getPageN(k).get(PdfName.ANNOTS));
             if (annots == null) {
@@ -263,11 +255,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      */
 
   private BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean) throws Exception {
-        String globhashValue = "glob:HashValue";
-        String globHashAlgorithm = "glob:hashAlgorithm";
-        String attFileName = "att:FileName";
-        String fileLocation = "att:FileLocation";
-        String fileContentId = "att:href";
 
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -276,6 +263,20 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
 
+        if (document != null) {
+            Node node;
+            String formName, namespace;
+            Element element = document.getDocumentElement();
+            String name = element.getNodeName();
+            NamedNodeMap map = element.getAttributes();
+            String namespaceHolder = element.getNodeName().substring(0, element.getNodeName().indexOf(':'));
+            node = map.getNamedItem("xmlns:" + namespaceHolder);
+            namespace = node.getNodeValue();
+            FormMappingInfo formMappingInfo = new FormMappingLoader().getFormInfo(namespace);
+            formName = formMappingInfo.getFormName();
+            budgetSubAwardBean.setNamespace(namespace);
+            budgetSubAwardBean.setFormName(formName);
+        }
         
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
@@ -309,9 +310,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.NamedNodeMap fileNodeMap, hashNodeMap;
         String fileName;
         byte fileBytes[];
-        String hashAlgorithm;
-        HashValue hashValueType;
-        String hashValue;
         String contentId;
         List attachmentList = new ArrayList();
 
@@ -327,14 +325,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 throw new RuntimeException("FileName mismatch in XML and PDF extracted file");
             }
             String hashVal = GrantApplicationHash.computeAttachmentHash(fileBytes);
-//            hashValueType = getValue(fileBytes);
-//            Node newHashValueNode = hashValueType.getDomNode();
-//            NodeList oldHashValueLst = ((Element)parentNode).getElementsByTagName("att:HashValue");
-//            Node oldHashNode = oldHashValueLst.item(0);
-//            parentNode.replaceChild(newHashValueNode, oldHashNode);
-//            hashAlgorithm = hashValueType.getHashAlgorithm();
-//            byte hashBytes[] = hashValueType.getByteArrayValue();
-//            hashValue = Base64.encodeBytes(hashBytes);
 
             hashNode = lstHashValue.item(index);
             hashNodeMap = hashNode.getAttributes();
@@ -389,7 +379,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
 
     private String cleanContentId(String contentId) {
-//        contentId = StringUtils.substringBefore(contentId, ".");
         return StringUtils.replaceChars(contentId, " .%-_", "");
     }
     public void populateBudgetSubAwardAttachments(Budget budget) {
@@ -435,7 +424,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         return createHashValueType(GrantApplicationHash.computeAttachmentHash(fileBytes));
     }
     private HashValue createHashValueType(String hashValueStr) throws Exception{
-//        String hashVal = GrantApplicationHash.computeGrantFormsHash(hashValueStr);
         HashValue hashValue = HashValue.Factory.newInstance();
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
         hashValue.setStringValue(hashValueStr);

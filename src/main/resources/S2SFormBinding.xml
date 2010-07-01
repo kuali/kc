@@ -543,6 +543,18 @@
 		<pkgName>gov.grants.apply.forms.rrFedNonFedBudgetV11</pkgName>
 	</Form>
 	<Form
+		namespace="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget-V1.2">
+		<formName>RR_FedNonFed_SubawardBudget-V1.2</formName>
+		<mainClass>
+			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudgetV1_2Generator
+		</mainClass>
+		<stylesheet>
+			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget-V1.2.fo.xsl
+		</stylesheet>
+		<pkgName>gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12</pkgName>
+	</Form>
+	
+	<Form
 		namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded-V1.0">
 		<formName>RR_KeyPersonExpanded-V1.0</formName>
 		<mainClass>
