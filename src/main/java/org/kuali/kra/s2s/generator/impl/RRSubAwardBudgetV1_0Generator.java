@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget;
 import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument;
+import gov.grants.apply.forms.rrBudgetV10.RRBudgetDocument.RRBudget;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument.RRSubawardBudget;
 import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument.RRSubawardBudget.BudgetAttachments;
@@ -24,17 +24,14 @@ import gov.grants.apply.forms.rrSubawardBudgetV10.RRSubawardBudgetDocument.RRSub
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.kra.s2s.validator.S2SErrorMessages;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,7 +45,6 @@ import org.w3c.dom.NodeList;
  */
 public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(RRSubAwardBudgetV1_0Generator.class);
 
     /**
      * 
@@ -61,7 +57,7 @@ public class RRSubAwardBudgetV1_0Generator extends RRSubAwardBudgetBaseGenerator
 
         RRSubawardBudget rrSubawardBudget = RRSubawardBudget.Factory.newInstance();
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc);
+        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_BUDGET_10_NAMESPACE_URI, true);
         RRBudget[] budgetList = new RRBudget[budgetSubAwardsList.size()];
 
 
