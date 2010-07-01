@@ -51,6 +51,11 @@
 		<!-- Rice hack this isn't really the right namespace but we cannot set it correctly until we address modularity
 		(breaking up our DD files, SpringBeans, namespaces, etc. -->
 		<property name="namespaceCode" value="KC-SYS" />
+		<property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kra</value>
+            </list>
+        </property>
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kra/datadictionary</value>
