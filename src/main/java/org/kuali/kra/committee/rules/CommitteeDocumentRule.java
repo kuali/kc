@@ -211,6 +211,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
         objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
+        if (objXml.contains("itemDesctiption")) {
+            objXml = objXml.replaceAll("itemDesctiption", "itemDescription");
+        }
         PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
     }
