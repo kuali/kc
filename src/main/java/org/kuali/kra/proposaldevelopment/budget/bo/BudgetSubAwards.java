@@ -42,6 +42,8 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
 	private String xfdUpdateUser;
 	private Timestamp xmlUpdateTimestamp;
 	private String xmlUpdateUser;
+	private String namespace;
+	private String formName;
 	private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
     
@@ -294,6 +296,34 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+    /**
+     * Gets the namespace attribute. 
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return namespace;
+    }
+    /**
+     * Sets the namespace attribute value.
+     * @param namespace The namespace to set.
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+    /**
+     * Gets the formName attribute. 
+     * @return Returns the formName.
+     */
+    public String getFormName() {
+        return formName;
+    }
+    /**
+     * Sets the formName attribute value.
+     * @param formName The formName to set.
+     */
+    public void setFormName(String formaName) {
+        this.formName = formaName;
     }
     
 }

@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,6 +35,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -41,6 +44,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -58,7 +62,6 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
     protected static final String LOCAL_NAME = "RR_Budget";
     protected static final String ERROR1_PROPERTY_KEY = "s2sSubawardBudgetV1-2_10000";
     protected static final String ERROR2_PROPERTY_KEY = "s2sSubawardBudget_10002";
-    
     /**
      * This method convert node of form in to a Document
      * 
@@ -173,11 +176,39 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return List<BudgetSubAwards> list of budget sub awards.
      */
-    protected List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    @SuppressWarnings("unchecked")
+    protected List<BudgetSubAwards> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
+            String namespace,boolean checkNull) {
+        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
         Budget budget = findBudgetFromProposal(proposalDevelopmentDocument);
-        List<BudgetSubAwards> budgetSubAwardsList = budget==null?new ArrayList<BudgetSubAwards>():budget.getBudgetSubAwards();
-        if(budgetSubAwardsList.isEmpty()){
+        if(budget==null){
             getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
+        }else{
+            budgetSubAwardsList = findBudgetSubawards(namespace, budget,checkNull);
+            if(budgetSubAwardsList.isEmpty()){
+                getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
+            }
+        }
+        return budgetSubAwardsList;
+    }
+
+
+    /**
+     * This method...
+     * @param namespace
+     * @param budget
+     * @return
+     */
+    private List<BudgetSubAwards> findBudgetSubawards(String namespace, Budget budget,boolean checkNull) {
+        List<BudgetSubAwards> budgetSubAwardsList;
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("budgetId", budget.getBudgetId());
+        paramMap.put("namespace", namespace);
+        budgetSubAwardsList = (List<BudgetSubAwards>)getBusinessObjectService().findMatching(BudgetSubAwards.class, paramMap);
+        if(checkNull){
+            paramMap.put("namespace", null);
+            budgetSubAwardsList.addAll(
+                    getBusinessObjectService().findMatching(BudgetSubAwards.class, paramMap));
         }
         return budgetSubAwardsList;
     }
@@ -200,5 +231,15 @@ public abstract class RRSubAwardBudgetBaseGenerator extends S2SBaseFormGenerator
         return finalBudget;
         
     }
-    
+
+
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+
 }

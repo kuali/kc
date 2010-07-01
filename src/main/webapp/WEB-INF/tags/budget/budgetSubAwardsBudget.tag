@@ -25,9 +25,10 @@
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="5%"><div align="center">&nbsp;</div></th> 
-          		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
-          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
-          		<th width="23%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
+          		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
+          		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.formName}" noColon="true" /></div></th>
+          		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
+          		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
 			<c:if test="${!readOnly}" >
@@ -39,6 +40,11 @@
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newSubAward.organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" />
 	                	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:newSubAward.organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
+	                	</div>
+					</td>
+					<td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newSubAward.formName" attributeEntry="${budgetSubAwardsAttributes.formName}" readOnly="true"/>
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
@@ -75,6 +81,11 @@
 					</td>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].formName" attributeEntry="${budgetSubAwardsAttributes.formName}" readOnly="true"/>
+	                	</div>
+					</td>
+					<td valign="middle" class="infoline">
+	                	<div align="center">
 	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].comments" attributeEntry="${budgetSubAwardsAttributes.comments}" readOnly="true"/>
 	                	</div>
 					</td>
@@ -96,7 +107,7 @@
 	                </td>
 	             </tr>
 	             <tr>	             	
-	        		<td colspan = "4">
+	        		<td colspan = "5">
 	             	<kra:innerTab parentTab="budgetSubAwards" defaultOpen="false" tabTitle="Details" tabErrorKey="" useCurrentTabIndexAsKey="true">
 	             		<div>
     						<table cellpadding=0 cellspacing=0 summary="">
@@ -115,6 +126,10 @@
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardStatusCode}" noColon="true" /></div></th>
 					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardStatusCode" attributeEntry="${budgetSubAwardsAttributes.subAwardStatusCode}" readOnly="true"/></div></td>
+			        			</tr>
+			        			<tr>		        					
+					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.namespace}" noColon="true" /></div></th>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].namespace" attributeEntry="${budgetSubAwardsAttributes.namespace}" readOnly="true"/></div></td>
 			        			</tr>
 			        		</table>
 			        	</div>		

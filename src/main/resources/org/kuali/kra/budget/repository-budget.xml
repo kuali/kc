@@ -955,6 +955,8 @@
 		<field-descriptor name="xfdUpdateUser" column="XFD_UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="xmlUpdateTimestamp" column="XML_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="xmlUpdateUser" column="XML_UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="namespace" column="NAMESPACE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
