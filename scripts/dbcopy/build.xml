@@ -1,0 +1,51 @@
+<project name="DBCopy" default="build" basedir=".">
+	
+	<!-- 
+	     These are the default properties used in the program.  You may wish to change them
+	     based on your environment.  If you like to run Ant on the command line, for example,
+	     you can define where sqlplus sits by defining a Java environment variable:
+	     
+	     ant build.xml -Dsqlplus.location=C:\path\to\oracle\BIN\sqlplus.exe
+	     
+	     You can also run Ant in Eclipse natively; in this case, you would go to External Tools
+	     Configurations and define the variables in the Environment tab.
+	     
+	     Enjoy!
+	-->
+	<property name="sqlplus.location" value="sqlplus"/>
+	<property name="dba.username" value="kradev"/>
+	<property name="dba.password" value="dev174kra"/>
+	<property name="unt.username" value="kraunt"/>
+	<property name="unt.password" value="unt174kra"/>
+	<property name="db.host" value="localhost"/>
+	<property name="db.sid" value="XE"/>
+
+    <target name="build" depends="oracle-embedded,oracle-test,clean"/>
+	
+	<target name="init">
+        <copy todir="." flatten="true">
+            <resources>
+                <url url="http://db.kc.kuali.org/userContent/extracts/devdb_oracle.zip"/>
+            </resources>
+        </copy>
+        <unzip src="devdb_oracle.zip" dest="."/>
+    </target>
+	
+	<target name="oracle-embedded" depends="init">
+        <exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${dba.username}/${dba.password}@//${db.host}/${db.sid} @oracle_embedded.sql"/>
+        </exec>
+    </target>
+	
+	<target name="oracle-test" depends="init">
+        <exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${unt.username}/${unt.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
+        </exec>
+	</target>
+	
+	<target name="clean">
+        <delete dir="oracle"/>
+        <delete file="devdb_oracle.zip"/>
+	</target>
+
+</project>
