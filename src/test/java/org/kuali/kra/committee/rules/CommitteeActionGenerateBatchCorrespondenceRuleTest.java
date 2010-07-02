@@ -18,11 +18,12 @@ package org.kuali.kra.committee.rules;
 import java.sql.Date;
 
 import org.junit.Test;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 
-public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
+public class CommitteeActionGenerateBatchCorrespondenceRuleTest extends KraTestBase {
     
     @Test
     public void testTrue() {
@@ -34,8 +35,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
                 String batchCorrespondenceTypeCode = "1";
                 Date startDate = Date.valueOf("2010-01-01");
                 Date endDate = Date.valueOf("2010-12-31");
+                String committeeId = "Committee1";
                 
-                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
+                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
                 rule = new CommitteeActionGenerateBatchCorrespondenceRule();
                 expectedReturnValue = true;
             }
@@ -52,8 +54,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
                 String batchCorrespondenceTypeCode = null;
                 Date startDate = Date.valueOf("2010-01-01");
                 Date endDate = Date.valueOf("2010-12-31");
+                String committeeId = "Committee1";
                 
-                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
+                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
                 rule = new CommitteeActionGenerateBatchCorrespondenceRule();
                 expectedReturnValue = false;
             }
@@ -70,8 +73,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
                 String batchCorrespondenceTypeCode = "1";
                 Date startDate = null;
                 Date endDate = Date.valueOf("2010-12-31");
+                String committeeId = "Committee1";
                 
-                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
+                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
                 rule = new CommitteeActionGenerateBatchCorrespondenceRule();
                 expectedReturnValue = false;
             }
@@ -88,8 +92,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
                 String batchCorrespondenceTypeCode = "1";
                 Date startDate = Date.valueOf("2010-01-01");
                 Date endDate = null;
+                String committeeId = "Committee1";
                 
-                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
+                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
                 rule = new CommitteeActionGenerateBatchCorrespondenceRule();
                 expectedReturnValue = false;
             }
@@ -106,8 +111,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRuleTest {
                 String batchCorrespondenceTypeCode = "1";
                 Date startDate = Date.valueOf("2010-12-31");
                 Date endDate = Date.valueOf("2010-01-01");
+                String committeeId = "Committee1";
                 
-                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
+                event = new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
                 rule = new CommitteeActionGenerateBatchCorrespondenceRule();
                 expectedReturnValue = false;
             }
