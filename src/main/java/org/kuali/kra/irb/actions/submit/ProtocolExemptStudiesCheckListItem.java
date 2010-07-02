@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
@@ -116,6 +117,9 @@ public class ProtocolExemptStudiesCheckListItem extends KraPersistableBusinessOb
     }
 
     public ExemptStudiesCheckListItem getExemptStudiesCheckListItem() {
+        if (exemptStudiesCheckListItem == null && StringUtils.isNotBlank(exemptStudiesCheckListCode)) {
+            refreshReferenceObject("exemptStudiesCheckListItem");
+        }
         return exemptStudiesCheckListItem;
     }
 

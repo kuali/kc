@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
@@ -112,6 +113,9 @@ public class ProtocolExpeditedReviewCheckListItem extends KraPersistableBusiness
     }
 
     public ExpeditedReviewCheckListItem getExpeditedReviewCheckListItem() {
+        if (expeditedReviewCheckListItem == null && StringUtils.isNotBlank(expeditedReviewCheckListCode)) {
+            refreshReferenceObject("expeditedReviewCheckListItem");
+        }
         return expeditedReviewCheckListItem;
     }
 
