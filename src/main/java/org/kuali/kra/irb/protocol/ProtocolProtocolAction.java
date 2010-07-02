@@ -84,7 +84,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
             ProtocolActionType.PROTOCOL_CREATED);
         protocolAction.setComments(PROTOCOL_CREATED);
         protocol.getProtocolActions().add(protocolAction);
-        getBusinessObjectService().save(protocol);
     }
 
     /**
