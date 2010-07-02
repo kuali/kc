@@ -41,7 +41,6 @@ import org.kuali.rice.test.data.UnitTestFile;
                     @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocols_for_protocoldaotest.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-                    @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_protocol.sql", delimiter = ";"),
                     @UnitTestFile(filename = "classpath:sql/dml/load_ProtocolDaoOjbTest_data.sql", delimiter = ";")
             }
