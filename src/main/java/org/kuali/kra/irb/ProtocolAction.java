@@ -42,11 +42,14 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -228,6 +231,20 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
         unitAclLoadService.loadUnitAcl(permissionable);
 
+    }
+    
+    /**
+     * Checks for a valid save on close, setting up the required variables, before proceeding with save.
+     * 
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+
+        if (isValidSave(protocolForm)) {
+            super.saveOnClose(form);
+        }
     }
 
     /** {@inheritDoc} */
