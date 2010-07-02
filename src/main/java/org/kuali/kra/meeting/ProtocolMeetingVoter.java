@@ -20,8 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.SubmissionDetailsShare;
 
-public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase implements SubmissionDetailsShare {
     private Long protocolIdFk; 
     private Long scheduleIdFk; 
     private String personId; 
@@ -29,6 +30,8 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
     private String comments; 
     private Protocol protocol;
     private CommitteeSchedule committeeSchedule;
+    // transient for display
+    private String fullName;
 
     public String getPersonId() {
         return personId;
@@ -98,4 +101,13 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
+    
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }    
+
 }

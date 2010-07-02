@@ -26,6 +26,7 @@
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 <%@ attribute name="overrideToggleTabMethodString" required="false" %>
+<%@ attribute name="overrideDivClass" required="false" %>
 
 <%-- THIS TAG IS NOT A STANDARD PART OF RICE.  THIS IS A KC EXTENSION --%>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
@@ -39,6 +40,9 @@
         <c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" scope="request"/>
     </c:otherwise>
 </c:choose>
+    <c:if test="${empty overrideDivClass}">
+        <c:set var="overrideDivClass" value="innerTab-head"/>
+    </c:if>
 
 <!--  hit form method to increment tab index -->
 <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
@@ -66,7 +70,7 @@
   <c:set var="tabTitle" value="${tabTitle} (${tabItemCount})" />
 </c:if>
               
-	              <div class="innerTab-head">
+	              <div class="${overrideDivClass}">
 	              <c:if test="${!noShowHideButton}" >	              
 	               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 	                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;

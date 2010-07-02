@@ -444,7 +444,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
     org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     org.kuali.kra.irb.actions.print.ProtocolPrintingServiceTest.class,
-    org.kuali.kra.irb.actions.decision.CommitteeDecisionRuleTest.class
+    org.kuali.kra.irb.actions.decision.CommitteeDecisionRuleTest.class,
+    org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

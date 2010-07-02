@@ -205,4 +205,12 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             nextEntryNumber++;
         }
     }
+    
+    public List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long scheduleId, Class<? extends ProtocolMeetingVoter> clazz) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolIdFk", protocolId.toString() );
+        fieldValues.put("scheduleIdFk", scheduleId.toString());
+        return (List<? extends ProtocolVoteAbstainee>)businessObjectService.findMatching(clazz, fieldValues);
+
+    }
 }

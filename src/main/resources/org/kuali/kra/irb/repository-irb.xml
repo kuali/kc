@@ -847,7 +847,7 @@
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>
-        <reference-descriptor name="exemptStudiesCheckListItem" class-ref="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="exemptStudiesCheckListItem" class-ref="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="exemptStudiesCheckListCode"/>
         </reference-descriptor>
     </class-descriptor> 
@@ -870,7 +870,7 @@
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>
-        <reference-descriptor name="expeditedReviewCheckListItem" class-ref="org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="expeditedReviewCheckListItem" class-ref="org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="expeditedReviewCheckListCode"/>
         </reference-descriptor>
     </class-descriptor> 
@@ -895,7 +895,7 @@
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>
-        <reference-descriptor name="protocolReviewerType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewerType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="protocolReviewerType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewerType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="reviewerTypeCode"/>
         </reference-descriptor>
         <collection-descriptor name="protocolOnlineReviews" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" auto-retrieve="false" auto-update="object" auto-delete="object">
