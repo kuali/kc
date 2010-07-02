@@ -132,6 +132,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
         }
+        // make sure current submission is displayed when navigate to action page.
         protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
        ((ProtocolForm)form).getActionHelper().prepareView();
         return mapping.findForward("protocolActions");
