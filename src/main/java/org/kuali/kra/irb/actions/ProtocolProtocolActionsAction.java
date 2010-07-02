@@ -786,6 +786,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
+        ((ProtocolForm) form).getActionHelper().initSubmissionDetails();
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -807,6 +808,26 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
 
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    public ActionForward viewPreviousSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getCurrentSubmissionNumber() - 1);
+        protocolForm.getActionHelper().initSubmissionDetails();
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward viewNextSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getCurrentSubmissionNumber() + 1);
+        protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(MAPPING_BASIC);
     }
 
