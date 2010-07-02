@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.SubmissionDetailsShare;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.rice.kim.bo.Person;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewer extends KraPersistableBusinessObjectBase implements SubmissionDetailsShare {
 
     private Long protocolReviewerId;
     private Long protocolId;
@@ -40,6 +41,8 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
     private ProtocolReviewerType protocolReviewerType;
+    // transient property for submission detail display
+    private String fullName;
 
     private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
 
@@ -136,6 +139,9 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     }
 
     public ProtocolReviewerType getProtocolReviewerType() {
+        if (protocolReviewerType == null && StringUtils.isNotBlank(reviewerTypeCode)) {
+            refreshReferenceObject("protocolReviewerType");
+        }
         return protocolReviewerType;
     }
 
@@ -175,4 +181,11 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         return map;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }

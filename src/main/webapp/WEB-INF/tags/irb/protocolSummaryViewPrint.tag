@@ -14,7 +14,7 @@
 	<div class="tab-container" align="left">
 		
 		<kra-irb:protocolSummaryPanel />
-		<kra-irb:protocolViewNotes />
+		<kra-irb:protocolSubmissionDetailsPanel />
 		<kra-irb:protocolViewHistory />
 		
     </div>	    

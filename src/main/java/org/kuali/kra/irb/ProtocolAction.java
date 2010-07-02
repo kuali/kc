@@ -129,6 +129,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
         }
+        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
        ((ProtocolForm)form).getActionHelper().prepareView();
         return mapping.findForward("protocolActions");
     }

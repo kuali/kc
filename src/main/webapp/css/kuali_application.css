@@ -56,6 +56,19 @@ div.innerTab-container{
 	background-repeat: repeat-y;
 }
 
+div.inner-subhead
+{
+	font-weight: bold;
+	background-color: #C3C3C3;
+	padding: 2px;
+	height: 18px;
+	text-align: left;
+	padding-left:15px;
+	border-bottom:0px solid #B2B2B2;
+	border-left: 0px solid #999999;
+}
+
+
 div.same-line{
 	float: left; 
 	text-align: left;

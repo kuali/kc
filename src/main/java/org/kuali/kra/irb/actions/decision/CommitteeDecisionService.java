@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.util.List;
+
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.meeting.ProtocolMeetingVoter;
 
 /**
  * The Committee Decision Service processes committee decisions.
@@ -28,4 +31,7 @@ public interface CommitteeDecisionService {
      * @param committeeDecision
      */
     void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision);
+    
+    List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long scheduleId, Class<? extends ProtocolMeetingVoter> clazz);
+
 }

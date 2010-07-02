@@ -23,8 +23,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -32,6 +35,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
+import org.kuali.kra.irb.SubmissionDetailsShare;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
@@ -41,6 +45,7 @@ import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
@@ -49,6 +54,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -58,6 +64,9 @@ import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -173,7 +182,12 @@ public class ActionHelper implements Serializable {
     
     private ProtocolRiskLevel newRiskLevel;
     private List<ProtocolRiskLevel> riskLevels = null;
-    
+    private ProtocolSubmission selectedSubmission;
+    private List<CommitteeScheduleMinute> reviewComments;        
+    private List<ProtocolVoteAbstainee> abstainees;        
+    private List<ProtocolVoteRecused> recusers;        
+    private int currentSubmissionNumber = -1;
+
     /**
      * @throws Exception 
      * Constructs an ActionHelper.
@@ -486,6 +500,26 @@ public class ActionHelper implements Serializable {
             riskLevels = new ArrayList<ProtocolRiskLevel>();
             riskLevels.addAll(getProtocol().getProtocolRiskLevels());
         }
+        // TODO : temporary for development
+//        if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
+//            currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
+//            setSelectedSubmission(getProtocol().getProtocolSubmissions().get(currentSubmissionNumber));
+//        } else {
+//            setSelectedSubmission(getProtocol().getProtocolSubmission());
+//
+//        }
+//        if (selectedSubmission.getCommitteeSchedule() != null) {
+//            setReviewComments();
+//            setAbstainees(getCommitteeDecisionService().getAbstainees(selectedSubmission.getProtocolId(),
+//                    selectedSubmission.getScheduleIdFk()));
+//        } else {
+//            reviewComments = new ArrayList<CommitteeScheduleMinute>();
+//            abstainees = new ArrayList<ProtocolVoteAbstainee>();
+//        }
+        if (getCurrentSubmissionNumber() == -1) {
+            initSubmissionDetails();
+        }
+
     }
 
     private void createProtocolSummaries() {
@@ -1082,5 +1116,149 @@ public class ActionHelper implements Serializable {
 
     public List<ProtocolRiskLevel> getRiskLevels() {
         return riskLevels;
+    }
+
+
+    public ProtocolSubmission getSelectedSubmission() {
+        return selectedSubmission;
+        
+    }
+
+    public void setSelectedSubmission(ProtocolSubmission selectedSubmission) {
+        this.selectedSubmission = selectedSubmission;
+        setupReviewerName(); 
+
+    }
+    
+    private void setupReviewerName() {
+        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
+            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
+                    selectedSubmission.getCommitteeSchedule().getScheduleId());
+            for (CommitteeMembership member : members) {
+                for (ProtocolReviewer reviewer : selectedSubmission.getProtocolReviewers()) {
+                    if (isPersonMatched(member, reviewer)) {
+                        reviewer.setFullName(member.getPersonName());
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
+    
+    private CommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeService.class);
+    }
+
+
+    public List<CommitteeScheduleMinute> getReviewComments() {
+        return reviewComments;
+    }
+
+
+    public void setReviewComments() {
+        reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        if (getSelectedSubmission() != null && CollectionUtils.isNotEmpty(getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes())) {
+            for (CommitteeScheduleMinute minute : getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes()) {
+                if (minute.getMinuteEntryTypeCode().equals(MinuteEntryType.PROTOCOL) 
+                        && minute.getProtocolId().equals(selectedSubmission.getProtocolId())) {
+                    reviewComments.add(minute);
+                }
+
+            }
+        }
+    }
+
+
+    public List<ProtocolVoteAbstainee> getAbstainees() {
+        return abstainees;
+    }
+
+
+    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
+        this.abstainees = abstainees;
+    }
+    
+    private CommitteeDecisionService getCommitteeDecisionService() {
+        return KraServiceLocator.getService("protocolCommitteeDecisionService");
+    }
+    
+    private void setupVoterName() {
+        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
+            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
+                    selectedSubmission.getCommitteeSchedule().getScheduleId());
+            for (CommitteeMembership member : members) {
+                for (ProtocolVoteAbstainee abstainee : abstainees) {
+                    if (isPersonMatched(member, abstainee)) {
+                        abstainee.setFullName(member.getPersonName());
+                        break;
+                    }
+                }
+                for (ProtocolVoteRecused recuser : recusers) {
+                    if (isPersonMatched(member, recuser)) {
+                        recuser.setFullName(member.getPersonName());
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
+
+    
+    private boolean isPersonMatched(CommitteeMembership member, SubmissionDetailsShare voterOrReviewer) {
+        boolean isMatched = false;
+        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(voterOrReviewer.getPersonId())) {
+            isMatched = true;
+        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(voterOrReviewer.getPersonId()) ){
+            isMatched = true;
+        }
+        return isMatched;
+
+    }
+
+
+    public int getCurrentSubmissionNumber() {
+        return currentSubmissionNumber;
+    }
+
+
+    public void setCurrentSubmissionNumber(int currentSubmissionNumber) {
+        this.currentSubmissionNumber = currentSubmissionNumber;
+    }
+
+    public void initSubmissionDetails() {
+        // TODO : temporary for development
+        if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
+            currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
+        }    
+        if (currentSubmissionNumber > -1) {
+            setSelectedSubmission(getProtocol().getProtocolSubmissions().get(currentSubmissionNumber));
+        } else if (currentSubmissionNumber == -1) {
+            setSelectedSubmission(getProtocol().getProtocolSubmission());
+
+        }
+        if (selectedSubmission.getCommitteeSchedule() != null) {
+            setReviewComments();
+            setAbstainees((List<ProtocolVoteAbstainee>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
+                    selectedSubmission.getScheduleIdFk(), ProtocolVoteAbstainee.class));
+            setRecusers((List<ProtocolVoteRecused>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
+                    selectedSubmission.getScheduleIdFk(), ProtocolVoteRecused.class));
+            setupVoterName();
+        } else {
+            reviewComments = new ArrayList<CommitteeScheduleMinute>();
+            abstainees = new ArrayList<ProtocolVoteAbstainee>();
+        }
+
+    }
+
+
+    public List<ProtocolVoteRecused> getRecusers() {
+        return recusers;
+    }
+
+
+    public void setRecusers(List<ProtocolVoteRecused> recusers) {
+        this.recusers = recusers;
     }
 }
