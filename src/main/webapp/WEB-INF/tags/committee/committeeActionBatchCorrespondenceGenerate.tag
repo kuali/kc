@@ -4,6 +4,8 @@
 <c:set var="batchCorrespondenceDetailAttributes" value="${DataDictionary.BatchCorrespondenceDetail.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
+<kra:softError softErrorKey="committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode" />
+
 <h3>
     <span class="subhead-left">Generate Batch Correspondence</span>
     <span class="subhead-right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Actions" /></span>

@@ -28,14 +28,6 @@ import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
-       ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTO_CORRESP_TYPE.sql", delimiter = ";") 
-       ,@UnitTestFile(filename = "classpath:sql/dml/load_BATCH_CORRESPONDENCE.sql", delimiter = ";")
-     }
- )
-)
-
 public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
     
     private static final String REFRESH_BUTTON = "methodToCall.start";
@@ -114,7 +106,7 @@ public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
         setFieldValue(page, FINAL_ACTION_DAY_FIELD, "");
         page= clickOn(getElementByName(page, "methodToCall.save"));
         assertTrue(hasError(page));
-        assertContains(page, "Correspondence period missing.");
+        assertContains(page, "Final action day missing.");
         
         // save document
         setFieldValue(page, FINAL_ACTION_DAY_FIELD, "60");

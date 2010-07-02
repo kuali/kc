@@ -28,13 +28,15 @@ public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeAc
     String batchCorrespondenceTypeCode;
     Date startDate;
     Date endDate;
+    String committeeId;
     
     public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
-            Date startDate, Date endDate) {
+            Date startDate, Date endDate, String committeeId) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
         setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
         setStartDate(startDate);
         setEndDate(endDate);
+        setCommitteeId(committeeId);
     }
 
     @SuppressWarnings("unchecked")
@@ -65,6 +67,14 @@ public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeAc
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getCommitteeId() {
+        return committeeId;
+    }
+
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
     }
 
 }
