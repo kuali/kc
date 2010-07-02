@@ -182,6 +182,7 @@ public class ActionHelper implements Serializable {
     
     private ProtocolRiskLevel newRiskLevel;
     private List<ProtocolRiskLevel> riskLevels = null;
+    // additional properties for Submission Details
     private ProtocolSubmission selectedSubmission;
     private List<CommitteeScheduleMinute> reviewComments;        
     private List<ProtocolVoteAbstainee> abstainees;        
@@ -1126,10 +1127,12 @@ public class ActionHelper implements Serializable {
 
     public void setSelectedSubmission(ProtocolSubmission selectedSubmission) {
         this.selectedSubmission = selectedSubmission;
-        setupReviewerName(); 
 
     }
     
+    /*
+     * retrieve reviewer's full name from member data
+     */
     private void setupReviewerName() {
         if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
             List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
@@ -1156,7 +1159,10 @@ public class ActionHelper implements Serializable {
     }
 
 
-    public void setReviewComments() {
+    /*
+     * Retrieve review comments from committee schedule minutes
+     */
+    private void setReviewComments() {
         reviewComments = new ArrayList<CommitteeScheduleMinute>();
         if (getSelectedSubmission() != null && CollectionUtils.isNotEmpty(getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes())) {
             for (CommitteeScheduleMinute minute : getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes()) {
@@ -1183,6 +1189,9 @@ public class ActionHelper implements Serializable {
         return KraServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
+    /*
+     * This is to set up the full name of Abstainer & Recused based on matched committee member.
+     */
     private void setupVoterName() {
         if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
             List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
@@ -1205,7 +1214,9 @@ public class ActionHelper implements Serializable {
         }
     }
 
-    
+    /*
+     * This is a utility to check if the voter or reviewer matched the committee member.   
+     */
     private boolean isPersonMatched(CommitteeMembership member, SubmissionDetailsShare voterOrReviewer) {
         boolean isMatched = false;
         if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(voterOrReviewer.getPersonId())) {
@@ -1227,8 +1238,11 @@ public class ActionHelper implements Serializable {
         this.currentSubmissionNumber = currentSubmissionNumber;
     }
 
+    /**
+     * 
+     * This method to set up date for submission details subpanel
+     */
     public void initSubmissionDetails() {
-        // TODO : temporary for development
         if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
             currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
         }    
@@ -1238,6 +1252,8 @@ public class ActionHelper implements Serializable {
             setSelectedSubmission(getProtocol().getProtocolSubmission());
 
         }
+        setupReviewerName(); 
+
         if (selectedSubmission.getCommitteeSchedule() != null) {
             setReviewComments();
             setAbstainees((List<ProtocolVoteAbstainee>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
