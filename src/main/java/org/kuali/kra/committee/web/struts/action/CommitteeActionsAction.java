@@ -87,7 +87,7 @@ public class CommitteeActionsAction extends CommitteeAction {
         Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateEndDate();
         
         if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
-                batchCorrespondenceTypeCode, startDate, endDate))) {
+                batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
             committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().clear();
             committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().add(
                     getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate));

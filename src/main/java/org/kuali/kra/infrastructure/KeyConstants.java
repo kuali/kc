@@ -634,6 +634,7 @@ public final class KeyConstants {
     
     // Committee Actions Messages
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED = "error.committee.action.generate.batch.correspondence.type.code.not.specified";
+    public static final String ERROR_COMMITTEE_ACTION_GENERATE_MISSING_TEMPLATES = "error.committee.action.generate.missing.templates";
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_START_DATE_NOT_SPECIFIED = "error.committee.action.generate.start.date.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_END_DATE_NOT_SPECIFIED = "error.committee.action.generate.end.date.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_END_DATE_BEFORE_START_DATE = "error.committee.action.generate.end.date.before.start.date";
