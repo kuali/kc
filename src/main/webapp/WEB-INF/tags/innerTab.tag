@@ -26,6 +26,9 @@
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 <%@ attribute name="overrideToggleTabMethodString" required="false" %>
+<%-- Add 'overrideDivClass', so if this is an inner tab in an innertab.  The child
+     innertab can change the inner div properties, such as background color etc.
+     ie, the parent and children inner tabs are not exactly the same look. --%>
 <%@ attribute name="overrideDivClass" required="false" %>
 
 <%-- THIS TAG IS NOT A STANDARD PART OF RICE.  THIS IS A KC EXTENSION --%>

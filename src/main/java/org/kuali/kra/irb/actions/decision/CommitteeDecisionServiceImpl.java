@@ -206,11 +206,16 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getMeetingVoters(java.lang.Long, java.lang.Long, java.lang.Class)
+     */
+    @SuppressWarnings("unchecked")
     public List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long scheduleId, Class<? extends ProtocolMeetingVoter> clazz) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolIdFk", protocolId.toString() );
+        fieldValues.put("protocolIdFk", protocolId.toString());
         fieldValues.put("scheduleIdFk", scheduleId.toString());
-        return (List<? extends ProtocolVoteAbstainee>)businessObjectService.findMatching(clazz, fieldValues);
+        return (List<? extends ProtocolMeetingVoter>) businessObjectService.findMatching(clazz, fieldValues);
 
     }
 }
