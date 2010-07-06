@@ -112,7 +112,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PrintingTestUtils {
 	private static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
-	public static String FILE_DIR = "C:\\reportfiles\\";
+	public static String FILE_DIR = System.getProperty("java.io.tmpdir");
 	private static final String REPORTING = "reporting";
 	private static final String TECHNICAL_REPORTING = "technicalReporting";
 	private static final String TERMS = "terms";
@@ -1874,6 +1874,7 @@ public class PrintingTestUtils {
 		try {
 			FileOutputStream fos = new FileOutputStream(new File(
 					PrintingTestUtils.FILE_DIR
+					        + File.separator
 							+ reportType
 							+ "_"
 							+ new SimpleDateFormat("ddMMyyyy_HHmmss")
@@ -1888,7 +1889,7 @@ public class PrintingTestUtils {
 
 	public static void saveXml(XmlObject xmlObject, String reportName) {
 		try {
-			xmlObject.save(new File(PrintingTestUtils.FILE_DIR + reportName
+			xmlObject.save(new File(PrintingTestUtils.FILE_DIR + File.separator + reportName
 					+ ".xml"));
 		} catch (IOException e) {
 			e.printStackTrace();
