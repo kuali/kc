@@ -1027,7 +1027,7 @@
 		<org.apache.cxf.version>2.1.7</org.apache.cxf.version>
 		<org.drools.version>5.0.1</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
-		<org.kuali.rice.version>1.0.2.1-KC-03</org.kuali.rice.version>
+		<org.kuali.rice.version>1.0.2.1-KC-04</org.kuali.rice.version>
 		<org.mortbay.jetty.version>7.1.4.v20100610</org.mortbay.jetty.version>
 		<org.springframework.version>2.0.4</org.springframework.version>
 		<struts.version>1.2.9</struts.version>

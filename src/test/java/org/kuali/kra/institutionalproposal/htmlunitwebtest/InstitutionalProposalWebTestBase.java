@@ -123,7 +123,7 @@ public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
         List cells = row.getCells();
         HtmlTableCell cell = (HtmlTableCell) cells.get(0);
         anchor = (HtmlAnchor) getFirstChild(cell);
-        HtmlPage returnPage = (HtmlPage) anchor.click();
+        HtmlPage returnPage = clickOn(anchor);
         
         return returnPage;
     }
