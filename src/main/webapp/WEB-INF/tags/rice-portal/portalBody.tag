@@ -21,47 +21,48 @@
 
 <portal:immutableBar />
 
-<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
- 	<tr valign="top" bgcolor="#FFFFFF">
-       <td width="15" class="leftback-focus">&nbsp;</td>
-        <c:choose>
-          <%-- first try to check if they are focusing in --%>
-          <c:when test='${!empty channelTitle && !empty channelUrl}'>
-            <td class="content" valign="top" colspan="2">
-              <c:if test="${!empty param.backdoorId}">
-                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login=1" />
-              </c:if>
-              <c:if test="${empty param.backdoorId}">
-                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
-              </c:if>
-            </td>
-          </c:when>
-          <%-- then default to tab based actions if they are not focusing in --%>
-          <c:when test='${selectedTab == "portalResearcherBody"}'>
-              <portal:portalResearcherBody />
-          </c:when>
-          
-          <c:when test='${selectedTab == "portalUnitBody"}'>
-              <portal:portalUnitBody />
-          </c:when>
-          
-          <c:when test='${selectedTab == "portalCentralAdminBody"}'>
-              <portal:portalCentralAdminBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalMaintenanceBody"}'>
-              <portal:portalMaintenanceBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalSystemAdminBody"}'>
-              <portal:portalSystemAdminBody />
-          </c:when>
-          
-          <%-- as backup go to the main menu index --%>
-          <c:otherwise>
-            <portal:portalResearcherBody />
-          </c:otherwise>
-        </c:choose>
-    </tr>
-</table>
+<c:choose>
+  <c:when test='${!empty channelTitle && !empty channelUrl}'>
+	  <c:if test="${!empty param.backdoorId}">
+	  	<c:set var="channelUrl" value="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login=1"/>
+	  </c:if>
+	  <div id="iframe_portlet_container_div">
+	  	<portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
+	  </div>
+  </c:when>
+  <c:otherwise>
+	<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
+	   	<tr valign="top" bgcolor="#FFFFFF">
+      		<td width="15" class="leftback-focus">&nbsp;</td>
+	 		<c:choose>
+	 		  <%-- then default to tab based actions if they are not focusing in --%>
+	          <c:when test='${selectedTab == "portalResearcherBody"}'>
+	              <portal:portalResearcherBody />
+	          </c:when>
+	          
+	          <c:when test='${selectedTab == "portalUnitBody"}'>
+	              <portal:portalUnitBody />
+	          </c:when>
+
+	          <c:when test='${selectedTab == "portalCentralAdminBody"}'>
+	              <portal:portalCentralAdminBody />
+	          </c:when>
+	          <c:when test='${selectedTab == "portalMaintenanceBody"}'>
+	              <portal:portalMaintenanceBody />
+	          </c:when>
+	          <c:when test='${selectedTab == "portalSystemAdminBody"}'>
+	              <portal:portalSystemAdminBody />
+	          </c:when>
+	          
+	          <%-- as backup go to the main menu index --%>
+	          <c:otherwise>
+	            <portal:portalResearcherBody />
+	          </c:otherwise>
+	        </c:choose>
+       </tr>
+    </table>
+  </c:otherwise>
+</c:choose>
 
  <div class="footerbevel">&nbsp;</div>
-  <div id="footer-copyright"> <bean:message key="app.copyright" /></div>
+ <div id="footer-copyright"> <bean:message key="app.copyright" /></div>

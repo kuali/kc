@@ -61,7 +61,8 @@ public class KraWebTestUtil extends Assert {
         
         HtmlImageInput button = HtmlUnitUtil.getImageInput(docSearchPage, KRA_DOCSEARCH_BUTTON_ID);
         HtmlPage docSearchResultsPage = (HtmlPage) button.click();
-        return docSearchResultsPage;
+
+        return HtmlUnitUtil.getInnerPages(docSearchResultsPage).get(0);
     }
     
     public static HtmlPage loadProposalFromSearchResults(HtmlPage searchResultsPage, String documentNumber) throws Exception {
