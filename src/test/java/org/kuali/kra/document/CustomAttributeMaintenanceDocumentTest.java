@@ -53,7 +53,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
-        HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=copy&id=7");
+        HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
         HtmlPage customAttributeMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentNumber");
 
@@ -85,7 +85,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
-        HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=edit&id=7");
+        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
         HtmlPage customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
 
@@ -114,7 +114,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
         searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
         
-        editLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=edit&id=7");
+        editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
         customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
         documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
 

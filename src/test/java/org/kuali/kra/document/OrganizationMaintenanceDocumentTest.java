@@ -64,7 +64,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
-        HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=copy");
+        HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
         HtmlPage organizationMaintenancePage = clickOn(copyLink, "Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
 
@@ -103,7 +103,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
-        HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=edit");
+        HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
         HtmlPage organizationMaintenancePage = clickOn(editLink, "Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
