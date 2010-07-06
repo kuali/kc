@@ -22,11 +22,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.SubmissionDetailsShare;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewer extends KraPersistableBusinessObjectBase implements SubmissionDetailsShare {
+public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
 
     private Long protocolReviewerId;
     private Long protocolId;

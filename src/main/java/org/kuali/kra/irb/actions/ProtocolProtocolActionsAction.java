@@ -136,6 +136,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         ((ProtocolForm) form).getActionHelper().prepareView();
+        // submit action may change "submission details", so re-initializa it
+        ((ProtocolForm) form).getActionHelper().initSubmissionDetails();
 
         return actionForward;
     }
@@ -688,9 +690,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return forward;
     }
 
+    /*
+     * This is to view attachment if attachment is seleccted in print panel.
+     */
     private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
-
-
 
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
