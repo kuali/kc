@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,12 +68,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private static final String PROJECT_END_COMMENT = "Project End";
     private static final String ZERO = "0";
     private static final Integer TEN = 10;
-    BusinessObjectService businessObjectService;
-    private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+    private BusinessObjectService businessObjectService;
     
-    public TimeAndMoneyAction(){
-        awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
-    }
+    //FIXME wth - this cannot be here since struts actions are singletons
+    //private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
+    
+    //public TimeAndMoneyAction(){
+    //    awardDirectFandADistributionBean = new AwardDirectFandADistributionBean();
+   // }
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -732,7 +733,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward addAwardDirectFandADistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        awardDirectFandADistributionBean.addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
+        
+        //FIXME AwardDirectFandADistributionBean seems like the wrong place for these types of methods.
+        new AwardDirectFandADistributionBean().addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -750,7 +753,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
-        awardDirectFandADistributionBean.updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
+        //FIXME AwardDirectFandADistributionBean seems like the wrong place for these types of methods.
+        new AwardDirectFandADistributionBean().updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
