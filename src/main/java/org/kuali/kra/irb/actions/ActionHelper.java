@@ -35,7 +35,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
-import org.kuali.kra.irb.SubmissionDetailsShare;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
@@ -63,6 +62,7 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
@@ -1196,17 +1196,22 @@ public class ActionHelper implements Serializable {
         if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
             List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
                     selectedSubmission.getCommitteeSchedule().getScheduleId());
-            for (CommitteeMembership member : members) {
+            for (CommitteeScheduleAttendance attendance : selectedSubmission.getCommitteeSchedule()
+                    .getCommitteeScheduleAttendances()) {
+                boolean isAbstainee = false;
                 for (ProtocolVoteAbstainee abstainee : abstainees) {
-                    if (isPersonMatched(member, abstainee)) {
-                        abstainee.setFullName(member.getPersonName());
+                    if (attendance.getPersonId().equals(abstainee.getPersonId())) {
+                        abstainee.setFullName(attendance.getPersonName());
+                        isAbstainee = true;
                         break;
                     }
                 }
-                for (ProtocolVoteRecused recuser : recusers) {
-                    if (isPersonMatched(member, recuser)) {
-                        recuser.setFullName(member.getPersonName());
-                        break;
+                if (!isAbstainee) {
+                    for (ProtocolVoteRecused recuser : recusers) {
+                        if (attendance.getPersonId().equals(recuser.getPersonId())) {
+                            recuser.setFullName(attendance.getPersonName());
+                            break;
+                        }
                     }
                 }
 
@@ -1215,13 +1220,13 @@ public class ActionHelper implements Serializable {
     }
 
     /*
-     * This is a utility to check if the voter or reviewer matched the committee member.   
+     * Utility method to check if reviewer matched committee member
      */
-    private boolean isPersonMatched(CommitteeMembership member, SubmissionDetailsShare voterOrReviewer) {
+    private boolean isPersonMatched(CommitteeMembership member, ProtocolReviewer reviewer) {
         boolean isMatched = false;
-        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(voterOrReviewer.getPersonId())) {
+        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(reviewer.getPersonId())) {
             isMatched = true;
-        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(voterOrReviewer.getPersonId()) ){
+        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(reviewer.getPersonId()) ){
             isMatched = true;
         }
         return isMatched;
