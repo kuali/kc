@@ -36,6 +36,8 @@ public class WorkflowWebTest extends KraWebTestBase {
     public void testActionListOutbox() throws Exception {
         HtmlPage portalPage = getPortalPage();
         HtmlPage actionListPage = clickOn(portalPage, "Action List");
+        //gets the outer page since thats what this test expects
+        actionListPage = (HtmlPage) actionListPage.getEnclosingWindow().getParentWindow().getEnclosedPage();
         FrameWindow frame = actionListPage.getFrameByName("iframeportlet");
         assertContains((HtmlPage)frame.getEnclosedPage(), "Outbox");
     }

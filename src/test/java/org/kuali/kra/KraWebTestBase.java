@@ -262,15 +262,42 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
         Page nextPage = element.click();
         assertTrue((nextPage != null) ? nextPage.getClass().getName() : "nextPage is null", nextPage instanceof HtmlPage);
-
-        HtmlPage htmlNextPage = (HtmlPage) nextPage;
-        htmlNextPage = checkForLoginPage(htmlNextPage);
+        return confirmTitle((HtmlPage) nextPage, nextPageTitle);
+    }
+    
+    private HtmlPage confirmTitle(HtmlPage page, String title) throws IOException {
+        final HtmlPage postLogin = checkForLoginPage(page);
         
-        if (nextPageTitle != null) {
-            assertEquals("page: " + htmlNextPage.asText(), nextPageTitle, htmlNextPage.getTitleText());
+        if (title!= null) {
+            HtmlPage match = getMatchingPage(postLogin, title);
+            if (match == null) {
+                fail("page not found: " + title + " page: \n" + postLogin.asXml());
+            }
+            return match;
+        //just don't return the damn parent page
+        } else if ("Kuali Portal Index".equals(postLogin.getTitleText()) && !getInnerPages(postLogin).isEmpty()) {
+            return getInnerPages(postLogin).get(0);
         }
-
-        return htmlNextPage;
+        return postLogin;
+    }
+    
+    /**
+     * Gets a page that matches the passed in title or null.  Will navigate all the inner pages.
+     * @param page the page (may be a parent page)
+     * @param title the title to find/match
+     * @return a page or null
+     */
+    private final HtmlPage getMatchingPage(HtmlPage page, String title) {
+        if (page.getTitleText().equals(title)) {
+            return page;
+        }
+        for (HtmlPage iPage : getInnerPages(page)) {
+            HtmlPage match = getMatchingPage(iPage, title);
+            if (match != null) {
+                return match;
+            }
+        }
+        return null;
     }
 
     /**
@@ -556,7 +583,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         final HtmlPage newPage;
         if(!checkNoDataFoundCase.booleanValue()){
             assertTrue("No data to return", table != null);
-            HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
+            HtmlTableBody body = table.getBodies().get(0);
             List<HtmlTableRow> rows = body.getRows();
 
             HtmlTableRow row = rows.get(0);
@@ -644,8 +671,8 @@ public abstract class KraWebTestBase extends KraTestBase {
         if (returnAllBtn == null) {
             returnAllBtn = (HtmlImageInput) getElement(selectedPage, "methodToCall.prepareToReturnSelectedResults.(::;true;::)", null, null);            
         }
-        HtmlPage returnPage = (HtmlPage) returnAllBtn.click();
-
+        //HtmlPage returnPage = (HtmlPage) returnAllBtn.click();
+        HtmlPage returnPage = clickOn(returnAllBtn);
         return returnPage;
     }
 
@@ -797,7 +824,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         else if (element instanceof HtmlSelect) {
             HtmlSelect selectField = (HtmlSelect) element;
-            fieldValue = ((HtmlOption) selectField.getSelectedOptions().get(0)).getValueAttribute();
+            fieldValue = (selectField.getSelectedOptions().get(0)).getValueAttribute();
         }
         else if (element instanceof HtmlCheckBoxInput) {
             HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
@@ -1048,7 +1075,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage newPage = page;
         
         if (newPage.getTitleText().equals("Login")) {
-            HtmlForm form = (HtmlForm) page.getForms().get(0);
+            HtmlForm form = page.getForms().get(0);
             setFieldValue(page, "__login_user", getLoginUserName());
             HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
             //boolean javascriptEnabled = webClient.isJavaScriptEnabled();

@@ -38,4 +38,8 @@
 	<param name="use.kraKewXmlDataLoaderLifecycle">true</param>
 	<param name="test.mode">true</param>
 	<param name="ken.test.mode">true</param>
+	
+	<param name="filter.login.class">org.kuali.kra.test.infrastructure.AutoLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+	<param name="filter.login.autouser">quickstart</param>
 </config>
