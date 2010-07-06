@@ -20,9 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.SubmissionDetailsShare;
 
-public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase implements SubmissionDetailsShare {
+public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase {
     private Long protocolIdFk; 
     private Long scheduleIdFk; 
     private String personId; 
