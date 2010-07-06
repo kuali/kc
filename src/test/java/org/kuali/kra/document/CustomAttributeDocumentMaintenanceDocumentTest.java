@@ -58,6 +58,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
     public void testCopyCustomAttributeDocument() throws Exception {
         HtmlPage customAttributeDocuemntMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute Document");
         setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"customAttributeId","7");
+        setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"documentTypeName", "PRDV");
         HtmlPage searchPage = clickOn(customAttributeDocuemntMaintenanceLookupPage, "search");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "copy"));
@@ -89,6 +90,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
     public void testEditCustomAttributeDocument() throws Exception {
         HtmlPage customAttributeDocuemntMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute Document");
         setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"customAttributeId","7");
+        setFieldValue(customAttributeDocuemntMaintenanceLookupPage,"documentTypeName", "PRDV");
         HtmlPage searchPage = clickOn(customAttributeDocuemntMaintenanceLookupPage, "search");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref(getAnchorName(searchPage, "edit"));
