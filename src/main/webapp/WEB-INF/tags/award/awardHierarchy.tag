@@ -17,7 +17,7 @@
 
 <c:set var="awardHierarchyAttributes" value="${DataDictionary.AwardHierarchy.attributes}" />
 <c:set var="action" value="awardHierarchy" />
-<input type="hidden" property="viewOnly" value="${readOnly}" />
+<input type="hidden" property="viewOnly" id="viewOnly" name="viewOnly" value="${readOnly}" />
 
 <kul:tab tabTitle="Hierarchy Actions" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
