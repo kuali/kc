@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.print;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
- * This class provides the implementation for printing Protocol History Report. It generates XML that conforms with Salary Report
+ * This class provides the implementation for printing Protocol History Report. It generates XML that conforms with Protocol History Report
  * XSD, fetches XSL style-sheets applicable to this XML, returns XML and XSL for any consumer that would use this XML and XSls for
  * any purpose like report generation, PDF streaming etc.
  * 
