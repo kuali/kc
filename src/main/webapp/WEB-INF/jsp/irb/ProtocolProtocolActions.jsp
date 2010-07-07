@@ -44,6 +44,8 @@
 <kra-irb:protocolPrint/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
+<kul:routeLog /> 
+<kul:adHocRecipients />
 
 <kul:panelFooter />
 	<kul:documentControls 
