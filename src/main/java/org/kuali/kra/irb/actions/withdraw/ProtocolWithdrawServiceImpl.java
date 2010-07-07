@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -31,7 +30,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -82,7 +80,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     }
     
     /**
-     * Inject Protocol Version Service
+     * Inject Protocol Version Service.
      * @param protocolVersionService
      */
     public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
@@ -142,7 +140,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         }        
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
-        generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol());
+        generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
         return newProtocolDocument;
     }
     
@@ -151,11 +149,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
-        List<ProtocolCorrespondenceTemplate> withdrawTemplates = 
-            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.WITHDRAWN);
-        String attachmentDescription = "Withdraw Correspondence Template Document";
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, withdrawTemplates, attachmentDescription);
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
+        WithdrawCorrespondence correspondence = withdrawBean.getCorrespondence();
+        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     } 
 
     /**
