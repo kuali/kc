@@ -109,4 +109,30 @@
 	<bean id="ProtocolDocument-versionNumber" parent="ProtocolDocument-versionNumber-parentBean"/>
 	<bean id="ProtocolDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+	
+	<bean id="ProtocolDocument-workflowProperties" parent="ProtocolDocument-workflowProperties-parentBean"/>
+    <bean id="ProtocolDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="protocolWorkflowType"/>
+              <bean parent="WorkflowProperty" p:path="protocolList.protocolId"/>
+              <bean parent="WorkflowProperty" p:path="protocolList.protocolNumber"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.sequenceNumber"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.protocolType.protocolTypeCode"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.protocolType.description"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.title"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.leadUnit.unitNumber"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.personId"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.protocolPersonRoleId" />
+			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.protocolUnits"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
 </beans>
