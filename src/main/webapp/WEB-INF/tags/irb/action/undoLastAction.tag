@@ -21,7 +21,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canUndoLastAction}">
 
-<kra:innerTab tabTitle="Undo Last Action" parentTab="" defaultOpen="false" tabErrorKey="*">
+<kra:innerTab tabTitle="Undo Last Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.undoLastActionBean.*">
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
