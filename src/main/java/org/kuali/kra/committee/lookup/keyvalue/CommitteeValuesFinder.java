@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Finds the available set of supported Abstract Types.  See
@@ -35,6 +34,9 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class CommitteeValuesFinder extends KeyValuesBase {
     
     /**
+     * This value finder gets all committees.  To skip the old versioned committees and get only the 
+     * latest active version of a committee use the CommitteeIdValuesFinder.
+     * 
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
