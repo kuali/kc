@@ -407,5 +407,5 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private void initializeProtocolLocation() {
         KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(this.getProtocol());
     }
-
+ 
 }
