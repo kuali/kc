@@ -176,7 +176,7 @@ public class KcPerson implements Contactable, BusinessObject {
         
         boolean contains = false;
         for (KimPrincipal principal : entity.getPrincipals()) {
-            if (userName.equals(principal.getPrincipalName())) {
+            if (userName.equalsIgnoreCase(principal.getPrincipalName())) {
                 contains = true;
                 person.personId = principal.getPrincipalId();
                 break;
