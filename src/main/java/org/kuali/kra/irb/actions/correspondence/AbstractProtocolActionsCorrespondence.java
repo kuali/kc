@@ -1,0 +1,107 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.irb.actions.correspondence;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.print.AbstractPrint;
+
+/**
+ * 
+ * This class needs to be extended by specific action correspondence objects.
+ */
+public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrint {
+    
+    private ProtocolDocument protocolDocument;
+    
+    public void setProtocolDocument(ProtocolDocument protcolDocument) {
+        this.protocolDocument = protcolDocument;
+    }
+    
+    public ProtocolDocument getProtocolDocument() {
+        return this.protocolDocument;
+    }
+    
+    private ProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
+        return KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
+    }
+    
+    /**
+     * 
+     * This method returns the appropriate protocol action type, such as ProtocolActionType.ASSIGN_TO_AGENDA.
+     * @return a string that is a ProtocolActionType
+     */
+    public abstract String getProtocolActionType();
+
+    
+    @Override
+    public ResearchDocumentBase getDocument() {
+        return this.protocolDocument;
+    }
+    
+    private List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates() {
+        List<ProtocolCorrespondenceTemplate> templates = 
+            getProtocolActionTypeToCorrespondenceTemplateService().getTemplatesByProtocolAction(getProtocolActionType());
+        return templates;
+    }
+    
+    @Override
+    public List<Source> getXSLTemplates() {
+        List<Source> sourceList = new ArrayList<Source>();
+        List<ProtocolCorrespondenceTemplate> templates = getCorrespondenceTemplates();
+        
+        for (ProtocolCorrespondenceTemplate template : templates) {
+            InputStream iputStream = new ByteArrayInputStream(template.getCorrespondenceTemplate()); 
+            StreamSource stream = new StreamSource(iputStream);
+            sourceList.add(stream);
+        }   
+        return sourceList;
+    }
+    
+    /**
+     * 
+     * This method returns the protocol correspondence type code of the first template associated the action of the sub class.
+     * If there are no templates, returns an empty String.
+     * @return a String
+     */
+    public String getProtoCorrespTypeCode() {
+        List<ProtocolCorrespondenceTemplate> templates = getCorrespondenceTemplates();
+        for (ProtocolCorrespondenceTemplate template : templates) {
+            return template.getProtoCorrespTypeCode();
+        }
+        return "";
+    }
+    
+    @Override
+    public Map<String, byte[]> renderXML() throws PrintingException {
+        ProtocolXmlStream xmlStream = new ProtocolXmlStream();
+        setXmlStream(xmlStream);
+        return super.renderXML();
+    }
+}

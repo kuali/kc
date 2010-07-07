@@ -29,7 +29,7 @@ public interface ProtocolActionCorrespondenceGenerationService {
     
     /**
      * 
-     * This method...
+     * This method attaches an appropriate template based PDF document to the protocol and saves it.
      * @param protocol
      * @param templates
      * @param attachmentDescription
@@ -40,18 +40,17 @@ public interface ProtocolActionCorrespondenceGenerationService {
     
     /**
      * 
+     * This method attaches an appropriate template based PDF document to the protocol and saves it.
+     * @param printableCorrespondence an implementation of AbstractProtocolActionsCorrespondence.
+     * @throws PrintingException
+     */
+    void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) throws PrintingException;
+    
+    /**
+     * 
      * This method...
      * @param actionType
      * @return
      */
     List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates(String actionType);
-    
-    /**
-     * 
-     * This method...
-     * @param protocol
-     * @param data
-     * @param attachmentDescription
-     */
-    void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String attachmentDescription, String correspondenceTypeCode);
 }

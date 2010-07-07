@@ -16,10 +16,10 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import java.io.Serializable;
-import java.util.Date;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.printing.Printable;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
@@ -148,5 +148,15 @@ public class ProtocolAssignToAgendaBean implements Serializable {
         if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
         } else {
         }
+    }
+    
+    /**
+     * 
+     * This method returns the appropriate printable for this class
+     * @return a Printable
+     */
+    public Printable getCorrespondence() {
+        AssignToAgendaCorrespondence correspondence = new AssignToAgendaCorrespondence();
+        return correspondence;
     }
 }
