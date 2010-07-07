@@ -519,8 +519,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
             protocolForm.setDocId(newDocId);
             loadDocument(protocolForm);
-
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
+            
             return mapping.findForward(PROTOCOL_TAB);
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -549,6 +550,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.setDocId(newDocId);
             loadDocument(protocolForm);
 
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             return mapping.findForward(PROTOCOL_TAB);
         }
@@ -586,6 +588,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.setDocId(newDocId);
             loadDocument(protocolForm);
 
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             return mapping.findForward(PROTOCOL_TAB);
         }
