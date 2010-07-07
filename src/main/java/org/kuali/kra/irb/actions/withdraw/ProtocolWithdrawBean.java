@@ -22,10 +22,14 @@ import java.io.Serializable;
  * for withdrawing a protocol.
  */
 @SuppressWarnings("serial")
-public class ProtocolWithdrawBean implements Serializable{
+public class ProtocolWithdrawBean implements Serializable {
     
     private String reason = "";
     
+    /**
+     * 
+     * Constructs a ProtocolWithdrawBean.java.
+     */
     public ProtocolWithdrawBean() {
     }
 
@@ -35,5 +39,15 @@ public class ProtocolWithdrawBean implements Serializable{
 
     public String getReason() {
         return reason;
+    }
+    
+    /**
+     * 
+     * This method returns the correct correspondence for this object
+     * @return a WithdrawCorrespondence object
+     */
+    public WithdrawCorrespondence getCorrespondence() {
+        WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
+        return correspondence;
     }
 }
