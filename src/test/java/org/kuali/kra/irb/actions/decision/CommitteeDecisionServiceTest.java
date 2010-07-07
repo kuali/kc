@@ -15,83 +15,62 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Assert;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.meeting.ProtocolVoteRecused;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 
-public class CommitteeDecisionServiceTest {
-    private Mockery context = new JUnit4Mockery();
-    @Test
-    public void testGetAbstainees() throws Exception {
-        CommitteeDecisionServiceImpl committeeDecisionService = new CommitteeDecisionServiceImpl();
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        final List<ProtocolVoteAbstainee> abstainees = new ArrayList<ProtocolVoteAbstainee>();
-        ProtocolVoteAbstainee abstainee1 = new ProtocolVoteAbstainee();
-        abstainee1.setProtocolVoteAbstaineesId(1L);
-        abstainee1.setProtocolIdFk(1L);
-        abstainee1.setScheduleIdFk(2L);
-        abstainees.add(abstainee1);
-        abstainee1 = new ProtocolVoteAbstainee();
-        abstainee1.setProtocolVoteAbstaineesId(2L);
-        abstainee1.setProtocolIdFk(1L);
-        abstainee1.setScheduleIdFk(2L);
-        abstainees.add(abstainee1);
-        context.checking(new Expectations() {
-            {
-                Map<String, String> fieldValues = new HashMap<String, String>();
-                fieldValues.put("protocolIdFk", "1" );
-                fieldValues.put("scheduleIdFk", "2");
-                one(businessObjectService).findMatching(ProtocolVoteAbstainee.class, fieldValues);
-                will(returnValue(abstainees));
+/*
+@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
+        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";")
+}))*/
+public class CommitteeDecisionServiceTest extends KraTestBase {
+    
+    CommitteeDecisionService committeeDecisionService;
+    //BusinessObjectService businessObjectService;
+    Protocol protocol;
 
-            }
-        });
-        committeeDecisionService.setBusinessObjectService(businessObjectService);
-        List<ProtocolVoteAbstainee> returnList = (List<ProtocolVoteAbstainee>)committeeDecisionService.getMeetingVoters(1L, 2L, ProtocolVoteAbstainee.class);
-        Assert.assertTrue(returnList.size() == 2);
-        Assert.assertTrue(returnList.get(0).getProtocolVoteAbstaineesId().equals(1L));
-        Assert.assertTrue(returnList.get(1).getProtocolVoteAbstaineesId().equals(2L));
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        //committeeDecisionService = KraServiceLocator.getService(CommitteeDecisionService.class);
+        committeeDecisionService = KraServiceLocator.getService("protocolCommitteeDecisionService");
+        protocol = ProtocolFactory.createProtocolDocument("123456").getProtocol();
+        protocol.setProtocolId(new Long(1234));
     }
-    @Test
-    public void testGetRecusers() throws Exception {
-        CommitteeDecisionServiceImpl committeeDecisionService = new CommitteeDecisionServiceImpl();
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        final List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
-        ProtocolVoteRecused recuser = new ProtocolVoteRecused();
-        recuser.setProtocolVoteRecusedId(1L);
-        recuser.setProtocolIdFk(1L);
-        recuser.setScheduleIdFk(2L);
-        recusers.add(recuser);
-        recuser = new ProtocolVoteRecused();
-        recuser.setProtocolVoteRecusedId(2L);
-        recuser.setProtocolIdFk(1L);
-        recuser.setScheduleIdFk(2L);
-        recusers.add(recuser);
-        context.checking(new Expectations() {
-            {
-                Map<String, String> fieldValues = new HashMap<String, String>();
-                fieldValues.put("protocolIdFk", "1" );
-                fieldValues.put("scheduleIdFk", "2");
-                one(businessObjectService).findMatching(ProtocolVoteRecused.class, fieldValues);
-                will(returnValue(recusers));
 
-            }
-        });
-        committeeDecisionService.setBusinessObjectService(businessObjectService);
-        List<ProtocolVoteRecused> returnList = (List<ProtocolVoteRecused>)committeeDecisionService.getMeetingVoters(1L, 2L, ProtocolVoteRecused.class);
-        Assert.assertTrue(returnList.size() == 2);
-        Assert.assertTrue(returnList.get(0).getProtocolVoteRecusedId().equals(1L));
-        Assert.assertTrue(returnList.get(1).getProtocolVoteRecusedId().equals(2L));
+    @After
+    public void tearDown() throws Exception {
+        committeeDecisionService = null;
+        super.tearDown();
+    }
+
+    @Test
+    public void testSetCommitteeDecision() throws Exception {
+        CommitteeDecision committeeDecision = new CommitteeDecision();
+        committeeDecision.setAbstainCount(new Integer(0));
+        committeeDecision.setMotion(MotionValuesFinder.APPROVE);
+        committeeDecision.setNoCount(new Integer(0));
+        committeeDecision.setProtocolId(protocol.getProtocolId());
+        committeeDecision.setVotingComments("just some dumb comments");
+        committeeDecision.setYesCount(new Integer(2));
+        committeeDecisionService.setCommitteeDecision(protocol, committeeDecision);
     }
 
 }

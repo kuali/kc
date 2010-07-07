@@ -19,17 +19,22 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class helps create the foundation of attachment data sources.
+ */
 public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {
-	private String fileName;
-	private String contentType;
 
-	public String getFileName() {
-		return fileName;
-	}
+    private String fileName;
+    private String contentType;
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public String getContentType() {
         return contentType;
@@ -38,15 +43,21 @@ public abstract class AttachmentDataSource extends KraPersistableBusinessObjectB
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-
+    
+    /**
+     * 
+     * This method requires sub classes to define a byteArray that represents the content of the attachment.
+     * @return
+     */
     public abstract byte[] getContent();
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("fileName", getFileName());
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("fileName", getFileName());
         hashMap.put("contentType", getContentType());
-		return hashMap;
-	}
+        hashMap.put("Content", String.valueOf(this.getContent()));
+        return hashMap;
+    }
 
 }
