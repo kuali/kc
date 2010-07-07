@@ -7,15 +7,20 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionUpdateMapping;
 
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus; 
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
+function void writeToConsole(String message) {
+	System.out.println("Message is " + message);
+}
 function void createAuditTrail(ProtocolActionUpdateMapping protocolAction) {
 	if(protocolAction.getProtocol().getProtocolSubmission() != null) {
 		protocolAction.getProtocolAction().setPrevSubmissionStatusCode(protocolAction.getProtocol().getProtocolSubmission().getSubmissionStatusCode());
 		protocolAction.getProtocolAction().setSubmissionTypeCode(protocolAction.getProtocol().getProtocolSubmission().getSubmissionTypeCode());
 	}
-    protocolAction.getProtocolAction().setPrevProtocolStatusCode(protocolAction.getProtocol().getProtocolStatusCode());
+	System.out.println("Current Protocol Status Code "+ protocolAction.getProtocol().getProtocolStatusCode());
+	String currentProtocolStatusCode = protocolAction.getProtocol().getProtocolStatusCode();
+    protocolAction.getProtocolAction().setPrevProtocolStatusCode(currentProtocolStatusCode);
 }
 function void setProtocolSubmissionStatusCode(ProtocolActionUpdateMapping protocolAction, String newProtocolSubmissionStatusCode) {
 	//TODO Test this with OJB, if you have to find object with new status code and re-attache to protocol submission status???
@@ -84,6 +89,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition in ("A", "R") )
 then	
+	writeToConsole("approve call 1");
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 end
@@ -93,6 +99,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition not in ("A", "R"))
 then	
+	writeToConsole("approve call 2");
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "203");
 	setProtocolStatusCode(protocolAction, "200");
@@ -265,6 +272,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207", submissionTypeCode == "111")
 then	
+	writeToConsole("closed_For_Enrollment call 1");
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "201");
@@ -273,8 +281,9 @@ end
 rule "fn_closed_For_Enrollment: Protocol Status =  201 (Active Closed for Enrollment)**/" 
 salience 100
 when
-	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207")
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "207", submissionTypeCode != "111")
 then	
+	writeToConsole("closed_For_Enrollment call 2");
 	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "201");
 end
