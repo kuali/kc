@@ -19,7 +19,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
  * This class provides the implementation for printing Protocol Full Protocol Report. It
- * generates XML that conforms with Full Protoco Report XSD, fetches XSL style-sheets
+ * generates XML that conforms with Full Protocol Report XSD, fetches XSL style-sheets
  * applicable to this XML, returns XML and XSL for any consumer that would use
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
