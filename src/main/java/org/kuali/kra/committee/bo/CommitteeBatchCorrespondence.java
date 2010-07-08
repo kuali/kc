@@ -36,7 +36,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
 
     private static final long serialVersionUID = 1L;
     
-    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
     private static final String TIME_FORMAT = "h:mm a";
 
     private String committeeBatchCorrespondenceId; 
