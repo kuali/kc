@@ -209,7 +209,10 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @throws PrintingException
 	 *             in case of any errors occur during printing process
 	 */
-	public AttachmentDataSource print(List<Printable> printableArtifactList)
+    public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
+        return print(printableArtifactList, false);
+    }
+	public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired)
 			throws PrintingException {
 		PrintableAttachment printablePdf = null;
 		List<String> bookmarksList = new ArrayList<String>();
@@ -225,7 +228,7 @@ public class PrintingServiceImpl implements PrintingService {
 			}
 		}
 		printablePdf = new PrintableAttachment();
-		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList);
+		byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList,headerFooterRequired);
 		
 		// If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
 		// initialize to an empty array before sending the content back
@@ -264,16 +267,16 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @throws PrintingException
 	 */
 	private byte[] mergePdfBytes(List<byte[]> pdfBytesList,
-			List<String> bookmarksList) throws PrintingException {
+			List<String> bookmarksList,boolean headerFooterRequired) throws PrintingException {
 		Document document = null;
 		PdfWriter writer = null;
 		ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
 		int totalNumOfPages = 0;
 		PdfReader[] pdfReaderArr = new PdfReader[pdfBytesList.size()];
 		int pdfReaderCount = 0;
-		for (byte[] fileBytes : pdfBytesList) {
-			LOG.debug("File Size " + fileBytes.length +" For " +  bookmarksList.get(pdfReaderCount));
-			PdfReader reader = null;
+        for (byte[] fileBytes : pdfBytesList) {
+            LOG.debug("File Size " + fileBytes.length +" For " +  bookmarksList.get(pdfReaderCount));
+		    PdfReader reader = null;
 			try {
 				reader = new PdfReader(fileBytes);
 				pdfReaderArr[pdfReaderCount] = reader;
@@ -281,25 +284,27 @@ public class PrintingServiceImpl implements PrintingService {
 				totalNumOfPages += reader.getNumberOfPages();
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
-//				throw new PrintingException(e.getMessage(), e);
 			}
 		}
-		Calendar calendar = dateTimeService.getCurrentCalendar();
-		String dateString = formateCalendar(calendar);
-		StringBuilder footerPhStr = new StringBuilder();
-		footerPhStr.append(" of ");
-		footerPhStr.append(totalNumOfPages);
-		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
-		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_60));
-		footerPhStr.append(dateString);
-		Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL,
-				Color.BLACK);
-		Phrase beforePhrase = new Phrase("Page ", font);
-		Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
-		HeaderFooter footer = new HeaderFooter(beforePhrase, afterPhrase);
-		footer.setAlignment(Element.ALIGN_BASELINE);
-		footer.setBorderWidth(0f);
+        HeaderFooter footer = null;
+        if(headerFooterRequired){
+    		Calendar calendar = dateTimeService.getCurrentCalendar();
+    		String dateString = formateCalendar(calendar);
+    		StringBuilder footerPhStr = new StringBuilder();
+    		footerPhStr.append(" of ");
+    		footerPhStr.append(totalNumOfPages);
+    		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
+    		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_76));
+    		footerPhStr.append(getWhitespaceString(WHITESPACE_LENGTH_60));
+    		footerPhStr.append(dateString);
+    		Font font = FontFactory.getFont(FontFactory.TIMES, 8, Font.NORMAL,
+    				Color.BLACK);
+    		Phrase beforePhrase = new Phrase("Page ", font);
+    		Phrase afterPhrase = new Phrase(footerPhStr.toString(), font);
+    		footer = new HeaderFooter(beforePhrase, afterPhrase);
+    		footer.setAlignment(Element.ALIGN_BASELINE);
+    		footer.setBorderWidth(0f);
+        }
 		for (int count = 0; count < pdfReaderArr.length; count++) {
 			PdfReader reader = pdfReaderArr[count];
 			int nop;
@@ -320,7 +325,9 @@ public class PrintingServiceImpl implements PrintingService {
 					LOG.error(e.getMessage(), e);
 					throw new PrintingException(e.getMessage(), e);
 				}
-				document.setFooter(footer);
+				if(footer!=null){
+				    document.setFooter(footer);
+				}
 				document.open();
 			}
 			PdfContentByte cb = writer.getDirectContent();
@@ -328,7 +335,9 @@ public class PrintingServiceImpl implements PrintingService {
 			while (pageCount < nop) {
 				document.setPageSize(reader.getPageSize(++pageCount));
 				document.newPage();
-				document.setFooter(footer);
+                if(footer!=null){
+                    document.setFooter(footer);
+                }
 				PdfImportedPage page = writer
 						.getImportedPage(reader, pageCount);
 
