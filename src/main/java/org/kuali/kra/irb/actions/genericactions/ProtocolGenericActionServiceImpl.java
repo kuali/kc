@@ -24,6 +24,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
@@ -138,12 +139,9 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-        generateCorrespondenceDocumentAndAttach(protocol, protocolActionType);
-    }
-    
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
-        List<ProtocolCorrespondenceTemplate> approvedTemplates = 
-            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(protocolActionType);
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, protocolActionType);
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
+        correspondence.setDocument(protocol.getProtocolDocument());
+        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
 }

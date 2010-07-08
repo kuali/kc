@@ -30,17 +30,6 @@ public interface ProtocolActionCorrespondenceGenerationService {
     /**
      * 
      * This method attaches an appropriate template based PDF document to the protocol and saves it.
-     * @param protocol
-     * @param templates
-     * @param attachmentDescription
-     * @throws PrintingException
-     */
-    void generateCorrespondenceDocumentAndAttach(Protocol protocol, List<ProtocolCorrespondenceTemplate> templates, 
-            String attachmentDescription) throws PrintingException;
-    
-    /**
-     * 
-     * This method attaches an appropriate template based PDF document to the protocol and saves it.
      * @param printableCorrespondence an implementation of AbstractProtocolActionsCorrespondence.
      * @throws PrintingException
      */
