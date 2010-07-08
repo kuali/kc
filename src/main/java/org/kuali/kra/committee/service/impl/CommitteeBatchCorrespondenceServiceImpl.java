@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.committee.print.CommitteeReportType;
@@ -39,6 +41,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -48,6 +51,8 @@ import org.kuali.rice.kns.util.DateUtils;
 
 public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCorrespondenceService {
 
+    private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceServiceImpl.class);
+    private static final String COMMITTEE_ID = "committeeId";
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String PROTO_CORRESP_TYPE_CODE = "protoCorrespTypeCode";
@@ -57,6 +62,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private BusinessObjectService businessObjectService;
     private ProtocolDao protocolDao;
     private ProtocolGenericActionService protocolGenericActionService;
+    private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
     private int finalActionCounter;
 
     /**
@@ -94,8 +100,14 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
             ProtocolCorrespondenceType protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
 
             if (protocolCorrespondenceType != null)  {
-                committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(createBatchCorrespondenceDetail(committeeId, protocol, 
-                        protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode));
+                if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId, 
+                        protocolCorrespondenceType.getProtoCorrespTypeCode()) == null) {
+                    LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
+                            + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
+                } else {
+                    committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(createBatchCorrespondenceDetail(committeeId, protocol, 
+                            protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode));
+                }
             }
         }
 
@@ -296,8 +308,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_CORRESPONDENCE_TEMPLATE);
         printable.setDocument(protocol.getProtocolDocument());
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put("committeeId", committeeId);
-        reportParameters.put("protoCorrespTypeCode", protocolCorrespondenceType.getProtoCorrespTypeCode());
+        reportParameters.put(COMMITTEE_ID, committeeId);
+        reportParameters.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
@@ -324,14 +336,6 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         return (BatchCorrespondence) businessObjectService.findByPrimaryKey(BatchCorrespondence.class, fieldValues);
     }
     
-    /**
-     * This method returns the current date.
-     * @return current date
-     */
-    private Date getCurrentDate() {
-        return DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
-    }
-
     private CommitteePrintingService getCommitteePrintingService() {
         return KraServiceLocator.getService(CommitteePrintingService.class);
     }
@@ -354,10 +358,18 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     
     /**
      * Populated by Spring Beans.
-     * @param protocolDao
+     * @param protocolGenericActionService
      */
     public void setProtocolGenericActionService(ProtocolGenericActionService protocolGenericActionService) {
         this.protocolGenericActionService = protocolGenericActionService;
+    }
+
+    /**
+     * Populated by Spring Beans.
+     * @param protocolCorrespondenceTemplateService
+     */
+    public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
+        this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
     }
 
 }
