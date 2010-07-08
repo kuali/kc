@@ -51,6 +51,7 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     protected static final String COMMITTEE_LINK_NAME = "committee";
     protected static final String SCHEDULE_LINK_NAME = "committeeSchedule";
     protected static final String MEMBERS_LINK_NAME = "committeeMembership";
+    protected static final String ACTIONS_LINK_NAME = "committeeActions";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String COMMITTEE_TYPE_CODE_ID = "document.committeeList[0].committeeTypeCode";
@@ -257,6 +258,22 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
         this.setDefaultRequiredFields(committeePage);
         HtmlPage schedulePage = clickOnTab(committeePage, SCHEDULE_LINK_NAME);
         return schedulePage;
+    }
+    
+    /**
+     * Get the Actions Web Page. To do this, we first
+     * get the Committee Web Page and fill in the required
+     * fields with some default values.  We can then navigate to the
+     * Actions Web Page.
+     * 
+     * @return the Actions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getActionsPage() throws Exception {
+        HtmlPage committeePage = this.getCommitteePage();
+        this.setDefaultRequiredFields(committeePage);
+        HtmlPage actionsPage = clickOnTab(committeePage, ACTIONS_LINK_NAME);
+        return actionsPage;
     }
     
     /**
