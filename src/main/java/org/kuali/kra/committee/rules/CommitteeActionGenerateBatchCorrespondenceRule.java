@@ -103,9 +103,9 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
             
         }
         
-        if (getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(committeeId, 
-                batchCorrespondence.getFinalActionCorrespType()) == null) {
-            if (batchCorrespondence.getFinalActionCorrespType() != null) {
+        if (!StringUtils.isBlank(batchCorrespondence.getFinalActionCorrespType())) {
+            if (getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(committeeId, 
+                    batchCorrespondence.getFinalActionCorrespType()) == null) {
                 Map<String, String> primaryKeys = new HashMap<String, String>();
                 primaryKeys.put(PROTO_CORRESP_TYPE_CODE, batchCorrespondence.getFinalActionCorrespType());
                 missingTemplates.add(((ProtocolCorrespondenceType) getBusinessObjectService()
