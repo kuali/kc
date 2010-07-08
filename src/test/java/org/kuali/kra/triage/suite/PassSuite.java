@@ -313,6 +313,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.service.CommitteeServiceTest.class,
     org.kuali.kra.award.commitments.AwardFandARateAuditRuleTest.class,
     org.kuali.kra.committee.web.CommitteeResearchAreasWebTest.class,
+    org.kuali.kra.committee.web.CommitteeActionsWebTest.class,
     org.kuali.kra.lookup.WebLookupTest.class,
     org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceTest.class,
     org.kuali.kra.budget.service.BudgetRatesServiceTest.class,
