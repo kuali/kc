@@ -20,6 +20,7 @@ import gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocumen
 import gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument;
 import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList;
+import gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation;
 import gov.grants.apply.forms.rrFedNonFedBudgetV11.BudgetTypeDataType;
 import gov.grants.apply.forms.rrFedNonFedBudgetV11.BudgetYear1DataType;
 import gov.grants.apply.forms.rrFedNonFedBudgetV11.BudgetYearDataType;
@@ -136,20 +137,16 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
                 rrFedNonFedBudget.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
             }
-            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_2
-                    && budgetPeriodData.getLineItemCount() > 0) {
+            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_2) {
                 rrFedNonFedBudget.setBudgetYear2(getBudgetYearDataType(budgetPeriodData));
             }
-            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_3
-                    && budgetPeriodData.getLineItemCount() > 0) {
+            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_3) {
                 rrFedNonFedBudget.setBudgetYear3(getBudgetYearDataType(budgetPeriodData));
             }
-            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_4
-                    && budgetPeriodData.getLineItemCount() > 0) {
+            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_4) {
                 rrFedNonFedBudget.setBudgetYear4(getBudgetYearDataType(budgetPeriodData));
             }
-            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_5
-                    && budgetPeriodData.getLineItemCount() > 0) {
+            else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_5) {
                 rrFedNonFedBudget.setBudgetYear5(getBudgetYearDataType(budgetPeriodData));
             }
         }
@@ -1243,19 +1240,13 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
         }
         Narrative narrative = saveExtraEquipment(periodInfo);
-//        saveExtraKeyPersons(periodInfo);
         AttachedFileDataType attachedFileDataType = null;
-//        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-//            if (narrative.getNarrativeTypeCode() != null
-//                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_EQUIPMENT_ATTACHMENT) {
         if(narrative!=null){
         	attachedFileDataType = getAttachedFileType(narrative);
         	if(attachedFileDataType != null){
         		equipment.setAdditionalEquipmentsAttachment(attachedFileDataType);
-//            		break;
         	}
         }
-//        }
         return equipment;
     }
 
@@ -1365,11 +1356,31 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 			keyPerson.setMiddleName(keyPersonInfo.getMiddleName());
 			keyPerson.setLastName(keyPersonInfo.getLastName());
 			keyPerson.setProjectRole(keyPersonInfo.getRole());
-//			keyPerson.setCompensation(getExtraKeyPersonCompensation(keyPersonInfo));
+			keyPerson.setCompensation(getExtraKeyPersonCompensation(keyPersonInfo));
 			keypersonslist.add(keyPerson);
 		}
 		return keypersonslist.toArray(new gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[0]);
 	}
+    private Compensation getExtraKeyPersonCompensation(KeyPersonInfo keyPersonInfo) {
+        ExtraKeyPersonList.KeyPersons.Compensation compensation = ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation.Factory.newInstance();
+        compensation.setAcademicMonths(keyPersonInfo.getAcademicMonths().bigDecimalValue());
+        compensation.setCalendarMonths(keyPersonInfo.getCalendarMonths().bigDecimalValue());
+        compensation.setSummerMonths(keyPersonInfo.getSummerMonths().bigDecimalValue());
+
+         compensation.setBaseSalary(keyPersonInfo.getBaseSalary().bigDecimalValue());
+        compensation.setFringeBenefits(keyPersonInfo.getFringe().add(keyPersonInfo.getFringeCostSharing()).bigDecimalValue());
+        compensation.setFundsRequested(keyPersonInfo.getFundsRequested().bigDecimalValue());
+        compensation.setRequestedSalary(keyPersonInfo.getRequestedSalary().add(keyPersonInfo.getCostSharingAmount()).bigDecimalValue());
+        compensation.setNonFederal(keyPersonInfo.getNonFundsRequested().bigDecimalValue());
+        if (keyPersonInfo.getFundsRequested() != null){
+            compensation.setTotalFedNonFed(keyPersonInfo.getFundsRequested().add(keyPersonInfo.getNonFundsRequested()).bigDecimalValue());
+        }else {
+            compensation.setTotalFedNonFed(keyPersonInfo.getNonFundsRequested().bigDecimalValue());
+        }
+        
+        return compensation;
+    }
+
     /**
      * This method gets Travel cost information including DomesticTravelCost,ForeignTravelCost and TotalTravelCost in the
      * BudgetYearDataType based on BudgetPeriodInfo for the RRFedNonFedBudget.
