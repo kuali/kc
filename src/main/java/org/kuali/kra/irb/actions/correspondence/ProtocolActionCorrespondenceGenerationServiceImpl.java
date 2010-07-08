@@ -35,7 +35,6 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     
     private BusinessObjectService businessObjectService;
     private PrintingService printingService;
-    private ProtocolXMLStreamService protocolXMLStreamService;
     private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
 
     
@@ -49,9 +48,6 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     
     public void setPrintingService(PrintingService printingService) {
         this.printingService = printingService;
-    }
-    public void setProtocolXMLStreamService(ProtocolXMLStreamService protocolXMLStreamService) {
-        this.protocolXMLStreamService = protocolXMLStreamService;
     }
     public void setProtocolActionTypeToCorrespondenceTemplateService(ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService) {
         this.protocolActionTypeToCorrespondenceTemplateService = protocolActionTypeToCorrespondenceTemplateService;
