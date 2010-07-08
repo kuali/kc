@@ -89,19 +89,35 @@ public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
     }
 
     public String getFinalActionTypeCode() {
-        return finalActionTypeCode;
+        if (finalActionTypeCode == null) {
+            return "";
+        } else {
+            return finalActionTypeCode;
+        }
     }
 
     public void setFinalActionTypeCode(String finalActionTypeCode) {
-        this.finalActionTypeCode = finalActionTypeCode;
+        if (StringUtils.isBlank(finalActionTypeCode)) {
+            this.finalActionTypeCode = null;
+        } else {
+            this.finalActionTypeCode = finalActionTypeCode;
+        }
     }
 
     public String getFinalActionCorrespType() {
-        return finalActionCorrespType;
+        if (finalActionCorrespType == null) {
+            return "";
+        } else {
+            return finalActionCorrespType;
+        }
     }
 
     public void setFinalActionCorrespType(String finalActionCorrespType) {
-        this.finalActionCorrespType = finalActionCorrespType;
+        if (StringUtils.isBlank(finalActionCorrespType)) {
+            this.finalActionCorrespType = null;
+        } else {
+            this.finalActionCorrespType = finalActionCorrespType;
+        }
     }
 
     /**
