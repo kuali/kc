@@ -20,8 +20,8 @@
 <table cellpadding=0 cellspacing=0 summary="">
 <tr><td>
 
-	<c:set var="noOfForms" value="" />
-	<c:set var="availForms" value="" />
+	<c:set var="noOfForms" value="0" />
+	<c:set var="availForms" value="0" />
 	<c:if test="${!empty KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms && fn:length(KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms)>0}" >
 		<c:forEach var="form" items="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms}" varStatus="status">
 		     <c:if test="${form.available == 'true'}">
