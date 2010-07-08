@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -67,7 +68,7 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
      * This method tests saving valid and invalid date ranges.
      * @throws Exception
      */
-    @Test
+    @Test @Ignore("kracoeus-4087")
     public void testSaveAndOverlappingDateFields() throws Exception{
         HtmlPage awardTimeAndMoneyPage = getAwardTimeAndMoneyPage();
         HtmlPage tempAwardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_METHOD);
