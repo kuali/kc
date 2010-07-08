@@ -494,6 +494,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolDao" ref="protocolDao" />
         <property name="protocolGenericActionService" ref="protocolGenericActionService" />
+        <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
     </bean>
     
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
