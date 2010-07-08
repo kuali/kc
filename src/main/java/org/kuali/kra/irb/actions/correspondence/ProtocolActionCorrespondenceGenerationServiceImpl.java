@@ -84,27 +84,12 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     }
     
     /**{@inheritDoc}**/
-    public void generateCorrespondenceDocumentAndAttach(Protocol protocol, List<ProtocolCorrespondenceTemplate> templates, 
-            String actionTypeCode) throws PrintingException {          
-        for (ProtocolCorrespondenceTemplate template : templates) {
-            System.err.println(template.toString());
-            Printable printable = this.protocolXMLStreamService.getPrintableXMLStream(protocol, template);
-            if (printable != null) {
-                AttachmentDataSource ads = this.printingService.print(printable);
-                if (ads != null) {
-                    buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), template.getProtoCorrespTypeCode());
-                }
-            }
-        }
-    }
-    
-    /**{@inheritDoc}**/
     public void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) 
         throws PrintingException {
         if (printableCorrespondence.getXSLTemplates().size() > 0) {
-            //there are templates in play, lets do some printing and attaching
-            AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
+            //there are templates in play, lets do some printing and attaching            
             Protocol protocol = printableCorrespondence.getProtocolDocument().getProtocol();
+            AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
             buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
         }
     }

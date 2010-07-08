@@ -57,10 +57,12 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
 
-    public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
-        List<ProtocolCorrespondenceTemplate> grantExemptionTemplates = 
-            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.GRANT_EXEMPTION);
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, grantExemptionTemplates, ProtocolActionType.GRANT_EXEMPTION);
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolGrantExemptionBean actionBean) throws PrintingException {
+        
+        GrantExemptionCorrespondence correspondence = actionBean.getCorrespondence();
+        correspondence.setDocument(protocol.getProtocolDocument());
+        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
 
     /**
@@ -75,7 +77,7 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.refreshReferenceObject("protocolStatus");
-        generateCorrespondenceDocumentAndAttach(protocol); 
+        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
         documentService.saveDocument(protocol.getProtocolDocument());
     }
 }

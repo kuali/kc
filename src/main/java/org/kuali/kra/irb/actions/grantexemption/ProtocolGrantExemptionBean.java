@@ -54,4 +54,9 @@ public class ProtocolGrantExemptionBean extends ReviewerCommentsBean implements 
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
+    
+    public GrantExemptionCorrespondence getCorrespondence() {
+        GrantExemptionCorrespondence correspondence = new GrantExemptionCorrespondence();
+        return correspondence;
+    }
 }
