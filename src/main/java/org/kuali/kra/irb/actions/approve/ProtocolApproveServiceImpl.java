@@ -52,7 +52,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-        generateCorrespondenceDocumentAndAttach(protocol); 
+        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
 
@@ -63,11 +63,11 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
      * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
-    public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
-        List<ProtocolCorrespondenceTemplate> approvedTemplates = 
-            protocolActionCorrespondenceGenerationService.getCorrespondenceTemplates(ProtocolActionType.APPROVED);
-        String attachmentDescription = "Approved Correspondence Template Document";
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(protocol, approvedTemplates, ProtocolActionType.APPROVED);
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolApproveBean actionBean) throws PrintingException {
+        ApproveCorrespondence correspondence = actionBean.getCorrespondence();
+        correspondence.setDocument(protocol.getProtocolDocument());
+        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
     
     /**
