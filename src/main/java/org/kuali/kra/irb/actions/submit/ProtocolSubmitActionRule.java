@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,8 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
 
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
+    
+    private Collection<String> usedTypeCodes;
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
@@ -93,8 +97,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                                                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
-        }
-        else if (isSubmissionTypeInvalid(submissionTypeCode)) {
+        } else if (isSubmissionTypeInvalid(submissionTypeCode)) {
             isValid = false;
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID, new String[] { submissionTypeCode });
@@ -114,8 +117,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
                                                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
-        }
-        else if (isReviewTypeInvalid(protocolReviewTypeCode)) {
+        } else if (isReviewTypeInvalid(protocolReviewTypeCode)) {
             isValid = false;
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID, new String[] { protocolReviewTypeCode });
@@ -139,8 +141,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, 
                         KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
             return false;
-        }
-        else if (StringUtils.equals(protocolReviewTypeCode, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
+        } else if (StringUtils.equals(protocolReviewTypeCode, ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
             List<ExpeditedReviewCheckListItem> checkList = submitAction.getExpeditedReviewCheckList();
             for (ExpeditedReviewCheckListItem item : checkList) {
                 if (item.getChecked()) {
@@ -161,7 +162,8 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
     private boolean validateReviewers(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
         List<ProtocolReviewerBean> reviewers = submitAction.getReviewers();
-        for (int i=0; i<reviewers.size(); i++) {
+        usedTypeCodes = new ArrayList<String>();
+        for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
@@ -169,6 +171,8 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         }
         return isValid;
     }
+    
+    
 
     /**
      * This method tests if the fields for a given reviewer have legal values.
@@ -180,22 +184,32 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         String reviewerTypeCode = reviewer.getReviewerTypeCode();
         boolean isChecked = reviewer.getChecked();
         
+        String parameterName = Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
+        
+        //test for unique
+        if (usedTypeCodes.contains(reviewerTypeCode)) {
+            isValid = false;
+            reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED, reviewer.getFullName());
+        } else {
+            usedTypeCodes.add(reviewerTypeCode);
+        }
+        
         // test if type code is valid
         if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
             isValid = false;
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
+            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
         }
         
         // if reviewer checked and type code empty, report an error
         if (isChecked && StringUtils.isBlank(reviewerTypeCode)) {
             isValid = false;
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
+            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
         }
         
         // if reviewer unchecked and type code not empty, report an error
         if (!isChecked && !StringUtils.isBlank(reviewerTypeCode)) {
             isValid = false;
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
+            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
         }
         
         return isValid;
