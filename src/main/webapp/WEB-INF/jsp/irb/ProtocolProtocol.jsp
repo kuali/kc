@@ -31,7 +31,8 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-irb:protocolRequiredFields />
-<kra-irb:protocolStatusDateAndRiskLevel />
+<kra-irb:protocolStatusDate />
+<kra-irb:protocolRiskLevel />
 <kra-irb:protocolAdditionalInformation />
 <kra-irb:protocolLocations />
 <kra-irb:protocolFundingSources />
