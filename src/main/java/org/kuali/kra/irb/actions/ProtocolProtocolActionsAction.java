@@ -1883,6 +1883,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
+    /**
+     * 
+     * This method is a nice tool to print off everything in the request object.  Great for debugging.
+     * @param request
+     */
     private void debugPrintRequest(HttpServletRequest request) {
         java.util.Iterator keys = request.getParameterMap().keySet().iterator();
         String newLine = "\n";

@@ -496,7 +496,7 @@ public interface Constants {
     public static final String PROTOCOL_TERMINATE_REQUEST_PROPERTY_KEY = "actionHelper.protocolTerminateRequest";
     public static final String PROTOCOL_ASSIGN_CMT_SCHED_ACTION_PROPERTY_KEY = "actionHelper.protocolAssignCmtSchedAction";
     public static final String PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY = "actionHelper.protocolAssignToAgendaAction";
-    public static final String PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY = "actionHelper.protocolAssignReviewersAction";
+    public static final String PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY = "actionHelper.protocolAssignReviewersBean";
     public static final String PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY = "actionHelper.protocolAdminCorrectionBean";
     public static final String PROTOCOL_RECORD_COMMITTEE_KEY = "actionHelper.committeeDecision";
     

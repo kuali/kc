@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canAssignReviewers}">
 
-<kra:innerTab tabTitle="Assign Reviewers" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignReviewersAction*">
+<kra:innerTab tabTitle="Assign Reviewers" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignReviewersBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
