@@ -37,6 +37,8 @@
         <td style="border:none; vertical-align:bottom; background-image: inherit; background-position: center bottom;">
             <div align="right" style="background-image: inherit; background-position: center bottom;">
                 <c:if test="${fn:length(textValue) > displaySize}">
+                    <%-- so that the JS can grab the value from the opener...got to be a better way to do this...--%>
+                    <html:hidden property="${textAreaFieldName}" write="false" styleId="${textAreaFieldName}" />
                     <kul:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${textAreaLabel}"  readOnly="true" />
                 </c:if>
             </div>
