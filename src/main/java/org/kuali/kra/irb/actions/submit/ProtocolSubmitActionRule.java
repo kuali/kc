@@ -191,7 +191,9 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED, reviewer.getFullName());
         } else {
-            usedTypeCodes.add(reviewerTypeCode);
+            if (!(reviewerTypeCode == null || "".equals(reviewerTypeCode))) {
+                usedTypeCodes.add(reviewerTypeCode);
+            }
         }
         
         // test if type code is valid

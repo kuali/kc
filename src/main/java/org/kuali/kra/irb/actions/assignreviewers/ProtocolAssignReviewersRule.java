@@ -71,7 +71,9 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
             isValid = false;
             reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED, reviewer.getFullName());
         } else {
-            usedTypeCodes.add(reviewerTypeCode);
+            if (!(reviewerTypeCode == null || "".equals(reviewerTypeCode))) {
+                usedTypeCodes.add(reviewerTypeCode);
+            }
         }
         
         // test if type code is valid
