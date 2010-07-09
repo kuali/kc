@@ -1,3 +1,5 @@
+UPDATE KRNS_PARM_T SET PARM_NM = 'IntellectualPropertyReviewActivityHelpUrl' WHERE PARM_NM = 'InstitutionalProposalIPReviewActivityHelpUrl';
+
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID)
 VALUES('KC-IP', 'D', 'PROPOSAL_LOG_PENDING_STATUS_CODE', 'CONFG', '1', 'Code corresponding to Proposal Log status code Pending', 'A', '2FE3959CF9BE4A7891E2EB4E553AF2FC') ;
 
