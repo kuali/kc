@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.assignreviewers;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +36,15 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * Validate the assignment of a protocol to some reviewers.
  */
 public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implements ExecuteProtocolAssignReviewersRule {
+    
+    private Collection<String> usedTypeCodes;
    
-    /**
-     * @see org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule#processAssignReviewers(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean)
-     */
+    /**{@inheritDoc}**/
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         boolean isValid = true;
+        usedTypeCodes = new ArrayList<String>();
         List<ProtocolReviewerBean> reviewers = actionBean.getReviewers();
-        for (int i=0; i<reviewers.size(); i++) {
+        for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
@@ -60,22 +63,33 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
         String reviewerTypeCode = reviewer.getReviewerTypeCode();
         boolean isChecked = reviewer.getChecked();
         
+        String propertyName =  Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
+        //R
+        
+        //test for unique
+        if (usedTypeCodes.contains(reviewerTypeCode)) {
+            isValid = false;
+            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED, reviewer.getFullName());
+        } else {
+            usedTypeCodes.add(reviewerTypeCode);
+        }
+        
         // test if type code is valid
         if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
             isValid = false;
-            reportError(Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
+            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
         }
         
         // if reviewer checked and type code empty, report an error
         if (isChecked && StringUtils.isBlank(reviewerTypeCode)) {
             isValid = false;
-            reportError(Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
+            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED, reviewer.getFullName());
         }
         
         // if reviewer unchecked and type code not empty, report an error
         if (!isChecked && !StringUtils.isBlank(reviewerTypeCode)) {
             isValid = false;
-            reportError(Constants.PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode", KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
+            reportError(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED, reviewer.getFullName());
         }
         
         return isValid;
