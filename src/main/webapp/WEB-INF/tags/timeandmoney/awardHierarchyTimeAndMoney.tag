@@ -169,7 +169,7 @@
                                             </div> --%>
 
 	
-     <div style = "background:#e4e4e4; margin: 10px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+     <div style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >
      
      <div class="divAHT"><div style="padding-right: 47px;">
      	<c:forEach items="${KualiForm.awardHierarchyNodeItems}" var="tempNode" varStatus="status">
