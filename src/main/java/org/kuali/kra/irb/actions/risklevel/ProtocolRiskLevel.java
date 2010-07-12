@@ -35,7 +35,7 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
     private String riskLevelCode;
     private String comments; 
     private Date dateAssigned; 
-    private Date dateUpdated; 
+    private Date dateInactivated; 
     private String status; 
     
     private RiskLevel riskLevel;
@@ -45,6 +45,7 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
      */
     public ProtocolRiskLevel() { 
         dateAssigned = new Date(System.currentTimeMillis());
+        status = Constants.STATUS_ACTIVE;
     } 
     
     public Integer getProtocolRiskLevelId() {
@@ -79,12 +80,12 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         this.dateAssigned = dateAssigned;
     }
 
-    public Date getDateUpdated() {
-        return dateUpdated;
+    public Date getDateInactivated() {
+        return dateInactivated;
     }
 
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
+    public void setDateInactivated(Date dateInactivated) {
+        this.dateInactivated = dateInactivated;
     }
 
     public String getStatus() {
@@ -110,7 +111,7 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         hashMap.put("riskLevelCode", getRiskLevelCode());
         hashMap.put("comments", getComments());
         hashMap.put("dateAssigned", getDateAssigned());
-        hashMap.put("dateUpdated", getDateUpdated());
+        hashMap.put("dateInactivated", getDateInactivated());
         hashMap.put("status", getStatus());
         return hashMap;
     }
@@ -121,7 +122,7 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
         int result = 1;
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((dateAssigned == null) ? 0 : dateAssigned.hashCode());
-        result = prime * result + ((dateUpdated == null) ? 0 : dateUpdated.hashCode());
+        result = prime * result + ((dateInactivated == null) ? 0 : dateInactivated.hashCode());
         result = prime * result + ((getProtocolNumber() == null) ? 0 : getProtocolNumber().hashCode());
         result = prime * result + ((protocolRiskLevelId == null) ? 0 : protocolRiskLevelId.hashCode());
         result = prime * result + ((riskLevel == null) ? 0 : riskLevel.hashCode());
@@ -178,6 +179,10 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
     public String getStatusText() {
         return status.equals(Constants.STATUS_ACTIVE) ? Constants.ACTIVE_STATUS_LITERAL : 
             Constants.INACTIVE_STATUS_LITERAL ;
+    }
+    
+    public boolean isPersisted() {
+        return this.protocolRiskLevelId != null;
     }
     
     /** {@inheritDoc} */
