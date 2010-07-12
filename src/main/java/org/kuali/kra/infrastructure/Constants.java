@@ -157,6 +157,7 @@ public interface Constants {
     public static final String ANSWER_NA = "X";
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
+    public static final String DEFAULT_TIME_FORMAT_PATTERN = "h:mm a";
     public static final String MODULE_NAMESPACE_BUDGET = "KC-B"; 
     public static final String BUDGET_ALL_DETAIL_TYPE_CODE = "A";
     
