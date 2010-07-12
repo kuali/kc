@@ -208,7 +208,10 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        // if 'submit' in async and with 'merging' delete. so, there is latency issue.  it is needed to refresh the schedules,
+        // if user goes to schedule/maintenance directly immediately after 'submit'.
+        ((CommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
+        ((CommitteeForm) form).getCommitteeHelper().prepareView();
         return mapping.findForward("committeeSchedule");
     }
 

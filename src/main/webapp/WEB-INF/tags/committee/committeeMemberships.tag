@@ -39,7 +39,7 @@
     </c:choose>
         
     <kul:tab tabTitle="${tabTitleValue}"
-             tabErrorKey=""
+             tabErrorKey="${committeeMembershipProperty}.delete"
              innerTabErrorKey="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*"
              auditCluster="requiredFieldsAuditErrors" 
              tabAuditKey="" 

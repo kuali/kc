@@ -16,17 +16,24 @@
 package org.kuali.kra.committee.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -42,6 +49,52 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     private static final String READ_ONLY = "readOnly";
     private static final String COMMITTEE_COMMITTEE_NAME = "committee.committeeName";
     private TaskAuthorizationService taskAuthorizationService;
+    private BusinessObjectService businessObjectService;
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<CommitteeSchedule> activeCommitteeSchedules =  (List<CommitteeSchedule>)getActiveList(super.getSearchResults(fieldValues));
+        Long matchingResultsCount = new Long(activeCommitteeSchedules.size());
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
+        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
+            return new CollectionIncomplete(activeCommitteeSchedules, new Long(0));
+        } else {
+            return new CollectionIncomplete(trimResult(activeCommitteeSchedules, searchResultsLimit), matchingResultsCount);
+        }
+    }
+
+    /**
+     * This method trims the search result.
+     * @param result, the result set to be trimmed
+     * @param trimSize, the maximum size of the trimmed result set
+     * @return the trimmed result set
+     */
+    private List<CommitteeSchedule> trimResult(List<CommitteeSchedule> result, Integer trimSize) {
+        List<CommitteeSchedule> trimedResult = new ArrayList<CommitteeSchedule>();
+        for (CommitteeSchedule committeeSchedule : result) {
+            if (trimedResult.size() < trimSize) {
+                trimedResult.add(committeeSchedule); 
+            }
+        }
+        return trimedResult;
+    }
+
+    /*
+     * get the schedules of active committee
+     */
+    @SuppressWarnings("unchecked")
+    private List<? extends BusinessObject> getActiveList(List<? extends BusinessObject> searchResults) {
+
+        List<CommitteeSchedule> uniqueResults = new ArrayList<CommitteeSchedule>();
+        List<Long> activeCommitteePks = getActiveCommitteePks();
+        for (CommitteeSchedule committeeSchedule : (List<CommitteeSchedule>) searchResults) {
+            if (activeCommitteePks.contains(committeeSchedule.getCommitteeIdFk())) {
+                uniqueResults.add(committeeSchedule);
+            }
+        }
+        return uniqueResults;
+    }
 
 
     /**
@@ -139,6 +192,32 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
             }
         }
         return rows;
+    }
+
+    /*
+     * get the active committee pks, and put in a list
+     */
+    private List<Long> getActiveCommitteePks() {
+        List<Committee> committees = (List<Committee>) businessObjectService.findAll(Committee.class);
+        List<String> committeeIds = new ArrayList<String>();
+        List<Long> activeCommitteePks = new ArrayList<Long>();
+        if (committees.size() > 0) {
+            Collections.sort(committees);
+            Collections.reverse(committees);
+            for (Committee committee : committees) {
+                if (!committeeIds.contains(committee.getCommitteeId())) {
+                    committeeIds.add(committee.getCommitteeId());
+                    activeCommitteePks.add(committee.getId());
+                }
+            }
+        }
+
+        return activeCommitteePks;
+    }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

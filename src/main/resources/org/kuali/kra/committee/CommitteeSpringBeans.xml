@@ -67,9 +67,12 @@
 	
 	<bean id="committeeService" class="org.kuali.kra.committee.service.impl.CommitteeServiceImpl">
 	    <property name="businessObjectService" ref="businessObjectService" />
+	    <property name="sequenceAccessorService" ref="sequenceAccessorService" />
 	</bean>
 	
     <bean id="committeeMembershipService" class="org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl">
+	    <property name="businessObjectService" ref="businessObjectService" />
+	    <property name="committeeService" ref="committeeService" />
     </bean>
 
 	<bean id="committeeScheduleService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleServiceImpl">
@@ -100,6 +103,7 @@
 	<bean id="committeeScheduleLookupableHelperService" class="org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl" 
  		scope="prototype" parent="lookupableHelperService">
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+	    <property name="businessObjectService" ref="businessObjectService" />
   	</bean>
     
     <bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao" class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />

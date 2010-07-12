@@ -21,7 +21,14 @@ import static org.junit.Assert.assertEquals;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
@@ -29,7 +36,12 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -52,7 +64,8 @@ public class CommitteeMembershipServiceTest {
     private static final String RESEARCH_AREA_CODE_1 = "000001";
     private static final String RESEARCH_AREA_CODE_3 = "000003";
     private static final String RESEARCH_AREA_CODE_5 = "000005";
-    
+    private Mockery context = new JUnit4Mockery();
+
     private CommitteeMembershipServiceImpl committeeMembershipService;
 
     @Before
@@ -170,6 +183,92 @@ public class CommitteeMembershipServiceTest {
         assertEquals(RESEARCH_AREA_CODE_5, committee.getCommitteeMemberships().get(0).getMembershipExpertise().get(1).getResearchAreaCode());
     }
     
+    
+    /**
+     * 
+     * This method is to test that a member is assigned to reviewer of a protocol
+     * @throws Exception
+     */
+    @Test
+    public void testIsMemberAssignedToReviewer() throws Exception {
+        
+        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        final Map fieldValues = new HashMap();
+        fieldValues.put("committeeId", "test");
+        context.checking(new Expectations() {{
+            one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+            will(returnValue(getProtocolSubmissions()));
+        }});
+        committeeMembershipService.setBusinessObjectService(businessObjectService);
+         List<CommitteeMembership> committeeMemberships = new ArrayList<CommitteeMembership>();
+        CommitteeMembership committeeMembership = createMembership("100", null, "1", "2009-01-01", "2009-01-10");
+        committeeMembership.setDelete(true);
+        Assert.assertTrue(committeeMembershipService.isMemberAssignedToReviewer(committeeMembership, "test"));
+    }
+    
+    /**
+     * 
+     * This method is to test if member is an attendance of a schedule meeting
+     * @throws Exception
+     */
+    @Test
+    public void testIsMemberAssignedAsAttendance() throws Exception {
+        
+        final Committee activeCommittee = new Committee();
+        activeCommittee.setCommitteeId("test");
+        List<CommitteeSchedule> schedules = new ArrayList<CommitteeSchedule>(); 
+        CommitteeScheduleAttendance  attendance = new CommitteeScheduleAttendance();
+        CommitteeSchedule  schedule = new CommitteeSchedule();
+        List<CommitteeScheduleAttendance> attendances = new ArrayList<CommitteeScheduleAttendance>(); 
+        attendance.setPersonId("100");
+        attendances.add(attendance);
+        schedules.add(schedule);
+        schedule.setCommitteeScheduleAttendances(attendances);
+        activeCommittee.setCommitteeSchedules(schedules);
+        final CommitteeService committeeService = context.mock(CommitteeService.class);
+        context.checking(new Expectations() {{
+            one(committeeService).getCommitteeById("test");
+            will(returnValue(activeCommittee));
+        }});
+        committeeMembershipService.setCommitteeService(committeeService);
+         List<CommitteeMembership> committeeMemberships = new ArrayList<CommitteeMembership>();
+        CommitteeMembership committeeMembership = createMembership("100", null, "1", "2009-01-01", "2009-01-10");
+        committeeMembership.setDelete(true);
+        Assert.assertTrue(committeeMembershipService.isMemberAttendedMeeting(committeeMembership, "test"));
+    }
+
+    /*
+     * utility to set up protocolsubmission with reviewer.
+     */
+    private List<ProtocolSubmission> getProtocolSubmissions() {
+        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();    
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        reviewer.setPersonId("100");
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+        reviewers.add(reviewer);
+        ProtocolSubmission submission = new ProtocolSubmission();
+        submission.setProtocolReviewers(reviewers);
+        submissions.add(submission);
+        return submissions;
+    }
+
+    /*
+     * utility method to set up committeemembership.
+     */
+    private CommitteeMembership createMembership(String personID, Integer rolodexID, String membershipTypeCode, String termStartDate, String termEndDate) {
+        CommitteeMembership committeeMembership = new CommitteeMembership();
+        committeeMembership.setPersonId(personID);
+        committeeMembership.setRolodexId(rolodexID);
+        committeeMembership.setMembershipTypeCode(membershipTypeCode);
+        if (termStartDate != null) {
+            committeeMembership.setTermStartDate(Date.valueOf(termStartDate));
+        }
+        if (termEndDate != null) {
+            committeeMembership.setTermEndDate(Date.valueOf(termEndDate));
+        }
+        return committeeMembership;
+    }
+
     /**
      * This method creates and returns a <code>CommitteeMembership</code>.
      * 
