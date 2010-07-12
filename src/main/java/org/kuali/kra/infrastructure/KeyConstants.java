@@ -575,6 +575,7 @@ public final class KeyConstants {
     
     // IRB Protocol Risk Level
     public static final String ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL = "error.duplicate.risk.level";
+    public static final String ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED = "error.date.inactivated.required";
     
     //Institutional Proposal Validation
     public static final String ERROR_EMPTY_GRADUATE_STUDENT_DATA = "error.empty.graduate.student.data";

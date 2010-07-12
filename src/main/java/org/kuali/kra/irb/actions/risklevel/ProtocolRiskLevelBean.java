@@ -54,11 +54,9 @@ public class ProtocolRiskLevelBean implements Serializable {
     /**
      * Initializes a newProtocolRiskLevel to the current settings of the persisted risk level at index and sets the persisted risk level's status to inactive.
      *
-     * @param protocol The protocol referencing the risk levels
-     * @param index The position of the updated risk level in the list of risk levels
+     * @param persistedProtocolRiskLevel The persisted risk level being inactivated
      */
-    public void updateProtocolRiskLevel(Protocol protocol, int index) {
-        ProtocolRiskLevel persistedProtocolRiskLevel = protocol.getProtocolRiskLevels().get(index);
+    public void updateProtocolRiskLevel(ProtocolRiskLevel persistedProtocolRiskLevel) {
         newProtocolRiskLevel.setRiskLevelCode(persistedProtocolRiskLevel.getRiskLevelCode());
         newProtocolRiskLevel.setDateAssigned(persistedProtocolRiskLevel.getDateAssigned());
         newProtocolRiskLevel.setComments(persistedProtocolRiskLevel.getComments());
