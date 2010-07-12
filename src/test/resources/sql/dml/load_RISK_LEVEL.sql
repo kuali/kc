@@ -1,10 +1,5 @@
-INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 1, 'No greater than minimal risk.', sysdate, user ); 
-INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 2, 'Greater than minimal risk but potential for direct benefit for participant', sysdate, user ); 
-INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 3, 'Moderate Risk', sysdate, user ); 
-INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 4, 'Research involving greater than minimal risk, with no potential for benefit to participant, but likely to yield generalizable knowledge about the participant''s condition', sysdate, user ); 
-INSERT INTO RISK_LEVEL ( RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER ) 
-VALUES ( 5, 'High Risk', sysdate, user ); 
+INSERT INTO RISK_LEVEL ( VER_NBR, RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) VALUES ( 1, 1, 'No greater than minimal risk.', to_date('2010-07-12 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'KRADEV', 'C88564DA5758403C9BFF4633FCCC7CDE'); 
+INSERT INTO RISK_LEVEL ( VER_NBR, RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) VALUES ( 1, 2, 'Greater than minimal risk but potential for direct benefit for participant', to_date('2010-07-12 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'KRADEV', '92DBB19C078F4724A7211D6D3FB7827E' ); 
+INSERT INTO RISK_LEVEL ( VER_NBR, RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) VALUES ( 1, 3, 'Moderate Risk', to_date('2010-07-12 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'KRADEV', '4A1FC7EC3DAC431EA8BF304455D7294F' ); 
+INSERT INTO RISK_LEVEL ( VER_NBR, RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) VALUES ( 1, 4, 'Research involving greater than minimal risk, with no potential for benefit to participant, but likely to yield generalizable knowledge about the participant''s condition', to_date('2010-07-12 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'KRADEV', '9E2C9301997F4589BC92BBBB0484EB38' ); 
+INSERT INTO RISK_LEVEL ( VER_NBR, RISK_LEVEL_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID ) VALUES ( 1, 5, 'High Risk', to_date('2010-07-12 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'KRADEV', '2002387FF6E1422DBB2454813A42860B' ); 
