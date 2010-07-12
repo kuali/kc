@@ -150,6 +150,7 @@ public interface Constants {
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
 	public static final String STATUS_ACTIVE = "A";
+	public static final String STATUS_INACTIVE = "I";
     public static final String QUESTION_STATUS_ACTIVE = "A";
     public static final String DOCUMENT_SAVED = "S";
     public static final String DOCUMENT_INITIATED = "?";

@@ -1685,6 +1685,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
+     * Updates a persisted Risk Level in a protocol, moving the persisted risk level to Inactive status and adding a new Active status risk level.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward updateApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
+        
+        protocolRiskLevelBean.updateProtocolRiskLevel(actionHelper.getProtocol(), getSelectedLine(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
      * Deletes a Risk Level to a protocol in an Approval action.
      * 
      * @param mapping Struts action mapping
@@ -1700,10 +1722,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        int itemNumber = getLineToDelete(request);
         
-        protocolRiskLevelBean.deleteProtocolRiskLevel(protocol, itemNumber);
+        protocolRiskLevelBean.deleteProtocolRiskLevel(actionHelper.getProtocol(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     } 

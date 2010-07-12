@@ -91,7 +91,7 @@ public class ProtocolRiskLevelServiceTest extends ProtocolRuleTestBase {
         highRiskLevelProtocol.setRiskLevelCode(HIGH_RISK_CODE);
         highRiskLevelProtocol.setDateAssigned(highRiskDate);
         highRiskLevelProtocol.setStatus(INACTIVE_STATUS);
-        highRiskLevelProtocol.setDateUpdated(highRiskDate);
+        highRiskLevelProtocol.setDateInactivated(highRiskDate);
         highRiskLevelProtocol.setComments(HIGH_RISK_LEVEL_COMMENTS);
         protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
         
@@ -112,7 +112,7 @@ public class ProtocolRiskLevelServiceTest extends ProtocolRuleTestBase {
         assertEquals(expectedRiskLevelCode, protocolRiskLevel.getRiskLevelCode());
         assertEquals(expectedDateAssigned, protocolRiskLevel.getDateAssigned());
         assertEquals(expectedStatus, protocolRiskLevel.getStatus());
-        assertEquals(expectedDateUpdated, protocolRiskLevel.getDateUpdated());
+        assertEquals(expectedDateUpdated, protocolRiskLevel.getDateInactivated());
         assertEquals(expectedComments, protocolRiskLevel.getComments());
     }
     
