@@ -573,6 +573,9 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_SUMMARY_IS_REQUIRED = "error.amendment.required.summary";
     public static final String ERROR_PROTOCOL_SELECT_MODULE = "error.amendment.select.module";
     
+    // IRB Protocol Risk Level
+    public static final String ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL = "error.duplicate.risk.level";
+    
     //Institutional Proposal Validation
     public static final String ERROR_EMPTY_GRADUATE_STUDENT_DATA = "error.empty.graduate.student.data";
     public static final String ERROR_INVALID_SPONSOR_CODE = "error.invalid.sponsorCode";

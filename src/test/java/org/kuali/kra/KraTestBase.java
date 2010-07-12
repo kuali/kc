@@ -134,6 +134,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTO_CORRESP_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ACTION_TYPE.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BATCH_CORRESPONDENCE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_RISK_LEVEL.sql", delimiter = ";")
             }
         )
     )
