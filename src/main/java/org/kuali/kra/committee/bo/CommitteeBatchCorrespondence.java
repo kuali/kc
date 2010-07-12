@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.correspondence.BatchCorrespondence;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -36,9 +37,6 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
 
     private static final long serialVersionUID = 1L;
     
-    private static final String DATE_FORMAT = "MM/dd/yyyy";
-    private static final String TIME_FORMAT = "h:mm a";
-
     private String committeeBatchCorrespondenceId; 
     private String committeeId; 
     private String batchCorrespondenceTypeCode; 
@@ -115,11 +113,11 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     }
     
     public String getFormattedBatchRunDate() {
-        return new SimpleDateFormat(DATE_FORMAT).format(batchRunDate);
+        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(batchRunDate);
     }
     
     public String getFormattedBatchRunTime() {
-        return new SimpleDateFormat(TIME_FORMAT).format(batchRunDate);
+        return new SimpleDateFormat(Constants.DEFAULT_TIME_FORMAT_PATTERN).format(batchRunDate);
     }
 
     public Date getTimeWindowStart() {
@@ -131,7 +129,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     }
 
     public String getFormattedTimeWindowStart() {
-        return new SimpleDateFormat(DATE_FORMAT).format(timeWindowStart);
+        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(timeWindowStart);
     }
 
     public Date getTimeWindowEnd() {
@@ -143,7 +141,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
     }
 
     public String getFormattedTimeWindowEnd() {
-        return new SimpleDateFormat(DATE_FORMAT).format(timeWindowEnd);
+        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(timeWindowEnd);
     }
 
     public List<CommitteeBatchCorrespondenceDetail> getCommitteeBatchCorrespondenceDetails() {
