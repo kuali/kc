@@ -19,11 +19,18 @@ package org.kuali.kra.committee.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -137,4 +144,32 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
             this.setVersionNumber(new Long(0));
         }
     }
+
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
+            List<CommitteeSchedule> schedules = this.getCommittee().getCommitteeSchedules();
+            this.getCommittee().setCommitteeSchedules(getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId()));
+            getBusinessObjectService().delete(schedules);
+            getBusinessObjectService().save(this);
+        }
+    }
+    
+    private CommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeService.class);
+    }
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    /**
+     * Has the document entered the final state in workflow?
+     * @param statusChangeEvent
+     * @return
+     */
+    private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    }
+
 }
