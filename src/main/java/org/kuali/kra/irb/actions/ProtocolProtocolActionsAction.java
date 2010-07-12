@@ -81,8 +81,9 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelEvent;
+import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
+import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -1676,7 +1677,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
         
-        if (applyRules(new ProtocolRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, 
+        if (applyRules(new ProtocolAddRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, 
                protocolRiskLevelBean.getNewProtocolRiskLevel()))) {
             protocolRiskLevelBean.addNewProtocolRiskLevel(actionHelper.getProtocol());
         }
@@ -1700,8 +1701,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
-        
-        protocolRiskLevelBean.updateProtocolRiskLevel(actionHelper.getProtocol(), getSelectedLine(request));
+        Protocol protocol = actionHelper.getProtocol();
+        int lineNumber = getSelectedLine(request);
+
+        if (applyRules(new ProtocolUpdateRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY, lineNumber))) {
+            protocolRiskLevelBean.updateProtocolRiskLevel(protocol.getProtocolRiskLevels().get(lineNumber));
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
