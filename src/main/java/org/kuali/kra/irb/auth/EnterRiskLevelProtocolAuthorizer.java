@@ -23,9 +23,11 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class EnterRiskLevelProtocolAuthorizer extends ProtocolAuthorizer {
 
     /**
+     * Can the user add a risk level at this stage of protocol submission and is the user allowed to do so?
+     * 
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 }

@@ -79,6 +79,10 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelEvent;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -1226,6 +1230,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
             getProtocolApproveService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             
+            getProtocolRiskLevelService().persistProtocolRiskLevels(protocolForm.getProtocolDocument().getProtocol());
+
             getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
         }
@@ -1653,35 +1659,54 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward addRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    /**
+     * Adds a Risk Level to a protocol in an Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward addApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().addNewRiskLevel();
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-   
-    public ActionForward deleteRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        int lineNum = getLineToDelete(request);
-
-        protocolForm.getActionHelper().getRiskLevels().remove(lineNum);
+        if (applyRules(new ProtocolRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, 
+               protocolRiskLevelBean.getNewProtocolRiskLevel()))) {
+            protocolRiskLevelBean.addNewProtocolRiskLevel(actionHelper.getProtocol());
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward submitRiskLevels(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    /**
+     * Deletes a Risk Level to a protocol in an Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward deleteApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().saveRiskLevels();
-        getBusinessObjectService().save(protocolForm.getProtocolDocument().getProtocol());
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        int itemNumber = getLineToDelete(request);
+        
+        protocolRiskLevelBean.deleteProtocolRiskLevel(protocol, itemNumber);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
+    } 
     
     /**
      * Open ProtocolDocument in Read/Write mode for Admin Correction
@@ -1973,4 +1998,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ReviewerCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewerCommentsService.class);
     }
+    
+    private ProtocolRiskLevelService getProtocolRiskLevelService() {
+        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
+    }
+
 }

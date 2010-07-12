@@ -18,11 +18,21 @@ package org.kuali.kra.irb.actions.approve;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 
 public class ProtocolApproveBean extends ProtocolGenericActionBean {
 
     private Date approvalDate = new Date(System.currentTimeMillis());
     private Date expirationDate;
+    
+    private ProtocolRiskLevelBean protocolRiskLevelBean;
+    
+    /**
+     * Constructor initializes variables with no default values.
+     */
+    public ProtocolApproveBean() {
+        protocolRiskLevelBean = new ProtocolRiskLevelBean();
+    }
     
     public Date getApprovalDate() {
         return approvalDate;
@@ -38,6 +48,10 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
     
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+    
+    public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
+        return protocolRiskLevelBean;
     }
     
     public ApproveCorrespondence getCorrespondence() {
