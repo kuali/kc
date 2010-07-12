@@ -23,14 +23,16 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolRiskLevelRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolRiskLevelEvent> {
+public class ProtocolAddRiskLevelRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAddRiskLevelEvent> {
     
-    public boolean processRules(ProtocolRiskLevelEvent event) {
+    private static final String ERROR_PATH_KEY = Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel";
+    
+    public boolean processRules(ProtocolAddRiskLevelEvent event) {
         boolean valid = true;
         
-        GlobalVariables.getMessageMap().addToErrorPath(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY);
+        GlobalVariables.getMessageMap().addToErrorPath(ERROR_PATH_KEY);
         getDictionaryValidationService().validateBusinessObject(event.getProtocolRiskLevel());
-        GlobalVariables.getMessageMap().removeFromErrorPath(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY);
+        GlobalVariables.getMessageMap().removeFromErrorPath(ERROR_PATH_KEY);
         
         valid &= GlobalVariables.getMessageMap().hasNoErrors();
         valid &= validateOneEntryPerRiskLevel(event.getProtocolRiskLevel(), event.getProtocolDocument().getProtocol().getProtocolRiskLevels());
@@ -43,9 +45,10 @@ public class ProtocolRiskLevelRule extends ResearchDocumentRuleBase implements B
         
         for (ProtocolRiskLevel protocolRiskLevel : protocolRiskLevels) {
             if (protocolRiskLevel.getRiskLevelCode().equals(newProtocolRiskLevel.getRiskLevelCode()) 
-                    && protocolRiskLevel.getStatus().equals(newProtocolRiskLevel.getStatus())) {
+                    && Constants.STATUS_ACTIVE.equals(protocolRiskLevel.getStatus()) 
+                    && Constants.STATUS_ACTIVE.equals(newProtocolRiskLevel.getStatus())) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".riskLevelCode", 
+                GlobalVariables.getMessageMap().putError(ERROR_PATH_KEY + ".riskLevelCode", 
                         KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
                 continue;
             }

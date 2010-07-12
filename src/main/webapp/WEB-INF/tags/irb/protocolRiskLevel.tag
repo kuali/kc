@@ -30,7 +30,7 @@
 			           	<td align="left" valign="middle">
 			           	    <div align="left">
 			             	    <kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].riskLevel.description" 
-			             	                              attributeEntry="${riskLevelAttributes.description}" readOnly="true" />
+			             	                              attributeEntry="${riskLevelAttributes.description}" readOnly="true" styleClass="fixed-size-200-select" />
 			                </div>
 			            </td>
 			            <td align="left" valign="middle">
