@@ -18,7 +18,7 @@
 				    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" /> 
 			       	<kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.riskLevelCode}" />
 			        <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.dateAssigned}" />
-			        <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" />
+			        <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.dateInactivated}" />
 			        <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.status}" />
 			        <kul:htmlAttributeHeaderCell attributeEntry="${protocolRiskLevelsAttributes.comments}" />
 				</tr>
@@ -41,8 +41,8 @@
 			            </td>
 			            <td align="left" valign="middle">
 			                <div align="left">
-			             	    <kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].dateUpdated" 
-			             	                              attributeEntry="${protocolRiskLevelsAttributes.dateUpdated}" readOnly="true" />
+			             	    <kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].dateInactivated" 
+			             	                              attributeEntry="${protocolRiskLevelsAttributes.dateInactivated}" readOnly="true" />
 			                </div>
 			            </td>
 			          	<td align="left" valign="middle">

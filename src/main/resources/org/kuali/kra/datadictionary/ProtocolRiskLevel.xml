@@ -41,7 +41,7 @@
 				<ref bean="ProtocolRiskLevel-riskLevelCode" />
 				<ref bean="ProtocolRiskLevel-comments" />
 				<ref bean="ProtocolRiskLevel-dateAssigned" />
-				<ref bean="ProtocolRiskLevel-dateUpdated" />
+				<ref bean="ProtocolRiskLevel-dateInactivated" />
 				<ref bean="ProtocolRiskLevel-status" />
 				<ref bean="ProtocolRiskLevel-versionNumber" />
 			</list>
@@ -176,13 +176,13 @@
 		<property name="description" value="Date Assigned" />
 	</bean>
 
-	<bean id="ProtocolRiskLevel-dateUpdated" parent="ProtocolRiskLevel-dateUpdated-parentBean" />
-	<bean id="ProtocolRiskLevel-dateUpdated-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-		<property name="name" value="dateUpdated" />
-		<property name="label" value="Date Updated" />
-		<property name="shortLabel" value="Date Updated" />
-		<property name="summary" value="Date Updated" />
-		<property name="description" value="Date Updated" />
+	<bean id="ProtocolRiskLevel-dateInactivated" parent="ProtocolRiskLevel-dateInactivated-parentBean" />
+	<bean id="ProtocolRiskLevel-dateInactivated-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+		<property name="name" value="dateInactivated" />
+		<property name="label" value="Date Inactivated" />
+		<property name="shortLabel" value="Date Inactivated" />
+		<property name="summary" value="Date Inactivated" />
+		<property name="description" value="Date Inactivated" />
 	</bean>
 
 	<bean id="ProtocolRiskLevel-status" parent="ProtocolRiskLevel-status-parentBean" />
@@ -233,7 +233,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="dateAssigned" />
 							<bean parent="FieldDefinition"
-								p:attributeName="dateUpdated" />
+								p:attributeName="dateInactivated" />
 							<bean parent="FieldDefinition"
 								p:attributeName="status" />
 						</list>
@@ -271,7 +271,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="dateAssigned" />
 				<bean parent="FieldDefinition"
-					p:attributeName="dateUpdated" />
+					p:attributeName="dateInactivated" />
 				<bean parent="FieldDefinition"
 					p:attributeName="status" />
 			</list>
@@ -294,7 +294,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="dateAssigned" />
 				<bean parent="FieldDefinition"
-					p:attributeName="dateUpdated" />
+					p:attributeName="dateInactivated" />
 				<bean parent="FieldDefinition"
 					p:attributeName="status" />
 			</list>
