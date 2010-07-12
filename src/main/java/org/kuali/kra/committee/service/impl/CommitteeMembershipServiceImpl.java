@@ -17,7 +17,9 @@ package org.kuali.kra.committee.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
@@ -25,7 +27,12 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
+import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class CommitteeMembershipServiceImpl implements CommitteeMembershipService {
@@ -37,6 +44,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private static final String REFERENCE_MEMBERSHIP_TYPE = "membershipType";
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
     private static final String REFERENCE_RESEARCH_AREA = "researchArea";
+    private BusinessObjectService businessObjectService;
+    private CommitteeService committeeService;
 
     /**
      * @see org.kuali.kra.committee.service.CommitteeMembershipService#addCommitteeMembership(org.kuali.kra.committee.bo.Committee, org.kuali.kra.committee.bo.CommitteeMembership)
@@ -115,4 +124,66 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         CommitteeMembershipExpertise committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
         committeeMembership.getMembershipExpertise().remove(committeeMembershipExpertise);
     }
+
+    /**
+     * 
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#isMemberAssignedToReviewer(org.kuali.kra.committee.bo.CommitteeMembership, java.lang.String)
+     */
+    public boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId) {
+        boolean isReviewer = false;
+        for (ProtocolSubmission submission : getProtocolSubmissionsForCommittee(committeeId)) {
+            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+                if (StringUtils.equals(reviewer.getPersonId(), member.getPersonId())
+                        || (member.getRolodexId() != null && StringUtils.equals(reviewer.getPersonId(), member.getRolodexId()
+                                .toString()))) {
+                    isReviewer = true;
+                }
+            }
+
+        }
+
+        return isReviewer;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.committee.service.CommitteeMembershipService#isMemberAttendedMeeting(org.kuali.kra.committee.bo.CommitteeMembership, java.lang.String)
+     */
+    public boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId) {
+        boolean isAttendance = false;
+        Committee committee = committeeService.getCommitteeById(committeeId);
+        if (committee != null) {
+            for (CommitteeSchedule committeeSchedule : committee.getCommitteeSchedules()) {
+                for (CommitteeScheduleAttendance attendance : committeeSchedule.getCommitteeScheduleAttendances()) {
+                    if (StringUtils.equals(attendance.getPersonId(), member.getPersonId()) 
+                            || (member.getRolodexId() != null && StringUtils.equals(attendance.getPersonId(), member.getRolodexId().toString()))) {
+                        isAttendance = true;
+                    }
+                }
+            }
+        }
+
+        return isAttendance;
+    }
+
+    /*
+     * get protocolsubmissions that are assigned to this committee.
+     */
+    @SuppressWarnings("unchecked")
+    private List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
+        Map fieldMap = new HashMap();
+        fieldMap.put("committeeId",committeeId);
+        return (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldMap);
+        
+    }
+    
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setCommitteeService(CommitteeService committeeService) {
+        this.committeeService = committeeService;
+    }
+
 }

@@ -29,6 +29,7 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -73,10 +74,19 @@ public class CommitteeHelper implements Serializable {
      * This method is UI view hook.
      */
     public void prepareView() {
-        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()
+                .equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
             modifyCommittee = false;
-            modifySchedule = canModifySchedule();
-            viewSchedule = canViewSchedule();
+            Committee activeCommittee = getCommitteeService().getCommitteeById(
+                    getCommittee().getCommitteeId());
+            if (activeCommittee.getId().equals(getCommittee().getId())) {
+                modifySchedule = canModifySchedule();
+                viewSchedule = canViewSchedule();
+            } else {
+                // inactive committee can not access schedule data either
+                modifySchedule = false;
+                viewSchedule = false;
+            }
         } else {
             modifyCommittee = canModifyCommittee();
             modifySchedule = false;
@@ -113,6 +123,10 @@ public class CommitteeHelper implements Serializable {
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    private CommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeService.class);
     }
 
     /**

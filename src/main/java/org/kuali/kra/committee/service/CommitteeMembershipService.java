@@ -67,4 +67,26 @@ public interface CommitteeMembershipService {
      * @param lineNumber - the position of the CommitteeMembershipExpertise to be deleted
      */
     void deleteCommitteeMembershipExpertise(Committee committee, int selectedMembershipIndex, int lineNumber);
+
+    /**
+     * 
+     * This method is to check whether this committee member is assigned as reviewer of a protocol
+     * which is submitted to this committee.
+     * 
+     * @param member
+     * @param committeeId
+     * @return
+     */
+    boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId);
+
+    /**
+     * 
+     * This method is to check whether this committee member has attended a scheduled meeting
+     * which is submitted to this committee.
+     * 
+     * @param member
+     * @param committeeId
+     * @return
+     */
+    boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId);
 }

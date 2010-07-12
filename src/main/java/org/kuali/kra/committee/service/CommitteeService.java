@@ -67,4 +67,12 @@ public interface CommitteeService {
      * @return the schedule or null if not found
      */
     public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId);
+    
+    /**
+     * 
+     * This method to merge existing meeting data to the new approved committee.
+     * @param committeeId
+     * @return
+     */
+    List<CommitteeSchedule>  mergeCommitteeSchedule(String committeeId);
 }

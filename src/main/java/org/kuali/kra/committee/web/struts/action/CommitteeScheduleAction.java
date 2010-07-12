@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleWeekDayEvent;
+import org.kuali.kra.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
@@ -45,8 +47,6 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import java.util.Collections;
 
 public class CommitteeScheduleAction extends CommitteeAction {
     
@@ -161,30 +161,34 @@ public class CommitteeScheduleAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        CommitteeForm committeeForm = (CommitteeForm) form;          
+    public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        CommitteeForm committeeForm = (CommitteeForm) form;
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String methodToCall = committeeForm.getMethodToCall();
         if (question == null) {
-            return performQuestionWithoutInput(mapping, form, request, response, DELETE_QUESTION_ID, DELETE_QUESTION, KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
-        }
-        else {
+            if (applyRules(new DeleteCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules(),
+                ErrorType.HARDERROR))) {
+                return performQuestionWithoutInput(mapping, form, request, response, DELETE_QUESTION_ID, DELETE_QUESTION,
+                        KNSConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            }
+        } else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                
+
                 List<CommitteeSchedule> list = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
                 List<CommitteeSchedule> updatedlist = new ArrayList<CommitteeSchedule>(list);
                 Collections.copy(updatedlist, list);
-                for(CommitteeSchedule schedule : list) {
-                    if(schedule.isSelected()) 
+                for (CommitteeSchedule schedule : list) {
+                    if (schedule.isSelected())
                         updatedlist.remove(schedule);
                 }
                 committeeForm.getCommitteeDocument().getCommittee().setCommitteeSchedules(updatedlist);
             }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC );
-    }    
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     /**
      * This method is UI hook to filter dates in between start and end date.
@@ -255,7 +259,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;          
+        CommitteeForm committeeForm = (CommitteeForm) form;     
         CommitteeSchedule commSchedule = ((CommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
                 +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule() && committeeForm.getCommitteeHelper().canViewSchedule()));
