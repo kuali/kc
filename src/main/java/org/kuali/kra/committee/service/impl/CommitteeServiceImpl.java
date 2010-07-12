@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
@@ -33,8 +34,15 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kra.meeting.CommScheduleActItem;
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.ScheduleAgenda;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The Committee Service implementation.
@@ -45,6 +53,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     private static final String NO_PLACE = "[no location]";
 
     private BusinessObjectService businessObjectService;
+    private SequenceAccessorService sequenceAccessorService;
 
     /**
      * Set the Business Object Service.
@@ -228,4 +237,152 @@ public class CommitteeServiceImpl implements CommitteeService {
         }
         return null;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.committee.service.CommitteeService#mergeCommitteeSchedule(java.lang.String)
+     */
+    public List<CommitteeSchedule> mergeCommitteeSchedule(String committeeId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(COMMITTEE_ID, committeeId);
+        List<Committee> committees = (List<Committee>) businessObjectService.findMatching(Committee.class, fieldValues);
+        Collections.sort(committees);
+        Committee newCommittee = committees.get(committees.size() - 1);
+        Committee oldCommittee = committees.get(committees.size() - 2);
+        List<CommitteeSchedule> copiedSchedules = new ArrayList<CommitteeSchedule>();
+        if (CollectionUtils.isNotEmpty(newCommittee.getCommitteeSchedules())
+                || CollectionUtils.isNotEmpty(oldCommittee.getCommitteeSchedules())) {
+            copiedSchedules = copySchedules(newCommittee.getCommitteeSchedules(), oldCommittee.getCommitteeSchedules());
+        }
+        return copiedSchedules;
+    }
+
+    /*
+     * copy schedules from old committee to new committee if the old schedule has meeting data.
+     * new added schedules, whose date does not exist in old committee schedules, will be automatically included in the return list.
+     */
+    private List<CommitteeSchedule> copySchedules(List<CommitteeSchedule> newSchedules, List<CommitteeSchedule> oldSchedules) {
+        List<CommitteeSchedule> copiedSchedules = new ArrayList<CommitteeSchedule>();
+        for (CommitteeSchedule schedule : oldSchedules) {
+            if (isNotEmptyData(schedule) || isInNewCommittee(schedule, newSchedules)) {
+                CommitteeSchedule copiedSchedule = getCopiedSchedule(schedule);
+                if (isInNewCommittee(schedule, newSchedules)) {
+                    CommitteeSchedule newSchedule = getNewCommitteeSchedule(schedule, newSchedules);
+                    copiedSchedule.setScheduleStatusCode(newSchedule.getScheduleStatusCode());
+                    copiedSchedule.setPlace(newSchedule.getPlace());
+                    copiedSchedule.setTime(newSchedule.getTime());
+                }
+                copiedSchedules.add(copiedSchedule);
+            } 
+        }
+        for (CommitteeSchedule schedule : newSchedules) {
+            if (!isScheduleDateMatched(schedule, copiedSchedules)) {
+                copiedSchedules.add(schedule);
+            }
+        }
+        return copiedSchedules;
+
+    }
+    
+    /*
+     * check if schedule contain meeting which also include whether protocol submitted.
+     */
+    private boolean isNotEmptyData(CommitteeSchedule schedule) {
+        return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
+        || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
+        || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
+        || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
+        || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
+        || CollectionUtils.isNotEmpty(schedule.getProtocolSubmissions()) ;
+        
+    }
+    
+    /*
+     * get schedule that will copy all meeting data from old schedule
+     */
+    private CommitteeSchedule getCopiedSchedule(CommitteeSchedule schedule) {
+        CommitteeSchedule copiedSchedule = (CommitteeSchedule) ObjectUtils.deepCopy(schedule);
+        copiedSchedule.setId(null);
+        schedule.getCommScheduleActItems().size();
+        // all the collection are set up as transient because the complexity
+        // of doc content and deepcopy.  keep it this way.
+        copiedSchedule.setScheduleAgendas(schedule.getScheduleAgendas());
+        copiedSchedule.setMinuteDocs(schedule.getMinuteDocs());
+        copiedSchedule.setCommitteeScheduleAttendances(schedule.getCommitteeScheduleAttendances());
+        copiedSchedule.setCommitteeScheduleMinutes(schedule.getCommitteeScheduleMinutes());
+        copiedSchedule.setCommScheduleActItems(schedule.getCommScheduleActItems());
+        copiedSchedule.setProtocolSubmissions(schedule.getProtocolSubmissions());
+        for (CommitteeScheduleAttendance attendance : copiedSchedule.getCommitteeScheduleAttendances()) {
+            attendance.setCommScheduleAttendanceId(null);
+        }
+        for (CommitteeScheduleMinute minute : copiedSchedule.getCommitteeScheduleMinutes()) {
+            minute.setCommScheduleMinutesId(null);
+        }
+        for (CommScheduleActItem actItem : copiedSchedule.getCommScheduleActItems()) {
+            setActItemId(actItem, copiedSchedule.getCommitteeScheduleMinutes());
+        }
+        for (CommScheduleMinuteDoc minuteDoc : copiedSchedule.getMinuteDocs()) {
+            minuteDoc.setCommScheduleMinuteDocId(null);
+        }
+        for (ScheduleAgenda agenda : copiedSchedule.getScheduleAgendas()) {
+            agenda.setScheduleAgendaId(null);
+        }
+        return copiedSchedule;
+        
+    }
+    
+    /*
+     * Since actitemid is reset, and if the act item is referenced in minute;
+     * then this relationship need to be set up properly.
+     */
+    private void setActItemId(CommScheduleActItem actItem, List<CommitteeScheduleMinute> minutes) {
+        Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
+        for (CommitteeScheduleMinute minute : minutes) {
+            if (minute.getCommScheduleActItemsIdFk() != null && actItem.getCommScheduleActItemsId().equals(minute.getCommScheduleActItemsIdFk())) {
+                minute.setCommScheduleActItemsIdFk(nextCommScheduleActItemId);
+            }            
+        }
+        actItem.setCommScheduleActItemsId(nextCommScheduleActItemId);
+    }
+    
+    /*
+     * check if new schedule is already exist in the new copied schedule list.
+     */
+    private boolean isScheduleDateMatched(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+        for (CommitteeSchedule copiedSchedule : schedules) {
+            if (schedule.getScheduledDate().equals(copiedSchedule.getScheduledDate())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /*
+     * check if old schedule still exist in new committee
+     */
+    private boolean isInNewCommittee(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+        for (CommitteeSchedule newSchedule : schedules) {
+            if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /*
+     * get the matched schedule from new committee.
+     */
+    private CommitteeSchedule getNewCommitteeSchedule(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+        for (CommitteeSchedule newSchedule : schedules) {
+            if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
+                return newSchedule;
+            }
+        }
+        return null;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
+    }
+
 }

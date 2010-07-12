@@ -37,6 +37,8 @@ import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
+import org.kuali.kra.committee.rule.event.DeleteCommitteeMemberEvent;
+import org.kuali.kra.committee.rule.event.CommitteeMemberEventBase.ErrorType;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.committee.web.struts.form.CommitteeHelper;
@@ -103,12 +105,15 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-        getCommitteeMembershipService().deleteCommitteeMembership(committeeDocument.getCommittee());
-        return mapping.findForward(Constants.MAPPING_BASIC );
+        if (applyRules(new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm
+                .getCommitteeDocument().getCommittee().getCommitteeMemberships(), ErrorType.HARDERROR))) {
+            getCommitteeMembershipService().deleteCommitteeMembership(committeeDocument.getCommittee());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

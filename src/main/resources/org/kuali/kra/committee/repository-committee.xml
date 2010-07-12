@@ -62,6 +62,12 @@
 		<collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
+		<collection-descriptor name="minuteDocs" proxy="true" element-class-ref="org.kuali.kra.meeting.CommScheduleMinuteDoc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
+		<collection-descriptor name="scheduleAgendas" proxy="true" element-class-ref="org.kuali.kra.meeting.ScheduleAgenda" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
 		
 	</class-descriptor>
 

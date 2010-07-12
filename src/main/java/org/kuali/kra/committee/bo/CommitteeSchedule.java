@@ -30,8 +30,10 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.CommScheduleActItem;
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.ScheduleAgenda;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
@@ -64,16 +66,22 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 	private Committee committee; 
     private ScheduleStatus scheduleStatus;
     
-    private List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
-    private List<CommitteeScheduleMinute> committeeScheduleMinutes;        
-    @SkipVersioning
-    private List<ProtocolSubmission> protocolSubmissions;        
-    private List<CommScheduleActItem>  commScheduleActItems;
     //TODO revisit required during meeting management to map Protocol
     @SkipVersioning
     private List<Protocol> protocols;
     private Time12HrFmt viewStartTime;
     private Time12HrFmt viewEndTime;
+
+    // Following are related to meeting data.  They will not be serialized to doc content.
+    // So, keep the "transient". Also, they are not versioned with version service.   
+    // Merging these data from old version committee to the new version committee at the time of "approval" of new version committee.
+    private transient List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
+    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;        
+    @SkipVersioning
+    private transient List<ProtocolSubmission> protocolSubmissions;        
+    private transient List<CommScheduleActItem>  commScheduleActItems;
+    private transient List<CommScheduleMinuteDoc> minuteDocs;        
+    private transient List<ScheduleAgenda> scheduleAgendas;        
 
     
     public CommitteeSchedule() { 
@@ -81,6 +89,8 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>()); 
         setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>()); 
+        setMinuteDocs(new ArrayList<CommScheduleMinuteDoc>()); 
+        setScheduleAgendas(new ArrayList<ScheduleAgenda>()); 
 	} 
 	
     public Long getId() {
@@ -440,6 +450,22 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 
     public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
+    }
+
+    public List<CommScheduleMinuteDoc> getMinuteDocs() {
+        return minuteDocs;
+    }
+
+    public void setMinuteDocs(List<CommScheduleMinuteDoc> minuteDocs) {
+        this.minuteDocs = minuteDocs;
+    }
+
+    public List<ScheduleAgenda> getScheduleAgendas() {
+        return scheduleAgendas;
+    }
+
+    public void setScheduleAgendas(List<ScheduleAgenda> scheduleAgendas) {
+        this.scheduleAgendas = scheduleAgendas;
     }
 
 }

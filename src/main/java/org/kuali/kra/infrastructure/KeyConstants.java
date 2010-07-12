@@ -635,6 +635,8 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_ENDTIME_BEFORE_STARTTIME = "error.committeeSchedule.endTime.before.startTime";
     public static final String ERROR_COMMITTEESCHEDULE_DAY = "error.committeeSchedule.day";
     public static final String ERROR_COMMITTEESCHEDULE_WEEKDAY = "error.committeeSchedule.weekday";
+    public static final String ERROR_COMMITTEESCHEDULE_DELETE = "error.committeeSchedule.delete";
+    public static final String ERROR_COMMITTEEMEMBER_DELETE = "error.committeeMember.delete";
     
     // Committee Actions Messages
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED = "error.committee.action.generate.batch.correspondence.type.code.not.specified";
