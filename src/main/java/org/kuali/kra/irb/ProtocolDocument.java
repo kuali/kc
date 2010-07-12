@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -30,16 +31,21 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -173,14 +179,34 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (isFinal(statusChangeEvent)) {
-            if (isAmendment()) {
-                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+            // this is implementing option#1 for kcinfr-30.  save original usersession person
+            // after merge is done, then reset to the original usersession person.  
+            // this is workaround for async.  There will be rice enhancement to resolve this issue.
+            try {
+                DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
+                        this.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
+                String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+                String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
+                if (!principalId.equals(asyncPrincipalId)) {
+                    KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
+                    GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
+                }
+                if (isAmendment()) {
+                    mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+                }
+                else if (isRenewal()) {
+                    mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
+                }
+                else {
+                    approveProtocol();
+                }
+                if (!principalId.equals(asyncPrincipalId)) {
+                    GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
+                }
             }
-            else if (isRenewal()) {
-                mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
-            }
-            else {
-                approveProtocol();
+            catch (Exception e) {
+
             }
         }
         else if (isDisapproved(statusChangeEvent)) { 
