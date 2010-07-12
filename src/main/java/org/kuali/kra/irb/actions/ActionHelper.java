@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -180,8 +181,6 @@ public class ActionHelper implements Serializable {
     private String selectedHistoryItem;
     private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
     
-    private ProtocolRiskLevel newRiskLevel;
-    private List<ProtocolRiskLevel> riskLevels = null;
     // additional properties for Submission Details
     private ProtocolSubmission selectedSubmission;
     private List<CommitteeScheduleMinute> reviewComments;        
@@ -197,14 +196,9 @@ public class ActionHelper implements Serializable {
      */
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
-        List<ProtocolAction> protocolActions = null;
-        try{
-            protocolActions = this.form.getProtocolDocument().getProtocol().getProtocolActions();
-        } catch (Exception e) {
-            
-        }
         
-        ProtocolSubmission currentSubmission = form.getProtocolDocument().getProtocol().getProtocolSubmission();
+        List<ProtocolAction> protocolActions = getProtocol().getProtocolActions();
+        ProtocolSubmission currentSubmission = getProtocol().getProtocolSubmission();
         
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
@@ -232,7 +226,7 @@ public class ActionHelper implements Serializable {
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
         protocolExpediteApprovalBean = buildProtocolGenericActionBean(EXPEDITE_APPROVAL_BEAN_TYPE, protocolActions, currentSubmission);
         
-        protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol());
+        protocolApproveBean = buildProtocolApproveBean(getProtocol());
         
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
@@ -242,11 +236,10 @@ public class ActionHelper implements Serializable {
         protocolExpireBean = buildProtocolGenericActionBean(EXPIRE_BEAN_TYPE, protocolActions, currentSubmission);
         protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions, currentSubmission);
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
-        newRiskLevel = new ProtocolRiskLevel();
         protocolAdminCorrectionBean = createAdminCorrectionBean();
-        undoLastActionBean = createUndoLastActionBean(this.form.getProtocolDocument().getProtocol());
+        undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision();
-        committeeDecision.init(this.form.getProtocolDocument().getProtocol());
+        committeeDecision.init(getProtocol());
         addReviewerCommentsToBean(committeeDecision, this.form);
     }
     
@@ -496,11 +489,7 @@ public class ActionHelper implements Serializable {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         }
         createProtocolSummaries();
-        
-        if (riskLevels == null) {
-            riskLevels = new ArrayList<ProtocolRiskLevel>();
-            riskLevels.addAll(getProtocol().getProtocolRiskLevels());
-        }
+
         // TODO : temporary for development
 //        if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
 //            currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
@@ -554,14 +543,6 @@ public class ActionHelper implements Serializable {
 
     private String getParameterValue(String parameterName) {
         return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);      
-    }
-
-    private Protocol getProtocol() {
-        ProtocolDocument document = form.getDocument();
-        if (document == null || document.getProtocol() == null) {
-            throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
-        }
-        return document.getProtocol();
     }
     
     private boolean hasSubmitProtocolPermission() {
@@ -722,6 +703,10 @@ public class ActionHelper implements Serializable {
 
     public ProtocolForm getProtocolForm() {
         return form;
+    }
+    
+    public Protocol getProtocol() {
+        return form.getProtocolDocument().getProtocol();
     }
 
     public boolean getCanSubmitProtocol() {
@@ -1095,30 +1080,6 @@ public class ActionHelper implements Serializable {
         }
         return this.committeeScheduleService;
     }
-    
-    public ProtocolRiskLevel getNewRiskLevel() {
-        return newRiskLevel;
-    }
-
-    public void setNewRiskLevel(ProtocolRiskLevel newRiskLevel) {
-        this.newRiskLevel = newRiskLevel;
-    }
-
-    public void addNewRiskLevel() {
-        riskLevels.add(getNewRiskLevel());
-        setNewRiskLevel(new ProtocolRiskLevel());
-    }
-    
-    public void saveRiskLevels() {
-        getProtocol().setProtocolRiskLevels(riskLevels);
-        riskLevels = new ArrayList<ProtocolRiskLevel>();
-        riskLevels.addAll(getProtocol().getProtocolRiskLevels());
-    }
-
-    public List<ProtocolRiskLevel> getRiskLevels() {
-        return riskLevels;
-    }
-
 
     public ProtocolSubmission getSelectedSubmission() {
         return selectedSubmission;

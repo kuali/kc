@@ -42,7 +42,6 @@
             <kra-irb-action:dataAnalysisRequestAction />
             <kra-irb-action:terminateRequestAction />
             <kra-irb-action:deleteAction />
-            <kra-irb-action:riskLevelAction />
             <kra-irb-action:makeAdminCorrectionAction />
             <kra-irb-action:closeEnrollmentAction />
             <kra-irb-action:reopenAction />
