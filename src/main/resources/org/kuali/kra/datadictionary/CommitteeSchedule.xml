@@ -119,9 +119,9 @@
 	<bean id="CommSchedule-scheduledDate" parent="CommSchedule-scheduledDate-parentBean" />
 	<bean id="CommSchedule-scheduledDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="scheduledDate" />
-		<property name="label" value="Scheduled Date" />
+		<property name="label" value="Schedule Date" />
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Scheduled Date" />
+		<property name="shortLabel" value="Schedule Date" />
 		<property name="summary" value="Scheduled Date" />
 		<property name="description" value="Scheduled Date" />		
 	</bean>
@@ -187,9 +187,9 @@
 	<bean id="CommSchedule-scheduleStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="scheduleStatusCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Schedule Status Code" />
-		<property name="shortLabel" value="Schedule Status Code" />
-		<property name="maxLength" value="22" />
+		<property name="label" value="Status" />
+		<property name="shortLabel" value="Status" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
