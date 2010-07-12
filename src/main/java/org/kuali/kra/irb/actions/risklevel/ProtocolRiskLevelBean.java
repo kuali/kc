@@ -17,14 +17,21 @@ package org.kuali.kra.irb.actions.risklevel;
 
 import java.io.Serializable;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 
+/**
+ * Encapsulates the actions that can be performed on a ProtocolRiskLevel.
+ */
 public class ProtocolRiskLevelBean implements Serializable {
     
     private static final long serialVersionUID = -7683369421103168798L;
     
     private ProtocolRiskLevel newProtocolRiskLevel;
     
+    /**
+     * Constructs a ProtocolRiskLevelBean.
+     */
     public ProtocolRiskLevelBean() {
         newProtocolRiskLevel = new ProtocolRiskLevel();
     }
@@ -45,7 +52,25 @@ public class ProtocolRiskLevelBean implements Serializable {
     }
     
     /**
+     * Initializes a newProtocolRiskLevel to the current settings of the persisted risk level at index and sets the persisted risk level's status to inactive.
+     *
+     * @param protocol The protocol referencing the risk levels
+     * @param index The position of the updated risk level in the list of risk levels
+     */
+    public void updateProtocolRiskLevel(Protocol protocol, int index) {
+        ProtocolRiskLevel persistedProtocolRiskLevel = protocol.getProtocolRiskLevels().get(index);
+        newProtocolRiskLevel.setRiskLevelCode(persistedProtocolRiskLevel.getRiskLevelCode());
+        newProtocolRiskLevel.setDateAssigned(persistedProtocolRiskLevel.getDateAssigned());
+        newProtocolRiskLevel.setComments(persistedProtocolRiskLevel.getComments());
+        
+        persistedProtocolRiskLevel.setStatus(Constants.STATUS_INACTIVE);
+    }
+    
+    /**
      * Removes the protocol risk level at index from the list of protocol risk levels and adds it to the list of deleted protocol risk levels.
+     *
+     * @param protocol The protocol referencing the risk levels
+     * @param index The position of the deleted risk level in the list of risk levels
      */
     public void deleteProtocolRiskLevel(Protocol protocol, int index) {
         if (index >= 0 && index < protocol.getProtocolRiskLevels().size()) {

@@ -42,7 +42,8 @@ public class ProtocolRiskLevelRule extends ResearchDocumentRuleBase implements B
         boolean valid = true;
         
         for (ProtocolRiskLevel protocolRiskLevel : protocolRiskLevels) {
-            if (protocolRiskLevel.getRiskLevelCode().equals(newProtocolRiskLevel.getRiskLevelCode())) {
+            if (protocolRiskLevel.getRiskLevelCode().equals(newProtocolRiskLevel.getRiskLevelCode()) 
+                    && protocolRiskLevel.getStatus().equals(newProtocolRiskLevel.getStatus())) {
                 valid = false;
                 GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".riskLevelCode", 
                         KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
