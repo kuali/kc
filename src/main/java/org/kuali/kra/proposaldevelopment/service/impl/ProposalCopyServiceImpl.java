@@ -55,6 +55,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -870,7 +873,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
-//        getBudgetService().copyBudgetVersion(budgetDocument);
+        List<BudgetSubAwards> budgetSubAwards = budgetDocument.getBudget().getBudgetSubAwards();
+        for (BudgetSubAwards budgetSubAward : budgetSubAwards) {
+            List<BudgetSubAwardFiles> budgetSubAwardFiles = budgetSubAward.getBudgetSubAwardFiles();
+            if(budgetSubAwardFiles==null || budgetSubAwardFiles.isEmpty()){
+                Map param = new HashMap();
+                param.put("budgetId", budgetSubAward.getBudgetId());
+                param.put("subAwardNumber", budgetSubAward.getSubAwardNumber());
+                budgetSubAward.setBudgetSubAwardFiles((List)businessObjectService.findMatching(BudgetSubAwardFiles.class, param));
+                budgetSubAward.setBudgetSubAwardAttachments((List)businessObjectService.findMatching(BudgetSubAwardAttachment.class, param));
+            }
+        }
+
         
         budgetDocument.toCopy();
         budgetDocument.setVersionNumber(null);
@@ -892,6 +906,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         fixNumericProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetSubawardAttachmentId", Long.class, null, objectMap);
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
         objectMap.clear();
