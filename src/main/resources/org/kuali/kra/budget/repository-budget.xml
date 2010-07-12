@@ -959,19 +959,14 @@
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<collection-descriptor name="budgetSubAwardFiles" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="budgetSubAwardFiles" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
-		</collection-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetId"/> 
-		</reference-descriptor>
-
-		-->
+		</collection-descriptor>
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
