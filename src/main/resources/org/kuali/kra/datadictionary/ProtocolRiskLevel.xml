@@ -23,7 +23,7 @@
 
 	<bean id="ProtocolRiskLevel" parent="ProtocolRiskLevel-parentBean" />
 	<bean id="ProtocolRiskLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.ProtocolRiskLevel" />
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel" />
 		<property name="objectLabel" value="Protocol Risk Level" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolRiskLevel-inquiryDefinition" />
@@ -130,7 +130,7 @@
 		<property name="shortLabel" value="Risk Level" />
 		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="required" value="true" />
 		<property name="control" >

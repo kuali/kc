@@ -448,8 +448,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.print.ProtocolPrintingServiceTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionRuleTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceTest.class,
-    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
-
+    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class,
+    org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelRuleTest.class,
+    org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceTest.class
+    
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
