@@ -479,7 +479,8 @@ public interface Constants {
     public static final String PROTOCOL_CREATE_AMENDMENT_KEY = "actionHelper.protocolCreateAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
     
-    public static final String PROTOCOL_ENTER_RISK_LEVEL_KEY = "actionHelper.newProtocolRiskLevel";
+    public static final String PROTOCOL_ENTER_RISK_LEVEL_KEY = "actionHelper.protocolApproveBean.protocolRiskLevelBean";
+    public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     
     //Protocol Personnel Audit Rules
     public static final String PROTOCOL_PERSONNEL_PAGE = "personnel";

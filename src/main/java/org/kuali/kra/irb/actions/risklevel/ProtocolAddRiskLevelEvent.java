@@ -20,12 +20,12 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 @SuppressWarnings("unchecked")
-public class ProtocolRiskLevelEvent extends KraDocumentEventBaseExtension {
+public class ProtocolAddRiskLevelEvent extends KraDocumentEventBaseExtension {
     
-    private ProtocolRiskLevel riskLevel;
     private String propertyName;
+    private ProtocolRiskLevel riskLevel;
 
-    public ProtocolRiskLevelEvent(ProtocolDocument document, String propertyName, ProtocolRiskLevel riskLevel) {
+    public ProtocolAddRiskLevelEvent(ProtocolDocument document, String propertyName, ProtocolRiskLevel riskLevel) {
         super("Enter risk level", "", document);
         this.propertyName = propertyName;
         this.riskLevel = riskLevel;
@@ -45,7 +45,7 @@ public class ProtocolRiskLevelEvent extends KraDocumentEventBaseExtension {
 
     @Override
     public BusinessRuleInterface getRule() {
-        return new ProtocolRiskLevelRule();
+        return new ProtocolAddRiskLevelRule();
     }
 
 }
