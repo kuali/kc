@@ -49,13 +49,9 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
+       
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
     }
     
-    public ApproveCorrespondence getCorrespondence() {
-        ApproveCorrespondence correspondence = new ApproveCorrespondence();
-        return correspondence;
-    }
 }

@@ -110,7 +110,7 @@
                     <td>
 						<div align="center" class="globalbuttons">
 							<html:image property="methodToCall.openProtocolForAdminCorrection.anchor${tabKey}"
-							            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_ok.gif' styleClass="globalbuttons" />
+							            src='${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton" />
 						</div>
 	                </td>
                 </tr>

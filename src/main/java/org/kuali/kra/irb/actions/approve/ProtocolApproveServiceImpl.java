@@ -16,15 +16,14 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -52,7 +51,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
-        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
+        generateCorrespondenceDocumentAndAttach(protocol); 
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
 
@@ -63,8 +62,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
      * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolApproveBean actionBean) throws PrintingException {
-        ApproveCorrespondence correspondence = actionBean.getCorrespondence();
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.APPROVED);
         correspondence.setDocument(protocol.getProtocolDocument());
         correspondence.setProtocolDocument(protocol.getProtocolDocument());
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
