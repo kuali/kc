@@ -473,7 +473,8 @@
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
-			<version>0.95</version>
+			<!-- cannot upgrade this dependency due to coeus compatibility -->
+			<version>0.93</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>xmlParserAPIs</artifactId>
