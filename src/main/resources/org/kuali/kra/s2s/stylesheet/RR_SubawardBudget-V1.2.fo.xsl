@@ -2363,6 +2363,10 @@
 										</fo:table-row>
 									</fo:table-header>
 									<fo:table-body>
+<!--                                                                              <fo:table-row>
+                                                                                 <fo:table-cell>
+                                                                                  <fo:block>
+-->									
 										<xsl:if test="string-length(RR_Budget:Equipment)=0">
 											<fo:table-row>
 												<fo:table-cell >
