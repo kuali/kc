@@ -9,9 +9,12 @@ additional.config.locations=/path/to/config/rice-config.xml
 
 <config>
 
+    <param name="http.port">8080</param>
+    <param name="application.host">127.0.0.1</param>
+	
 	<!-- Please fill in a value for this parameter! -->
-	<param name="app.context.name">kr-${environment}</param>
-	<param name="application.url">http://127.0.0.1:8081/${app.context.name}</param>
+	<!--<param name="app.context.name">kr-${environment}</param>
+	<param name="application.url">http://127.0.0.1:8080/${app.context.name}</param>-->
 
 	<param name="workflow.url">${application.url}/kew</param>
 
