@@ -1280,7 +1280,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     /**
      * Sets the narrativeService attribute value.
      * 
-     * @param narrativeService The narrativeService to set.
+     * @param narrativeService The narrativeService to set.`
      */
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
@@ -1516,7 +1516,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public String getBudgetStatusDescription() {
         if (StringUtils.isEmpty(budgetStatusDescription)) {
-                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this); 
+            KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this); 
         }
         return budgetStatusDescription;
     }
@@ -1944,4 +1944,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.nsfCodeBo = nsfCodeBo;
     }
 
+    public String getAttachmentsStatus() {
+        String statusString = "Complete";
+        if (!getNarratives().isEmpty()) {
+            for (Narrative aNarrative : getNarratives()) {
+                if ("Incomplete".equals(aNarrative.getNarrativeStatus().getDescription())) {
+                    statusString = aNarrative.getNarrativeStatus().getDescription();
+                }
+            }
+        } else {
+            statusString = "None";
+        }
+        return statusString;
+    }
 }
