@@ -571,8 +571,6 @@ public interface Constants {
     public static final String TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION = "TIME_AND_MONEY";    
     public static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     
-    public static final String DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD = "DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD";
-
     //
     public static final String KC_GENERIC_PARAMETER_NAMESPACE = "KC-GEN";
     public static final String KC_ALL_PARAMETER_DETAIL_TYPE_CODE = "A";

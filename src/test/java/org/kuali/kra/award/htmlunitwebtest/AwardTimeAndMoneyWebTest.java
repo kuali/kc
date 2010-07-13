@@ -34,8 +34,10 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     
     protected static final String TIME_AND_MONEY_LINK_NAME = "timeAndMoney.x";
     protected static final String TIME_AND_MONEY_BUTTON_NAME = "methodToCall.timeAndMoney";
+    protected static final String RETURN_TO_AWARD_BUTTON_NAME = "methodToCall.returnToAward";
     HtmlPage awardTimeAndMoneyPage;
-
+    HtmlPage tempAwardPage;
+    
     /**
      * The set up method calls the parent super method and gets the 
      * award Time and Money page after that.
@@ -55,6 +57,7 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
     public void tearDown() throws Exception {
         super.tearDown();
         awardTimeAndMoneyPage = null;
+        tempAwardPage = null;
     }
     
     /**
@@ -70,6 +73,14 @@ public class AwardTimeAndMoneyWebTest extends AwardWebTestBase{
         HtmlPage awardHomePage = this.getAwardHomePage();
         HtmlPage awardTimeAndMoneyPage = clickOn(awardHomePage, TIME_AND_MONEY_BUTTON_NAME);
         return awardTimeAndMoneyPage;
+    }
+    
+    @Test
+    public void testReturnToAward() throws Exception{
+        tempAwardPage = clickOn(awardTimeAndMoneyPage,RETURN_TO_AWARD_BUTTON_NAME);
+        assertDoesNotContain(tempAwardPage, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(tempAwardPage, ERRORS_FOUND_ON_PAGE);
+        assertContains(tempAwardPage, DEFAULT_DOCUMENT_DESCRIPTION);
     }
     
     @Test
