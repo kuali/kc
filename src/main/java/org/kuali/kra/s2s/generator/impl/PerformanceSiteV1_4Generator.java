@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.performanceSite14V14.PerformanceSite14Document;
 import gov.grants.apply.forms.performanceSite14V14.SiteLocationDataType;
 import gov.grants.apply.forms.performanceSite14V14.PerformanceSite14Document.PerformanceSite14;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.util.ArrayList;
@@ -54,7 +55,10 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
 		performanceSite14.setFormVersion(S2SConstants.FORMVERSION_1_4);
 		performanceSite14.setPrimarySite(getPrimarySite());
 		performanceSite14.setOtherSiteArray(getSiteLocationDataTypeArray());
-	    performanceSite14.setAttachedFile(getAttachedFileDataType("40"));
+		AttachedFileDataType attachedFile = getAttachedFileDataType("40");
+		if(attachedFile!=null){
+		    performanceSite14.setAttachedFile(attachedFile);
+		}
 		performanceSite14Document.setPerformanceSite14(performanceSite14);
 		return performanceSite14Document;
 	}

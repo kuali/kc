@@ -55,7 +55,10 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
 		performanceSite13.setFormVersion(S2SConstants.FORMVERSION_1_3);
 		performanceSite13.setPrimarySite(getPrimarySite());
 		performanceSite13.setOtherSiteArray(getSiteLocationDataTypeArray());
-		performanceSite13.setAttachedFile(getAttachment());
+		AttachedFileDataType attachedFile = getAttachment();
+		if(attachedFile!=null){
+		    performanceSite13.setAttachedFile(attachedFile);
+	    }
 		performanceSite13Document.setPerformanceSite13(performanceSite13);
 		return performanceSite13Document;
 	}
