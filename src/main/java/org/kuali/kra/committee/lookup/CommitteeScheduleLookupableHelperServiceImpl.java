@@ -54,9 +54,9 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<CommitteeSchedule> activeCommitteeSchedules =  (List<CommitteeSchedule>)getActiveList(super.getSearchResults(fieldValues));
+        List<CommitteeSchedule> activeCommitteeSchedules =  (List<CommitteeSchedule>)getActiveList(super.getSearchResultsUnbounded(fieldValues));
         Long matchingResultsCount = new Long(activeCommitteeSchedules.size());
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommitteeSchedule.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
             return new CollectionIncomplete(activeCommitteeSchedules, new Long(0));
         } else {
