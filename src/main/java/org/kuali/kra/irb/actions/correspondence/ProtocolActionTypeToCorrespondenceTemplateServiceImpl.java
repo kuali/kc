@@ -60,8 +60,8 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUSPENDED, Arrays.asList("Suspension notice"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.EXPIRED, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUSPENDED_BY_DSMB, Arrays.asList("Suspension notice"));
-        actionTypesToCorrespondenceType.put(ProtocolActionType.EXPEDITE_APPROVAL, Arrays.asList(""));
-        actionTypesToCorrespondenceType.put(ProtocolActionType.GRANT_EXEMPTION, Arrays.asList(""));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.EXPEDITE_APPROVAL, Arrays.asList("Expedited Approval Letter"));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.GRANT_EXEMPTION, Arrays.asList("Grant Exemption Notice")); 
         actionTypesToCorrespondenceType.put(ProtocolActionType.ADMINISTRATIVE_CORRECTION, Arrays.asList(""));
         /**
          * The following correspondence types don't map to a Protocol Action at this time:

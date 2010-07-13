@@ -150,7 +150,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolApproveBean;
-    private ProtocolGenericActionBean protocolExpediteApprovalBean;
+    private ProtocolApproveBean protocolExpediteApprovalBean;
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
@@ -224,10 +224,8 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
-        protocolExpediteApprovalBean = buildProtocolGenericActionBean(EXPEDITE_APPROVAL_BEAN_TYPE, protocolActions, currentSubmission);
-        
-        protocolApproveBean = buildProtocolApproveBean(getProtocol());
-        
+        protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
+        protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
         protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions, currentSubmission);
@@ -264,9 +262,9 @@ public class ActionHelper implements Serializable {
         return bean;
     }
     
-    private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol) throws Exception{
+    private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol, int beanType) throws Exception{
         ProtocolApproveBean bean = new ProtocolApproveBean();
-        ProtocolAction protocolAction = findProtocolAction(APPROVE_BEAN_TYPE, protocol.getProtocolActions(), protocol.getProtocolSubmission());
+        ProtocolAction protocolAction = findProtocolAction(beanType, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -785,7 +783,7 @@ public class ActionHelper implements Serializable {
         return protocolGrantExemptionBean;
     }
     
-    public ProtocolGenericActionBean getProtocolExpediteApprovalBean() {
+    public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
     }
 
