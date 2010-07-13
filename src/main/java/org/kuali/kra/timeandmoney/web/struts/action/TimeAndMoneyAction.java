@@ -799,8 +799,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         getBusinessObjectService().save(timeAndMoneyDocument);
         
-        AwardDocument awardDocument = (AwardDocument)GlobalVariables.getUserSession().retrieveObject(Constants.DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD);
-        
+        AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
+                
         Long routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
 
         String forward = buildForwardUrl(routeHeaderId);

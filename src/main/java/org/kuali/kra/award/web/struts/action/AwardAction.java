@@ -719,9 +719,6 @@ public class AwardAction extends BudgetParentActionBase {
                 getBusinessObjectService().save(transactionDetail);
             }
         }
-        
-        addDocumentToSession(awardForm.getAwardDocument());
-
 
         Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
 
@@ -837,15 +834,6 @@ public class AwardAction extends BudgetParentActionBase {
         return KraServiceLocator.getService(KraWorkflowService.class);
     }
     
-    /*
-     * 
-     * This adds the awardDocument to the user session which will be retrieved later when returning the the Award.
-     * @param awardDocument
-     */
-    private void addDocumentToSession(AwardDocument awardDocument) {
-        GlobalVariables.getUserSession().addObject(Constants.DOCUMENT_NUMBER_FOR_RETURN_TO_AWARD, awardDocument);
-        
-    }
 
     /**
      * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
