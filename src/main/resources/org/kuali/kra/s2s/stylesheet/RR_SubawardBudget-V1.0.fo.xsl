@@ -62,7 +62,7 @@
 						<fo:table-column column-width="0.2in"/>
 						<fo:table-body>
 							<fo:table-row>
-								<fo:table-cell width="0.2in">&#160;</fo:table-cell>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
 								<fo:table-cell width="9.0in">
 									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
 									<fo:block>&#160;</fo:block>
@@ -79,13 +79,16 @@
                            </fo:block>
 									<fo:block>&#160;</fo:block>
 								</fo:table-cell>
-								<fo:table-cell width="0.2in">&#160;</fo:table-cell>
+								<fo:table-cell width="0.2in"><fo:block>&#160;</fo:block></fo:table-cell>
 							</fo:table-row>
 						</fo:table-body>
 					</fo:table>
 					<fo:table width="100%">
 						<fo:table-column/>
 						<fo:table-body>
+                                                    <fo:table-row>
+                                                    <fo:table-cell>
+                                                      <fo:block> 
 							<xsl:if test="RR_SubawardBudget:ATT1!=''">
 								<xsl:call-template name="attach_block">
 									<xsl:with-param name="block_num"/>
@@ -176,6 +179,9 @@
 									</xsl:with-param>
 								</xsl:call-template>
 							</xsl:if>
+                                                            </fo:block> 
+                                                         </fo:table-cell>
+                                                     </fo:table-row>
 						</fo:table-body>
 					</fo:table>
 				</fo:flow>
@@ -571,11 +577,14 @@
 								<fo:table-column column-width="proportional-column-width(20)"/>
 								<fo:table-column column-width="proportional-column-width(20)"/>
 								<fo:table-body>
+                                                                    <fo:table-row>
+                                                                    <fo:table-cell>
 									<!--============= ROWS Begin ======================-->
+                                                                        <fo:block>
 									<xsl:for-each select="RR_Budget:BudgetSummary">
 										<fo:table-row>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell number-columns-spanned="2" text-align="center">
 												<fo:block>
@@ -593,7 +602,7 @@
 												<fo:block font-weight="bold">Section A, Senior/Key Person</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -610,7 +619,7 @@
 												<fo:block font-weight="bold">Section B, Other Personnel</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -632,7 +641,7 @@
 												</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 										</fo:table-row>
 										<fo:table-row>
@@ -640,7 +649,7 @@
 												<fo:block font-weight="bold">Total Salary, Wages and Fringe Benefits (A+B)</fo:block>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -657,7 +666,7 @@
 												<fo:block font-weight="bold">Section C, Equipment</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -674,7 +683,7 @@
 												<fo:block font-weight="bold">Section D, Travel</fo:block>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -700,7 +709,7 @@
 												</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 										</fo:table-row>
 										<fo:table-row>
@@ -717,7 +726,7 @@
 												</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 										</fo:table-row>
 										<fo:table-row>
@@ -725,7 +734,7 @@
 												<fo:block font-weight="bold">Section E, Participant/Trainee Support Costs</fo:block>
 											</fo:table-cell>
 											<fo:table-cell>
-												<fo:block>&#160;</fo:block>
+												<fo:block/>
 											</fo:table-cell>
 											<fo:table-cell text-align="right">
 												<fo:block>
@@ -1091,7 +1100,11 @@
 											</fo:table-cell>
 										</fo:table-row>
 										<!--============ ROWS End ================================-->
+                                                                              
 									</xsl:for-each>
+                                                                         </fo:block> 
+                                                                    </fo:table-cell>
+                                                                   </fo:table-row>
 								</fo:table-body>
 							</fo:table>
 						</fo:block>
@@ -1252,6 +1265,7 @@
 					</fo:table-row>
 				</fo:table-body>
 			</fo:table>
+                         <fo:block>
 			<xsl:for-each select="RR_Budget:KeyPersons">
 				<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 					<fo:table-column/>
@@ -1345,6 +1359,7 @@
 											</fo:table-row>
 										</fo:table-body>
 									</fo:table>
+                                                                         <fo:block>
 									<xsl:for-each select="RR_Budget:KeyPerson">
 										<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 											<fo:table-column column-width="proportional-column-width(2)"/>
@@ -1514,6 +1529,7 @@
 											</fo:table-body>
 										</fo:table>
 									</xsl:for-each>
+                                                                        </fo:block>
 									<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 										<fo:table-column column-width="proportional-column-width(10)"/>
 										<fo:table-column column-width="proportional-column-width(18)"/>
@@ -1597,6 +1613,7 @@
 					</fo:table-body>
 				</fo:table>
 			</xsl:for-each>
+                        </fo:block>
 			<fo:block>
 				<fo:leader leader-pattern="space"/>
 			</fo:block>
@@ -1665,6 +1682,11 @@
 												</fo:block>
 											</fo:table-cell>
 										</fo:table-row>
+                                                                                 <fo:table-row>
+                                                                                <fo:table-cell>
+											<fo:block/>
+										</fo:table-cell>
+									</fo:table-row>
 										<xsl:for-each select="RR_Budget:OtherPersonnel">
 											<fo:table-row>
 												<fo:table-cell line-height="9pt" text-align="center" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before">
@@ -2053,6 +2075,7 @@
 										</xsl:for-each>
 									</fo:table-body>
 								</fo:table>
+                                                                <fo:block>
 								<xsl:for-each select="RR_Budget:OtherPersonnel">
 									<xsl:for-each select="RR_Budget:Other">
 										<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
@@ -2155,6 +2178,7 @@
 										</fo:table>
 									</xsl:for-each>
 								</xsl:for-each>
+                                                                </fo:block>
 								<fo:table width="100%" space-before.optimum="0pt" space-after.optimum="0pt">
 									<fo:table-column column-width="proportional-column-width(10)"/>
 									<fo:table-column column-width="proportional-column-width(75)"/>
@@ -2347,13 +2371,11 @@
 										</fo:table-row>
 									</fo:table-header>
 									<fo:table-body>
-										<xsl:if test="string-length(RR_Budget:Equipment)=0">
-											<fo:table-row>
-												<fo:table-cell >
-													<fo:block/>
-												</fo:table-cell>
-											</fo:table-row>
-										</xsl:if>
+                                                                            <fo:table-row>
+                                                                            <fo:table-cell>
+											<fo:block/>
+										</fo:table-cell>
+									</fo:table-row>
 										<xsl:for-each select="RR_Budget:Equipment">
 											<xsl:for-each select="RR_Budget:EquipmentList">
 												<fo:table-row>
@@ -2777,6 +2799,11 @@
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
+                                    <fo:table-row>
+                                    <fo:table-cell>
+				    <fo:block/>
+			    </fo:table-cell>
+		    </fo:table-row>
 					<xsl:for-each select="RR_Budget:OtherDirectCosts">
 						<fo:table-row>
 							<fo:table-cell line-height="9pt" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="1pt" display-align="before" text-align="start">
@@ -3012,6 +3039,11 @@
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
+                                    <fo:table-row>
+                                    <fo:table-cell>
+                                        <fo:block/>
+				</fo:table-cell>
+			</fo:table-row>
 					<xsl:for-each select="RR_Budget:IndirectCosts">
 						<xsl:for-each select="RR_Budget:IndirectCost">
 							<fo:table-row>
@@ -3077,7 +3109,8 @@
 					</fo:table-row>
 					<fo:table-row>
 						<fo:table-cell hyphenate="true" language="en" number-columns-spanned="4" text-align="left" padding-start="1pt" padding-end="1pt" padding-before="1pt" padding-after="0pt" display-align="before">
-							<fo:table>
+                                                    <fo:block>	
+                                                        <fo:table>
 								<fo:table-column column-width="proportional-column-width(40)"/>
 								<fo:table-column column-width="proportional-column-width(60)"/>
 								<fo:table-body>
@@ -3105,6 +3138,7 @@
 									</fo:table-row>
 								</fo:table-body>
 							</fo:table>
+                                                      </fo:block>
 						</fo:table-cell>
 					</fo:table-row>
 				</fo:table-body>

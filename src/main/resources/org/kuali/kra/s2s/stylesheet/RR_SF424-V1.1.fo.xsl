@@ -106,10 +106,10 @@
                <!-- First Page                            -->
                <!-- ===================================== -->
                <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt" table-layout="fixed">
-                  <fo:table-column column-width="25%"/>
-                  <fo:table-column column-width="25%"/>
-                  <fo:table-column column-width="25%"/>
-                  <fo:table-column column-width="25%"/>
+                  <fo:table-column column-width="proportional-column-width(10)"/>
+                  <fo:table-column column-width="proportional-column-width(4)"/>
+                  <fo:table-column column-width="proportional-column-width(6)"/>
+                  <fo:table-column column-width="proportional-column-width(10)"/>
                   <fo:table-body>
                      <fo:table-row>
                         <!-- ============================ -->
@@ -406,8 +406,8 @@
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
                               table-layout="fixed">
-                              <fo:table-column column-width="25%"/>
-                              <fo:table-column column-width="75%"/>
+                              <fo:table-column column-width="proportional-column-width(1)"/>
+                              <fo:table-column column-width="proportional-column-width(2)"/>
                               <fo:table-body>
                                  <fo:table-row>
                                     <fo:table-cell hyphenate="true" language="en"
@@ -1026,7 +1026,7 @@
                         <!-- Project Title                -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="4"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1045,7 +1045,7 @@
                         <!-- Project Affected Areas       -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="4"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1235,7 +1235,7 @@
                         <!-- Project Director Information -->
                         <!-- ============================ -->
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="4"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1246,7 +1246,6 @@
                          border-width="1pt"
                          border-color="black">
                            <fo:block font-size="8pt" font-weight="bold">15. PROJECT DIRECTOR/PRINCIPAL INVESTIGATOR CONTACT INFORMATION</fo:block>
-                            <fo:block font-size="8pt">
                            <xsl:call-template name="printNameFormatted">
                               <xsl:with-param name="prefix"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Name/globLib:PrefixName"/></xsl:with-param>
                               <xsl:with-param name="first"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Name/globLib:FirstName"/></xsl:with-param>
@@ -1254,14 +1253,12 @@
                               <xsl:with-param name="last"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Name/globLib:LastName"/></xsl:with-param>
                               <xsl:with-param name="suffix"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Name/globLib:SuffixName"/></xsl:with-param>
                            </xsl:call-template>
-                           </fo:block>
-                            <fo:block font-size="8pt">
                            <fo:table width="100%"
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
                               table-layout="fixed">
-                              <fo:table-column column-width="25%"/>
-                              <fo:table-column column-width="75%"/>
+                              <fo:table-column column-width="proportional-column-width(1)"/>
+                              <fo:table-column column-width="proportional-column-width(2)"/>
                               <fo:table-body>
                                  <fo:table-row>
                                     <fo:table-cell hyphenate="true" language="en"
@@ -1274,7 +1271,7 @@
                                      border-style="solid"
                                      border-width="0pt"
                                      border-color="white">
-                                       <fo:block font-size="8pt" >
+                                       <fo:block font-size="8pt">
                                           Position/Title: <xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Title"/>
                                        </fo:block>
                                     </fo:table-cell>
@@ -1293,11 +1290,6 @@
                                        </fo:block>
                                     </fo:table-cell>
                                  </fo:table-row>
-                                 <fo:table-row>
-                                     <fo:table-cell>
-                                         <fo:block></fo:block>
-                                     </fo:table-cell>
-                                 </fo:table-row>
                                  <xsl:call-template name="printAddressFormatted">
                                     <xsl:with-param name="department"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:DepartmentName"/></xsl:with-param>
                                     <xsl:with-param name="division"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:DivisionName"/></xsl:with-param>
@@ -1312,14 +1304,11 @@
                                  </xsl:call-template>
                               </fo:table-body>
                            </fo:table>
-                           </fo:block>
-                            <fo:block font-size="8pt">
                            <xsl:call-template name="printContactInfo">
                               <xsl:with-param name="phone"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Phone"/></xsl:with-param>
                               <xsl:with-param name="fax"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Fax"/></xsl:with-param>
                               <xsl:with-param name="email"><xsl:value-of select="RR_SF424:PDPIContactInfo/RR_SF424:Email"/></xsl:with-param>
                            </xsl:call-template>
-                           </fo:block>
                         </fo:table-cell>
                      </fo:table-row>
                   </fo:table-body>
@@ -1375,8 +1364,8 @@
                   space-before.optimum="0pt"
                   space-after.optimum="0pt"
                   table-layout="fixed">
-                  <fo:table-column column-width="25%"/>
-                  <fo:table-column column-width="75%"/>                  
+                  <fo:table-column column-width="proportional-column-width(4)"/>
+                  <fo:table-column column-width="proportional-column-width(6)"/>
                   <fo:table-body>
                      <fo:table-row>
                         <!-- ============================ -->
@@ -1448,7 +1437,7 @@
                               space-after.optimum="0pt"
                               table-layout="fixed">
                               <fo:table-column column-width="proportional-column-width(4)"/>
-                              <fo:table-column column-width="proportional-column-width(3)"/>
+                              <fo:table-column column-width="proportional-column-width(96)"/>
                               <fo:table-body>
                                  <fo:table-row>
                                     <fo:table-cell hyphenate="true" language="en"
@@ -1482,10 +1471,10 @@
                               space-before.optimum="0pt"
                               space-after.optimum="0pt"
                               table-layout="fixed">
-                              <fo:table-column column-width="5%"/>
-                              <fo:table-column column-width="15%"/>
-                              <fo:table-column column-width="15%"/>
-                              <fo:table-column column-width="25%"/>
+                              <fo:table-column column-width="proportional-column-width(3)"/>
+                              <fo:table-column column-width="proportional-column-width(10)"/>
+                              <fo:table-column column-width="proportional-column-width(4)"/>
+                              <fo:table-column column-width="proportional-column-width(83)"/>
                               <fo:table-body>
                                  <fo:table-row>
                                     <fo:table-cell hyphenate="true" language="en"
@@ -1924,8 +1913,8 @@
                                  space-before.optimum="0pt"
                                  space-after.optimum="0pt"
                                  table-layout="fixed">
-                                 <fo:table-column column-width="25%"/>
-                                 <fo:table-column column-width="75%"/>
+                                 <fo:table-column column-width="proportional-column-width(25)"/>
+                                 <fo:table-column column-width="proportional-column-width(975)"/>
                                  <fo:table-body>
                                     <fo:table-row>
                                        <fo:table-cell hyphenate="true" language="en"
@@ -1963,7 +1952,7 @@
                      <!-- ============================ -->
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="2"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -1985,9 +1974,11 @@
                            </fo:block>
                            <fo:block font-size="8pt">
                               <fo:table width="100%"
-                                 space-before.optimum="0pt" space-after.optimum="0pt" table-layout="fixed">
-                                 <fo:table-column column-width="25%"/>
-                                 <fo:table-column column-width="75%"/>
+                                 space-before.optimum="0pt"
+                                 space-after.optimum="0pt"
+                                 table-layout="fixed">
+                                 <fo:table-column column-width="proportional-column-width(1)"/>
+                                 <fo:table-column column-width="proportional-column-width(2)"/>
                                  <fo:table-body>
                                     <fo:table-row>
                                        <fo:table-cell hyphenate="true" language="en"
@@ -2093,7 +2084,7 @@
                      </fo:table-row>
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="2"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2114,7 +2105,7 @@
                      
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="2"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2132,7 +2123,7 @@
                      
                      <fo:table-row>
                         <fo:table-cell hyphenate="true" language="en"
-                         number-columns-spanned="2"
+                         number-columns-spanned="5"
                          padding-start="3pt"
                          padding-end="3pt"
                          padding-before="1pt"
@@ -2295,10 +2286,10 @@
                space-before.optimum="0pt"
                space-after.optimum="0pt"
                table-layout="fixed">
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
+               <fo:table-column column-width="proportional-column-width(2)"/>
+               <fo:table-column column-width="proportional-column-width(2)"/>
+               <fo:table-column column-width="proportional-column-width(1)"/>
+               <fo:table-column column-width="proportional-column-width(1)"/>
                <fo:table-body>
                   <fo:table-row>
                      <fo:table-cell hyphenate="true" language="en"
@@ -2359,10 +2350,10 @@
                space-before.optimum="0pt"
                space-after.optimum="0pt"
                table-layout="fixed">
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
-               <fo:table-column column-width="25%"/>
+               <fo:table-column column-width="proportional-column-width(2)"/>
+               <fo:table-column column-width="proportional-column-width(2)"/>
+               <fo:table-column column-width="proportional-column-width(1)"/>
+               <fo:table-column column-width="proportional-column-width(1)"/>
                <fo:table-body>
                   <fo:table-row>
                      <fo:table-cell hyphenate="true" language="en"
@@ -2445,11 +2436,11 @@
          space-before.optimum="0pt"
          space-after.optimum="0pt"
          table-layout="fixed">
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
+         <fo:table-column column-width="proportional-column-width(3)"/>
+         <fo:table-column column-width="proportional-column-width(2)"/>
+         <fo:table-column column-width="proportional-column-width(3)"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
          <fo:table-body>
             <fo:table-row>
                <fo:table-cell hyphenate="true" language="en"
@@ -2591,9 +2582,9 @@
        space-before.optimum="0pt"
        space-after.optimum="0pt"
        table-layout="fixed">
-         <fo:table-column column-width="30%"/>
-         <fo:table-column column-width="30%"/>
-         <fo:table-column column-width="40%"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
          <fo:table-body>
             <fo:table-row>
                <fo:table-cell hyphenate="true" language="en"
@@ -2648,9 +2639,9 @@
        space-before.optimum="0pt"
        space-after.optimum="0pt"
        table-layout="fixed">
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
-         <fo:table-column column-width="20%"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
+         <fo:table-column column-width="proportional-column-width(1)"/>
          <fo:table-body>
             <fo:table-row>
                <fo:table-cell hyphenate="true" language="en"
