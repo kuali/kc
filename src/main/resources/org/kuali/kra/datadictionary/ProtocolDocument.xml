@@ -97,6 +97,10 @@
       	</list>
     	</property>
     	
+    	<property name="workflowProperties">
+    		<ref bean="ProtocolDocument-workflowProperties"/>
+        </property>
+    
 		<property name="attributes">
 			<list>
 				<ref bean="ProtocolDocument-versionNumber"/>
@@ -134,5 +138,5 @@
         </bean>
       </list>
     </property>
-  </bean> 
+  </bean>
 </beans>
