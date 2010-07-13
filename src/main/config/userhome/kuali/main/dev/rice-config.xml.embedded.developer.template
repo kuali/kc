@@ -1,12 +1,3 @@
-
-<!--
-
-in order for rice to find this config file when it starts up you need to set the jvm sys param of 
-
-additional.config.locations=/path/to/config/rice-config.xml
-
--->
-
 <config>
 
     <param name="http.port">8080</param>
