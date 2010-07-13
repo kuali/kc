@@ -274,15 +274,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     protected AttachedFileDataType getAttachedFileDataType(String narrativeTypeCode) {
 
-        AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                break;
+                return getAttachedFileType(narrative);
             }
         }
-        return attachedFileDataType;
+        return null;
     }
 
     /**
