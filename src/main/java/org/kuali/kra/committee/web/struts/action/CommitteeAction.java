@@ -42,6 +42,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The CommitteeAction is the base class for all Committee actions.  Each derived
@@ -210,7 +211,10 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // if 'submit' in async and with 'merging' delete. so, there is latency issue.  it is needed to refresh the schedules,
         // if user goes to schedule/maintenance directly immediately after 'submit'.
-        ((CommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
+        KualiWorkflowDocument workflowDocument = ((CommitteeForm) form).getCommitteeDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsFinal()) {
+            ((CommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
+        }
         ((CommitteeForm) form).getCommitteeHelper().prepareView();
         return mapping.findForward("committeeSchedule");
     }
