@@ -66,18 +66,18 @@
 									<fo:block>&#160;</fo:block>
 								</fo:table-cell>
 								<fo:table-cell width="9.0in">
-									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R FED NON FED SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
+									<fo:block text-align="center" font-family="Helvetica,Times,Courier" font-size="11pt" font-weight="bold">R&amp;R SUBAWARD BUDGET ATTACHMENT(S) FORM                              </fo:block>
 									<fo:block>&#160;</fo:block>
 									<fo:block font-size="8pt" hyphenate="true" language="en">
 										<fo:inline font-weight="bold" font-size="8pt">Instructions:</fo:inline>
-                                     On this form, you will attach the R&amp;R FedNonFed Subaward Budget files for your grant application.  Complete the subawardee budget(s) in accordance with the R&amp;R FedNonFed budget instructions.  Please remember that any files you attach must be an Adobe form.
+                                     On this form, you will attach the R&amp;R Subaward Budget files for your grant application.  Complete the subawardee budget(s) in accordance with the R&amp;R budget instructions.  Please remember that any files you attach must be a Pure Edge document.
                            </fo:block>
 									<fo:block line-height="4pt">&#160;</fo:block>
 									<fo:block>&#160;</fo:block>
 									<fo:block>&#160;</fo:block>
 									<fo:block font-size="8pt" hyphenate="true" language="en">
 										<fo:inline font-weight="bold" font-size="8pt">Important:</fo:inline>  
-                               Please attach your FedNonFed subawardee budget file(s) with the file name of the subawardee organization.  Each file name must be unique. 
+                               Please attach your subawardee budget file(s) with the file name of the subawardee organization.  Each file name must be unique. 
                            </fo:block>
 									<fo:block>&#160;</fo:block>
 								</fo:table-cell>
