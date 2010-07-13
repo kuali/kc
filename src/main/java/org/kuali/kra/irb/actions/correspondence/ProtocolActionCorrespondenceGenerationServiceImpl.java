@@ -56,6 +56,9 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     
     private void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
         //Temp code since printing impl is not in place
+        byte[] temp = {'a', 'b', 'c', 'd', 'e'};
+        data = temp;
+        //Temp code ends here - can be removed once printing logic is in place
         
         ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
         protocolCorrespondence.setProtocol(protocol);

@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.expediteapproval;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 
 /**
  * The Protocol Expedite Approval Service is used to grant an
@@ -31,5 +31,5 @@ public interface ProtocolExpediteApprovalService {
      * @param expeditedApprovalBean
      * @throws Exception
      */
-    public void grantExpeditedApproval(Protocol protocol, ProtocolGenericActionBean expeditedApprovalBean) throws Exception;
+    public void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean expeditedApprovalBean) throws Exception;
 }

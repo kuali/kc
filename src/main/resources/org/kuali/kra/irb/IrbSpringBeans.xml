@@ -441,7 +441,9 @@
     </bean>
     
     <bean id="protocolExpediteApprovalService" class="org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>
     
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
