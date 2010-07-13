@@ -77,7 +77,7 @@
       <th style="text-align: right;">Narrative:</th>
       <td></td>
       <th style="text-align: right;">Budget:</th>
-      <td><c:out value="${node.bo.budgetStatus}"/></td>      
+      <td><c:out value="${node.bo.budgetStatusDescription}"/></td>      
     </tr>
     <tr>
       <th colspan="2">Investigators</th>

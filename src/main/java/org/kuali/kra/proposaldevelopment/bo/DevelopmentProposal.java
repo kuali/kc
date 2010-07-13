@@ -1515,6 +1515,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @return Returns the budgetStatusDescription.
      */
     public String getBudgetStatusDescription() {
+        if (StringUtils.isEmpty(budgetStatusDescription)) {
+                KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this); 
+        }
         return budgetStatusDescription;
     }
 
