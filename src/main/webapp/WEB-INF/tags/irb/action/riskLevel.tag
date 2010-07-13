@@ -24,7 +24,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canEnterRiskLevel}">
 
-<kra:innerTab tabTitle="Enter Risk Level" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean.protocolRiskLevelBean.*, document.protocol.protocolRiskLevels*">
+<kra:innerTab tabTitle="Enter Risk Level" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean.protocolRiskLevelBean.*,document.protocol.protocolRiskLevels*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -112,7 +112,7 @@
 			        <td align="left" valign="middle">
 			            <div align="left">
 			                 <kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].comments" 
-			                                           attributeEntry="${attributes.comments}" readOnly="${protocolRiskLevel.persisted}" />
+			                                           attributeEntry="${attributes.comments}" readOnly="true" />
 			            </div>
 			        </td>
 			        <td align="left" valign="middle">
