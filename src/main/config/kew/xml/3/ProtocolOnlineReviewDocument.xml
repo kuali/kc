@@ -39,14 +39,15 @@
 					<activationType>S</activationType>
 				</start>
 	            <role name="OnlineReviewer">
-	                                   
 					<qualifierResolver>ProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
                     <activationType>S</activationType>
                     <finalApproval>false</finalApproval>
+                    <mandatoryRoute>false</mandatoryRoute>
 	            </role>                
                 <role name="IRBAdminReview">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
 	            </role>                     
 			</routeNodes>
 		</documentType>
