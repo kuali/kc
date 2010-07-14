@@ -90,6 +90,14 @@
                 
                 <tr>
                     <td colspan="2">
+                        <kra-irb-action:riskLevel bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.protocolRiskLevelBean}"
+                                                  property="actionHelper.protocolExpediteApprovalBean.protocolRiskLevelBean"
+                                                  action="${action}" 
+                                                  actionName="ExpediteApproval" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolExpediteApprovalBean.reviewComments}"
                                                        property="actionHelper.protocolExpediteApprovalBean.reviewComments"
                                                        action="${action}"

@@ -1670,23 +1670,52 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return The mapping for the next page
      * @throws Exception
      */
-    public ActionForward addApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addApproveRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
         
-        if (applyRules(new ProtocolAddRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, 
-               protocolRiskLevelBean.getNewProtocolRiskLevel()))) {
-            protocolRiskLevelBean.addNewProtocolRiskLevel(actionHelper.getProtocol());
-        }
+        addRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), protocolForm.getDocument(), actionHelper.getProtocol(), 
+                Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
-     * Updates a persisted Risk Level in a protocol, moving the persisted risk level to Inactive status and adding a new Active status risk level.
+     * Adds a Risk Level to a protocol in an Expedited Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward addExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        
+        addRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), actionHelper.getProtocol(), 
+                Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /*
+     * Applies add rules to all risk levels from both types of approval actions
+     */
+    private void addRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, ProtocolDocument document, Protocol protocol, String errorPropertyName) {
+        if (applyRules(new ProtocolAddRiskLevelEvent(document, errorPropertyName, protocolRiskLevelBean.getNewProtocolRiskLevel()))) {
+            protocolRiskLevelBean.addNewProtocolRiskLevel(protocol);
+        }
+    }
+    
+    /**
+     * Updates a persisted Risk Level in a protocol for an approval action, 
+     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
      * 
      * @param mapping Struts action mapping
      * @param form Form associated with this action
@@ -1700,19 +1729,47 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
-        Protocol protocol = actionHelper.getProtocol();
-        int lineNumber = getSelectedLine(request);
 
-        if (applyRules(new ProtocolUpdateRiskLevelEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY, lineNumber))) {
-            protocolRiskLevelBean.updateProtocolRiskLevel(protocol.getProtocolRiskLevels().get(lineNumber));
-        }
+        updateRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
+                actionHelper.getProtocol(), getSelectedLine(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
-     * Deletes a Risk Level to a protocol in an Approval action.
+     * Updates a persisted Risk Level in a protocol for an expedited approval action, 
+     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward updateExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+
+        updateRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
+                actionHelper.getProtocol(), getSelectedLine(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /*
+     * Applies update rules to all risk levels from both types of approval actions
+     */
+    private void updateRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, ProtocolDocument document, Protocol protocol, int lineNumber) {
+        if (applyRules(new ProtocolUpdateRiskLevelEvent(document, Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY, lineNumber))) {
+            protocolRiskLevelBean.updateProtocolRiskLevel(protocol.getProtocolRiskLevels().get(lineNumber));
+        }
+    }
+    
+    /**
+     * Deletes a Risk Level from a protocol in an Approval action.
      * 
      * @param mapping Struts action mapping
      * @param form Form associated with this action
@@ -1726,12 +1783,39 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        ProtocolRiskLevelBean protocolRiskLevelBean = actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean();
         
-        protocolRiskLevelBean.deleteProtocolRiskLevel(actionHelper.getProtocol(), getLineToDelete(request));
+        deleteRiskLevel(actionHelper.getProtocolApproveBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
-    } 
+    }
+    
+    /**
+     * Deletes a Risk Level from a protocol in an Expedited Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward deleteExpediteApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        
+        deleteRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /*
+     * Deletes the risk level from the protocol for both types of approval actions
+     */
+    private void deleteRiskLevel(ProtocolRiskLevelBean protocolRiskLevelBean, Protocol protocol, int lineNumber) {
+        protocolRiskLevelBean.deleteProtocolRiskLevel(protocol, lineNumber);
+    }
     
     /**
      * Open ProtocolDocument in Read/Write mode for Admin Correction
