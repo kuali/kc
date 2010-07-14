@@ -34,7 +34,7 @@
             <list>
                 <ref bean="ProtocolVoteRecused-protocolVoteRecusedId" />
                 <ref bean="ProtocolVoteRecused-protocolIdFk" />
-                <ref bean="ProtocolVoteRecused-scheduleIdFk" />
+                <ref bean="ProtocolVoteRecused-submissionIdFk" />
                 <ref bean="ProtocolVoteRecused-personId" />
                 <ref bean="ProtocolVoteRecused-nonEmployeeFlag" />
                 <ref bean="ProtocolVoteRecused-comments" />
@@ -82,9 +82,9 @@
     </bean>
 
 
-    <bean id="ProtocolVoteRecused-scheduleIdFk" parent="ProtocolVoteRecused-scheduleIdFk-parentBean" />
-    <bean id="ProtocolVoteRecused-scheduleIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="scheduleIdFk" />
+    <bean id="ProtocolVoteRecused-submissionIdFk" parent="ProtocolVoteRecused-submissionIdFk-parentBean" />
+    <bean id="ProtocolVoteRecused-submissionIdFk-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="submissionIdFk" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Schedule Id" />
         <property name="shortLabel" value="Schedule Id" />
@@ -166,7 +166,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="protocolIdFk" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="scheduleIdFk" />
+                                p:attributeName="submissionIdFk" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="personId" />
                             <bean parent="FieldDefinition"
@@ -197,7 +197,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolIdFk" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
+                    p:attributeName="submissionIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personId" />
                 <bean parent="FieldDefinition"
@@ -214,7 +214,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolIdFk" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="scheduleIdFk" />
+                    p:attributeName="submissionIdFk" />
                 <bean parent="FieldDefinition"
                     p:attributeName="personId" />
                 <bean parent="FieldDefinition"

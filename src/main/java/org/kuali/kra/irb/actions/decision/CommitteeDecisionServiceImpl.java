@@ -65,6 +65,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             submission.setYesVoteCount(committeeDecision.getYesCount());
             submission.setNoVoteCount(committeeDecision.getNoCount());
             submission.setAbstainerCount(committeeDecision.getAbstainCount());
+            submission.setRecusedCount(committeeDecision.getRecusedCount());
             submission.setVotingComments(committeeDecision.getVotingComments());
             
             addReviewerComments(submission, committeeDecision.getReviewComments());
@@ -93,8 +94,8 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 committeeService.getAvailableMembers(protocol.getProtocolSubmission().getCommittee().getCommitteeId(), 
                         protocol.getProtocolSubmission().getScheduleId());
             
-            proccessAbstainers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk());
-            proccessRecusers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk());
+            proccessAbstainers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk(), submission.getSubmissionId());
+            proccessRecusers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk(), submission.getSubmissionId());
 
             businessObjectService.save(submission);
             businessObjectService.save(protocol);
@@ -104,17 +105,17 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
     
     private void proccessAbstainers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
-            Protocol protocol, Long scheduleIdFk) {       
+            Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {       
         if (!committeeDecision.getAbstainers().isEmpty()) {
             //there are abstainers, lets save them
             for (CommitteePerson person : committeeDecision.getAbstainers()) {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId());
+                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         }
                         break;
                     }
@@ -125,7 +126,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
                     }
                 }
@@ -136,7 +137,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
     
     private void proccessRecusers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
-            Protocol protocol, Long scheduleIdFk) {     
+            Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {     
         
         if (!committeeDecision.getRecused().isEmpty()) {
             //there are recusers, lets save them
@@ -144,10 +145,10 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId());
+                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         }
                         break;
                     }
@@ -159,7 +160,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId());
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
                         businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
                     }
                 }
@@ -168,19 +169,21 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
     
-    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId) {
+    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Long submissionIdFk) {
         voter.setProtocol(protocol);
         voter.setProtocolIdFk(protocol.getProtocolId());
-        voter.setScheduleIdFk(scheduleIdFk);
+        voter.setSubmissionIdFk(submissionIdFk);
+        //voter.setScheduleIdFk(scheduleIdFk);
         voter.setPersonId(personId);
         businessObjectService.save(voter);
     }
     
-    private Map<String, String> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId) {
+    private Map<String, String> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Long submissionIdFk) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
-        fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
+        //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
         fieldValues.put("PERSON_ID", personId);
+        fieldValues.put("SUBMISSION_ID_FK", submissionIdFk.toString());
         return fieldValues;
     }
 
@@ -211,11 +214,12 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
      * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getMeetingVoters(java.lang.Long, java.lang.Long, java.lang.Class)
      */
     @SuppressWarnings("unchecked")
-    public List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long scheduleId, Class<? extends ProtocolMeetingVoter> clazz) {
+    public List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long submissionIdFk, Class<? extends ProtocolMeetingVoter> clazz) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", protocolId.toString());
-        fieldValues.put("scheduleIdFk", scheduleId.toString());
+        fieldValues.put("submissionIdFk", submissionIdFk.toString());
         return (List<? extends ProtocolMeetingVoter>) businessObjectService.findMatching(clazz, fieldValues);
 
     }
 }
+

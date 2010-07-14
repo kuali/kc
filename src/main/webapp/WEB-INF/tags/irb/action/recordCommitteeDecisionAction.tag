@@ -62,7 +62,16 @@
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.abstainCount" attributeEntry="${attributes.abstainCount}" />
+                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.abstainCount" attributeEntry="${attributes.abstainCount}" readOnly="true" />
+                    </td>
+                    
+                    <th> 
+                        <div align="right">
+                            <kul:htmlAttributeLabel attributeEntry="${attributes.recusedCount}" />
+                        </div>
+                    </th>
+                    <td>
+                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.recusedCount" attributeEntry="${attributes.recusedCount}" readOnly="true" />
                     </td>
                     
                     <th> 
@@ -82,7 +91,7 @@
                 </tr>
                 
                 <tr>
-                    <td colspan="10">
+                    <td colspan="12">
                     
                         <kra:innerTab tabTitle="Abstainers" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
                             <div class="innerTab-container" align="left">
@@ -140,7 +149,7 @@
                 </tr>
                 
                 <tr>
-                    <td colspan="10">
+                    <td colspan="12">
                     
                         <kra:innerTab tabTitle="Recused" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
                             <div class="innerTab-container" align="left">
@@ -198,7 +207,7 @@
                 </tr>
                 
                 <tr>
-                    <td colspan="10">
+                    <td colspan="12">
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.committeeDecision.reviewComments}"
                                                        property="actionHelper.committeeDecision.reviewComments"
                                                        action="${action}"
@@ -208,7 +217,7 @@
                 </tr>
                 
                 <tr>
-                    <td align="center" colspan="10">
+                    <td align="center" colspan="12">
                         <div align="center">
                             <html:image property="methodToCall.submitCommitteeDecision.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>

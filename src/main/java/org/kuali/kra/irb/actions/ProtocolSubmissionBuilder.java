@@ -64,7 +64,17 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
         
         ProtocolSubmission oldSubmission = protocol.getProtocolSubmission();
-        if(oldSubmission != null){
+        setValuesFromOldSubmission(protocolSubmission, oldSubmission);
+        
+        
+        /**        
+         * this will need to be changed in future development
+         */
+        protocolSubmission.setSubmissionStatusCode("100");
+    }
+    
+    private void setValuesFromOldSubmission(ProtocolSubmission newSubmission, ProtocolSubmission oldSubmission) {
+        if (oldSubmission != null) {
             //old submission may not be found if in a unit test
             protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
             protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
@@ -73,13 +83,14 @@ public class ProtocolSubmissionBuilder {
             protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
             protocolSubmission.setNoVoteCount(oldSubmission.getNoVoteCount());
             protocolSubmission.setAbstainerCount(oldSubmission.getAbstainerCount());
+            protocolSubmission.setAbstainers(oldSubmission.getAbstainers());
+            protocolSubmission.setRecusedCount(oldSubmission.getRecusedCount());
+            protocolSubmission.setRecusers(oldSubmission.getRecusers());
             protocolSubmission.setVotingComments(oldSubmission.getVotingComments());
+        } else {
+            protocolSubmission.setAbstainerCount(0);
+            protocolSubmission.setRecusedCount(0);
         }
-        
-        /**        
-         * this will need to be changed in future development
-         */
-        protocolSubmission.setSubmissionStatusCode("100");
     }
     
     /**
@@ -307,5 +318,4 @@ public class ProtocolSubmissionBuilder {
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-
 }

@@ -18,17 +18,37 @@ package org.kuali.kra.meeting;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
+/**
+ * 
+ * This class sets the base data points for an abstainer or a recuser.
+ */
 public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase {
     private Long protocolIdFk; 
-    private Long scheduleIdFk; 
+    private Long submissionIdFk;
     private String personId; 
     private boolean nonEmployeeFlag; 
     private String comments; 
     private Protocol protocol;
-    private CommitteeSchedule committeeSchedule;
+    private ProtocolSubmission protocolSubmission;
+    public Long getSubmissionIdFk() {
+        return submissionIdFk;
+    }
+
+    public void setSubmissionIdFk(Long submissionIdFk) {
+        this.submissionIdFk = submissionIdFk;
+    }
+
+    public ProtocolSubmission getProtocolSubmission() {
+        return protocolSubmission;
+    }
+
+    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+        this.protocolSubmission = protocolSubmission;
+    }
+
     // transient for display
     private String fullName;
 
@@ -70,7 +90,7 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
     protected LinkedHashMap<String, Object> toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
-        hashMap.put("scheduleIdFk", this.getScheduleIdFk());
+        hashMap.put("submissionIdFk", this.getSubmissionIdFk());
         hashMap.put("personId", this.getPersonId());
         hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
         hashMap.put("comments", this.getComments());
@@ -83,22 +103,6 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
 
     public void setProtocolIdFk(Long protocolIdFk) {
         this.protocolIdFk = protocolIdFk;
-    }
-
-    public Long getScheduleIdFk() {
-        return scheduleIdFk;
-    }
-
-    public void setScheduleIdFk(Long scheduleIdFk) {
-        this.scheduleIdFk = scheduleIdFk;
-    }
-
-    public CommitteeSchedule getCommitteeSchedule() {
-        return committeeSchedule;
-    }
-
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
-        this.committeeSchedule = committeeSchedule;
     }
     
     public String getFullName() {
