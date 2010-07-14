@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.kew;
 
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -26,7 +25,25 @@ import org.kuali.rice.kns.document.Document;
  */
 public interface KraDocumentRejectionService {
 
+    /**
+     * Reject a document.  
+     * @param documentNumber The number of the document to reject.
+     * @param reason An explanation of why the document has been rejected.
+     * @param principalId The principal to reject the document as.
+     * @param appDocStatus The application document status for the document.  Only applied if non-null.
+     * @throws WorkflowException
+     */
+    void reject(Document document, String reason, String principalId, String appDocStatus);
     
+    /**
+     * Reject a document.  
+     * @param documentNumber The number of the document to reject.
+     * @param reason An explanation of why the document has been rejected.
+     * @param principalId The principal to reject the document as.
+     * @throws WorkflowException
+     */
+    void reject(Document document, String reason, String principalId);
+
 
     /**
      * Reject a document.  
@@ -36,7 +53,7 @@ public interface KraDocumentRejectionService {
      * @param appDocStatus The application document status for the document.  Only applied if non-null.
      * @throws WorkflowException
      */
-    public void reject( Document document, String reason, String principalId, String appDocStatus );
+    void reject(String documentNumber, String reason, String principalId, String appDocStatus);
     
     /**
      * Reject a document.  
@@ -45,34 +62,14 @@ public interface KraDocumentRejectionService {
      * @param principalId The principal to reject the document as.
      * @throws WorkflowException
      */
-    public void reject( Document document, String reason, String principalId );
-
-
-    /**
-     * Reject a document.  
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     * @param appDocStatus The application document status for the document.  Only applied if non-null.
-     * @throws WorkflowException
-     */
-    public void reject( String documentNumber, String reason, String principalId, String appDocStatus );
-    
-    /**
-     * Reject a document.  
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     * @throws WorkflowException
-     */
-    public void reject( String documentNumber, String reason, String principalId );
+    void reject(String documentNumber, String reason, String principalId);
     
     /**
      * Get the name of the first workflow node for the document.
      * @param documentType The document type you want the initial node for.
      * @return The name of the initial workflow node.
      */
-    public String getWorkflowInitialNodeName( String documentType );
+    String getWorkflowInitialNodeName(String documentType);
     
     /**
      * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
@@ -81,7 +78,7 @@ public interface KraDocumentRejectionService {
      * @return
      * @throws WorkflowException 
      */
-    public boolean isDocumentOnInitialNode( String documentNumber );
+    boolean isDocumentOnInitialNode(String documentNumber);
 
     /**
      * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
@@ -90,9 +87,35 @@ public interface KraDocumentRejectionService {
      * @return
      * @throws WorkflowException 
      */
-    public boolean isDocumentOnInitialNode( Document documentNumber );
+    boolean isDocumentOnInitialNode(Document documentNumber);
 
+    /**
+     * Determine if the document is on a particular node.  
+     * 
+     * @param documentNumber
+     * @param nodeName
+     * @return
+     */
+    boolean isDocumentOnNode(String documentNumber, String nodeName);
+
+    /**
+     * Determine if the document is on a particular node.  
+     * 
+     * @param documentNumber
+     * @param nodeName
+     * @return
+     */
+    boolean isDocumentOnNode(Document documentNumber, String nodeName);
     
+    /**
+     * Reject a document and send it back to a particular node.  
+     * @param document The document number to reject
+     * @param reason An explanation of why the document has been rejected.
+     * @param principalId The principal to reject the document as.
+     * @param appDocStatus The application document status for the document.  Only applied if non-null.
+     * @throws WorkflowException
+     */
+    void reject(Document document, String reason, String principalId, String appDocStatus, String nodeName);
     
 }
 
