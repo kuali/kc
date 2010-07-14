@@ -57,7 +57,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         protocolRiskLevel.setProtocol(protocolDocument.getProtocol());
         protocolRiskLevel.setRiskLevelCode("1");
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertTrue(rule.processRules(event));
     }
@@ -69,10 +69,10 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
         protocolRiskLevel.setProtocol(protocolDocument.getProtocol());
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertFalse(rule.processRules(event));
-        assertError(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.riskLevelCode", KeyConstants.ERROR_REQUIRED);
+        assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.riskLevelCode", KeyConstants.ERROR_REQUIRED);
     }
     
     @Test
@@ -84,10 +84,10 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         protocolRiskLevel.setRiskLevelCode("1");
         protocolRiskLevel.setDateAssigned(null);
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, protocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertFalse(rule.processRules(event));
-        assertError(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.dateAssigned", KeyConstants.ERROR_REQUIRED);
+        assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.dateAssigned", KeyConstants.ERROR_REQUIRED);
     }
     
     @Test
@@ -106,10 +106,10 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         duplicateProtocolRiskLevel.setRiskLevelCode("1");
         duplicateProtocolRiskLevel.setComments("Duplicate");
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertFalse(rule.processRules(event));
-        assertError(Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.riskLevelCode", KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
+        assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.riskLevelCode", KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
     }
     
     @Test
@@ -130,7 +130,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         duplicateProtocolRiskLevel.setStatus("I");
         duplicateProtocolRiskLevel.setComments("Duplicate");
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertTrue(rule.processRules(event));
     }
