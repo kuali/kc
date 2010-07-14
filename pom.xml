@@ -88,6 +88,8 @@
 			              <exclude>javax.mail:mail</exclude>
 			              <!-- already including cglib -->
 			              <exclude>cglib:cglib-nodep</exclude>
+			              <!-- quartz's groupid was changed causing duplicates to be included - excluding the old quartz -->
+			              <exclude>opensymphony:quartz</exclude>
 			            </excludes>
 			          </bannedDependencies>
 			        </rules>
@@ -245,7 +247,7 @@
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
-		    <version>r05</version>
+		    <version>r06</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle</groupId>
@@ -387,11 +389,6 @@
 		    		<groupId>xercesImpl</groupId>
 		    	</exclusion>
 		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>opensymphony</groupId>
-		    <artifactId>quartz</artifactId>
-		    <version>1.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -670,6 +667,10 @@
 					<artifactId>mail</artifactId>
 					<groupId>javax.mail</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>quartz</artifactId>
+					<groupId>opensymphony</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- only here because we are using rice's embedded jetty-->
@@ -686,6 +687,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+		    <groupId>org.opensymphony.quartz</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
+		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>
 			<artifactId>htmlunit</artifactId>
 			<version>2.7</version>
@@ -695,21 +701,21 @@
 		<dependency>
 			<groupId>tomcat</groupId>
 			<artifactId>jasper-compiler</artifactId>
-			<version>5.5.15</version>
+			<version>${tomcat.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- only here because we are using rice's embedded jetty -->
 		<dependency>
 			<groupId>tomcat</groupId>
 			<artifactId>jasper-runtime</artifactId>
-			<version>5.5.15</version>
+			<version>${tomcat.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- only here because we are using rice's embedded jetty -->
 		<dependency>
 			<groupId>tomcat</groupId>
 			<artifactId>jasper-compiler-jdt</artifactId>
-			<version>5.5.15</version>
+			<version>${tomcat.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -1029,7 +1035,7 @@
 		<org.drools.version>5.0.1</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
 		<org.kuali.rice.version>1.0.2.1-KC-05</org.kuali.rice.version>
-		<org.mortbay.jetty.version>7.1.4.v20100610</org.mortbay.jetty.version>
+		<org.mortbay.jetty.version>7.1.5.v20100705</org.mortbay.jetty.version>
 		<org.springframework.version>2.0.4</org.springframework.version>
 		<struts.version>1.2.9</struts.version>
 		<tomcat.version>5.5.23</tomcat.version>
