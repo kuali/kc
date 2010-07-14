@@ -482,6 +482,12 @@ public interface Constants {
     public static final String PROTOCOL_ENTER_RISK_LEVEL_KEY = "actionHelper.protocolApproveBean.protocolRiskLevelBean";
     public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     
+    // Protocol Research Area Audit Rules
+    public static final String PROTOCOL_PROTOCOL_PAGE = "protocol";
+    public static final String PROTOCOL_PROTOCOL_RESEARCH_AREA_PANEL_ANCHOR = "Area of Research";
+    public static final String PROTOCOL_PROTOCOL_RESEARCH_AREA_PANEL_NAME = "Protocol";
+    public static final String PROTOCOL_RESEARCH_AREA_KEY = "document.protocolList[0].newDescription";
+    
     //Protocol Personnel Audit Rules
     public static final String PROTOCOL_PERSONNEL_PAGE = "personnel";
     public static final String PROTOCOL_PERSONNEL_PANEL_ANCHOR = "Add Personnel:";
