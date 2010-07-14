@@ -18,7 +18,12 @@ package org.kuali.kra.irb.onlinereview.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -27,7 +32,24 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
 
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
-        editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        
+        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
+        String userId = user.getPrincipalId();
+        
+        if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL)) {  
+            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        }
+        else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_PROTOCOL)) {
+            editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
+        }
+        else {
+            editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+        }
+            
+        if( canExecuteProtocolOnlineReviewTask(userId,protocolOnlineReviewDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
+            editModes.add("maintainProtocolOnlineReviews");
+        }
+        
         return editModes;
     }
 
@@ -35,8 +57,81 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         return true;
     }
 
-    public boolean canOpen(Document document, Person user) {
-        return true;
-    }
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canOpen(Document document, Person user) {
+        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
+        if (protocolOnlineReviewDocument.getProtocolOnlineReview() == null) {
+            return canCreateProtocolOnlineReview(user);
+        }
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.VIEW_PROTOCOL_ONLINEREVIEW);
+    }
+    
+    /**
+     * Does the user have permission to create a protocol?
+     * @param user the user
+     * @return true if the user can create a protocol; otherwise false
+     */
+    private boolean canCreateProtocolOnlineReview(Person user) {
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL_ONLINEREVIEW);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
+    }
+    
+    /**
+     * Does the user have permission to execute the given task for a protocol?
+     * @param username the user's username
+     * @param doc the protocol document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteProtocolOnlineReviewTask(String userId, ProtocolOnlineReviewDocument doc, String taskName) {
+        ProtocolOnlineReviewTask task = new ProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    public boolean canEdit(Document document, Person user) {
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canSave(Document document, Person user) {
+        return canEdit(document, user);
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCopy(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canCancel(Document document, Person user) {
+        return false;
+    }
+    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canRoute(Document document, Person user) {
+        return false;
+    }
+    
+    
 }

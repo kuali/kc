@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
@@ -37,14 +38,42 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="onlineReview">
-  	
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Online Review" /></div>
 
-<kra-irb-olr:newOnlineReview/>
+<c:choose>
+	<c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}">
+	<!--  IRB ADMIN VIEW  -->
+		<kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+			<div class="tab-container" align=center>
+				<kra-irb-olr:newOnlineReview/>
+			</div>
+		</kul:tabTop>
+		<c:forEach items = "${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsForCurrentSubmission}" var = "review" varStatus = "status">
+			
+			<c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[review.documentNumber]}"/>
+			<c:set var = "reviewerPerson" value = "${documentHelperMap['reviewerPerson']}"/>
+			<kul:tab tabTitle="Online Review: ${reviewerPerson.fullName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+				<kra-irb-olr:onlineReview renderIndex = "${status.index}" documentNumber="${review.documentNumber}"/>
+			</kul:tab>
+		</c:forEach>
+	</c:when>
 
-<c:forEach items = "${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsForCurrentSubmission}" var = "review" varStatus = "status">
-	<kra-irb-olr:onlineReview renderIndex = "${status.index}"/>
-</c:forEach>
+	<c:otherwise>
+		<!--  PROTOCOL ONLINE REVIEWER VIEW -->
+		<c:set var="protocolOnlineReviewDocument" value="${KualiForm.onlineReviewsActionHelper.documentForCurrentUser}"/> 
+		<c:set var="reviewerPerson" value = "${KualiForm.onlineReviewsActionHelper.reviewerPersonForCurrentUser}"/>		
+		<kul:tabTop tabTitle="Online Review: ${reviewerPerson.fullName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+			<kra-irb-olr:onlineReview renderIndex = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}" documentNumber="${protocolOnlineReviewDocument.documentNumber}"/>
+		</kul:tabTop>
+
+	</c:otherwise>
+</c:choose>
+
+
+
+
+
+
+
 
 
 <kul:panelFooter />

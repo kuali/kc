@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
@@ -49,7 +48,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private Long protocolReviewerId;
 
     private String protocolOnlineReviewStatusCode;
-    private String protocolOnlineReviewDeterminationRecommendationCode;
+    private Long protocolOnlineReviewDeterminationRecommendationCode;
     private Date dateDue;
     private Date dateRequested;
     
@@ -225,7 +224,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * Gets the protocolReviewDeterminationRecommendationCode attribute. 
      * @return Returns the protocolReviewDeterminationRecommendationCode.
      */
-    public String getProtocolOnlineReviewDeterminationRecommendationCode() {
+    public Long getProtocolOnlineReviewDeterminationRecommendationCode() {
         return protocolOnlineReviewDeterminationRecommendationCode;
     }
 
@@ -234,7 +233,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * Sets the protocolReviewDeterminationRecommendationCode attribute value.
      * @param protocolOnlineReviewDeterminationRecommendationCode The protocolReviewDeterminationRecommendationCode to set.
      */
-    public void setProtocolOnlineReviewDeterminationRecommendationCode(String protocolOnlineReviewDeterminationRecommendationCode) {
+    public void setProtocolOnlineReviewDeterminationRecommendationCode(Long protocolOnlineReviewDeterminationRecommendationCode) {
         this.protocolOnlineReviewDeterminationRecommendationCode = protocolOnlineReviewDeterminationRecommendationCode;
     }
 
