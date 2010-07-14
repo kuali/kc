@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -27,7 +26,7 @@ public class ProtocolUpdateRiskLevelRule extends ResearchDocumentRuleBase implem
         boolean valid = true;
         
         int index = event.getIndex();
-        String errorPathKey = Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY + "[" + index + "]";
+        String errorPathKey = event.getPropertyName() + "[" + index + "]";
         ProtocolRiskLevel persistedProtocolRiskLevel = event.getProtocolDocument().getProtocol().getProtocolRiskLevels().get(index);
         
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
@@ -35,17 +34,17 @@ public class ProtocolUpdateRiskLevelRule extends ResearchDocumentRuleBase implem
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
         
         valid &= GlobalVariables.getMessageMap().hasNoErrors();
-        valid &= validateDateInactivated(persistedProtocolRiskLevel, index);
+        valid &= validateDateInactivated(persistedProtocolRiskLevel, errorPathKey);
         
         return valid;
     }
     
-    private boolean validateDateInactivated(ProtocolRiskLevel updatedProtocolRiskLevel, int index) {
+    private boolean validateDateInactivated(ProtocolRiskLevel updatedProtocolRiskLevel, String errorPathKey) {
         boolean valid = true;
         
         if (updatedProtocolRiskLevel.getDateInactivated() == null) {
             valid = false;
-            GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_UPDATE_RISK_LEVEL_KEY + "[" + index + "].dateInactivated", 
+            GlobalVariables.getMessageMap().putError(errorPathKey + ".dateInactivated", 
                     KeyConstants.ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED);
         }
         
