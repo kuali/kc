@@ -26,7 +26,13 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 
+/**
+ * 
+ * This class tracks the data associated with the submisison of a protocol for review.
+ */
 public class ProtocolSubmission extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -5443313755174483591L;
@@ -45,7 +51,10 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private String comments; 
     private Integer yesVoteCount; 
     private Integer noVoteCount; 
-    private Integer abstainerCount; 
+    //these two are here just for persistence to work, fields get recorded to the db, but in code, they are always calculated.
+    private Integer recusedCount;
+    private Integer abstainerCount;
+    
     private String votingComments; 
     
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
@@ -56,6 +65,33 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolSubmissionType protocolSubmissionType;
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
+    private List<ProtocolVoteAbstainee> abstainers = new ArrayList<ProtocolVoteAbstainee>();
+    private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
+    
+    public Integer getRecusedCount() {
+        return this.recusers.size();
+    }
+
+    public void setRecusedCount(Integer recusedCount) {
+        this.recusedCount = recusedCount;
+    }
+
+    public List<ProtocolVoteAbstainee> getAbstainers() {
+        return abstainers;
+    }
+
+    public void setAbstainers(List<ProtocolVoteAbstainee> abstainers) {
+        this.abstainers = abstainers;
+    }
+
+    public List<ProtocolVoteRecused> getRecusers() {
+        return recusers;
+    }
+
+    public void setRecusers(List<ProtocolVoteRecused> recusers) {
+        this.recusers = recusers;
+    }
+
     @SkipVersioning
     transient private CommitteeSchedule committeeSchedule;
     private ProtocolReviewType protocolReviewType;
@@ -67,7 +103,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     // lookup field
     private String piName; 
-
+    
+    /**
+     * 
+     * Constructs a ProtocolSubmission.java.
+     */
     public ProtocolSubmission() { 
 
     } 
@@ -139,7 +179,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public String getSubmissionStatusCode() {
         return submissionStatusCode;
     }
-
+    
+    /**
+     * 
+     * This method set the submission status code.
+     * @param submissionStatusCode
+     */
     public void setSubmissionStatusCode(String submissionStatusCode) {
         this.submissionStatusCode = submissionStatusCode;
         if (StringUtils.isBlank(submissionStatusCode)) {
@@ -190,7 +235,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public Integer getAbstainerCount() {
-        return abstainerCount;
+        if (this.abstainers == null) {
+            return 0;
+        } else {
+            return this.abstainers.size();
+        }
     }
 
     public void setAbstainerCount(Integer abstainerCount) {
@@ -252,7 +301,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
-
+    
+    /**
+     * 
+     * This method returns the committee object.
+     * @return
+     */
     public Committee getCommittee() {
         if (committeeIdFk != null && committee == null) {
             refreshReferenceObject("committee");
@@ -291,7 +345,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
-
+    
+    /**
+     * 
+     * This method returns the committee schedule.
+     * @return
+     */
     public CommitteeSchedule getCommitteeSchedule() {
         if (scheduleIdFk != null && committeeSchedule == null) {
             refreshReferenceObject("committeeSchedule");
@@ -326,7 +385,11 @@ public class ProtocolSubmission extends ProtocolAssociate {
         hashMap.put("expeditedReviewCheckList", getExpeditedReviewCheckList());
         return hashMap;
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
     public void resetPersistenceState() {
         submissionId = null;
 //        committeeIdFk = null;

@@ -53,7 +53,6 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -1221,9 +1220,9 @@ public class ActionHelper implements Serializable {
         if (selectedSubmission.getCommitteeSchedule() != null) {
             setReviewComments();
             setAbstainees((List<ProtocolVoteAbstainee>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
-                    selectedSubmission.getScheduleIdFk(), ProtocolVoteAbstainee.class));
+                    selectedSubmission.getSubmissionId(), ProtocolVoteAbstainee.class));
             setRecusers((List<ProtocolVoteRecused>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
-                    selectedSubmission.getScheduleIdFk(), ProtocolVoteRecused.class));
+                    selectedSubmission.getSubmissionId(), ProtocolVoteRecused.class));
             setupVoterName();
         } else {
             reviewComments = new ArrayList<CommitteeScheduleMinute>();
