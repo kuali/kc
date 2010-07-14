@@ -3,8 +3,8 @@
 :: an Microsoft Windows environment.
 ::
 :: Requirements:
-:: - Oracle SQLPlus which should be supplied with Oracle XE. Make sure sqlplus
-:: is in the Windows PATH (i.e. sqlplus can be started from any directory).
+:: - Oracle (download from http://www.oracle.com/technology/software/products/database/xe/index.html) and set SQLPLUS_PROG
+:: to point to sqlplus.exe.
 :: - WGet (download from http://users.ugent.be/~bpuype/wget/) and set WGET_PROG
 :: to point to wget.exe.
 :: - 7-Zip (download from http://www.7-zip.org/download.html) and set ZIP_PROG
@@ -28,21 +28,21 @@ SET EMB_SERVER_USER=RICEDEV
 SET EMB_SERVER_PASS=RICEDEV
 
 :: URL of SQL scrips
-SET DBA_SCRIPT_URL=https://db.kc.kuali.org/userContent/dba/dbadb_oracle.zip
-SET UNT_SCRIPT_URL=https://db.kc.kuali.org/userContent/unt/untdb_oracle.zip
-SET EMB_CLIENT_SCRIPT_URL=https://db.kc.kuali.org/userContent/embedded/embeddeddb_client.zip
-SET EMB_SERVER_SCRIPT_URL=http://db.kc.kuali.org/userContent/embedded/embeddeddb_server.zip
+SET SCRIPT_URL=https://db.kc.kuali.org/userContent/extracts/devdb_oracle.zip
 
 :: External program locations
-SET WGET_PROG=C:\cygwin\bin\wget.exe
-SET ZIP_PROG=c:\edstorm\utils\7-zip\7z.exe
-SET SQLPLUS_CMD=C:\oraclexe\app\oracle\product\10.2.0\server\BIN\sqlplus
+SET WGET_PROG="C:\Program Files\GnuWin32\bin\wget.exe"
+SET ZIP_PROG="C:\Program Files\7-Zip\7z.exe"
+SET SQLPLUS_PROG="C:\oraclexe\app\oracle\product\10.2.0\server\BIN\sqlplus.exe"
+
 :: /* Advanced configuration */
 
-SET DBA_SQL_DIR=dbadb
-SET UNT_SQL_DIR=untdb
-SET EMB_CLIENT_SQL_DIR=embcdb
-SET EMB_SERVER_SQL_DIR=embsdb
+:: directories
+set TEMP_DIR=%TMP%
+set EXTRACT_FILE=%TEMP_DIR%\db_extract.zip
+set EXTRACT_DIR=%TEMP_DIR%\db_extract
+
+:: /* The code below should not need to be changed */
 
 SET DBA_CMD=dba
 SET UNT_CMD=unt
@@ -50,8 +50,6 @@ SET ALL_CMD=all
 SET EMB_CMD=emb
 
 SET WGET_OPTS=--no-check-certificate
-
-:: /* The code below should not need to be changed */
 
 SET CD_BASE_DIR=cd /d %~dp0
 SET UPDATED=
@@ -71,68 +69,50 @@ ECHO.
 GOTO :END
 
 :DBA
-set URL=%DBA_SCRIPT_URL%
-set SQL_DIR=%DBA_SQL_DIR%
 set DB_USER=%DBA_USER%
 set DB_PASS=%DBA_PASS%
-set SCRIPT_NAME=oracle
-set SUBDIR_NAME=oracle
+set SCRIPT_NAME=oracle_bundled
 call :UPDATE
 GOTO :SUCCESS
 
 :UNT
-set URL=%UNT_SCRIPT_URL%
-set SQL_DIR=%UNT_SQL_DIR%
 set DB_USER=%UNT_USER%
 set DB_PASS=%UNT_PASS%
-set SCRIPT_NAME=oracle
-set SUBDIR_NAME=oracle
+set SCRIPT_NAME=oracle_test
 call :UPDATE
 GOTO :SUCCESS
 
 :ALL
-set URL=%DBA_SCRIPT_URL%
-set SQL_DIR=%DBA_SQL_DIR%
 set DB_USER=%DBA_USER%
 set DB_PASS=%DBA_PASS%
-set SCRIPT_NAME=oracle
-set SUBDIR_NAME=oracle
+set SCRIPT_NAME=oracle_bundled
 call :UPDATE
 
-set URL=%UNT_SCRIPT_URL%
-set SQL_DIR=%UNT_SQL_DIR%
 set DB_USER=%UNT_USER%
 set DB_PASS=%UNT_PASS%
-set SCRIPT_NAME=oracle
-set SUBDIR_NAME=oracle
+set SCRIPT_NAME=oracle_test
 call :UPDATE
 GOTO :SUCCESS
 
 :EMB
-set URL=%EMB_CLIENT_SCRIPT_URL%
-set SQL_DIR=%EMB_CLIENT_SQL_DIR%
 set DB_USER=%EMB_CLIENT_USER%
 set DB_PASS=%EMB_CLIENT_PASS%
-set SCRIPT_NAME=client
-set SUBDIR_NAME=client
+set SCRIPT_NAME=oracle_client
 call :UPDATE
 
-set URL=%EMB_SERVER_SCRIPT_URL%
-set SQL_DIR=%EMB_SERVER_SQL_DIR%
 set DB_USER=%EMB_SERVER_USER%
 set DB_PASS=%EMB_SERVER_PASS%
-set SCRIPT_NAME=server
-set SUBDIR_NAME=server
+set SCRIPT_NAME=oracle_server
 call :UPDATE
 GOTO :SUCCESS
 
-::args: URL, SQL_DIR, DB_USER, DB_PASS, SUBDIR_NAME, SCRIPT_NAME
+::args: DB_USER, DB_PASS, SCRIPT_NAME
 :UPDATE
 call :CLEANUP
-%WGET_PROG% %WGET_OPTS% -O tmp.zip %URL%
-%ZIP_PROG% x tmp.zip -y -o%SQL_DIR%
-cd %SQL_DIR%\sql\%SUBDIR_NAME%\
-%SQLPLUS_CMD% -S %DB_USER%/%DB_PASS% @%SCRIPT_NAME%
+%WGET_PROG% %WGET_OPTS% -O %EXTRACT_FILE% %SCRIPT_URL%
+%ZIP_PROG% x %EXTRACT_FILE% -y -o%EXTRACT_DIR%
+cd %EXTRACT_DIR%\oracle\
+%SQLPLUS_PROG% -S %DB_USER%/%DB_PASS% @%SCRIPT_NAME%
 %CD_BASE_DIR%
 call :CLEANUP
 
@@ -140,10 +120,9 @@ SET UPDATED=%DB_USER% %UPDATED%
 
 GOTO :EOF
 
-::args: SQL_DIR
 :CLEANUP
-del /F /Q tmp.zip
-rmdir /s /q %SQL_DIR%
+del /F /Q %EXTRACT_FILE%
+rmdir /s /q %EXTRACT_DIR%
 GOTO :EOF
 
 :SUCCESS
@@ -153,4 +132,3 @@ ECHO.
 GOTO :END
 
 :END
-
