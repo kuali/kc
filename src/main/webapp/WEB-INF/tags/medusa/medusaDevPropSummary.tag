@@ -74,7 +74,7 @@
       <td><c:out value="${node.bo.programAnnouncementNumber}"/></td>
     </tr>
     <tr>
-      <th style="text-align: right;">Narrative:</th>
+      <th style="text-align: right;">Attachments:</th>
       <td><c:out value="${node.bo.attachmentsStatus}"/></td>
       <th style="text-align: right;">Budget:</th>
       <td><c:out value="${node.bo.budgetStatusDescription}"/></td>      
