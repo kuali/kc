@@ -79,7 +79,6 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
@@ -100,7 +99,6 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -1844,6 +1842,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
             decision.getAbstainers().add(decision.getNewAbstainer());
             decision.setNewAbstainer(new CommitteePerson());
+            decision.setAbstainCount(decision.getAbstainCount() + 1);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1858,6 +1857,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (person != null) {
             decision.getAbstainersToDelete().add(person);
             decision.getAbstainers().remove(getLineToDelete(request));
+            decision.setAbstainCount(decision.getAbstainCount() - 1);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1870,6 +1870,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
             decision.getRecused().add(decision.getNewRecused());
             decision.setNewRecused(new CommitteePerson());
+            decision.setRecusedCount(decision.getRecusedCount() + 1);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1880,11 +1881,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        
         CommitteePerson person = decision.getRecused().get(getLineToDelete(request));
         if (person != null) {
             decision.getRecusedToDelete().add(person);
             decision.getRecused().remove(getLineToDelete(request));
+            decision.setRecusedCount(decision.getRecusedCount() - 1);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

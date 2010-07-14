@@ -725,6 +725,7 @@
         <field-descriptor name="yesVoteCount" column="YES_VOTE_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="noVoteCount" column="NO_VOTE_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="abstainerCount" column="ABSTAINER_COUNT" jdbc-type="INTEGER" />
+        <field-descriptor name="recusedCount" column="RECUSED_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="votingComments" column="VOTING_COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -761,6 +762,12 @@
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor>
         <collection-descriptor name="protocolOnlineReviews" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="submissionIdFk" />
+        </collection-descriptor>
+        <collection-descriptor name="abstainers" element-class-ref="org.kuali.kra.meeting.ProtocolVoteAbstainee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="link" auto-delete="object">
+            <inverse-foreignkey field-ref="submissionIdFk" />
+        </collection-descriptor>
+        <collection-descriptor name="recusers" element-class-ref="org.kuali.kra.meeting.ProtocolVoteRecused" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="link" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor>
     </class-descriptor>
