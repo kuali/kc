@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.internet.HeaderTokenizer;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,68 +27,44 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
-import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
-import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaEvent;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
-import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
-import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedEvent;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersEvent;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
-import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
-import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
-import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
-import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
-import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * The set of actions for the Protocol Actions tab.
@@ -103,19 +74,23 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewAction.class);
 
     private static final String PROTOCOL_TAB = "protocol";
-    private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
-    private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
-    private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
+    private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    //Protocol Online Review Action Forwards
+    public static final String ONLINE_REVIEW_IRB_ADMIN_FORWARD = "irbAdminOnlineReview";
+    public static final String ONLINE_REVIEW_REVIEWER_FORWARD = "reviewerOnlineReview";
   
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     
     /** {@inheritDoc} */
+    
+  
+    
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
+            
         ((ProtocolForm) form).getActionHelper().prepareView();
         ((ProtocolForm) form).getOnlineReviewsActionHelper().init(false);
         return actionForward;
@@ -162,7 +137,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      * @return the name of the HTML page to display
      * @throws Exception doesn't ever really happen
      */
-    public ActionForward testCreateOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward createOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = ( ProtocolForm ) form;
         ProtocolOnlineReviewService protocolOnlineReviewService = getProtocolOnlineReviewService();
@@ -184,26 +159,301 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     }
     
     
+    
+  
     /**
-     * Parses the method to call attribute to get the index into the ProtocolOnlineReview comments collection.
-     *
-     * @param request
-     * @return returns the colon delimited list of scopes.  
+     * The online review actions are encoded into the methodToCall parameters
+     * using: (actionMethodToCall).(onlineReviewDocumentNumber).anchor in the name attributes of 
+     * the online review form buttons.  Where
+     * 
+     * actionMethodToCall is for example 'routeOnlineReview'
+     * onlineReviewDocumentNumber: is the document number of the online review
+     *   
+     * @param parameterName The parameter being decoded, usually retrieved from the request parameters as KNSConstants.METHOD_TO_CALL_ATTRIBUTE. 
+     * @param actionMethodToCall The methodToCall ( function name in the action being executed. ).
+     * 
+     * @return
      */
-    protected int getOnlineReviewCommentIndex(HttpServletRequest request) {
-        int index = -1;
+    protected String getOnlineReviewActionDocumentNumber(String parameterName, String actionMethodToCall) {
+        
         String idxStr = null;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName) && parameterName.indexOf(".addOnlineReviewComment")!=-1) {
-            idxStr = StringUtils.substringBetween(parameterName, ".addOnlineReviewComment.", ".anchor");
-            if( !StringUtils.isBlank(idxStr) ) {
-                index = Integer.parseInt(idxStr);
-            }
+        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+            throw new IllegalArgumentException(
+                    String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
+                            "and it must contain as a substring the parameter actionMethodToCall. "+
+                            "The passed values were (%s,%s)."
+                            ,parameterName,actionMethodToCall)
+                    );
         }
-        if( index < 0 ) throw new IllegalArgumentException( String.format( "Could not get the review comment index for parameter %s, index string is %s", parameterName, idxStr ) ); 
-        return index;
+        idxStr = StringUtils.substringBetween(parameterName, "."+actionMethodToCall+".", "." );
+        if( idxStr == null || StringUtils.isBlank(idxStr)) {
+            throw new IllegalArgumentException(String.format( 
+                    "parameterName must be of the form '.(actionMethodToCall).(index).anchor, "+
+                    "the passed values were (%s,%s)"
+                    ,parameterName,actionMethodToCall
+                    ));
+        }
+        
+        return idxStr;
     }
     
+    protected int getOnlineReviewActionIndexNumber(String parameterName, String actionMethodToCall) {
+        int result = -1;
+        String idxStr = null;
+        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+            throw new IllegalArgumentException(
+                    String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
+                            "and it must contain as a substring the parameter actionMethodToCall. "+
+                            "The passed values were (%s,%s)."
+                            ,parameterName,actionMethodToCall)
+                    );
+        }
+        //idxStr = StringUtils.substringBetween(parameterName, "."+actionMethodToCall+".", ".anchor" );
+        String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
+        
+        result = Integer.parseInt(idxNmbr);
+        
+        return result;
+    }
+    
+    
+    
+    
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "approveOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        documentService.approveDocument(prDoc, "", null);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward blanketApproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "blanketApproveOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        documentService.blanketApproveDocument(prDoc, "", null);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward saveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "saveOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        
+        reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        documentService.saveDocument(prDoc);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward rejectOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "rejectOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+        if(question == null){
+            forward =  this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+         } 
+        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+            //nothing to do.
+        }
+        else
+        {
+            getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
+        }
+        return forward;
+    }  
+        
+        
+        
+        
+    
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward disapproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "disapproveOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String disapprovalNoteText = "";
+        String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+
+        // start in logic for confirming the disapproval
+        if (question == null) {
+            // ask question if not already asked
+            return performQuestionWithInput(mapping, form, request, response, KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(RiceConstants.MAPPING_BASIC);
+            }
+            else {
+                // have to check length on value entered
+                String introNoteMessage = getKualiConfigurationService().getPropertyString(RiceKeyConstants.MESSAGE_DISAPPROVAL_NOTE_TEXT_INTRO) + KNSConstants.BLANK_SPACE;
+
+                // build out full message
+                disapprovalNoteText = introNoteMessage + reason;
+                int disapprovalNoteTextLength = disapprovalNoteText.length();
+
+                // get note text max length from DD
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KNSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+
+                if (StringUtils.isBlank(reason) || (disapprovalNoteTextLength > noteTextMaxLength)) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - disapprovalNoteTextLength;
+
+                    if (reason == null) {
+                        // prevent a NPE by setting the reason to a blank string
+                        reason = "";
+                    }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                }
+                
+                if (WebUtils.containsSensitiveDataPatternMatch(disapprovalNoteText)) {
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
+                            KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), 
+                            KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                            KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                }
+            }
+        }
+
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        doProcessingAfterPost( kualiDocumentFormBase, request );
+        getDocumentService().disapproveDocument(kualiDocumentFormBase.getDocument(), disapprovalNoteText);
+        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
+        kualiDocumentFormBase.setAnnotation("");
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+    
+    /**
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward cancelOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "cancelOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        // logic for cancel question
+        if (question == null) {
+            // ask question if not already asked
+            forward =  this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((KNSConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                
+            }
+            
+            KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+            doProcessingAfterPost( kualiDocumentFormBase, request );
+            getDocumentService().cancelDocument(prDoc, kualiDocumentFormBase.getAnnotation());
+         
+        }
+        return forward;
+    }
+
     
     /**
      * 
@@ -217,18 +467,16 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward addOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        int commentIndex = getOnlineReviewCommentIndex( request );
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"addOnlineReviewComment");
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm)form;
-        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getProtocolOnlineReviewDocuments().get(commentIndex);
-        prDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(prDoc.getDocumentNumber());
-        
-        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerComments().get(commentIndex);
-        CommitteeScheduleMinute newComment = comments.getNewComment();
-        
-        //reviewerCommentsService.persistReviewerComments(comments, prDoc.getProtocolOnlineReview() );
-        return mapping.findForward( Constants.MAPPING_BASIC );
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        comments.addNewComment(protocolForm.getProtocolDocument().getProtocol(),prDoc.getProtocolOnlineReview() );
+        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        documentService.saveDocument(prDoc);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
     /**
@@ -242,7 +490,19 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward moveUpOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward( Constants.MAPPING_BASIC );
+        
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveUpOnlineReviewComment");
+        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveUpOnlineReviewComment");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        comments.moveUp(onlineReviewCommentIndex, onlineReviewCommentIndex);
+        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        documentService.saveDocument(prDoc);
+         
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
     /**
@@ -256,7 +516,19 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward moveDownOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward( Constants.MAPPING_BASIC );
+        
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveDownOnlineReviewComment");
+        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"moveDownOnlineReviewComment");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+      
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        comments.moveDown(onlineReviewCommentIndex, onlineReviewCommentIndex);
+        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        documentService.saveDocument(prDoc);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
     /**
@@ -270,19 +542,19 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward deleteOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward( Constants.MAPPING_BASIC );
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"deleteOnlineReviewComment");
+        int onlineReviewCommentIndex = getOnlineReviewActionIndexNumber((String)request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),"deleteOnlineReviewComment");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(onlineReviewDocumentNumber);
+        ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+        comments.deleteComment(onlineReviewCommentIndex);
+        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }    
-
-
-    /*
-     * Builds the confirmation question to verify if the user wants to submit the protocol for review.
-     */
-    private StrutsConfirmation buildSubmitForReviewConfirmationQuestion(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMIT_FOR_REVIEW_KEY,
-                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
-    }
     
+
     private boolean hasPermission(String taskName, Protocol protocol) {
         ProtocolTask task = new ProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
@@ -364,28 +636,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return KraServiceLocator.getService( ProtocolOnlineReviewService.class );
     }
-
-
-
-    /**
-     * When a user opens a ProtocolOnlineReview document from the KEW action list
-     * we need to redirect them to the associated protocol document. This method
-     * looks up the associated protocol.
-     * 
-     * 
-     * @param mapping the mapping associated with this action.
-     * @param form the Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the name of the HTML page to display
-     * @throws Exception doesn't ever really happen
-     */
-    public ActionForward redirectToProtocolFromReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        return mapping.findForward( Constants.MAPPING_BASIC );
-    }    
-
-
-
+    
+    private KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
 
 }

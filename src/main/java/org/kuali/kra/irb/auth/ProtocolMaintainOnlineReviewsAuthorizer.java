@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions.reviewcomments;
+package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+public class ProtocolMaintainOnlineReviewsAuthorizer extends ProtocolAuthorizer {
 
-public interface ReviewerCommentsService {
-    
-    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
-    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
-
+    /**
+     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
+     */
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        return hasPermission( userId, task.getProtocol(), PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+    }
 }

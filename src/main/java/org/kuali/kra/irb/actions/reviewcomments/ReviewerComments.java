@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
@@ -69,6 +70,15 @@ public class ReviewerComments implements Serializable {
         comments.add(newComment);
         newComment = new CommitteeScheduleMinute();
     }
+    
+    /**
+     * This method adds a new comment to the collection of comments.
+     */
+    public void addNewComment(Protocol protocol, ProtocolOnlineReview protocolOnlineReview) {
+        newComment.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
+        addNewComment( protocol );
+    }
+    
     
     /**
      * 
@@ -175,7 +185,7 @@ public class ReviewerComments implements Serializable {
         }
     }
     
-    protected void setProtocolId(Long protocolId) {
+    public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
     

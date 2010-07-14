@@ -24,10 +24,6 @@
 
 
 
-<kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
-	<div class="tab-container" align=center>
-		  <!-- DOC OVERVIEW TABLE -->
-					
 		  <!-- DOC OVERVIEW TABLE -->
 		  	
 		 	<h3>Create New Online Review</h3>
@@ -101,13 +97,12 @@
          
 			<br/>
 	
-			<html:image property="methodToCall.testCreateOnlineReview.anchor${tabKey}"
+			<html:image property="methodToCall.createOnlineReview.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-create.gif' styleClass="tinybutton"/>
 
 			
 			
-        </div>
-		</kul:tabTop>
+      
 
 
 
