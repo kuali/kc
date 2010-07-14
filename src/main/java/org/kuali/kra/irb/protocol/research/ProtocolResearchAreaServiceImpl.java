@@ -18,9 +18,9 @@ package org.kuali.kra.irb.protocol.research;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
@@ -38,6 +38,13 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
                 protocol.addProtocolResearchAreas(createInstanceOfProtocolResearchAreas(protocol, newResearchAreas));
             }
         }
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService#isEmptyProtocolResearchAreas(org.kuali.kra.irb.Protocol)
+     */
+    public boolean isEmptyProtocolResearchAreas(Protocol protocol) {
+        return CollectionUtils.isEmpty(protocol.getProtocolResearchAreas());
     }
 
     /**

@@ -35,6 +35,7 @@ import org.kuali.rice.test.data.UnitTestFile;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 /**
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
@@ -219,6 +220,7 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     protected final HtmlPage getProtocolSavedRequiredFieldsPage() throws Exception {
         HtmlPage protocolPage = getProtocolHomePage();
         setProtocolRequiredFields(protocolPage);
+        protocolPage = lookupProtocolAuditRequiredResearchArea(protocolPage);
         protocolPage = savePage(protocolPage);
         validateSavedPage(protocolPage);
         return protocolPage;
@@ -259,6 +261,26 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
             String key = (String) it.next();
             setFieldValue(page, key, keyValues.get(key));
         }
+    }
+    
+    /**
+     * Performs a lookup in the Additional Information tab to protocolResearchAreas, a property required by the audit, 
+     * verifies that the lookup produces three rows (title, form, and new research area row), and verifies the response.
+     * 
+     * @param page The HTML page before the lookup
+     * @returns The HTML with the required research area set
+     */
+    protected HtmlPage lookupProtocolAuditRequiredResearchArea(HtmlPage page) throws IOException {
+        HtmlElement element = getElementByName(page, "methodToCall.toggleTab.tabAdditionalInformation");
+        assertTrue("element is null", element != null);
+        page = clickOn(element);
+        
+        page = multiLookup(page, "protocolResearchAreas", "researchAreaCode", "01.0101");
+        HtmlTable table = getTable(page, "researchAreaTableId");
+        assertEquals(3, table.getRowCount());
+        assertContains(page, "Agricultural Business and Management");
+        
+        return page;
     }
 
     /**

@@ -68,6 +68,7 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
@@ -142,6 +143,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ProtocolResearchAreaAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
         return retval;
@@ -205,7 +207,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         }
         return isValid;
     }
-
     
     /**
      * At least one organization must be entered.  
