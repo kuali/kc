@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +37,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
 
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
-    
-    private Collection<String> usedTypeCodes;
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
@@ -162,7 +158,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
     private boolean validateReviewers(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
         List<ProtocolReviewerBean> reviewers = submitAction.getReviewers();
-        usedTypeCodes = new ArrayList<String>();
         for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {
@@ -185,16 +180,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         boolean isChecked = reviewer.getChecked();
         
         String parameterName = Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
-        
-        //test for unique
-        if (usedTypeCodes.contains(reviewerTypeCode)) {
-            isValid = false;
-            reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED, reviewer.getFullName());
-        } else {
-            if (!(reviewerTypeCode == null || "".equals(reviewerTypeCode))) {
-                usedTypeCodes.add(reviewerTypeCode);
-            }
-        }
         
         // test if type code is valid
         if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
