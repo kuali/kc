@@ -31,7 +31,6 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -451,36 +450,49 @@ public class MeetingServiceImpl implements MeetingService {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("protocol");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("commScheduleActItem");
         meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(meetingHelper.getCommitteeSchedule().getId());
-        meetingHelper.getNewCommitteeScheduleMinute()
-                .setEntryNumber(getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule()));
-        if (MinuteEntryType.ATTENDANCE.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())
-                && meetingHelper.getNewCommitteeScheduleMinute().isGenerateAttendance() && meetingHelper.isJsDisabled()) {
+        meetingHelper.getNewCommitteeScheduleMinute().setEntryNumber(getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule()));
+        
+        String minuteEntryTypeCode = meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode();
+        if (MinuteEntryType.ATTENDANCE.equals(minuteEntryTypeCode)) {
+            addAttendanceMinuteEntry(meetingHelper);
+        } else if (MinuteEntryType.ACTION_ITEM.equals(minuteEntryTypeCode)) {
+            addActionItem(meetingHelper);
+        } else if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode)) {
+            resetActionItemFields(meetingHelper);
+        } else {
+            resetProtocolFields(meetingHelper);
+            resetActionItemFields(meetingHelper);
+        }
+        
+        meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes().add(meetingHelper.getNewCommitteeScheduleMinute());
+        meetingHelper.setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
+    }
+    
+    /*
+     * Utility method to figure out next entry number for this schedule.
+     */
+    private Integer getNextMinuteEntryNumber(CommitteeSchedule committeeSchedule) {
+        Integer nextMinuteEntryNumber = committeeSchedule.getCommitteeScheduleMinutes().size();
+        for (CommitteeScheduleMinute committeeScheduleMinute : committeeSchedule.getCommitteeScheduleMinutes()) {
+            if (committeeScheduleMinute.getEntryNumber() > nextMinuteEntryNumber) {
+                nextMinuteEntryNumber = committeeScheduleMinute.getEntryNumber();
+            }
+        }
+        return nextMinuteEntryNumber + 1;
+    }
+    
+    /*
+     * Adds a minute entry to an attendance minute type
+     */
+    private void addAttendanceMinuteEntry(MeetingHelper meetingHelper) {
+        if (meetingHelper.getNewCommitteeScheduleMinute().isGenerateAttendance() && meetingHelper.isJsDisabled()) {
             // in case JS is disabled
             meetingHelper.getNewCommitteeScheduleMinute().setMinuteEntry(
                     generateAttendanceComment(meetingHelper.getMemberPresentBeans(), meetingHelper.getOtherPresentBeans(),
                             meetingHelper.getCommitteeSchedule()));
         }
-        if (MinuteEntryType.ACTION_ITEM.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())
-                && meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk() != null) {
-            // in case adding non-persisted action item
-            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(
-                    getActionItem(meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk(),
-                            meetingHelper.getCommitteeSchedule().getCommScheduleActItems()));
-        }
-        if (!MinuteEntryType.PROTOCOL.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())) {
-            // Set protocol fields to null if MinuteEntryType is not PROTOCOL
-            meetingHelper.getNewCommitteeScheduleMinute().setProtocolIdFk(null);
-            meetingHelper.getNewCommitteeScheduleMinute().setProtocol(null);
-        }
-        if (!MinuteEntryType.ACTION_ITEM.equals(meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode())) {
-         // Set action item fields to null if MinuteEntryType is not ACTION_ITEM
-            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItemsIdFk(null);
-            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(null);
-        }
-        
-        meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes().add(meetingHelper.getNewCommitteeScheduleMinute());
-        meetingHelper.setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
-
+        resetProtocolFields(meetingHelper);
+        resetActionItemFields(meetingHelper);
     }
 
     /*
@@ -510,19 +522,6 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /*
-     * Utility method to figure out next entry number for this schedule.
-     */
-    private Integer getNextMinuteEntryNumber(CommitteeSchedule committeeSchedule) {
-        Integer nextMinuteEntryNumber = committeeSchedule.getCommitteeScheduleMinutes().size();
-        for (CommitteeScheduleMinute committeeScheduleMinute : committeeSchedule.getCommitteeScheduleMinutes()) {
-            if (committeeScheduleMinute.getEntryNumber() > nextMinuteEntryNumber) {
-                nextMinuteEntryNumber = committeeScheduleMinute.getEntryNumber();
-            }
-        }
-        return nextMinuteEntryNumber + 1;
-    }
-
-    /*
      * Utility to get person name for 'alternate for'. This name is used when 'generate attendance' is checked.
      */
     private String getAlternateForName(CommitteeSchedule committeeSchedule, String alternateFor) {
@@ -538,6 +537,36 @@ public class MeetingServiceImpl implements MeetingService {
             }
         }
         return personName;
+    }
+    
+    /*
+     * Adds an action item to an action item minute type
+     */
+    private void addActionItem(MeetingHelper meetingHelper) {
+        if (meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk() != null) {
+            // in case adding non-persisted action item
+            meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(
+                    getActionItem(meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk(),
+                            meetingHelper.getCommitteeSchedule().getCommScheduleActItems()));
+        }
+        resetProtocolFields(meetingHelper);
+        resetActionItemFields(meetingHelper);
+    }
+    
+    /*
+     * Empties protocol fields if the minute type is not PROTOCOL
+     */
+    private void resetProtocolFields(MeetingHelper meetingHelper) {
+        meetingHelper.getNewCommitteeScheduleMinute().setProtocolIdFk(null);
+        meetingHelper.getNewCommitteeScheduleMinute().setProtocol(null);
+    }
+    
+    /*
+     * Empties action item fields if the minute type is not ACTION_ITEM
+     */
+    private void resetActionItemFields(MeetingHelper meetingHelper) {
+        meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItemsIdFk(null);
+        meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(null);
     }
     
     /*
