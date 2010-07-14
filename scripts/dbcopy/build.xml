@@ -13,14 +13,20 @@
 	     Enjoy!
 	-->
 	<property name="sqlplus.location" value="sqlplus"/>
-	<property name="dba.username" value="kradev"/>
-	<property name="dba.password" value="dev174kra"/>
+
+	<property name="bun.username" value="kradev"/>
+	<property name="bun.password" value="dev174kra"/>
 	<property name="unt.username" value="kraunt"/>
 	<property name="unt.password" value="unt174kra"/>
+	<property name="emb.client.username" value="KCDEV"/>
+	<property name="emb.client.password" value="KCDEV"/>
+	<property name="emb.server.username" value="RICEDEV"/>
+	<property name="emb.server.password" value="RICEDEV"/>
+
 	<property name="db.host" value="localhost"/>
 	<property name="db.sid" value="XE"/>
 
-    <target name="build" depends="oracle-embedded,oracle-test,clean"/>
+    <target name="build" depends="oracle-embedded,oracle-bundled,oracle-test,clean" description="updates all oracle development databases"/>
 	
 	<target name="init">
         <copy todir="." flatten="true">
@@ -31,19 +37,28 @@
         <unzip src="devdb_oracle.zip" dest="."/>
     </target>
 	
-	<target name="oracle-embedded" depends="init">
+	<target name="oracle-embedded" depends="init" description="updates the embedded client and server databases">
         <exec executable="${sqlplus.location}" dir="oracle">
-            <arg line="${dba.username}/${dba.password}@//${db.host}/${db.sid} @oracle_embedded.sql"/>
+            <arg line="${emb.client.username}/${emb.client.password}@//${db.host}/${db.sid} @oracle_client.sql"/>
+        </exec>
+        <exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${emb.server.username}/${emb.server.password}@//${db.host}/${db.sid} @oracle_server.sql"/>
         </exec>
     </target>
 	
-	<target name="oracle-test" depends="init">
+	<target name="oracle-bundled" depends="init" description="updates the bundled database">
+        <exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${bun.username}/${bun.password}@//${db.host}/${db.sid} @oracle_bundled.sql"/>
+        </exec>
+    </target>
+	
+	<target name="oracle-test" depends="init" description="updates the unit test database">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${unt.username}/${unt.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
         </exec>
 	</target>
 	
-	<target name="clean">
+	<target name="clean" description="deletes build artifacts">
         <delete dir="oracle"/>
         <delete file="devdb_oracle.zip"/>
 	</target>
