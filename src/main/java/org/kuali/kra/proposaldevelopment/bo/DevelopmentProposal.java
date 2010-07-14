@@ -66,6 +66,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable {
 
     private static final long serialVersionUID = -9211313487776934111L;
+    private static final String ATTACHMENTS_COMPLETE = "Complete";
+    private static final String ATTACHMENTS_INCOMPLETE = "Inomplete";
+    private static final String ATTACHMENTS_NONE = "None";
 
     private String proposalNumber;
     private String proposalTypeCode;
@@ -1945,15 +1948,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     public String getAttachmentsStatus() {
-        String statusString = "Complete";
+        String statusString = ATTACHMENTS_COMPLETE;
         if (!getNarratives().isEmpty()) {
             for (Narrative aNarrative : getNarratives()) {
-                if ("Incomplete".equals(aNarrative.getNarrativeStatus().getDescription())) {
-                    statusString = aNarrative.getNarrativeStatus().getDescription();
+                if (aNarrative.getNarrativeStatus().getDescription().equals(ATTACHMENTS_INCOMPLETE)) {
+                    statusString = ATTACHMENTS_INCOMPLETE;
                 }
             }
         } else {
-            statusString = "None";
+            statusString = ATTACHMENTS_NONE;
         }
         return statusString;
     }
