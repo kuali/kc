@@ -4,11 +4,11 @@
 ::
 :: Requirements:
 :: - Oracle (download from http://www.oracle.com/technology/software/products/database/xe/index.html) and set SQLPLUS_PROG
-:: to point to sqlplus.exe.
+:: to point to sqlplus.exe (if on the PATH only the command name is necessary).
 :: - WGet (download from http://users.ugent.be/~bpuype/wget/) and set WGET_PROG
-:: to point to wget.exe.
+:: to point to wget.exe (if on the PATH only the command name is necessary).
 :: - 7-Zip (download from http://www.7-zip.org/download.html) and set ZIP_PROG
-:: to point to 7z.exe.
+:: to point to 7z.exe (if on the PATH only the command name is necessary).
 ::
 :: Hint: Running this batch file without arguments displays usage hints.
 
