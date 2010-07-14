@@ -45,6 +45,7 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     private Integer noCount;
     private Integer yesCount;
     private Integer abstainCount;
+    private Integer recusedCount;
     private String votingComments;
     
     private CommitteePerson newAbstainer = new CommitteePerson();
@@ -66,21 +67,30 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
             this.noCount = submission.getNoVoteCount();
             this.yesCount = submission.getYesVoteCount();
             this.abstainCount = submission.getAbstainerCount();
+            this.recusedCount = submission.getRecusedCount();
             this.votingComments = submission.getVotingComments();
             
             //not sure if I really need to deal with protocol actions    
             //ES: Please remove condition before checking in.
-            if( submission.getScheduleIdFk() != null ) {
-                initializeAbstainees(protocol, submission.getScheduleIdFk());
-                initializeRecused(protocol, submission.getScheduleIdFk());
+            if (submission.getScheduleIdFk() != null) {
+                initializeAbstainees(protocol, submission);
+                initializeRecused(protocol, submission);
             }
         }
     }
     
-    private Map<String, Long> getLookUpFields(Long protocolId, Long scheduleIdFk) {
+    public Integer getRecusedCount() {
+        return recusedCount;
+    }
+
+    public void setRecusedCount(Integer recusedCount) {
+        this.recusedCount = recusedCount;
+    }
+
+    private Map<String, Long> getLookUpFields(Long protocolId, Long submissionIdFk) {
         Map<String, Long> lookUpFields = new HashMap<String, Long>();
         lookUpFields.put("PROTOCOL_ID_FK", protocolId);
-        lookUpFields.put("SCHEDULE_ID_FK", scheduleIdFk);
+        lookUpFields.put("SUBMISSION_ID_FK", submissionIdFk);
         return lookUpFields;
     }
     
@@ -91,8 +101,8 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         return committeeMemberships;
     }
     
-    private void initializeAbstainees(Protocol protocol, Long scheduleIdFk) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), scheduleIdFk);
+    private void initializeAbstainees(Protocol protocol, ProtocolSubmission submission) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
         
@@ -111,8 +121,8 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         }
     }
     
-    private void initializeRecused(Protocol protocol, Long scheduleIdFk) {
-        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), scheduleIdFk);
+    private void initializeRecused(Protocol protocol, ProtocolSubmission submission) {
+        Map<String, Long> absenteeLookFields = getLookUpFields(protocol.getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
         

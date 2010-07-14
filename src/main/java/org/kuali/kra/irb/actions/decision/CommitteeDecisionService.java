@@ -34,12 +34,11 @@ public interface CommitteeDecisionService {
     
     /**
      * 
-     * This method is to retrieve abstainers or recusers for a protocol submission
+     * This method is to retrieve abstainers or recusers for a protocol submission.
      * @param protocolId
-     * @param scheduleId
+     * @param submissionIdFk
      * @param clazz
      * @return
      */
-    List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long scheduleId, Class<? extends ProtocolMeetingVoter> clazz);
-
+    List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long submissionIdFk, Class<? extends ProtocolMeetingVoter> clazz);
 }

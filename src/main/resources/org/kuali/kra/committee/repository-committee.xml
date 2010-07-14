@@ -360,7 +360,8 @@
 	<class-descriptor class="org.kuali.kra.meeting.ProtocolVoteAbstainee" table="PROTOCOL_VOTE_ABSTAINEES">
 		<field-descriptor name="protocolVoteAbstaineesId" column="PROTOCOL_VOTE_ABSTAINEES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<!-- <field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />  -->
+		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
@@ -373,13 +374,17 @@
 		</reference-descriptor>
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.meeting.ProtocolVoteRecused" table="PROTOCOL_VOTE_RECUSED">
 		<field-descriptor name="protocolVoteRecusedId" column="PROTOCOL_VOTE_RECUSED_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<!-- <field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />  -->
+		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
@@ -392,6 +397,9 @@
 		</reference-descriptor>
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
 	
