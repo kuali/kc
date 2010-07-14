@@ -317,7 +317,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         return this.commScheduleMinutesId.equals(csm.getCommScheduleMinutesId()) 
             && this.getMinuteEntry().equals(csm.getMinuteEntry()) 
             && this.getEntryNumber().equals(csm.getEntryNumber()) 
-            && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag();
+            && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag()
+            && this.isFinalFlag() == csm.isFinalFlag();
     }
 
     @Override

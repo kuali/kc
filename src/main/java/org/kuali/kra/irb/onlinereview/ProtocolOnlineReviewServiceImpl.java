@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,6 +33,7 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -45,6 +47,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
 
+    private static Logger LOG = Logger.getLogger(ProtocolOnlineReviewServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -52,10 +55,16 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     private ProtocolAssignReviewersService protocolAssignReviewersService;
     private IdentityManagementService identityManagementService;
     private CommitteeService committeeService;
-
+    private KraDocumentRejectionService kraDocumentRejectionService;
+    
+    private String reviewerApproveNodeName;
+    private String irbAdminApproveNodeName;
+    
+    @SuppressWarnings("unchecked")
     private PersonService personService;
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewServiceImpl.class);
+    
+    
     
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#assignOnlineReviewer(org.kuali.kra.irb.Protocol, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -79,15 +88,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             LOG.debug(String.format("Current submission for protocol %s is %s.", protocol.getProtocolNumber(), submission.getSubmissionNumber()));
         }
         ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
-        //save the document, should save the BOs as well.
-        documentService.saveDocument(reviewDocument);
-        reviewDocument.getProtocolOnlineReview().refresh();
         
         //irb admin needs to see these documents before they go final.
         reviewDocument.getDocumentHeader().getWorkflowDocument().setReceiveFutureRequests();
-        reviewDocument.getDocumentHeader().getWorkflowDocument().setDoNotReceiveFutureRequests();
-        documentService.routeDocument(reviewDocument, "Submitted into workflow by ProtocolOnlineReviewServiceImpl when review was created.", new java.util.ArrayList());
-        documentService.approveDocument(reviewDocument, "", new java.util.ArrayList());
+        documentService.saveDocument(reviewDocument);
+        reviewDocument.getProtocolOnlineReview().refresh();
+        
+        documentService.routeDocument(reviewDocument, "Submitted into workflow by ProtocolOnlineReviewServiceImpl when review was created.", new ArrayList<String>());
+        //documentService.approveDocument(reviewDocument, "", new ArrayList<String>());
         return reviewDocument;
     }
 
@@ -117,7 +125,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                                                                                 String principalId ) 
         throws WorkflowException {
         
-        Person reviewerPerson = personService.getPerson(personId);
         
         ProtocolOnlineReviewDocument protocolReviewDocument;
         
@@ -162,6 +169,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @param submission
      * @return
      */
+    @SuppressWarnings("unchecked")
     private ProtocolReviewer getOrCreateProtocolReviewerByPersonIdAndSubmissionId(String personId, Protocol protocol, ProtocolSubmission submission) {
         
         Long protocolId = protocol.getProtocolId();
@@ -172,7 +180,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         keyMap.put("protocolId", protocolId);
         keyMap.put("submissionIdFk", submissionId);
         ProtocolReviewer result;
-       
         List<ProtocolReviewer> reviewers = (List<ProtocolReviewer>)businessObjectService.findMatching(ProtocolReviewer.class, keyMap);
         if (reviewers.size() == 1) {
             result =  reviewers.get(0);
@@ -218,7 +225,12 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         
         for (ProtocolOnlineReview review : reviews) {
             review.refresh();
-            onlineReviewDocuments.add(review.getProtocolOnlineReviewDocument());
+            try {
+                onlineReviewDocuments.add((ProtocolOnlineReviewDocument)(documentService.getByDocumentHeaderId( review.getProtocolOnlineReviewDocument().getDocumentNumber() )));
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException( String.format( "Could not load ProtocolOnlineReview docuemnt %s due to WorkflowException: %s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e.getMessage() ),e);
+            }
         }
         
         return onlineReviewDocuments;
@@ -229,12 +241,31 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getAvailableCommitteeMembersForCurrentSubmission(org.kuali.kra.irb.Protocol)
      */
     public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
+        List<CommitteeMembership> results = new ArrayList<CommitteeMembership>();
+        
         ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
         if (LOG.isDebugEnabled()) { 
             LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s", protocol.getProtocolNumber(), 
                     submission.getSubmissionNumber()));
         }
-        return getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
+        
+        List<ProtocolOnlineReview> currentReviews = this.getProtocolReviewsForCurrentSubmission(protocol.getProtocolNumber());
+        
+        List<CommitteeMembership> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
+        //TODO: Make this better.
+        for (CommitteeMembership member : committeeMembers) {
+            boolean found = false;
+            for( ProtocolOnlineReview review : currentReviews ) {
+                if (StringUtils.equals(review.getProtocolReviewer().getPersonId(),member.getPersonId())) {
+                    found=true;
+                    break;
+                }
+            }
+            if (!found) {
+                results.add(member);
+            }
+        }
+        return results;
     }
     
     
@@ -285,7 +316,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         if (dateDueEnable) { 
             hashMap.put("dateDue", dateDue);
         }
-        
+        @SuppressWarnings("unchecked")
         List<ProtocolOnlineReview> results = (List<ProtocolOnlineReview>) getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false );
        
         return results;
@@ -344,6 +375,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * Gets the personService attribute. 
      * @return Returns the personService.
      */
+    @SuppressWarnings("unchecked")
     public PersonService getPersonService() {
         return personService;
     }
@@ -351,6 +383,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
+    @SuppressWarnings("unchecked")
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
@@ -384,7 +417,56 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.committeeService = committeeService;
     }
 
-    
+    /**
+     * Gets the irbAdminApproveNodeName attribute. 
+     * @return Returns the irbAdminApproveNodeName.
+     */
+    public String getIrbAdminApproveNodeName() {
+        return irbAdminApproveNodeName;
+    }
+
+    /**
+     * Sets the irbAdminApproveNodeName attribute value.
+     * @param irbAdminApproveNodeName The irbAdminApproveNodeName to set.
+     */
+    public void setIrbAdminApproveNodeName(String irbAdminApproveNodeName) {
+        this.irbAdminApproveNodeName = irbAdminApproveNodeName;
+    }
+
+    /**
+     * Gets the reviewerApproveNodeName attribute. 
+     * @return Returns the reviewerApproveNodeName.
+     */
+    public String getReviewerApproveNodeName() {
+        return reviewerApproveNodeName;
+    }
+
+    /**
+     * Sets the reviewerApproveNodeName attribute value.
+     * @param reviewerApproveNodeName The reviewerApproveNodeName to set.
+     */
+    public void setReviewerApproveNodeName(String reviewerApproveNodeName) {
+        this.reviewerApproveNodeName = reviewerApproveNodeName;
+    }
+
+
+    /**
+     * Gets the kraDocumentRejectionService attribute. 
+     * @return Returns the kraDocumentRejectionService.
+     */
+    public KraDocumentRejectionService getKraDocumentRejectionService() {
+        return kraDocumentRejectionService;
+    }
+
+    /**
+     * Sets the kraDocumentRejectionService attribute value.
+     * @param kraDocumentRejectionService The kraDocumentRejectionService to set.
+     */
+    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+        this.kraDocumentRejectionService = kraDocumentRejectionService;
+    }
+
+       
     /**
      * Get a protocol by the document number.
      * @param documentNumber
@@ -404,6 +486,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @param protocolNumber
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Protocol getProtocolByProtocolNumber(String protocolNumber) {
         Map<String, Object> fieldMap = new HashMap<String, Object>();
         fieldMap.put(Constants.PROPERTY_PROTOCOL_NUMBER,protocolNumber);
@@ -472,6 +555,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return result;
     }
 
-   
+    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
+        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
+    }
+
     
 }

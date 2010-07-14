@@ -20,9 +20,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -30,27 +30,14 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.customdata.CustomDataHelper;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
-import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
-import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
-import org.kuali.kra.irb.permission.PermissionsHelper;
-import org.kuali.kra.irb.personnel.PersonnelHelper;
-import org.kuali.kra.irb.protocol.ProtocolHelper;
-import org.kuali.kra.irb.protocol.participant.ParticipantsHelper;
-import org.kuali.kra.irb.protocol.reference.ProtocolReference;
-import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
-import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
-import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -62,7 +49,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     private static final long serialVersionUID = -7633960906991275328L;
     
     ProtocolOnlineReviewDocument document;
-    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewForm.class);
     
     public ProtocolOnlineReviewForm() throws Exception {
         super();
@@ -102,6 +89,23 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         HeaderNavigation[] list = new HeaderNavigation[navList.size()];
         navList.toArray(list);
         super.setHeaderNavigationTabs(list); 
+    }
+    
+    /*
+     * Override of the set document so we can populate this form
+     * with doucment information outside of a request.
+     */
+    @Override
+    public void setDocument(Document document) {
+        super.setDocument(document);
+        try {
+            this.setDocTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        } catch (RuntimeException re) {
+            //this can happen when the form is initialized with an empty protocol without a header.
+            if (!StringUtils.equals("transient workflowDocument is null - this should never happen", re.getMessage())) {
+                LOG.error("Unexpected runtime exception caught setting ProtocolOnlineReviewDocument",re);
+            }
+        }
     }
     
     /**

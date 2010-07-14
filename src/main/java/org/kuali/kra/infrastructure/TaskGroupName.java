@@ -33,4 +33,5 @@ public interface TaskGroupName {
     public static final String COMMITTEE = "committee";
     public static final String AWARD = "award";
     public static final String TIME_AND_MONEY = "timeAndMoney";
+    public static final String PROTOCOL_ONLINEREVIEW = "protocolOnlineReview";
 }

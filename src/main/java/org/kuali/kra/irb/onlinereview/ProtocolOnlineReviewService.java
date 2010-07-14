@@ -115,4 +115,13 @@ public interface ProtocolOnlineReviewService {
      */
     boolean isProtocolInStateToBeReviewed(Protocol protocol);
     
+    
+    /**
+     * Return the ProtocolOnlineReview document to the reviewer.
+     * 
+     * @param review
+     */
+    void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
+    
+    
 }

@@ -18,10 +18,18 @@ package org.kuali.kra.irb.onlinereview;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
@@ -31,10 +39,23 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.service.PessimisticLockService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+
 
 public class OnlineReviewsActionHelper implements Serializable {
 
+    public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
+    public static final String DOCUMENT_MAP_KEY = "document";
+    public static final String REVIEWER_PERSON_MAP_KEY = "reviewerPerson";
+    public static final String FORM_MAP_KEY = "kualiForm";
+    
     private static final long serialVersionUID = 1L;
     private ProtocolForm form;
     
@@ -46,12 +67,15 @@ public class OnlineReviewsActionHelper implements Serializable {
     private String newReviewExplanation;
     private String newReviewOrganizationDocumentNumber;
     
+    private Map<String,Map<String,Object>> documentHelperMap;
     private List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments;
     private List<ReviewerComments> reviewerComments;
     private List<KcPerson> reviewerPersons;
     private boolean initComplete = false;
 
     private transient KcPersonService kcPersonService;
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OnlineReviewsActionHelper.class);
     
     
     /**
@@ -71,30 +95,45 @@ public class OnlineReviewsActionHelper implements Serializable {
             if( currentSubmission != null ) {
                 this.newReviewDateRequested = new Date((new java.util.Date()).getTime());
                 protocolOnlineReviewDocuments = getProtocolOnlineReviewService()
-                .getProtocolReviewDocumentsForCurrentSubmission(form.getProtocolDocument().getProtocol()); 
-        
-//                protocolOnlineReviewForms = new ArrayList<ProtocolOnlineReviewForm>();
-//                for(ProtocolOnlineReviewDocument pReview : protocolOnlineReviewDocuments) {
-//                    ProtocolOnlineReviewForm form;
-//                    try {
-//                        form = new ProtocolOnlineReviewForm();
-//                    }
-//                    catch (Exception e) {
-//                        throw new RuntimeException( String.format( "Exception thrown creating new ProtocolOnlineReviewForm: %s", e.getMessage() ), e );
-//                    }
-//                    //form.setDocument( pReview );
-//                    //protocolOnlineReviewForms.add(form);
-//            
-//                }
+                    .getProtocolReviewDocumentsForCurrentSubmission(form.getProtocolDocument().getProtocol()); 
+                
                 reviewerComments = new ArrayList<ReviewerComments>();
                 reviewerPersons = new ArrayList<KcPerson>();
+                documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
+                
+                
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
-                    reviewerComments.add(pDoc.getProtocolOnlineReview().getReviewerComments());
-                    KcPerson p = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
-                    if( p!= null )
+                    Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
+                    documentHelperMap.put(pDoc.getDocumentNumber(), pDocMap);
+                    pDocMap.put(DOCUMENT_MAP_KEY, pDoc);
+                    ProtocolOnlineReviewForm poForm;
+                    try {
+                        poForm = new ProtocolOnlineReviewForm();
+                        poForm.setDocument(pDoc);
+                        populateAuthorizationFields(poForm,pDoc);
+                        pDocMap.put(FORM_MAP_KEY, poForm);
+                    }
+                    catch (Exception e) {
+                        LOG.error(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
+                        throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
+                    }
+                   
+                    
+                    ReviewerComments comments = pDoc.getProtocolOnlineReview().getReviewerComments();
+                    comments.setProtocolId( pDoc.getProtocolOnlineReview().getProtocolId() );
+                 
+                    pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, comments);
+                    reviewerComments.add(comments);
+                    
+                    
+                    KcPerson p = getKcPersonService().getKcPersonByPersonId(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
+                    if( p!= null ) {
                         reviewerPersons.add( p );
-                    else 
+                        pDocMap.put(REVIEWER_PERSON_MAP_KEY, p);
+                    } else { 
                         reviewerPersons.add( null );
+                        pDocMap.put(REVIEWER_PERSON_MAP_KEY, null);
+                    }
                 }
                 initComplete = true;
             }
@@ -110,10 +149,9 @@ public class OnlineReviewsActionHelper implements Serializable {
      */
     public List<ProtocolOnlineReview> getCurrentProtocolOnlineReviews() {
         List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
-        for( ProtocolOnlineReviewDocument doc : protocolOnlineReviewDocuments ) {
-            reviews.add(doc.getProtocolOnlineReview());
+        for (Iterator<Map<String,Object>> it = documentHelperMap.values().iterator(); it.hasNext();) {
+            reviews.add(((ProtocolOnlineReviewDocument)((it.next()).get("document"))).getProtocolOnlineReview());
         }
-        
         return reviews;
     }
     
@@ -294,11 +332,186 @@ public class OnlineReviewsActionHelper implements Serializable {
 
     /**
      * Sets the reviewerPersons attribute value.
-     * @param reviewerPersons The reviewerPersons to set.
      */
     public void setReviewerPersons(List<KcPerson> reviewerPersons) {
         this.reviewerPersons = reviewerPersons;
     }
+
+    /**
+     * Gets the documentHelperMap attribute. 
+     * @return Returns the documentHelperMap.
+     */
+    public Map<String, Map<String, Object>> getDocumentHelperMap() {
+        init(false);
+        return documentHelperMap;
+    }
+
+    /**
+     * Sets the documentHelperMap attribute value.
+     * @param documentHelperMap The documentHelperMap to set.
+     */
+    public void setDocumentHelperMap(Map<String, Map<String, Object>> documentHelperMap) {
+        this.documentHelperMap = documentHelperMap;
+    }
+    
+    public Map<String,Object> getHelperMapByDocumentNumber(String documentNumber) {
+        Map<String,Object> helperMap = documentHelperMap.get(documentNumber);
+        if (helperMap==null) {
+            throw new IllegalArgumentException(String.format("Document %s does not exist in the helper map.", documentNumber));
+        }
+        return helperMap;
+    }
+    
+    public ProtocolOnlineReviewDocument getDocumentFromHelperMap(String documentNumber) {
+        ProtocolOnlineReviewDocument protocolDocument = (ProtocolOnlineReviewDocument)getHelperMapByDocumentNumber(documentNumber).get(DOCUMENT_MAP_KEY);
+        if (protocolDocument==null) {
+            throw new IllegalStateException(String.format("Document %s was not stored in the helper map.", documentNumber));
+        }
+        return protocolDocument;
+    }
+
+    public KcPerson getReviewerPersonFromHelperMap(String documentNumber) {
+        KcPerson person = (KcPerson)getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_PERSON_MAP_KEY);
+        if (person==null) {
+            throw new IllegalStateException(String.format("KcPerson for document %s was not stored in the helper map.", documentNumber));
+        }
+        return person;
+    }
+    
+    public ReviewerComments getReviewerCommentsFromHelperMap(String documentNumber) {
+        ReviewerComments comments = (ReviewerComments)getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_COMMENTS_MAP_KEY);
+        if (comments==null) {
+            throw new IllegalStateException(String.format("ReviewerComments for document %s was not stored in the helper map.", documentNumber));
+        }
+        return comments;
+    }
+
+    public int getDocumentIndexByReviewer(String personId) {
+        int idx = 0;
+        for (ProtocolOnlineReviewDocument reviewDocument : protocolOnlineReviewDocuments ) {
+            if (StringUtils.equals(personId,reviewDocument.getProtocolOnlineReview().getProtocolReviewer().getPersonId())) {
+                break;
+            }
+            idx++;
+        }
+        return idx;
+    }
+    
+    public String getDocumentNumberByReviewer(String personId) {
+        int idx = getDocumentIndexByReviewer(personId);
+        return protocolOnlineReviewDocuments.get(idx).getDocumentNumber();
+    }
+    
+    public ProtocolOnlineReviewDocument getDocumentByReviewer(String personId) {
+        return getDocumentFromHelperMap(getDocumentNumberByReviewer(personId));
+    }
+    
+    public String getDocumentNumberForCurrentUser() {
+        return getDocumentNumberByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+    }
+    
+    public ProtocolOnlineReviewDocument getDocumentForCurrentUser() {
+        return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+    }
+    
+    public KcPerson getReviewerPersonForCurrentUser() {
+        return getReviewerPersonFromHelperMap(getDocumentNumberForCurrentUser());
+    }
+
+    
+    public int getDocumentIndexForCurrentUser() {
+        return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+    }
+    
+    private KcPersonService getKcPersonService() {
+        if (kcPersonService == null ) {
+            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
+    }
+    
+    private DocumentHelperService getDocumentHelperService() {
+        return KraServiceLocator.getService(DocumentHelperService.class);
+    }
+    
+    private DataDictionaryService getDataDictionaryService() {
+        return KraServiceLocator.getService(DataDictionaryService.class);
+    }
+    
+    private boolean requiresLock(Document document) {
+        return getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking();
+    }
+    
+    protected Map convertSetToMap(Set s){
+        Map map = new HashMap();
+        Iterator i = s.iterator();
+        while(i.hasNext()) {
+            Object key = i.next();
+           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+        }
+        return map;
+    }
+    
+    private PessimisticLockService getPessimisticLockService() {
+        return KraServiceLocator.getService(PessimisticLockService.class);
+    }
+    
+    protected void populateAuthorizationFields(ProtocolOnlineReviewForm form, ProtocolOnlineReviewDocument document) {
+        if (form.isFormDocumentInitialized()) {
+            
+            Person user = GlobalVariables.getUserSession().getPerson();
+            KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
+            Set<String> editModes = new HashSet<String>();
+            
+            form.setupLockRegions();     
+            String activeLockRegion = (String)GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+            
+            if (!documentAuthorizer.canOpen(document, user)) {
+                editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
+            }
+            else {
+                document.setViewOnly(form.isViewOnly());
+                
+                /*
+                 * Documents that require a pessimistic lock need to be treated differently.  If a user
+                 * can edit the document, they need to obtain the lock, but it is possible that another
+                 * user already has the lock.  So, we try to get the lock using FULL_ENTRY.  If the
+                 * edit mode is downgraded to VIEW_ONLY, we flag the document as such.
+                 */
+                if (requiresLock(document) && documentAuthorizer.canEdit(document, user)) {
+                    editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+                            
+                    Map<String, String> editMode = convertSetToMap(editModes);
+                    
+                    //Check the locks held by the user - detect user's navigation away from one lock region to another
+                    //refresh locks as stale ones can exist in the document due to it being in the form
+                    document.refreshPessimisticLocks();
+                    for(PessimisticLock lock: document.getPessimisticLocks()) {
+                        if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
+                            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user, lock.getLockDescriptor());
+                        }
+                    }
+                    editMode = getPessimisticLockService().establishLocks(document, editMode, user);
+                    //ensure locks are current
+                    document.refreshPessimisticLocks();
+                     
+                    //Task Authorizers should key off the document viewonly flag to determine
+                    //if the document is available for writing or if its locked.
+                    if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+                        document.setViewOnly(true);
+                        //if budget document we need to set the parent document view only as well for authorization consistency.
+            
+                    }
+                }
+                editModes = documentAuthorizer.getEditModes(document, user, null);
+                Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
+                
+                form.setDocumentActions(convertSetToMap(documentActions));
+            }
+            form.setEditingMode(convertSetToMap(editModes));
+        }
+    }
+    
     
 }
 

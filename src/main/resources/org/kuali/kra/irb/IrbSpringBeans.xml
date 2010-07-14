@@ -101,11 +101,23 @@
    		<property name = "personService" ref = "personService"/>
    		<property name = "identityManagementService" ref = "identityManagementService"/>
    		<property name = "committeeService" ref = "committeeService"/>
+   		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
+   		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
+   		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
     </bean>
     
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
     </bean>
+
+	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+		<property name="groupName" value="protocolOnlineReview" />
+		<property name="taskAuthorizers">
+			<list>
+			
+			</list>
+		</property>
+	</bean>
 
     <bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="protocol" />
@@ -266,6 +278,11 @@
                 <bean class="org.kuali.kra.irb.auth.UndoLastActionProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolUndoLastAction" />
                 </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.ProtocolMaintainOnlineReviewsAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="maintainProtocolOnlineReviews"/>
+                </bean>
+                
             </list>
         </property>
     </bean>
