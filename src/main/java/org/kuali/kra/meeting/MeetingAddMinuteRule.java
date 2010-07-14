@@ -48,14 +48,27 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
      * @return
      */
     public boolean processRules(MeetingAddMinuteEvent event) {
-        boolean rulePassed = true;
+        boolean isValid = true;
         errorReporter = new ErrorReporter();
+        
+        isValid &= validateProtocol(event);
+        isValid &= validateActionItem(event);
+        
+        return isValid;
+    }
+    
+    /*
+     * Runs the validation rules for any existing protocols.
+     */
+    private boolean validateProtocol(MeetingAddMinuteEvent event) {
+        boolean isValid = true;
         CommitteeScheduleMinute committeeScheduleMinute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
+
         if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
                 && committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)) {
             if (committeeScheduleMinute.getProtocolIdFk() == null) {
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
-                rulePassed = false;
+                isValid = false;
             }
             if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
                 Map<String, String> fieldValues = new HashMap<String, String>();
@@ -63,21 +76,32 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
                 if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class, fieldValues) == null) {
                     errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY,
                             KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
-                    rulePassed = false;
+                    isValid = false;
                 }
             }
-        } else if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)) {
+        }
+        return isValid;
+    }
+    
+    /*
+     * Runs the validation rules for any existing action items.
+     */
+    private boolean validateActionItem(MeetingAddMinuteEvent event) {
+        boolean isValid = true;
+        CommitteeScheduleMinute committeeScheduleMinute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
+
+        if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
+            && committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)) {
             if (event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().isEmpty()) {
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
-                rulePassed = false;
+                isValid = false;
             }
             if (committeeScheduleMinute.getCommScheduleActItemsIdFk() == null) {
                 errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
-                rulePassed = false;
+                isValid = false;
             }
         }
-        return rulePassed;
+        return isValid;
     }
 
 }
