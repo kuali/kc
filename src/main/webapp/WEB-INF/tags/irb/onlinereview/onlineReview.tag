@@ -16,7 +16,8 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="renderIndex" required = "true" description="The index into the action helpers array list for this review."%>
- 
+<%@ attribute name="documentNumber" required = "true" description="The protocol online review document number to be rendered." %>
+
 <c:set var="onlineReviewAttributes" value="${DataDictionary.ProtocolOnlineReview.attributes}" />
 <c:set var="actionHelper" value = "${KualiForm.onlineReviewsActionHelper}"/>
 <c:set var="readOnly" value = "false"/>
@@ -26,15 +27,18 @@
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 <c:set var="documentOverviewReadOnly" value = "false"/>
 
+<c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[documentNumber]}"/>
+<c:set var = "document" value = "${documentHelperMap['document']}"/>
+<c:set var = "reviewerComments" value = "${documentHelperMap['reviewerComments']}"/>
+<c:set var = "reviewerPerson" value = "${documentHelperMap['reviewerPerson']}"/>
+<c:set var = "kualiForm" value = "${documentHelperMap['kualiForm']}"/>
 
-<kul:tab tabTitle="Online Review: ${KualiForm.onlineReviewsActionHelper.reviewerPersons[renderIndex].fullName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+
 
 	<div class="tab-container" align=center>
 		  <!-- DOC OVERVIEW TABLE -->
-		  
 		
-		
-		<c:set var="currentOnlineReviewForm" value = "${KualiForm}"/>
+		<c:set var="currentOnlineReviewForm" value = "${kualiForm}"/>
 		<jsp:useBean id="currentOnlineReviewForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
 		
     	<c:set var="numberOfHeaderRows" value="2" />
@@ -183,31 +187,43 @@
 		
 		
 			<kra-irb-olr:onlineReviewComments actionName="Online" 
-       										  bean="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}" 
+       										  bean="${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[renderIndex]}"
+       										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${renderIndex}]"
        										  reviewIndex = "${renderIndex}"></kra-irb-olr:onlineReviewComments>
 		
 
-			<kra:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
-				<div class = "globalbuttons">
+			<kra:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+				<c:set var = "viewOnly" value = "false"/>
+				<c:set var = "onlineReviewForm" value = "${documentHelperMap['kualiForm']}"/>
+				<c:set var="documentTypeName" value="${onlineReviewForm.docTypeName}" />
+				<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 					<c:if test="${not KualiForm.suppressAllButtons}">
 	        			<div id="globalbuttons" class="globalbuttons">
-	        			    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_routereport.gif" styleClass="globalbuttons" property="methodToCall.performRouteReport" title="Perform Route Report" alt="Perform Route Report" />
-	        				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.route" title="submit" alt="submit"/>
-	            			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.${saveButtonValue}" title="save" alt="save"/>
-	            			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_blanketapp.gif" styleClass="globalbuttons" property="methodToCall.blanketApprove" title="blanket approve" alt="blanket approve"/>
-	            			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif" styleClass="globalbuttons" property="methodToCall.approve" title="approve" alt="approve"/>
-	            			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapprove" title="disapprove" alt="disapprove"/>
-	            			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="cancel" alt="cancel"/>
+	        					
+	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE]}">
+	        					<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.routeOnlineReview.${documentNumber}.anchor${tabKey}" title="submit" alt="submit"/>
+	        				</c:if>
+	        				
+	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE] and not viewOnly}">
+	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveOnlineReview.${documentNumber}.anchor${tabKey}" title="save" alt="save"/>
+	            			</c:if>
+	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE] and not suppressRoutingControls}">
+	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif" styleClass="globalbuttons" property="methodToCall.approveOnlineReview.${documentNumber}.anchor${tabKey}" title="approve" alt="approve"/>
+	            			</c:if>
+	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
+	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapproveOnlineReview.${documentNumber}.anchor${tabKey}" title="disapprove" alt="disapprove"/>
+	            			</c:if>
+	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_CANCEL] and not suppressCancelButton}">
+	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelOnlineReview.${documentNumber}.anchor${tabKey}" title="cancel" alt="cancel"/>
+	            			</c:if>
 	        			</div>
         			</c:if>
-				</div>       			
 			</kra:innerTab>
         </div>
         
-	</kul:tab>
 		
 
 

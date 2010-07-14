@@ -113,6 +113,14 @@ public interface TaskName {
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
     
+    /*
+     * Protocol - Online Review Tasks
+     */
+    
+    public static final String MAINTAIN_PROTOCOL_ONLINEREVIEWS = "maintainProtocolOnlineReviews";
+    public static final String CREATE_PROTOCOL_ONLINEREVIEW = "createProtocolOnlineReview";
+    public static final String VIEW_PROTOCOL_ONLINEREVIEW = "viewProtocolOnlineReview";
+
     /**
      * Generic Action task
      */

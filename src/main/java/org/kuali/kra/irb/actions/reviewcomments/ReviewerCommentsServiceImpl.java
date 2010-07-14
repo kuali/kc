@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.reviewcomments;
 
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -71,5 +72,14 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
             }
             nextEntryNumber++;
         }
+    }
+
+    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview) {
+        //set the protocolOnlineReviewIdFk for each of the comments.
+        for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
+           minute.setProtocolOnlineReview(protocolOnlineReview);
+           minute.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
+        }
+        persistReviewerComments(reviewComments, protocol );
     }
 }

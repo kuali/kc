@@ -317,8 +317,8 @@
       </action>
       
       <action path="/protocolOnlineReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
-	    &protocol_forwards;
+        <forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp"/>
+        &protocol_forwards;
       </action>
       
       <action path="/protocolOnlineReviewRedirect" name="ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
