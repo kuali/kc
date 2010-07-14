@@ -13,7 +13,7 @@
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_REFERENCE_COMMENT_LENGTH%>" />
 
-<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="additionalInformationAuditErrors" tabAuditKey="document.protocolList[0].newDescription*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Additional Information</span>
@@ -205,7 +205,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchAreas" altText="help"/></span>
         </h3>
        
-        <table cellpadding=0 cellspacing="0"  summary="">
+        <table id="researchAreaTableId" cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp;</div></th>  
 				<th><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></th>
@@ -214,7 +214,7 @@
               	</c:if>
              </tr>
              
-             <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
+             <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">        
 	            <tr>
 	              <th width="10%" class="infoline">add:</th>
 	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
@@ -225,8 +225,9 @@
 	
 	              <td width="20%" class="infoline"><div align="center">
 	              &nbsp;
-	              </div></td>
-	            </tr>
+	              </div>
+	              </td>
+	              </tr>
 	        </kra:permission>
 
             <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
