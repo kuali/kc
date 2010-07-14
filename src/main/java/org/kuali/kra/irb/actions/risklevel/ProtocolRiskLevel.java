@@ -97,6 +97,7 @@ public class ProtocolRiskLevel extends ProtocolAssociate {
     }
 
     public RiskLevel getRiskLevel() {
+        refreshReferenceObject("riskLevel");
         return riskLevel;
     }
 
