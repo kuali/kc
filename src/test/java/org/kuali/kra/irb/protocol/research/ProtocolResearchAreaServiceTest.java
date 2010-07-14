@@ -24,11 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
-import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public class ProtocolResearchAreaServiceTest {

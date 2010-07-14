@@ -245,6 +245,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImplTest.class,
     org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementTypeTest.class,
     org.kuali.kra.irb.personnel.ProtocolPersonnelAuditRuleTest.class,
+    org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRuleTest.class,
     org.kuali.kra.service.impl.AwardCommentServiceImplTest.class,
     org.kuali.kra.bo.CommentTypeTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalSpecialReviewRuleTest.class,

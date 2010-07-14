@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 
 public interface ProtocolResearchAreaService {
@@ -32,5 +31,12 @@ public interface ProtocolResearchAreaService {
      * @param selectedBOs the selected BOs (Research Areas)
      */
     public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs);
+    
+    /**
+     * Checks to see if the list of research areas in the given protocol is empty.
+     * @param protocol The protocol with the list of research areas
+     * @return True if there are no research areas in this protocol, false otherwise
+     */
+    boolean isEmptyProtocolResearchAreas(Protocol protocol);
     
 }

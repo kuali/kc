@@ -333,6 +333,7 @@ public class ProtocolSubmissionDetailsWebTest  extends CommitteeScheduleWebTestB
     // need several protocol in the same test.  The original method only create one, so change it here
         HtmlPage protocolPage = buildProtocolDocumentPage();
         setProtocolRequiredFields(protocolPage);
+        protocolPage = lookupProtocolAuditRequiredResearchArea(protocolPage);
         protocolPage = savePage(protocolPage);
         validateSavedPage(protocolPage);
         return protocolPage;
