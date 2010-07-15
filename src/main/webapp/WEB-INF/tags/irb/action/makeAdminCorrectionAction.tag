@@ -18,7 +18,6 @@
 <c:set var="attributes" value="${DataDictionary.AdminCorrectionBean.attributes}" />
 <c:set var="amendmentAttributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textComments" value="actionHelper.protocolAdminCorrectionBean.comments" />
                                     
 <kra:permission value="${KualiForm.actionHelper.canMakeAdminCorrection}">
 

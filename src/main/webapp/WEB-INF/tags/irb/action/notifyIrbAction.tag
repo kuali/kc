@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolNotifyIrbBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textComment" value="actionHelper.protocolNotifyIrbBean.comment" />
 <c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
                                     KualiForm.actionHelper.submissionConstraint == 'M'}" />
                                     

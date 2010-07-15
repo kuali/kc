@@ -16,9 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.ProtocolGrantExemptionBean.attributes}" />
-<c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textGrantExemptionComments" value="actionHelper.protocolGrantExemptionBean.comments" />
 
 <kra:permission value="${KualiForm.actionHelper.canGrantExemption}">
 
