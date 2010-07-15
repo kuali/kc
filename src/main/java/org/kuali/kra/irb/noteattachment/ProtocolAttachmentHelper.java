@@ -246,14 +246,12 @@ public class ProtocolAttachmentHelper {
         final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
         final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getDocument(), this.newAttachmentProtocol);
         
-        if (!rule.processAddProtocolAttachmentProtocolRules(event)) {
-            return;
+        if (rule.processAddProtocolAttachmentProtocolRules(event)) {
+            this.addNewAttachment(this.newAttachmentProtocol);
+            this.initAttachmentProtocol();
+        } else {
+            this.newAttachmentProtocol.setFile(null);
         }
-
-        
-        this.addNewAttachment(this.newAttachmentProtocol);
-        
-        this.initAttachmentProtocol();
     }
     
     /**
@@ -276,12 +274,12 @@ public class ProtocolAttachmentHelper {
         final AddProtocolAttachmentPersonnelRule rule = new AddProtocolAttachmentPersonnelRuleImpl();
         final AddProtocolAttachmentPersonnelEvent event = new AddProtocolAttachmentPersonnelEvent(this.form.getDocument(), this.newAttachmentPersonnel);
         
-        if (!rule.processAddProtocolAttachmentPersonnelRules(event)) {
-            return;
+        if (rule.processAddProtocolAttachmentPersonnelRules(event)) {
+            this.addNewAttachment(this.newAttachmentPersonnel);
+            this.initAttachmentPersonnel();
+        } else {
+            this.newAttachmentPersonnel.setFile(null);
         }
-        this.addNewAttachment(this.newAttachmentPersonnel);
-
-        this.initAttachmentPersonnel();
     }
     
     /**
