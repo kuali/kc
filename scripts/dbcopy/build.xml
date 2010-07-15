@@ -1,4 +1,4 @@
-<project name="DBCopy" default="build" basedir=".">
+<project name="DBCopy" default="oracle-all" basedir=".">
 	
 	<!-- 
 	     These are the default properties used in the program.  You may wish to change them
@@ -12,23 +12,25 @@
 	     
 	     Enjoy!
 	-->
-	<property name="sqlplus.location" value="sqlplus"/>
 
-	<property name="bun.username" value="kradev"/>
-	<property name="bun.password" value="dev174kra"/>
-	<property name="unt.username" value="kraunt"/>
-	<property name="unt.password" value="unt174kra"/>
+	<property name="bun.username" value="KCDEV"/>
+	<property name="bun.password" value="dev174kc"/>
+	<property name="tst.username" value="KCUNT"/>
+	<property name="tst.password" value="unt174kc"/>
 	<property name="emb.client.username" value="KCDEV"/>
-	<property name="emb.client.password" value="KCDEV"/>
-	<property name="emb.server.username" value="RICEDEV"/>
-	<property name="emb.server.password" value="RICEDEV"/>
+	<property name="emb.client.password" value="dev174kc"/>
+	<property name="emb.server.username" value="KRDEV"/>
+	<property name="emb.server.password" value="dev174kr"/>
 
+	<!-- ORACLE CONTENT START -->
+	
+	<property name="sqlplus.location" value="sqlplus"/>
 	<property name="db.host" value="localhost"/>
 	<property name="db.sid" value="XE"/>
 
-    <target name="build" depends="oracle-embedded,oracle-bundled,oracle-test,clean" description="updates all oracle development databases"/>
+    <target name="oracle-all" depends="oracle-embedded,oracle-bundled,oracle-test,oracle-clean" description="updates all oracle development databases" />
 	
-	<target name="init">
+	<target name="oracle-init">
         <copy todir="." flatten="true">
             <resources>
                 <url url="http://db.kc.kuali.org/userContent/extracts/devdb_oracle.zip"/>
@@ -37,7 +39,7 @@
         <unzip src="devdb_oracle.zip" dest="."/>
     </target>
 	
-	<target name="oracle-embedded" depends="init" description="updates the embedded client and server databases">
+	<target name="oracle-embedded" depends="oracle-init" description="updates the embedded client and server databases">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${emb.client.username}/${emb.client.password}@//${db.host}/${db.sid} @oracle_client.sql"/>
         </exec>
@@ -46,21 +48,81 @@
         </exec>
     </target>
 	
-	<target name="oracle-bundled" depends="init" description="updates the bundled database">
+	<target name="oracle-bundled" depends="oracle-init" description="updates the bundled database">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${bun.username}/${bun.password}@//${db.host}/${db.sid} @oracle_bundled.sql"/>
         </exec>
     </target>
 	
-	<target name="oracle-test" depends="init" description="updates the unit test database">
+	<target name="oracle-test" depends="oracle-init" description="updates the unit test database">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${unt.username}/${unt.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
         </exec>
 	</target>
 	
-	<target name="clean" description="deletes build artifacts">
+	<target name="oracle-clean" description="deletes build artifacts">
         <delete dir="oracle"/>
         <delete file="devdb_oracle.zip"/>
 	</target>
-
+	<!-- ORACLE CONTENT END -->
+	
+	<!-- MYSQL CONTENT START -->
+	
+	<property name="mysql.location" value="mysql"/>
+	
+    <target name="mysql-all" depends="mysql-embedded,mysql-bundled,mysql-test,mysql-clean" description="updates all mysql development databases" />
+	
+	<target name="mysql-init">
+        <copy todir="." flatten="true">
+            <resources>
+                <url url="http://db.kc.kuali.org/userContent/extracts/devdb_mysql.zip"/>
+            </resources>
+        </copy>
+        <unzip src="devdb_mysql.zip" dest="."/>
+    </target>
+	
+	<target name="mysql-embedded" depends="mysql-init" description="updates the embedded client and server databases">
+        <exec executable="${mysql.location}" dir="mysql">
+            <arg value="-b"/>
+        	<arg value="-n"/>
+        	<arg value="-u${emb.client.username}"/>
+        	<arg value="-p${emb.client.password}"/>
+        	<arg line="-e&quot;source mysql_client.sql&quot;"/>
+        </exec>
+        <exec executable="${mysql.location}" dir="mysql">
+            <arg value="-b"/>
+        	<arg value="-n"/>
+        	<arg value="-u${emb.server.username}"/>
+        	<arg value="-p${emb.server.password}"/>
+        	<arg line="-e&quot;source mysql_server.sql&quot;"/>
+        </exec>
+    </target>
+	
+	<target name="mysql-bundled" depends="mysql-init" description="updates the bundled database">
+        <exec executable="${mysql.location}" dir="mysql">
+            <arg value="-b"/>
+        	<arg value="-n"/>
+        	<arg value="-u${bun.username}"/>
+        	<arg value="-p${bun.password}"/>
+        	<arg line="-e&quot;source mysql_bundled.sql&quot;"/>
+        </exec>
+    </target>
+	
+	<target name="mysql-test" depends="mysql-init" description="updates the unit test database">
+        <exec executable="${mysql.location}" dir="mysql">
+            <arg value="-b"/>
+        	<arg value="-n"/>
+        	<arg value="-u${tst.username}"/>
+        	<arg value="-p${tst.password}"/>
+        	<arg line="-e&quot;source mysql_test.sql&quot;"/>
+        </exec>
+	</target>
+	
+	<target name="mysql-clean" description="deletes build artifacts">
+        <delete dir="mysql"/>
+        <delete file="devdb_mysql.zip"/>
+	</target>
+	
+	<!-- MYSQL CONTENT END -->
+	
 </project>
