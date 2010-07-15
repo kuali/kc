@@ -50,10 +50,15 @@
         <unzip src="devdb_oracle.zip" dest="."/>
     </target>
 	
-	<target name="oracle-embedded" depends="oracle-init" description="updates the embedded client and server databases">
+	<target name="oracle-embedded" depends="oracle-embedded-client, oracle-embedded-server" description="updates the embedded client and server databases"/>
+	
+	<target name="oracle-embedded-client" depends="oracle-init" description="updates the embedded client database">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${emb.client.username}/${emb.client.password}@//${db.host}/${db.sid} @oracle_client.sql"/>
         </exec>
+    </target>
+            	
+	<target name="oracle-embedded-server" depends="oracle-init" description="updates the embedded server database">
         <exec executable="${sqlplus.location}" dir="oracle">
             <arg line="${emb.server.username}/${emb.server.password}@//${db.host}/${db.sid} @oracle_server.sql"/>
         </exec>
@@ -88,7 +93,9 @@
         <unzip src="devdb_mysql.zip" dest="."/>
     </target>
 	
-	<target name="mysql-embedded" depends="mysql-init" description="updates the embedded client and server databases">
+	<target name="mysql-embedded" depends="mysql-embedded-client, mysql-embedded-server" description="updates the embedded client and server databases"/>
+	
+	<target name="mysql-embedded-client" depends="mysql-init" description="updates the embedded client database">
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
@@ -96,6 +103,9 @@
         	<arg value="-p${emb.client.password}"/>
         	<arg line="-e&quot;source mysql_client.sql&quot;"/>
         </exec>
+    </target>
+	
+	<target name="mysql-embedded-server" depends="mysql-init" description="updates the embedded server database">
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
