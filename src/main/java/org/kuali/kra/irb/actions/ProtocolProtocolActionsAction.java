@@ -79,8 +79,8 @@ import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -923,11 +923,48 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
             if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
                 getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
+                        protocolForm.getProtocolDocument().getProtocol());
+                protocolForm.getActionHelper().addReviewerCommentsToBean(protocolForm.getActionHelper().getProtocolApproveBean(), protocolForm);
+                protocolForm.getActionHelper().addReviewerCommentsToBean(protocolForm.getActionHelper().getCommitteeDecision(), protocolForm);
             }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward addAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+        return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
+    }
+    
+    public ActionForward deleteAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+        return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward moveUpAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+        return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward moveDownAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+        return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
     
     /**
      * Assign a protocol to a committee/schedule.
