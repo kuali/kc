@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.UndoLastActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textComments" value="actionHelper.undoLastActionBean.comments" />
                                     
 <kra:permission value="${KualiForm.actionHelper.canUndoLastAction}">
 
