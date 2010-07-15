@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolWithdrawBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textWithdrawReason" value="actionHelper.protocolWithdrawBean.reason" />
 
 <kra:permission value="${KualiForm.actionHelper.canWithdraw}">
 

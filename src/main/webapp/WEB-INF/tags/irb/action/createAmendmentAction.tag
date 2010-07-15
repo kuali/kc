@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textSummary" value="actionHelper.protocolAmendmentBean.summary" />
 
 <kra:permission value="${KualiForm.actionHelper.canCreateAmendment}">
 
