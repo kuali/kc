@@ -61,7 +61,7 @@
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
         		<kul:htmlAttributeHeaderCell attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" scope="col" />
         		<th>
-                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv" style="${defaultHeaderDiv}">Entry Type Detail</div>
+                    <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.defaultHeaderDiv" style="${defaultHeaderDivStyle}">Entry Type Detail</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.genAttHeaderDiv" style="${genAttHeaderDivStyle}">Generate Attendance</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.pcHeaderDiv" style="${pcHeaderDivStyle}">Protocol</div>
                     <div align="center" id ="meetingHelper.newCommitteeScheduleMinute.actionItemHeaderDiv" style="${actionItemHeaderDivStyle}">Other Action</div>
