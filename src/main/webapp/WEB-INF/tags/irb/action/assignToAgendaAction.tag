@@ -84,6 +84,16 @@
 	                </td>
 	            </tr>
 	            
+	            <tr>
+                    <td colspan="2">
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.assignToAgendaBean.reviewComments}"
+                                                       property="actionHelper.assignToAgendaBean.reviewComments"
+                                                       action="${action}"
+                                                       actionName="AssignToAgenda" 
+                                                       allowReadOnly="${true}"/>
+                   </td>
+                </tr>
+	            
 	             <tr>
 					<td align="center" colspan="2">
 						<div align="center">

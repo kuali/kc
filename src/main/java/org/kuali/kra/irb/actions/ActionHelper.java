@@ -218,6 +218,7 @@ public class ActionHelper implements Serializable {
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
         assignToAgendaBean.init();
+        addReviewerCommentsToBean(assignToAgendaBean, this.form);
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
@@ -330,7 +331,7 @@ public class ActionHelper implements Serializable {
      * @param form ProtocolForm object, only to pull out the protocolID, passing in form so 
      * this function can catch the NPE if the form doesn't have the protocolID yet.
      */
-    private void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
+    protected void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
         try {
             //List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
             List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesBySchedule(form.getProtocolDocument().getProtocol().getProtocolSubmission().getScheduleIdFk());

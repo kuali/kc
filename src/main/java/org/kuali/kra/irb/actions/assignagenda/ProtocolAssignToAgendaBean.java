@@ -19,13 +19,14 @@ import java.io.Serializable;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.printing.Printable;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
  */
 @SuppressWarnings("serial")
-public class ProtocolAssignToAgendaBean implements Serializable {
+public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements Serializable {
 
     private ActionHelper actionHelper;
 
@@ -33,7 +34,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
     private String committeName = "";
     private String scheduleDate = "";
     private boolean protocolAssigned = false;
-    private String comments = "";
+    //private String comments = "";
     
     private transient ProtocolAssignToAgendaService agendaService;
 
@@ -68,11 +69,6 @@ public class ProtocolAssignToAgendaBean implements Serializable {
         this.protocolAssigned = protocolAssigned;
     }
 
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
     /**
      * 
      * This method initializes the values of the bean.
@@ -84,7 +80,7 @@ public class ProtocolAssignToAgendaBean implements Serializable {
                 this.committeeId = committeeId;
                 this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
 
-                this.comments = getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol());
+                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
 
                 this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
 
@@ -128,11 +124,6 @@ public class ProtocolAssignToAgendaBean implements Serializable {
 
     public boolean isProtocolAssigned() {
         return protocolAssigned;
-    }
-
-
-    public String getComments() {
-        return comments;
     }
 
     /**
