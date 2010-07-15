@@ -2,10 +2,16 @@
 	
 	<!-- 
 	     These are the default properties used in the program.  You may wish to change them
-	     based on your environment.  If you like to run Ant on the command line, for example,
-	     you can define where sqlplus sits by defining a Java environment variable:
+	     based on your environment (ex: if you don't have sqlplus or mysql on your system path). 
+	     If you like to run Ant on the command line, for example, you can define where
+	     sqlplus/mysql sits by defining a Java environment variable:
 	     
-	     ant build.xml -Dsqlplus.location=C:\path\to\oracle\BIN\sqlplus.exe
+	     ant build.xml oracle-bundled -Dsqlplus.location=C:\path\to\oracle\BIN\sqlplus.exe
+	     
+	                                    or for mysql
+	     
+	     ant build.xml mysql-bundled -Dmysql.location=C:\path\to\mysql\BIN\mysql.exe
+	     
 	     
 	     You can also run Ant in Eclipse natively; in this case, you would go to External Tools
 	     Configurations and define the variables in the Environment tab.
@@ -13,6 +19,7 @@
 	     Enjoy!
 	-->
 
+	<!-- globally used properties -->
 	<property name="bun.username" value="KCDEV"/>
 	<property name="bun.password" value="dev174kc"/>
 	<property name="tst.username" value="KCUNT"/>
@@ -22,12 +29,16 @@
 	<property name="emb.server.username" value="KRDEV"/>
 	<property name="emb.server.password" value="dev174kr"/>
 
-	<!-- ORACLE CONTENT START -->
-	
+	<!-- oracle properties -->
 	<property name="sqlplus.location" value="sqlplus"/>
 	<property name="db.host" value="localhost"/>
 	<property name="db.sid" value="XE"/>
-
+	
+	<!--mysql properties -->
+	<property name="mysql.location" value="mysql"/>
+	
+	
+	<!--oracle targets-->
     <target name="oracle-all" depends="oracle-embedded,oracle-bundled,oracle-test,oracle-clean" description="updates all oracle development databases" />
 	
 	<target name="oracle-init">
@@ -64,12 +75,8 @@
         <delete dir="oracle"/>
         <delete file="devdb_oracle.zip"/>
 	</target>
-	<!-- ORACLE CONTENT END -->
 	
-	<!-- MYSQL CONTENT START -->
-	
-	<property name="mysql.location" value="mysql"/>
-	
+	<!--mysql targets-->
     <target name="mysql-all" depends="mysql-embedded,mysql-bundled,mysql-test,mysql-clean" description="updates all mysql development databases" />
 	
 	<target name="mysql-init">
@@ -121,8 +128,5 @@
 	<target name="mysql-clean" description="deletes build artifacts">
         <delete dir="mysql"/>
         <delete file="devdb_mysql.zip"/>
-	</target>
-	
-	<!-- MYSQL CONTENT END -->
-	
+	</target>	
 </project>
