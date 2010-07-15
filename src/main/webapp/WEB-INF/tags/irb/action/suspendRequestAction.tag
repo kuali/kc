@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textSuspendReason" value="actionHelper.protocolSuspendRequestBean.reason" />
 <c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
                                     KualiForm.actionHelper.submissionConstraint == 'M'}" />
                                     

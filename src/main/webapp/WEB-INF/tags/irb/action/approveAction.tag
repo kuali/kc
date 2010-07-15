@@ -16,9 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
-<c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textApproveComments" value="actionHelper.protocolApproveBean.comments" />
 
 <kra:permission value="${KualiForm.actionHelper.canApprove}">
 

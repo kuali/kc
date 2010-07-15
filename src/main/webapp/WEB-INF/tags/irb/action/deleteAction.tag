@@ -17,7 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolDeleteBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="textDeleteReason" value="actionHelper.protocolDeleteBean.reason" />
 
 <kra:permission value="${KualiForm.actionHelper.canDeleteProtocolAmendRenew}">
 
