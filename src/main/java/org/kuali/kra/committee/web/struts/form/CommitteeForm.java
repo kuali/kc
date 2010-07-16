@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -30,8 +31,12 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.springframework.util.CollectionUtils;
 
 /**
  * The Committee Form contains the fields necessary for all POST
@@ -115,11 +120,48 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         super.populate(request);
     }
     
+    @Override
+    public CommitteeDocument getDocument() {
+        return (CommitteeDocument) super.getDocument();
+    }
+    
+    private String getCommitteeNameForHeaderDisplay(CommitteeDocument committeeDoc) {
+        String trimmedCommitteeName = null;
+        if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {  
+            trimmedCommitteeName = committeeDoc.getCommittee().getCommitteeName();
+            if(StringUtils.isNotEmpty(trimmedCommitteeName)) {
+                if(trimmedCommitteeName.length() > 60) {
+                    trimmedCommitteeName = trimmedCommitteeName.substring(0, 60);
+                }
+            }
+        } 
+        return trimmedCommitteeName;
+    }
+    
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
      */
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        CommitteeDocument committeeDoc = getDocument();
+        
+        HeaderField documentNumber = getDocInfo().get(0);
+        documentNumber.setDdAttributeEntryName("DataDictionary.CommitteeDocument.attributes.documentNumber");
+        
+        if(CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {
+            ObjectUtils.materializeObjects(committeeDoc.getCommitteeList());
+        }
+        
+        String lastUpdatedDateStr = null;
+        if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList()) && committeeDoc.getCommittee().getUpdateTimestamp() != null) {
+            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(committeeDoc.getCommittee().getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+        }
+        
+        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.Committee.attributes.updateTimestamp", lastUpdatedDateStr);
+        getDocInfo().set(3, lastUpdatedDate);
+        
+        getDocInfo().add(new HeaderField("DataDictionary.Committee.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
+        getDocInfo().add(new HeaderField("DataDictionary.Committee.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
     }
 
     /**

@@ -21,7 +21,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;

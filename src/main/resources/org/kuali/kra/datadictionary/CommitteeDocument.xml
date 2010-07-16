@@ -52,6 +52,7 @@
         <property name="attributes">
             <list>
                 <ref bean="CommitteeDocument-versionNumber"/>
+                <ref bean="CommitteeDocument-documentNumber"/>
             </list>
         </property>
     </bean>
@@ -61,4 +62,9 @@
     <bean id="CommitteeDocument-versionNumber" parent="CommitteeDocument-versionNumber-parentBean"/>
     <bean id="CommitteeDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
+    
+   	<bean id="CommitteeDocument-documentNumber" parent="CommitteeDocument-documentNumber-parentBean" />
+	<bean id="CommitteeDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="shortLabel" value="Document Id"/>
+	</bean>
 </beans>

@@ -104,6 +104,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="ProtocolDocument-versionNumber"/>
+				<ref bean="ProtocolDocument-documentNumber"/>
 			</list>
 		</property>
 	</bean>
@@ -112,6 +113,11 @@
 	
 	<bean id="ProtocolDocument-versionNumber" parent="ProtocolDocument-versionNumber-parentBean"/>
 	<bean id="ProtocolDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	</bean>
+	
+	<bean id="ProtocolDocument-documentNumber" parent="ProtocolDocument-documentNumber-parentBean" />
+	<bean id="ProtocolDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="shortLabel" value="Document Id"/>
 	</bean>
 	
 	<bean id="ProtocolDocument-workflowProperties" parent="ProtocolDocument-workflowProperties-parentBean"/>
