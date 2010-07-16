@@ -29,7 +29,8 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="OnlineReviewer" />
+					<start name="Initiated" nextNode="IRBAdminInitialReview" />
+					<requests name="IRBAdminInitialReview" nextNode = "OnlineReviewer"/>
                     <requests name="OnlineReviewer" nextNode="IRBAdminReview" />
 					<requests name="IRBAdminReview" />
 				</routePath>
@@ -38,6 +39,14 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
+				 <!--  This role is for a requested review.  When a PI requests a review via submit protocol action,  it will wait here
+				       for IRB Admin approval before being routed to the reviewer. -->
+				 <role name="IRBAdminInitialReview">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+                    <finalApproval>false</finalApproval>
+                    <mandatoryRoute>false</mandatoryRoute>
+	            </role>                
 	            <role name="OnlineReviewer">
 					<qualifierResolver>ProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
                     <activationType>S</activationType>
