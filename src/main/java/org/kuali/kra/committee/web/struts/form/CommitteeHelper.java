@@ -74,8 +74,7 @@ public class CommitteeHelper implements Serializable {
      * This method is UI view hook.
      */
     public void prepareView() {
-        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()
-                .equals(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             modifyCommittee = false;
             Committee activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());
