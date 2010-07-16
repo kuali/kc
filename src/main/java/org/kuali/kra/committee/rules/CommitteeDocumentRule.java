@@ -138,37 +138,43 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document Committee Document
      * @return true if valid; otherwise false
      */
-  private boolean validateUniqueCommitteeId(CommitteeDocument document) {
-  
+    private boolean validateUniqueCommitteeId(CommitteeDocument document) {
+
         Committee committee = document.getCommittee();
         boolean valid = true;
-        
-        try {
-            for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow()) {
+        if (committee.getSequenceNumber() == 1) {
+            if (getCommitteeNames().contains(committee.getCommitteeId())) {
+                valid = false;
+            } else {
+                try {
+                    for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow()) {
 
-                Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
+                        Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
 
-                // There is no conflict if we are only modifying the same committee.
+                        // There is no conflict if we are only modifying the same committee.
 
-                if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
+                        if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
 
-                    // We have a conflict if we find a different committee in the database
-                    // and it has the same ID as the committee we are trying to save
-                    // while it's not a older version (lower sequence number) of this committee.
+                            // We have a conflict if we find a different committee in the database
+                            // and it has the same ID as the committee we are trying to save
+                            // while it's not a older version (lower sequence number) of this committee.
 
-                    if (StringUtils.equals(workflowCommittee.getCommitteeId(), committee.getCommitteeId()) 
-                          && (workflowCommittee.getSequenceNumber() >= committee.getSequenceNumber())) {
-                        valid = false;
-                        reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId", 
-                                    KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);
+                            if (StringUtils.equals(workflowCommittee.getCommitteeId(), committee.getCommitteeId())
+                                    && (workflowCommittee.getSequenceNumber() >= committee.getSequenceNumber())) {
+                                valid = false;
+                            }
+                        }
                     }
+                }
+                catch (WorkflowException e) {
+                    LOG.info(e.getMessage());
                 }
             }
         }
-        catch (WorkflowException e) {
-            LOG.info(e.getMessage());
+        if (!valid) {
+            reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeId",
+                    KeyConstants.ERROR_COMMITTEE_DUPLICATE_ID);            
         }
-        
         return valid;
     }
     
@@ -177,11 +183,12 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                 .findAll(CommitteeDocument.class);
         List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
         for (CommitteeDocument commDoc : documents) {
-
+            // documents that have not been approved
+            if (commDoc.getCommitteeList() == null || commDoc.getCommitteeList().size() == 0) {
             // Need this step to retrieve workflow document
+
             CommitteeDocument workflowCommitteeDoc = (CommitteeDocument) KraServiceLocator.getService(DocumentService.class)
                     .getByDocumentHeaderId(commDoc.getDocumentNumber());
-            
             // Get XML of workflow document
             String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
                     workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId()).getDocumentContent();
@@ -189,10 +196,23 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             // Create committee from XML and add to the document
             workflowCommitteeDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
             result.add(workflowCommitteeDoc);
+            }
         }
         return result;
     }
     
+    private List<String> getCommitteeNames() {
+        List<Committee> committees = (List<Committee>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
+                Committee.class);
+        List<String> result = new ArrayList<String>();
+        for (Committee committee : committees) {
+            if (!result.contains(committee.getCommitteeId())) {
+                result.add(committee.getCommitteeId());
+            }
+        }
+        return result;
+    }
+
     /*
      * Create a Committee object and populate it from the xml.
      */
