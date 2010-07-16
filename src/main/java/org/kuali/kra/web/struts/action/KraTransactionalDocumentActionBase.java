@@ -710,7 +710,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             try {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 org.w3c.dom.Document xmlDocument = builder.parse(new InputSource(new StringReader(xmlDocumentContents)));
-                bo = getBusinessObjectFromXML(xmlDocumentContents, "committeeList");
+                bo = getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
 
             }
             catch (ParserConfigurationException e) {
@@ -760,9 +760,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * Retrieves substring of document contents from maintainable tag name. Then use xml service to translate xml into a business
      * object.
      */
-    private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String maintainableTagName) {
-        String maintXml = StringUtils.substringBetween(xmlDocumentContents, "<" + maintainableTagName + ">", "</" + maintainableTagName + ">");
-        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(maintXml);
+    private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
+        String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
+        objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
+        if (objXml.contains("itemDesctiption")) {
+            objXml = objXml.replaceAll("itemDesctiption", "itemDescription");
+        }
+        PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
     }
 
