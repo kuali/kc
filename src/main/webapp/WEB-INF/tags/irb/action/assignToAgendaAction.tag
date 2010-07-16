@@ -85,6 +85,23 @@
 	            </tr>
 	            
 	            <tr>
+                    <th> 
+                        <div align="right">
+                            <nobr>
+                                <kul:htmlAttributeLabel attributeEntry="${attributes.actionDate}" />
+                            </nobr>
+                        </div>
+                    </th>
+                    <td>
+                        <nobr>
+                            <kul:htmlControlAttribute property="actionHelper.assignToAgendaBean.actionDate" 
+                            						  attributeEntry="${attributes.actionDate}"  />
+                        </nobr>
+                    </td>
+                </tr>
+	            
+	            
+	            <tr>
                     <td colspan="2">
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.assignToAgendaBean.reviewComments}"
                                                        property="actionHelper.assignToAgendaBean.reviewComments"
