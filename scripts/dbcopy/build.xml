@@ -4,7 +4,7 @@
 	     These are the default properties used in the program.  You may wish to change them
 	     based on your environment (ex: if you don't have sqlplus or mysql on your system path). 
 	     If you like to run Ant on the command line, for example, you can define where
-	     sqlplus/mysql sits by defining a Java environment variable:
+	     sqlplus/mysql sits by defining a JVM argument:
 	     
 	     ant build.xml oracle-bundled -Dsqlplus.location=C:\path\to\oracle\BIN\sqlplus.exe
 	     
@@ -14,7 +14,7 @@
 	     
 	     
 	     You can also run Ant in Eclipse natively; in this case, you would go to External Tools
-	     Configurations and define the variables in the Environment tab.
+	     Configurations and define the arguments in the JRE tab.
 	     
 	     Enjoy!
 	-->
@@ -72,7 +72,7 @@
 	
 	<target name="oracle-test" depends="oracle-init" description="updates the unit test database">
         <exec executable="${sqlplus.location}" dir="oracle">
-            <arg line="${unt.username}/${unt.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
+            <arg line="${tst.username}/${tst.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
         </exec>
 	</target>
 	
