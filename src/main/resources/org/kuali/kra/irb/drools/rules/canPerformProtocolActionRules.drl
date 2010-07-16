@@ -108,7 +108,7 @@ end
 rule "Expire Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "305", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "308", "310", "311"), submissionNumber == null, submissionCountCond2 == true, submissionCountCond3 == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "305", protocolStatusCode in ("200", "201", "202", "203", "300", "301", "302", "304", "305", "308", "310", "311"), submissionCountCond2 == true, submissionCountCond3 == true)
 then	
 	setAction(protocolAction, true);
 end
