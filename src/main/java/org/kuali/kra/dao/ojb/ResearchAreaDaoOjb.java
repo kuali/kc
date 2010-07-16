@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.dao.ojb;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.accesslayer.LookupException;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.dao.ResearchAreaDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -79,19 +81,17 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                         // do we need to do check
                     }
                 }
-                catch (Exception e) {
-                    LOG.error("exception error " + e.getStackTrace());
-                    GlobalVariables.getUserSession().addObject("raError", (Object) ("error running scripts" + e.getMessage()));
-                }
-                finally {
+                catch (SQLException e) {
+                    throw new ResearchAreaDaoException(e);
+                } catch (LookupException e) {
+                    throw new ResearchAreaDaoException(e);
+                } finally {
                     if (stmt != null) {
                         try {
                             stmt.close();
                         }
                         catch (Exception e) {
-                            LOG.error("error closing statement", e);
-                            GlobalVariables.getUserSession().addObject("raError",
-                                    (Object) ("error closing statement " + e.getMessage()));
+                            throw new ResearchAreaDaoException(e);
                         }
                     }
                 }
@@ -119,9 +119,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             stmt.addBatch(updateStmt);
             getNodesToDelete(codes[0], stmt);
         }
-        catch (Exception e) {
-            LOG.error("Exception " + e.getStackTrace());
-            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
+        catch (SQLException e) {
+            throw new ResearchAreaDaoException(e);
         }
     }
     
@@ -140,9 +139,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
-        catch (Exception e) {
-            LOG.error("Exception " + e.getStackTrace());
-            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
+        catch (SQLException e) {
+            throw new ResearchAreaDaoException(e);
         }
     }
 
@@ -164,9 +162,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
-        catch (Exception e) {
-            LOG.error("Exception " + e.getStackTrace());
-            GlobalVariables.getUserSession().addObject("raError", (Object) ("error insert nodes " + e.getMessage()));
+        catch (SQLException e) {
+            throw new ResearchAreaDaoException(e);
         }
     }
 
@@ -181,9 +178,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
-        catch (Exception e) {
-            LOG.error("Exception " + e.getStackTrace());
-            GlobalVariables.getUserSession().addObject("raError", (Object) ("error update nodes " + e.getMessage()));
+        catch (SQLException e) {
+            throw new ResearchAreaDaoException(e);
         }
     }
 
@@ -200,9 +196,8 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                 getNodesToDelete(researchArea.getResearchAreaCode(), stmt);
             }
         }
-        catch (Exception e) {
-            LOG.error("Exception " + e.getStackTrace());
-            GlobalVariables.getUserSession().addObject("raError", (Object) ("error delete nodes " + e.getMessage()));
+        catch (SQLException e) {
+            throw new ResearchAreaDaoException(e);
         }
     }
 
@@ -224,5 +219,12 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     private String getSysdate() {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return "to_date('" + formatter.format(new Date()) +"','YYYY-MM-DD HH24:MI:SS')";
+    }
+    
+    /** simple runtime exception - probably be better long term to use a generic dao runtime exception. */
+    private static class ResearchAreaDaoException extends RuntimeException {
+        public ResearchAreaDaoException(Throwable t) {
+            super(t);
+        }
     }
 }
