@@ -16,7 +16,6 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,6 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
-import org.kuali.kra.irb.onlinereview.OnlineReviewActionHelper;
 import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
@@ -47,8 +45,6 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
-import org.kuali.kra.proposaldevelopment.bo.ProposalState;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -59,7 +55,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
