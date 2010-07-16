@@ -16,6 +16,8 @@
 package org.kuali.kra.irb.actions.assignagenda;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -34,8 +36,17 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
     private String committeName = "";
     private String scheduleDate = "";
     private boolean protocolAssigned = false;
-    //private String comments = "";
+    private Date actionDate = new Date(System.currentTimeMillis());
     
+    public Date getActionDate() {
+        return actionDate;
+    }
+
+
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
+    }
+
     private transient ProtocolAssignToAgendaService agendaService;
 
     /**
