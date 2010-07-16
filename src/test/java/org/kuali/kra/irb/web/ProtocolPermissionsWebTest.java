@@ -39,17 +39,11 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private static final String TESTER_USERNAME = "jtester";
     private static final String TESTER_FULLNAME = "Joe Tester";
     
-    private static final String USER3_USERNAME = "cate";
-    private static final String USER3_FULLNAME = "Allyson Cate";
-    
-    private static final String USER2_USERNAME = "oblood";
-    private static final String USER2_FULLNAME = "Opal Blood";
-    
     private static final String USER1_USERNAME = "woods";
     private static final String USER1_FULLNAME = "Della Woods";
     
-    private static final String USER4_USERNAME = "chew";
-    private static final String USER4_FULLNAME = "Inez Chew";
+//    private static final String USER2_USERNAME = "oblood";
+//    private static final String USER2_FULLNAME = "Opal Blood";
     
     private static final String AGGREGATORS_ID = "Protocol Aggregator";
     private static final String VIEWERS_ID = "Protocol Viewer";
@@ -58,7 +52,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     
     private static final String AGGREGATOR_NAME = "Aggregator";
     private static final String VIEWER_NAME = "Viewer";
-    private static final String UNASSIGNED_NAME = "unassigned";
     
     private static final String UNIT_NUMBER = "000001";
     private static final String UNIT_NAME = "University";
@@ -68,7 +61,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     
     private static final String AGGREGATOR_ROLENAME = "Protocol Aggregator";
     private static final String VIEWER_ROLENAME = "Protocol Viewer";
-    private static final String UNASSIGNED_ROLENAME = "Protocol Unassigned";
     
     private static final String USERNAME_FIELD_ID = "permissionsHelper.newUser.userName";
     private static final String ROLENAME_FIELD_ID = "permissionsHelper.newUser.roleName";
@@ -316,7 +308,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         List<User> users = new ArrayList<User>();
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -353,7 +344,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
-        users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -382,9 +372,9 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     }
   
     /**
-     * Test editing the roles of a user.  For a user with the unassigned
-     * role, add the viewer role and make sure it works, i.e. it gets saved
-     * to the database.  Then edit the roles again and remove the viewer
+     * Test editing the roles of a user.  For a user with a viewer role,
+     * switch to the aggregator role and make sure it works, i.e. it gets saved
+     * to the database.  Then edit the roles again and switch back to the viewer
      * role and verify the change.
      * @throws Exception
      */
@@ -394,14 +384,15 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         permissionsPage = addAllUsers(permissionsPage);
         permissionsPage = saveAndSearch(permissionsPage);
         
-        HtmlPage editRolesPage = gotoEditRoles(permissionsPage, USER2_USERNAME);
-        setFieldValue(editRolesPage, VIEWER_FIELD_ID, "on");
+        HtmlPage editRolesPage = gotoEditRoles(permissionsPage, TESTER_USERNAME);
+        setFieldValue(editRolesPage, VIEWER_FIELD_ID, "off");
+        setFieldValue(editRolesPage, AGGREGATOR_FIELD_ID, "on");
         permissionsPage = clickOn(editRolesPage, "save");
         
         // Check the Assigned Roles  panel.
         
-        String[] aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME);
-        String[] viewers = buildArray(TESTER_FULLNAME, USER2_FULLNAME);
+        String[] aggregators = buildArray(USER1_FULLNAME, QUICKSTART_FULLNAME, TESTER_FULLNAME);
+        String[] viewers = buildArray();
         checkAssignedRoles(permissionsPage, aggregators, viewers);
         
         // Check the User table.
@@ -409,8 +400,7 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         List<User> users = new ArrayList<User>();
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
-        users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, AGGREGATOR_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -419,8 +409,9 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         checkAssignedRoles(permissionsPage, aggregators, viewers);
         checkUserTable(permissionsPage, users, 2);
         
-        editRolesPage = gotoEditRoles(permissionsPage, USER2_USERNAME);
-        setFieldValue(editRolesPage, VIEWER_FIELD_ID, "off");
+        editRolesPage = gotoEditRoles(permissionsPage, TESTER_USERNAME);
+        setFieldValue(editRolesPage, AGGREGATOR_FIELD_ID, "off");
+        setFieldValue(editRolesPage, VIEWER_FIELD_ID, "on");
         permissionsPage = clickOn(editRolesPage, "save");
         
         // Check the Assigned Roles  panel.
@@ -435,7 +426,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
-        users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         checkUserTable(permissionsPage, users, 2);
         
         // Save the protocol and re-check to be sure the data is still correctly displayed.
@@ -576,7 +566,6 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private HtmlPage addAllUsers(HtmlPage permissionsPage) throws Exception {
         permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
         permissionsPage = addUser(permissionsPage, USER1_USERNAME, AGGREGATOR_ROLENAME);
-        permissionsPage = addUser(permissionsPage, USER2_USERNAME, UNASSIGNED_ROLENAME);
         return permissionsPage;
     }
     
