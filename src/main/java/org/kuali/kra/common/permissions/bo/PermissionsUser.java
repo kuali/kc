@@ -31,8 +31,20 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 @SuppressWarnings("serial")
 public class PermissionsUser extends BusinessObjectBase {
     
+    private String userId = "";
     private String userName = "";
+    private String fullName = "";
     private String roleName = "";
+    private String unitNumber = "";
+    private String unitName = "";
+    
+    public String getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;
@@ -40,6 +52,14 @@ public class PermissionsUser extends BusinessObjectBase {
     
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+    
+    public String getFullName() {
+        return fullName;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     
     public String getRoleName() {
@@ -50,6 +70,22 @@ public class PermissionsUser extends BusinessObjectBase {
         this.roleName = roleName;
     }
     
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+    
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+    
+    public String getUnitName() {
+        return unitName;
+    }
+    
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -57,8 +93,12 @@ public class PermissionsUser extends BusinessObjectBase {
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
+        map.put("userId", getUserId());
         map.put("userName", getUserName());
+        map.put("fullName", getFullName());
         map.put("roleName", getRoleName());
+        map.put("unitNumber", getUnitNumber());
+        map.put("unitName", getUnitName());
         return map;
     }
 
@@ -72,13 +112,40 @@ public class PermissionsUser extends BusinessObjectBase {
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!obj.getClass().equals(this.getClass())) return false;
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
         
         PermissionsUser user = (PermissionsUser) obj;
-        return StringUtils.equals(this.userName, user.userName) &&
-               StringUtils.equals(this.roleName, user.roleName);
+        return StringUtils.equals(this.userId, user.userId) 
+            && StringUtils.equals(this.userName, user.userName) 
+            && StringUtils.equals(this.roleName, user.roleName)
+            && StringUtils.equals(this.unitNumber, user.unitNumber)
+            && StringUtils.equals(this.unitName, user.unitNumber);
     }
+ 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+        result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
+        result = prime * result + ((unitName == null) ? 0 : unitName.hashCode());
+        result = prime * result + ((unitNumber == null) ? 0 : unitNumber.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        return result;
+    }
+    
 }
