@@ -32,6 +32,7 @@
 				<ref bean="ProtocolAssignToAgendaBean-scheduleDate" />
 				<ref bean="ProtocolAssignToAgendaBean-doAssignment" />
 				<ref bean="ProtocolAssignToAgendaBean-comments" />
+				<ref bean="ProtocolAssignToAgendaBean-actionDate" />
 			</list>
 		</property>
 	</bean>
@@ -94,4 +95,13 @@
 		<property name="description" value="comments" />
 	</bean>
 	
+	<bean id="ProtocolAssignToAgendaBean-actionDate" parent="ProtocolAssignToAgendaBean-actionDate-parentBean"/>
+    <bean id="ProtocolAssignToAgendaBean-actionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="actionDate"/>
+        <property name="label" value="Action Date"/>
+        <property name="shortLabel" value="Action Date"/>
+        <property name="required" value="true"/>
+        <property name="summary" value="Action Date"/>
+        <property name="description" value="Action Date"/>
+    </bean>
 </beans>
