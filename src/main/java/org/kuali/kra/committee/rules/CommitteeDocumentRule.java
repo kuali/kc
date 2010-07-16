@@ -142,7 +142,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
         Committee committee = document.getCommittee();
         boolean valid = true;
-        if (committee.getSequenceNumber() == 1) {
+        if (committee.getSequenceNumber() == 1 && (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
             if (getCommitteeNames().contains(committee.getCommitteeId())) {
                 valid = false;
             } else {
@@ -195,7 +195,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
 
             // Create committee from XML and add to the document
             workflowCommitteeDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
-            result.add(workflowCommitteeDoc);
+            if (!workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                result.add(workflowCommitteeDoc);
+            }
             }
         }
         return result;
