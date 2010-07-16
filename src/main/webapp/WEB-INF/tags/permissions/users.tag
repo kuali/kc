@@ -55,17 +55,27 @@
 					
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="permissionsHelper.newUser.userName" 
-	                	                          attributeEntry="${permissionsUserAttributes.userName}" 
-	                	                          onblur="loadPersonName('permissionsHelper.newUser.userName', 'fullname');"/>
+	                	                          attributeEntry="${permissionsUserAttributes.userName}" />
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-	                	            fieldConversions="userName:permissionsHelper.newUser.userName" 
+	                	            fieldConversions="personId:permissionsHelper.newUser.userId,userName:permissionsHelper.newUser.userName,fullName:permissionsHelper.newUser.fullName,unit.unitNumber:permissionsHelper.newUser.unitNumber,unit.unitName:permissionsHelper.newUser.unitName" 
 	                	            lookupParameters="lookup.leadUnit:organizationIdentifier"
 	                	            anchor="${tabKey}" />                        
 					</td>
 					
-					<td id="fullname" align="left" valign="middle">&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
+					<td align="left" valign="middle">
+					   <kul:htmlControlAttribute property="permissionsHelper.newUser.fullName" 
+                                                 attributeEntry="${permissionsUserAttributes.fullName}" readOnly="true" />
+					</td>
+					
+					<td align="left" valign="middle">
+                       <kul:htmlControlAttribute property="permissionsHelper.newUser.unitNumber" 
+                                                 attributeEntry="${permissionsUserAttributes.unitNumber}" readOnly="true" />
+                    </td>
+                    
+                    <td align="left" valign="middle">
+                       <kul:htmlControlAttribute property="permissionsHelper.newUser.unitName" 
+                                                 attributeEntry="${permissionsUserAttributes.unitName}" readOnly="true" />
+                    </td>
 					
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="permissionsHelper.newUser.roleName" 

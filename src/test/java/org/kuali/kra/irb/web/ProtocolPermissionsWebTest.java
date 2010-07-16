@@ -35,15 +35,11 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private static final String QUICKSTART_USERNAME = "quickstart";
     private static final String QUICKSTART_FULLNAME = "Geoff McGregor";
     
-    
     private static final String TESTER_USERNAME = "jtester";
     private static final String TESTER_FULLNAME = "Joe Tester";
     
     private static final String USER1_USERNAME = "woods";
     private static final String USER1_FULLNAME = "Della Woods";
-    
-//    private static final String USER2_USERNAME = "oblood";
-//    private static final String USER2_FULLNAME = "Opal Blood";
     
     private static final String AGGREGATORS_ID = "Protocol Aggregator";
     private static final String VIEWERS_ID = "Protocol Viewer";
@@ -77,6 +73,9 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     
     private static final String AGGREGATOR_FIELD_ID = "permissionsHelper.editRoles.roleStates[0].state";
     private static final String VIEWER_FIELD_ID = "permissionsHelper.editRoles.roleStates[1].state";
+    
+    private static final String LOOKUP_USERNAME_FIELD_ID = "userName";
+    private static final String LOOKUP_ORGANIZATION_FIELD_ID = "organizationIdentifier";
     
     private class User {
         String username;
@@ -154,111 +153,110 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
      * 
      * @throws Exception
      */
-//    @Test
-//    public void testProtocolCreation() throws Exception {
-//        HtmlPage permissionsPage = getPermissionsPage();
-//        
-//        // Upon initial creation of a protocol, the initiator must 
-//        // be assigned the Aggregator role and is the only user assigned
-//        // to the protocol.  Start by looking at the Assigned Roles
-//        // and verifying that only quickstart is the only aggregator
-//        // and no other roles are assigned.
-//        
-//        String[] aggregators = new String[1];
-//        aggregators[0] = QUICKSTART_FULLNAME;
-//        checkAssignedRoles(permissionsPage, aggregators, null);
-//        
-//        // Now verify that the User Permissions table only has one entry with
-//        // quickstart as the aggregator.
-//        
-//        List<User> users = new ArrayList<User>();
-//        users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-//        checkUserTable(permissionsPage, users, 2);
-//    }
-//    
-//    /**
-//     * Test adding people to the list of users with permission to access
-//     * the protocol.  The following is being tested:
-//     * 
-//     *     1. Make sure each role type works by adding one user
-//     *        for each type of role.
-//     *     2. Make sure the displayed table is sorted by full name.
-//     *     3. Make sure the Assigned Roles panel shows the names as expected.
-//     *     4. Verify that the save works and that the displayed information
-//     *        is indeed correct.
-//     *
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testAddUsers() throws Exception {
-//        HtmlPage permissionsPage = getPermissionsPage();
-//        
-//        // Add the users.
-//        
-//        permissionsPage = addAllUsers(permissionsPage);
-//        
-//        // Check the Assigned Roles  panel.
-//        
-//        String[] aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
-//        String[] viewers = buildArray(TESTER_FULLNAME);
-//        checkAssignedRoles(permissionsPage, aggregators, viewers);
-//        
-//        // Check the User table.
-//        
-//        List<User> users = new ArrayList<User>();
-//        users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-//        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
-//        users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
-//        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-//        checkUserTable(permissionsPage, users, 2);
-//        
-//        // Save the protocol and re-check to be sure the data is still correctly displayed.
-//        
-//        permissionsPage = saveAndSearch(permissionsPage);
-//        checkAssignedRoles(permissionsPage, aggregators, viewers);
-//        checkUserTable(permissionsPage, users, 2);
-//    }
-//    
-//    /**
-//     * Test adding a duplicate user.  Should result in an error.
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testAddDuplicate() throws Exception {
-//        HtmlPage permissionsPage = getPermissionsPage();
-//       
-//        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
-//        assertTrue(!hasError(permissionsPage));
-//        
-//        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
-//        assertTrue(hasError(permissionsPage));
-//        
-//        List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
-//        assertEquals(errors.size(), 1);
-//        assertTrue(containsError(errors, "User has already been added"));
-//    }
-//
-//    /**
-//     * Test adding an unknown user.  Should result in an error.
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testAddUnknownUser() throws Exception {
-//        HtmlPage permissionsPage = getPermissionsPage();
-//        
-//        permissionsPage = addUser(permissionsPage, "xxx", VIEWER_ROLENAME);
-//        assertTrue(hasError(permissionsPage));
-//        
-//        List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
-//        assertEquals(errors.size(), 1);
-//        assertTrue(containsError(errors, "The person is unknown"));
-//    }
-//
-//    /**
-//     * Test the lookup of a user.  The lookup page should have the
-//     * home unit field filled in with the lead unit of the protocol.
-//     * @throws Exception
-//     */
+    @Test
+    public void testProtocolCreation() throws Exception {
+        HtmlPage permissionsPage = getPermissionsPage();
+        
+        // Upon initial creation of a protocol, the initiator must 
+        // be assigned the Aggregator role and is the only user assigned
+        // to the protocol.  Start by looking at the Assigned Roles
+        // and verifying that only quickstart is the only aggregator
+        // and no other roles are assigned.
+        
+        String[] aggregators = new String[1];
+        aggregators[0] = QUICKSTART_FULLNAME;
+        checkAssignedRoles(permissionsPage, aggregators, null);
+        
+        // Now verify that the User Permissions table only has one entry with
+        // quickstart as the aggregator.
+        
+        List<User> users = new ArrayList<User>();
+        users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
+        checkUserTable(permissionsPage, users, 2);
+    }
+    
+    /**
+     * Test adding people to the list of users with permission to access
+     * the protocol.  The following is being tested:
+     * 
+     *     1. Make sure each role type works by adding one user
+     *        for each type of role.
+     *     2. Make sure the displayed table is sorted by full name.
+     *     3. Make sure the Assigned Roles panel shows the names as expected.
+     *     4. Verify that the save works and that the displayed information
+     *        is indeed correct.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddUsers() throws Exception {
+        HtmlPage permissionsPage = getPermissionsPage();
+        
+        // Add the users.
+        
+        permissionsPage = addAllUsers(permissionsPage);
+        
+        // Check the Assigned Roles  panel.
+        
+        String[] aggregators = buildArray(QUICKSTART_FULLNAME, USER1_FULLNAME);
+        String[] viewers = buildArray(TESTER_FULLNAME);
+        checkAssignedRoles(permissionsPage, aggregators, viewers);
+        
+        // Check the User table.
+        
+        List<User> users = new ArrayList<User>();
+        users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
+        users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
+        checkUserTable(permissionsPage, users, 2);
+        
+        // Save the protocol and re-check to be sure the data is still correctly displayed.
+        
+        permissionsPage = saveAndSearch(permissionsPage);
+        checkAssignedRoles(permissionsPage, aggregators, viewers);
+        checkUserTable(permissionsPage, users, 2);
+    }
+    
+    /**
+     * Test adding a duplicate user.  Should result in an error.
+     * @throws Exception
+     */
+    @Test
+    public void testAddDuplicate() throws Exception {
+        HtmlPage permissionsPage = getPermissionsPage();
+       
+        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
+        assertTrue(!hasError(permissionsPage));
+        
+        permissionsPage = addUser(permissionsPage, TESTER_USERNAME, VIEWER_ROLENAME);
+        assertTrue(hasError(permissionsPage));
+        
+        List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
+        assertEquals(errors.size(), 1);
+        assertTrue(containsError(errors, "User has already been added"));
+    }
+
+    /**
+     * Test adding an unknown user.  Should result in an error.
+     * @throws Exception
+     */
+    @Test
+    public void testAddUnknownUser() throws Exception {
+        HtmlPage permissionsPage = getPermissionsPage();
+        
+        permissionsPage = addUser(permissionsPage, "xxx", VIEWER_ROLENAME);
+        assertTrue(hasError(permissionsPage));
+        
+        List<String> errors = getErrors(permissionsPage, USER_TAB_DIV);
+        assertEquals(errors.size(), 1);
+        assertTrue(containsError(errors, "The person is unknown"));
+    }
+
+    /**
+     * Test the lookup of a user.  The lookup page should have the
+     * home unit field filled in with the lead unit of the protocol.
+     * @throws Exception
+     */
     @Test
     public void testUserLookup() throws Exception {
         HtmlPage permissionsPage = getPermissionsPage();
@@ -267,19 +265,18 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
         // the lead unit of the protocol.
         
         HtmlPage lookupPage = clickOnLookup(permissionsPage, "newUser");
-        // kcperson page does not have home unit anymore
-//      String homeUnit = getFieldValue(lookupPage, "homeUnit");
-//      assertEquals(UNIT_NUMBER, homeUnit);
+        String homeUnit = getFieldValue(lookupPage, LOOKUP_ORGANIZATION_FIELD_ID);
+        assertEquals(UNIT_NUMBER, homeUnit);
         
         // Go back to the permissions page and use the lookup() method
-        // to verify the lookup of a person. The username field should 
-        // not be empty.
+        // to verify the lookup of a person. None of the fields should
+        // be empty.
         
         permissionsPage = clickOn(lookupPage, "cancel");
-        permissionsPage = lookup(permissionsPage, "newUser");
+        permissionsPage = lookup(permissionsPage, "newUser", LOOKUP_USERNAME_FIELD_ID, USER1_USERNAME);
         
-        String username = getFieldValue(permissionsPage, USERNAME_FIELD_ID);
-        assertTrue(!StringUtils.equals(username, ""));
+        User newUser = new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME);
+        checkAddUserTable(permissionsPage, newUser);
     }
     
     /**
@@ -652,6 +649,16 @@ public class ProtocolPermissionsWebTest extends ProtocolWebTestBase {
     private void checkAssignedRoles(HtmlPage page, String aggregators[], String viewers[]) {
         checkUserNames(page, AGGREGATORS_ID, aggregators);
         checkUserNames(page, VIEWERS_ID, viewers);
+    }
+    
+    private void checkAddUserTable(HtmlPage page, User user) {
+        HtmlTable userTable = getTable(page, USER_TABLE_ID);
+        HtmlTableRow row = userTable.getRow(1);
+        
+        assertCellValue(row, 1, user.username);
+        assertCellValue(row, 2, user.fullname);
+        assertCellValue(row, 3, user.unitNumber);
+        assertCellValue(row, 4, user.unitName);
     }
     
     /**
