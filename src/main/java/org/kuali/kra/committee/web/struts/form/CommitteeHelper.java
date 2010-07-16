@@ -78,7 +78,7 @@ public class CommitteeHelper implements Serializable {
             modifyCommittee = false;
             Committee activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());
-            if (activeCommittee.getId().equals(getCommittee().getId())) {
+            if (activeCommittee != null && activeCommittee.getId().equals(getCommittee().getId())) {
                 modifySchedule = canModifySchedule();
                 viewSchedule = canViewSchedule();
             } else {
