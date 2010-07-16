@@ -39,7 +39,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
     
     private static final String AGGREGATOR_NAME = "Aggregator";
     private static final String VIEWER_NAME = "Viewer";
-    private static final String UNASSIGNED_NAME = "unassigned";
     
     /**
      * Each Helper must contain a reference to its document form
@@ -69,7 +68,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
             displayNameMap = new HashMap<String, String>();
             displayNameMap.put(RoleConstants.PROTOCOL_AGGREGATOR, AGGREGATOR_NAME);
             displayNameMap.put(RoleConstants.PROTOCOL_VIEWER, VIEWER_NAME);
-            displayNameMap.put(RoleConstants.PROTOCOL_UNASSIGNED, UNASSIGNED_NAME);
         }
     }
 
@@ -82,14 +80,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }
         return document.getProtocol();
-    }
-    
-    /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
-     */
-    @Override
-    public String getUnassignedRoleName() {
-        return RoleConstants.PROTOCOL_UNASSIGNED;
     }
 
     /**
