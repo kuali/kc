@@ -69,11 +69,9 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -101,6 +99,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
+
+    private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -786,5 +786,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             }
         }
         return superForward;
+    }
+
+    public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KraTransactionalDocumentFormBase dform = (KraTransactionalDocumentFormBase) form;
+        Document document = dform.getDocument();
+        if( dform.getAdHocRoutePersons().size() > 0 || dform.getAdHocRouteWorkgroups().size() > 0) {
+            document.prepareForSave();
+            return super.sendAdHocRequests(mapping, dform, request, response);
+        } else {
+            GlobalVariables.getErrorMap().putError("newAdHocRoutePerson.id", ONE_ADHOC_REQUIRED_ERROR_KEY);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
 }

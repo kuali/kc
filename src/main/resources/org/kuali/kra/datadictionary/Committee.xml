@@ -275,7 +275,8 @@
     
     <bean id="CommitteeAttribute-UpdateTimestamp" parent="CommitteeAttribute-UpdateTimestamp-parentBean" />
     <bean id="CommitteeAttribute-UpdateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
-        <property name="label" value="Committee Info Last Updated" />
+        <property name="label" value="Last Updated" />
+		<property name="shortLabel" value="Last Updated" />
         <property name="description" value="The timestamp when the Committee was created or last modified." />
     </bean>
 

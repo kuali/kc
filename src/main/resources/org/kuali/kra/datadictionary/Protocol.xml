@@ -70,6 +70,7 @@
 				<ref bean="Protocol-submissionDate" />
 				<ref bean="Protocol-protocolType.description" />
 				<ref bean="Protocol-protocolStatus.description" />
+				<ref bean="Protocol-updateTimestamp" />
 				
 			</list>
 		</property>
@@ -671,6 +672,12 @@
 		<property name="description" value="Investigator" />
 	</bean>
 
+	<bean id="Protocol-updateTimestamp" parent="Protocol-updateTimestamp-parentBean" />
+	<bean id="Protocol-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Updated" />
+		<property name="shortLabel" value="Last Updated" />
+	</bean>
     
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
