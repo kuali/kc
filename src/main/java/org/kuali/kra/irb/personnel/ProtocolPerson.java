@@ -51,6 +51,7 @@ public class ProtocolPerson extends ProtocolAssociate {
     private int selectedUnit;
     private String previousPersonRoleId;
     private transient KcPersonService kcPersonService;
+    private transient KcPerson kcPerson;
 
     public ProtocolPerson() {
         this.protocolUnits = new ArrayList<ProtocolUnit>();
@@ -135,7 +136,10 @@ public class ProtocolPerson extends ProtocolAssociate {
     }
 
     public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(this.personId);
+        if (kcPerson == null) {
+            kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
+        }
+        return kcPerson;
     }
     
     /**
