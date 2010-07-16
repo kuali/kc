@@ -60,6 +60,7 @@ public class CommitteeMembership extends CommitteeAssociate {
     private boolean delete;
     
     private transient KcPersonService kcPersonService;
+    private transient KcPerson kcPerson;
 
     public CommitteeMembership() {
         setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
@@ -197,7 +198,12 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(personId);
+        // Each kcpersonservice call will get kimidentityservice call
+        // in tag, it may need several calls of this.  just try to improve performance.
+        if (kcPerson == null) {
+            kcPerson = getKcPersonService().getKcPersonByPersonId(personId);
+        }
+        return kcPerson;
     }
     
     /**
