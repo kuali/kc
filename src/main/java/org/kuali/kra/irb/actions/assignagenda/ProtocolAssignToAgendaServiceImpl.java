@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,14 +84,14 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
                 // add a new protocol action
                 ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
                 protocolAction.setComments(actionBean.getComments());
-                //protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+                protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
                 protocol.getProtocolActions().add(protocolAction);
                 protocolActionService.updateProtocolStatus(protocolAction, protocol);
             } else {
                 // update the comment of an existing protocol action
                 ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
                 pa.setComments(actionBean.getComments());
-                //pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+                pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
                 protocolActionService.updateProtocolStatus(pa, protocol);
                 documentService.saveDocument(protocol.getProtocolDocument());
                 return;
@@ -101,7 +102,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
             ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
             pa.setProtocolActionTypeCode(ProtocolActionType.DISAPPROVED);
             pa.setComments(actionBean.getComments());
-            //pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+            pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
             protocolActionService.updateProtocolStatus(pa, protocol);
             documentService.saveDocument(protocol.getProtocolDocument());
             return;
