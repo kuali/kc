@@ -543,7 +543,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         
         logQuery(query);
         
-        return !getPersistenceBrokerTemplate().getCollectionByQuery(query).isEmpty();
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query).isEmpty();
         
     }
     

@@ -40,7 +40,6 @@ import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -55,8 +54,6 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     
     private static final String CONFIRM_UNLOCK_SELECTED = "confirmUnlockSelected";
     private static final String CONFIRM_UNLOCK_SELECTED_KEY = "confirmUnlockSelectedKey";
-    private static final String ONE_ADHOC_REQUIRED_ERROR_KEY="error.adhoc.oneAdHocRequired";
-   
     /** {@inheritDoc} */
 	public ActionForward activate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -227,18 +224,6 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
             }
         }
         return state;
-    }
-
-    public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        InstitutionalProposalForm dform = (InstitutionalProposalForm) form;
-        Document document = dform.getDocument();
-        if( dform.getAdHocRoutePersons().size() > 0 || dform.getAdHocRouteWorkgroups().size() > 0) {
-            document.prepareForSave();
-            return super.sendAdHocRequests(mapping, dform, request, response);
-        } else {
-            GlobalVariables.getErrorMap().putError("newAdHocRoutePerson.id", ONE_ADHOC_REQUIRED_ERROR_KEY);
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
     }
 
     @Override

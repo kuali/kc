@@ -1284,6 +1284,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1334,13 +1335,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
     public ActionForward deleteReopenReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolForm protocolForm = (ProtocolForm) form; 
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenBean();
         return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
     }
@@ -1383,6 +1385,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1433,6 +1436,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1482,6 +1486,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1530,6 +1535,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1578,6 +1584,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1625,6 +1632,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
@@ -1672,6 +1680,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
     

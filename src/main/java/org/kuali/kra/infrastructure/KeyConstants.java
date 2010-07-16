@@ -504,6 +504,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED = "error.protocol.submission.committee.required";
     public static final String ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED = "error.protocol.submission.schedule.required";
     public static final String ERROR_PROTOCOL_ADMIN_CORRECTION_COMMENTS_REQUIRED = "error.protocol.correction.comments.required";
+    public static final String ERROR_PROTOCOL_UNDO_LASTACTION_COMMENTS_REQUIRED = "error.protocol.undolastaction.comments.required";
     public static final String ERROR_PROTOCOL_RECORED_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS = "error.protocol.recordcommittee.abstainer.already.used";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";
     

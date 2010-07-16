@@ -32,6 +32,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
@@ -46,6 +47,8 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -53,8 +56,11 @@ import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -210,7 +216,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     
     @Override
-    public void populate(HttpServletRequest request) {
+    public void populate(HttpServletRequest request) { 
         super.populate(request);
         
         // Temporary hack for KRACOEUS-489
@@ -222,6 +228,32 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        ProtocolDocument pd = getDocument();
+        
+        HeaderField documentNumber = getDocInfo().get(0);
+        documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
+        
+        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getProtocol().getProtocolStatus();
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        getDocInfo().set(1, docStatus);
+        
+        String lastUpdatedDateStr = null;
+        if(pd != null && pd.getUpdateTimestamp() != null) {
+            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+        }
+        
+        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.Protocol.attributes.updateTimestamp", lastUpdatedDateStr);
+        getDocInfo().set(3, lastUpdatedDate);
+        
+        getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
+        
+        String expirationDateStr = null;
+        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
+            expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "hh:mm a MM/dd/yyyy");
+        }
+        
+        HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);
+        getDocInfo().add(expirationDate);
     }
 
     /* Reset method

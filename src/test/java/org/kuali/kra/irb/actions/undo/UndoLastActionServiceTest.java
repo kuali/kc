@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -33,6 +34,8 @@ import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
+import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
@@ -82,6 +85,7 @@ public class UndoLastActionServiceTest extends KraTestBase {
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolApproveService protocolApproveService;
     private ProtocolRequestService protocolRequestService;
+    private ProtocolDeleteService protocolDeleteService;
     private ProtocolGenericActionService protocolGenericActionService;
     private BusinessObjectService businessObjectService;
 
@@ -95,6 +99,7 @@ public class UndoLastActionServiceTest extends KraTestBase {
         protocolApproveService = KraServiceLocator.getService(ProtocolApproveService.class);
         protocolRequestService = KraServiceLocator.getService(ProtocolRequestService.class);
         protocolGenericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
+        protocolDeleteService = KraServiceLocator.getService(ProtocolDeleteService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
@@ -294,7 +299,26 @@ public class UndoLastActionServiceTest extends KraTestBase {
         assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolAction.getProtocolActionTypeCode());
     }
 
-
+    @Test
+    public void testUndoDeleteAction() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        Protocol protocol = protocolDocument.getProtocol();
+        UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
+        undoLastActionBean.setComments(COMMENTS);
+        
+        assertFalse(protocol.getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
+        assertTrue(protocol.isActive());
+        protocolDeleteService.delete(protocol, new ProtocolDeleteBean());
+        
+        assertTrue(protocol.getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
+        assertFalse(protocol.isActive());
+        
+        ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+        assertFalse(protocolDocument.getDocumentNumber().equalsIgnoreCase(updatedDocument.getDocumentNumber()));
+        assertFalse(updatedDocument.getProtocol().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.DELETED));
+        assertTrue(updatedDocument.getProtocol().isActive());
+    }
+    
     @SuppressWarnings("unchecked")
     private ProtocolAction findProtocolAction(Long protocolId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

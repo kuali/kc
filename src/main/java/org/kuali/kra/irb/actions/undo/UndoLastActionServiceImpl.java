@@ -48,12 +48,14 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     }
     
     private void removeAttachedCorrespondences(ProtocolAction protocolAction) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
-        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
-        fieldValues.put("sequenceNumber", protocolAction.getSequenceNumber().toString());
-        
-        businessObjectService.deleteMatching(ProtocolCorrespondence.class, fieldValues);
+        if(protocolAction != null) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
+            fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
+            fieldValues.put("sequenceNumber", protocolAction.getSequenceNumber().toString());
+            
+            businessObjectService.deleteMatching(ProtocolCorrespondence.class, fieldValues);
+        }
     }
 
     public ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception {
@@ -62,7 +64,9 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
         
         ProtocolAction lastActionPerformed = undoLastActionBean.getLastPerformedAction();
-        protocolActionService.resetProtocolStatus(lastActionPerformed, protocol);
+        if(lastActionPerformed != null) {
+            protocolActionService.resetProtocolStatus(lastActionPerformed, protocol);
+        }
         
         //Undo possible workflow actions
         ProtocolDocument updatedDocument = undoWorkflowRouting(protocolDocument, lastActionPerformed);
@@ -92,12 +96,12 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         KualiWorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
         
         //Do we need additional check to see if this is not a Renewal/Amendment Approval? since we already eliminated those options within Authz Logic
-        if(currentWorkflowDocument != null && ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode())) {
-            currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
-        } else if (currentWorkflowDocument.stateIsCanceled()) {
+        if (currentWorkflowDocument.stateIsCanceled()) {
             protocolDocument = KraServiceLocator.getService(ProtocolCopyService.class).copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
-        }
+        } else if(currentWorkflowDocument != null && lastPerformedAction != null && ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode())) {
+            currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
+        } 
         
         return protocolDocument;
     }

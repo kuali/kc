@@ -79,8 +79,8 @@ public class ProtocolDaoOjbTest extends KraTestBase {
     public void testGetProtocolSubmissionCountFromProtocol() {
 
         //Integer val = getProtocolDao().getProtocolSubmissionCountFromProtocol("001");
-        assertTrue(getProtocolDao().getProtocolSubmissionCountFromProtocol("001"));
-        assertFalse(getProtocolDao().getProtocolSubmissionCountFromProtocol("002"));
+        assertFalse(getProtocolDao().getProtocolSubmissionCountFromProtocol("001"));
+        assertTrue(getProtocolDao().getProtocolSubmissionCountFromProtocol("002"));
         
     }
     
