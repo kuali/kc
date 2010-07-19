@@ -244,7 +244,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         
         String expirationDateStr = null;
         if(pd != null && pd.getProtocol().getExpirationDate() != null) {
-            expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "hh:mm a MM/dd/yyyy");
+            expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
         }
         
         HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);

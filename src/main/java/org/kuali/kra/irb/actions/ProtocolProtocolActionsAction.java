@@ -942,7 +942,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
         actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
-    }
+    } 
     
     public ActionForward deleteAssignToAgendaReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -1284,7 +1284,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
         actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
@@ -1293,7 +1293,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
         return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -1301,7 +1301,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
         return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -1309,7 +1309,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -1947,7 +1947,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward addCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        return addReviewComment(mapping, protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), protocolForm.getProtocolDocument());
+        CommitteeDecision committeeDecision = protocolForm.getActionHelper().getCommitteeDecision();
+        committeeDecision.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        return addReviewComment(mapping, committeeDecision.getReviewComments(), protocolForm.getProtocolDocument());
     }
     
     public ActionForward deleteCommitteeDecisionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
