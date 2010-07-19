@@ -100,18 +100,18 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			String fileName = null;
 			if (bioSketchData != null && bioSketchData.length > 0) {
 				fileName = pdDoc.getDevelopmentProposal().getProposalNumber()
-						+ "_" + BIOSKETCH_COMMENT;
+						+ "_" + BIOSKETCH_COMMENT+".pdf";
 				extraKeyPersonAttachments[0] = saveNarrative(bioSketchData, "" + BIOSKETCH_DOC_TYPE, fileName,
 						COMMENT + BIOSKETCH_COMMENT);
 			}
 			if (curPendData != null && curPendData.length > 0) {
 				fileName = pdDoc.getDevelopmentProposal().getProposalNumber()
-						+ "_" + BIOSKETCH_COMMENT;
+						+ "_" + CURRENT_PENDING_COMMENT+".pdf";
 				extraKeyPersonAttachments[1] = saveNarrative(curPendData, "" + CURRENTPENDING_DOC_TYPE,
 						fileName, COMMENT + CURRENT_PENDING_COMMENT);
 			}
 		} catch (PrintingException e) {
-			e.printStackTrace();
+			LOG.error("Auto generation of Biosketch/Currend Pending report for extra Keypersons is failed", e);
 		}
 		return extraKeyPersonAttachments;
 	}
@@ -276,7 +276,6 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		return sb.toString();
 	}
 	
-	///////////////
 	protected PersonProfileList.ExtraKeyPerson[] getExtraKeyPersons() {
 		List<PersonProfileList.ExtraKeyPerson> extraPersonList = new ArrayList<PersonProfileList.ExtraKeyPerson>();
 
@@ -469,10 +468,10 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
 			try {
 				AttachmentDataSource printData = printingService.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT;
-				narrative = saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,PROFILE_COMMENT);
+				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT+".pdf";
+				narrative = saveNarrative(printData.getContent(), ""+PROFILE_TYPE,fileName,COMMENT +PROFILE_COMMENT);
 			} catch (PrintingException e) {
-				e.printStackTrace();
+				LOG.error("Auto generation of Profile attachment for extra Keypersons failed",e);
 			}
 		}
 		return narrative;
