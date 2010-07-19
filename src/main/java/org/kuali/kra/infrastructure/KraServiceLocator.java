@@ -90,15 +90,6 @@ public final class KraServiceLocator {
         return ContextHolder.APP_CONTEXT;
     }
     
-    // The next 2 methods won't work post-merge. For now I'm dummying them up. -gmcgrego
-    public static ConfigurableApplicationContext getAppContextWithoutInitializing() {
-        return ContextHolder.APP_CONTEXT;
-    }
-    
-    protected static void setApplicationContext(ConfigurableApplicationContext context) {
-        //appContext = context;
-    }
-    
     /**
      * Lookups a service by name.
      * 
