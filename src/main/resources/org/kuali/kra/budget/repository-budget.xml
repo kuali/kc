@@ -981,12 +981,8 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetId"/> 
-		</reference-descriptor>
-
-	--></class-descriptor>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
     
     <class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" table="BUDGET_SUB_AWARD_ATT"> 
 		<field-descriptor name="budgetSubawardAttachmentId" column="SUB_AWARD_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_SUB_AWD_BGT_ATT_ID"/> 
@@ -998,11 +994,8 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/> 
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/> 
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /><!-- 
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetId"/> 
-		</reference-descriptor> 
-	--></class-descriptor>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt" table="EPS_PROPOSAL_BUDGET_EXT">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
