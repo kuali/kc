@@ -164,7 +164,7 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
         HtmlTableCell cell = row.getCell(cellIndex);
         HtmlElement element = getElementByValue(cell, expectedValue);
         String selected = element.getAttribute("selected");
-        assertTrue(expectedValue + " was not selected", selected != null && selected.equals("selected"));
+        assertTrue(expectedValue + " was not selected, current value: " + selected, selected != null && selected.equals("true"));
     }
 
     private HtmlElement getElementByValue(HtmlElement element, String value) {
