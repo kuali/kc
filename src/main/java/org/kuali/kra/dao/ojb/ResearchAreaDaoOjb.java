@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -82,16 +83,16 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                     }
                 }
                 catch (SQLException e) {
-                    throw new ResearchAreaDaoException(e);
+                    throw new ResearchAreaDaoException("sql: " + Arrays.toString(sqls), e);
                 } catch (LookupException e) {
-                    throw new ResearchAreaDaoException(e);
+                    throw new ResearchAreaDaoException("sql: " + Arrays.toString(sqls), e);
                 } finally {
                     if (stmt != null) {
                         try {
                             stmt.close();
                         }
                         catch (Exception e) {
-                            throw new ResearchAreaDaoException(e);
+                            throw new ResearchAreaDaoException("sql: " + Arrays.toString(sqls), e);
                         }
                     }
                 }
@@ -120,7 +121,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             getNodesToDelete(codes[0], stmt);
         }
         catch (SQLException e) {
-            throw new ResearchAreaDaoException(e);
+            throw new ResearchAreaDaoException("sql: " + sql, e);
         }
     }
     
@@ -140,7 +141,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             stmt.addBatch(updateStmt);
         }
         catch (SQLException e) {
-            throw new ResearchAreaDaoException(e);
+            throw new ResearchAreaDaoException("sql: " + sql, e);
         }
     }
 
@@ -163,7 +164,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             stmt.addBatch(updateStmt);
         }
         catch (SQLException e) {
-            throw new ResearchAreaDaoException(e);
+            throw new ResearchAreaDaoException("sql: " + sql, e);
         }
     }
 
@@ -179,7 +180,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             stmt.addBatch(updateStmt);
         }
         catch (SQLException e) {
-            throw new ResearchAreaDaoException(e);
+            throw new ResearchAreaDaoException("sql: " + sql, e);
         }
     }
 
@@ -223,6 +224,10 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
     
     /** simple runtime exception - probably be better long term to use a generic dao runtime exception. */
     private static class ResearchAreaDaoException extends RuntimeException {
+        public ResearchAreaDaoException(String msg, Throwable t) {
+            super(t);
+        }
+        
         public ResearchAreaDaoException(Throwable t) {
             super(t);
         }
