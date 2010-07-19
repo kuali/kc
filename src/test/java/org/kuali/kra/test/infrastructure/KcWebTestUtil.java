@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra;
+package org.kuali.kra.test.infrastructure;
 
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.kuali.kra.HtmlUnitUtil;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class KraWebTestUtil extends Assert {
+public class KcWebTestUtil extends Assert {
     private static final String KRA_HOMEPAGE_TITLE = "Kuali Portal Index";
     private static final String KRA_DOCSEARCH_LINK_TEXT = "Document Search";
     private static final String KRA_PROPOSAL_PAGE_TITLE = "Kuali :: Proposal Development Document";
@@ -39,7 +40,7 @@ public class KraWebTestUtil extends Assert {
     public static final String KRA_QUESTION_ANSWER_YES_BUTTON = "methodToCall.processAnswer.button0";
     public static final String KRA_QUESTION_ANSWER_NO_BUTTON = "methodToCall.processAnswer.button1";
     
-    public static final String KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID = "criteria.routeHeaderId";
+    public static final String KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID = "routeHeaderId";
     private static final String KRA_BUDGET_NEW_BUDGETVER_ELEMENT_ID = "newBudgetVersionName";
     private static final String KRA_BUDGET_VERSION_ADD_BUTTON = "methodToCall.addBudgetVersion";
     

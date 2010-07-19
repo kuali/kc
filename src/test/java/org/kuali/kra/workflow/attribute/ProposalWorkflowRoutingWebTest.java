@@ -23,7 +23,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
@@ -34,7 +33,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -67,11 +65,11 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
      @Before
     public void setUp() throws Exception {
         super.setUp();
-        transactionalLifecycle.stop();
-        new SQLDataLoaderLifecycle("classpath:sql/dml/load_users.sql", ";").start();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/Routing");
-        customKEWLifecycle.start();
-        transactionalLifecycle.start();
+//        transactionalLifecycle.stop();
+//        new SQLDataLoaderLifecycle("classpath:sql/dml/load_users.sql", ";").start();
+//        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/Routing");
+//        customKEWLifecycle.start();
+//        transactionalLifecycle.start();
         setProposalDevelopmentPage(buildProposalDevelopmentPage());
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
@@ -82,10 +80,10 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
 
 
         super.tearDown();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml");
-        customKEWLifecycle.start();
+//        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml");
+//        customKEWLifecycle.start();
         GlobalVariables.setErrorMap(new ErrorMap());
-        stopLifecycles(this.perTestLifeCycles);
+//        stopLifecycles(this.perTestLifeCycles);
         logAfterRun();
     }
 

@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 
@@ -46,7 +46,7 @@ import org.kuali.rice.kns.service.LookupService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class LookupServiceTest extends KraTestBase {
+public class LookupServiceTest extends KcUnitTestBase {
 
     public LookupServiceTest() {}
 

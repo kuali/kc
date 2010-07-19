@@ -17,10 +17,10 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 
 import static java.util.Collections.sort;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.OBLOOD_KEY_PERSON;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.WOODS_CO_INVESTIGATOR;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.JTESTER_CO_INVESTIGATOR;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.OBLOOD_KEY_PERSON;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.WOODS_CO_INVESTIGATOR;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,9 +29,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole
  */
-public class ProposalPersonComparatorTest extends KraTestBase {
+public class ProposalPersonComparatorTest extends KcUnitTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonComparatorTest.class);
     
     

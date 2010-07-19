@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -39,11 +38,12 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
  * This class is used to test the PDF Printing of Forms
  */
-public class PrintFormTest extends KraTestBase {
+public class PrintFormTest extends KcUnitTestBase {
     private static final Logger LOG = Logger.getLogger(PrintFormTest.class);
 
     @Before

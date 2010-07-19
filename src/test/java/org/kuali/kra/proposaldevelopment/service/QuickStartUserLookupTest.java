@@ -19,12 +19,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.exception.RiceRuntimeException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 
-public class QuickStartUserLookupTest extends KraTestBase {
+public class QuickStartUserLookupTest extends KcUnitTestBase {
 
     /*
      * re: JIRA KRACOEUS-635

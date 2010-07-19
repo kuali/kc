@@ -24,17 +24,17 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.SoftError;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class CommitteeScheduleDateConflictRuleTest extends KraTestBase {
+public class CommitteeScheduleDateConflictRuleTest extends KcUnitTestBase {
     
     private ScheduleData scheduleData;
     

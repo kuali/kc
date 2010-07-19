@@ -20,10 +20,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.irb.protocol.reference.ProtocolReference;
-import org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl;
 
 public class ProtocolReferenceServiceTest {
     

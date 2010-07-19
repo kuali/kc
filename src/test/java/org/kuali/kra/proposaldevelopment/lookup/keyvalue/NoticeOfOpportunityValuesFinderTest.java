@@ -42,7 +42,7 @@ public class NoticeOfOpportunityValuesFinderTest extends ValuesFinderTestBase {
         keylabel.add(new KeyLabelPair("4", "SBIR Solicitation"));
         keylabel.add(new KeyLabelPair("5", "STTR Solicitation"));
         keylabel.add(new KeyLabelPair("6", "Non-Federal Solicitation"));
-        keylabel.add(new KeyLabelPair("7", "MIT Alliance/Internal"));
+        keylabel.add(new KeyLabelPair("7", "Internal"));
 
         return keylabel;
     }

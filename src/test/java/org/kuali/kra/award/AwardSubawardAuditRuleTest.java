@@ -15,19 +15,16 @@
  */
 package org.kuali.kra.award;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class AwardSubawardAuditRuleTest extends KraTestBase {
+public class AwardSubawardAuditRuleTest extends KcUnitTestBase {
 
     private AwardSubawardAuditRule auditRule;
     private AwardDocument awardDoc;

@@ -17,6 +17,7 @@ package org.kuali.kra.award;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -40,6 +40,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,12 +49,10 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import java.util.Calendar;
-
 /**
  * This class 
  */
-public class AwardVersioningTest extends KraTestBase {
+public class AwardVersioningTest extends KcUnitTestBase {
     private static final Log LOG = LogFactory.getLog(AwardVersioningTest.class); 
     private static final double COST_SHARE_COMMIT_AMT = 1000.00;
     private static final String COST_SHARE_DEST1 = "576434";

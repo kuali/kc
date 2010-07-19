@@ -24,10 +24,10 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 
@@ -35,7 +35,7 @@ import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class UnitHierarchyWebTest extends KraWebTestBase {
+public class UnitHierarchyWebTest extends KcWebTestBase {
     
     private LookupService lookupService;
     

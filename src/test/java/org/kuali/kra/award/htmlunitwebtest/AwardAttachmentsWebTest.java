@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.text.StringContains.containsString;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,13 +27,13 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
 
     
     private static final String ONE_ATTACHMENT = "Attachments (1)";
-    private static final String ONE_TYPE_NAME = "Notice of Award";
+    private static final String ONE_TYPE_NAME = "Sponsor Document";
     private static final String ATTACHMENT_CONFIRM_DELETE_MSG = "Are you sure you would like to delete the following attachment: Award Attachment AwardAttachmentsWebTest.class";
     private static final String CONFIRM_DELETE_YES_BUTTON = "methodToCall.processAnswer.button0";
     private static final String DESCRIPTION = "a description";
     private static final String TYPE_CODE_1 = "1";
     private static final String METHOD_TO_CALL_DELETE_ATTACHMENT_AWARD = "methodToCall.deleteAttachment";
-    private static final String METHOD_TO_CALL_ADD_ATTACHMENT = "methodToCall.addAttachment";
+    private static final String METHOD_TO_CALL_ADD_ATTACHMENT = "methodToCall.addAttachment.anchorAttachments";
     private static final String NEW_ATTACHMENT_NEW_FILE_NAME = "awardAttachmentFormBean.newAttachment.newFile";
     private static final String NEW_ATTACHMENT_DESCRIPTION_NAME = "awardAttachmentFormBean.newAttachment.description";
     private static final String NEW_ATTACHMENT_TYPE_CODE_NAME = "awardAttachmentFormBean.newAttachment.typeCode";
@@ -48,7 +45,7 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
     @Test
     public void testAwardAttachment() throws Exception {
         HtmlPage initalPage = getAwardNotesAndAttachmentsPage();
-        Assert.assertThat(initalPage.asText(), containsString(NO_ATTACHMENTS));
+        assertContains(initalPage, NO_ATTACHMENTS);
         
         HtmlPage afterAddPage = addAttachment(initalPage);  
         validateAddedAttachment(afterAddPage);
@@ -81,10 +78,10 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
      */
     private void validateAddedAttachment(HtmlPage afterAddPage) throws Exception {
         
-        Assert.assertThat(afterAddPage.asText(), containsString(ONE_ATTACHMENT));
-        Assert.assertThat(afterAddPage.asText(), containsString(ONE_TYPE_NAME));
-        Assert.assertThat(afterAddPage.asText(), containsString(DESCRIPTION));
-        Assert.assertThat(afterAddPage.asText(), containsString(FILE_1)); 
+        assertContains(afterAddPage, ONE_ATTACHMENT);
+        assertContains(afterAddPage, ONE_TYPE_NAME);
+        assertContains(afterAddPage, DESCRIPTION);
+        assertContains(afterAddPage, FILE_1); 
     }
     
     /**
@@ -102,7 +99,7 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
      * @throws Exception
      */
     private void validateConfirmDeleteAttachment(HtmlPage confirmDeletePage) throws Exception {
-        Assert.assertThat(confirmDeletePage.asText(), containsString(ATTACHMENT_CONFIRM_DELETE_MSG));
+        assertContains(confirmDeletePage, ATTACHMENT_CONFIRM_DELETE_MSG);
     }
     
     /**
@@ -119,7 +116,7 @@ public class AwardAttachmentsWebTest extends AwardNotesAndAttachmentsWebTest {
      *  @param afterDeletePage the attachments page after delete
      */
     private void validateDeletedAttachment(HtmlPage afterDeletePage) throws Exception {
-        Assert.assertThat(afterDeletePage.asText(), containsString(NO_ATTACHMENTS));
-        Assert.assertThat(afterDeletePage.asText(), not(containsString(FILE_1)));
+        assertContains(afterDeletePage, NO_ATTACHMENTS);
+        assertDoesNotContain(afterDeletePage, FILE_1);
     }
 }

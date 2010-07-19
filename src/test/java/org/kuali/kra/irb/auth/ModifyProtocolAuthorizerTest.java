@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.authorizers.UnitAuthorizationServiceMock;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -25,12 +24,13 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Test the Modify Protocol Authorizer.
  */
-public class ModifyProtocolAuthorizerTest extends KraTestBase {
+public class ModifyProtocolAuthorizerTest extends KcUnitTestBase {
 
     private static final String USERNAME = "quickstart";
     

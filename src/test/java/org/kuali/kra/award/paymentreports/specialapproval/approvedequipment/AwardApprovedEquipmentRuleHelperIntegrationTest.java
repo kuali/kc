@@ -19,15 +19,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
  * This class tests ApprovedEquipmentActionHelper 
  */
-public class AwardApprovedEquipmentRuleHelperIntegrationTest extends KraTestBase {
+public class AwardApprovedEquipmentRuleHelperIntegrationTest extends KcUnitTestBase {
     private static final double DELTA = 0.001;
-    private static final double INSTITUTION_MINIMUM = 50.00;
-    private static final double FEDERAL_MINIMUM = 100.00;
+    private static final double INSTITUTION_MINIMUM = 0.00;
+    private static final double FEDERAL_MINIMUM = 0.00;
     private static final String FED_PARM = EquipmentCapitalizationMinimumLoader.FEDERAL_CAPITALIZATION_MIN_PARM_NAME;
     private static final String INST_PARM = EquipmentCapitalizationMinimumLoader.INSTITUTE_CAPITALIZATION_MIN_PARM_NAME;
     private EquipmentCapitalizationMinimumLoader helper;

@@ -25,11 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 /**
  * This class tests the ResearchDocumentBaseAuditRule class
  */
-public class ResearchDocumentBaseAuditRuleTest extends KraTestBase {
+public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
 
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";

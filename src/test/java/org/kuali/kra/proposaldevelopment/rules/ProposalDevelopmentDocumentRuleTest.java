@@ -27,7 +27,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -36,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -49,7 +49,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class tests the ProposalDevelopmentDocumentRule class
  */
 
-public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
+public class ProposalDevelopmentDocumentRuleTest extends KcUnitTestBase {
 
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005889";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";

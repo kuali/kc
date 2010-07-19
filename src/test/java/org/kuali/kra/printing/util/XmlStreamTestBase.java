@@ -22,11 +22,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @param <T>
  *            Report test class
  */
-public abstract class XmlStreamTestBase<T> extends KraTestBase {
+public abstract class XmlStreamTestBase<T> extends KcUnitTestBase {
 	protected XmlStream xmlStream;
 	protected XmlObject xmlObject;
 

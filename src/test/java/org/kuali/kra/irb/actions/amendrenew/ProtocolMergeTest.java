@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
@@ -32,8 +31,9 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class ProtocolMergeTest extends KraTestBase {
+public class ProtocolMergeTest extends KcUnitTestBase {
     
     private static final String TITLE = "Amendment Title"; 
     private static final String PROTOCOL_TYPE_CODE = "1";

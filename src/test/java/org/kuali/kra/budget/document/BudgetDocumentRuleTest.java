@@ -16,20 +16,17 @@
 package org.kuali.kra.budget.document;
 
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DocumentService;
 
-public class BudgetDocumentRuleTest extends KraTestBase {
+public class BudgetDocumentRuleTest extends KcUnitTestBase {
 
     BudgetDocument<DevelopmentProposal> budgetDoc;
     BudgetDocumentRule budgetDocRule;

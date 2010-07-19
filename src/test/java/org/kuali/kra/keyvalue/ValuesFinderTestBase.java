@@ -18,7 +18,7 @@ package org.kuali.kra.keyvalue;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
@@ -33,7 +33,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
  * Note: If the concrete test class needs to be ignored then override testGetKeyValues
  * and add the @Ignore annotation
  */
-public abstract class ValuesFinderTestBase extends KraTestBase {
+public abstract class ValuesFinderTestBase extends KcUnitTestBase {
     
     protected static KeyLabelPair createKeyValue(String typeCode, String typeValue) {
         return new KeyLabelPair(typeCode, typeValue);

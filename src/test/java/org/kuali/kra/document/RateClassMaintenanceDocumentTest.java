@@ -31,12 +31,12 @@ public class RateClassMaintenanceDocumentTest  extends MaintenanceDocumentTestBa
         private static final String DOCTYPE = "RateClassMaintenanceDocument";
         @Override
         public void tearDown() throws Exception {
-            SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from RATE_CLASS where RATE_CLASS_CODE = '99'");
-            sqlDataLoader.runSql();
-            sqlDataLoader = new SQLDataLoader("update RATE_CLASS set description = 'Lab Allocation - Salaries' where RATE_CLASS_TYPE = 'Y' and RATE_CLASS_CODE='10'");
-            sqlDataLoader.runSql();
-            sqlDataLoader = new SQLDataLoader("commit");
-            sqlDataLoader.runSql();
+//            SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from RATE_CLASS where RATE_CLASS_CODE = '99'");
+//            sqlDataLoader.runSql();
+//            sqlDataLoader = new SQLDataLoader("update RATE_CLASS set description = 'Lab Allocation - Salaries' where RATE_CLASS_TYPE = 'Y' and RATE_CLASS_CODE='10'");
+//            sqlDataLoader.runSql();
+//            sqlDataLoader = new SQLDataLoader("commit");
+//            sqlDataLoader.runSql();
 
             super.tearDown();
         }

@@ -36,12 +36,15 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
 
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
-    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor5";
+    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor6";
+    //private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line0.anchor6";
     
+    private static final String FUNDINGSOURCE_TYPE_1= "Sponsor"; 
     private static final String FUNDINGSOURCE_NAME_1 = "Arkansas Enterprises for the Blind";
     private static final String FUNDINGSOURCE_ID_1 = "005174";
-    private static final String FUNDINGSOURCE_NAME_2 = "Department of Homeland Security";
-    private static final String FUNDINGSOURCE_ID_2 = "000162";
+    private static final String FUNDINGSOURCE_TYPE_2= "Unit"; 
+    private static final String FUNDINGSOURCE_NAME_2 = "Department of Education";
+    private static final String FUNDINGSOURCE_ID_2 = "000618";
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
 
     @Test
@@ -67,11 +70,8 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         assertContains(protocolPage, FUNDINGSOURCE_ID_2);
         assertContains(protocolPage, FUNDINGSOURCE_NAME_2);
        
-        
         protocolPage = clickOn(protocolPage, DELETELINE_1_LOCATION);
-
         protocolPage = saveDoc(protocolPage);
-
         assertContains(protocolPage, "Document was successfully saved.");
         assertContains(protocolPage, FUNDINGSOURCE_ID_1);
         assertContains(protocolPage, FUNDINGSOURCE_NAME_1);
@@ -81,6 +81,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         ProtocolDocument doc = (ProtocolDocument) getDocument(documentNumber);
         assertNotNull(doc);
         assertEquals(FUNDINGSOURCE_NAME_1, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
+       
      }
 
 }

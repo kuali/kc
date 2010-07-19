@@ -17,11 +17,10 @@ package org.kuali.kra.committee.keyvalue;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-public class WeekDayTest extends TestCase{
+public class WeekDayTest extends Assert{
     
     public static final String SUNDAY = "Sunday";
     public static final String MONDAY = "Monday";

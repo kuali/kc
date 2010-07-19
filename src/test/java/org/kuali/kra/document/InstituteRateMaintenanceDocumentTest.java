@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.document;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -35,6 +36,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
     }
     
     @Test
+    @Ignore
     public void testCreateNewInstituteRate() throws Exception {
         HtmlPage instituteRateMaintenancePage = getMaintenanceDocumentPage("Institute Rate","org.kuali.kra.bo.InstituteRate","Kuali :: Institute Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteRateMaintenancePage, "document.documentHeader.documentNumber");
@@ -106,6 +108,7 @@ public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTes
 
 
     @Test
+    @Ignore
     public void testCopyInstituteRateMaintenanceDocument() throws Exception {
         HtmlPage instituteRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute Rate");
         setFieldValue(instituteRateMaintenanceLookupPage,"activityTypeCode","1");

@@ -32,7 +32,6 @@ import org.junit.runner.RunWith;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * This class...

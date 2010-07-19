@@ -16,25 +16,20 @@
 package org.kuali.kra.irb.actions.correspondence;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.struts.upload.DiskFile;
 import org.apache.struts.upload.FormFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 /*
 @PerSuiteUnitTestData(
@@ -44,7 +39,7 @@ import org.kuali.rice.test.data.UnitTestFile;
                 }
        )
     )*/
-public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KraTestBase {
+public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUnitTestBase {
     
     ProtocolActionTypeToCorrespondenceTemplateService service;
     @Before

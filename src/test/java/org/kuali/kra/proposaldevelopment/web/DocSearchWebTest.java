@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -30,6 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class DocSearchWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
+    @Ignore
     public void testDocSearch() throws Exception {
         // save a new document and get the doc #
         String documentNumber = saveDocument();

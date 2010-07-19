@@ -21,7 +21,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent;
@@ -30,11 +29,12 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTestBase {
+public abstract class BudgetDistributionAndIncomeIntegrationTest extends KcUnitTestBase {
     protected static final BudgetDecimal AMOUNT_1 = new BudgetDecimal(1000.00);
     protected static final BudgetDecimal AMOUNT_2 = new BudgetDecimal(2000.00);
     protected static final BudgetDecimal AMOUNT_3 = new BudgetDecimal(3000.00);

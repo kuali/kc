@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.web;
 
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";") }))
-public abstract class IrbWebTestBase extends KraWebTestBase {
+//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";") }))
+public abstract class IrbWebTestBase extends KcWebTestBase {
 
 }

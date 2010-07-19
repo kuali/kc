@@ -23,14 +23,8 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
-import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
-import org.kuali.kra.service.impl.adapters.IdentityServiceAdapter;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
-
-import javax.jws.WebParam;
 
 /**
  * This class tests AddAwardProjectPersonRuleImpl

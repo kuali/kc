@@ -3,15 +3,15 @@ package org.kuali.kra.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DocumentService;
 
-public class NihSponsorHandlingIntegrationTest extends KraTestBase {
+public class NihSponsorHandlingIntegrationTest extends KcUnitTestBase {
     private NihSponsorHandlingTestHelper helper;
 
     @Before

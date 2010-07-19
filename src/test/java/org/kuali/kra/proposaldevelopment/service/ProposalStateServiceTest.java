@@ -20,17 +20,17 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Unit Tests for the Proposal State Service Implementation.
  */
-public class ProposalStateServiceTest extends KraTestBase {
+public class ProposalStateServiceTest extends KcUnitTestBase {
     
     /*
      * Workflow states.

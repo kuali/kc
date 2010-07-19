@@ -18,14 +18,19 @@ package org.kuali.kra.award.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.query.QueryBySQL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.award.paymentreports.ReportClass;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.springmodules.orm.ojb.OjbFactoryUtils;
+import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
-public class ReportClassValuesFinderTest extends KraTestBase{
+public class ReportClassValuesFinderTest extends KcUnitTestBase {
     
     ReportClassValuesFinder reportClassValuesFinder;
     List<KeyLabelPair> reportClasses;
@@ -47,7 +52,8 @@ public class ReportClassValuesFinderTest extends KraTestBase{
 
     @Test
     public final void testGetKeyValues() {
-        Assert.assertEquals(6,reportClasses.size());
+        int count = getBusinessObjectService().findAll(ReportClass.class).size();
+        Assert.assertEquals(count, reportClasses.size());
         
         for(KeyLabelPair keyLabelPair:reportClasses){
             Assert.assertNotNull(keyLabelPair.getKey());

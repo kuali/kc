@@ -36,15 +36,15 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * @version $Revision: 1.18 $
  */
 
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_COMM_MEMBERSHIP_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_MEMBERSHIP_ROLE.sql", delimiter = ";")
-            }
-        )
-    )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_COMM_MEMBERSHIP_TYPE.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_MEMBERSHIP_ROLE.sql", delimiter = ";")
+//            }
+//        )
+//    )
 public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
 //public abstract class CommitteeWebTestBase extends IrbWebTestBase {
     

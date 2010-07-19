@@ -15,27 +15,19 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.withdraw.WithdrawCorrespondence;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 /*
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
@@ -51,7 +43,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";")
 }))*/
-public class ProtocolActionCorrespondenceGenerationServiceTest extends KraTestBase {
+public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTestBase {
     
     ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     BusinessObjectService businessObjectService;

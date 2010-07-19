@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.award.paymentreports.specialapproval.foreigntravel;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
@@ -29,11 +32,8 @@ import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * This test class will not be executable until we fix the Rice code where 
@@ -41,7 +41,7 @@ import java.util.GregorianCalendar;
  * guys never read anything about unit testing?
  * 
  */ 
-public class ApprovedForeignTravelBeanTest extends KraTestBase {
+public class ApprovedForeignTravelBeanTest extends KcUnitTestBase {
     private static final String DESTINATION_NAME = "Tokyo, Japan";
     private static final Date START_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis());
     private static final Date END_DATE = new Date(new GregorianCalendar(2009, Calendar.JUNE, 10).getTimeInMillis());

@@ -3,8 +3,8 @@ package org.kuali.kra.award.awardhierarchy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /*
  * Copyright 2005-2010 The Kuali Foundation
@@ -21,7 +21,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class AwardHierarchyServiceImplIntegrationTest extends KraTestBase {
+public class AwardHierarchyServiceImplIntegrationTest extends KcUnitTestBase {
     private AwardHierarchyTestHelper helper;
     private AwardHierarchyService awardHierarchyService;
 

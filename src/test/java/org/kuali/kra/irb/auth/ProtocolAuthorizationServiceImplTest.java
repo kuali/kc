@@ -32,6 +32,7 @@ import org.kuali.kra.service.impl.mocks.MockUnitAuthorizationService;
  * Mock KIM services. The Protocol Authorization Service methods are then invoked and the responses are checked against the expected
  * results.
  */
+@Ignore
 public class ProtocolAuthorizationServiceImplTest {
     
     //private MockKimDatabase database;
