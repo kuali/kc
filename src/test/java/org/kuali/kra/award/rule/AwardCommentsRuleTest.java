@@ -18,18 +18,18 @@ package org.kuali.kra.award.rule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class AwardCommentsRuleTest extends KraTestBase {
+public class AwardCommentsRuleTest extends KcUnitTestBase {
     private static final String ERROR_PATH_PREFIX = "document.awards[0]";
     private static final String VALID_COMMENT = "This comment should pass validation";
     private static final int MAX_COMMENT_LENGTH = 5000;

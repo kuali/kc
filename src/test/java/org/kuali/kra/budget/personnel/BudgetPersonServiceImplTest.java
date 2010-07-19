@@ -15,50 +15,35 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.*;
+import java.util.Calendar;
 
-import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.KcraNoDataTestBase;
-import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.core.*;
-import org.kuali.kra.budget.document.*;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.*;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.PersonAppointment;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TestUtilities;
-import org.kuali.kra.service.*;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.impl.KcPersonServiceImpl;
-import org.kuali.kra.budget.*;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
 import org.kuali.rice.kns.service.impl.ParameterServiceProxyImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-@PerSuiteUnitTestData(
-        @UnitTestData(
-                sqlFiles = {
-                        @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.SQL", delimiter = ";"),
-                        @UnitTestFile(filename = "classpath:sql/dml/load_person_appointments.sql", delimiter = ";")
-                    }))
-public class BudgetPersonServiceImplTest extends KcraNoDataTestBase {
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//                sqlFiles = {
+//                        @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERSON_DATA.SQL", delimiter = ";"),
+//                        @UnitTestFile(filename = "classpath:sql/dml/load_person_appointments.sql", delimiter = ";")
+//                    }))
+public class BudgetPersonServiceImplTest extends KcUnitTestBase {
     
     private BudgetPersonService budgetPersonService;
     private BudgetPersonServiceImpl budgetPersonService2;

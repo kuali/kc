@@ -24,7 +24,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,11 +31,12 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProtocolSubmissionLookupHelperServiceTest extends KraTestBase {
+public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
 
     ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
@@ -74,10 +74,11 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KraTestBase {
         final ProtocolSubmission protocolSubmission = initProtocolSubmission();
 
         final KraAuthorizationService kraAuthorizationService = context.mock(KraAuthorizationService.class);
+        final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(kraAuthorizationService).hasPermission("10000000000", protocolSubmission.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
+            one(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.MODIFY_PROTOCOL);
             will(returnValue(true));
-            one(kraAuthorizationService).hasPermission("10000000000", protocolSubmission.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
+            one(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
             will(returnValue(true));
         }});
         protocolSubmissionLookupableHelperServiceImpl.setKraAuthorizationService(kraAuthorizationService);

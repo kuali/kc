@@ -16,26 +16,21 @@
 package org.kuali.kra.proposaldevelopment.document;
 
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.service.KraPersistenceStructureService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ProposalColumnsToAlterMaintainableImplTest extends KcraNoDataTestBase {
+public class ProposalColumnsToAlterMaintainableImplTest extends KcUnitTestBase {
 
     private ProposalColumnsToAlterMaintainableImpl columnsToAlterMaintainable;
     private Map<String, String> columnToAttrMap;

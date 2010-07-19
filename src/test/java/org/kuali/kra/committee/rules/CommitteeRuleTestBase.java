@@ -19,11 +19,9 @@ import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -32,22 +30,19 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 /**
  * Base class for Committee business rule tests.
  */
-@PerSuiteUnitTestData(
-    @UnitTestData(
-        sqlFiles = {
-            @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
-           ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-        }
-    )
-)
-public abstract class CommitteeRuleTestBase extends KraTestBase {
+//@PerSuiteUnitTestData(
+//    @UnitTestData(
+//        sqlFiles = {
+//            @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";")
+//           ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+//        }
+//    )
+//)
+public abstract class CommitteeRuleTestBase extends KcUnitTestBase {
 
     protected DocumentService documentService = null;
 

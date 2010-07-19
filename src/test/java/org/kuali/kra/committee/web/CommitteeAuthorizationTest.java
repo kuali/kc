@@ -28,6 +28,8 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
     
     private static final String USERNAME = "quickstart";
     private static final String VIEWER_USERNAME = "jtester";
+    private static final String COMMITTEE_ID_1 = Long.toString(System.currentTimeMillis());
+    private static final String COMMITTEE_ID_2 = Long.toString(System.currentTimeMillis()+1);
     
     /***********************************************************************
      * Setup and TearDown
@@ -83,7 +85,7 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testModifyAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee("777");
+        HtmlPage page = createAndSaveCommittee(COMMITTEE_ID_1);
         assertEquals(false, hasError(page));
         page = this.saveDoc(page);
         assertEquals(false, hasError(page));
@@ -110,7 +112,7 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
      */
     @Test
     public void testReadOnlyAuthorization() throws Exception {
-        HtmlPage page = createAndSaveCommittee("999");
+        HtmlPage page = createAndSaveCommittee(COMMITTEE_ID_2);
         String docNbr = this.getDocNbr(page);
         this.closeDoc(page);
         

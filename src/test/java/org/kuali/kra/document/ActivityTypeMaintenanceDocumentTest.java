@@ -27,15 +27,18 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
+    
+    private static final String ACTIVITY_TYPE_CODE_1 = Long.toString(System.currentTimeMillis()%1000);
+    private static final String ACTIVITY_TYPE_CODE_2 = Long.toString((System.currentTimeMillis()+1)%1000);
 
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from ACTIVITY_TYPE where ACTIVITY_TYPE_CODE = '99'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update ACTIVITY_TYPE set description = 'Research' where ACTIVITY_TYPE_CODE = '1'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("commit");
-        sqlDataLoader.runSql();
+//        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from ACTIVITY_TYPE where ACTIVITY_TYPE_CODE = '99'");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("update ACTIVITY_TYPE set description = 'Research' where ACTIVITY_TYPE_CODE = '1'");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("commit");
+//        sqlDataLoader.runSql();
 
         super.tearDown();
     }
@@ -59,7 +62,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
 
         setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.documentHeader.documentDescription", "Activity Type - copy test");
 
-        setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", "99");
+        setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.activityTypeCode", ACTIVITY_TYPE_CODE_1);
         setFieldValue(activityTypeMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.description", "test copy activity type");
                 
         HtmlPage routedPage = clickOn(activityTypeMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Activity Type Maintenance Document");
@@ -70,7 +73,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         ActivityType activityType = (ActivityType)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(activityType.getActivityTypeCode(),"99");
+        assertEquals(activityType.getActivityTypeCode(),ACTIVITY_TYPE_CODE_1);
         assertEquals(activityType.getDescription(),"test copy activity type");
 
 
@@ -110,18 +113,18 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         String documentNumber = getFieldValue(activityTypeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(activityTypeMaintenancePage,"Edit Activity Types New * Activity Type: * Description: ");
         setFieldValue(activityTypeMaintenancePage, "document.documentHeader.documentDescription", "Activity Type - test");
-        setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.activityTypeCode", "99");
+        setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.activityTypeCode", ACTIVITY_TYPE_CODE_2);
         setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.description", "test new activity type");
         HtmlPage routedActivityTypeMaintenanceDocumentPage = clickOn(activityTypeMaintenancePage, "methodToCall.route", "Kuali :: Activity Type Maintenance Document");
         
         assertContains(routedActivityTypeMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedActivityTypeMaintenanceDocumentPage,"New Activity Type: 99 Description: test new activity type");
+        assertContains(routedActivityTypeMaintenanceDocumentPage,"New Activity Type: " + ACTIVITY_TYPE_CODE_2 + " Description: test new activity type");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         ActivityType activityType = (ActivityType)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(activityType.getActivityTypeCode(),"99");
+        assertEquals(activityType.getActivityTypeCode(),ACTIVITY_TYPE_CODE_2);
         assertEquals(activityType.getDescription(),"test new activity type");
 
     }

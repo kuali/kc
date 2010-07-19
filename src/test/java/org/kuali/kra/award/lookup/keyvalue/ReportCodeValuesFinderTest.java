@@ -23,13 +23,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ReportCodeValuesFinderTest extends KcraNoDataTestBase {
+public class ReportCodeValuesFinderTest extends KcUnitTestBase {
     
     ReportCodeValuesFinder reportCodeValuesFinder;
     List<KeyLabelPair> reportCodes;

@@ -70,9 +70,10 @@
         </exec>
     </target>
 	
+	<!-- change this back to run oracle_test when it loads data -->
 	<target name="oracle-test" depends="oracle-init" description="updates the unit test database">
         <exec executable="${sqlplus.location}" dir="oracle">
-            <arg line="${tst.username}/${tst.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
+            <arg line="${tst.username}/${tst.password}@//${db.host}/${db.sid} @oracle_bundled.sql"/>
         </exec>
 	</target>
 	

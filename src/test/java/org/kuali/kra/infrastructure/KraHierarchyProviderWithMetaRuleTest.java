@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.batch.FileXmlDocCollection;
 import org.kuali.rice.kew.batch.XmlDoc;
 import org.kuali.rice.kew.batch.XmlDocCollection;
@@ -36,7 +36,7 @@ import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 
-public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
+public class KraHierarchyProviderWithMetaRuleTest extends KcUnitTestBase  {
     // this matches the hierarchy of meta-rules defined
     // in KRAMetaRuleHierarchy.xml
 
@@ -75,7 +75,7 @@ public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
 //        "</stop>";
 
     protected void approve(String user, Long docId) throws WorkflowException {
-        log.info("Approving as " + user);
+        LOG.info("Approving as " + user);
         WorkflowDocument doc = new WorkflowDocument(new NetworkIdDTO(user), docId);
         doc.approve("approving as " + user);
     }

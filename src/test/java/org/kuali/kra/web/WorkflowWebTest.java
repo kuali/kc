@@ -16,7 +16,7 @@
 package org.kuali.kra.web;
 
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class WorkflowWebTest extends KraWebTestBase {
+public class WorkflowWebTest extends KcWebTestBase {
 
     /**
      * Verify that the Outbox link shows up on the Action List page.

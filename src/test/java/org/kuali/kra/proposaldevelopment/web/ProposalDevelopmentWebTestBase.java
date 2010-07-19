@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -34,7 +34,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.18 $
  */
-public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
+public abstract class ProposalDevelopmentWebTestBase extends KcWebTestBase {
     
     protected static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "abstractsAttachments";
     protected static final String ACTIONS_LINK_NAME = "actions";

@@ -32,6 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "SponsorFormTemplateMaintenanceDocument";
+    private static final String PAGE_NUMBER = Long.toString(System.currentTimeMillis()%1000);
     
     public String getDocTypeName() {
         return DOCTYPE;
@@ -48,14 +49,14 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         setFieldValue(maintenancePage, "document.documentHeader.documentDescription", "SponsorFormTemplate Maint Doc - test");
         setFieldValue(maintenancePage, "document.newMaintainableObject.packageNumber", "1");
         setFieldValue(maintenancePage, "document.newMaintainableObject.pageDescription", "test desc");
-        setFieldValue(maintenancePage, "document.newMaintainableObject.pageNumber", "111");
-        setFieldValue(maintenancePage, "document.newMaintainableObject.sponsorCode", "005626");
+        setFieldValue(maintenancePage, "document.newMaintainableObject.pageNumber", PAGE_NUMBER);
+        setFieldValue(maintenancePage, "document.newMaintainableObject.sponsorCode", "009800");
         setFieldValue(maintenancePage, "document.newMaintainableObject.templateFile", getFilePath(SponsorFormTemplateMaintenanceDocumentTest.class));
        
         HtmlPage routedPage = clickOn(maintenancePage, "methodToCall.route", "Kuali :: Sponsor Form Template");
         
         assertContains(routedPage, "Document was successfully submitted.");
-        assertContains(routedPage,"Package Number: 1 Page Description: test desc Page Number: 111 Sponsor Code: 005626 Attachment: SponsorFormTemplateMaintenanceDocumentTest.class ");
+        assertContains(routedPage,"Package Number: 1 Page Description: test desc Page Number: " + PAGE_NUMBER + " Sponsor Code: 009800 Attachment: SponsorFormTemplateMaintenanceDocumentTest.class ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
@@ -63,7 +64,7 @@ public class SponsorFormTemplateMaintenanceDocumentTest extends MaintenanceDocum
         SponsorFormTemplate sft = (SponsorFormTemplate)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(sft.getPackageNumber(), Integer.valueOf(1));
         assertEquals(sft.getPageDescription(), "test desc");
-        assertEquals(sft.getPageNumber(), Integer.valueOf(111));
-        assertEquals(sft.getSponsorCode(), "005626");
+        assertEquals(sft.getPageNumber(), Integer.valueOf(PAGE_NUMBER));
+        assertEquals(sft.getSponsorCode(), "009800");
     }
 }

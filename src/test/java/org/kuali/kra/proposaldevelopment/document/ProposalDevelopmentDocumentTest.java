@@ -20,9 +20,9 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class tests the ProposalDevelopmentDocument
  */
 
-public class ProposalDevelopmentDocumentTest extends KraTestBase {
+public class ProposalDevelopmentDocumentTest extends KcUnitTestBase {
 
     private DocumentService documentService = null;
     private ProposalDevelopmentService proposalDevelopmentService;

@@ -27,11 +27,13 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestUtil;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -40,7 +42,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 /**
  * WARNING: This test is affected by the side effects other tests cause and will fail if not executed first.
  */
-public class HtmlUnitUtilTest extends KraTestBase {
+public class HtmlUnitUtilTest extends KcWebTestBase {
     private String kraHomePageUrl;
     private ProposalDevelopmentDocument document;
     private static final String PROPOSAL_DOCUMENT_DESC = "ProposalDevelopmentDocumentTest";
@@ -50,11 +52,8 @@ public class HtmlUnitUtilTest extends KraTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        transactionalLifecycle.stop();
-        transactionalLifecycle = null;
         proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        //transactionalLifecycle.start(); 
-        kraHomePageUrl = KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
+        kraHomePageUrl = PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
     }
     
     @Test
@@ -69,11 +68,11 @@ public class HtmlUnitUtilTest extends KraTestBase {
         //quickstart logs in, performs Doc Search and opens the PD
         String quickstartUser = "quickstart";
         WebClient webClient = new WebClient();
-        HtmlPage kraHomePage = KraWebTestUtil.loadPage(webClient, kraHomePageUrl);
+        HtmlPage kraHomePage = KcWebTestUtil.loadPage(webClient, kraHomePageUrl);
         
         Map<String, String> proposalSearchParameters = new HashMap<String, String>();
-        proposalSearchParameters.put(KraWebTestUtil.KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID, docId);
-        HtmlPage docSearchResultsPage = KraWebTestUtil.performDocSearch(kraHomePage, proposalSearchParameters, quickstartUser);
+        proposalSearchParameters.put(KcWebTestUtil.KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID, docId);
+        HtmlPage docSearchResultsPage = KcWebTestUtil.performDocSearch(kraHomePage, proposalSearchParameters, quickstartUser);
        
         final HtmlTable table = (HtmlTable) docSearchResultsPage.getHtmlElementById("row");
         assertNotNull(table);
@@ -134,58 +133,6 @@ public class HtmlUnitUtilTest extends KraTestBase {
 
     public void setDocument(ProposalDevelopmentDocument document) {
         this.document = document;
-    }
-    
-    //HACK HACK HACK - this class should extend KraWebTestBase or have access to static methods containing the logic in KraWebTestBase
-    //************************************copied from KraWebTestBase **********************************************************************
-    /**
-     * Asserts that the given web page contains the given text.
-     * @param page the HTML web page.
-     * @param text the string to look for in the web page.
-     */
-    protected final void assertContains(HtmlPage page, String text) {
-        assertContains(page, text, false);
-    }
-    
-    /**
-     * Asserts that the given web page does <b>not</b> contain the given text.
-     * @param page the HTML web page.
-     * @param text the string to look for in the web page.
-     */
-    protected final void assertDoesNotContain(HtmlPage page, String text) {
-        assertDoesNotContain(page, text, false);
-    }
-    
-    /**
-     * Asserts that the given web page contains the given text.
-     * @param page the HTML web page.
-     * @param text the string to look for in the web page.
-     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
-     */
-    protected final void assertContains(HtmlPage page, String text, boolean strictWhitespace) {
-        if (!strictWhitespace) {
-            final String regex = insertWhitespaceRegex(text);
-            Pattern p = Pattern.compile(regex);
-            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text + "\nas regex:\n" + regex, p.matcher(page.asText()).find()); 
-        } else {
-            assertTrue("page text:\n" + page.asText() + "\n does not contain:\n" + text, page.asText().contains(text));    
-        }
-    }
-    
-    /**
-     * Asserts that the given web page does <b>not</b> contain the given text.
-     * @param page the HTML web page.
-     * @param text the string to look for in the web page.
-     * @param strictWhitespace whether to strictly match the whitespace characters in the text string
-     */
-    protected final void assertDoesNotContain(HtmlPage page, String text, boolean strictWhitespace) {
-        if (!strictWhitespace) {
-            final String regex = insertWhitespaceRegex(text);
-            Pattern p = Pattern.compile(regex);
-            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text + "\nas regex:\n" + regex, !p.matcher(page.asText()).find());
-        } else {
-            assertTrue("page text:\n" + page.asText() + "\n contains:\n" + text, !page.asText().contains(text));    
-        }
     }
     
     /**

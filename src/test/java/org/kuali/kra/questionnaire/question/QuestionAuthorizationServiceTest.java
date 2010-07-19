@@ -16,13 +16,13 @@
 package org.kuali.kra.questionnaire.question;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class QuestionAuthorizationServiceTest extends KraTestBase {
+public class QuestionAuthorizationServiceTest extends KcUnitTestBase {
 
     @Test
     public void permissionModifyQuestionTest() {

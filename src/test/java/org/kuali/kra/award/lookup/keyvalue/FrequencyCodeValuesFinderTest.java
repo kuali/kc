@@ -23,11 +23,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
     
-public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
+public class FrequencyCodeValuesFinderTest extends KcUnitTestBase {
     
     FrequencyCodeValuesFinder frequencyCodeValuesFinder;
     List<KeyLabelPair> frequencyCodes;
@@ -36,7 +36,7 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
     @Before
     public void setUp() throws Exception {        
         super.setUp();
-        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("1","55");
+        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("4","9");
         frequencyCodes = new ArrayList<KeyLabelPair>();        
         validClassReportFrequencies = new ArrayList<ValidClassReportFrequency>();        
     }
@@ -51,7 +51,7 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
     @Test
     public final void testGetKeyValues() {
         frequencyCodes = frequencyCodeValuesFinder.getKeyValues();
-        Assert.assertEquals(4,frequencyCodes.size());
+        Assert.assertEquals(5,frequencyCodes.size());
         
         for(KeyLabelPair keyLabelPair:frequencyCodes){
             Assert.assertNotNull(keyLabelPair.getKey());
@@ -61,6 +61,7 @@ public class FrequencyCodeValuesFinderTest extends KcraNoDataTestBase{
     
     @Test
     public final void testGetRelevantValidClassReportFrequencies(){
+        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("1","55");
         validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "1"));
         validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "13"));
         validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "4"));

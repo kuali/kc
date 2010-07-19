@@ -25,15 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -45,7 +44,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
  */
-public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KraTestBase {
+public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcUnitTestBase {
 
     private DocumentService documentService = null;
     private ParameterService parameterService = null;

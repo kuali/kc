@@ -20,7 +20,6 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -29,6 +28,7 @@ import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Unit tests for the BudgetService interface
  */
-public class BudgetServiceTest extends KraTestBase {
+public class BudgetServiceTest extends KcUnitTestBase {
     
     private BudgetService budgetService;
     private BudgetCommonService budgetCommonService;

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.document;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.SQLDataLoader;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -31,12 +31,12 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     private static final String DOCTYPE = "ValidCalcTypeMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from VALID_CALC_TYPES where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update VALID_CALC_TYPES set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("commit");
-        sqlDataLoader.runSql();
+//        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from VALID_CALC_TYPES where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("update VALID_CALC_TYPES set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("commit");
+//        sqlDataLoader.runSql();
 
         super.tearDown();
     }
@@ -46,6 +46,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     }
 
     @Test
+    @Ignore
     public void testCopyValidCalcTypeMaintenanceDocument() throws Exception {
         HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Calculation Type");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "calcTypeId", "1");
@@ -94,6 +95,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
     }
 
     @Test
+    @Ignore
     public void testEditValidCalcTypeMaintenanceDocument() throws Exception {
         HtmlPage validCalcTypeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Valid Calculation Type");
         setFieldValue(validCalcTypeMaintenanceLookupPage, "calcTypeId", "1");
@@ -136,6 +138,7 @@ public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTes
 
 
     @Test
+    @Ignore
     public void testCreateNewValidCalcTypeMaintenanceDocument() throws Exception {
         HtmlPage validCalcTypeMaintenancePage = getMaintenanceDocumentPage("Valid Calculation Type",
                 "org.kuali.kra.budget.calculator.ValidCalcType", "Kuali :: Valid Calc Types Maintenance Document");

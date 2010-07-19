@@ -25,7 +25,7 @@ import org.kuali.kra.award.home.Award;
  * 
  * This class Tests the methods in AwardAction.java
  */
-
+@Ignore
 public class AwardTimeAndMoneyActionTest {
     
     AwardTimeAndMoneyAction awardTimeAndMoneyAction;

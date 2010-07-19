@@ -28,14 +28,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  */
 public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
 
-    protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
 
     private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ROLODEX_LOOKUP ="org.kuali.kra.bo.NonOrganizationalRolodex";
     private static final String ROLODEX_ID_FIELD = "rolodexId";
-    private static final String EMPLOYEE_ID = "10000000000";
-    private static final String EMPLOYEE_NAME = "Geoff McGregor";
+    private static final String EMPLOYEE_ID = "10000000002";
+    private static final String EMPLOYEE_NAME = "Joe Tester";
     private static final String NON_EMPLOYEE_ID = "1727";
     private static final String NON_EMPLOYEE_NAME = "Ho, Pauline";
     private static final String ADD_MEMBER_BUTTON = "methodToCall.addCommitteeMembership";
@@ -76,9 +75,9 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     public void testAddEmployee() throws Exception {
         membersPage = getEmployee(membersPage);
 
-        assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
+        assertContains(membersPage, EMPLOYEE_NAME);
         membersPage = addMember(membersPage);
-        assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertFalse(hasError(membersPage));
     }
     
     /**
@@ -88,9 +87,9 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     @Test
     public void testAddNonEmployee() throws Exception {
         membersPage = getNonEmployee(membersPage);
-        assertTrue(membersPage.asText().contains(NON_EMPLOYEE_NAME));
+        assertContains(membersPage, NON_EMPLOYEE_NAME);
         membersPage = addMember(membersPage);
-        assertFalse(membersPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertFalse(hasError(membersPage));
     }
     
     /**
@@ -101,9 +100,9 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     @Test
     public void testClearEmployee() throws Exception {
         membersPage = getEmployee(membersPage);
-        assertTrue(membersPage.asText().contains(EMPLOYEE_NAME));
-        membersPage = clickOn(getElementByName(membersPage, CLEAR_BUTTON, true));
-        assertFalse(membersPage.asText().contains(EMPLOYEE_NAME));
+        assertContains(membersPage, EMPLOYEE_NAME);
+        membersPage = clickOnByName(membersPage, CLEAR_BUTTON, true);
+        assertDoesNotContain(membersPage, EMPLOYEE_NAME);
     }
     
     /**

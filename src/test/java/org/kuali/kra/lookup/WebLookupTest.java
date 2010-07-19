@@ -16,7 +16,7 @@
 package org.kuali.kra.lookup;
 
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -28,7 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class WebLookupTest extends KraWebTestBase {
+public class WebLookupTest extends KcWebTestBase {
 
     public WebLookupTest() {
     }

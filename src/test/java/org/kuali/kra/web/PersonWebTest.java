@@ -17,7 +17,7 @@ package org.kuali.kra.web;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Test the Person.
  */
 
-public class PersonWebTest extends KraWebTestBase {
+public class PersonWebTest extends KcWebTestBase {
     
     private static final long SLEEP_TIME = 3000; // 3 seconds
     

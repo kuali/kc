@@ -21,15 +21,15 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests ResearchDocumentBase.
  */
-public class ResearchDocumentBaseTest extends KraTestBase {
+public class ResearchDocumentBaseTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
@@ -59,15 +59,15 @@ public class ResearchDocumentBaseTest extends KraTestBase {
         assertTrue("Should be less than one second difference between dates", diff < 1000);
     }
 
-    @Test public void testPrepareForSaveUser4() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("user4"));
+    @Test public void testPrepareForSaveJtester() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("jtester"));
 
         ResearchDocumentBase researchDocumentBase = new ProposalDevelopmentDocument();
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
         researchDocumentBase.prepareForSave();
 
-        assertEquals("user4", researchDocumentBase.getUpdateUser());
+        assertEquals("jtester", researchDocumentBase.getUpdateUser());
         Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
         assertNotNull(researchDocumentBase.getUpdateTimestamp());
 

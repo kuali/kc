@@ -21,29 +21,25 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.SQLDataLoader;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_protocolpersonnselservicetest_data.sql", delimiter = ";")
-            }
-            )
-            )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_protocolpersonnselservicetest_data.sql", delimiter = ";")
+//            }
+//            )
+//            )
 
-public class ProtocolPersonnelServiceTest extends KcraNoDataTestBase {
+public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
     protected static final String CO_INVESTIGATOR_PERSON_ID = "10000000003";
     protected static final String CO_INVESTIGATOR_NAME = "Nicholas Majors";
     protected static final String CO_INVESTIGATOR_ROLE_ID = "COI";
@@ -75,8 +71,8 @@ public class ProtocolPersonnelServiceTest extends KcraNoDataTestBase {
     
     @After
     public void tearDown() throws Exception {
-        SQLDataLoader testDataUnloader = new SQLDataLoader("classpath:sql/dml/clear_protocolpersonnselservicetest_data.sql", ";");
-        testDataUnloader.runSql();
+//        SQLDataLoader testDataUnloader = new SQLDataLoader("classpath:sql/dml/clear_protocolpersonnselservicetest_data.sql", ";");
+//        testDataUnloader.runSql();
         GlobalVariables.setUserSession(null);
         service = null;
         protocolPersonnelService = null;

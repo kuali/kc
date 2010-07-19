@@ -23,11 +23,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class tests AwardApprovedForeignTravelRuleImpl behavior
  */
-public class AwardApprovedForeignTravelRuleIntegrationTest extends KraTestBase {
+public class AwardApprovedForeignTravelRuleIntegrationTest extends KcUnitTestBase {
     private static final String ERROR_KEY = AwardApprovedForeignTravelRule.APPROVED_FOREIGN_TRAVEL_LIST_ERROR_KEY;
     private static final double ZERO_AMOUNT = 0.00;
     private static final double AMOUNT1 = 100.00;

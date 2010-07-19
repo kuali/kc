@@ -85,8 +85,9 @@ public class ProtocolProtocolServiceTest extends ProtocolWebTestBase{
         assertEquals(protocolDoc.getProtocol().getProtocolNumber(), protocolDoc1.getProtocol().getProtocolNumber());
         assertEquals(protocolDoc.getProtocol().getProtocolId(), protocolDoc1.getProtocol().getProtocolId());
         assertEquals(protocolDoc.getProtocol().getSequenceNumber(), protocolDoc1.getProtocol().getSequenceNumber());
-        assertEquals(protocolDoc.getProtocol().getProtocolType(), protocolDoc1.getProtocol().getProtocolType());
-        assertEquals(protocolDoc.getProtocol().getProtocolStatus(), protocolDoc1.getProtocol().getProtocolStatus());
+     
+        assertEquals(protocolDoc.getProtocol().getProtocolType().getProtocolTypeCode(), protocolDoc1.getProtocol().getProtocolType().getProtocolTypeCode());
+        assertEquals(protocolDoc.getProtocol().getProtocolStatus().getProtocolStatusCode(), protocolDoc1.getProtocol().getProtocolStatus().getProtocolStatusCode());
     }
     
 

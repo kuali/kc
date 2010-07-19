@@ -21,7 +21,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -29,6 +28,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -43,7 +43,7 @@ import org.kuali.rice.test.data.UnitTestFile;
             )
             )
 
-public class ProposalPersonServiceImplTest extends KcraNoDataTestBase{
+public class ProposalPersonServiceImplTest extends KcUnitTestBase{
     
     private ProposalPersonService service;
     private ProposalPersonServiceImpl service2;

@@ -17,6 +17,7 @@ package org.kuali.kra.test.infrastructure;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,14 +63,17 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     
+    protected boolean transactional = true;
+    
     /**
      * This method executes before each unit test and ensures the necessary lifecycles have been started
      */
     @Before
     public final void baseBeforeTest() {
         logBeforeRun();
-        LIFECYCLE.startPerTest();
+        LIFECYCLE.startPerTest(transactional);
         GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
     }
 
@@ -79,6 +83,7 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
     @After
     public final void baseAfterTest() {
         GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
         logAfterRun();
@@ -243,4 +248,5 @@ public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
         assertNotNull(fileUrl);
         return fileUrl.getPath();
     }
+
 }

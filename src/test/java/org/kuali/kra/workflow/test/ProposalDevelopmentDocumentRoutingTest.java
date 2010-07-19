@@ -21,10 +21,10 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class ProposalDevelopmentDocumentRoutingTest extends KraTestBase {
+public class ProposalDevelopmentDocumentRoutingTest extends KcUnitTestBase {
     private DocumentService documentService = null;
     
     private ProposalDevelopmentService proposalDevelopmentService;

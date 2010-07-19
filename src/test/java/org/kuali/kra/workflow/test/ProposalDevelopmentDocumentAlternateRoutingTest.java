@@ -16,17 +16,14 @@
  */
 package org.kuali.kra.workflow.test;
 
-import java.io.File;
 import java.sql.Date;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
@@ -37,33 +34,31 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
-import org.springframework.core.io.ClassPathResource;
 
 @Ignore
-public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase {
+public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestBase {
     private DocumentService documentService = null;
-    private KraKEWXmlDataLoaderLifecycle customKEWLifecycle = null;
-    private File xmlBackupDir = null;
+//    private KraKEWXmlDataLoaderLifecycle customKEWLifecycle = null;
+//    private File xmlBackupDir = null;
     private static final String WORKFLOW_ADMIN_GROUP_ID = "1";
     private static final String USER_PRINCIPLE_ID = "jtester";
         
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transactionalLifecycle.stop();
-        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
-        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
-        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
-        xmlBackupDir.mkdir();
-        
-        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
-        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
-
-        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
-        customKEWLifecycle.start();
-        transactionalLifecycle.start();
+//        transactionalLifecycle.stop();
+//        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
+//        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
+//        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
+//        xmlBackupDir.mkdir();
+//        
+//        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
+//        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
+//
+//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
+//        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
+//        customKEWLifecycle.start();
+//        transactionalLifecycle.start();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
     }  
@@ -72,18 +67,18 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         documentService = null;
-        customKEWLifecycle.stop();
-        customKEWLifecycle = null;
-        
-        transactionalLifecycle.stop();
-        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        //FIXME: kew file reorg
-        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
-        customKEWLifecycle.start();
-
-        FileUtils.deleteDirectory(xmlBackupDir);
+//        customKEWLifecycle.stop();
+//        customKEWLifecycle = null;
+//        
+//        transactionalLifecycle.stop();
+//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
+//        //FIXME: kew file reorg
+//        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
+//        customKEWLifecycle.start();
+//
+//        FileUtils.deleteDirectory(xmlBackupDir);
         GlobalVariables.setErrorMap(new ErrorMap());
-        stopLifecycles(this.perTestLifeCycles);
+//        stopLifecycles(this.perTestLifeCycles);
         logAfterRun();
     }
     

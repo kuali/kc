@@ -15,23 +15,19 @@
  */
 package org.kuali.kra.workflow.test;
 
-import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
-import org.kuali.rice.core.lifecycle.Lifecycle;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
@@ -43,8 +39,6 @@ import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
-import org.springframework.core.io.ClassPathResource;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -82,38 +76,38 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     private static final String WORKFLOW_ADMIN_GROUP_ID = "1";
     private static final String USER_PRINCIPLE_ID = "jtester";
     
-    private Lifecycle customKEWLifecycle = null;
+//    private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
     private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
     private static final String BUTTON_SAVE = "save";
 
-    private File xmlBackupDir = null;
+//    private File xmlBackupDir = null;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transactionalLifecycle.stop();
-        
-        /* Whatever this is trying to do isn't working - all of the tests run after this one
-         * that rely on ProposalDevelopmentDocument/Rules fail.
-         * 
-         * For now I'm just going to re-run the whole KEWXmlDataLoaderLifecycle in tearDown() instead of the 'revert' directory.
-         * There's a Jira to clean this test up - KRACOEUS-2122
-         */
-        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
-        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
-        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
-        xmlBackupDir.mkdir();
-        
-        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
-        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
-
-        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
-        customKEWLifecycle.start();
-        transactionalLifecycle.start();
+//        transactionalLifecycle.stop();
+//        
+//        /* Whatever this is trying to do isn't working - all of the tests run after this one
+//         * that rely on ProposalDevelopmentDocument/Rules fail.
+//         * 
+//         * For now I'm just going to re-run the whole KEWXmlDataLoaderLifecycle in tearDown() instead of the 'revert' directory.
+//         * There's a Jira to clean this test up - KRACOEUS-2122
+//         */
+//        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
+//        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
+//        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
+//        xmlBackupDir.mkdir();
+//        
+//        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
+//        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
+//
+//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
+//        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
+//        customKEWLifecycle.start();
+//        transactionalLifecycle.start();
         setProposalDevelopmentPage(buildProposalDevelopmentPage());
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         
@@ -124,19 +118,19 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         
         GlobalVariables.setUserSession(null);
 
-        customKEWLifecycle.stop();
-        customKEWLifecycle = null;
-        
-        transactionalLifecycle.stop();
-        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-        //FIXME: kew file reorg
-        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
-        customKEWLifecycle.start();
-
-        FileUtils.deleteDirectory(xmlBackupDir);
+//        customKEWLifecycle.stop();
+//        customKEWLifecycle = null;
+//        
+//        transactionalLifecycle.stop();
+//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
+//        //FIXME: kew file reorg
+//        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
+//        customKEWLifecycle.start();
+//
+//        FileUtils.deleteDirectory(xmlBackupDir);
         
         GlobalVariables.setErrorMap(new ErrorMap());
-        stopLifecycles(this.perTestLifeCycles);
+//        stopLifecycles(this.perTestLifeCycles);
         logAfterRun();
     }
 

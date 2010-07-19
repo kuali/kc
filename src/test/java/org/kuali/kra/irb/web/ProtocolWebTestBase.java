@@ -28,9 +28,6 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
@@ -40,19 +37,19 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 /**
  * Abstract Protocol Web Test base class provides common functionalities required by extended class.
  */
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_GROUP.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";") }))
+//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_GROUP.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE_GROUP.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";") }))
 public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     
     protected static final String PERSONNEL_LINK_NAME = "personnel";
@@ -92,9 +89,9 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
         DOCUMENT_DESCRIPTION("document.documentHeader.documentDescription", DEFAULT_DOCUMENT_DESCRIPTION),
         PROTOCOL_TYPE_CODE("document.protocolList[0].protocolTypeCode", PROTOCOL_TYPE_CODE_STR),
         PROTOCOL_TITLE("document.protocolList[0].title", PROTOCOL_TITLE_STR),
-        PROTOCOL_PI_ID("protocolHelper.personId", "10000000003"),
-        PROTOCOL_PI_ID1("protocolHelper.principalInvestigatorId", "10000000003"),
-        PROTOCOL_PI_ID2("document.protocolList[0].principalInvestigatorId", "10000000003"),
+        PROTOCOL_PI_ID("protocolHelper.personId", "10000000004"),
+        PROTOCOL_PI_ID1("protocolHelper.principalInvestigatorId", "10000000004"),
+        PROTOCOL_PI_ID2("document.protocolList[0].principalInvestigatorId", "10000000004"),
         PROTOCOL_PI_NAME("protocolHelper.principalInvestigatorName", "Nicholas Majors"),
         PROTOCOL_LEAD_UNIT_NUM("protocolHelper.leadUnitNumber", "000001");
                 

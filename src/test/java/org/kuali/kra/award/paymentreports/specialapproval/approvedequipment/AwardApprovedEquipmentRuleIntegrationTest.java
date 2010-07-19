@@ -24,17 +24,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rules.SoftError;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests AwardApprovedEquipmentRuleImpl behavior
  */
-public class AwardApprovedEquipmentRuleIntegrationTest extends KraTestBase {
+public class AwardApprovedEquipmentRuleIntegrationTest extends KcUnitTestBase {
     private static final double ONE_PENNY = 0.01;
     private static final double FEDERAL_MIN_AMOUNT = 100.00;
     private static final double INSTITUTE_MIN_AMOUNT = 50.00;

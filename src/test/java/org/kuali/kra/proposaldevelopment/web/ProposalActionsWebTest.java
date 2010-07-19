@@ -65,9 +65,9 @@ public class ProposalActionsWebTest extends ProposalDevelopmentWebTestBase {
         ProposalDevelopmentDocument propDevDoc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
         if (propDevDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
-            log.debug("Saved document has opportunity["+propDevDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()+"]");
+            LOG.debug("Saved document has opportunity["+propDevDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId()+"]");
         } else {
-            log.debug("Saved document has opportunity is null");
+            LOG.debug("Saved document has opportunity is null");
         }
         
         HtmlPage proposalActionsPage = clickOn(page3, PROPOSAL_ACTIONS_TAB_NAME);

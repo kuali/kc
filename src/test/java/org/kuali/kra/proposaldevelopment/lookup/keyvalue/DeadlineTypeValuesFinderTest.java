@@ -53,5 +53,6 @@ public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValue
         testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("P", "Postmark"));
         testKeyValues.add(new KeyLabelPair("R", "Receipt"));
+        testKeyValues.add(new KeyLabelPair("T", "Target"));
     }
 }

@@ -22,7 +22,7 @@ public interface KcUnitTestLifecycle {
     /**
      * This method starts the "per test" portion of the lifecycle.
      */
-    public void startPerTest();
+    public void startPerTest(boolean transactional);
 
     /**
      * This method stops the "per test" portion of the lifecycle

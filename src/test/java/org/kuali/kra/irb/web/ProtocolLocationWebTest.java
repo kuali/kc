@@ -38,7 +38,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
 
     protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor";
     protected static final String ADD_LOCATION = "methodToCall.addProtocolLocation.anchor";
-    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor4";
+    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor5";
     protected static final String ERROR_PROTOCOL_WITHOUT_ORGANIZATION = "At least one organization must be entered.";
 
     /**
@@ -150,9 +150,10 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testClearAddress() throws Exception{
-        assertContains(protocolPage, ADDRESS_LINE_1);
+        HtmlPage page = clickOnExpandAll(protocolPage);
+        assertContains(page, ADDRESS_LINE_1);
         //clear existing address
-        HtmlPage pageAfterClearAddress = clickOn(protocolPage, CLEAR_ADDRESS);
+        HtmlPage pageAfterClearAddress = clickOn(page, CLEAR_ADDRESS);
         assertDoesNotContain(pageAfterClearAddress, ADDRESS_LINE_1);
     }
     
