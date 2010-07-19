@@ -112,27 +112,16 @@ public abstract class InstitutionalProposalWebTestBase extends KcWebTestBase {
         HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
         HtmlTable table = (HtmlTable) getElement(resultsPage, "row");
-        HtmlAnchor anchor;
         HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
         List rows = body.getRows();
 
         HtmlTableRow row = (HtmlTableRow) rows.get(0);
         List cells = row.getCells();
         HtmlTableCell cell = (HtmlTableCell) cells.get(0);
-        anchor = (HtmlAnchor) getFirstChild(cell);
+        HtmlAnchor anchor = (HtmlAnchor) getFirstChild(cell);
         HtmlPage returnPage = clickOn(anchor);
         
         return returnPage;
-    }
-
-    /**
-     * Web test tear down overloading.
-     * 
-     * @see org.kuali.kra.KraWebTestBase#tearDown()
-     */
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     /**
