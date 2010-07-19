@@ -32,16 +32,20 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.impl.KraDocumentServiceImpl;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -93,7 +97,50 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     protected boolean isValidSave(CommitteeForm committeeForm) {
         return true;
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#close(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        doProcessingAfterPost(committeeForm, request);
+        ActionForward actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+
+        // only want to prompt them to save if they already can save
+        if (canSave(committeeForm)) {
+            Object question = getQuestion(request);
+            // logic for close question
+            if (question == null) {
+                // ask question if not already asked
+                return this.performQuestionWithoutInput(mapping, form, request, response,
+                        KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, getKualiConfigurationService().getPropertyString(
+                                RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION,
+                        KNSConstants.MAPPING_CLOSE, "");
+            } else {
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question))
+                        && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    // if yes button clicked - save the doc
+                    getKraDocumentService().saveDocument(committeeForm.getDocument());
+                }
+                // else go to close logic below
+            }
+        } else {
+            actionForward = mapping.findForward(RiceConstants.MAPPING_BASIC);                    
+        }
+
+        return actionForward;
+    }
+
+    private KraDocumentServiceImpl getKraDocumentService() {
+        return ((KraDocumentServiceImpl) KraServiceLocator.getService("kraDocumentService"));
+
+    }
+
     /**
      * We override this method to add in support for multi-lookups.
      * 
