@@ -320,7 +320,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final HtmlPage clickOnLookup(HtmlPage page, String tag) throws IOException {
         HtmlImageInput element = getLookup(page, tag);
-        assertTrue("element is null", element != null);
+        assertTrue("tag " + tag + " is null, page: " + page.asText(), element != null);
 
         return clickOn(element);
     }
@@ -337,7 +337,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final HtmlPage clickOnExpandAll(HtmlPage page) throws IOException {
         HtmlElement element = getElementByName(page, "methodToCall.showAllTabs");
-        assertTrue("element is null", element != null);
+        assertTrue("element " + "methodToCall.showAllTabs" + " is null, page: " + page.asText(), element != null);
 
         return clickOn(element);
     }
@@ -354,7 +354,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final HtmlPage clickOnCollapseAll(HtmlPage page) throws IOException {
         HtmlElement element = getElementByName(page, "methodToCall.hideAllTabs");
-        assertTrue("element is null", element != null);
+        assertTrue("element " + "methodToCall.hideAllTabs" + " is null, page: " + page.asText(), element != null);
 
         return clickOn(element);
     }
@@ -473,7 +473,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final void assertSelectOptionsSize(HtmlPage page, String elementId, int size) {
         HtmlElement element = page.getHtmlElementById(elementId);
-        assertTrue("element is null", element != null);
+        assertTrue("element " + elementId + " is null, page: " + page.asText(), element != null);
 
         if (element instanceof HtmlSelect) {
             HtmlSelect selectField = (HtmlSelect) element;
@@ -734,7 +734,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = getElement(page, fieldId);
-        assertTrue("element is null", element != null);
+        assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
         
         if(element == null &&  page != null && LOG.isDebugEnabled()) {
             LOG.debug(createExpectedFieldNotFoundMessage(page, fieldId));
@@ -876,7 +876,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
         String fieldValue = null;
 
         HtmlElement element = getElement(page, fieldId);
-        assertTrue("element is null", element != null);
+        assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
 
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -1514,7 +1514,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
     protected final HtmlTable getTable(HtmlPage page, String id) {
         HtmlTable table = null;
         HtmlElement element = getElement(page, id);
-        assertTrue("element is null", element != null);
+        assertTrue("element " + id + " is null, page: " + page.asText(), element != null);
 
         if (element instanceof HtmlTable) {
             table = (HtmlTable) element;
