@@ -29,9 +29,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * This is the integration test for protocol personnel tab. 
  */
-@SuppressWarnings("unchecked")
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLE_MAPPING.sql", delimiter = ";")}))
+//@SuppressWarnings("unchecked")
+//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLE_MAPPING.sql", delimiter = ";")}))
 public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     
     private HtmlPage personnelPage;
@@ -40,7 +40,7 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     private static final String PERSONNEL_TAB_PAGE = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel";
     private static final String PERSON_LOOKUP = "org.kuali.kra.bo.KcPerson";
     private static final String PERSON_ID_FIELD = "personId";
-    private static final String CO_INVESTIGATOR_PERSON_ID = "10000000004";
+    private static final String CO_INVESTIGATOR_PERSON_ID = "10000000005";
     private static final String CO_INVESTIGATOR_NAME = "Inez Chew";
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
     private static final String NEW_PERSON_NAME_FIELD = "personnelHelper.newProtocolPerson.personName";
@@ -93,7 +93,7 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testPrincipalInvestigatorExists() throws Exception{
-        assertTrue(getPersonnelPage().asText().contains(PRINCIPAL_INVESTIGATOR_NAME));
+        assertContains(getPersonnelPage(),PRINCIPAL_INVESTIGATOR_NAME);
     }
     
     /**
@@ -102,11 +102,11 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testAddCoInvestigator() throws Exception {
-        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertDoesNotContain(personnelPage, CO_INVESTIGATOR_NAME);
         HtmlPage personnelPage = getPerson();
-        assertTrue(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertContains(personnelPage,CO_INVESTIGATOR_NAME);
         personnelPage = addPerson(personnelPage, CO_INVESTIGATOR_ROLE_ID);
-        assertFalse(personnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertDoesNotContain(personnelPage, ERRORS_FOUND_ON_PAGE);
         saveAndSearchDoc(personnelPage);
     }
     
@@ -117,13 +117,13 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
      */
     @Test
     public void testClearPerson() throws Exception {
-        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertDoesNotContain(personnelPage,CO_INVESTIGATOR_NAME);
         HtmlPage personnelPage = getPerson();
         setFieldValue(personnelPage,NEW_PERSON_ROLE_ID_FIELD, CO_INVESTIGATOR_ROLE_ID);
-        assertTrue(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertContains(personnelPage,CO_INVESTIGATOR_NAME);
         
         personnelPage = clickOn(getElementByName(personnelPage, CLEAR_PERSON_BUTTON, true));
-        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertDoesNotContain(personnelPage,CO_INVESTIGATOR_NAME);
     }
     
     /**
@@ -134,9 +134,9 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     @Test
     public void testAddUnitForPerson() throws Exception {
         HtmlPage personnelPage = getPersonnelPage();
-        assertFalse(personnelPage.asText().contains(UNIT_NUMBER));
+        assertDoesNotContain(personnelPage,UNIT_NUMBER);
         personnelPage = addProtocolUnit(personnelPage, NEW_PERSON1_UNIT_FIELD);
-        assertTrue(personnelPage.asText().contains(UNIT_NUMBER));
+        assertContains(personnelPage,UNIT_NUMBER);
         saveAndSearchDoc(personnelPage);
     }
     
@@ -149,9 +149,9 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
     public void testDeleteUnitFromPerson() throws Exception {
         HtmlPage personnelPage = getPersonnelPage();
         personnelPage = addProtocolUnit(personnelPage, NEW_PERSON1_UNIT_FIELD);
-        assertTrue(personnelPage.asText().contains(UNIT_NUMBER));
+        assertContains(personnelPage,UNIT_NUMBER);
         personnelPage = clickOn(getElementByName(personnelPage, DELETE_UNIT_BUTTON, true));
-        assertFalse(personnelPage.asText().contains(UNIT_NUMBER));
+        assertDoesNotContain(personnelPage,UNIT_NUMBER);
         saveAndSearchDoc(personnelPage);
     }
 
@@ -181,10 +181,10 @@ public class ProtocolPersonnelWebTest extends ProtocolWebTestBase{
         personnelPage = addPerson(personnelPage, CO_INVESTIGATOR_ROLE_ID);
         personnelPage = addProtocolUnit(personnelPage, NEW_PERSON2_UNIT_FIELD);
         personnelPage = savePage(personnelPage);
-        assertTrue(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertContains(personnelPage,CO_INVESTIGATOR_NAME);
         personnelPage = deletePerson(personnelPage, PERSON_COI_DELETE_FLAG);
         personnelPage = savePage(personnelPage);
-        assertFalse(personnelPage.asText().contains(CO_INVESTIGATOR_NAME));
+        assertDoesNotContain(personnelPage,CO_INVESTIGATOR_NAME);
     }
 
     
