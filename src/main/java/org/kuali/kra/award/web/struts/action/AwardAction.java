@@ -777,6 +777,7 @@ public class AwardAction extends BudgetParentActionBase {
         newAwardAmountInfo.setAntDistributableAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
         newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
         newAwardAmountInfo.setObligatedChange(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
+        newAwardAmountInfo.setAnticipatedChange(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
         newAwardAmountInfo.setOriginatingAwardVersion(rootAward.getSequenceNumber());
         rootAward.getAwardAmountInfos().add(newAwardAmountInfo);
         getBusinessObjectService().save(rootAward);

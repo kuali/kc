@@ -310,6 +310,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }
         return dateInfoHistoryList;
     }
+    
 
     @SuppressWarnings("unchecked")
     private List<AwardAmountInfoHistory> captureInitialTransactionInfo(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {

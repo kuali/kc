@@ -54,11 +54,17 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
         List<Award> awardItems = new ArrayList<Award>();
-        List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();        
-        List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
-                awardAmountTransactionItems, awardItems, transactionDetailItems);
-        //doc.setPendingTransactions(new ArrayList<PendingTransaction>());
-        performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
+        List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
+        //if Single node, we don't need to process transactions since they have already been processed when created.
+        if (doc.getAwardHierarchyNodes().size() > 1) {
+            List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
+                    awardAmountTransactionItems, awardItems, transactionDetailItems);
+            performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
+        }else {
+            businessObjectService.save(transactionDetailItems);
+            businessObjectService.save(awardItems);
+            businessObjectService.save(doc);
+        }
     }
 
     /**
@@ -126,6 +132,35 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             awardHierarchyNode.getValue().setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
             awardHierarchyNode.getValue().setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());        
         }
+        
+        List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
+        return awardAmountTransactions;
+    }
+    
+    public List<AwardAmountTransaction> processSingleNodeMoneyTransaction(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
+            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
+        List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
+        List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
+        updatedPendingTransactions.addAll(doc.getPendingTransactions());
+                
+        PendingTransaction pendingTransaction = doc.getPendingTransactions().get(doc.getPendingTransactions().size() - 1);
+        
+        Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
+        AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
+        AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
+        AwardHierarchyNode parentNode = new AwardHierarchyNode();
+        //
+        if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            processPendingTransactionWhenSourceIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                    , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, destinationAwardNode);   
+            
+            //
+        }else if(StringUtils.equalsIgnoreCase(pendingTransaction.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            processPendingTransactionWhenDestinationIsExternal(doc, newAwardAmountTransaction, updatedPendingTransactions, transactionDetailItems
+                    , awardAmountTransactionItems, awardItems, pendingTransaction, awardHierarchyNodes, sourceAwardNode); 
+        }
+        updatedPendingTransactions.remove(pendingTransaction);
+        pendingTransactionsToBeDeleted.add(pendingTransaction);
         
         List<AwardAmountTransaction> awardAmountTransactions = prepareAwardAmountTransactionsListForPersistence(awardAmountTransactionItems);
         return awardAmountTransactions;
