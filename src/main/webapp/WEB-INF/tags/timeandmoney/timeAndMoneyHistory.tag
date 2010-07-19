@@ -69,6 +69,9 @@
 						        	<c:when test="${awardAmountInfoHistory.transactionType == 'DATE'}">
 						        		<c:out value="No Cost Extension" />
 						        	</c:when>
+						        	<c:when test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
+						        		<c:out value="Single Node Money Transaction" />
+						        	</c:when>
 						        	<c:otherwise>
 						        		<c:out value="Initial Transaction" />
 						        	</c:otherwise>
@@ -152,14 +155,23 @@
 		        		</td>		        		
 	        		</tr>
 	        			<c:if test="${awardAmountInfoHistory.transactionType == 'MONEY'}">
-	        			<tr>
-		        			<td colspan="10">
-		        			<div>
-		        				<kra-timeandmoney:transactionDetails awardAmountInfoHistory="${awardAmountInfoHistory}" />
-		        			</div>
-		        			</td>		
-	        			</tr>
-	        		</c:if>	
+		        			<tr>
+			        			<td colspan="10">
+			        			<div>
+			        				<kra-timeandmoney:transactionDetails awardAmountInfoHistory="${awardAmountInfoHistory}" />
+			        			</div>
+			        			</td>		
+		        			</tr>
+		        		</c:if>	
+		        		<c:if test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
+		        			<tr>
+			        			<td colspan="10">
+			        			<div>
+			        				<kra-timeandmoney:transactionDetails awardAmountInfoHistory="${awardAmountInfoHistory}" />
+			        			</div>
+			        			</td>		
+		        			</tr>
+		        		</c:if>	
 				</c:forEach>
 			</c:forEach>
         </c:forEach> 

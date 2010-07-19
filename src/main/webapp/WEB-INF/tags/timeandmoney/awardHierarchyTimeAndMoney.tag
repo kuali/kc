@@ -124,6 +124,7 @@
 	
 		<c:if test="${KualiForm.inSingleNodeHierarchy}" >
 			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
+			<input type="hidden" id="inSingleNodeHierarchy" name="inSingleNodeHierarchy" value="1" />
     		<table cellpadding="0" cellspacing="0" summary="">	
     			
 			<tr>
@@ -176,8 +177,12 @@
 			<c:set var="finalExpirationDateProperty" value="${tempNode.finalExpirationDate}" />  
 			<c:set var="currentFundEffectiveDateProperty" value="${tempNode.currentFundEffectiveDate}" />
 			<c:set var="obligationExpirationDateProperty" value="${tempNode.obligationExpirationDate}" />
+			<c:set var="amountObligatedToDateProperty" value="${tempNode.amountObligatedToDate}" />
+			<c:set var="anticipatedTotalAmountProperty" value="${tempNode.anticipatedTotalAmount}" />
 			${kfunc:registerEditableProperty(KualiForm, finalExpirationDateProperty)}  
 			${kfunc:registerEditableProperty(KualiForm, currentFundEffectiveDateProperty)}
+			${kfunc:registerEditableProperty(KualiForm, obligationExpirationDateProperty)}  
+			${kfunc:registerEditableProperty(KualiForm, amountObligatedToDateProperty)}  
 			${kfunc:registerEditableProperty(KualiForm, obligationExpirationDateProperty)}  
 		</c:forEach> 
 		<table style="border: medium none ; width: 100%; border-collapse: collapse;">

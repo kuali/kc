@@ -152,6 +152,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].currentFundEffectiveDate");
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].finalExpirationDate");
             this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligationExpirationDate");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].amountObligatedToDate");
+            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalAmount");
             temp++;
         }
     }
