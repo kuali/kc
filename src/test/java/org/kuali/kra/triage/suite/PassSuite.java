@@ -405,7 +405,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
     org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
-    org.kuali.kra.irb.web.ProtocolActionsWebTest.class
+    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */
