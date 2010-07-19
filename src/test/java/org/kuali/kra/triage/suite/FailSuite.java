@@ -195,28 +195,19 @@ import org.junit.runners.Suite.SuiteClasses;
     //these are causing CI to fail but pass locally...moving them to failure suite to clean up CI.
     //these will need to be investigated and fixed like all the other failures at some point
     org.kuali.kra.budget.web.BudgetSummaryWebTest.class,
-    //org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
+   
     
     //FROM HTMLUNIT UPGRADE START
-    org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDeliveryInfoWebTest.class,
     org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
-    org.kuali.kra.irb.web.ProtocolLocationWebTest.class,
     org.kuali.kra.proposaldevelopment.web.DeliveryInfoPanelWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardDataValidationWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardAttachmentsWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardCommentWebTest.class,
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
-    org.kuali.kra.irb.web.ProtocolParticipantPanelWebTest.class,
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
-    org.kuali.kra.irb.web.ProtocolStatusAndDatesWebTest.class,
     org.kuali.kra.meeting.MeetingWebTest.class,
-    org.kuali.kra.committee.web.CommitteeMembershipWebTest.class,
-    org.kuali.kra.irb.web.ProtocolFundingSourceWebTest.class,
     //FROM HTMLUNIT UPGRADE END
     
     //keep at bottom - somehow breaks the entire suite
@@ -234,6 +225,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.committee.service.CommitteeAuthorizationServiceImplTest.class,
     org.kuali.kra.committee.rules.CommitteeMembershipAddRuleTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
+    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class,
     org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class,
     org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
     org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
@@ -258,6 +250,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
     org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
+    org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     
     /*** Moved from To Fix suite */
     /***** complicated sql needs to be loaded in. Damien thinks will
@@ -266,8 +259,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.ProtocolDaoOjbTest.class, 
     //assertion error
     org.kuali.kra.irb.permission.ProtocolPermissionsRuleTest.class,
-    //assertion error
-    org.kuali.kra.irb.protocol.summary.ProtocolSummaryTest.class,
     // The following uses comparator that returns 46 instead of 1
     org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparatorTest.class,
     // assertion error for below

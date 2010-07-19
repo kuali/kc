@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.htmlunitwebtest;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
