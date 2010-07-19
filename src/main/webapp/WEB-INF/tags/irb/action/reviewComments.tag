@@ -80,23 +80,22 @@
                 </tr>
                 <c:set var="displayCount" value="0"/>                                        
                 <c:forEach var="comment" items="${bean.comments}" varStatus="status">
-                	<c:set var="doHide" value="${comment.protocolId != bean.protocolId}" />
-                    <tr <c:choose>
-                        		<c:when test="${doHide == true }">
-                        			<c:set var="displayCount" value="${displayCount + 1}"/>
-                        			style="display:none"
-                        		</c:when>
-                        	</c:choose>>
+                	<c:set var="styleStr" value=""/>
+                	<c:set var="doHide" value="${comment.protocolId != bean.protocolId}" /> 
+                	<c:choose>
+           	    		<c:when test="${doHide == true }">
+                   			<c:set var="styleStr" value="style='display:none'"/>
+                   		</c:when>
+                   		<c:otherwise>
+                   			<c:set var="displayCount" value="${displayCount + 1}"/>
+                   		</c:otherwise>
+                   	</c:choose>
+                	
+                    <tr ${styleStr}>
                     	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
                     	
                         <th>
-                        	<%--${status.index + 1} --%>
-                        	<c:choose>
-                        		<c:when test="${doHide == false }">
-                        			<c:set var="displayCount" value="${displayCount + 1}"/>
-                        			${displayCount }
-                        		</c:when>
-                        	</c:choose>
+                        	<c:if test="${doHide == false }">${displayCount}</c:if>
                         </th>
 
                         <c:choose>
