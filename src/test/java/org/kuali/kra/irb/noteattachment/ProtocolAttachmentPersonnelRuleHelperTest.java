@@ -47,10 +47,40 @@ public class ProtocolAttachmentPersonnelRuleHelperTest {
     }
     
     /**
-     * Tests an invalid person/type combination.
+     * Tests an invalid person/type combination where the attachment contains the same id as an attachment in the Protocol.
      */
     @Test
-    public void duplicateTypePersonInvalid() {
+    public void duplicateTypePersonSameAttachmentInvalid() {
+        ProtocolAttachmentPersonnel attachmentToValidate = this.getAttachmentToValidate();
+        
+        Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
+        
+        List<ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
+        ProtocolAttachmentPersonnel attachment1 = new ProtocolAttachmentPersonnel();
+        attachment1.setId(1L);
+        attachment1.setType(new ProtocolAttachmentType("1", "a desc"));
+        ProtocolPerson person = new ProtocolPerson();
+        person.setProtocolPersonId(1);
+        attachment1.setPerson(person);
+        attachments.add(attachment1);
+        
+        protocol.setAttachmentPersonnels(attachments);
+        
+        ProtocolAttachmentService service = this.context.mock(ProtocolAttachmentService.class);
+        ProtocolAttachmentPersonnelRuleHelper helper = new ProtocolAttachmentPersonnelRuleHelper(service);
+        
+        boolean valid = helper.duplicateTypePerson(attachmentToValidate, protocol);
+        
+        this.context.assertIsSatisfied();
+        
+        Assert.assertThat("Should not be valid", valid, is(false));
+    }
+    
+    /**
+     * Tests an invalid person/type combination where the attachment contains a different id from an attachment in the Protocol.
+     */
+    @Test
+    public void duplicateTypePersonDiffAttachmentInvalid() {
         ProtocolAttachmentPersonnel attachmentToValidate = this.getAttachmentToValidate();
                
         Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
@@ -125,36 +155,6 @@ public class ProtocolAttachmentPersonnelRuleHelperTest {
         person.setProtocolPersonId(2);
         attachment1.setPerson(person);
         
-        attachments.add(attachment1);
-        
-        protocol.setAttachmentPersonnels(attachments);
-        
-        ProtocolAttachmentService service = this.context.mock(ProtocolAttachmentService.class);
-        ProtocolAttachmentPersonnelRuleHelper helper = new ProtocolAttachmentPersonnelRuleHelper(service);
-        
-        boolean valid = helper.duplicateTypePerson(attachmentToValidate, protocol);
-        
-        this.context.assertIsSatisfied();
-        
-        Assert.assertThat("Should be valid", valid, is(true));
-    }
-    
-    /**
-     * Tests an valid person/type combination where the attachment contains the same id as an attachment in the Protocol.
-     */
-    @Test
-    public void duplicateTypePersonValidSameAttachment() {
-        ProtocolAttachmentPersonnel attachmentToValidate = this.getAttachmentToValidate();
-        
-        Protocol protocol = ProtocolTestUtil.getProtocol(this.context);
-        
-        List<ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
-        ProtocolAttachmentPersonnel attachment1 = new ProtocolAttachmentPersonnel();
-        attachment1.setId(1L);
-        attachment1.setType(new ProtocolAttachmentType("1", "a desc"));
-        ProtocolPerson person = new ProtocolPerson();
-        person.setProtocolPersonId(1);
-        attachment1.setPerson(person);
         attachments.add(attachment1);
         
         protocol.setAttachmentPersonnels(attachments);

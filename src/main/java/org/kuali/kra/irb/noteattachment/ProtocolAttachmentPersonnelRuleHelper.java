@@ -81,31 +81,21 @@ class ProtocolAttachmentPersonnelRuleHelper {
      * @return true is valid.
      */
     boolean duplicateTypePerson(final ProtocolAttachmentPersonnel attachmentPersonnel, final Protocol protocol) {
+        boolean isValid = true;
         
-        if (attachmentPersonnel.getType() == null || attachmentPersonnel.getPerson() == null) {
-            return true;
+        if (attachmentPersonnel.getType() != null && attachmentPersonnel.getPerson() != null) {
+            for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
+                if (attachment.getType().equals(attachmentPersonnel.getType()) 
+                        && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
+                    this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
+                        KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
+                    isValid = false;
+                    continue;
+                }
+            }    
         }
         
-        for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
-            if (!idEquals(attachment.getId(), attachmentPersonnel.getId())
-                && attachment.getType().equals(attachmentPersonnel.getType())
-                && attachment.getPerson().getProtocolPersonId().equals(attachmentPersonnel.getPerson().getProtocolPersonId())) {
-                this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
-                    KeyConstants.ERROR_PROTOCOL_ATTACHMENT_DUPLICATE_TYPE);
-                return false;
-            }
-        }    
-        return true;
-    }
-    
-    /** 
-     * Checks if two Longs are equal or are both null
-     * @param id1 Long # 1
-     * @param id2 Long # 2
-     * @return true if equal or both null
-     */
-    private static boolean idEquals(Long id1, Long id2) {
-        return (id1 == null && id2 == null) || (id1 != null && id1.equals(id2));
+        return isValid;
     }
     
     /**
