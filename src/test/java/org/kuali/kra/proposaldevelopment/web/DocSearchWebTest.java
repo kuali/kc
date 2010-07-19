@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  * This class tests a document search through the web ui via HtmlUnit.
  */
-
+@Ignore
 public class DocSearchWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
