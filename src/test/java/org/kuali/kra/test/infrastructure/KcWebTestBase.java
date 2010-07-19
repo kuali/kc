@@ -388,7 +388,10 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
             if (getElementByName(page, "methodToCall.showAllTabs") != null)
                 page = clickOnExpandAll(page);
         }
-        catch (IOException e) {}
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         if (!strictWhitespace) {
             final String regex = insertWhitespaceRegex(text);
             Pattern p = Pattern.compile(regex);
@@ -409,7 +412,10 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
             if (getElementByName(page, "methodToCall.showAllTabs") != null)
                 page = clickOnExpandAll(page);
         }
-        catch (IOException e) {}
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (!strictWhitespace) {
             final String regex = insertWhitespaceRegex(text);
             Pattern p = Pattern.compile(regex);
@@ -1027,6 +1033,14 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return true if there is an error; otherwise false
      */
     protected final boolean hasError(HtmlPage page) {
+        try {
+            if (getElementByName(page, "methodToCall.showAllTabs") != null)
+                page = clickOnExpandAll(page);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return page.asText().contains("error(s) found on page") || page.asText().contains("Errors Found in Document")
         || page.asText().contains("Kuali :: Incident Report");
     }
