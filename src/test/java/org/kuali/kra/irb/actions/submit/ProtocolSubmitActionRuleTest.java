@@ -25,36 +25,27 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 /**
  * Test the business rules for Protocol Permissions.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
-               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
-            }
-        )
-    )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXEMPT_STUDIES_CHECKLIST.sql", delimiter = ";")
+//               ,@UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";")
+//            }
+//        )
+//    )
 public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
 
     private ProtocolSubmitActionRule rule = null;
@@ -72,6 +63,8 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     @Before
     public void setUpServices() {
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        // If cache not cleared, causes OLE.
+        this.parameterService.clearCache();
     }
     
     @Before
@@ -391,19 +384,19 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         // the tranaction handling is not really saved to db.
         // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
         // so have to try this to force it to save to db.
-        try {
-            super.transactionalLifecycle.stop();
-        }
-        catch (Exception e) {
-
-        }
+//        try {
+//            super.transactionalLifecycle.stop();
+//        }
+//        catch (Exception e) {
+//
+//        }
         this.parameterService.setParameterForTesting(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
-        try {
-            super.transactionalLifecycle.start();
-        }
-        catch (Exception e) {
-
-        }
+//        try {
+//            super.transactionalLifecycle.start();
+//        }
+//        catch (Exception e) {
+//
+//        }
     }
 }

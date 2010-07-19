@@ -27,9 +27,9 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -39,7 +39,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class QuestionnaireLookupableHelperServiceTest  extends KraTestBase {
+public class QuestionnaireLookupableHelperServiceTest  extends KcUnitTestBase {
 
     QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
     private DocumentService documentService;

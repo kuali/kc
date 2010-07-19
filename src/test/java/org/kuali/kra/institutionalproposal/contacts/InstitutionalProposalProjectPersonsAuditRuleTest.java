@@ -20,16 +20,16 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class InstitutionalProposalProjectPersonsAuditRuleTest extends KraTestBase {
+public class InstitutionalProposalProjectPersonsAuditRuleTest extends KcUnitTestBase {
     
     private static final String MISSING_UNIT_DETAILS_NOT_IDENTIFIED = "Missing unit Details not identified";
     private static final int ROLODEX_ID = 1002;

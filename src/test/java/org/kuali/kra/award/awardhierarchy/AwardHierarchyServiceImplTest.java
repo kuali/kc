@@ -18,11 +18,11 @@ package org.kuali.kra.award.awardhierarchy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTestHelper.MockVersionHistoryService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class AwardHierarchyServiceImplTest extends KraTestBase {
+public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     AwardHierarchyServiceImpl service;
     private AwardHierarchyTestHelper helper;
 

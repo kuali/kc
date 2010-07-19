@@ -21,17 +21,17 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class CommitteeScheduleLookupHelperServiceTest extends KraTestBase {
+public class CommitteeScheduleLookupHelperServiceTest extends KcUnitTestBase {
     private static final String EDIT_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=false";
     private static final String VIEW_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=true";
     private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";

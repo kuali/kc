@@ -32,16 +32,11 @@ import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.web.CommitteeScheduleWebTestBase;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
-import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -49,10 +44,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";") }))
+//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
+//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_STATUS.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_CONTINGENCY.sql", delimiter = ";"),
+//        @UnitTestFile(filename = "classpath:sql/dml/load_SCHEDULE_ACT_ITEM_TYPE.sql", delimiter = ";") }))
 /**
  * 
  * This class is for meeting web page test.
@@ -164,9 +159,9 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
 
     @Test
     public void testMeetingActionPage() throws Exception {
-        transactionalLifecycle.stop();
+//        transactionalLifecycle.stop();
         setProtocolCorrTemplate();
-        transactionalLifecycle.start();
+//        transactionalLifecycle.start();
        
         Map fieldValues = new HashMap();
         fieldValues.put("committeeId", committeeId);

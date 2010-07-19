@@ -16,14 +16,14 @@
 package org.kuali.kra.service.impl;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class SponsorServiceImplTest extends KraTestBase {
+public class SponsorServiceImplTest extends KcUnitTestBase {
 
     private static final String TEST_SPONSOR_CODE = "005891";
     private static final String TEST_SPONSOR_NAME = "Baystate Medical Center";

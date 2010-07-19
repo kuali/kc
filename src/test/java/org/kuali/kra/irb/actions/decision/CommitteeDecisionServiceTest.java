@@ -18,13 +18,10 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.test.ProtocolFactory;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /*
 @PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
@@ -40,7 +37,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";")
 }))*/
-public class CommitteeDecisionServiceTest extends KraTestBase {
+public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     
     CommitteeDecisionService committeeDecisionService;
     //BusinessObjectService businessObjectService;

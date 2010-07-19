@@ -20,10 +20,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraWebTestBase;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -38,16 +35,16 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 /**
  * This class...
  */
-@PerTestUnitTestData(
-        @UnitTestData(order = { 
-                UnitTestData.Type.SQL_FILES }, 
-        sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_TYPE.sql", delimiter = ";"),
-                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_STATUS.sql", delimiter = ";"),
-                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG.sql", delimiter = ";")
-                })
-        )
-public abstract class InstitutionalProposalWebTestBase extends KraWebTestBase {
+//@PerTestUnitTestData(
+//        @UnitTestData(order = { 
+//                UnitTestData.Type.SQL_FILES }, 
+//        sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_TYPE.sql", delimiter = ";"),
+//                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG_STATUS.sql", delimiter = ";"),
+//                @UnitTestFile(filename = "classpath:sql/dml/load_PROPOSAL_LOG.sql", delimiter = ";")
+//                })
+//        )
+public abstract class InstitutionalProposalWebTestBase extends KcWebTestBase {
     
     protected static final String CUSTOM_DATA_LINK_NAME = "customData";
     protected static final String DISTRIBUTION_LINK_NAME = "distribution";

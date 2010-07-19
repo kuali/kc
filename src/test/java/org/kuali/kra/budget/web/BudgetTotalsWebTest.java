@@ -17,6 +17,7 @@ package org.kuali.kra.budget.web;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.kns.service.DocumentService;
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
-
+@Ignore
 public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_TOTALS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.summaryTotals.x";

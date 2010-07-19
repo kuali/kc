@@ -23,12 +23,12 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class InstitutionalProposalServiceTest extends KraTestBase {
+public class InstitutionalProposalServiceTest extends KcUnitTestBase {
     
     private InstitutionalProposalService institutionalProposalService;
     

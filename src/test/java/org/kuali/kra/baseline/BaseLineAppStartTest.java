@@ -18,18 +18,17 @@ package org.kuali.kra.baseline;
 import java.net.URL;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-
-public class BaseLineAppStartTest extends KraTestBase {
+public class BaseLineAppStartTest extends KcUnitTestBase {
 
     @Test public void testHomePage() throws Exception {
          final WebClient webClient = new WebClient();
-         final URL url = new URL(KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
+         final URL url = new URL(KcWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/");
          final HtmlPage page = (HtmlPage)webClient.getPage(url);
          assertEquals("Kuali Portal Index", page.getTitleText() );
     }

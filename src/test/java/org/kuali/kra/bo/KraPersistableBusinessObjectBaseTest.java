@@ -21,15 +21,15 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */
-public class KraPersistableBusinessObjectBaseTest extends KraTestBase {
+public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
 
     @Before
     public void setUp() throws Exception {
@@ -62,25 +62,25 @@ public class KraPersistableBusinessObjectBaseTest extends KraTestBase {
     }
 
     @Test public void testBeforeInsertUser4() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("user4"));
+        GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
-        updateAsserts("user4", kraPersistableBusinessObjectBase);
+        updateAsserts("jtester", kraPersistableBusinessObjectBase);
     }
 
     @Test public void testBeforeUpdateUser4() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("user4"));
+        GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
-        updateAsserts("user4", kraPersistableBusinessObjectBase);
+        updateAsserts("jtester", kraPersistableBusinessObjectBase);
     }
 
     private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {

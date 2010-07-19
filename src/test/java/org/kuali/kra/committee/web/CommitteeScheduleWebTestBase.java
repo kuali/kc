@@ -29,13 +29,13 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";")
-            }
-        )
-    )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";")
+//            }
+//        )
+//    )
 public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
     
     private static int MY_COMMITTEE_ID = 32767;
@@ -293,8 +293,8 @@ public class CommitteeScheduleWebTestBase extends CommitteeWebTestBase {
         
         assertEquals((expectedRowCount + 1), count);
     }
-    
-    /** prevents init errors from not having a test method. */
-    @Test @Ignore
-    public void foo() {}
+//    
+//    /** prevents init errors from not having a test method. */
+//    @Test @Ignore
+//    public void foo() {}
 }

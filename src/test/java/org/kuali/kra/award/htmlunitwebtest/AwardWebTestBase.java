@@ -21,9 +21,9 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -35,7 +35,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * Base class for all htmlunit tests involving the Award Document Pages.
  * 
  */
-public abstract class AwardWebTestBase extends KraWebTestBase {
+public abstract class AwardWebTestBase extends KcWebTestBase {
     protected static final String CONTACTS_LINK_NAME = "contacts";
     protected static final String SPECIAL_REVIEW_LINK_NAME = "specialReview";
     protected static final String CUSTOM_DATA_LINK_NAME = "customData";

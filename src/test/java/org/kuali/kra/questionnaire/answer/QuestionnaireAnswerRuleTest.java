@@ -22,14 +22,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
-public class QuestionnaireAnswerRuleTest extends KraTestBase {
+public class QuestionnaireAnswerRuleTest extends KcUnitTestBase {
     private QuestionnaireAnswerRule rule;
 
     @Before

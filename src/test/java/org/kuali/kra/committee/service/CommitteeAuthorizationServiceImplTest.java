@@ -36,6 +36,7 @@ import org.kuali.kra.service.impl.mocks.MockUnitAuthorizationService;
  *       originally designed for testing Proposal Development.  Since the same unit tests
  *       are needed, it is simply easier to re-use these mock classes.
  */
+@Ignore
 public class CommitteeAuthorizationServiceImplTest {
     
     //private MockKimDatabase database;

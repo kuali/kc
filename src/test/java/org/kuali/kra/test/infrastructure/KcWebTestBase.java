@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra;
+package org.kuali.kra.test.infrastructure;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -60,16 +59,17 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 /**
  * This class is the KRA base class for web tests
  */
-public abstract class KraWebTestBase extends KraTestBase {
+public abstract class KcWebTestBase extends KcUnitTestBase {
     private static final String SECTION_ERROR_LABEL = "Errors found in this Section:";
     protected static final String HELP_PAGE_TITLE = "Kuali Research Administration Online Help";
-    static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
     private static final String QUICKSTART_USER = "quickstart";
 
     public static final String PROTOCOL_AND_HOST = "http://127.0.0.1";
     
     protected WebClient webClient;
     private HtmlPage portalPage;
+    
+    { transactional = false; }
 
     /**
      * Web test setup overloading. Sets up Portal page access.
@@ -225,7 +225,6 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
         assertTrue(id + " not found. page " + page.asText(), element != null);
-
         return clickOn(element, nextPageTitle);
     }
 
@@ -385,6 +384,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param strictWhitespace whether to strictly match the whitespace characters in the text string
      */
     protected final void assertContains(HtmlPage page, String text, boolean strictWhitespace) {
+        try {
+            if (getElementByName(page, "methodToCall.showAllTabs") != null)
+                page = clickOnExpandAll(page);
+        }
+        catch (IOException e) {}
         if (!strictWhitespace) {
             final String regex = insertWhitespaceRegex(text);
             Pattern p = Pattern.compile(regex);
@@ -401,6 +405,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param strictWhitespace whether to strictly match the whitespace characters in the text string
      */
     protected final void assertDoesNotContain(HtmlPage page, String text, boolean strictWhitespace) {
+        try {
+            if (getElementByName(page, "methodToCall.showAllTabs") != null)
+                page = clickOnExpandAll(page);
+        }
+        catch (IOException e) {}
         if (!strictWhitespace) {
             final String regex = insertWhitespaceRegex(text);
             Pattern p = Pattern.compile(regex);

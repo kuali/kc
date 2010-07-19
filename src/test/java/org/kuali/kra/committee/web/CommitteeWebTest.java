@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.committee.web;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CommitteeWebTest extends CommitteeWebTestBase {
 
-    private static final String MY_COMMITTEE_ID = "32767";
+    private static final String MY_COMMITTEE_ID = Long.toString(System.currentTimeMillis());//"32767";
     private static final String DESCRIPTION_VALUE = "Description text";
     private static final String DESCRIPTION_VALUE2 = "Another description text";
     

@@ -16,8 +16,8 @@
 package org.kuali.kra.budget.document;
 
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -25,7 +25,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class ObjectUtilsTest extends KraTestBase {
+public class ObjectUtilsTest extends KcUnitTestBase {
     @Test
     public void testObjectUtils_equalsByKey() throws Exception {
         BudgetPeriod periodDB = new BudgetPeriod();

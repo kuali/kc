@@ -26,23 +26,20 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_questionnaire_associate_module.sql", delimiter = ";")
-            }
-        )
-    )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                @UnitTestFile(filename = "classpath:sql/dml/load_questionnaire_associate_module.sql", delimiter = ";")
+//            }
+//        )
+//    )
 
-public class QuestionnaireServiceTest  extends KraTestBase {
+public class QuestionnaireServiceTest  extends KcUnitTestBase {
     
         private Mockery context = new JUnit4Mockery();
         @Before

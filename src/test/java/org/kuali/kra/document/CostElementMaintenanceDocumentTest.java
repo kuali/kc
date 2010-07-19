@@ -21,7 +21,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.SQLDataLoader;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -30,15 +29,17 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
     private static final String DOCTYPE = "CostElementMaintenanceDocument";
     private static final String CE_MAINT_TITLE = "Object Code";
+    private static final String COST_ELEMENT_1 = Long.toString(System.currentTimeMillis()%1000000);
+    private static final String COST_ELEMENT_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
     
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from COST_ELEMENT where cost_element = '999'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update COST_ELEMENT set description = 'Raw Materials' where cost_element = '420310'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("commit");
-        sqlDataLoader.runSql();
+//        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from COST_ELEMENT where cost_element = '999'");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("update COST_ELEMENT set description = 'Raw Materials' where cost_element = '420310'");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("commit");
+//        sqlDataLoader.runSql();
 
         super.tearDown();
     }
@@ -63,7 +64,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
 
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.description", "test copy cost element");
-        setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.costElement", "999");
+        setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.costElement", COST_ELEMENT_1);
         // This is actually for on campus
         setFieldValue(costElementMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.onOffCampusFlag", "on");
 
@@ -75,7 +76,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CostElement costElement = (CostElement)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(costElement.getCostElement(),"999");
+        assertEquals(costElement.getCostElement(),COST_ELEMENT_1);
         assertEquals(costElement.getBudgetCategoryCode(),"3");
         assertEquals(costElement.getDescription(),"test copy cost element");
         assertEquals(costElement.getOnOffCampusFlag(),true);
@@ -128,18 +129,18 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         setFieldValue(costElementMaintenancePage, "document.documentHeader.documentDescription", "Cost Element - test");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.description", "test new cost element");
-        setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.costElement", "999");
+        setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.costElement", COST_ELEMENT_2);
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.onOffCampusFlag", "on");
         HtmlPage routedCostElementMaintenanceDocumentPage = clickOn(costElementMaintenancePage, "methodToCall.route", "Kuali :: Cost Element Maintenance Document");
         
         assertContains(routedCostElementMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedCostElementMaintenanceDocumentPage,"New Object Code Name: 999 Budget Category Code: 3 Description: test new cost element On/Off Campus Flag: Yes");
+        assertContains(routedCostElementMaintenanceDocumentPage,"New Object Code Name: " + COST_ELEMENT_2 + " Budget Category Code: 3 Description: test new cost element On/Off Campus Flag: Yes");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CostElement costElement = (CostElement)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(costElement.getCostElement(),"999");
+        assertEquals(costElement.getCostElement(),COST_ELEMENT_2);
         assertEquals(costElement.getBudgetCategoryCode(),"3");
         assertEquals(costElement.getDescription(),"test new cost element");
         assertEquals(costElement.getOnOffCampusFlag(),true);

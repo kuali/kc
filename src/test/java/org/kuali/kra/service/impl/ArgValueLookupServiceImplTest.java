@@ -18,22 +18,19 @@ package org.kuali.kra.service.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ArgValueLookupService;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-@PerTestUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                 @UnitTestFile(filename = "classpath:sql/dml/load_ARG_VALUE_LOOKUP.sql", delimiter = ";")
-                }
-        )
-)
+//@PerTestUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                 @UnitTestFile(filename = "classpath:sql/dml/load_ARG_VALUE_LOOKUP.sql", delimiter = ";")
+//                }
+//        )
+//)
 
-public class ArgValueLookupServiceImplTest extends KraTestBase{
+public class ArgValueLookupServiceImplTest extends KcUnitTestBase{
 
     private ArgValueLookupService argValueLookupService = null;
     

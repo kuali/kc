@@ -26,19 +26,19 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitContactType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class tests the AwardUnitContactsBean 
  */
 
-public class AwardUnitContactsBeanTest extends KraTestBase {
+public class AwardUnitContactsBeanTest extends KcUnitTestBase {
 
     private static final int THREE = 3;
     private static final String LEAD_UNIT = "IN-CARD";

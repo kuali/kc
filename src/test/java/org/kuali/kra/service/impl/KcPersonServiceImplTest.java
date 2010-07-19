@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class KcPersonServiceImplTest extends KraTestBase {
+public class KcPersonServiceImplTest extends KcUnitTestBase {
     
     private KcPersonService service;
     private KcPersonServiceImpl service2;
@@ -68,8 +68,8 @@ public class KcPersonServiceImplTest extends KraTestBase {
 
     @Test
     public void testGetKcPersonByPersonId() {
-        String personID = "10000000061";
-        String expectedUserName = "superuser";
+        String personID = "10000000002";
+        String expectedUserName = "jtester";
         KcPerson person = service.getKcPersonByPersonId(personID);
         assertTrue("Should have found:" + expectedUserName  + ", but found:" + person.getUserName(), expectedUserName.equals(person.getUserName()));
     }

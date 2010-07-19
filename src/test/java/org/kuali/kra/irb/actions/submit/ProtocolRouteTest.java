@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -34,6 +33,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -69,7 +69,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_schedule_status.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_MODULES.sql", delimiter = ";")
 }))
-public class ProtocolRouteTest extends KraTestBase {
+public class ProtocolRouteTest extends KcUnitTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_SUBMISSION_QUALIFIER = "2";

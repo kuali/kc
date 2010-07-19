@@ -28,7 +28,6 @@ import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.authorization.PessimisticLock;
 import org.kuali.rice.kns.service.BusinessObjectService;

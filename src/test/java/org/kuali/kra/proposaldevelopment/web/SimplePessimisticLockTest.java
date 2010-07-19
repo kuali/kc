@@ -23,13 +23,13 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.HtmlUnitUtil;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.KraWebTestBase;
-import org.kuali.kra.KraWebTestUtil;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
+import org.kuali.kra.test.infrastructure.KcWebTestUtil;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -45,7 +45,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class SimplePessimisticLockTest extends KraTestBase {
+public class SimplePessimisticLockTest extends KcUnitTestBase {
     private BusinessObjectService boService = null;
     
     private ProposalDevelopmentDocument document;
@@ -54,11 +54,11 @@ public class SimplePessimisticLockTest extends KraTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transactionalLifecycle.stop();
+//        transactionalLifecycle.stop();
         boService = KNSServiceLocator.getBusinessObjectService();
         document = createDocument();
-        transactionalLifecycle.start(); 
-        kraHomePageUrl = KraWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
+        // transactionalLifecycle.start(); 
+        kraHomePageUrl = KcWebTestBase.PROTOCOL_AND_HOST + ":" + getPort() + "/kc-dev/";
     }
     
     private PessimisticLock findDocumentProposalLock() {
@@ -85,7 +85,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
     }
     
     private HtmlPage loadKraHomePage(WebClient webClient) throws Exception {  
-        return KraWebTestUtil.loadPage(webClient, kraHomePageUrl);
+        return KcWebTestUtil.loadPage(webClient, kraHomePageUrl);
     }
     
     @Test
@@ -100,16 +100,16 @@ public class SimplePessimisticLockTest extends KraTestBase {
         HtmlPage kraHomePage = loadKraHomePage(webClient);
         
         Map<String, String> proposalSearchParameters = new HashMap<String, String>();
-        proposalSearchParameters.put(KraWebTestUtil.KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID, getDocument().getDocumentNumber());
-        HtmlPage docSearchResultsPage = KraWebTestUtil.performDocSearch(kraHomePage, proposalSearchParameters, quickstartUser);
+        proposalSearchParameters.put(KcWebTestUtil.KRA_DOCSEARCH_INPUT_DOCUMENT_ELEMENT_ID, getDocument().getDocumentNumber());
+        HtmlPage docSearchResultsPage = KcWebTestUtil.performDocSearch(kraHomePage, proposalSearchParameters, quickstartUser);
         HtmlPage proposalDocumentPage = null;
         PessimisticLock proposalLock = null;
         
         if(docSearchResultsPage != null) {
-            proposalDocumentPage = KraWebTestUtil.loadProposalFromSearchResults(docSearchResultsPage, getDocument().getDocumentNumber());
+            proposalDocumentPage = KcWebTestUtil.loadProposalFromSearchResults(docSearchResultsPage, getDocument().getDocumentNumber());
             proposalLock = findDocumentProposalLock(); 
             //This user should be displayed with a save button
-            HtmlImageInput saveButton = KraWebTestUtil.getSaveButton(proposalDocumentPage);
+            HtmlImageInput saveButton = KcWebTestUtil.getSaveButton(proposalDocumentPage);
 
             //Assert on the Pessimistic Locking Messages
             //This user owns the Lock. Hence there should be  no lock message displayed
@@ -126,27 +126,27 @@ public class SimplePessimisticLockTest extends KraTestBase {
         String jtesterUser = "jtester";
         WebClient secondWebClient = new WebClient();
         HtmlPage secondKraHomePage = loadKraHomePage(secondWebClient);
-        HtmlPage secondDocSearchResultsPage = KraWebTestUtil.performDocSearch(secondKraHomePage, proposalSearchParameters, jtesterUser);
+        HtmlPage secondDocSearchResultsPage = KcWebTestUtil.performDocSearch(secondKraHomePage, proposalSearchParameters, jtesterUser);
         HtmlPage secondProposalDocumentPage = null;
         PessimisticLock budgetLock = null;
         HtmlPage budgetSummaryPage = null;
         
         if(secondDocSearchResultsPage != null) { 
-            secondProposalDocumentPage = KraWebTestUtil.loadProposalFromSearchResults(secondDocSearchResultsPage, getDocument().getDocumentNumber());
+            secondProposalDocumentPage = KcWebTestUtil.loadProposalFromSearchResults(secondDocSearchResultsPage, getDocument().getDocumentNumber());
             //This user does NOT own the Lock. Hence there should be a Proposal lock message displayed
             assertTrue(secondProposalDocumentPage.asXml().contains("This Proposal is locked for editing by " + proposalLock.getOwnedByPrincipalIdentifier()));
             
             //Save button should NOT be displayed for this user
             HtmlImageInput saveButton = null;
             try {
-                saveButton = KraWebTestUtil.getSaveButton(secondProposalDocumentPage);
+                saveButton = KcWebTestUtil.getSaveButton(secondProposalDocumentPage);
                 //Previous statement should have thrown ElementNotFoundException
                 fail("Test should have thrown ElementNotFoundException");
             } catch (ElementNotFoundException e) {}
             assertNull(saveButton); 
             
-            HtmlPage budgetVersionsPage = KraWebTestUtil.navigateToTab(secondProposalDocumentPage, KraWebTestUtil.KRA_TAB_RELOAD_BUDGETVERSIONS_BUTTON_ID);
-            saveButton = KraWebTestUtil.getSaveButton(budgetVersionsPage);
+            HtmlPage budgetVersionsPage = KcWebTestUtil.navigateToTab(secondProposalDocumentPage, KcWebTestUtil.KRA_TAB_RELOAD_BUDGETVERSIONS_BUTTON_ID);
+            saveButton = KcWebTestUtil.getSaveButton(budgetVersionsPage);
             assertNotNull(saveButton);
             
             getDocument().refreshPessimisticLocks();
@@ -165,9 +165,9 @@ public class SimplePessimisticLockTest extends KraTestBase {
             retrievedDBDocument = retrieveUpdatedProposal(document);  
             assertEquals(2L, retrievedDBDocument.getVersionNumber().longValue());
             
-            budgetVersionsPage = KraWebTestUtil.addBudgetVersion(budgetVersionsPage, "v1");
-            budgetSummaryPage = KraWebTestUtil.openBudgetVersion(budgetVersionsPage, 0);
-            HtmlPage savedBudgetVersionsPage = KraWebTestUtil.savePage(budgetSummaryPage);
+            budgetVersionsPage = KcWebTestUtil.addBudgetVersion(budgetVersionsPage, "v1");
+            budgetSummaryPage = KcWebTestUtil.openBudgetVersion(budgetVersionsPage, 0);
+            HtmlPage savedBudgetVersionsPage = KcWebTestUtil.savePage(budgetSummaryPage);
             assertTrue(savedBudgetVersionsPage.asXml().contains("Document was successfully saved."));
             
             getDocument().refreshPessimisticLocks();
@@ -182,16 +182,16 @@ public class SimplePessimisticLockTest extends KraTestBase {
         assertEquals(3L, retrievedDBDocument.getVersionNumber().longValue());
         
         //quickstart user reloads Proposal Page to see the Budget Lock message
-        proposalDocumentPage = KraWebTestUtil.reloadPage(proposalDocumentPage);
+        proposalDocumentPage = KcWebTestUtil.reloadPage(proposalDocumentPage);
         assertTrue(proposalDocumentPage.asXml().contains("This Budget is locked for editing by " + budgetLock.getOwnedByPrincipalIdentifier()));
-        proposalDocumentPage = KraWebTestUtil.savePage(proposalDocumentPage);
+        proposalDocumentPage = KcWebTestUtil.savePage(proposalDocumentPage);
         assertTrue(proposalDocumentPage.asXml().contains("Document was successfully saved."));
         
         retrievedDBDocument = retrieveUpdatedProposal(document);
         assertEquals(4L, retrievedDBDocument.getVersionNumber().longValue());
         
         //quickstart user adds a Special Review line and saves
-        HtmlPage firstSpecialReviewPage = KraWebTestUtil.navigateToTab(proposalDocumentPage, KraWebTestUtil.KRA_TAB_SAVE_SPECIALREVIEW_BUTTON_ID);
+        HtmlPage firstSpecialReviewPage = KcWebTestUtil.navigateToTab(proposalDocumentPage, KcWebTestUtil.KRA_TAB_SAVE_SPECIALREVIEW_BUTTON_ID);
         assertTrue(firstSpecialReviewPage.asText().contains("Document was successfully saved"));
         retrievedDBDocument = retrieveUpdatedProposal(document);
         assertEquals(5L, retrievedDBDocument.getVersionNumber().longValue());
@@ -199,16 +199,16 @@ public class SimplePessimisticLockTest extends KraTestBase {
         assertTrue(firstSpecialReviewPage.asText().contains("Approval Status Protocol ID Application Date Approval Date Expiration Date Exempt # Comments"));
         webClient.setJavaScriptEnabled(false);
         firstSpecialReviewPage = addSpecialReviewLine(firstSpecialReviewPage, "08/01/2007;;123;1;2;Something to comment on");
-        firstSpecialReviewPage = KraWebTestUtil.savePage(firstSpecialReviewPage);
+        firstSpecialReviewPage = KcWebTestUtil.savePage(firstSpecialReviewPage);
         
         retrievedDBDocument = retrieveUpdatedProposal(document);
         assertEquals(6L, retrievedDBDocument.getVersionNumber().longValue());
         
         //quickstart user closes the document - Proposal Lock should be released
-        HtmlPage closeQuestionDialog = KraWebTestUtil.closePage(firstSpecialReviewPage);
+        HtmlPage closeQuestionDialog = KcWebTestUtil.closePage(firstSpecialReviewPage);
         //Would you like to save this document before you close it?
         //quickstart answers Yes to the question
-        HtmlImageInput yesButton = HtmlUnitUtil.getImageInput(closeQuestionDialog, KraWebTestUtil.KRA_QUESTION_ANSWER_YES_BUTTON);
+        HtmlImageInput yesButton = HtmlUnitUtil.getImageInput(closeQuestionDialog, KcWebTestUtil.KRA_QUESTION_ANSWER_YES_BUTTON);
         HtmlPage kraHomePageAgain = (HtmlPage) yesButton.click();
          
         getDocument().refreshPessimisticLocks();
@@ -217,7 +217,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
         assertEquals(1, currentDocumentLocks.size());
         
         //jtester saves again
-        budgetSummaryPage = KraWebTestUtil.savePage(budgetSummaryPage);
+        budgetSummaryPage = KcWebTestUtil.savePage(budgetSummaryPage);
         assertTrue(proposalDocumentPage.asXml().contains("Document was successfully saved."));
         retrievedDBDocument = retrieveUpdatedProposal(document);
         assertEquals(7L, retrievedDBDocument.getVersionNumber().longValue());
@@ -232,7 +232,7 @@ public class SimplePessimisticLockTest extends KraTestBase {
         HtmlUnitUtil.setSelectBoxValue(htmlPage, "newPropSpecialReview.specialReviewCode", params[3]);
         HtmlUnitUtil.setSelectBoxValue(htmlPage, "newPropSpecialReview.approvalTypeCode", params[4]);
         HtmlUnitUtil.setTextAreaValue(htmlPage, "newPropSpecialReview.comments", params[5]);
-        return (HtmlPage) KraWebTestUtil.getButton(htmlPage, "methodToCall.addSpecialReview.anchorSpecialReview").click();
+        return (HtmlPage) KcWebTestUtil.getButton(htmlPage, "methodToCall.addSpecialReview.anchorSpecialReview").click();
     }
     
     private ProposalDevelopmentDocument createDocument() throws WorkflowException {

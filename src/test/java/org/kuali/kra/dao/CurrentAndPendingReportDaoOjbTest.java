@@ -1,10 +1,11 @@
 package org.kuali.kra.dao;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -13,14 +14,13 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-
-import java.util.List;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
  *
  */
 
-public class CurrentAndPendingReportDaoOjbTest extends KraTestBase {
+public class CurrentAndPendingReportDaoOjbTest extends KcUnitTestBase {
     private PendingReportDao dao;
     private InstitutionalProposal[] proposals;
     private InstitutionalProposalPerson[] contacts;

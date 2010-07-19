@@ -17,13 +17,11 @@ package org.kuali.kra.printing.util;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public abstract class PrintingServiceTestBase extends KraTestBase {
+public abstract class PrintingServiceTestBase extends KcUnitTestBase {
 
 	@Before
 	public void setUp() throws Exception {

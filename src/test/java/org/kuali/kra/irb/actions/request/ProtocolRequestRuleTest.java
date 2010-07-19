@@ -26,9 +26,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -54,6 +52,7 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
     @Before
     public void setUpServices() {
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        this.parameterService.clearCache();
     }
 
     @Before
@@ -137,19 +136,20 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
         // the tranaction handling is not really saved to db.
         // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
         // so have to try this to force it to save to db.
-        try {
-            super.transactionalLifecycle.stop();
-        }
-        catch (Exception e) {
-
-        }
+//        try {
+//            super.transactionalLifecycle.stop();
+//        }
+//        catch (Exception e) {
+//
+//        }
         this.parameterService.setParameterForTesting(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
-        try {
-            super.transactionalLifecycle.start();
-        }
-        catch (Exception e) {
-
-        }
+        
+//        try {
+//            super.transactionalLifecycle.start();
+//        }
+//        catch (Exception e) {
+//
+//        }
     }
 }

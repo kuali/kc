@@ -20,16 +20,16 @@ import java.util.Date;
 
 import org.junit.After;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class tests KraMaintainableImpl.
  */
-public class KraMaintainableImplTest extends KraTestBase {
+public class KraMaintainableImplTest extends KcUnitTestBase {
 
     @After
     public void tearDown() throws Exception {
@@ -49,7 +49,7 @@ public class KraMaintainableImplTest extends KraTestBase {
 
         kraMaintainableImpl.prepareForSave();
 
-        GlobalVariables.setUserSession(new UserSession("user4"));
+        GlobalVariables.setUserSession(new UserSession("jtester"));
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
         updateAsserts("quickstart", kraPersistableBusinessObjectBase);
@@ -67,14 +67,14 @@ public class KraMaintainableImplTest extends KraTestBase {
 
         kraMaintainableImpl.prepareForSave();
 
-        GlobalVariables.setUserSession(new UserSession("user4"));
+        GlobalVariables.setUserSession(new UserSession("jtester"));
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
         updateAsserts("quickstart", kraPersistableBusinessObjectBase);
     }
 
-    @Test public void testPrepareForSaveInsertUser4() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("user4"));
+    @Test public void testPrepareForSaveInsertJtester() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
@@ -88,11 +88,11 @@ public class KraMaintainableImplTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
-        updateAsserts("user4", kraPersistableBusinessObjectBase);
+        updateAsserts("jtester", kraPersistableBusinessObjectBase);
     }
 
-    @Test public void testPrepareForSaveUpdateUser4() throws Exception {
-        GlobalVariables.setUserSession(new UserSession("user4"));
+    @Test public void testPrepareForSaveUpdateJtester() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
@@ -106,7 +106,7 @@ public class KraMaintainableImplTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
-        updateAsserts("user4", kraPersistableBusinessObjectBase);
+        updateAsserts("jtester", kraPersistableBusinessObjectBase);
     }
 
     private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {

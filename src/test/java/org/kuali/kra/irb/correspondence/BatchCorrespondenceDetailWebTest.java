@@ -20,15 +20,12 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class BatchCorrespondenceDetailWebTest extends KraWebTestBase {
+public class BatchCorrespondenceDetailWebTest extends KcWebTestBase {
     
     private static final String REFRESH_BUTTON = "methodToCall.start";
     private static final String ADD_BATCH_CORRESPONDENCE_DETAIL_BUTTON = "methodToCall.addBatchCorrespondenceDetail";

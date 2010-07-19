@@ -96,6 +96,7 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
         }
         port = HtmlUnitUtil.getPort();
         jetty = new JettyServerLifecycle(port, CONTEXT_NAME, RELATIVE_WEB_ROOT);
+        jetty.setConfigMode(JettyServerLifecycle.ConfigMode.MERGE);
         jetty.start();
     }
 
@@ -112,10 +113,15 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
      * @see org.kuali.kra.test.infrastructure.lifecycle.KcUnitTestBaseLifecycle#doPerTestStart()
      */
     @Override
-    protected void doPerTestStart() throws Throwable {
-        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
-        defaultTransactionDefinition.setTimeout(3600);
-        perTestTransactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+    protected void doPerTestStart(boolean transactional) throws Throwable {
+        if (transactional) {
+            DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+            defaultTransactionDefinition.setTimeout(3600);
+            perTestTransactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+        }
+        else {
+            perTestTransactionStatus = null;
+        }
     }
 
     /**
@@ -123,7 +129,9 @@ public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
      */
     @Override
     protected void doPerTestStop() throws Throwable {
-        getTransactionManager().rollback(perTestTransactionStatus);
+        if (perTestTransactionStatus != null) {
+            getTransactionManager().rollback(perTestTransactionStatus);
+        }
     }
 
     /**

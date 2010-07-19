@@ -18,12 +18,12 @@ package org.kuali.kra.budget.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.personnel.JobCodeService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class JobCodeServiceTest extends KraTestBase {
+public class JobCodeServiceTest extends KcUnitTestBase {
     
     JobCodeService jobCodeService;
     
@@ -53,7 +53,7 @@ public class JobCodeServiceTest extends KraTestBase {
         
         String  title = jobCodeService.findJobCodeTitle(CEO_CODE);
         
-        log.debug("JobTitle for jobCode("+CEO_CODE+" is ["+title+"]");
+        LOG.debug("JobTitle for jobCode("+CEO_CODE+" is ["+title+"]");
         // Verify that status is final
         //assertEquals(RiceConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode());
     }

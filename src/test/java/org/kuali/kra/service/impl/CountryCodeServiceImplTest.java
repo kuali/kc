@@ -15,42 +15,26 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Map;
-
-import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.KcraNoDataTestBase;
 import org.kuali.kra.bo.CountryCode;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.service.CountryCodeService;
-import org.kuali.kra.service.CustomAttributeService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-import org.junit.After;
-import org.junit.Before;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
-
-@PerSuiteUnitTestData(
-        @UnitTestData(
-            sqlFiles = {
-                    @UnitTestFile(filename = "classpath:sql/dml/kc_country_codes_t_bootstrap.sql", delimiter = ";")
-            }
-        )
-    )
+//@PerSuiteUnitTestData(
+//        @UnitTestData(
+//            sqlFiles = {
+//                    @UnitTestFile(filename = "classpath:sql/dml/kc_country_codes_t_bootstrap.sql", delimiter = ";")
+//            }
+//        )
+//    )
 
 
-public class CountryCodeServiceImplTest extends KcraNoDataTestBase {
+public class CountryCodeServiceImplTest extends KcUnitTestBase {
     
     
     private CountryCodeService service = null;

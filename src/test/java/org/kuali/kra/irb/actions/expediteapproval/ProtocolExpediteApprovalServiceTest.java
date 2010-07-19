@@ -24,14 +24,12 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -39,6 +37,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -63,7 +62,7 @@ import org.kuali.rice.test.data.UnitTestFile;
         @UnitTestFile(filename = "classpath:sql/dml/load_EXPEDITED_REVIEW_CHECKLIST.sql", delimiter = ";"), 
         @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";")
 }))
-public class ProtocolExpediteApprovalServiceTest extends KraTestBase {
+public class ProtocolExpediteApprovalServiceTest extends KcUnitTestBase {
 
     private static final String COMMENTS = "Testing expedited approval";
     private static final String VALID_SUBMISSION_TYPE = "100";
