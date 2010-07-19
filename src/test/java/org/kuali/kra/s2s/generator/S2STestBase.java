@@ -22,12 +22,12 @@ import org.apache.xmlbeans.XmlObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This is the base class for all generator Junit test classes.
  */
-public abstract class S2STestBase<T> extends KraTestBase {
+public abstract class S2STestBase<T> extends KcUnitTestBase {
     private S2SBaseFormGenerator generatorObject;
     private static ProposalDevelopmentDocument document;
 

@@ -19,11 +19,11 @@ import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolUnit;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * Base class for Protocol business rule tests.
  * 
  */
-public abstract class ProtocolRuleTestBase extends KraTestBase {
+public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
 
     protected DocumentService documentService = null;
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Protocol Document";

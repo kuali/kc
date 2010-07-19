@@ -17,13 +17,13 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public abstract class BaseDataFeedCommandTest extends KraTestBase {
+public abstract class BaseDataFeedCommandTest extends KcUnitTestBase {
     Award award;
     InstitutionalProposal proposal;
     MockAwardCommentFactory awardCommentFactory; 

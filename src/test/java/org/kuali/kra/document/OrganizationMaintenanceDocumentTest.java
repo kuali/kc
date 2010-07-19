@@ -32,26 +32,29 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 // need to delete organization last because fk issue
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 00999")
-                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 00999")
-                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 00999")
-                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 00999")
-                        ,@UnitTestSql("delete from ORGANIZATION where ORGANIZATION_ID = 00999")
-                        ,@UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 000425")
-                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 000425")
-                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 000425")
-                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 000425")
-                        ,@UnitTestSql("commit")
-
-                }
-        )
-    )
+//@PerTestUnitTestData(
+//        @UnitTestData(
+//                sqlStatements = {
+//                        @UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 00999")
+//                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 00999")
+//                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 00999")
+//                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 00999")
+//                        ,@UnitTestSql("delete from ORGANIZATION where ORGANIZATION_ID = 00999")
+//                        ,@UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 000425")
+//                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 000425")
+//                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 000425")
+//                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 000425")
+//                        ,@UnitTestSql("commit")
+//
+//                }
+//        )
+//    )
 public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "OrganizationMaintenanceDocument";
+    private static final String ORG_ID_ORIG = "000425";
+    private static final String ORG_ID_NEW_1 = Long.toString(System.currentTimeMillis()%1000000);
+    private static final String ORG_ID_NEW_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
 
     public String getDocTypeName() {
         return DOCTYPE;
@@ -60,7 +63,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     @Test
     public void testCopyOrganization() throws Exception {
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
-        setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
+        setFieldValue(organizationMaintenanceLookupPage,"organizationId",ORG_ID_ORIG);
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
@@ -69,7 +72,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
 
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - copy test");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", "00999");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", ORG_ID_NEW_1);
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
 
         organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
@@ -83,7 +86,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         Organization organization = (Organization)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(organization.getOrganizationId(),"00999");
+        assertEquals(organization.getOrganizationId(),ORG_ID_NEW_1);
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
         assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
@@ -99,7 +102,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     public void testEditOrganization() throws Exception {
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
 
-        setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
+        setFieldValue(organizationMaintenanceLookupPage,"organizationId",ORG_ID_ORIG);
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
         assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
@@ -119,7 +122,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         Organization organization = (Organization)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(organization.getOrganizationId(),"000425");
+        assertEquals(organization.getOrganizationId(),ORG_ID_ORIG);
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
         assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
@@ -143,7 +146,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         
         // set up required fields for organization
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - test");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", "00999");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", ORG_ID_NEW_2);
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationName", "test organization");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
         
@@ -158,7 +161,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         Organization organization = (Organization)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(organization.getOrganizationId(),"00999");
+        assertEquals(organization.getOrganizationId(),ORG_ID_NEW_2);
         assertEquals(organization.getOrganizationName(),"test organization");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
         assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
@@ -182,20 +185,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     }
 
     private HtmlPage setupOrganizationCollections(HtmlPage organizationMaintenancePage) throws Exception {
-        // set up ynq answer
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[0].answer", "Y");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[1].answer", "N");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[2].answer", "Y");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[3].answer", "N");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[4].answer", "Y");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[5].answer", "N");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[6].answer", "Y");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[7].answer", "N");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[8].answer", "Y");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[9].answer", "N");
-        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[10].answer", "Y");
-        
-        for (int i = 0; i < 11; i++) {
+        // set up ynq answer        
+        for (int i = 0; i <= 11; i++) {
+            setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].answer", i%2==0?"Y":"N");
             setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].explanation", "test");
             setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].reviewDate", "01/01/2008");
 

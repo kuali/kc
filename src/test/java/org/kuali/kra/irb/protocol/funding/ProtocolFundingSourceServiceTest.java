@@ -56,7 +56,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolFundingSourceServiceTest extends TestCase {
+public class ProtocolFundingSourceServiceTest extends Assert{
 
 
     private Mockery context = new JUnit4Mockery();
@@ -130,7 +130,6 @@ public class ProtocolFundingSourceServiceTest extends TestCase {
      */
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         
         fundingSponsorSourceType = new FundingSourceType();
         fundingSponsorSourceType.setFundingSourceTypeCode(1);

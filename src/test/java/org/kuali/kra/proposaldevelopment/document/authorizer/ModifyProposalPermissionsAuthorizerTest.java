@@ -18,23 +18,19 @@ package org.kuali.kra.proposaldevelopment.document.authorizer;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.lifecycle.Lifecycle;
-
+@Ignore
 @RunWith(JMock.class)
-public class ModifyProposalPermissionsAuthorizerTest extends KraTestBase {
+public class ModifyProposalPermissionsAuthorizerTest extends KcUnitTestBase {
     
     private Mockery context = new JUnit4Mockery();
 

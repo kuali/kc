@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.infrastructure;
 
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 
 import java.util.Collection;
 import java.util.Date;
@@ -26,8 +26,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.MailType;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.BusinessObjectDao;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.service.ParameterService;
 /**
  * This class tests the KraServiceLocator
  */
-public class KraServiceLocatorTest extends KraTestBase {
+public class KraServiceLocatorTest extends KcUnitTestBase {
 
     private ParameterService parameterService;
     

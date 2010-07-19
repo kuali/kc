@@ -80,14 +80,14 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterSave,SAVE_SUCCESS_MESSAGE);
 
-        assertContains(awardPaymentReportsAndTermsPageAfterSave,"Fiscal (1) ");
+        assertContains(awardPaymentReportsAndTermsPageAfterSave,"Financial (1) ");
         
         HtmlPage awardPaymentReportsAndTermsPageAfterDelete = clickOn(awardPaymentReportsAndTermsPageAfterSave,"methodToCall.deleteAwardReportTerm.line0.anchor4");
         HtmlPage awardPaymentReportsAndTermsPageAfterOneMoreSave = clickOn(awardPaymentReportsAndTermsPageAfterDelete, "methodToCall.save");
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterOneMoreSave, ERRORS_FOUND_ON_PAGE);        
         assertContains(awardPaymentReportsAndTermsPageAfterOneMoreSave,SAVE_SUCCESS_MESSAGE);
-        assertContains(awardPaymentReportsAndTermsPageAfterOneMoreSave,"Fiscal (0) ");
+        assertContains(awardPaymentReportsAndTermsPageAfterOneMoreSave,"Financial (0) ");
     }
     
     @Test

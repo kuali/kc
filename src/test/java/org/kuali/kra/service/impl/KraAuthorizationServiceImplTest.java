@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -29,6 +28,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * are then invoked and the responses are checked against the expected
  * results.
  */
-public class KraAuthorizationServiceImplTest extends KraTestBase {
+public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
 
     private KraAuthorizationService kraAuthService;
     private IdentityManagementService identityManagementService;
@@ -130,7 +130,7 @@ public class KraAuthorizationServiceImplTest extends KraTestBase {
         ProposalDevelopmentDocument doc = createProposal("Proposal-4", "000001");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
         assertTrue(kraAuthService.hasPermission(userChew.getPrincipalId(), doc, PermissionConstants.MODIFY_NARRATIVE));
-        assertFalse(kraAuthService.hasPermission(userChew.getPrincipalId(), doc, PermissionConstants.MODIFY_PROPOSAL));
+        assertFalse(kraAuthService.hasPermission(userChew.getPrincipalId(), doc, PermissionConstants.MODIFY_BUDGET));
     }
     
     /**

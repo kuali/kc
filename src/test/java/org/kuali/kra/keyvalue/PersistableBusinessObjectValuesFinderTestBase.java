@@ -21,11 +21,11 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
-import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 
-public abstract class PersistableBusinessObjectValuesFinderTestBase extends KraTestBase {
+public abstract class PersistableBusinessObjectValuesFinderTestBase extends KcUnitTestBase {
     private Class valuesFinderClass;
     private Class businessObjectClass;
     private String keyAttributeName;

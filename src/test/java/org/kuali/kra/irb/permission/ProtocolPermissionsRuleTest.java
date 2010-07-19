@@ -63,7 +63,7 @@ public class ProtocolPermissionsRuleTest extends ProtocolRuleTestBase {
     public void testAddOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
         List<User> users = getPermissionUsers();
-        PermissionsUser permissionsUser = createPermissionsUser("user4");
+        PermissionsUser permissionsUser = createPermissionsUser("jtester");
         assertTrue(rule.processAddPermissionsUserBusinessRules(document, users, permissionsUser));
     }
     

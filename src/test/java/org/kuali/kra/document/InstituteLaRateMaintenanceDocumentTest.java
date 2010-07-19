@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.document;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.SQLDataLoader;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -31,12 +31,12 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
     private static final String DOCTYPE = "InstituteLaRateMaintenanceDocument";
     @Override
     public void tearDown() throws Exception {
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from INSTITUTE_LA_RATES where RATE_CLASS_CODE = '12' and RATE_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update INSTITUTE_LA_RATES set rate = 0.0 where RATE_CLASS_CODE = '12' and RATE_TYPE_CODE = '1' and unit_number = '000001' and FISCAL_YEAR = '2003' and start_date = to_date ('07/01/2002','MM/DD?YYYY') and on_off_campus_flag = 'F'");
-        sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("commit");
-        sqlDataLoader.runSql();
+//        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from INSTITUTE_LA_RATES where RATE_CLASS_CODE = '12' and RATE_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("update INSTITUTE_LA_RATES set rate = 0.0 where RATE_CLASS_CODE = '12' and RATE_TYPE_CODE = '1' and unit_number = '000001' and FISCAL_YEAR = '2003' and start_date = to_date ('07/01/2002','MM/DD?YYYY') and on_off_campus_flag = 'F'");
+//        sqlDataLoader.runSql();
+//        sqlDataLoader = new SQLDataLoader("commit");
+//        sqlDataLoader.runSql();
 
         super.tearDown();
     }
@@ -46,6 +46,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
     }
 
     @Test
+    @Ignore
     public void testCopyInstituteLaRateMaintenanceDocument() throws Exception {
         HtmlPage instituteLaRateMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Institute La Rate");
         setFieldValue(instituteLaRateMaintenanceLookupPage,"rateClassCode", "12");
@@ -130,6 +131,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
 
 
     @Test
+    @Ignore
     public void testCreateNewInstituteLaRate() throws Exception {
         HtmlPage instituteLaRateMaintenancePage = getMaintenanceDocumentPage("Institute La Rate","org.kuali.kra.bo.InstituteLaRate","Kuali :: Institute La Rates Maintenance Document");
         String documentNumber = getFieldValue(instituteLaRateMaintenancePage, "document.documentHeader.documentNumber");

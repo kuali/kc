@@ -21,13 +21,13 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class ResearchAreaDaoTest extends KraTestBase {
+public class ResearchAreaDaoTest extends KcUnitTestBase {
 
     private String[] qScripts = { "insert R values('001','000001', 'N', 'top level node', sysdate, user)",
             "insert R values('001.1','001', 'N', 'child node', sysdate, user)", "", "" };

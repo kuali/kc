@@ -21,17 +21,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class VersionHistoryServiceImplTest extends KraTestBase {
+public class VersionHistoryServiceImplTest extends KcUnitTestBase {
     private static final String PROTOCOL_VERSION_NAME = "2001";
     private static final String AWARD_VERSION_NAME = "1001-001";
     private VersionHistoryService versioningHistoryService;

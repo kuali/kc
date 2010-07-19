@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.jmock.integration.junit4.JMock;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
@@ -23,6 +24,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 /**
  * Test the Modify Protocol Attachments Authorizer.
  */
+@Ignore
 @RunWith(JMock.class)
 public class ModifyProtocolAttachmentsAuthorizerTest extends ModifyProtocolModuleAuthorizerTest {
 

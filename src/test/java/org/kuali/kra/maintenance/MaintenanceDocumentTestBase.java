@@ -18,15 +18,15 @@ package org.kuali.kra.maintenance;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcWebTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
+public abstract class MaintenanceDocumentTestBase extends KcWebTestBase {
 
     public abstract String getDocTypeName();
     

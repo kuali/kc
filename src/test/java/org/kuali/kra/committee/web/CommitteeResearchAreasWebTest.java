@@ -24,6 +24,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
+    private static final String COMMITTEE_ID_1 = Long.toString(System.currentTimeMillis());
+    private static final String COMMITTEE_ID_2 = Long.toString(System.currentTimeMillis()+1);
  
     /***********************************************************************
      * Setup and TearDown
@@ -50,7 +52,7 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
         HtmlPage committeePage = this.getCommitteePage();
         
         setDefaultRequiredFields(committeePage);
-        setFieldValue(committeePage, COMMITTEE_ID_ID, "32676");
+        setFieldValue(committeePage, COMMITTEE_ID_ID, COMMITTEE_ID_1);
         
         /*
          * Do a specific lookup so we know what to look for back
@@ -94,7 +96,7 @@ public class CommitteeResearchAreasWebTest extends CommitteeWebTestBase {
         HtmlPage committeePage = this.getCommitteePage();
         
         setDefaultRequiredFields(committeePage);
-        setFieldValue(committeePage, COMMITTEE_ID_ID, "666777");
+        setFieldValue(committeePage, COMMITTEE_ID_ID, COMMITTEE_ID_2);
         
         /*
          * Do a specific lookup so we know what to look for back

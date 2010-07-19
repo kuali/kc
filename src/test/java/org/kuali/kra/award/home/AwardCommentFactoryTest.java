@@ -19,17 +19,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
  * 
  * This class tests methods in Award.java class
  */
-public class AwardCommentFactoryTest extends KraTestBase{ 
+public class AwardCommentFactoryTest extends KcUnitTestBase{ 
     private static final int AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT = 48;
     
     private Award awardBo;

@@ -49,7 +49,7 @@ public class UserRoleBoundWebTest extends ProposalDevelopmentWebTestBase {
    public void tearDown() throws Exception {
        super.tearDown();
        GlobalVariables.setErrorMap(new ErrorMap());
-       stopLifecycles(this.perTestLifeCycles);
+//       stopLifecycles(this.perTestLifeCycles);
        }
 
    @Test

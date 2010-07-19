@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  *  Base class for testing <code>{@link MaintenanceDocument}</code> instances
  */
-public abstract class MaintenanceRuleTestBase extends KraTestBase {
+public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
     private static final Log LOG = LogFactory.getLog(MaintenanceRuleTestBase.class); 
     private static final String DOCUMENT_ERRORS = "document.document*,document.explanation*,document.reversal*,document.selected*,document.header*";
         

@@ -44,7 +44,7 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
      * 
      * @throws Throwable just propagate any exceptions
      */
-    protected abstract void doPerTestStart() throws Throwable;
+    protected abstract void doPerTestStart(boolean transactional) throws Throwable;
 
     /**
      * Hook to execute "per test" stop logic.
@@ -82,7 +82,7 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
     protected abstract void doPerSuiteStop() throws Throwable;
     
     /** {@inheritDoc} */
-    public void startPerTest() {
+    public void startPerTest(boolean transactional) {
         if (this.perTestStarted) {
             throw new IllegalStateException("per test lifecycle already started");
         }
@@ -95,7 +95,7 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
         }
 
         try {
-            doPerTestStart();
+            doPerTestStart(transactional);
             perTestStarted = true;
         }
         catch (Throwable e) {

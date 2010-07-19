@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -27,6 +26,7 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -46,7 +46,7 @@ import org.kuali.rice.test.data.UnitTestSql;
         @UnitTestFile(filename = "classpath:sql/s2s/data/load_SPONSOR_HIERARCHY.sql", delimiter = ";"),
         @UnitTestFile(filename = "classpath:sql/s2s/data/load_OSP$PARAMETER.sql", delimiter = ";") }))
 
-public class S2SServiceTest extends KraTestBase{
+public class S2SServiceTest extends KcUnitTestBase{
     private static final Logger LOG = Logger.getLogger(S2SServiceTest.class);
     private String proposalNumber;
     private DocumentService documentService;

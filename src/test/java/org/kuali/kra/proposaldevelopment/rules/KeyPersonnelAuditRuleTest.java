@@ -27,11 +27,11 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditModeRule
  */
 
-public class KeyPersonnelAuditRuleTest extends KraTestBase {
+public class KeyPersonnelAuditRuleTest extends KcUnitTestBase {
     private static final String PARAMETER_NAME_PROPERTY   = "parameterName";
     private static final String CREDIT_SPLIT_ENABLED_NAME = "proposaldevelopment.creditsplit.enabled";
 

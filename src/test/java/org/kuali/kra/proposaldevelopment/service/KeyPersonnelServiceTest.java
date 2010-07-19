@@ -23,10 +23,10 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.9 $
  */
-public class KeyPersonnelServiceTest extends KraTestBase {
+public class KeyPersonnelServiceTest extends KcUnitTestBase {
     private ProposalDevelopmentDocument document;
     private ProposalDevelopmentDocument blankDocument;
     private DocumentService documentService = null;

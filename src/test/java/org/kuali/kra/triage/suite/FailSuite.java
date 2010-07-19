@@ -220,10 +220,122 @@ import org.junit.runners.Suite.SuiteClasses;
     //FROM HTMLUNIT UPGRADE END
     
     //keep at bottom - somehow breaks the entire suite
-    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class
+    org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
+    
+    /*/**** Bozo suite. The following tests were commented out. 
+     * DOn't know why, need to figure out!!
+     */
+    org.kuali.kra.budget.web.BudgetTotalsWebTest.class,
+    org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
+    org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizerTest.class,
+    org.kuali.kra.committee.service.CommitteeAuthorizationServiceImplTest.class,
+    org.kuali.kra.committee.rules.CommitteeMembershipAddRuleTest.class,
+    org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
+    org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class,
+    org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolFundingSourceAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolGeneralInfoAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolModuleAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolOrganizationsAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolOthersAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolPersonnelAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolReferencesAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizerTest.class,
+    org.kuali.kra.irb.auth.NotifyIrbAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
+    
+    /*** Moved from To Fix suite */
+    /***** complicated sql needs to be loaded in. Damien thinks will
+    // need an sql loader****/
+    org.kuali.kra.budget.personnel.BudgetPersonServiceImplTest.class,
+    org.kuali.kra.irb.ProtocolDaoOjbTest.class, 
+    //assertion error
+    org.kuali.kra.irb.permission.ProtocolPermissionsRuleTest.class,
+    //assertion error
+    org.kuali.kra.irb.protocol.summary.ProtocolSummaryTest.class,
+    // The following uses comparator that returns 46 instead of 1
+    org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparatorTest.class,
+    // assertion error for below
+    org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentNarrativeRuleTest.class,
+    // assertion error
+    org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
+    //data integrity violation exception
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0GeneratorTest.class,
+    // data integrity violation exception
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_1GeneratorTest.class,
+    // data integrity constrain
+    org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_2GeneratorTest.class,
+    //assertion error..
+    org.kuali.kra.service.NihSponsorHandlingIntegrationTest.class,
+    
+    /**** Moved from Web test suite. These are failing web tests****/
+    /* non-working tests */
+    org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class,
+    org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentWebTest.class,
+    // assertion failure due to SQL
+    org.kuali.kra.document.BudgetCategoryMapMaintenanceDocumentTest.class,
+    // assertion failure due to SQL
+    org.kuali.kra.document.BudgetCategoryMappingMaintenanceDocumentTest.class,
+    //assertion
+    org.kuali.kra.document.BudgetCategoryTypeMaintenanceDocumentTest.class,
+    // element not found exception. Travis says this is fixed in the trunk, should
+    // check after merge.
+    org.kuali.kra.document.CustomAttributeDocumentMaintenanceDocumentTest.class,
+    org.kuali.kra.document.InstituteLaRateMaintenanceDocumentTest.class,
+    org.kuali.kra.meeting.MeetingWebTest.class,
+    org.kuali.kra.document.InstituteRateMaintenanceDocumentTest.class,
+    org.kuali.kra.document.RateClassMaintenanceDocumentTest.class,
+    org.kuali.kra.document.RateClassTypeMaintenanceDocumentTest.class,
+    org.kuali.kra.document.RateTypeMaintenanceDocumentTest.class,
+    org.kuali.kra.document.ValidCeRateTypeMaintenanceDocumentTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDeliveryInfoWebTest.class,
+    
+    org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
+    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
+    org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
+    org.kuali.kra.irb.web.ProtocolPersonnelWebTest.class,
+    org.kuali.kra.irb.web.ProtocolQuestionnaireWebTest.class,
+    org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
+    org.kuali.kra.proposaldevelopment.web.DeliveryInfoPanelWebTest.class,
+    
+    /** This test was in the pass suite, would run perfectly then fail all of a sudden**/
+    org.kuali.kra.award.AwardSubawardAuditRuleTest.class,
+
+    /*** These are tests that were initially in pass suite, but the tests were commented out,
+      so moving to fail suite until we find out why***/
+    org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizerTest.class,
+    org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
+
+    /*** Added to trunk since branch, don't pass after merge **/
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
+    org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
+    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
 })
 /**
- * these are all the test class where a least one the test method is failing (or erroring).  Some of these test
+ * these are all the test class where a least one the test method is failing (or erring).  Some of these test
  * classes actually pass on there own but when all tests are run as a whole they fail.  This is likely due to
  * the side affects caused by other tests.
  */

@@ -28,9 +28,9 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.10 $
  */
-public class CreditSplitValidatorTest extends KraTestBase {
+public class CreditSplitValidatorTest extends KcUnitTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);
     private CreditSplitValidator validator;
     private ProposalDevelopmentDocument document;

@@ -22,26 +22,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-    @UnitTestData(
-            sqlStatements = {
-                    @UnitTestSql("delete from CUSTOM_ATTRIBUTE where id = 999")
-                    ,@UnitTestSql("update  CUSTOM_ATTRIBUTE set data_length=30 where id = 7")
-                    ,@UnitTestSql("commit")
-            }
-    )
-)
 
 public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "CustomAttributeMaintenanceDocument";
-
+    private static final String ID_1 = Long.toString(System.currentTimeMillis()%1000000);
+    private static final String ID_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
 
     public String getDocTypeName() {
         return DOCTYPE;
@@ -59,7 +48,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
         setFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentDescription", "Custom Attribute - copy test");
 
-        setFieldValue(customAttributeMaintenanceCopyPage, "document.newMaintainableObject.id", "999");
+        setFieldValue(customAttributeMaintenanceCopyPage, "document.newMaintainableObject.id", ID_1);
                 
         HtmlPage routedPage = clickOn(customAttributeMaintenanceCopyPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
         
@@ -69,7 +58,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CustomAttribute customAttribute = (CustomAttribute)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(customAttribute.getId(),new Integer(999));
+        assertEquals(customAttribute.getId(),new Integer(ID_1));
         assertEquals(customAttribute.getGroupName(),"Project Details");
         assertEquals(customAttribute.getLabel(),"Inventions");
         assertEquals(customAttribute.getName(),"inventions");
@@ -134,7 +123,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         String documentNumber = getFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value: * Group Name: * Label: Lookup Class: select Lookup Return: select * Name");
         setFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute - test");
-        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", "999");
+        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", ID_2);
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataLength", "8");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataTypeCode", "1");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.groupName", "test group");
@@ -155,13 +144,13 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
         
         assertContains(routedCustomDataPage, "Document was successfully submitted.");
-        assertContains(routedCustomDataPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: Degree Type Lookup Return: Degree Code Name: test99");
+        assertContains(routedCustomDataPage,"New Id: "+ID_2+" Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: Degree Type Lookup Return: Degree Code Name: test99");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CustomAttribute customAttribute = (CustomAttribute)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(customAttribute.getId(),new Integer(999));
+        assertEquals(customAttribute.getId(),new Integer(ID_2));
         assertEquals(customAttribute.getGroupName(),"test group");
         assertEquals(customAttribute.getLabel(),"Test 99");
         assertEquals(customAttribute.getName(),"test99");

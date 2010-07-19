@@ -58,8 +58,9 @@ public class AwardDataValidationWebTest extends AwardActionsWebTest {
     @Test
     public void testTurnOnDataValidation() throws Exception{
         HtmlPage awardActionsPageAfterActivate = clickOn(awardActionsPage, METHOD_ACTIVATE);
-        assertContains(awardActionsPageAfterActivate,TERMS_ERROR_STRING);
-        assertContains(awardActionsPageAfterActivate, REPORT_ERROR_STRING);
+        System.out.println(awardActionsPageAfterActivate.asXml());
+        assertTrue(awardActionsPageAfterActivate.asXml().contains(TERMS_ERROR_STRING));
+        assertTrue(awardActionsPageAfterActivate.asXml().contains(REPORT_ERROR_STRING));
     }
     
     /**
@@ -67,14 +68,15 @@ public class AwardDataValidationWebTest extends AwardActionsWebTest {
      *This method tests turning off Validation after an Activation
      * @throws Exception
      */
+    
     @Test
     public void testTurnOffDataValidationAfterActivate() throws Exception{
         HtmlPage awardActionsPageAfterActivate = clickOn(awardActionsPage, METHOD_ACTIVATE);
-        assertContains(awardActionsPageAfterActivate, TERMS_ERROR_STRING);
-        assertContains(awardActionsPageAfterActivate, REPORT_ERROR_STRING);
+        assertTrue(awardActionsPageAfterActivate.asXml().contains(TERMS_ERROR_STRING));
+        assertTrue(awardActionsPageAfterActivate.asXml().contains(REPORT_ERROR_STRING));
         HtmlPage awardActionsPageAfterDeactivate = clickOn(awardActionsPageAfterActivate, METHOD_DEACTIVATE);
-        assertDoesNotContain(awardActionsPageAfterDeactivate, TERMS_ERROR_STRING);
-        assertDoesNotContain(awardActionsPageAfterDeactivate, REPORT_ERROR_STRING);
+        assertFalse(awardActionsPageAfterDeactivate.asXml().contains(TERMS_ERROR_STRING));
+        assertFalse(awardActionsPageAfterDeactivate.asXml().contains(REPORT_ERROR_STRING));
     }
     
     

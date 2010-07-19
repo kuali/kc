@@ -19,9 +19,9 @@ import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DocumentService;
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * Base class for Award business rule tests.
  * 
  */
-public abstract class AwardRuleTestBase extends KraTestBase {
+public abstract class AwardRuleTestBase extends KcUnitTestBase {
     
     protected DocumentService documentService = null;
 

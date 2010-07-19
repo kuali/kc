@@ -22,13 +22,13 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This is an integration test that makes sure the {@link DictionaryValidationService DictionaryValidationService} does not
  * fail validating BO relationships that are many-to-many.
  */
-public class ManyToManyValidationTest extends KraWebTestBase {
+public class ManyToManyValidationTest extends KcUnitTestBase { //KraWebTestBase {
 
     private DictionaryValidationService dictionaryValidationService;
     private ProtocolDocument doc;

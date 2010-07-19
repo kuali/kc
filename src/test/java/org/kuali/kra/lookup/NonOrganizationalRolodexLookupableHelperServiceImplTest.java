@@ -22,17 +22,16 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 /**
  * Class for testing units of functionality for the <code>{@link NonOrganizationalLookupableHelperServiceImpl}
  * 
  */
-public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KraTestBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NonOrganizationalRolodexLookupableHelperServiceImplTest.class);
+public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcUnitTestBase {
 
     /**
      * 
