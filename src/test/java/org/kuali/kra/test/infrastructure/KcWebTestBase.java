@@ -1056,6 +1056,14 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the list of error strings (may be empty).
      */
     protected final List<String> getErrors(HtmlPage page, String panelId) {
+        try {
+            if (getElementByName(page, "methodToCall.showAllTabs") != null)
+                page = clickOnExpandAll(page);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         List<String> errors = new ArrayList<String>();
 
         HtmlElement panelDiv = getElement(page, panelId);

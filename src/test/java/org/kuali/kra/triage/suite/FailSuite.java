@@ -204,7 +204,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
     org.kuali.kra.proposaldevelopment.web.DeliveryInfoPanelWebTest.class,
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
-    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.meeting.MeetingWebTest.class,
     //FROM HTMLUNIT UPGRADE END
     
@@ -296,7 +295,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDeliveryInfoWebTest.class,
     
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
-    org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
