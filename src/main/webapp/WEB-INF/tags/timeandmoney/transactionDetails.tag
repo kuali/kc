@@ -18,7 +18,18 @@
 
 <c:set var="transactionDetailAttributes" value="${DataDictionary.TransactionDetail.attributes}" />
 
-<kra:innerTab parentTab="History" defaultOpen="false" tabTitle="Transaction Details/Transaction ID: ${awardAmountInfoHistory.primaryDetail.transactionId}" tabErrorKey="" >
+ <c:choose>
+       	<c:when test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
+     		<c:set var="tabTitleAttribute" value="Single Node Transaction ID:" />
+     		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
+       	</c:when>
+       	<c:otherwise>
+       		<c:set var="tabTitleAttribute" value="Transaction ID:" />
+     		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
+       	</c:otherwise>
+ </c:choose>
+
+<kra:innerTab parentTab="History" defaultOpen="false" tabTitle="Transaction Details/${tabTitleAttribute} ${idValue}" tabErrorKey="" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
         	<th width="65%">
