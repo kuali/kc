@@ -79,19 +79,19 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
         HtmlPage initalPage = getNoteAttachmentPage();
         Assert.assertThat(initalPage.asText(), containsString(NO_PROTCOL_ATTACHMENTS));
         
-        HtmlPage afterAddPage = addProtocolAttachment(initalPage);  
+        HtmlPage afterAddPage = clickOnExpandAll(addProtocolAttachment(initalPage));
         validateAddedProtocolAttachment(afterAddPage);
         
-        HtmlPage afterReplacePage = replaceProtocolAttachmentFile(afterAddPage);
+        HtmlPage afterReplacePage =  clickOnExpandAll(replaceProtocolAttachmentFile(afterAddPage));
         validateReplacedProtocolAttachmentFile(afterReplacePage);
         
-        HtmlPage confirmDeletePage = deleteProtocolAttachment(afterReplacePage);
+        HtmlPage confirmDeletePage =  deleteProtocolAttachment(afterReplacePage);
         validateConfirmDeleteProtocolAttachment(confirmDeletePage);
         
-        HtmlPage afterDeletePage = confirmDeleteProtocolAttachment(confirmDeletePage);
+        HtmlPage afterDeletePage =  clickOnExpandAll(confirmDeleteProtocolAttachment(confirmDeletePage));
         validateDeletedProtocolAttachment(afterDeletePage);
         
-        HtmlPage afterSaveDeletePage = saveDoc(afterDeletePage);
+        HtmlPage afterSaveDeletePage =  clickOnExpandAll(saveDoc(afterDeletePage));
         validateDeletedProtocolAttachment(afterSaveDeletePage);
     }  
     
@@ -200,16 +200,16 @@ public class ProtocolNoteAndAttachmentWebTest extends ProtocolWebTestBase {
         HtmlPage initalPage = getNoteAttachmentPage();
         Assert.assertThat(initalPage.asText(), containsString(NO_PERSONNEL_ATTACHMENTS));
         
-        HtmlPage afterAddPage = addPersonnelAttachment(initalPage);  
+        HtmlPage afterAddPage = clickOnExpandAll(addPersonnelAttachment(initalPage));  
         validateAddedPersonnelAttachment(afterAddPage);
         
         HtmlPage confirmDeletePage = deletePersonnelAttachment(afterAddPage);
         validateConfirmDeletePersonnelAttachment(confirmDeletePage);
         
-        HtmlPage afterDeletePage = confirmDeletePersonnelAttachment(confirmDeletePage);
+        HtmlPage afterDeletePage = clickOnExpandAll(confirmDeletePersonnelAttachment(confirmDeletePage));
         validateDeletedPersonnelAttachment(afterDeletePage);
         
-        HtmlPage afterSaveDeletePage = saveDoc(afterDeletePage);
+        HtmlPage afterSaveDeletePage = clickOnExpandAll(saveDoc(afterDeletePage));
         validateDeletedPersonnelAttachment(afterSaveDeletePage);
     }
     
