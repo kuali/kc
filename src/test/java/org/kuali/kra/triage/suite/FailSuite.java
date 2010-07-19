@@ -176,7 +176,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.service.S2SServiceTest.class,
     org.kuali.kra.s2s.service.SchedulerServiceTest.class,
     org.kuali.kra.s2s.service.TestSearchOpportunity.class,
-    org.kuali.kra.service.SpringContextOverrideTest.class,
     org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
     org.kuali.kra.web.PersonWebTest.class,
     org.kuali.kra.web.UnitHierarchyWebTest.class,
