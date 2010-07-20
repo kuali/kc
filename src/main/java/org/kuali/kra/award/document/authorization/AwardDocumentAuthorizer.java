@@ -28,6 +28,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -85,7 +86,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                     
             if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.MODIFY_BUDGET)) {
                 editModes.add("modifyAwardBudget");
-            }            
+            }
+            
+            if (canCreateAward(user.getPrincipalId())) {
+                editModes.add(Constants.CAN_CREATE_AWARD_KEY);
+            }
         }
         
         return editModes;
