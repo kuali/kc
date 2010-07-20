@@ -1392,5 +1392,10 @@ public class AwardForm extends BudgetVersionFormBase
     public void setTotalBudgetLimits(List<List<BudgetDecimal>> totalBudgetLimits) {
         this.totalBudgetLimits = totalBudgetLimits;
     }
+    
+    public String getCanCreateAward() {
+        Boolean aFlag = this.getEditingMode().containsKey(Constants.CAN_CREATE_AWARD_KEY);
+        return aFlag.toString();
+    }
 
 }
