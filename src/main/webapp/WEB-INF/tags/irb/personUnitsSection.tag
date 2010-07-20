@@ -52,22 +52,26 @@
 									<c:out value="Add:" />
 								</th>
 				                <td align="left" valign="middle" class="infoline">
-			   						<div id="newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
-			                    		<c:choose>
-			                    			<c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}" >
-			                        			(select)
-			                      			</c:when>
-			                      			<c:otherwise>
-			                         			${KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}
-			                      			</c:otherwise>
-			                    		</c:choose> 
+			   						<div id="personnelHelper.newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
+                                        <c:choose>
+                                            <c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}">
+                                                (select)
+                                            </c:when>
+	                                        <c:otherwise>
+	                                             <kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNamer"
+                                                                           attributeEntry="${unitAttributes.unitName}" />
+	                                        </c:otherwise>
+                                        </c:choose>
 			                    	</div>
-			                    	&nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
+			                    	&nbsp;
+			                    	<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />
 			                    	<span class="fineprint"></span> 
 								</td>
 				                <td align="left" valign="middle" class="infoline">
 									<div align=left>
-			                    		<kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber" />
+			                    		<kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber"
+			                    		                          attributeEntry="${unitAttributes.unitNumber}" 
+			                    		                          onblur="loadUnitNameTo('personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber','personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" />
 			                      	</div>
 			                        <span class="fineprint"></span> 
 								</td>
