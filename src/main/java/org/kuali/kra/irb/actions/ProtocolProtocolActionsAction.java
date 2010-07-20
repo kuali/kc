@@ -62,7 +62,9 @@ import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionService;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionEvent;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
@@ -1974,7 +1976,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
+        if (applyRules(new CommitteeDecisionAbstainerEvent(protocolForm.getProtocolDocument(), decision))){
             decision.getAbstainers().add(decision.getNewAbstainer());
             decision.setNewAbstainer(new CommitteePerson());
             decision.setAbstainCount(decision.getAbstainCount() + 1);
@@ -2002,7 +2004,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-        if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), decision))){
+        if (applyRules(new CommitteeDecisionRecuserEvent(protocolForm.getProtocolDocument(), decision))) {
             decision.getRecused().add(decision.getNewRecused());
             decision.setNewRecused(new CommitteePerson());
             decision.setRecusedCount(decision.getRecusedCount() + 1);
