@@ -24,22 +24,22 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * 
  * This class...
  */
-public class CommitteeDecisionEvent extends KraDocumentEventBase {
+public class CommitteeDecisionRecuserEvent extends KraDocumentEventBase {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(CommitteeDecisionEvent.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeDecisionRecuserEvent.class);
     private CommitteeDecision actionBean;
     
     /**
      * 
-     * Constructs a CommitteeDecisionEvent.java.
+     * Constructs a CommitteeDecisionAbstainerEvent.java.
      * @param document
      * @param decision
      */
-    public CommitteeDecisionEvent(ProtocolDocument document, CommitteeDecision decision) {
+    public CommitteeDecisionRecuserEvent(ProtocolDocument document, CommitteeDecision decision) {
         super("Recording Committee Decision " + getDocumentId(document), "", document);
         this.actionBean = decision;
     }
+
     @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
@@ -53,14 +53,15 @@ public class CommitteeDecisionEvent extends KraDocumentEventBase {
         }
 
         LOG.debug(logMessage);
+
     }
-    
-    public Class<ExecuteCommitteeDecisionRule> getRuleInterfaceClass() {
-        return ExecuteCommitteeDecisionRule.class;
+
+    public Class<ExecuteCommitteeDecisionRecuserRule> getRuleInterfaceClass() {
+        return ExecuteCommitteeDecisionRecuserRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteCommitteeDecisionRule) rule).proccessCommitteeDecisionRule((ProtocolDocument) this.getDocument(),
+        return ((ExecuteCommitteeDecisionRecuserRule) rule).proccessCommitteeDecisionRecuserRule((ProtocolDocument) this.getDocument(),
                 this.actionBean);
     }
 

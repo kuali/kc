@@ -38,7 +38,11 @@ import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.correction.ExecuteProtocolAdminCorrectionRule;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionRule;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerRule;
+import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserRule;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionRule;
+import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
+import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -89,7 +93,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -418,6 +422,22 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision actionBean) {
         return new CommitteeDecisionRule().proccessCommitteeDecisionRule(document, actionBean);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision actionBean) {
+        return new CommitteeDecisionAbstainerRule().proccessCommitteeDecisionAbstainerRule(document, actionBean);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CommitteeDecision actionBean) {
+        return new CommitteeDecisionRecuserRule().proccessCommitteeDecisionRecuserRule(document, actionBean);
     }
 
 }

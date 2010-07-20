@@ -390,6 +390,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
     org.kuali.kra.irb.actions.print.ProtocolPrintingServiceTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionRuleTest.class,
+    org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserRuleTest.class,
+    org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerRuleTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceTest.class,
     org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelRuleTest.class,
     org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceTest.class,

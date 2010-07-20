@@ -129,7 +129,7 @@
                                                  
                                                 <td style="text-align:center; vertical-align:middle">
                                                     <kul:htmlControlAttribute property="actionHelper.committeeDecision.abstainers[${status.index}].membershipId" 
-                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                                              attributeEntry="${cpattributes.membershipId}" readOnly="true" />
                                                 </td>
                                                  
                                                 <td>
@@ -187,7 +187,7 @@
                                                  
                                                 <td style="text-align:center; vertical-align:middle">
                                                     <kul:htmlControlAttribute property="actionHelper.committeeDecision.recused[${status.index}].membershipId" 
-                                                                              attributeEntry="${cpattributes.membershipId}" />
+                                                                              attributeEntry="${cpattributes.membershipId}" readOnly="true" />
                                                 </td>
                                                  
                                                 <td>
