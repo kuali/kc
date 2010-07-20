@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -410,5 +411,13 @@ public class ProtocolPerson extends ProtocolAssociate {
             return false;
         }
         return true;
+    }
+    
+    public boolean isPrincipalInvestigator() {
+        if (StringUtils.equals(protocolPersonRoleId , "PI")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
