@@ -43,6 +43,7 @@ public class PermissionAttributes {
     private static final String SECTION_MINUTES = "minutes";
     private static final String SECTION_AGENDA = "agenda";
     private static final String SECTION_SCHEDULE = "schedule";
+    private static final String SECTION_ACTIONS = "actions";
     private static final String SECTION_ATTACHMENTS = "attachments";
     private static final String SECTION_AWARD = "award";
     private static final String SECTION_AWARD_BUDGET = "award_budget";
@@ -226,6 +227,11 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_MEETING_MANAGEMENT); 
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_GENERATE_SCHEDULE); 
         tempAttributesMap.put(PermissionConstants.GENERATE_SCHEDULE, attributes);
+
+        attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_COMMITTEE);  
+        attributes.put(ATTR_SECTION_NAME, SECTION_ACTIONS); 
+        tempAttributesMap.put(PermissionConstants.PERFORM_COMMITTEE_ACTIONS, attributes);
 
         attributes = new HashMap<String, String>(); 
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_AWARD); 
