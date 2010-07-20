@@ -29,13 +29,13 @@ public class BatchCorrespondenceDetailWebTest extends KcWebTestBase {
     
     private static final String REFRESH_BUTTON = "methodToCall.start";
     private static final String ADD_BATCH_CORRESPONDENCE_DETAIL_BUTTON = "methodToCall.addBatchCorrespondenceDetail";
-    private static final String DELETE_BATCH_CORRESPONDENCE_DETAIL_BUTTON = "methodToCall.deleteBatchCorrespondenceDetail.batchCorrespondenceDetail[0]}";
+    private static final String DELETE_BATCH_CORRESPONDENCE_DETAIL_BUTTON = "methodToCall.deleteBatchCorrespondenceDetail.batchCorrespondenceDetail[1]}";
     
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE_FIELD = "batchCorrespondence.batchCorrespondenceTypeCode";
     private static final String FINAL_ACTION_DAY_FIELD = "batchCorrespondence.finalActionDay";
     private static final String NEW_DAYS_TO_EVENT_FIELD = "newBatchCorrespondenceDetail.daysToEvent";
     private static final String NEW_PROTO_CORRESP_TYPE_CODE_FIELD = "newBatchCorrespondenceDetail.protoCorrespTypeCode";
-    private static final String FIFTEEN = "15";
+    private static final String SIXTEEN = "16";
     private static final String RENEWAL_REMINDER_LETTER_ONE_TXT = "Renewal Reminder Letter #1 ";
 
     private static final String DOCUMENT_RELOAD_MSG = "Document was successfully reloaded.";
@@ -65,7 +65,7 @@ public class BatchCorrespondenceDetailWebTest extends KcWebTestBase {
         assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_DAYS_TO_EVENT_INVALID);
         assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED);
         assertDoesNotContain(page, KeyConstants.ERROR_BATCH_CORRESPONDENCE_PROTO_CORRESP_TYPE_CODE_NOT_SPECIFIED);
-        assertDoesNotContain(page, FIFTEEN);
+        assertDoesNotContain(page, SIXTEEN);
         assertDoesNotContain(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
         
         // Test error
@@ -75,17 +75,17 @@ public class BatchCorrespondenceDetailWebTest extends KcWebTestBase {
         assertContains(page, "Protocol correspondence type missing.");
         
         // Test add
-        setFieldValue(page, NEW_DAYS_TO_EVENT_FIELD, "15");
+        setFieldValue(page, NEW_DAYS_TO_EVENT_FIELD, SIXTEEN);
         setFieldValue(page, NEW_PROTO_CORRESP_TYPE_CODE_FIELD, "20");
         page = clickOn(getElementByName(page, ADD_BATCH_CORRESPONDENCE_DETAIL_BUTTON, true));
         assertFalse(hasError(page));
-        assertContains(page, FIFTEEN);
+        assertContains(page, SIXTEEN);
         assertContains(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
         
         // Test delete
         page= clickOn(getElementByName(page, DELETE_BATCH_CORRESPONDENCE_DETAIL_BUTTON, true));
         assertFalse(hasError(page));
-        assertDoesNotContain(page, FIFTEEN);
+        assertDoesNotContain(page, SIXTEEN);
         assertDoesNotContain(page, RENEWAL_REMINDER_LETTER_ONE_TXT);
     }
 
