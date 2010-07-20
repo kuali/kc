@@ -134,6 +134,7 @@ public interface TaskName {
     public static final String VIEW_COMMITTEE = "viewCommittee";
     public static final String MODIFY_SCHEDULE = "modifySchedule";
     public static final String VIEW_SCHEDULE = "viewSchedule";
+    public static final String PERFORM_COMMITTEE_ACTIONS = "performCommitteeActions";
     
     /*
      * Time and Money Tasks
