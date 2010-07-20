@@ -24,22 +24,22 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * 
  * This class...
  */
-public class CommitteeDecisionEvent extends KraDocumentEventBase {
+public class CommitteeDecisionAbstainerEvent extends KraDocumentEventBase {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(CommitteeDecisionEvent.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeDecisionAbstainerEvent.class);
     private CommitteeDecision actionBean;
     
     /**
      * 
-     * Constructs a CommitteeDecisionEvent.java.
+     * Constructs a CommitteeDecisionAbstainerEvent.java.
      * @param document
      * @param decision
      */
-    public CommitteeDecisionEvent(ProtocolDocument document, CommitteeDecision decision) {
+    public CommitteeDecisionAbstainerEvent(ProtocolDocument document, CommitteeDecision decision) {
         super("Recording Committee Decision " + getDocumentId(document), "", document);
         this.actionBean = decision;
     }
+
     @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
@@ -53,14 +53,15 @@ public class CommitteeDecisionEvent extends KraDocumentEventBase {
         }
 
         LOG.debug(logMessage);
+
     }
-    
-    public Class<ExecuteCommitteeDecisionRule> getRuleInterfaceClass() {
-        return ExecuteCommitteeDecisionRule.class;
+
+    public Class<ExecuteCommitteeDecisionAbstainerRule> getRuleInterfaceClass() {
+        return ExecuteCommitteeDecisionAbstainerRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteCommitteeDecisionRule) rule).proccessCommitteeDecisionRule((ProtocolDocument) this.getDocument(),
+        return ((ExecuteCommitteeDecisionAbstainerRule) rule).proccessCommitteeDecisionAbstainerRule((ProtocolDocument) this.getDocument(),
                 this.actionBean);
     }
 
