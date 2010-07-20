@@ -20,8 +20,8 @@
 	-->
 
 	<!-- globally used properties -->
-	<property name="bun.username" value="KCDEV"/>
-	<property name="bun.password" value="dev174kc"/>
+	<property name="bun.username" value="KCBND"/>
+	<property name="bun.password" value="bnd174kc"/>
 	<property name="tst.username" value="KCUNT"/>
 	<property name="tst.password" value="unt174kc"/>
 	<property name="emb.client.username" value="KCDEV"/>
@@ -70,10 +70,9 @@
         </exec>
     </target>
 	
-	<!-- change this back to run oracle_test when it loads data -->
 	<target name="oracle-test" depends="oracle-init" description="updates the unit test database">
         <exec executable="${sqlplus.location}" dir="oracle">
-            <arg line="${tst.username}/${tst.password}@//${db.host}/${db.sid} @oracle_bundled.sql"/>
+            <arg line="${tst.username}/${tst.password}@//${db.host}/${db.sid} @oracle_test.sql"/>
         </exec>
 	</target>
 	
@@ -100,6 +99,7 @@
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
+        	<arg value="-f"/>
         	<arg value="-u${emb.client.username}"/>
         	<arg value="-p${emb.client.password}"/>
         	<arg line="-e&quot;source mysql_client.sql&quot;"/>
@@ -110,6 +110,7 @@
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
+        	<arg value="-f"/>
         	<arg value="-u${emb.server.username}"/>
         	<arg value="-p${emb.server.password}"/>
         	<arg line="-e&quot;source mysql_server.sql&quot;"/>
@@ -120,6 +121,7 @@
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
+        	<arg value="-f"/>
         	<arg value="-u${bun.username}"/>
         	<arg value="-p${bun.password}"/>
         	<arg line="-e&quot;source mysql_bundled.sql&quot;"/>
@@ -130,6 +132,7 @@
         <exec executable="${mysql.location}" dir="mysql">
             <arg value="-b"/>
         	<arg value="-n"/>
+        	<arg value="-f"/>
         	<arg value="-u${tst.username}"/>
         	<arg value="-p${tst.password}"/>
         	<arg line="-e&quot;source mysql_test.sql&quot;"/>
