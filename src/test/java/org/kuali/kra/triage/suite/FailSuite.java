@@ -290,7 +290,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.document.RateTypeMaintenanceDocumentTest.class,
     org.kuali.kra.document.ValidCeRateTypeMaintenanceDocumentTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalDeliveryInfoWebTest.class,
-    
     org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateWebTest.class,
     org.kuali.kra.irb.web.ProtocolAdditionalFieldsWebTest.class,
     org.kuali.kra.irb.web.ProtocolPermissionsWebTest.class,
@@ -313,7 +312,9 @@ import org.junit.runners.Suite.SuiteClasses;
     //Added to trunk since branch, don't pass after merge
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
-    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
+    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class
+
 })
 /**
  * these are all the test class where a least one the test method is failing (or erring).  Some of these test

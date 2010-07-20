@@ -410,7 +410,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolSpecialReviewWebTest.class,
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class,
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
