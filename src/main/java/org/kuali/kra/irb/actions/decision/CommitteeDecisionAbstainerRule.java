@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This class handles the rules for the abstainer side of the committee decision.
  */
-public class CommitteeDecisionAbstainerRule implements ExecuteCommitteeDecisionAbstainerRule {
+public class CommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionAbstainerRule {
     
     /**
      * 
@@ -34,23 +34,11 @@ public class CommitteeDecisionAbstainerRule implements ExecuteCommitteeDecisionA
      */
     public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
         boolean retVal = true;
-        if (committeeDecision.getNewAbstainer().getMembershipId() == null 
-                || !checkCommitteePerson(committeeDecision.getAbstainers(), committeeDecision.getNewAbstainer())
-                || !checkCommitteePerson(committeeDecision.getRecused(), committeeDecision.getNewAbstainer())) {
+        if (!processVoter(committeeDecision.getNewAbstainer(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".newAbstainer.membershipId", 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS);
-            retVal = false;
+            retVal = false; 
         }
         return retVal;
     }
-    
-    private boolean checkCommitteePerson(List<CommitteePerson> people, CommitteePerson committeePersonToCheck) {
-        for (CommitteePerson listPerson : people) {
-            if (listPerson.getMembershipId().equals(committeePersonToCheck.getMembershipId())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }
