@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -303,8 +304,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                                                                                                          WorkflowException, 
                                                                                                          IOException {
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(institutionalProposal);
-        resetAwardFundingForNewVersion(newVersion);
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
+        newVersion.setAwardFundingProposals(new ArrayList<AwardFundingProposal>());
         InstitutionalProposalDocument newInstitutionalProposalDocument = 
             (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
         newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(institutionalProposalDocument.getDocumentHeader().getDocumentDescription());
@@ -314,14 +315,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
         response.sendRedirect(makeDocumentOpenUrl(newInstitutionalProposalDocument));
         return null;
-    }
-    
-    private void resetAwardFundingForNewVersion(InstitutionalProposal newInstProp) {
-        
-        for (AwardFundingProposal awardFundingProposal : newInstProp.getAwardFundingProposals()) {
-            awardFundingProposal.setAwardFundingProposalId(null);
-            awardFundingProposal.setActive(false);
-        }
     }
  
     /**
