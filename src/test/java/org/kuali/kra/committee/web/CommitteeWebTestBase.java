@@ -53,6 +53,8 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     protected static final String MEMBERS_LINK_NAME = "committeeMembership";
     protected static final String ACTIONS_LINK_NAME = "committeeActions";
     
+    protected static final String SUBMIT_BUTTON_NAME = "methodToCall.route";
+    
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     protected static final String COMMITTEE_TYPE_CODE_ID = "document.committeeList[0].committeeTypeCode";
     protected static final String COMMITTEE_MAX_PROTOCOLS_ID = "document.committeeList[0].maxProtocols";
@@ -272,7 +274,8 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     protected HtmlPage getActionsPage() throws Exception {
         HtmlPage committeePage = this.getCommitteePage();
         this.setDefaultRequiredFields(committeePage);
-        HtmlPage actionsPage = clickOnTab(committeePage, ACTIONS_LINK_NAME);
+        HtmlPage submittedCommitteePage = clickOnTab(committeePage, SUBMIT_BUTTON_NAME);
+        HtmlPage actionsPage = clickOnTab(submittedCommitteePage, ACTIONS_LINK_NAME);
         return actionsPage;
     }
     

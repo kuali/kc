@@ -30,6 +30,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.committee.dao.CommitteeBatchCorrespondenceDao;
+import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
@@ -40,6 +42,7 @@ import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -81,16 +84,20 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        String committeeId = committeeDocument.getCommittee().getCommitteeId();
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateEndDate();
         
-        if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
-                batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
-            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().clear();
-            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().add(
-                    getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate));
+        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        if (isAuthorized(task)) {
+            if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+                    batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
+                committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().clear();
+                committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().add(
+                        getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate));
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -294,27 +301,31 @@ public class CommitteeActionsAction extends CommitteeAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintFutureScheduledMeeting();
         
-        if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
-                printRooster, printFutureScheduledMeeting))) {
-            AbstractPrint printable;
-            List<Printable> printableArtifactList = new ArrayList<Printable>();
-            if (printRooster) {
-                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
-                printable.setDocument(committeeForm.getCommitteeDocument());
-                printableArtifactList.add(printable);
-            }
-            if (printFutureScheduledMeeting) {
-                printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
-                printable.setDocument(committeeForm.getCommitteeDocument());
-                printableArtifactList.add(printable);
-            }
-            AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
-            if (dataStream.getContent() != null) {
-                streamToResponse(dataStream, response);
-                actionForward = RESPONSE_ALREADY_HANDLED;
+        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        if (isAuthorized(task)) {
+            if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+                    printRooster, printFutureScheduledMeeting))) {
+                AbstractPrint printable;
+                List<Printable> printableArtifactList = new ArrayList<Printable>();
+                if (printRooster) {
+                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
+                    printable.setDocument(committeeForm.getCommitteeDocument());
+                    printableArtifactList.add(printable);
+                }
+                if (printFutureScheduledMeeting) {
+                    printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
+                    printable.setDocument(committeeForm.getCommitteeDocument());
+                    printableArtifactList.add(printable);
+                }
+                AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
+                if (dataStream.getContent() != null) {
+                    streamToResponse(dataStream, response);
+                    actionForward = RESPONSE_ALREADY_HANDLED;
+                }
             }
         }
 
