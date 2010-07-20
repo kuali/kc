@@ -597,4 +597,6 @@ public interface Constants {
     
     //WHITE SPACE 
     public char SPACE_SEPARATOR = 32;
+    
+    public static String CAN_CREATE_AWARD_KEY = "canCreateAward";
 }
