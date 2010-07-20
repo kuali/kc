@@ -40,6 +40,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -143,17 +144,18 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         Committee committee = document.getCommittee();
         boolean valid = true;
         if (committee.getSequenceNumber() == 1 && (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
-            if (getCommitteeNames().contains(committee.getCommitteeId())) {
+            if (getCommitteeIds(document.getDocumentNumber()).contains(committee.getCommitteeId())) {
                 valid = false;
             } else {
+                // TODO : when committeeId & docstatuscode are populated properly, then the following is not needed.
                 try {
-                    for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow()) {
+                    for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow(document.getDocumentNumber())) {
 
                         Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
-
+                        System.out.println("update committee_document set committee_id = "+ workflowCommittee.getCommitteeId()+" where documentnumber = '"+workflowCommitteeDocument.getDocumentNumber()+"';");
                         // There is no conflict if we are only modifying the same committee.
 
-                        if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
+                        //if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
 
                             // We have a conflict if we find a different committee in the database
                             // and it has the same ID as the committee we are trying to save
@@ -163,7 +165,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                                     && (workflowCommittee.getSequenceNumber() >= committee.getSequenceNumber())) {
                                 valid = false;
                             }
-                        }
+                        //}
                     }
                 }
                 catch (WorkflowException e) {
@@ -178,13 +180,14 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         return valid;
     }
     
-    private List<CommitteeDocument> getCommitteesDocumentsFromWorkflow() throws WorkflowException {
+    private List<CommitteeDocument> getCommitteesDocumentsFromWorkflow(String docNumber) throws WorkflowException {
         List<CommitteeDocument> documents = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
                 .findAll(CommitteeDocument.class);
         List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
         for (CommitteeDocument commDoc : documents) {
             // documents that have not been approved
-            if (commDoc.getCommitteeList() == null || commDoc.getCommitteeList().size() == 0) {
+            if ((commDoc.getCommitteeList() == null || commDoc.getCommitteeList().size() == 0)
+                    && StringUtils.isBlank(commDoc.getCommitteeId()) && !StringUtils.equals(commDoc.getDocumentNumber(), docNumber)) {
             // Need this step to retrieve workflow document
 
             CommitteeDocument workflowCommitteeDoc = (CommitteeDocument) KraServiceLocator.getService(DocumentService.class)
@@ -203,13 +206,27 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         return result;
     }
     
-    private List<String> getCommitteeNames() {
+    /*
+     * get a list of committeeIds that are in approved or saved committee docs.
+     */
+    private List<String> getCommitteeIds(String docNumber) {
+        // TODO : committeeId & docStatusCode are added to committeedocumnet.  It should not need to retrieve from committee
+        //, but for existing data in kc-dly30; keep this till its data is wiped out; then we can remove the retrieval of Committee
         List<Committee> committees = (List<Committee>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
                 Committee.class);
         List<String> result = new ArrayList<String>();
         for (Committee committee : committees) {
             if (!result.contains(committee.getCommitteeId())) {
                 result.add(committee.getCommitteeId());
+            }
+        }
+        List<CommitteeDocument> committeeDocss = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
+                CommitteeDocument.class);
+        for (CommitteeDocument committeeDoc : committeeDocss) {
+            if (StringUtils.isNotBlank(committeeDoc.getCommitteeId()) && !result.contains(committeeDoc.getCommitteeId())
+                    && StringUtils.isNotBlank(committeeDoc.getDocStatusCode()) && !committeeDoc.getDocStatusCode().equals(KEWConstants.ROUTE_HEADER_CANCEL_CD)
+                    && !StringUtils.equals(committeeDoc.getDocumentNumber(), docNumber)) {
+                result.add(committeeDoc.getCommitteeId());
             }
         }
         return result;

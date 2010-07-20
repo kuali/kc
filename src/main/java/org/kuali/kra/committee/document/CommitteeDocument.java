@@ -42,6 +42,10 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
 
 	private static final String DOCUMENT_TYPE_CODE = "COMT";
 
+	// These 2 properties are for performance purpose.  Especially, for those 1st version committee doc.
+    private String committeeId;
+    private String docStatusCode;
+	
     /*
      * It may be seem strange, but we use a list in order to store a
      * single Committtee BO.  This is due to a problem for one-to-one
@@ -143,11 +147,22 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
         if (ObjectUtils.isNull(this.getVersionNumber())) {
             this.setVersionNumber(new Long(0));
         }
+        if (this.getCommittee() != null) {
+            this.setCommitteeId(this.getCommittee().getCommitteeId());
+        }
+        String routeStatusCode = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        if (StringUtils.isNotBlank(routeStatusCode) && routeStatusCode.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD)) {
+            // route status from I to S will not update document, so do it here with correct status
+            this.setDocStatusCode(KEWConstants.ROUTE_HEADER_SAVED_CD);
+        } else {
+            this.setDocStatusCode(routeStatusCode);
+        }
     }
 
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
+        this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
         if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
             List<CommitteeSchedule> schedules = this.getCommittee().getCommitteeSchedules();
             this.getCommittee().setCommitteeSchedules(getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId()));
@@ -170,6 +185,22 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      */
     private boolean isFinal(DocumentRouteStatusChangeDTO statusChangeEvent) {
         return StringUtils.equals(KEWConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+    }
+
+    public String getCommitteeId() {
+        return committeeId;
+    }
+
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;
+    }
+
+    public String getDocStatusCode() {
+        return docStatusCode;
+    }
+
+    public void setDocStatusCode(String docStatusCode) {
+        this.docStatusCode = docStatusCode;
     }
 
 }
