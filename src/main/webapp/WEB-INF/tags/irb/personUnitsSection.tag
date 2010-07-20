@@ -36,7 +36,7 @@
 			          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
 			          		<kul:htmlAttributeHeaderCell attributeEntry="${unitAttributes.unitName}" scope="col" align="center"/>
 			          		<kul:htmlAttributeHeaderCell attributeEntry="${protocolUnitsAttributes.unitNumber}" scope="col" align="center"/>
-			          		<c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId == 'PI'}">
+			          		<c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].principalInvestigator}">
                                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolUnitsAttributes.leadUnitFlag}" scope="col" align="center"/>
                             </c:if>
           					<c:if test="${!readOnly}">
@@ -75,7 +75,7 @@
 			                      	</div>
 			                        <span class="fineprint"></span> 
 								</td>
-                                <c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId == 'PI'}">
+                                <c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].principalInvestigator}">
 				                    <td align="left" valign="middle" class="infoline">
 									    <div align=center>
 										    <bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
@@ -108,7 +108,7 @@
 			                		<kul:htmlControlAttribute property="${protocolPerson}.protocolUnits[${status.index}].unitNumber" attributeEntry="${unitAttributes.unitNumber}"  readOnly="true" />
 								</div>
 							  </td>
-                              <c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId == 'PI'}">
+                              <c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].principalInvestigator}">
     			                  <td align="left" valign="middle">
 	    							<div align="center">
 		    							<html:radio property="${protocolPerson}.selectedUnit" value="${status.index}" disabled="${readOnly}"/>
