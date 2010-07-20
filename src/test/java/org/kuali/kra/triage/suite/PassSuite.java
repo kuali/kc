@@ -83,6 +83,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.service.impl.AwardNumberServiceTest.class,
     org.kuali.kra.award.home.AwardTransferringSponsorTest.class,
     org.kuali.kra.committee.authorizers.ModifyCommitteeAuthorizerTest.class,
+    org.kuali.kra.committee.authorizers.CommitteeActionAuthorizerTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonTest.class,
     org.kuali.kra.document.InstituteLaRateMaintenanceDocumentTest.class,
     org.kuali.kra.document.CustomAttributeMaintenanceDocumentTest.class,
