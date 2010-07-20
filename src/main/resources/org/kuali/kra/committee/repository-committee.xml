@@ -86,6 +86,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="docStatusCode" column="DOC_STATUS_CODE" jdbc-type="VARCHAR" />
     	<collection-descriptor name="committeeList" proxy="true" element-class-ref="org.kuali.kra.committee.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
