@@ -208,9 +208,9 @@ import org.junit.runners.Suite.SuiteClasses;
     //keep at bottom - somehow breaks the entire suite
     org.kuali.kra.award.commitments.AwardBenefitsRatesRuleTest.class,
     
-    /*/**** Bozo suite. The following tests were commented out. 
-     * DOn't know why, need to figure out!!
-     */
+    // Bozo suite. The following tests were commented out. 
+     // DOn't know why, need to figure out!!
+     //
     org.kuali.kra.budget.web.BudgetTotalsWebTest.class,
     org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
     org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
@@ -247,9 +247,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
     org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     
-    /*** Moved from To Fix suite */
-    /***** complicated sql needs to be loaded in. Damien thinks will
-    // need an sql loader****/
+    // Moved from To Fix suite
+    // complicated sql needs to be loaded in. Damien thinks will
+    // need an sql loader
     org.kuali.kra.budget.personnel.BudgetPersonServiceImplTest.class,
     org.kuali.kra.irb.ProtocolDaoOjbTest.class, 
     //assertion error
@@ -269,10 +269,9 @@ import org.junit.runners.Suite.SuiteClasses;
     //assertion error..
     org.kuali.kra.service.NihSponsorHandlingIntegrationTest.class,
     
-    /**** Moved from Web test suite. These are failing web tests****/
-    /* non-working tests */
-    org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class,
+    // Moved from Web test suite. These are failing web tests
+    // non-working tests 
+    
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentWebTest.class,
     // assertion failure due to SQL
     org.kuali.kra.document.BudgetCategoryMapMaintenanceDocumentTest.class,
@@ -298,11 +297,11 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolQuestionnaireWebTest.class,
     org.kuali.kra.proposaldevelopment.web.DeliveryInfoPanelWebTest.class,
     
-    /** This test was in the pass suite, would run perfectly then fail all of a sudden**/
+    // This test was in the pass suite, would run perfectly then fail all of a sudden
     org.kuali.kra.award.AwardSubawardAuditRuleTest.class,
 
-    /*** These are tests that were initially in pass suite, but the tests were commented out,
-      so moving to fail suite until we find out why***/
+    // These are tests that were initially in pass suite, but the tests were commented out,
+    //  so moving to fail suite until we find out why
     org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizerTest.class,
@@ -311,7 +310,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
 
-    /*** Added to trunk since branch, don't pass after merge **/
+    //Added to trunk since branch, don't pass after merge
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
     org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
