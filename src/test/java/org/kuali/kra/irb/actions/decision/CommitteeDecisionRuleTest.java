@@ -21,7 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CommitteeDecisionRuleTest {
+public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     
     CommitteeDecisionRule rule;
 
@@ -40,6 +40,33 @@ public class CommitteeDecisionRuleTest {
         CommitteeDecision decision = buildValidCommitteeDecision();
         assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
     }
+    
+    @Test
+    public void testProccessCommitteeDecisionRule1() {
+        //more no votes than yes votes .... valid disapprove
+        CommitteeDecision decision = buildValidCommitteeDecision();
+        decision.setNoCount(5);
+        decision.setMotion(MotionValuesFinder.DISAPPROVE);
+        assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
+    }
+    
+    @Test
+    public void testProccessCommitteeDecisionRule2() {
+        //more no votes than yes votes .... invalid approve
+        CommitteeDecision decision = buildValidCommitteeDecision();
+        decision.setNoCount(5);
+        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
+    }
+    
+    @Test
+    public void testProccessCommitteeDecisionRule3() {
+        //more Yes votes than no votes .... invalid disapprove
+        CommitteeDecision decision = buildValidCommitteeDecision();
+        decision.setMotion(MotionValuesFinder.DISAPPROVE);
+        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
+    }
+    
+    /**
 
     @Test
     public void testProccessCommitteeDecisionRule1() {
@@ -81,37 +108,5 @@ public class CommitteeDecisionRuleTest {
         CommitteeDecision decision = buildValidCommitteeDecision();
         decision.setNewAbstainer(getBasicRescuser());
         assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    private CommitteeDecision buildValidCommitteeDecision() {
-        CommitteeDecision committeeDecision = new CommitteeDecision();
-        committeeDecision.setAbstainCount(new Integer(0));
-        committeeDecision.setMotion(MotionValuesFinder.APPROVE);
-        committeeDecision.setNoCount(new Integer(0));
-        //committeeDecision.setProtocolId(protocol.getProtocolId());
-        committeeDecision.setVotingComments("just some dumb comments");
-        committeeDecision.setYesCount(new Integer(2));
-        committeeDecision.getAbstainers().add(getBasicAbstainer());
-        committeeDecision.getRecused().add(getBasicRescuser());
-        return committeeDecision;
-    }
-    
-    private CommitteePerson getBasicAbstainer() {
-        CommitteePerson person = new CommitteePerson();
-        person.setMembershipId(new Long(1));
-        return person;
-    }
-    
-    private CommitteePerson getBasicRescuser() {
-        CommitteePerson person = new CommitteePerson();
-        person.setMembershipId(new Long(2));
-        return person;
-    }
-    
-    private CommitteePerson getBasicPerson() {
-        CommitteePerson person = new CommitteePerson();
-        person.setMembershipId(new Long(3));
-        return person;
-    }
-
+    }*/
 }
