@@ -115,7 +115,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
             stmt.addBatch(deleteStmt);
             String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName
                     + "', UPDATE_TIMESTAMP = " + getSysdate() + " where RESEARCH_AREA_CODE = '" + codes[1]
-                    + "' and (select count(*) from RESEARCH_AREAS where PARENT_RESEARCH_AREA_CODE = '" + codes[1] + "') = 0";
+                    + "' and (select count(*) from (select * from RESEARCH_AREAS) ra where ra.PARENT_RESEARCH_AREA_CODE = '" + codes[1] + "') = 0";
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
             getNodesToDelete(codes[0], stmt);
@@ -136,7 +136,7 @@ public class ResearchAreaDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCo
                     "delete from RESEARCH_AREAS where RESEARCH_AREA_CODE = ");
             LOG.info("Save run scripts " + deleteStmt);
             stmt.addBatch(deleteStmt);
-            String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = " + getSysdate() + "  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from RESEARCH_AREAS where PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
+            String updateStmt = "update RESEARCH_AREAS set HAS_CHILDREN_FLAG = 'N', UPDATE_USER = '" + userName+ "', UPDATE_TIMESTAMP = " + getSysdate() + "  where RESEARCH_AREA_CODE = '" + parentCode+"' and (select count(*) from (select * from RESEARCH_AREAS) ra where ra.PARENT_RESEARCH_AREA_CODE = '" + parentCode+"') = 0";
             LOG.info("Save run scripts " + updateStmt);
             stmt.addBatch(updateStmt);
         }
