@@ -38,83 +38,85 @@
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewExemptionAttributes.exemptionTypeCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.comments}" noColon="true" /></div></th>
               	<c:if test="${!readOnly}"> 
               	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	    </c:if>
           	</tr>     
           		
           	 <c:if test="${!readOnly}"> 
-             <tr>
-                <c:set var="textAreaFieldName" value="specialReviewHelper.newSpecialReview.comments" />
-				<th class="infoline">
-					Add:
-				</th>
-
-                <td align="left" valign="middle" class="infoline">
-                <div align="center">
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewCode" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
-	            </div>
-				</td>
-                <td class="infoline">
-                <div align="center">
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" />
-                <div align="center">
-                </td>
-                <td class="infoline">   
-                <div align="center">             	
-                  <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" />
-                </div>
-				</td>
-                <td align="left" valign="middle" class="infoline">
-                    <nobr>
-                	<div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" />
-                    </nobr>
-                </div>
-                </td>
-                <td align="left" valign="middle" class="infoline">
-                <div align="center">
-                    <nobr>
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" />
-                    </nobr>
-                </div>
-                </td>
-                <td align="left" valign="middle" class="infoline">
-                	<div align="center">
-                	<nobr>
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" />
-                    </nobr>
-                    </div>
-                </td>
-                
-                <td align="left" valign="middle" class="infoline">
-               		 <div align="center">
-	               		 <html:select property="specialReviewHelper.newExemptionTypeCodes" multiple="true" size="4">
-							<html:optionsCollection name="exemptionTypes" value="exemptionTypeCode" label="description"/>
-						 </html:select>
-					 </div>	  			
-                </td>
-                 
-                <td align="left" valign="middle" class="infoline">
-                <div align="center">
-                    <nobr>
-                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-                    </nobr>
-                </div>
-                </td>
-				<td class="infoline">
-					<div align=center>
-						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-                </td>
-            </tr>
+	             <tr>
+	                <c:set var="textAreaFieldName" value="specialReviewHelper.newSpecialReview.comments" />
+					<th class="infoline" rowspan="2">
+						Add:
+					</th>
+	
+	                <td align="left" valign="middle" class="infoline">
+	                <div align="center">
+	                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewCode" attributeEntry="${protocolSpecialReviewAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
+		            </div>
+					</td>
+	                <td class="infoline">
+	                <div align="center">
+	                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" attributeEntry="${protocolSpecialReviewAttributes.approvalTypeCode}" />
+	                <div align="center">
+	                </td>
+	                <td class="infoline">   
+	                <div align="center">             	
+	                  <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" attributeEntry="${protocolSpecialReviewAttributes.protocolNumber}" />
+	                </div>
+					</td>
+	                <td align="left" valign="middle" class="infoline">
+	                    <nobr>
+	                	<div align="center"><kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" attributeEntry="${protocolSpecialReviewAttributes.applicationDate}" />
+	                    </nobr>
+	                </div>
+	                </td>
+	                <td align="left" valign="middle" class="infoline">
+	                <div align="center">
+	                    <nobr>
+	                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" attributeEntry="${protocolSpecialReviewAttributes.approvalDate}" />
+	                    </nobr>
+	                </div>
+	                </td>
+	                <td align="left" valign="middle" class="infoline">
+	                	<div align="center">
+	                	<nobr>
+	                	<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}" />
+	                    </nobr>
+	                    </div>
+	                </td>
+	                
+	                <td align="left" valign="middle" class="infoline">
+	               		 <div align="center">
+		               		 <html:select property="specialReviewHelper.newExemptionTypeCodes">
+		               		 	<option value="">select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<html:optionsCollection name="exemptionTypes" value="exemptionTypeCode" label="description"/>
+							 </html:select>
+						 </div>	  			
+	                </td>
+					<td class="infoline" rowspan="2">
+						<div align=center>
+							<html:image property="methodToCall.addSpecialReview.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+	                </td>
+	            </tr>
+	            
+	            <tr>
+	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.comments}" noColon="false" /></div></th>
+	            	<td colspan="6">
+	            		<nobr>
+	            			<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
+	            		</nobr>
+	            	</td>  
+	            </tr>
+            	          
             </c:if>
             
         	<c:forEach var="specialReview" items="${KualiForm.document.protocol.specialReviews}" varStatus="status">
 	             <tr>
 	                <c:set var="textAreaFieldName" value="document.protocol.specialReview[${status.index}].comments" />
-					<th class="infoline">
+					<th class="infoline" rowspan="2">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
@@ -159,7 +161,8 @@
 									<c:out value="${fn:substring(selectedList, 1, fn:length(selectedList))}" />
 								</c:when>
 								<c:otherwise>
-				               		 <html:select property="document.protocol.specialReviews[${status.index}].newExemptionTypeCodes" multiple="true" size="4">
+				               		 <html:select property="document.protocol.specialReviews[${status.index}].newExemptionTypeCodes">
+				               		 	<option value="">select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
 				               		    <c:forEach var="keyLabel" items="${exemptionTypes}">
 						  			    	<c:if test="${!empty keyLabel.exemptionTypeCode}" >
 				                                <option value="${keyLabel.exemptionTypeCode}" <c:if test="${fn:contains(selected, keyLabel.exemptionTypeCode)}"> selected="true" </c:if> >${keyLabel.description}</option>
@@ -171,19 +174,23 @@
 							</c:choose>
 						 </div>	  			
 	                </td>
-	                <td align="left" valign="middle">
-	                <div align="center">
-	                	<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}" />
-	                </div>
+
+					<td rowspan="2">
+						<div align=center>&nbsp;
+							<c:if test="${!readOnly}"> 
+								<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</c:if>  
+						</div>
 	                </td>
-					<td>
-					<div align=center>&nbsp;
-					<c:if test="${!readOnly}"> 
-						<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-					</c:if>  
-					</div>
-	                </td>
+	            </tr>
+	            <tr>
+	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.comments}" noColon="false" /></div></th>
+	            	<td colspan="6">
+	            		<nobr>
+	            			<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}"/>
+	            		</nobr>
+	            	</td> 
 	            </tr>
         	</c:forEach>        
 
