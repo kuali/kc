@@ -73,6 +73,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.home.fundingproposal.CommentsDataFeedCommandTest.class,
     org.kuali.kra.irb.ProtocolVersioningTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardTimeAndMoneyWebTest.class,
+    org.kuali.kra.award.htmlunitwebtest.AwardDirectFandADistributionWebTest.class,
     org.kuali.kra.award.web.struts.action.AwardHomeActionTest.class,
     org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinderTest.class,
     org.kuali.kra.baseline.BaseLineAppStartTest.class,
