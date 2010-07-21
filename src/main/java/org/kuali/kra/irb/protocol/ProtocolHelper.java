@@ -377,8 +377,8 @@ public class ProtocolHelper implements Serializable {
 
         // since we are saving, we will always clear the PI and reset from field values
         /* check if PI is set otherwise it will throw exception */
-        if(!StringUtils.isBlank(getPrincipalInvestigatorId())) {
-            getProtocolPersonnelService().updatePrincipalInvestigator(getProtocol(),createPrincipalInvestigator());
+        if (!StringUtils.isBlank(getPrincipalInvestigatorId())) {
+            getProtocolPersonnelService().setPrincipalInvestigator(getProtocol(), createPrincipalInvestigator());
         }
         getProtocol().setLeadUnitForValidation(createLeadUnit());
     }

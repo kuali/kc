@@ -104,11 +104,11 @@ public interface ProtocolPersonnelService {
     public boolean isPrincipalInvestigator(ProtocolPerson protocolPerson);
     
     /**
-     * This method sets/updates the principal investigator person
-     * @param protocol
-     * @param person
+     * This method sets the principal investigator.
+     * @param protocol The protocol that will contain the investigator
+     * @param newPi The new instance of the principal investigator
      */
-    public void updatePrincipalInvestigator(Protocol protocol, ProtocolPerson person);
+    public void setPrincipalInvestigator(Protocol protocol, ProtocolPerson newPi);
 
     /**
      * This method is to see if there is any change in the protocol person role.

@@ -148,24 +148,25 @@
                  <td style="border: medium none ;">  					
 				
                     <div id="protocolHelper.leadUnitName.div" align="left">         
-                        <c:out value="${KualiForm.protocolHelper.leadUnitName}" /> 
                         <c:if test="${!empty KualiForm.protocolHelper.leadUnitNumber}">
+                            <c:if test="${!empty KualiForm.document.protocolList[0].protocolId}">
+                                ${KualiForm.document.protocolList[0].leadUnit.unitName}
+	                            <br/>
+	                            - ${KualiForm.document.protocolList[0].leadUnit.unitNumber}
+                            </c:if>
+                            
             				<c:choose>
-							<c:when test="${empty KualiForm.protocolHelper.leadUnitName}">
-	                    		<span style='color: red;'>not found</span><br>
-	               			</c:when>
-	                  		<c:otherwise>
-	                  		
-	                  			${kfunc:registerEditableProperty(KualiForm, "protocolHelper.leadUnitName")}
-	                  		    <input type="hidden" name="protocolHelper.leadUnitName" value="${KualiForm.protocolHelper.leadUnitName}"/>
-	                  		                  
-                         	</c:otherwise>  
+								<c:when test="${empty KualiForm.protocolHelper.leadUnitName}">
+		                    		<span style='color: red;'>not found</span><br>
+		               			</c:when>
+		                  		<c:otherwise>
+		                  		   <kul:htmlControlAttribute property="protocolHelper.leadUnitName"
+	                                                         attributeEntry="${protocolAttributes.unitName}" />       
+	                         	</c:otherwise>  
 							</c:choose>                        
                         </c:if>
 					</div>
-					<c:if test="${!empty KualiForm.document.protocolList[0].protocolId && !empty KualiForm.protocolHelper.leadUnitNumber}">
-                       - ${KualiForm.document.protocolList[0].leadUnit.unitNumber}
-                    </c:if>
+					
                     
                     </td>
                     </tr>  
