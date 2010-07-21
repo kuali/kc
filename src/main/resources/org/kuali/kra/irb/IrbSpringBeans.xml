@@ -521,10 +521,6 @@
         <property name="printingService" ref="printingService" />
         <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
     </bean>
-    
-    <bean id="protocolRiskLevelService" class="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
 
 	<bean id="protocolOnlineReviewRoleTypeService"
 			  class="org.kuali.kra.workflow.ProtocolOnlineReviewDerivedRoleTypeServiceImpl">

@@ -16,13 +16,19 @@
 package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
+import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
@@ -49,6 +55,12 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     private ProtocolApproveService protocolApproveService;
     
     private static final Date BASIC_ACTION_DATE = new Date(2010, 2, 14);
+    
+    private static final String LOW_RISK_CODE = "1";
+    private static final String HIGH_RISK_CODE = "5";
+    private static final String ACTIVE_STATUS = "A";
+    private static final String INACTIVE_STATUS = "I";
+    private static final String HIGH_RISK_LEVEL_COMMENTS = "Very high risk.";
 
             
     @Before
@@ -88,5 +100,57 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         businessObjectService.save(prot);
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testApproveRiskLevels() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolApproveBean protocolApproveBean = new ProtocolApproveBean();
+        ProtocolRiskLevelBean protocolRiskLevelBean = protocolApproveBean.getProtocolRiskLevelBean();
+        
+        ProtocolRiskLevel lowRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
+        lowRiskLevelProtocol.setRiskLevelCode(LOW_RISK_CODE);
+        lowRiskLevelProtocol.setDateAssigned(BASIC_ACTION_DATE);
+        lowRiskLevelProtocol.setStatus(ACTIVE_STATUS);
+        protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
+        
+        ProtocolRiskLevel highRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
+        highRiskLevelProtocol.setRiskLevelCode(HIGH_RISK_CODE);
+        highRiskLevelProtocol.setDateAssigned(BASIC_ACTION_DATE);
+        highRiskLevelProtocol.setStatus(INACTIVE_STATUS);
+        highRiskLevelProtocol.setDateInactivated(BASIC_ACTION_DATE);
+        highRiskLevelProtocol.setComments(HIGH_RISK_LEVEL_COMMENTS);
+        protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
+        
+        protocolApproveService.approve(protocolDocument.getProtocol(), protocolApproveBean);
+        
+        verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, BASIC_ACTION_DATE, ACTIVE_STATUS);
+        verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, BASIC_ACTION_DATE, INACTIVE_STATUS, BASIC_ACTION_DATE, 
+                HIGH_RISK_LEVEL_COMMENTS);
+    }
+    
+    private void verifyPersistRiskLevel(Protocol protocol, int index, String expectedRiskLevelCode, Date expectedDateAssigned, String expectedStatus) {
+        verifyPersistRiskLevel(protocol, index, expectedRiskLevelCode, expectedDateAssigned, expectedStatus, null, null);
+    }
+    
+    private void verifyPersistRiskLevel(Protocol protocol, int index, String expectedRiskLevelCode, Date expectedDateAssigned, String expectedStatus, 
+            Date expectedDateUpdated, String expectedComments) {
+        ProtocolRiskLevel protocolRiskLevel = findProtocolRiskLevel(protocol.getProtocolId(), index);
+        assertEquals(protocolRiskLevel.getProtocolId(), protocol.getProtocolId());
+        assertEquals(expectedRiskLevelCode, protocolRiskLevel.getRiskLevelCode());
+        assertEquals(expectedDateAssigned, protocolRiskLevel.getDateAssigned());
+        assertEquals(expectedStatus, protocolRiskLevel.getStatus());
+        assertEquals(expectedDateUpdated, protocolRiskLevel.getDateInactivated());
+        assertEquals(expectedComments, protocolRiskLevel.getComments());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private ProtocolRiskLevel findProtocolRiskLevel(Long protocolId, int index) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolId", protocolId);
+        List<ProtocolRiskLevel> list = (List<ProtocolRiskLevel>) getBusinessObjectService().findMatching(ProtocolRiskLevel.class, fieldValues);
+        
+        assertTrue(index + 1 <= list.size());
+        return list.get(index);
     }
 }

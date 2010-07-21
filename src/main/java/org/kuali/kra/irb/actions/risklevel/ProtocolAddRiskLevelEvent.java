@@ -19,12 +19,21 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
-@SuppressWarnings("unchecked")
+/**
+ * Encapsulates a validation event for a Protocol Risk Level add action.
+ */
 public class ProtocolAddRiskLevelEvent extends KraDocumentEventBaseExtension {
     
     private String propertyName;
     private ProtocolRiskLevel riskLevel;
 
+    /**
+     * Constructs a ProtocolAddRiskLevelEvent.
+     * 
+     * @param document The document to validate
+     * @param propertyName The error path property prefix
+     * @param riskLevel The added Risk Level
+     */
     public ProtocolAddRiskLevelEvent(ProtocolDocument document, String propertyName, ProtocolRiskLevel riskLevel) {
         super("Enter risk level", "", document);
         this.propertyName = propertyName;
@@ -44,6 +53,7 @@ public class ProtocolAddRiskLevelEvent extends KraDocumentEventBaseExtension {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
         return new ProtocolAddRiskLevelRule();
     }

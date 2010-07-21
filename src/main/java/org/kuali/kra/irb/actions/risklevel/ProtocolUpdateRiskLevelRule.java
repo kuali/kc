@@ -20,10 +20,17 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * Validates the rules for a Protocol Risk Level update action.
+ */
 public class ProtocolUpdateRiskLevelRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolUpdateRiskLevelEvent> {
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
     public boolean processRules(ProtocolUpdateRiskLevelEvent event) {
-        boolean valid = true;
+        boolean isValid = true;
         
         int index = event.getIndex();
         String errorPathKey = event.getPropertyName() + "[" + index + "]";
@@ -33,22 +40,29 @@ public class ProtocolUpdateRiskLevelRule extends ResearchDocumentRuleBase implem
         getDictionaryValidationService().validateBusinessObject(persistedProtocolRiskLevel);
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
         
-        valid &= GlobalVariables.getMessageMap().hasNoErrors();
-        valid &= validateDateInactivated(persistedProtocolRiskLevel, errorPathKey);
+        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
+        isValid &= validateDateInactivated(persistedProtocolRiskLevel, errorPathKey);
         
-        return valid;
+        return isValid;
     }
     
+    /**
+     * Verifies that on an update action, the dateInactivated is non-null.
+     * 
+     * @param updatedProtocolRiskLevel The updated Protocol Risk Level
+     * @param errorPathKey The key on the page on which to visibly place the error (if any)
+     * @return true if dateInactivated is non-null, false otherwise
+     */
     private boolean validateDateInactivated(ProtocolRiskLevel updatedProtocolRiskLevel, String errorPathKey) {
-        boolean valid = true;
+        boolean isValid = true;
         
         if (updatedProtocolRiskLevel.getDateInactivated() == null) {
-            valid = false;
+            isValid = false;
             GlobalVariables.getMessageMap().putError(errorPathKey + ".dateInactivated", 
                     KeyConstants.ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED);
         }
         
-        return valid;
+        return isValid;
     }
 
 }
