@@ -407,21 +407,18 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     }
 
     /**
-     * This method sets/updates the principal investigator person
-     * @param protocol
-     * @param person
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.Protocol, 
+     *                                                                                    org.kuali.kra.irb.personnel.ProtocolPerson)
      */
-    public void updatePrincipalInvestigator(Protocol protocol, ProtocolPerson person) {
-        person.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
-        List<ProtocolPerson> protocolPersons = protocol.getProtocolPersons();
-        ProtocolPerson currentPi = getPrincipalInvestigator(protocolPersons);
-        if (currentPi == null ) {
-            protocolPersons.add(person);
-        } else if (!isDuplicatePerson(protocolPersons,person)) {
-            protocol.getProtocolPersons().remove(currentPi);
-            protocol.getProtocolPersons().add(person);
-        }
+    public void setPrincipalInvestigator(Protocol protocol, ProtocolPerson newPi) {
+        newPi.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
         
+        ProtocolPerson currentPi = getPrincipalInvestigator(protocol.getProtocolPersons());
+        if (currentPi != null) {
+            protocol.getProtocolPersons().remove(currentPi);
+        }
+        protocol.getProtocolPersons().add(newPi);
     }
     
     /**
