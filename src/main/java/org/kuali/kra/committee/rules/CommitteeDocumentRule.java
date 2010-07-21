@@ -152,7 +152,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                     for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow(document.getDocumentNumber())) {
 
                         Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
-                        System.out.println("update committee_document set committee_id = "+ workflowCommittee.getCommitteeId()+" where documentnumber = '"+workflowCommitteeDocument.getDocumentNumber()+"';");
+                        // TODO : keep an eye on this to see if this ever reached in the next few weeks.
+                        LOG.info("get doc content for doc " + workflowCommitteeDocument.getDocumentNumber());
                         // There is no conflict if we are only modifying the same committee.
 
                         //if (!StringUtils.equals(workflowCommitteeDocument.getDocumentNumber(), document.getDocumentNumber())) {
