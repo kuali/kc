@@ -395,7 +395,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerRuleTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceTest.class,
     org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelRuleTest.class,
-    org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelServiceTest.class,
     org.kuali.kra.committee.rules.DeleteCommitteeMemberRuleTest.class,
     org.kuali.kra.committee.rules.DeleteCommitteeScheduleRuleTest.class,
     org.kuali.kra.award.htmlunitwebtest.AwardReportsWebTest.class,
