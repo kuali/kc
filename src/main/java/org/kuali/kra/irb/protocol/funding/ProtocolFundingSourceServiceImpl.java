@@ -402,7 +402,7 @@ private InstitutionalProposal getInstitutionalProposal(String proposalId) {
         
       //TODO add Institute proposal when ready
         if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode())) {        
-            String docNum = protocolFundingSource.getFundingProposal().getDocumentNumber();            
+            String docNum = protocolFundingSource.getFundingProposal().getProposalDocument().getDocumentNumber();            
             ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(docNum);
             Long routeHeaderId = doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
             retUrl = action.buildForwardUrl(routeHeaderId);
