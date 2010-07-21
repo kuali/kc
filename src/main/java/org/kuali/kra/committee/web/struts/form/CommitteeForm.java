@@ -149,15 +149,15 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         documentNumber.setDdAttributeEntryName("DataDictionary.CommitteeDocument.attributes.documentNumber");
         
         if(CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {
-            ObjectUtils.materializeObjects(committeeDoc.getCommitteeList());
+            ObjectUtils.materializeObjects(committeeDoc.getCommitteeList()); 
         }
         
         String lastUpdatedDateStr = null;
-        if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList()) && committeeDoc.getCommittee().getUpdateTimestamp() != null) {
-            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(committeeDoc.getCommittee().getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+        if(committeeDoc != null && committeeDoc.getUpdateTimestamp() != null) {
+            lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(committeeDoc.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
         }
         
-        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.Committee.attributes.updateTimestamp", lastUpdatedDateStr);
+        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.CommitteeDocument.attributes.updateTimestamp", lastUpdatedDateStr);
         getDocInfo().set(3, lastUpdatedDate);
         
         getDocInfo().add(new HeaderField("DataDictionary.Committee.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
