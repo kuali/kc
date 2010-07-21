@@ -24,6 +24,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -46,7 +47,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     
     private Unit fundingUnit;
     private Sponsor fundingSponsor;
-    private ProposalDevelopmentDocument fundingProposal;
+    private DevelopmentProposal fundingProposal;
     private Award fundingAward;
     
     public ProtocolFundingSource() {
@@ -78,7 +79,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.fundingSponsor = fundingSponsor;
     }
 
-    public ProposalDevelopmentDocument getFundingProposal() {
+    public DevelopmentProposal getFundingProposal() {
         if (ProtocolFundingSourceServiceImpl.FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode() 
                 && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingProposal");
@@ -86,7 +87,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         return fundingProposal;
     }
 
-    public void setFundingProposal(ProposalDevelopmentDocument fundingProposal) {
+    public void setFundingProposal(DevelopmentProposal fundingProposal) {
         this.fundingProposal = fundingProposal;
     }
 
