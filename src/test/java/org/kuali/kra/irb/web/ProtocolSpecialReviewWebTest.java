@@ -135,14 +135,19 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
     private void checkTable(HtmlPage page, List<Review> reviews, int startRow) {
         HtmlTable userTable = getTable(page, TABLE_ID);
         int rowCount = userTable.getRowCount();
-        assertTrue(rowCount == (startRow + reviews.size()));
+        //two rows per special review entry. plus one row for the header row.
+        String detailmessage ="rowcount:" + rowCount + " reviews.size():" + reviews.size() + " startRow:" + startRow; 
+        assertTrue(detailmessage, rowCount == startRow + (reviews.size() * 2) + 1);
         
-        for (int rowIndex = startRow; rowIndex < rowCount; rowIndex++) {
+        
+        int reviewsIndex = 0;
+        for (int rowIndex = startRow + 1; rowIndex < rowCount; rowIndex++) {
             HtmlTableRow row = userTable.getRow(rowIndex);
-            int index = rowIndex - startRow;
-            Review review = reviews.get(index);
+            rowIndex++;//get to the comment line
+            HtmlTableRow row2 = userTable.getRow(rowIndex);
+            Review review = reviews.get(reviewsIndex);
             
-            assertCellValue(row, 0, Integer.toString(index + 1));
+            assertCellValue(row, 0, Integer.toString(reviewsIndex + 1));
             assertCellValue(row, 1, review.type);
             assertCellValue(row, 2, review.approvalStatus);
             assertCellValue(row, 3, review.protocolNumber);
@@ -150,7 +155,8 @@ public class ProtocolSpecialReviewWebTest extends ProtocolWebTestBase {
             assertCellValue(row, 5, review.approvalDate);
             assertCellValue(row, 6, review.expirationDate);
             assertSelectedValue(row, 7, review.exemptNumber);
-            assertCellValue(row, 8, review.comments);
+            assertCellValue(row2, 1, review.comments);
+            reviewsIndex++;
         }
     }
         
