@@ -23,37 +23,52 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * Validates the rules for a Protocol Risk Level add action.
+ */
 public class ProtocolAddRiskLevelRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolAddRiskLevelEvent> {
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
     public boolean processRules(ProtocolAddRiskLevelEvent event) {
-        boolean valid = true;
+        boolean isValid = true;
         
         String errorPathKey = event.getPropertyName() + ".newProtocolRiskLevel";
         GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
         getDictionaryValidationService().validateBusinessObject(event.getProtocolRiskLevel());
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
         
-        valid &= GlobalVariables.getMessageMap().hasNoErrors();
-        valid &= validateOneEntryPerRiskLevel(event.getProtocolRiskLevel(), event.getProtocolDocument().getProtocol().getProtocolRiskLevels(), errorPathKey);
+        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
+        isValid &= validateOneEntryPerRiskLevel(event.getProtocolRiskLevel(), event.getProtocolDocument().getProtocol().getProtocolRiskLevels(), errorPathKey);
         
-        return valid;
+        return isValid;
     }
     
+    /**
+     * Verifies that there is only one type of Risk Level over all of the active entries.
+     *
+     * @param newProtocolRiskLevel The added Protocol Risk Level
+     * @param protocolRiskLevels The list of all current Protocol Risk Levels
+     * @param errorPathKey The key on the page on which to visibly place the error (if any)
+     * @return true if there is only one type of Risk Level over all active entries, false otherwise
+     */
     private boolean validateOneEntryPerRiskLevel(ProtocolRiskLevel newProtocolRiskLevel, List<ProtocolRiskLevel> protocolRiskLevels, String errorPathKey) {
-        boolean valid = true;
+        boolean isValid = true;
         
         for (ProtocolRiskLevel protocolRiskLevel : protocolRiskLevels) {
             if (protocolRiskLevel.getRiskLevelCode().equals(newProtocolRiskLevel.getRiskLevelCode()) 
                     && Constants.STATUS_ACTIVE.equals(protocolRiskLevel.getStatus()) 
                     && Constants.STATUS_ACTIVE.equals(newProtocolRiskLevel.getStatus())) {
-                valid = false;
+                isValid = false;
                 GlobalVariables.getMessageMap().putError(errorPathKey + ".riskLevelCode", 
                         KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
                 continue;
             }
         }
         
-        return valid;
+        return isValid;
     }
 
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.risklevel;
 
+import java.sql.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,16 +27,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";")
-}))
 public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     
     @Before
@@ -50,7 +43,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     }
     
     @Test
-    public void testOK() throws Exception {
+    public void testAddOK() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
@@ -63,7 +56,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     }
     
     @Test
-    public void testAbsentRiskLevel() throws Exception {
+    public void testAddAbsentRiskLevel() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
@@ -76,7 +69,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     }
     
     @Test
-    public void testAbsentDateAssigned() throws Exception {
+    public void testAddAbsentDateAssigned() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
@@ -91,7 +84,7 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     }
     
     @Test
-    public void testDuplicateRiskLevels() throws Exception {
+    public void testAddDuplicateRiskLevels() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
@@ -106,14 +99,15 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         duplicateProtocolRiskLevel.setRiskLevelCode("1");
         duplicateProtocolRiskLevel.setComments("Duplicate");
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 
+                duplicateProtocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertFalse(rule.processRules(event));
         assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + ".newProtocolRiskLevel.riskLevelCode", KeyConstants.ERROR_PROTOCOL_DUPLICATE_RISK_LEVEL);
     }
     
     @Test
-    public void testActiveInactiveStatus() throws Exception {
+    public void testAddActiveInactiveStatus() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
@@ -130,9 +124,50 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
         duplicateProtocolRiskLevel.setStatus("I");
         duplicateProtocolRiskLevel.setComments("Duplicate");
         
-        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, duplicateProtocolRiskLevel);
+        ProtocolAddRiskLevelEvent event = new ProtocolAddRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 
+                duplicateProtocolRiskLevel);
         ProtocolAddRiskLevelRule rule = new ProtocolAddRiskLevelRule();
         assertTrue(rule.processRules(event));
+    }
+    
+    @Test
+    public void testUpdateOK() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
+        protocolRiskLevel.setProtocol(protocolDocument.getProtocol());
+        protocolRiskLevel.setRiskLevelCode("1");
+        protocolRiskLevel.setStatus("A");
+        protocolRiskLevel.setComments("Original");
+        
+        protocolDocument.getProtocol().getProtocolRiskLevels().add(protocolRiskLevel);
+        
+        protocolRiskLevel.setStatus("I");
+        protocolRiskLevel.setDateInactivated(new Date(System.currentTimeMillis()));
+        
+        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 0);
+        ProtocolUpdateRiskLevelRule rule = new ProtocolUpdateRiskLevelRule();
+        assertTrue(rule.processRules(event));
+    }
+    
+    @Test
+    public void testUpdateAbsentDateUpdated() throws Exception {
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        
+        ProtocolRiskLevel protocolRiskLevel = new ProtocolRiskLevel();
+        protocolRiskLevel.setProtocol(protocolDocument.getProtocol());
+        protocolRiskLevel.setRiskLevelCode("1");
+        protocolRiskLevel.setStatus("A");
+        protocolRiskLevel.setComments("Original");
+        
+        protocolDocument.getProtocol().getProtocolRiskLevels().add(protocolRiskLevel);
+        
+        protocolRiskLevel.setStatus("I");
+        
+        ProtocolUpdateRiskLevelEvent event = new ProtocolUpdateRiskLevelEvent(protocolDocument, Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY, 0);
+        ProtocolUpdateRiskLevelRule rule = new ProtocolUpdateRiskLevelRule();
+        assertFalse(rule.processRules(event));
+        assertError(Constants.PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY + "[" + event.getIndex() + "].dateInactivated", KeyConstants.ERROR_PROTOCOL_DATE_INACTIVATED_REQUIRED);
     }
     
 }

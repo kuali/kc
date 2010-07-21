@@ -83,7 +83,6 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -101,6 +100,7 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -1272,8 +1272,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
             getProtocolApproveService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            
-            getProtocolRiskLevelService().persistProtocolRiskLevels(protocolForm.getProtocolDocument().getProtocol());
 
             getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
@@ -2162,10 +2160,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ReviewerCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewerCommentsService.class);
-    }
-    
-    private ProtocolRiskLevelService getProtocolRiskLevelService() {
-        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
     }
 
 }
