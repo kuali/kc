@@ -80,7 +80,8 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     }
     
     public Integer getRecusedCount() {
-        return recusedCount;
+        //return recusedCount;
+        return this.getRecused().size();
     }
 
     public void setRecusedCount(Integer recusedCount) {
@@ -176,7 +177,8 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     }
 
     public Integer getAbstainCount() {
-        return abstainCount;
+        //return abstainCount;
+        return this.getAbstainers().size();
     }
 
     public void setAbstainCount(Integer abstainCount) {
