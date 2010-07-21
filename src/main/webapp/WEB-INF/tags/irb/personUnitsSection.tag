@@ -58,7 +58,7 @@
                                                 (select)
                                             </c:when>
 	                                        <c:otherwise>
-	                                             <kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitNamer"
+	                                             <kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitName"
                                                                            attributeEntry="${unitAttributes.unitName}" />
 	                                        </c:otherwise>
                                         </c:choose>
