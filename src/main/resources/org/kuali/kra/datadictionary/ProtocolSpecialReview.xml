@@ -111,7 +111,14 @@
 	</bean>
 	
 	<bean id="ProtocolSpecialReview-comments" parent="ProtocolSpecialReview-comments-parentBean" />
-	<bean id="ProtocolSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments" />
+	<bean id="ProtocolSpecialReview-comments-parentBean" abstract="true" parent="SpecialReviewReference-comments">
+		<!-- over ride the control elements -->
+		<property name="control" >
+			<bean parent="TextareaControlDefinition"
+            p:rows="2"
+            p:cols="150" />
+		</property>
+	</bean>
 	
 	<bean id="ProtocolSpecialReview-specialReviewExemptions" parent="ProtocolSpecialReview-specialReviewExemptions-parentBean" />
 	<bean id="ProtocolSpecialReview-specialReviewExemptions-parentBean" abstract="true" parent="SpecialReviewReference-specialReviewExemptions" />
