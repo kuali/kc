@@ -36,7 +36,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
 
-    private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x";
+    private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments";
 
     private static final String ABSTRACT_DIV = "tab-Abstracts-div";
     private static final String ABSTRACT_TABLE = "abstracts-table";
@@ -87,7 +87,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      * This will also test the help links on other panels on the page, but no big deal.
      * @throws Exception
      */
-    // @Test -- KRACOEUS-1419 - Add this test back when urls are added.
+//    @Test -- KRACOEUS-1419 - Add this test back when urls are added.
     public void testHelpLinks() throws Exception {
         HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
         this.checkHelpLinks(abstractsAndAttachmentsPage);
@@ -177,7 +177,8 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      * @return
      */
     private String getAbstractTimestamp(HtmlPage page, int rowId) {
-        HtmlElement element = getElement(page, "document.proposalAbstract[" + rowId + "].updateTimestamp");
+        //HtmlElement element= getElement(page, "document.developmentProposalList[0].proposalAbstract[0].timestampDisplay");
+        HtmlElement element = getElement(page, "document.developmentProposalList["+rowId+"].proposalAbstract[" + rowId + "].timestampDisplay");
         return element.asText().trim();
     }
 
@@ -309,11 +310,9 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 3);
 
         // Determine that the correct abstract was deleted and that other one is intact.
-
         if (ABSTRACT_LABS_TYPE_VALUE.equals(deletedAbstractTypeValue)) {
             // Verify that abstract type selection list has the extra abstract type.
-            assertTrue(abstractTypeContains(abstractsAndAttachmentsPage, ABSTRACT_LABS_TYPE_VALUE));
-
+            assertTrue(abstractsAndAttachmentsPage.asXml().contains(ABSTRACT_COMPUTER_TYPE_VALUE));
             // Verify that the second abstract is still there and is now
             // in the first row.
 
@@ -322,7 +321,8 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
         }
         else {
             // Verify that abstract type selection list has the extra abstract type.
-            assertTrue(abstractTypeContains(abstractsAndAttachmentsPage, ABSTRACT_COMPUTER_TYPE_VALUE));
+            assertTrue(abstractsAndAttachmentsPage.asXml().contains(ABSTRACT_LABS_TYPE_VALUE));
+            
 
             // Verify that the second abstract is still there and is now
             // in the first row.
@@ -397,7 +397,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue("Table row out-of-range (" + rowId + ")", table.getRowCount() > rowId + 2);
         HtmlTableRow row = table.getRow(rowId + 2);
         HtmlTableCell cell = row.getCell(3);
-        return cell.asText().trim();
+        return cell.getTextContent().trim();
     }
 
     /**
@@ -420,9 +420,8 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
         // change the details for that abstract.
 
         setFieldValue(abstractsAndAttachmentsPage,
-                      "document.proposalAbstract[0].abstractDetails",
-                      ABSTRACT_COMPUTER_DETAILS_VALUE2);
-
+                "newProposalAbstract.abstractDetails", ABSTRACT_COMPUTER_DETAILS_VALUE2);
+        
         // Save and close the document and then search for it again.
 
         abstractsAndAttachmentsPage = saveAndSearch(abstractsAndAttachmentsPage);
@@ -466,7 +465,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
                 ABSTRACT_COMPUTER_TYPE_CODE, ABSTRACT_COMPUTER_TYPE_VALUE, "", 1);
 
         this.checkExpandedTextArea(abstractsAndAttachmentsPage,
-                                   "document.proposalAbstract[0].abstractDetails",
+                                   "newProposalAbstract.abstractDetails",
                                    ABSTRACT_COMPUTER_DETAILS_VALUE,
                                    ABSTRACT_COMPUTER_DETAILS_VALUE2);
 
