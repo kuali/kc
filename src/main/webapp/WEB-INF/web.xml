@@ -152,7 +152,7 @@
 <!-- KC Customization...Removes custom budget locks that are not removed by parent KualiHttpSessionListener -->	
 	
 	<listener>
-		<listener-class>org.kuali.rice.kns.web.listener.KraHttpSessionListener</listener-class>
+		<listener-class>org.kuali.kra.web.listener.KraHttpSessionListener</listener-class>
 	</listener>
 
 	<servlet>
