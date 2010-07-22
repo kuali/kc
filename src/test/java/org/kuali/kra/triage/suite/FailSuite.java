@@ -319,8 +319,9 @@ import org.junit.runners.Suite.SuiteClasses;
     //Added to trunk since branch, don't pass after merge
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
-    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
+    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class,
     
+    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class
 
 })
 /**
