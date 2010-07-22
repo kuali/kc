@@ -1241,4 +1241,13 @@ public class ActionHelper implements Serializable {
     public void setRecusers(List<ProtocolVoteRecused> recusers) {
         this.recusers = recusers;
     }
+    
+    /**
+     * 
+     * This method determines whether the committee select list should be displayed or not.
+     * @return
+     */
+    public boolean isShowCommittee() {
+        return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
+    }
 }
