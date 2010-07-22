@@ -43,8 +43,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ProtocolActionServiceImpl implements ProtocolActionService {
 
-    static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(ProtocolActionServiceImpl.class);
+    static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolActionServiceImpl.class);
+    
     private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
 
     private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
@@ -84,6 +84,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final String RENEW = "R";
 
     private static final String NONE = "NONE";
+    
+    private static final String KC_PROTOCOL = "KC-PROTOCOL";
 
     private BusinessObjectService businessObjectService;
 
@@ -95,8 +97,9 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
 
     private DroolsRuleHandler canPerformRuleHandler;
 
-    private String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203", 
-            "204",  "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", "305", "306" };
+    private String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203",  
+                              "204", "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", 
+                              "305", "306" };
 
     private List<String> actions = new ArrayList<String>();
     private List<DroolsRuleHandler> rulesList;
@@ -172,58 +175,50 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_LEADUNIT_FILE);
-//        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                "KC-PROTOCOL", MODIFY_ANY_PROTOCOL) : false;
+                KC_PROTOCOL, MODIFY_ANY_PROTOCOL) : false;
     }
 
-    /*
+    /**
      * This method is to check if user has permission to submit
      */
     private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SUBMIT_FILE);
-//        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     } 
 
-    /*
+    /**
      * This method is to check if user has permission in committee home unit
      */
     private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_COMMITTEEMEMBERS_FILE);
-//        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
-    /*
-     * This method is to check if user has permission for special cases
+    /**
+     * This method is to check if user has permission for special cases.
      */
     private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
-//        DroolsRuleHandler updateHandle = new DroolsRuleHandler(PERMISSIONS_SPECIAL_FILE);
-//        updateHandle.executeRules(rightMapper);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                "KC-PROTOCOL", PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId(); 
     }
 
-    /*
+    /**
      * This method is to check whether 'actionTypeCode' can be performed based on protocol's status code or submission code or other
-     * condition specified in rule
+     * condition specified in rule.
      */
     public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
         LOG.info(actionTypeCode);
@@ -238,7 +233,6 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setBusinessObjectService(businessObjectService);
         protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
-//        getCanPerformRuleHandler().executeRules(protocolAction);
         rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
         return protocolAction.isAllowed();
     }
@@ -249,8 +243,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
      */
     public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-        String specialCondition = (protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW
-                : NONE));
+        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
 
         ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
@@ -260,18 +253,21 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UPDATE_RULE).executeRules(protocolAction);
         businessObjectService.save(protocol);
-        
-        // if there is submission just added, then force this to get the last one.
-        //protocol.setProtocolSubmission(null);
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#resetProtocolStatus(org.kuali.kra.irb.actions.ProtocolAction, org.kuali.kra.irb.Protocol)
+     */
     public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
-        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
+        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), 
+                    protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
+        
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
-        if(protocolAction.isProtocolSubmissionToBeDeleted()) {
+        if (protocolAction.isProtocolSubmissionToBeDeleted()) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
             fieldValues.put("protocolNumber", protocol.getProtocolNumber());
@@ -281,8 +277,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         }
     }
     
-    /*
-     * Compile rules if rulehandler is not set
+    /**
+     * Compile rules if rulehandler is not set.
      */
     public DroolsRuleHandler getCanPerformRuleHandler() {
         // compiling is slow for this rule, so try to just compile once
@@ -291,6 +287,13 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         }
         return canPerformRuleHandler;
     }
+    
+    /**
+     * 
+     * This method sets the rule file.
+     * @param ruleFiles
+     * @throws IOException
+     */
     public void setRuleFiles(List<String> ruleFiles) throws IOException {
         this.loadRules(ruleFiles);
     }
@@ -301,5 +304,4 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
             rulesList.add(new DroolsRuleHandler(ruleFile));
         }
     }
-
 }

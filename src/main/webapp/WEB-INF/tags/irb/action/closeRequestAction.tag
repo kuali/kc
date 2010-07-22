@@ -17,8 +17,6 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
-                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestClose}">
 
@@ -28,7 +26,7 @@
             <tbody>
                 <tr>
                     <th width="15%"> 
-                        <c:if test="${showCommittee}">
+                        <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <div align="right">
 	                            <nobr>
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
@@ -37,7 +35,7 @@
                         </c:if>
                     </th>
                     <td>
-                        <c:if test="${showCommittee}">
+                        <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <nobr>
 	                        <kul:htmlControlAttribute property="actionHelper.protocolCloseRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
 	                        </nobr>

@@ -17,11 +17,8 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
-                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestTerminate}">
-<%--<kra:permission value="${KualiForm.actionHelper.canRequestTerminate}"> --%>
 
 <kra:innerTab tabTitle="Request for Termination" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolTerminateRequest*">
     <div class="innerTab-container" align="left">
@@ -29,7 +26,7 @@
             <tbody>
                 <tr>
                     <th width="15%"> 
-                        <c:if test="${showCommittee}">
+                        <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <div align="right">
 	                            <nobr>
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
@@ -38,7 +35,7 @@
                         </c:if>
                     </th>
                     <td>
-                        <c:if test="${showCommittee}">
+                        <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <nobr>
 	                        <kul:htmlControlAttribute property="actionHelper.protocolTerminateRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
 	                        </nobr>
@@ -70,10 +67,6 @@
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-						<%--
-							<html:image property="methodToCall.dataAnalysisOnlyRequestProtocol.anchor${tabKey}"
-							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-							             --%>
 							<html:image property="methodToCall.terminateRequestProtocol.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
