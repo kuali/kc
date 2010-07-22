@@ -20,8 +20,6 @@
 <c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
 <c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-<c:set var="showCommittee" value="${KualiForm.actionHelper.submissionConstraint == 'O' ||
-                                    KualiForm.actionHelper.submissionConstraint == 'M'}" />
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
@@ -67,7 +65,7 @@
                     </td>
                 </tr>
                 
-                <c:if test="${showCommittee}">
+                <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                <tr>
 	                	<th width="15%"> 
 	                        <div align="right">
@@ -75,7 +73,7 @@
 	                        </div>
 	                    </th>
 	                    <c:choose>
-	                        <c:when test="${showCommittee}">
+	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
 			                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.committeeId" 
 			                                                  attributeEntry="${attributes.committeeId}" 
@@ -99,7 +97,7 @@
 		                    <td>
 		                        <nobr>
 		                        <c:choose>
-		                            <c:when test="${showCommittee}">
+		                            <c:when test="${KualiForm.actionHelper.showCommittee}">
 				                        <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.scheduleId" 
 				                                                  attributeEntry="${attributes.scheduleId}"
 				                                                  onchange="displayReviewers()" />
