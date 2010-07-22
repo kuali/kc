@@ -96,7 +96,15 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolAmendRenewWebTest.class,
     org.kuali.kra.irb.web.ProtocolCopyWebTest.class,
     org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class,
+    // Ecma error
     org.kuali.kra.irb.web.ProtocolHistoryWebTest.class,
+    // org.apache.ojb.broker.PersistenceBrokerSQLException: 
+    //* SQLException during execution of sql-statement:
+    //    * sql statement was 'SELECT A0.SUBMISSION_ID,A0.SUBMISSION_NUMBER,A0.PROTOCOL_NUMBER,A0.SEQUENCE_NUMBER,A0.SCHEDULE_ID,A0.COMMITTEE_ID,A0.SUBMISSION_TYPE_CODE,A0.SUBMISSION_TYPE_QUAL_CODE,A0.SUBMISSION_STATUS_CODE,A0.PROTOCOL_ID,A0.SCHEDULE_ID_FK,A0.COMMITTEE_ID_FK,A0.PROTOCOL_REVIEW_TYPE_CODE,A0.SUBMISSION_DATE,A0.COMMENTS,A0.YES_VOTE_COUNT,A0.NO_VOTE_COUNT,A0.ABSTAINER_COUNT,A0.RECUSED_COUNT,A0.VOTING_COMMENTS,A0.UPDATE_TIMESTAMP,A0.UPDATE_USER,A0.VER_NBR,A0.OBJ_ID FROM PROTOCOL_SUBMISSION A0 WHERE A0.PROTOCOL_ID = ? ORDER BY 2'
+    //    * Exception message is [ORA-00904: "A0"."RECUSED_COUNT": invalid identifier
+    //    ]
+    //    * Vendor error code [904]
+    // The page returns this as well.
     org.kuali.kra.irb.web.ProtocolNotifyIrbWebTest.class,
     org.kuali.kra.irb.web.ProtocolRequestWebTest.class,
     org.kuali.kra.irb.web.ProtocolSummaryWebTest.class,
@@ -111,7 +119,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRuleTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalLocationRuleTest.class,
     org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImplTest.class,
-    org.kuali.kra.proposaldevelopment.web.AbstractsPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.CopyProposalWebTest.class,
     org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class,
     org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class,
@@ -312,8 +319,8 @@ import org.junit.runners.Suite.SuiteClasses;
     //Added to trunk since branch, don't pass after merge
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
-    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class
+    org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class
+    
 
 })
 /**
