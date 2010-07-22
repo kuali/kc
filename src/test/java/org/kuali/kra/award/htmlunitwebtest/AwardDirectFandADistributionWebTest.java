@@ -68,7 +68,7 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
      * This method tests saving valid and invalid date ranges.
      * @throws Exception
      */
-    @Test @Ignore("kracoeus-4087")
+    @Test //@Ignore("kracoeus-4087")
     public void testSaveAndOverlappingDateFields() throws Exception{
         HtmlPage awardTimeAndMoneyPage = getAwardTimeAndMoneyPage();
         HtmlPage tempAwardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_METHOD);
