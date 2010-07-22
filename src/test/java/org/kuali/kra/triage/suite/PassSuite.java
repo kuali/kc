@@ -412,7 +412,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
-    org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class,
     org.kuali.kra.proposaldevelopment.web.AbstractsPanelWebTest.class
 
 })
