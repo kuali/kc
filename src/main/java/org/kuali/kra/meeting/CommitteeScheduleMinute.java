@@ -314,8 +314,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     @Override
     public boolean equals(Object o) {
         CommitteeScheduleMinute csm = (CommitteeScheduleMinute) o;
-        return this.commScheduleMinutesId.equals(csm.getCommScheduleMinutesId()) 
-            && this.getMinuteEntry().equals(csm.getMinuteEntry()) 
+        return this.getCommScheduleMinutesId().equals(csm.getCommScheduleMinutesId()) 
+            && StringUtils.equals(this.getMinuteEntry(), csm.getMinuteEntry()) 
             && this.getEntryNumber().equals(csm.getEntryNumber()) 
             && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag()
             && this.isFinalFlag() == csm.isFinalFlag();
