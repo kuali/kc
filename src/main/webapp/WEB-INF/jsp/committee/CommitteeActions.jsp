@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}"  scope="request" />
+<c:set var="readOnly" value="${!KualiForm.committeeHelper.performAction}"  scope="request" />
 
 <kul:documentPage 
     showDocumentInfo="true"
@@ -28,8 +28,15 @@
     headerDispatch="${KualiForm.headerDispatch}"
     headerTabActive="committeeActions">
 
-    <kra-committee:committeeActionBatchCorrespondence />
-    <kra-committee:committeeActionPrint />
+    <c:choose>
+        <c:when test="${readOnly}">
+            No Actions Available
+        </c:when>
+        <c:otherwise>
+            <kra-committee:committeeActionBatchCorrespondence />
+            <kra-committee:committeeActionPrint />
+        </c:otherwise>
+    </c:choose>
 
     <kul:documentControls 
         transactionalDocument="false"

@@ -53,6 +53,7 @@ public class CommitteeHelper implements Serializable {
     private CommitteeActionsHelper committeeActionsHelper;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
+    private boolean performAction = false;
 
     // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
     // so it know which CommitteeMembership should get them.
@@ -93,6 +94,7 @@ public class CommitteeHelper implements Serializable {
         }
         prepareCommitteeScheduleDeleteView();
 
+        performAction = canPerformAction();
     }
     
     /**
@@ -237,6 +239,11 @@ public class CommitteeHelper implements Serializable {
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    
+    public boolean canPerformAction() {
+        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, getCommittee());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
 
     public boolean isModifySchedule() {
         return modifySchedule;
@@ -252,6 +259,10 @@ public class CommitteeHelper implements Serializable {
 
     public void setViewSchedule(boolean viewSchedule) {
         this.viewSchedule = viewSchedule;
+    }
+    
+    public boolean isPerformAction() {
+        return performAction;
     }
 
     private List<CommitteeSchedule> getSortedCommitteeScheduleList() {
