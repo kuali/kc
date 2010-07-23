@@ -61,11 +61,13 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     //new reviewer data
     private String newProtocolReviewPersonId;
+    private String newReviewerTypeCode;
     private Date newReviewDateRequested;
     private Date newReviewDateDue;
     private String newReviewDocumentDescription;
     private String newReviewExplanation;
     private String newReviewOrganizationDocumentNumber;
+    
     
     private Map<String,Map<String,Object>> documentHelperMap;
     private List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments;
@@ -76,7 +78,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private transient KcPersonService kcPersonService;
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OnlineReviewsActionHelper.class);
-    
+    private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
     
     /**
      * Constructs a OnlineReviewActionHelper.java.
@@ -100,7 +102,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                 reviewerComments = new ArrayList<ReviewerComments>();
                 reviewerPersons = new ArrayList<KcPerson>();
                 documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
-                
+                newReviewDocumentDescription = String.format(REVIEW_DOCUMENT_DESCRIPTION_FORMAT,form.getProtocolDocument().getProtocol().getPrincipalInvestigator().getPerson().getLastName(), form.getProtocolDocument().getProtocol().getProtocolNumber());
                 
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
                     Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
@@ -239,6 +241,22 @@ public class OnlineReviewsActionHelper implements Serializable {
     }
 
     /**
+     * Gets the newReviewerTypeCode attribute. 
+     * @return Returns the newReviewerTypeCode.
+     */
+    public String getNewReviewerTypeCode() {
+        return newReviewerTypeCode;
+    }
+
+    /**
+     * Sets the newReviewerTypeCode attribute value.
+     * @param newReviewerTypeCode The newReviewerTypeCode to set.
+     */
+    public void setNewReviewerTypeCode(String newReviewerTypeCode) {
+        this.newReviewerTypeCode = newReviewerTypeCode;
+    }
+
+    /**
      * Gets the newReviewDocumentDescription attribute. 
      * @return Returns the newReviewDocumentDescription.
      */
@@ -360,6 +378,11 @@ public class OnlineReviewsActionHelper implements Serializable {
             throw new IllegalArgumentException(String.format("Document %s does not exist in the helper map.", documentNumber));
         }
         return helperMap;
+    }
+   
+    public long getIndexByDocumentNumber(String documentNumber) {
+        ProtocolOnlineReviewDocument document = getDocumentFromHelperMap(documentNumber);
+        return protocolOnlineReviewDocuments.indexOf(document);
     }
     
     public ProtocolOnlineReviewDocument getDocumentFromHelperMap(String documentNumber) {
@@ -511,7 +534,6 @@ public class OnlineReviewsActionHelper implements Serializable {
             form.setEditingMode(convertSetToMap(editModes));
         }
     }
-    
     
 }
 

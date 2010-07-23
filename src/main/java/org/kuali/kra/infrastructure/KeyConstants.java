@@ -512,6 +512,11 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_MOTION_MISMATCH = "error.protocol.recordcommittee.vote.count.motion.mismatch";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";
     
+    //IRB Protocol Online Review Required Fields Validation Messages
+    public static final String ERROR_ONLINE_REVIEW_COMMENT_REQUIRED = "error.protocol.onlinereview.comment.required";
+    public static final String ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE = "error.protocol.onlinereview.comments.final.after.reviewer.route";
+    public static final String ERROR_ONLINE_REVIEW_ALL_COMMENTS_NOT_FINAL = "error.protocol.onlinereview.all.comments.not.final";
+    
     
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";

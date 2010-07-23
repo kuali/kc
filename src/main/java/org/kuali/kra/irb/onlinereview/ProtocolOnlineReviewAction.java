@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
@@ -52,13 +53,19 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
+import org.kuali.kra.irb.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -75,9 +82,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
 
     private static final String PROTOCOL_TAB = "protocol";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
     //Protocol Online Review Action Forwards
-    public static final String ONLINE_REVIEW_IRB_ADMIN_FORWARD = "irbAdminOnlineReview";
-    public static final String ONLINE_REVIEW_REVIEWER_FORWARD = "reviewerOnlineReview";
   
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
@@ -128,6 +134,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    
+    /**
+     * Get the Kuali Rule Service.
+     * @return the Kuali Rule Service
+     */
+    @Override
+    protected KualiRuleService getKualiRuleService() {
+        return KraServiceLocator.getService(KualiRuleService.class);
+    }
+  
+    
     /**
      * 
      * @param mapping the mapping associated with this action.
@@ -147,11 +164,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
          
         
-        protocolOnlineReviewService.assignOnlineReviewer( protocolForm.getProtocolDocument().getProtocol(),
+        protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument( protocolForm.getProtocolDocument().getProtocol(),
                                                           onlineReviewHelper.getNewProtocolReviewPersonId(), 
                                                           onlineReviewHelper.getNewReviewDocumentDescription(),
                                                           onlineReviewHelper.getNewReviewExplanation(),
                                                           onlineReviewHelper.getNewReviewOrganizationDocumentNumber(),
+                                                          null,
+                                                          true,
                                                           GlobalVariables.getUserSession().getPrincipalId());
         
         protocolForm.getOnlineReviewsActionHelper().init(true);
@@ -230,16 +249,51 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
+        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "approveOnlineReview");
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
-            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
-        documentService.approveDocument(prDoc, "", null);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
+
+        //check to see if we are the reviewer and this is an approval to the irb admin.
+        if( getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), prDoc.getProtocolOnlineReview(), PermissionConstants.MAINTAIN_PROTOCOL_ONLINE_REVIEW)
+            && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
+            //then the status must be final.
+            
+            if(!StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
+                Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+                String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+                if(question == null){
+                    forward =  this.performQuestionWithInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                 } 
+                else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+                    //nothing to do.
+                }
+                else
+                {
+                    prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                    documentService.saveDocument(prDoc);
+                }
+            }
+        }
+        
+        if (!applyRules(new RouteProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            //nothing to do here.
+        } else {
+            reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+            documentService.approveDocument(prDoc, "", null);
+        }
+        
+        return forward;
+        
     }
 
     /**
@@ -284,9 +338,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        
-        reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-        documentService.saveDocument(prDoc);
+        if ( !this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            //nothing to do, we failed validation return them to the screen.
+        } else {
+            reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
@@ -401,14 +458,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             }
         }
 
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get("form");
         doProcessingAfterPost( kualiDocumentFormBase, request );
         getDocumentService().disapproveDocument(kualiDocumentFormBase.getDocument(), disapprovalNoteText);
         GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
         kualiDocumentFormBase.setAnnotation("");
-        
         return mapping.findForward(Constants.MAPPING_BASIC);
-        
     }
     
     /**
@@ -473,9 +528,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm)form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        comments.addNewComment(protocolForm.getProtocolDocument().getProtocol(),prDoc.getProtocolOnlineReview() );
-        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-        documentService.saveDocument(prDoc);
+        if ( !this.applyRules(new AddProtocolOnlineReviewCommentEvent(prDoc,comments.getNewComment(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            //nothing to do, we failed validation return them to the screen.
+        } else {
+            comments.addNewComment(protocolForm.getProtocolDocument().getProtocol(),prDoc.getProtocolOnlineReview() );
+            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -569,65 +628,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private ProtocolGenericActionService getProtocolGenericActionService() {
-        return KraServiceLocator.getService(ProtocolGenericActionService.class);
-    }
-    
-    public ProtocolCopyService getProtocolCopyService() {
-        return KraServiceLocator.getService(ProtocolCopyService.class);
-    }
-    
-    private ProtocolSubmitActionService getProtocolActionService() {
-        return KraServiceLocator.getService(ProtocolSubmitActionService.class);
-    }
-    
-    private ProtocolWithdrawService getProtocolWithdrawService() {
-        return KraServiceLocator.getService(ProtocolWithdrawService.class);
-    }
-    
-    private ProtocolRequestService getProtocolRequestService() {
-        return KraServiceLocator.getService(ProtocolRequestService.class);
-    }
-    
-    private ProtocolNotifyIrbService getProtocolNotifyIrbService() {
-        return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
-    }
-    
-    private ProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
-    }
-    
-    private ProtocolDeleteService getProtocolDeleteService() {
-        return KraServiceLocator.getService(ProtocolDeleteService.class);
-    }
-    
-    private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
-    }
-    
-    private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
-        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-    }
-    
-    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
-        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
-    }
-    
-    private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
-        return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
-    }
-    
-    private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
-        return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
-    }
-    
-    private ProtocolApproveService getProtocolApproveService() {
-        return KraServiceLocator.getService(ProtocolApproveService.class);
-    }
-    
-    private CommitteeDecisionService getCommitteeDecisionService() {
-        return KraServiceLocator.getService("protocolCommitteeDecisionService");
-    }
     
     private ReviewerCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewerCommentsService.class);
@@ -639,6 +639,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     private KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+    
+    private KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
     }
 
 }

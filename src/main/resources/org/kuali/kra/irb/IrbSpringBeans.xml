@@ -109,16 +109,7 @@
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
     </bean>
-
-	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
-		<property name="groupName" value="protocolOnlineReview" />
-		<property name="taskAuthorizers">
-			<list>
-			
-			</list>
-		</property>
-	</bean>
-
+	
     <bean id="protocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="protocol" />
         <property name="taskAuthorizers">
@@ -286,6 +277,33 @@
             </list>
         </property>
     </bean>
+	
+	<!-- Protocol Online Review Authorizers -->
+
+	<bean id="parentProtocolOnlineReviewAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService" />
+    </bean>
+  
+
+	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+		<property name="groupName" value="protocolOnlineReview" />
+		<property name="taskAuthorizers">
+			<list>
+				<bean class="org.kuali.kra.irb.onlinereview.authorization.ModifyProtocolOnlineReviewAuthorizer" parent="parentProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value="modifyProtocolOnlineReview" />
+                </bean>
+                <bean class="org.kuali.kra.irb.onlinereview.authorization.RejectProtocolOnlineReviewAuthorizer" parent="parentProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value="rejectProtocolOnlineReview" />
+                </bean>
+			</list>
+		</property>
+	</bean>
+	
+
     
     <bean id="protocolCopyService" class="org.kuali.kra.irb.actions.copy.ProtocolCopyServiceImpl">
         <property name="documentService" ref="documentService" />
@@ -449,6 +467,7 @@
     
     <bean id="protocolAssignReviewersService" class="org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolGrantExemptionService" class="org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceImpl">

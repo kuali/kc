@@ -54,4 +54,13 @@ public interface KraWorkflowService {
      * @return true if in workflow; otherwise false
      */
     public boolean isInWorkflow(Document doc);
+    
+    /**
+     * Determine if the user has an outstanding approval request.
+     * @param doc the document
+     * @param principalId the principalId of the user
+     * @return true if the user has an approval action request pending on the document.
+     */
+    public boolean isUserApprovalRequested(Document doc,String principalId);
+    
 }

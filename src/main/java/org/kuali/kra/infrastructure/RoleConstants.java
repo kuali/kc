@@ -45,6 +45,7 @@ public interface RoleConstants {
     
     public static final String IRB_ADMINISTRATOR = "IRB Administrator";
     public static final String IRB_REVIEWER = "IRB Reviewer";
+    public static final String IRB_PROTOCOL_ONLINE_REVIEWER = "IRB Online Reviewer";
     
     public static final String OSP_ADMINISTRATOR = "OSP Administrator";
     

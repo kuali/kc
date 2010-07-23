@@ -119,6 +119,7 @@ public interface TaskName {
     
     public static final String MAINTAIN_PROTOCOL_ONLINEREVIEWS = "maintainProtocolOnlineReviews";
     public static final String CREATE_PROTOCOL_ONLINEREVIEW = "createProtocolOnlineReview";
+    public static final String MODIFY_PROTOCOL_ONLINEREVIEW = "modifyProtocolOnlineReview";
     public static final String VIEW_PROTOCOL_ONLINEREVIEW = "viewProtocolOnlineReview";
 
     /**
