@@ -1,8 +1,8 @@
 package org.kuali.kra.service;
 
 import org.junit.Assert;
-import org.junit.Test;
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -11,11 +11,8 @@ import java.util.List;
 
 class NihSponsorHandlingTestHelper {
     static final String SPONSOR_CODE_FOR_HIERARCHY_A = "005979"; // Google
-    static final String SPONSOR_CODE_FOR_HIERARCHY_B = "004658"; // Upjohn
-
-    private static final String NIH = "NIH";
-    private static final String NOT_NIH = "Not NIH";
-
+    static final String SPONSOR_CODE_FOR_HIERARCHY_B = "000340"; // NIH
+    
     private Sponsorable sponsorable;
     private BusinessObjectService boService;
     private SponsorService spService;
@@ -30,94 +27,21 @@ class NihSponsorHandlingTestHelper {
         init();
     }
 
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {null, null, null, null, null, null, null, null, null, null});
-        verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(0));
+    public void testIsSponsorNihMultiplePi_DevelopmentProposal_NoSponsorAdded() {
+        verifyNonNihMultiplePiSponsorFound(getSponsorHierarchyNodes().get(0));
     }
-
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH});
-        verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level1_NIH_AnyNode() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NIH, null, null, null, null, null, null, null, null, null});
-        assignLevelValues(getSponsorHierarchyNodes().get(1),  new String[] {null, null, null, null, null, null, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-        verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(1));
-
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {null, null, null, null, null, null, null, null, null, null});
-        assignLevelValues(getSponsorHierarchyNodes().get(1),  new String[] {NIH, null, null, null, null, null, null, null, null, null});
-        verifyNonNihSponsorFound(getSponsorHierarchyNodes().get(0));
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(1));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level2_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NIH, null, null, null, null, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level3_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NIH, null, null, null, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level4_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level5_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level6_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level7_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level8_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level9_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH, null});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
-    }
-
-    public void testIsSponsorNih_DevelopmentProposal_Level10_NIH() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
+    
+    public void testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
+        setUpSponsorNihMultiplePi();
+        verifyNihMultiplePiSponsorFound(getSponsorHierarchyNodes().get(1));
     }
 
     public void testNihDescriptionsAssigned() {
-        assignLevelValues(getSponsorHierarchyNodes().get(0),  new String[] {NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NOT_NIH, NIH});
-        verifyNihSponsorFound(getSponsorHierarchyNodes().get(0));
         sponsorable.setNihDescription(kpService.loadKeyPersonnelRoleDescriptions(true));
         Assert.assertEquals(3, sponsorable.getNihDescription().size());
         Assert.assertEquals("PI/Contact", sponsorable.getNihDescription().get("PI"));
         Assert.assertEquals("PI/Multiple", sponsorable.getNihDescription().get("COI"));
         Assert.assertEquals("Key Person", sponsorable.getNihDescription().get("KP"));
-    }
-
-    private void assignLevelValues(SponsorHierarchy sponsorHierarchyNode, String[] values) {
-        sponsorHierarchyNode.setLevel1(values[0]);
-        sponsorHierarchyNode.setLevel2(values[1]);
-        sponsorHierarchyNode.setLevel3(values[2]);
-        sponsorHierarchyNode.setLevel4(values[3]);
-        sponsorHierarchyNode.setLevel5(values[4]);
-        sponsorHierarchyNode.setLevel6(values[5]);
-        sponsorHierarchyNode.setLevel7(values[6]);
-        sponsorHierarchyNode.setLevel8(values[7]);
-        sponsorHierarchyNode.setLevel9(values[8]);
-        sponsorHierarchyNode.setLevel10(values[9]);
     }
 
     private void init() {
@@ -134,26 +58,27 @@ class NihSponsorHandlingTestHelper {
         sponsorHierarchyNode.setHierarchyName(SPONSOR_HIERARCHY_NAME);
         sponsorHierarchyNode.setSponsorCode(SPONSOR_CODE_FOR_HIERARCHY_A);
         boService.save(sponsorHierarchyNode);
-
-        sponsorHierarchyNode = new SponsorHierarchy();
-        sponsorHierarchyNode.setHierarchyName(SPONSOR_HIERARCHY_NAME);
+    }
+    
+    public void setUpSponsorNihMultiplePi() {
+        SponsorHierarchy sponsorHierarchyNode = new SponsorHierarchy();
+        sponsorHierarchyNode.setHierarchyName(Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
         sponsorHierarchyNode.setSponsorCode(SPONSOR_CODE_FOR_HIERARCHY_B);
         boService.save(sponsorHierarchyNode);
     }
-
     private void save(SponsorHierarchy node) {
         boService.save(node);
     }
 
-    private void verifyNihSponsorFound(SponsorHierarchy sponsorHierarchy) {
+    private void verifyNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertTrue(spService.isSponsorNih(sponsorable));
+        Assert.assertTrue(spService.isSponsorNihMultiplePi(sponsorable));
     }
 
-    private void verifyNonNihSponsorFound(SponsorHierarchy sponsorHierarchy) {
+    private void verifyNonNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertFalse(spService.isSponsorNih(sponsorable));
+        Assert.assertFalse(spService.isSponsorNihMultiplePi(sponsorable));
     }
 }

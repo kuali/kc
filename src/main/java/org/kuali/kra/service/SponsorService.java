@@ -83,16 +83,6 @@ public interface SponsorService {
     public String getSponsorCodes(String hierarchyName, String depth, String groups);
 
     /**
-     * Determine if sponsorable's sponsor is NIH-related.
-     *
-     * Side-effect: The sponsorable's setNih method should be called to record the finding
-     *  
-     * @param sponsorable
-     * @return True if sponsor is NIH-related
-     */
-    public boolean isSponsorNih(Sponsorable sponsorable);
-    
-    /**
      * This method returns true if a Sponsorable's sponsor is of the "NIH Multiple PI" type.
      * @param sponsorable
      * @return

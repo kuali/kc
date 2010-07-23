@@ -172,23 +172,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     }
 
     /**
-     * 
-     * @param sponsorable
-     * @return
-     */
-    public boolean isSponsorNih(Sponsorable sponsorable) {
-        sponsorable.setNih(false);
-
-        for (SponsorHierarchy sponsorHierarchy : loadSponsorHierarchies(sponsorable.getSponsorCode())) {
-            sponsorable.setNih(evaluateWhetherSponsorHierarchyIncludesNih(sponsorHierarchy));
-            if(sponsorable.isNih()) {
-                break;
-            }
-        }
-        return sponsorable.isNih();
-    }
-
-    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.

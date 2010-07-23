@@ -766,6 +766,8 @@ public final class KeyConstants {
     public static final String ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE = "error.reportingSchedule.invalid.start.end.dates";
     public static final String ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL = "error.period.costlimit.exceed.obligatedtotal";
     public static final String ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET = "error.protocol.correspondence.template.not.set";
+    
+    public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

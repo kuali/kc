@@ -47,72 +47,21 @@ public class NihSponsorHandlingUnitTest {
         helper = null;
         roles = null;
     }
-
+    
     @Test
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified();
+    public void testIsSponsorNihMultiplePi_DevelopmentProposal_NoSponsorAdded() {
+      helper.testIsSponsorNihMultiplePi_DevelopmentProposal_NoSponsorAdded();
     }
-
+  
     @Test
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level1_NIH_AnyNode() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level2_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level2_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level3_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level3_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level4_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level4_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level5_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level5_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level6_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level6_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level7_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level8_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level9_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level10_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level10_NIH();
+    public void testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded() {
+      helper.testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
     }
 
     @Test
     public void testNIHDescriptionsAssigned() {
         helper.testNihDescriptionsAssigned();
     }
-
 
     private List<ProposalPersonRole> defineRoles() {
         List<ProposalPersonRole> roles = new ArrayList<ProposalPersonRole>();
@@ -154,6 +103,17 @@ public class NihSponsorHandlingUnitTest {
                     SponsorHierarchy sh = (SponsorHierarchy) bo;
                     sponsorHierarchies.put(String.format("%s:%s", sh.getSponsorCode(), sh.getHierarchyName()), sh);
                 }
+            }
+            public int countMatching(Class clazz, Map fieldValues) {
+                if(SponsorHierarchy.class.equals(clazz)){
+                    String aValue = (String) fieldValues.get("hierarchyName");
+                    if (sponsorHierarchies.values().toString().contains(aValue)) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+                return 0;
             }
         };
     }
