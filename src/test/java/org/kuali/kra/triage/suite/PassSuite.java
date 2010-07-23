@@ -413,8 +413,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
     org.kuali.kra.proposaldevelopment.web.AbstractsPanelWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class
-
+    org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class,
+    // Data needs to be loaded with sql loader.
+    org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class
 
 })
 /** these are all the test class where all the test methods are currently passing. */

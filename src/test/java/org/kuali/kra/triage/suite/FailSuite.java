@@ -120,7 +120,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentProposalLocationRuleTest.class,
     org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImplTest.class,
     org.kuali.kra.proposaldevelopment.web.CopyProposalWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.KeywordPanelTest.class,
     org.kuali.kra.proposaldevelopment.web.OrganizationLocationPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.PermissionsWebTest.class,
