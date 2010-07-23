@@ -123,10 +123,10 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.KeywordPanelTest.class,
     org.kuali.kra.proposaldevelopment.web.OrganizationLocationPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.PermissionsWebTest.class,
+    // Data needs to be loaded with SQL loader for the following test.
     org.kuali.kra.proposaldevelopment.web.ProposalActionsWebTest.class,
     org.kuali.kra.proposaldevelopment.web.ProposalAttachmentWebTest.class,
     org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDocumentWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.ProposalYnqWebTest.class,
     org.kuali.kra.proposaldevelopment.web.S2sOpportunityWebTest.class,
     org.kuali.kra.proposaldevelopment.web.SimplePessimisticLockTest.class,
     org.kuali.kra.proposaldevelopment.web.SponsorProgramInformationPanelWebTest.class,
