@@ -40,7 +40,7 @@ public class ProtocolFactory {
     private static final String PROTOCOL_NUMBER = "0906000001";
     private static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     private static final String PROTOCOL_TITLE_STR = "New protocol test";
-    private static final String PRINCIPAL_INVESTIGATOR_ID = "000000001";
+    private static final String PRINCIPAL_INVESTIGATOR_ID = "10000000001";
     private static final String PRINCIPAL_INVESTIGATOR_NAME = "Terry Durkin";
     private static final String PRINCIPAL_INVESTIGATOR_UNIT = "BL-BL";
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";

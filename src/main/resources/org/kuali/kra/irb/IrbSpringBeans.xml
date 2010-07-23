@@ -390,6 +390,13 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="notificationService" ref="notificationService" />
+        <property name="notificationTemplates">
+			<list>
+			    <value>/org/kuali/kra/irb/withdraw_notification.xml</value>
+            </list>
+		</property>
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
