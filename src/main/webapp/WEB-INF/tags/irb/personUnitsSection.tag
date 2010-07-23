@@ -53,15 +53,11 @@
 								</th>
 				                <td align="left" valign="middle" class="infoline">
 			   						<div id="personnelHelper.newProtocolPersonUnits[${personIndex}].unitName.div" class="same-line">
-                                        <c:choose>
-                                            <c:when test="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}">
-                                                (select)
-                                            </c:when>
-	                                        <c:otherwise>
-	                                             <kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitName"
-                                                                           attributeEntry="${unitAttributes.unitName}" />
-	                                        </c:otherwise>
-                                        </c:choose>
+                                        <kul:htmlControlAttribute property="personnelHelper.newProtocolPersonUnits[${personIndex}].unitName"
+                                                                  attributeEntry="${unitAttributes.unitName}" readOnly="true"
+                                                                  readOnlyBody="${empty KualiForm.personnelHelper.newProtocolPersonUnits[personIndex].unitName}">
+                                            (select)
+                                        </kul:htmlControlAttribute>
 			                    	</div>
 			                    	&nbsp;
 			                    	<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber,unitName:personnelHelper.newProtocolPersonUnits[${personIndex}].unitName" />

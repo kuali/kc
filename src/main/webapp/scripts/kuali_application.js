@@ -505,7 +505,7 @@ function loadUnitName(unitNumberFieldName) {
 function loadUnitNameTo(unitNumberFieldName, unitNameFieldName) {
 	var unitNumber = DWRUtil.getValue( unitNumberFieldName );
 	if (unitNumber=='') {
-		clearRecipients( unitNameFieldName, "(select)" );
+		setRecipientValue( unitNameFieldName, "(select)" );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
