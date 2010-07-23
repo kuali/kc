@@ -480,56 +480,14 @@ public class ActionHelper implements Serializable {
         canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
         
-        if (currentSequenceNumber == -1) {
-            currentSequenceNumber = getProtocol().getSequenceNumber();
+        if (getCurrentSequenceNumber() == -1) {
+            initSummaryDetails();
         }
-        else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
-            currentSequenceNumber = getProtocol().getSequenceNumber();
-        }
-        createProtocolSummaries();
-
-        // TODO : temporary for development
-//        if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
-//            currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
-//            setSelectedSubmission(getProtocol().getProtocolSubmissions().get(currentSubmissionNumber));
-//        } else {
-//            setSelectedSubmission(getProtocol().getProtocolSubmission());
-//
-//        }
-//        if (selectedSubmission.getCommitteeSchedule() != null) {
-//            setReviewComments();
-//            setAbstainees(getCommitteeDecisionService().getAbstainees(selectedSubmission.getProtocolId(),
-//                    selectedSubmission.getScheduleIdFk()));
-//        } else {
-//            reviewComments = new ArrayList<CommitteeScheduleMinute>();
-//            abstainees = new ArrayList<ProtocolVoteAbstainee>();
-//        }
+        
         if (getCurrentSubmissionNumber() == -1) {
             initSubmissionDetails();
         }
 
-    }
-
-    private void createProtocolSummaries() {
-        protocolSummary =  null;
-        String protocolNumber = getProtocol().getProtocolNumber();
-        Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
-        if (protocol != null) {
-            protocolSummary = protocol.getProtocolSummary();
-        }
-        
-        prevProtocolSummary = null;
-        if (currentSequenceNumber > 0) {
-            protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
-            if (protocol != null) {
-                prevProtocolSummary = protocol.getProtocolSummary();
-            }
-        }
-        
-        if (protocolSummary != null && prevProtocolSummary != null) {
-            protocolSummary.compare(prevProtocolSummary);
-            prevProtocolSummary.compare(protocolSummary);
-        }
     }
     
     private ProtocolVersionService getProtocolVersionService() {
@@ -1201,10 +1159,40 @@ public class ActionHelper implements Serializable {
     public void setCurrentSubmissionNumber(int currentSubmissionNumber) {
         this.currentSubmissionNumber = currentSubmissionNumber;
     }
+    
+    /**
+     * Sets up the summary details subpanel.
+     */
+    public void initSummaryDetails() {
+        if (currentSequenceNumber == -1) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        }
+        
+        protocolSummary =  null;
+        String protocolNumber = getProtocol().getProtocolNumber();
+        Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
+        if (protocol != null) {
+            protocolSummary = protocol.getProtocolSummary();
+        }
+        
+        prevProtocolSummary = null;
+        if (currentSequenceNumber > 0) {
+            protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
+            if (protocol != null) {
+                prevProtocolSummary = protocol.getProtocolSummary();
+            }
+        }
+        
+        if (protocolSummary != null && prevProtocolSummary != null) {
+            protocolSummary.compare(prevProtocolSummary);
+            prevProtocolSummary.compare(protocolSummary);
+        }
+    }
 
     /**
-     * 
-     * This method to set up date for submission details subpanel
+     * Sets up dates for the submission details subpanel.
      */
     public void initSubmissionDetails() {
         if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
