@@ -346,7 +346,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 }
             }
         }
-        if(federalId != null && sponsorService.isSponsorNih(proposal)){
+        if (federalId != null && sponsorService.isSponsorNihMultiplePi(proposal)) {
             return fromatFederalId(federalId);
         }
         return federalId;

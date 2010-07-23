@@ -33,66 +33,6 @@ public class NihSponsorHandlingIntegrationTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelValuesSpecified();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level1_NIH_AnyNode() {
-        helper.testIsSponsorNih_DevelopmentProposal_NoLevelWithNIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level2_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level2_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level3_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level3_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level4_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level4_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level5_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level5_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level6_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level6_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level7_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level8_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level9_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level7_NIH();
-    }
-
-    @Test
-    public void testIsSponsorNih_DevelopmentProposal_Level10_NIH() {
-        helper.testIsSponsorNih_DevelopmentProposal_Level10_NIH();
-    }
-
-    @Test
     public void testNIHDescriptionsAssigned() {
         helper.testNihDescriptionsAssigned();
     }

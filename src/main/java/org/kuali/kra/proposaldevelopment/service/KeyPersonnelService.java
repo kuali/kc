@@ -202,18 +202,6 @@ public interface KeyPersonnelService {
     
     public void assignLeadUnit(ProposalPerson person, String unitNumber);
     
-    
-    /**
-     * Determines whether the sponsor on the document is NIH
-     *
-     * Now deprecated. Use {@link }SponsorService} isSponsorNih(String) instead.
-     * 
-     * @param document
-     * @return true or false
-     */
-    @Deprecated
-    public boolean isSponsorNIH(ProposalDevelopmentDocument document);
-
     /**
      * Load role descriptions based on whether sponsor is NIH-related
      * @param sponsorIsNih
