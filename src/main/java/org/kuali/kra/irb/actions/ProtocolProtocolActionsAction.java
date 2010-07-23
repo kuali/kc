@@ -95,6 +95,9 @@ import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
+import org.kuali.kra.irb.summary.AttachmentSummary;
+import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -764,20 +767,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-
-        final int selectedIndex = getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = protocolForm.getProtocolDocument().getProtocol().getAttachmentProtocol(
-                selectedIndex);
-
-        if (attachment == null) {
-            LOG.info(NOT_FOUND_SELECTION + selectedIndex);
-            // may want to tell the user the selection was invalid.
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-
-        final AttachmentFile file = attachment.getFile();
-        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-
+        ProtocolSummary protocolSummary = protocolForm.getActionHelper().getProtocolSummary();
+        int selectedIndex = getSelectedLine(request);
+        AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
+        
+        ProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, 
+                attachmentSummary.getAttachmentId());
+        AttachmentFile file = attachment.getFile();
+        streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+        
         return RESPONSE_ALREADY_HANDLED;
     }
 
@@ -797,7 +795,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
-        ((ProtocolForm) form).getActionHelper().initSubmissionDetails();
+        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -818,7 +816,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
-
+        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
+        
         return mapping.findForward(MAPPING_BASIC);
     }
 
@@ -2092,6 +2091,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         sb.append("****************************").append(newLine);
         System.err.println(sb.toString());
+    }
+    
+    private ProtocolAttachmentService getProtocolAttachmentService() {
+        return KraServiceLocator.getService(ProtocolAttachmentService.class);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
