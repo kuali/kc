@@ -30,7 +30,6 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
@@ -45,7 +44,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CommitteeScheduleAction extends CommitteeAction {
@@ -84,33 +82,11 @@ public class CommitteeScheduleAction extends CommitteeAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
-        
-        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+                
         CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
-        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
       
-        GlobalVariables.getErrorMap().addToErrorPath(BASE_ERROR_PATH);
-
-        getService().validateDocumentAndUpdatableReferencesRecursively(committeeForm.getCommitteeDocument(), maxDictionaryValidationDepth, true, FALSE);
-        
-        if(GlobalVariables.getErrorMap().isEmpty()) {
-            
-            GlobalVariables.getErrorMap().clearErrorPath();
-            
-            boolean flag = false;
-            
-            flag = applyRules(new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-            
-            flag &= applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-            
-            flag &= applyRules(new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeSchedules, ErrorType.HARDERROR));
-            
-            if(flag) {
-                actionForward = super.save(mapping, form, request, response);
-            }
-        }
+        ActionForward actionForward = super.save(mapping, form, request, response);
 
         scheduleData.populateStyleClass(); 
         return actionForward;

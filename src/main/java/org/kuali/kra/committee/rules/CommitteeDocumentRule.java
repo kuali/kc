@@ -31,6 +31,10 @@ import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDateConflictEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
+import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -113,6 +117,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         valid &= validateCommitteeMemberships((CommitteeDocument) document);
+        valid &= processScheduleRules((CommitteeDocument) document);
         
         return valid;
     }
@@ -152,7 +157,6 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
                     for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow(document.getDocumentNumber())) {
 
                         Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
-                        // TODO : keep an eye on this to see if this ever reached in the next few weeks.
                         LOG.info("get doc content for doc " + workflowCommitteeDocument.getDocumentNumber());
                         // There is no conflict if we are only modifying the same committee.
 
@@ -578,6 +582,25 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
+    }
+    
+    /*
+     * A few schedules related rules.
+     */
+    private boolean processScheduleRules(CommitteeDocument committeeDocument) {
+        boolean retval = true;
+        
+        
+        CommitteeScheduleTimeEvent scheduleTimeEvent = new CommitteeScheduleTimeEvent(Constants.EMPTY_STRING, committeeDocument, null, committeeDocument.getCommittee().getCommitteeSchedules(), ErrorType.HARDERROR);
+        retval &= scheduleTimeEvent.getRule().processRules(scheduleTimeEvent);
+        
+        CommitteeScheduleDateConflictEvent scheduleDateConfliceEvent = new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeDocument, null, committeeDocument.getCommittee().getCommitteeSchedules(), ErrorType.HARDERROR);
+        retval &= scheduleDateConfliceEvent.getRule().processRules(scheduleDateConfliceEvent);
+        
+        CommitteeScheduleDeadlineEvent scheduleDeadlineEvent = new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, committeeDocument, null, committeeDocument.getCommittee().getCommitteeSchedules(), ErrorType.HARDERROR);
+        retval &= scheduleDeadlineEvent.getRule().processRules(scheduleDeadlineEvent);
+        return retval;
+
     }
 
 }
