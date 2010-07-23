@@ -753,15 +753,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
         String parameterName = "personrole.pi";
         final Sponsor sponsor = document.getDevelopmentProposal().getSponsor();
-        if (sponsor != null && sponsor.getAcronym() != null && sponsor.getAcronym().toLowerCase().equals("nih")) {
+
+        if (sponsor != null && sponsor.getAcronym() != null && isSponsorNihMultiplePi(document)) {
             parameterName = "personrole.nih.pi";
         }
         return this.parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parameterName);
     }
-
-    @Deprecated
-    public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-        return getSponsorService().isSponsorNih(document.getDevelopmentProposal());
+    
+    public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document){
+        return getSponsorService().isSponsorNihMultiplePi(document.getDevelopmentProposal());
     }
 
     /**
