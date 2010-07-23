@@ -21,6 +21,7 @@ public class AttachmentSummary implements Serializable {
 
     private static final long serialVersionUID = -6058410492582759356L;
     
+    private Long attachmentId;
     private String fileName;
     private String fileType;
     private long dataLength;
@@ -31,6 +32,14 @@ public class AttachmentSummary implements Serializable {
 
     public AttachmentSummary() {
         
+    }
+    
+    public Long getAttachmentId() {
+        return attachmentId;
+    }
+    
+    public void setAttachmentId(Long attachmentId) {
+        this.attachmentId = attachmentId;
     }
 
     public String getFileName() {
