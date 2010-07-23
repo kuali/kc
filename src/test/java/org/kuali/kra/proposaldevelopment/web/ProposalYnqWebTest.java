@@ -20,13 +20,15 @@ import org.junit.Test;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String DOCUMENT_SAVED = "Document was successfully saved";
     private static final String BUTTON_SAVE = "save";
-    private static final String PROPOSAL_QUESTION = "NSF Beginning Investigator?";
+    private static final String PROPOSAL_QUESTION = "NSF Beginning Investigator";
     private static final String ERROR_REVIEW_DATE = "Review Date is required";
     private static final String ERROR_EXPLANATION = "Explanation is required";
 
@@ -40,7 +42,7 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
     private static final String DEFAULT_PROPOSAL_TYPE_CODE = "1";
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
 
-    private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
+    private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions";
     private static final String RADIO_FIELD_VALUE = "Y"; // answer Yes to all questions
 
     private HtmlPage proposalYNQPage;
@@ -66,14 +68,18 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
         /* save questions panel - fields are not mandatory*/
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);
 
-        assertContains(proposalPage, DOCUMENT_SAVED);
+        //assertContains(proposalPage, DOCUMENT_SAVED);
+        assertTrue(proposalPage.asXml().contains(DOCUMENT_SAVED));
     }
 
     @Test
     public void testProposalYnqForValidation() throws Exception {
         HtmlPage proposalPage = getProposalYnqPage();
+        HtmlTable table= (HtmlTable) proposalPage.getElementById("Proposal Questions");
+        // number of questions is equal to number of rows in table -1 row for heading
+        int numberOfQuestions= table.getRowCount()-1;
         /* Answer all questions */
-        for(int i=0; i<4; i++) {
+        for(int i=0; i<numberOfQuestions; i++) {
             String fieldName = "document.developmentProposalList[0].proposalYnq[" + i + "].answer";
             setFieldValue(proposalPage,fieldName , RADIO_FIELD_VALUE);
         }
@@ -81,8 +87,11 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);
         /* page should contain errors - review date and explanation required */
         assertContains(proposalPage, ERRORS_FOUND_ON_PAGE);
-        assertContains(proposalPage, ERROR_REVIEW_DATE);
-        assertContains(proposalPage, ERROR_EXPLANATION);
+        System.out.println("PAGE IS " + proposalPage.asXml());
+        //assertContains(proposalPage, ERROR_REVIEW_DATE);
+        assertTrue(proposalPage.asXml().contains(ERROR_REVIEW_DATE));
+        //assertContains(proposalPage, ERROR_EXPLANATION);
+        assertTrue(proposalPage.asXml().contains(ERROR_EXPLANATION));
     }
 
 
@@ -109,7 +118,8 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
 
         /* Save with basic/mandatory data and verify data saved */
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);
-        assertContains(proposalPage, DOCUMENT_SAVED);
+        //assertContains(proposalPage, DOCUMENT_SAVED);
+        assertTrue(proposalPage.asXml().contains(DOCUMENT_SAVED));
         assertDoesNotContain(proposalPage, ERRORS_FOUND_ON_PAGE);
         return proposalPage;
     }
