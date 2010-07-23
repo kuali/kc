@@ -27,7 +27,7 @@
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${reviewIndex}] .*" useCurrentTabIndexAsKey="false">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -39,6 +39,7 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
+                    <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                                         
@@ -47,10 +48,10 @@
                     <td valign="middle" style="text-align:center">
                         <c:choose>
                             <c:when test="${empty bean.newComment.protocolContingencyCode}" >
-                                (select)
+	                           n/a
                             </c:when>
                             <c:otherwise>
-                                <%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>
+
                             </c:otherwise>
                         </c:choose> 
                     </td>
@@ -61,7 +62,6 @@
                               <c:set var = "prop" value = "${property}.newComment.minuteEntry"/>
                  	          <kul:htmlControlAttribute property="${prop}" 
                                                         attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "false" />
-                              	<%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>  
                             </c:when>
                             <c:otherwise>
                                 ${bean.newComment.minuteEntry}
@@ -74,7 +74,6 @@
                  	          
                         <kul:htmlControlAttribute property="${prop}" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" />
-                       <%-- ${kfunc:registerEditableProperty(KualiForm, prop)} --%>
                     </td>
 					
 					<td valign="middle" style="text-align:center">
@@ -82,6 +81,8 @@
                         <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
                                                   attributeEntry="${minutesAttributes.finalFlag}" />
                     </td>
+                    
+                    <td>&nbsp;</td>
 
                     <td>
                         <div align="center">
@@ -103,7 +104,6 @@
                     	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
                     	<c:set var="readOnly" value = "false"/>
                         <th>
-                        	<%--${status.index + 1} --%>
                         	<c:choose>
                         		<c:when test="${doHide == false }">
                         			<c:set var="displayCount" value="${displayCount + 1}"/>
@@ -148,6 +148,12 @@
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].finalFlag" 
                                                       attributeEntry="${minutesAttributes.finalFlag}"
                                                       readOnly="${readOnly}" />
+                        </td>
+                        
+                        <td style="text-align:center; vertical-align:middle">
+                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].updateUser" 
+                                                      attributeEntry="${minutesAttributes.updateUser}"
+                                                      readOnly="true" />
                         </td>
                         
                         <td>

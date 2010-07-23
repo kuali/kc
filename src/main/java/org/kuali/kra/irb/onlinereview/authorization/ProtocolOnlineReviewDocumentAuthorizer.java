@@ -26,6 +26,7 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 import org.kuali.rice.kns.document.Document;
 
 public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
@@ -36,20 +37,16 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
         String userId = user.getPrincipalId();
         
-        if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL)) {  
+        if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {  
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        }
-        else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_PROTOCOL)) {
+        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW)) {
+            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+        } else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_PROTOCOL_ONLINEREVIEW)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-        }
-        else {
+        } else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
             
-        if( canExecuteProtocolOnlineReviewTask(userId,protocolOnlineReviewDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
-            editModes.add("maintainProtocolOnlineReviews");
-        }
-        
         return editModes;
     }
 
@@ -98,7 +95,8 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL);
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
+               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
     }
     
     /**
@@ -133,5 +131,11 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         return false;
     }
     
-    
+    /**
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    protected boolean canApprove(Document document, Person user) {
+       return super.canApprove(document, user);
+    } 
 }

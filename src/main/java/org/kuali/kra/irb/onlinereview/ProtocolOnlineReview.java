@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
@@ -317,14 +318,12 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
 
 
     public String getDocumentKey() {
-        // TODO Auto-generated method stub
-        return null;
+        return Permissionable.PROTOCOL_ONLINE_REVIEW_KEY;
     }
 
 
     public String getDocumentNumberForPermission() {
-        // TODO Auto-generated method stub
-        return null;
+        return getProtocolOnlineReviewId().toString();
     }
 
 
@@ -335,26 +334,23 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
 
 
     public String getLeadUnitNumber() {
-        // TODO Auto-generated method stub
-        return null;
+        return getProtocol().getLeadUnitNumber();
     }
 
 
     public String getNamespace() {
-        // TODO Auto-generated method stub
-        return null;
+        return "KC-UNT";
     }
 
 
     public List<String> getRoleNames() {
-        // TODO Auto-generated method stub
-        return new ArrayList<String>();
+        List<String> roleNames = new ArrayList<String>();
+        roleNames.add(RoleConstants.IRB_REVIEWER);
+        return roleNames;
     }
 
-
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        // TODO Auto-generated method stub
-        
+        qualifiedRoleAttributes.put(protocol.getDocumentKey(), protocol.getDocumentNumberForPermission());
     }
 
 

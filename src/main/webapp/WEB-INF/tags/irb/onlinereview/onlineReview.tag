@@ -18,9 +18,11 @@
 <%@ attribute name="renderIndex" required = "true" description="The index into the action helpers array list for this review."%>
 <%@ attribute name="documentNumber" required = "true" description="The protocol online review document number to be rendered." %>
 
+
 <c:set var="onlineReviewAttributes" value="${DataDictionary.ProtocolOnlineReview.attributes}" />
+<c:set var="protocolReviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
+
 <c:set var="actionHelper" value = "${KualiForm.onlineReviewsActionHelper}"/>
-<c:set var="readOnly" value = "false"/>
 
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
@@ -33,17 +35,18 @@
 <c:set var = "reviewerPerson" value = "${documentHelperMap['reviewerPerson']}"/>
 <c:set var = "kualiForm" value = "${documentHelperMap['kualiForm']}"/>
 
+<c:set var="readOnly" value="${not kualiForm.editingMode['fullEntry']}" scope="request" />
+
+<%--Keep in mind, KualiForm references the Protocol we are rendering in, kualiForm is a ProtocolOnlineReviewForm for the current protocol online review. --%>
 
 
 	<div class="tab-container" align=center>
 		  <!-- DOC OVERVIEW TABLE -->
 		
-		<c:set var="currentOnlineReviewForm" value = "${kualiForm}"/>
-		<jsp:useBean id="currentOnlineReviewForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
 		
     	<c:set var="numberOfHeaderRows" value="2" />
     	<c:set var="headerFieldCount" value="4" />
-  		<c:set var="headerFields" value="${currentOnlineReviewForm.docInfo}" />
+  		<c:set var="headerFields" value="${kualiForm.docInfo}" />
   		<c:set var="fieldCounter" value="0" />
   	
   		<kra:innerTab tabTitle="Document Overview" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">	
@@ -144,7 +147,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid">
-					<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly="${readOnly}" />
+					<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}" />
                 </td>
               </tr>
               <tr>
@@ -158,11 +161,11 @@
               	</td>
                 <th width = "25%" class="grid">
                 	<div align="right">
-                		<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" />
+                		<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false"  />
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}" />
                 </td>
               </tr>
 			  <tr>
@@ -176,10 +179,13 @@
                 	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewDeterminationRecommendationCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewDeterminationRecommendationCode}" datePicker="false" readOnly="${readOnly}" />
                 </td>
                 <th width = "25%" class="grid">
-                	<div align="right">
+           			<div align="right">
+                		<kul:htmlAttributeLabel attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" noColon="false" />
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolReviewer.reviewerTypeCode"
+		                                                                                  attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"/>
 				</td>
               </tr>
          	</table>
@@ -197,20 +203,18 @@
 
 			<kra:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 				<c:set var = "viewOnly" value = "false"/>
-				<c:set var = "onlineReviewForm" value = "${documentHelperMap['kualiForm']}"/>
-				<c:set var="documentTypeName" value="${onlineReviewForm.docTypeName}" />
+				
+				<c:set var="documentTypeName" value="${kualiForm.docTypeName}" />
 				<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-					<c:if test="${not KualiForm.suppressAllButtons}">
+					<c:if test="${not kualiForm.suppressAllButtons}">
 	        			<div id="globalbuttons" class="globalbuttons">
-	        					
 	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE]}">
 	        					<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.routeOnlineReview.${documentNumber}.anchor${tabKey}" title="submit" alt="submit"/>
 	        				</c:if>
-	        				
 	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE] and not viewOnly}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveOnlineReview.${documentNumber}.anchor${tabKey}" title="save" alt="save"/>
 	            			</c:if>
-	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE] and not suppressRoutingControls}">
+	            			<c:if test="${(!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE]) and not suppressRoutingControls}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif" styleClass="globalbuttons" property="methodToCall.approveOnlineReview.${documentNumber}.anchor${tabKey}" title="approve" alt="approve"/>
 	            			</c:if>
 	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
@@ -219,6 +223,14 @@
 	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_CANCEL] and not suppressCancelButton}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancelOnlineReview.${documentNumber}.anchor${tabKey}" title="cancel" alt="cancel"/>
 	            			</c:if>
+	            			
+	          				<c:if test="${!empty kualiForm.extraButtons}">
+		        				<c:forEach items="${kualiForm.extraButtons}" var="extraButton">
+        							<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}.${documentNumber}.anchor${tabKey}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"  onclick="${extraButton.extraButtonOnclick}"/>
+		        				</c:forEach>
+	        				</c:if>
+	        
+	            			
 	        			</div>
         			</c:if>
 			</kra:innerTab>

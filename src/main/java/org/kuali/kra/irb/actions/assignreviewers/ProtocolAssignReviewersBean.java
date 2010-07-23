@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
 /**
  * This class is really just a "form" for assigning a protocol
@@ -80,12 +81,12 @@ public class ProtocolAssignReviewersBean implements Serializable{
                         reviewers.add(reviewer);
                     }
                     
-                    for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+                    for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
                         for (ProtocolReviewerBean reviewerBean : reviewers) {
-                            if ((reviewer.getNonEmployeeFlag() == reviewerBean.getNonEmployeeFlag()) &&
-                                (StringUtils.equals(reviewerBean.getPersonId(), reviewer.getPersonId()))) {
+                            if ((review.getProtocolReviewer().getNonEmployeeFlag() == reviewerBean.getNonEmployeeFlag()) &&
+                                (StringUtils.equals(reviewerBean.getPersonId(), review.getProtocolReviewer().getPersonId()))) {
                                 reviewerBean.setChecked(true);
-                                reviewerBean.setReviewerTypeCode(reviewer.getReviewerTypeCode());
+                                reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
                                 break;
                             }
                         }

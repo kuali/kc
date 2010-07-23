@@ -17,6 +17,7 @@ package org.kuali.kra.irb.onlinereview.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 
 /**
@@ -26,6 +27,7 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 public final class ProtocolOnlineReviewTask extends Task {
     
     private ProtocolOnlineReview protocolOnlineReview;
+    private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
     
     /**
      * Constructs a ProtocolOnlineReviewTask.
@@ -37,9 +39,21 @@ public final class ProtocolOnlineReviewTask extends Task {
         this.protocolOnlineReview = protocolOnlineReview;
     }
     
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument) {
+        super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName);
+        this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
+        this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
+    }
+    
     public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReview protocolOnlineReview, String genericTaskName) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
         this.protocolOnlineReview = protocolOnlineReview;
+    }
+
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument, String genericTaskName) {
+        super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
+        this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
+        this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
 
     /**
@@ -49,4 +63,13 @@ public final class ProtocolOnlineReviewTask extends Task {
     public ProtocolOnlineReview getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
-}
+
+    /**
+     * Gets the protocolOnlineReviewDocument attribute. 
+     * @return Returns the protocolOnlineReviewDocument.
+     */
+    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument() {
+        return protocolOnlineReviewDocument;
+    }
+
+}    

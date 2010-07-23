@@ -59,10 +59,15 @@ public interface PermissionConstants {
     public static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
     public static final String VIEW_RESTRICTED_NOTES = "View Restricted Notes";
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "Answer Protocol Questionnaire";
-    
+    public static final String MAINTAIN_ONLINE_REVIEWS = "Maintain Protocol Online Reviews";
     /* IRB - Online Review Permissions */
     
-    public static final String MAINTAIN_ONLINE_REVIEWS = "Maintain Protocol Online Reviews";
+    public static final String MODIFY_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";
+    public static final String VIEW_PROTOCOL_ONLINE_REVIEW = "View Protocol Online Review";
+    public static final String MAINTAIN_PROTOCOL_ONLINE_REVIEW = "Maintain Protocol Online Review";
+    public static final String ADD_PROTOCOL_ONLINE_REVIEW_COMMENT = "Add Protocol Online Review Comment";
+    
+    
 
     /*
      * Committee Permissions
