@@ -63,7 +63,6 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getOnlineReviewersForProtocolSubmission(submissionId)) {
 		    if( StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") && (personId == null || StringUtils.equals(personId, pReview.getProtocolReviewer().getPersonId() ))) {
 		        pReview.refresh();
-		        
 		        members.add( new RoleMembershipInfo(null, null, pReview.getProtocolReviewer().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
 		    }
 		}

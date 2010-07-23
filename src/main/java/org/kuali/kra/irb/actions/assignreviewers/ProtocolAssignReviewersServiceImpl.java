@@ -19,27 +19,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Implementation of the ProtocolAssignReviewersService.
  */
 public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewersService {
 
-    private BusinessObjectService businessObjectService;
+    private static Logger LOG = Logger.getLogger(ProtocolAssignReviewersServiceImpl.class);
     
-    /**
-     * Set the Business Object Service.
-     * @param businessObjectService businessObjectService.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+    private BusinessObjectService businessObjectService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
+    
+    
     
     /**
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#getCurrentSubmission(org.kuali.kra.irb.Protocol)
@@ -65,22 +67,35 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     }
 
     /**
+     * @throws  
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.Protocol, java.util.List)
      */
-    public void assignReviewers(Protocol protocol, List<ProtocolReviewerBean> reviewerBeans) {
+    public void assignReviewers(Protocol protocol, List<ProtocolReviewerBean> reviewerBeans)  {
         ProtocolSubmission submission = findSubmission(protocol);
         if (submission != null) {
             List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
             for (ProtocolReviewerBean reviewerBean : reviewerBeans) {
-                if (reviewerBean.getChecked()) {
-                    reviewers.add(createReviewer(submission,
-                                                 reviewerBean.getPersonId(),
-                                                 reviewerBean.getReviewerTypeCode(),
-                                                 reviewerBean.getNonEmployeeFlag()));
+                boolean newReviewer = !protocolOnlineReviewService.isUserAnOnlineReviewerOfProtocol(reviewerBean.getPersonId(), protocol);
+                if (reviewerBean.getChecked() && newReviewer) {
+                    
+                    try {
+                        ProtocolOnlineReviewDocument pDocument = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, reviewerBean.getPersonId(), 
+                                String.format("%s/Protocol# %s",protocol.getPrincipalInvestigator().getPerson().getLastName(),protocol.getProtocolNumber()),
+                                "", 
+                                "",
+                                "Online Review Requested by PI during protocol submission.",
+                                false,
+                                GlobalVariables.getUserSession().getPrincipalId());
+                        
+                    }
+                    catch (WorkflowException e) {
+                        LOG.error(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
+                        throw new RuntimeException(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
+                    }
+                 
                 }
             }
-            submission.setProtocolReviewers(reviewers);
-            businessObjectService.save(submission);
+            
         }
     }
     
@@ -103,4 +118,24 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         protocolReviewer.setNonEmployeeFlag(nonEmployeeFlag);
         return protocolReviewer;
     }
+
+
+    /**
+     * Set the Business Object Service.
+     * @param businessObjectService businessObjectService.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Set the Protocol Online Review Service.
+     * @param businessObjectService businessObjectService.
+     */
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
+    
+    
 }

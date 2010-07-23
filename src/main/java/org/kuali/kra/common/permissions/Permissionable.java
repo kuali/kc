@@ -33,6 +33,7 @@ public interface Permissionable {
     
     String PROTOCOL_KEY = "protocol";
     String COMMITTEE_KEY = "committee";
+    String PROTOCOL_ONLINE_REVIEW_KEY="protocolOnlineReview";
     
     /**
      * 

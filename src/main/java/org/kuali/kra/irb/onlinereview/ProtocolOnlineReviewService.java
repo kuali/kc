@@ -20,6 +20,8 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -43,24 +45,48 @@ public interface ProtocolOnlineReviewService {
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
      * This method will create a new ProtocolReviewDocument, and the associated BO and return it.
-     * The Document should be approved by the IRBAdmin in order for it to be added to the reviewer's kew
-     * action list.
+     * The method routes the document so it will show immediately in the reviewer's kew action list.
+     * 
      * 
      * @param protocol The protocol for which the review is being requested.
      * @param personId The id of the person being made a reviewer.
      * @param documentDescription The description to be used on the associated workflow document
      * @param documentExplanation The explanation to be used on the associated workflow document
      * @param documentOrganizationDocumentNumber the organization document number to be used on the associated workflow document
+     * @param documentRouteAnnotation - The annotation to apply to the document when routing it.
+     * @param approveDocument Should the service approve the document with the given principalID.  In the case of
+     * IRB Administrators this will approve the document through the initial node.
      * @param principalId The principalId to use when creating the document, and routing it into workflow.
      * @return The ProtocolReviewDocument that was created.
      */
    
-    ProtocolOnlineReviewDocument assignOnlineReviewer(Protocol protocol, 
+    ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
             String personId, 
             String documentDescription,
             String documentExplanation,
             String documentOrganizationDocumentNumber,
+            String documentRouteAnnotation,
+            boolean approveDocument,
             String principalId) throws WorkflowException;
+    
+    /**
+     * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
+     * This method will create a new ProtocolReviewDocument, and the associated BO and return it.
+     * This method does not route the document before it is returned.  An IRB Admin will need to
+     * approve it before it will go to the reviewers action list. 
+     * 
+     * @param protocol
+     * @param personId
+     * @param documentDescription
+     * @param documentExplanation
+     * @param documentOrganizationDocumentNumber
+     * @param principalId
+     * @return
+     * @throws WorkflowException
+     */
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, String personId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, String principalId)
+    throws WorkflowException;
+    
     
     /**
      * Submits the ProtocolReviewDocument to workflow.  The document should then show in the
@@ -99,6 +125,13 @@ public interface ProtocolOnlineReviewService {
      */
     List<ProtocolOnlineReview> getProtocolReviewsForCurrentSubmission(String protocolNumber);
     
+    /**
+     * Get the other ProtocolOnlineReviews - the list will not include the provided review.
+     * @param ProtocolOnlineReview - the review you are not interested in.
+     * @return
+     */
+    List<ProtocolOnlineReview> getOtherProtocolOnlineReviews(ProtocolOnlineReview review);
+    
     
     /**
      * Returns true if the principal has an online review for the protocol and current submission.
@@ -122,6 +155,5 @@ public interface ProtocolOnlineReviewService {
      * @param review
      */
     void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
-    
     
 }

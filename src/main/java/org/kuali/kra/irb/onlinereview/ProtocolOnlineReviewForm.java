@@ -30,14 +30,23 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.onlinereview.authorization.ProtocolOnlineReviewTask;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -175,4 +184,50 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         
     }
 
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        ProtocolOnlineReviewDocument doc = this.getDocument();
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+
+        
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+               
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))) {
+            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
+            addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Reject");
+        }
+        
+        return extraButtons;
+    }
+    
+
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
+    }
+
+    public List<ExtraButton> getExtraButtons() {
+        return getExtraActionsButtons();
+    }
+    
+    public boolean getIrbAdminFieldsEditable() {
+        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+    }
+    
+    
 }

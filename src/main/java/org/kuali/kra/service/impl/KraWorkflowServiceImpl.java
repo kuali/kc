@@ -17,16 +17,18 @@ package org.kuali.kra.service.impl;
 
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * KRA Workflow Service Implementation.
  */
 public class KraWorkflowServiceImpl implements KraWorkflowService {
-
+    
     /**
      * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.kns.document.Document)
      */
@@ -105,4 +107,36 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         }
         return workflowDocument;
     }
+    
+    /**
+     * This method gets the workflow document using the given principalId.
+     * 
+     * @param doc The document you want the workflow document for.
+     * @param principalId The principalId to use getting the document.  This impacts the return values for isApprovalRequested, etc.
+     * @return
+     */
+    private WorkflowDocument getWorkflowDocument(Document doc, String principalId) {
+        WorkflowDocument workDoc = null;
+        try {
+            workDoc = new WorkflowDocument(principalId, doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        }
+        catch (WorkflowException e) {
+         // do nothing; there is no workflow document
+        }
+        return workDoc;
+    }
+    
+
+    /**
+     * @see org.kuali.kra.service.KraWorkflowService#isUserApprovalRequested(org.kuali.rice.kns.document.Document, java.lang.String)
+     */
+    public boolean isUserApprovalRequested(Document doc, String principalId) {
+        boolean hasApprovalRequest = false;
+        WorkflowDocument workDoc = getWorkflowDocument(doc,principalId);
+        if(workDoc != null ) {
+            hasApprovalRequest = workDoc.isApprovalRequested();
+        }
+        return hasApprovalRequest;
+    }
+        
 }

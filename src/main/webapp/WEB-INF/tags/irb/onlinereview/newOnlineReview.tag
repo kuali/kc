@@ -48,8 +48,8 @@
                 </td>
               </tr>
               <tr>
-              <th class="grid"></th>
-              <td class = "grid"></td>
+              <th class="grid">&nbsp;</th>
+              <td class = "grid">&nbsp;</td>
               
                 <th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" /></div></th>
                 <td class="grid" >
@@ -57,7 +57,6 @@
                 </td>
               
               </tr>
-              
          
            	<tr>
 		      <kul:htmlAttributeHeaderCell
@@ -66,7 +65,7 @@
 		          horizontal="true"
 		          />
 		      <td align="left" valign="middle">
-		      	<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDocumentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${readOnly}"/>
+		      	<kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewDocumentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="true"/>
 		      </td>
 		      <kul:htmlAttributeHeaderCell
                   labelFor="document.documentHeader.explanation"
