@@ -45,4 +45,8 @@ public class KraWorkflowServiceMock implements KraWorkflowService {
     public boolean isInWorkflow(Document doc) {
         return inWorkflow;
     }
+
+    public boolean isUserApprovalRequested(Document doc, String principalId) {
+        return false;
+    }
 }

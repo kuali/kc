@@ -44,6 +44,7 @@
 				<ref bean="CommitteeScheduleMinute-minuteEntry" />
 				<ref bean="CommitteeScheduleMinute-protocolReviewerIdFk" />
 				<ref bean="CommitteeScheduleMinute-protocolOnlineReviewIdFk" />
+				<ref bean="CommitteeScheduleMinute-updateUser"/>
 				<ref bean="CommitteeScheduleMinute-versionNumber" />
 			</list>
 		</property>
@@ -282,6 +283,23 @@
 	<bean id="CommitteeScheduleMinute-versionNumber-parentBean"
 		abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
+
+	<bean id="CommitteeScheduleMinute-updateUser" parent="CommitteeScheduleMinute-updateUser-parentBean" />
+	<bean id="CommitteeScheduleMinute-updateUser-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="updateUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Update User" />
+        <property name="shortLabel" value="Update User" />
+        <property name="maxLength" value="80" />
+        <property name="required" value="false" />
+        <property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+        <property name="summary" value="Update User" />
+        <property name="description" value="Update User" />
+	
+	</bean>
+	
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeScheduleMinute-inquiryDefinition" parent="CommitteeScheduleMinute-inquiryDefinition-parentBean" />

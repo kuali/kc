@@ -27,8 +27,10 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -42,20 +44,23 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
 
-    private static Logger LOG = Logger.getLogger(ProtocolOnlineReviewServiceImpl.class);
+    static Logger LOG = Logger.getLogger(ProtocolOnlineReviewServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
-    private ProtocolAssignReviewersService protocolAssignReviewersService;
+    ProtocolAssignReviewersService protocolAssignReviewersService;
     private IdentityManagementService identityManagementService;
     private CommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
+    
+    private static final String DEFAULT_DOCUMENT_ROUTE_ANNOTATION = null;
     
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -67,14 +72,50 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     
     
     /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#assignOnlineReviewer(org.kuali.kra.irb.Protocol, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createAndRouteProtocolOnlineReviewDocument(org.kuali.kra.irb.Protocol, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public ProtocolOnlineReviewDocument assignOnlineReviewer(Protocol protocol, 
+    public ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
                                                              String personId,
                                                              String documentDescription,
                                                              String documentExplanation,
                                                              String documentOrganizationDocumentNumber,
+                                                             String documentRouteAnnotation,
+                                                             boolean initialApproval,
                                                              String principalId ) throws WorkflowException {
+        
+        
+        
+        
+        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
+        if (initialApproval) {
+            documentService.approveDocument(reviewDocument, "", new ArrayList<String>());
+        }
+        return reviewDocument;
+    }
+    
+
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, 
+                                                                           String personId,
+                                                                           String documentDescription,
+                                                                           String documentExplanation,
+                                                                           String documentOrganizationDocumentNumber,
+                                                                           String principalId ) throws WorkflowException {
+
+        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
+        reviewDocument.getProtocolOnlineReview().refresh();
+        
+        return reviewDocument;
+    }
+    
+    
+    
+    protected ProtocolOnlineReviewDocument createNewProtocolOnlineReviewDocument(Protocol protocol,
+                                                                           String personId,
+                                                                           String documentDescription,
+                                                                           String documentExplanation,
+                                                                           String documentOrganizationDocumentNumber,
+                                                                           String principalId) throws WorkflowException {
+        
         if (LOG.isDebugEnabled()) {
             LOG.debug(String.format("Assigning online reviewer [%s] to protocol [%s].", personId, protocol.getProtocolNumber()));
         }
@@ -88,16 +129,12 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             LOG.debug(String.format("Current submission for protocol %s is %s.", protocol.getProtocolNumber(), submission.getSubmissionNumber()));
         }
         ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
-        
-        //irb admin needs to see these documents before they go final.
-        reviewDocument.getDocumentHeader().getWorkflowDocument().setReceiveFutureRequests();
         documentService.saveDocument(reviewDocument);
-        reviewDocument.getProtocolOnlineReview().refresh();
-        
-        documentService.routeDocument(reviewDocument, "Submitted into workflow by ProtocolOnlineReviewServiceImpl when review was created.", new ArrayList<String>());
-        //documentService.approveDocument(reviewDocument, "", new ArrayList<String>());
+        documentService.routeDocument(reviewDocument, "Review Requested by PI during protocol submission.", new ArrayList<String>());
         return reviewDocument;
     }
+    
+    
 
     public void submitOnlineReviwToWorkflow(ProtocolOnlineReviewDocument protocolReviewDocument) {
         //TODO: complete method or remove from interface.
@@ -116,7 +153,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @return
      * @throws WorkflowException
      */
-    private ProtocolOnlineReviewDocument createNewProtocolOnlineReviewDocument( Protocol protocol, 
+    ProtocolOnlineReviewDocument createNewProtocolOnlineReviewDocument( Protocol protocol, 
                                                                                 ProtocolSubmission submission, 
                                                                                 String personId, 
                                                                                 String documentDescription,
@@ -283,7 +320,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @param dateRequestedEnable
      * @return
      */
-    public List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
+    private List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
                                                                  Long submissionIdFk,
                                                                  Long protocolReviewerId,
                                                                  String protocolOnlineReviewStatusCode,
@@ -559,5 +596,10 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
     }
 
-    
+
+    public List<ProtocolOnlineReview> getOtherProtocolOnlineReviews(ProtocolOnlineReview review) {
+       List<ProtocolOnlineReview> reviews = this.getProtocolOnlineReviews(review.getProtocolId(), review.getSubmissionIdFk());
+       reviews.remove(review);
+       return reviews;
+    }
 }
