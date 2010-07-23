@@ -229,7 +229,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         // Update the NIH related properties since this information is not persisted with the document
         // (isSponsorNih sets the nih property as a side effect)
-        if(sponsorService.isSponsorNih(proposal)) {
+        if (sponsorService.isSponsorNihMultiplePi(proposal)) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
         proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));

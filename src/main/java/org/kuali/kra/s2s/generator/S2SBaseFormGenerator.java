@@ -350,7 +350,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
 		SponsorService sponsorService = KraServiceLocator
 				.getService(SponsorService.class);
-		return sponsorService.isSponsorNih(document.getDevelopmentProposal());
+		return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
 	}
     
 	protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
