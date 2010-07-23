@@ -22,6 +22,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -84,6 +85,8 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
         submitAction.setSubmissionQualifierTypeCode("2");
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        Committee committee = new Committee();
+        protocolDocument.getProtocol().getProtocolSubmission().setCommittee(committee);
         
         ProtocolDocument newProtocolDocument = protocolWithdrawService.withdraw(protocolDocument.getProtocol(), withdrawBean);
     
