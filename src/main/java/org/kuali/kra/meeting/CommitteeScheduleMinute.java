@@ -334,11 +334,11 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
             pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
             CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
             if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {
-                if (!minuteEntry.equals(committeeScheduleMinute.getMinuteEntry())
+                if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry())
                         || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag()
                         || finalFlag != committeeScheduleMinute.isFinalFlag()
                         || isProtocolFieldChanged(committeeScheduleMinute)
-                        ) {
+                ) {
                     this.setUpdateUser(updateUser);
                 }                                    
             }
