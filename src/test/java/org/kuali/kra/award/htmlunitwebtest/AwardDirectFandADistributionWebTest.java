@@ -68,7 +68,7 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
      * This method tests saving valid and invalid date ranges.
      * @throws Exception
      */
-    @Test //@Ignore("kracoeus-4087")
+    @Test
     public void testSaveAndOverlappingDateFields() throws Exception{
         HtmlPage awardTimeAndMoneyPage = getAwardTimeAndMoneyPage();
         HtmlPage tempAwardTimeAndMoneyPage = clickOn(awardTimeAndMoneyPage, SAVE_METHOD);
@@ -77,13 +77,18 @@ public class AwardDirectFandADistributionWebTest extends AwardTimeAndMoneyWebTes
         assertDoesNotContain(tempAwardTimeAndMoneyPage, ERRORS_FOUND_ON_PAGE);
         assertContains(tempAwardTimeAndMoneyPage,SAVE_SUCCESS_MESSAGE);
         
-        setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + START_DATE, START_DATE_STRING);
-        setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + END_DATE, END_DATE_STRING);
-        setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + DIRECT_COST, TEN_THOUSAND);
-        setFieldValue(awardTimeAndMoneyPage, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + INDIRECT_COST, TWENTY_FIVE_THOUSAND);
-        setFieldValue(awardTimeAndMoneyPage, END_DATE_FIELD_STRING, SET_END_DATE);
+        setFieldValue(tempAwardTimeAndMoneyPage, END_DATE_FIELD_STRING, SET_END_DATE);
+        HtmlPage tempAwardTimeAndMoneyPageAfterDateChange = clickOn(tempAwardTimeAndMoneyPage, SAVE_METHOD);
+        assertDoesNotContain(tempAwardTimeAndMoneyPageAfterDateChange, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
+        assertDoesNotContain(tempAwardTimeAndMoneyPageAfterDateChange, ERRORS_FOUND_ON_PAGE);
+        assertContains(tempAwardTimeAndMoneyPageAfterDateChange,SAVE_SUCCESS_MESSAGE);
         
-        HtmlPage awardTimeAndMoneyPageAfterAdd = clickOn(awardTimeAndMoneyPage, ADD_METHOD);
+        setFieldValue(tempAwardTimeAndMoneyPageAfterDateChange, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + START_DATE, START_DATE_STRING);
+        setFieldValue(tempAwardTimeAndMoneyPageAfterDateChange, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + END_DATE, END_DATE_STRING);
+        setFieldValue(tempAwardTimeAndMoneyPageAfterDateChange, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + DIRECT_COST, TEN_THOUSAND);
+        setFieldValue(tempAwardTimeAndMoneyPageAfterDateChange, NEW_AWARD_DIRECT_DISTRIBUTION_FIELD + INDIRECT_COST, TWENTY_FIVE_THOUSAND);
+        
+        HtmlPage awardTimeAndMoneyPageAfterAdd = clickOn(tempAwardTimeAndMoneyPageAfterDateChange, ADD_METHOD);
         
         assertDoesNotContain(awardTimeAndMoneyPageAfterAdd, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);
         assertDoesNotContain(awardTimeAndMoneyPageAfterAdd, ERRORS_FOUND_ON_PAGE);
