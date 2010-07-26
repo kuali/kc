@@ -32,6 +32,7 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
@@ -164,22 +165,12 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
      */
     @Test 
     public void testGetSearchResults() throws Exception {
-        ProtocolLookupableHelperServiceImpl lookupHelperService = new ProtocolLookupableHelperServiceImpl();
-        
-        final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
-        context.checking(new Expectations() {{
-            Map<String, String> fieldValues = new HashMap<String, String>();
-
-            List<Protocol> protocols = new ArrayList<Protocol>();
-            protocols.add(new Protocol());
-            protocols.add(new Protocol());
-            protocols.add(new Protocol());
-
-            one(protocolDao).getProtocols(fieldValues);
-            will(returnValue(protocols));
-        }});
-        lookupHelperService.setProtocolDao(protocolDao);
-        assertEquals(lookupHelperService.getSearchResults(new HashMap<String, String>()).size(), 3);
+        final ProtocolDao protocolDao = KraServiceLocator.getService(ProtocolDao.class);
+        protocolLookupableHelperServiceImpl.setProtocolDao(protocolDao);        
+        Map<String, String> searchStuff = new HashMap<String, String>();
+        searchStuff.put("protocolNumber", "1007010882");
+        List<? extends BusinessObject> searchResults = protocolLookupableHelperServiceImpl.getSearchResults(searchStuff);
+        assertEquals("searchResults.size(): '" +  searchResults.size() + "'",  searchResults.size(), 1);
 
     }
 

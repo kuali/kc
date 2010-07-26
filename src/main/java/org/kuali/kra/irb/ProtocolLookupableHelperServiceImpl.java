@@ -15,15 +15,18 @@
  */
 package org.kuali.kra.irb;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -32,24 +35,67 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
+/**
+ * 
+ * This class handles searching for protocoles.
+ */
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
+    private DictionaryValidationService dictionaryValidationService;
     private ProtocolDao protocolDao;
     private KcPersonService kcPersonService;
     private KraAuthorizationService kraAuthorizationService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        validateSearchParameters(fieldValues);
         // need to set backlocation & docformkey here. Otherwise, they are empty
-        super.setBackLocationDocFormKey(fieldValues);
+        super.setBackLocationDocFormKey(fieldValues);        
         return protocolDao.getProtocols(fieldValues);
+    }
+    
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        super.validateSearchParameters(fieldValues);
+        Set<String> keys = fieldValues.keySet();
+        for (String key : keys) {
+            String value = fieldValues.get(key).toString();
+            if (key.toUpperCase().indexOf("DATE") > 0) {
+                boolean valid = validateDate(key, value, key);
+            }
+        }
+    }
+    
+    private boolean validateDate(String dateFieldName, String dateFieldValue, String dateFieldErrorKey) {
+        try{
+            KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
+            return true;
+        } catch (ParseException e) {
+            GlobalVariables.getErrorMap().putError(KNSConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + dateFieldErrorKey, 
+                    KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * This method returns an instance of a DictionaryValidationService implementation
+     * @return
+     */
+    public DictionaryValidationService getDictionaryValidationService() {
+        if (dictionaryValidationService == null) {
+            dictionaryValidationService = KNSServiceLocator.getDictionaryValidationService();
+        }
+        return dictionaryValidationService;
     }
 
     /**
