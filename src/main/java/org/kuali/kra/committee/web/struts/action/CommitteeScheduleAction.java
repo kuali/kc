@@ -70,9 +70,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-        
         ((CommitteeForm)form).getCommitteeHelper().prepareView();
+
+        ActionForward actionForward = super.execute(mapping, form, request, response);
         
         return actionForward;
     }    
@@ -122,6 +122,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             CommitteeScheduleService service  = getCommitteeScheduleService();
             service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
             applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
+            committeeForm.getCommitteeHelper().prepareView();
         }
 
         scheduleData.populateStyleClass();        

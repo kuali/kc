@@ -211,7 +211,7 @@ public class CommitteeHelper implements Serializable {
         Date scheduleDate = null;
         for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             scheduleDate = committeeSchedule.getScheduledDate();
-            if (scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
+            if ((scheduleDate != null) && scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
                 committeeSchedule.setFilter(true);            
             } else {
                 committeeSchedule.setFilter(false);
