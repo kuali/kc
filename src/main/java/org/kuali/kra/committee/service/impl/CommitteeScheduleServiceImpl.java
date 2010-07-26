@@ -261,10 +261,11 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @param date
      * @return
      */
-    private Boolean isDateAvailable(List<CommitteeSchedule>committeeSchedules, java.sql.Date date){
+    private Boolean isDateAvailable(List<CommitteeSchedule> committeeSchedules, java.sql.Date date) {
         boolean retVal = true;
-        for(CommitteeSchedule committeeSchedule: committeeSchedules) {
-            if(DateUtils.isSameDay(committeeSchedule.getScheduledDate(), date)){
+        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
+            Date scheduledDate = committeeSchedule.getScheduledDate();
+            if ((scheduledDate != null) && DateUtils.isSameDay(scheduledDate, date)) {
                 retVal = false;
                 break;
             }

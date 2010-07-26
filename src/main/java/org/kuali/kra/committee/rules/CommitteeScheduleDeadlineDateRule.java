@@ -42,7 +42,7 @@ public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase 
             Date deadline = committeeSchedule.getProtocolSubDeadline();
             Date schedule = committeeSchedule.getScheduledDate();
             
-            if(schedule.before(deadline)) {
+            if ((schedule != null) && (deadline != null) && (schedule.before(deadline))) {
                 reportError(String.format(ID, count), KeyConstants.ERROR_COMMITTEESCHEDULE_DEADLINE, deadline.toString(), schedule.toString());
                 rulePassed = false;
             }
