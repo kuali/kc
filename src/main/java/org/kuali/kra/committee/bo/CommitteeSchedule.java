@@ -380,7 +380,22 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
      * @return the result of comparing this <code>scheduledDate</code> to the other <code>scheduledDate</code>
      */
     public int compareTo(CommitteeSchedule other) {
-        return getScheduledDate().compareTo(other.getScheduledDate());
+        int compareResult;
+        
+        if (getScheduledDate() == null) {
+            if (other.getScheduledDate() == null) {
+                compareResult = 0;                
+            } else {
+                compareResult = -1;
+            }
+        }  else {
+            if (other.getScheduledDate() == null) {
+                compareResult = 1;
+            } else {
+                compareResult = getScheduledDate().compareTo(other.getScheduledDate());
+            }
+        }
+        return compareResult;
     }
     
     @SuppressWarnings("unchecked")
