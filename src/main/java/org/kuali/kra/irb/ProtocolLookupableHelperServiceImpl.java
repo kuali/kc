@@ -70,18 +70,17 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         for (String key : keys) {
             String value = fieldValues.get(key).toString();
             if (key.toUpperCase().indexOf("DATE") > 0) {
-                boolean valid = validateDate(key, value, key);
+                boolean valid = validateDate(key, value);
             }
         }
     }
     
-    private boolean validateDate(String dateFieldName, String dateFieldValue, String dateFieldErrorKey) {
+    private boolean validateDate(String dateFieldName, String dateFieldValue) {
         try{
             KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
             return true;
         } catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError(KNSConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + dateFieldErrorKey, 
-                    KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+            GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         }
     }
