@@ -37,6 +37,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -341,7 +342,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 federalId = institutionalProposal.getSponsorProposalNumber();
             }
             if(isProposalTypeResubmission(proposal.getProposalTypeCode())){
-                if (proposal.getSponsor().getAcronym().equalsIgnoreCase("NSF")) {
+                if (  proposal.getSponsorCode().equals(this.parameterService.getParameterValue(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KeyConstants.NSF_SPONSOR_CODE))) {
                     return null;
                 }
             }
