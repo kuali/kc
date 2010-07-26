@@ -416,7 +416,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class,
     // Data needs to be loaded with sql loader.
     org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest.class,
-    org.kuali.kra.proposaldevelopment.web.ProposalYnqWebTest.class
+    org.kuali.kra.proposaldevelopment.web.ProposalYnqWebTest.class,
+    org.kuali.kra.proposaldevelopment.web.SponsorProgramInformationPanelWebTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

@@ -129,7 +129,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentDocumentWebTest.class,
     org.kuali.kra.proposaldevelopment.web.S2sOpportunityWebTest.class,
     org.kuali.kra.proposaldevelopment.web.SimplePessimisticLockTest.class,
-    org.kuali.kra.proposaldevelopment.web.SponsorProgramInformationPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.UserRoleBoundDocSearchWebTest.class,
     org.kuali.kra.questionnaire.CoeusModueValuesFinderTest.class,
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
