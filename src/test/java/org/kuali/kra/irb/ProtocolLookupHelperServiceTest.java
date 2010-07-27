@@ -29,11 +29,13 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -165,12 +167,16 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
      */
     @Test 
     public void testGetSearchResults() throws Exception {
+        String newProtocolNumber = "123456132";
+        Protocol prot = ProtocolFactory.createProtocolDocument(newProtocolNumber).getProtocol();
+        KraServiceLocator.getService(BusinessObjectService.class).save(prot);
+        
         final ProtocolDao protocolDao = KraServiceLocator.getService(ProtocolDao.class);
         protocolLookupableHelperServiceImpl.setProtocolDao(protocolDao);        
         Map<String, String> searchStuff = new HashMap<String, String>();
-        searchStuff.put("protocolNumber", "1007010882");
+        searchStuff.put("protocolNumber", newProtocolNumber);
         List<? extends BusinessObject> searchResults = protocolLookupableHelperServiceImpl.getSearchResults(searchStuff);
-        assertEquals("searchResults.size(): '" +  searchResults.size() + "'",  searchResults.size(), 1);
+        assertEquals("searchResults.size(): '" +  searchResults.size() + "'",  1, searchResults.size());
 
     }
 
