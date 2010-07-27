@@ -116,7 +116,7 @@ public class ModifyProtocolAuthorizerTest extends KcUnitTestBase {
         final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
-        final KraWorkflowService workflowService = new KraWorkflowServiceMock(true);
+        final KraWorkflowService workflowService = new KraWorkflowServiceMock(true,false);
         authorizer.setKraWorkflowService(workflowService);
         
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
