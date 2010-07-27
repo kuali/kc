@@ -45,6 +45,9 @@
 				<ref bean="CommitteeScheduleMinute-protocolReviewerIdFk" />
 				<ref bean="CommitteeScheduleMinute-protocolOnlineReviewIdFk" />
 				<ref bean="CommitteeScheduleMinute-updateUser"/>
+				<ref bean="CommitteeScheduleMinute-updateTimestamp"/>
+				<ref bean="CommitteeScheduleMinute-createUser"/>
+				<ref bean="CommitteeScheduleMinute-createTimestamp"/>
 				<ref bean="CommitteeScheduleMinute-versionNumber" />
 			</list>
 		</property>
@@ -297,10 +300,44 @@
 		</property>
         <property name="summary" value="Update User" />
         <property name="description" value="Update User" />
-	
 	</bean>
 	
+	<bean id="CommitteeScheduleMinute-updateTimestamp" parent="CommitteeScheduleMinute-updateTimestamp-parentBean" />
 
+  	<bean id="CommitteeScheduleMinute-updateTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    	<property name="name" value="updateTimestamp" />
+    	<property name="label" value="Updated Time" />
+    	<property name="shortLabel" value="Updated Time" />
+    	<property name="summary" value="Updated Time" />
+	    <property name="description" value="Updated Time" />
+  	</bean>
+  	
+	<bean id="CommitteeScheduleMinute-createUser" parent="CommitteeScheduleMinute-createUser-parentBean" />
+	<bean id="CommitteeScheduleMinute-createUser-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="Create User" />
+        <property name="maxLength" value="80" />
+        <property name="required" value="false" />
+        <property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+        <property name="summary" value="Create User" />
+        <property name="description" value="Create User" />
+	
+	</bean>
+
+	<bean id="CommitteeScheduleMinute-createTimestamp" parent="CommitteeScheduleMinute-createTimestamp-parentBean" />
+
+  	<bean id="CommitteeScheduleMinute-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    	<property name="name" value="createTimestamp" />
+    	<property name="label" value="Created Time" />
+    	<property name="shortLabel" value="Created Time" />
+    	<property name="summary" value="Created Time" />
+	    <property name="description" value="Created Time" />
+  	</bean>
+  	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="CommitteeScheduleMinute-inquiryDefinition" parent="CommitteeScheduleMinute-inquiryDefinition-parentBean" />
 	<bean id="CommitteeScheduleMinute-inquiryDefinition-parentBean"
