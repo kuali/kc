@@ -267,7 +267,6 @@ public class MeetingActionsAction extends MeetingAction {
      */
     public ActionForward printRosterFutureSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        // TODO : more work after Clause finish committee action's roster/future scheduleing print
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CommitteeDocument document = 
             ((CommitteeDocument) getDocumentService().getByDocumentHeaderId(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber()));
@@ -275,7 +274,6 @@ public class MeetingActionsAction extends MeetingAction {
         Boolean printFutureScheduledMeeting = ((MeetingForm) form).getMeetingHelper().getPrintFutureScheduledMeeting();
         
 
-        // TODO : This rule is shared with committee action print.  error message path may be different, so need to refactor rule a little.
         if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, document, printRooster, printFutureScheduledMeeting, true))) {
             AbstractPrint printable;
             List<Printable> printableArtifactList = new ArrayList<Printable>();
@@ -283,11 +281,13 @@ public class MeetingActionsAction extends MeetingAction {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
                 printable.setDocument(document);
                 printableArtifactList.add(printable);
+                ((MeetingForm) form).getMeetingHelper().setPrintRooster(false);
             }
             if (printFutureScheduledMeeting) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
                 printable.setDocument(document);
                 printableArtifactList.add(printable);
+                ((MeetingForm) form).getMeetingHelper().setPrintFutureScheduledMeeting(false);
             }
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
             if (dataStream.getContent() != null) {
