@@ -375,12 +375,12 @@ public class ProtocolHelper implements Serializable {
         findPrincipalInvestigatorIdFromFields();
         findAndSetLeadUnitFromFields();
 
-        // since we are saving, we will always clear the PI and reset from field values
-        /* check if PI is set otherwise it will throw exception */
-        if (!StringUtils.isBlank(getPrincipalInvestigatorId())) {
-            getProtocolPersonnelService().setPrincipalInvestigator(getProtocol(), createPrincipalInvestigator());
-        }
-        getProtocol().setLeadUnitForValidation(createLeadUnit());
+        // Since we are saving, we will always reset the PI and lead unit to field values        
+        getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
+        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
+        getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
+        ProtocolUnit leadUnit = getProtocolPersonnelService().getLeadUnit(principalInvestigator);
+        getProtocol().setLeadUnitForValidation(leadUnit);
     }
     
     private ProtocolNumberService getProtocolNumberService() {
@@ -433,28 +433,20 @@ public class ProtocolHelper implements Serializable {
     
     private ProtocolPerson createPrincipalInvestigator() {
         ProtocolPerson pi = null;
-
-        pi = new ProtocolPerson();
-        pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-        pi.setProtocolNumber(getProtocol().getProtocolNumber());
-        pi.setSequenceNumber(0);
-        pi.refreshReferenceObject("protocolPersonRole");
-        if (isNonEmployeeFlag()) {
-            pi.refreshReferenceObject("rolodex");
-            pi.setRolodexId(Integer.valueOf(principalInvestigatorId));
-        } else {
-            pi.setPersonId(principalInvestigatorId);
+        if (!StringUtils.isBlank(getPrincipalInvestigatorId())) {
+            pi = new ProtocolPerson();
+            pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+            pi.setProtocolNumber(getProtocol().getProtocolNumber());
+            pi.setSequenceNumber(0);
+            pi.refreshReferenceObject("protocolPersonRole");
+            if (isNonEmployeeFlag()) {
+                pi.refreshReferenceObject("rolodex");
+                pi.setRolodexId(Integer.valueOf(principalInvestigatorId));
+            } else {
+                pi.setPersonId(principalInvestigatorId);
+            }
+            pi.setPersonName(getPrincipalInvestigatorName());
         }
-        pi.setPersonName(getPrincipalInvestigatorName());
-
-        ProtocolUnit unit = createLeadUnit();
-        if (unit != null) {
-            unit.setPersonId(pi.getPersonId());
-            unit.setProtocolNumber(getProtocol().getProtocolNumber());
-            unit.refreshReferenceObject("unit");
-            pi.getProtocolUnits().add(unit);
-        }
-
         return pi;
     }
     

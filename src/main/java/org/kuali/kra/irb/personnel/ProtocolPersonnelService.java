@@ -105,11 +105,26 @@ public interface ProtocolPersonnelService {
     
     /**
      * This method sets the principal investigator.
+     * @param newPrincipalInvestigator The new instance of the principal investigator
      * @param protocol The protocol that will contain the investigator
-     * @param newPi The new instance of the principal investigator
      */
-    public void setPrincipalInvestigator(Protocol protocol, ProtocolPerson newPi);
+    public void setPrincipalInvestigator(ProtocolPerson newPrincipalInvestigator, Protocol protocol);
 
+    /**
+     * This method gets the lead unit of the principal investigator.
+     * @param principalInvestigator The principal investigator to search
+     * @return The lead unit associated with the principal investigator
+     */
+    public ProtocolUnit getLeadUnit(ProtocolPerson principalInvestigator);
+    
+    /**
+     * This method sets the lead unit of the principal investigator.
+     * @param newLeadUnit The new instance of the lead unit
+     * @param principalInvestigator The principal investigator to set
+     * @param protocol The protocol that contains the principal investigator
+     */
+    public void setLeadUnit(ProtocolUnit newLeadUnit, ProtocolPerson principalInvestigator, Protocol protocol);
+    
     /**
      * This method is to see if there is any change in the protocol person role.
      * swapping Investigator and Co-Investigator role is permitted.
