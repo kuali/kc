@@ -408,17 +408,63 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.Protocol, 
-     *                                                                                    org.kuali.kra.irb.personnel.ProtocolPerson)
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.personnel.ProtocolPerson, 
+     *                                                                                    org.kuali.kra.irb.Protocol)
      */
-    public void setPrincipalInvestigator(Protocol protocol, ProtocolPerson newPi) {
-        newPi.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
-        
-        ProtocolPerson currentPi = getPrincipalInvestigator(protocol.getProtocolPersons());
-        if (currentPi != null) {
-            protocol.getProtocolPersons().remove(currentPi);
+    public void setPrincipalInvestigator(ProtocolPerson newPrincipalInvestigator, Protocol protocol) {
+        if (protocol != null) {
+            ProtocolPerson currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());
+            
+            if (newPrincipalInvestigator != null) {
+                newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
+                if (currentPrincipalInvestigator == null) {
+                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+                } else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
+                    protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
+                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+                }
+            }
         }
-        protocol.getProtocolPersons().add(newPi);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#getLeadUnit(org.kuali.kra.irb.personnel.ProtocolPerson)
+     */
+    public ProtocolUnit getLeadUnit(ProtocolPerson principalInvestigator) {
+        ProtocolUnit leadUnit = null;
+        if (principalInvestigator != null) {
+            for (ProtocolUnit unit : principalInvestigator.getProtocolUnits()) {
+                if (unit.getLeadUnitFlag()) {
+                    leadUnit = unit;
+                    break;
+                }
+            }
+        }
+        return leadUnit;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setLeadUnit(org.kuali.kra.irb.personnel.ProtocolUnit, 
+     *                                                                       org.kuali.kra.irb.personnel.ProtocolPerson, org.kuali.kra.irb.Protocol)
+     */
+    public void setLeadUnit(ProtocolUnit newLeadUnit, ProtocolPerson principalInvestigator, Protocol protocol) {
+        if (principalInvestigator != null) {
+            ProtocolUnit currentLeadUnit = getLeadUnit(principalInvestigator);
+            
+            if (newLeadUnit != null && protocol != null) {
+                newLeadUnit.setPersonId(principalInvestigator.getPersonId());
+                newLeadUnit.setProtocolNumber(protocol.getProtocolNumber());
+                newLeadUnit.refreshReferenceObject("unit");
+                if (currentLeadUnit == null) {
+                    principalInvestigator.getProtocolUnits().add(newLeadUnit);
+                } else if (!isDuplicateUnit(principalInvestigator, newLeadUnit)) {
+                    principalInvestigator.getProtocolUnits().remove(currentLeadUnit);
+                    principalInvestigator.getProtocolUnits().add(newLeadUnit);
+                }
+            }
+        }
     }
     
     /**
