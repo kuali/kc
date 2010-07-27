@@ -32,7 +32,7 @@
             
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <td><div align="left">Roster ${KualiForm.committeeHelper.committeeActionsHelper.printRooster}</div></td> 
+                    <td><div align="left">Roster</div></td> 
                     <td>
                         <div align="center">
                             <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.printRooster" 

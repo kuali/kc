@@ -80,8 +80,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
         AttachmentDataSource attachmentDataSource = super.print(printableArtifactList);
 
-        // TODO: cniesen - Make file name nicer
-        String fileName = "Committee Roster - " + Constants.PDF_FILE_EXTENSION;
+        String fileName = "CommitteeReport" + Constants.PDF_FILE_EXTENSION;
         try {
             attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
         } catch (UnsupportedEncodingException e) {
