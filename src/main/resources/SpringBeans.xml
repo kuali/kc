@@ -2106,5 +2106,34 @@
 		</property>
             <property name="questionnairePrint" ref="questionnairePrint" />
 	</bean>
+	
+	<bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
+        <property name="unitService" ref="unitService" />
+    </bean>
+    
+    <bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+                <property name="service" ref="institutionalUnitService" />
+                <property name="serviceNameSpaceURI" value="KC" />
+                <property name="localServiceName" value="institutionalUnitService" />
+                <property name="serviceInterface" value="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
+                <property name="busSecurity" value="true" />
+                <property name="retryAttempts" value="1" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="institutionalUnitService" />
+                <property name="serviceNameSpaceURI" value="" />
+                <property name="localServiceName" value="institutionalUnitSoapService" />
+                <property name="busSecurity" value="true" />
+                <property name="jaxWsService" value="true" />
+            </bean>
+        </property>
+    </bean>
 
 </beans>
