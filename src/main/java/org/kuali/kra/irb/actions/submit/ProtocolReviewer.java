@@ -187,4 +187,13 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(protocolOnlineReviews);
+        return managedLists;
+    }
+
+    
 }

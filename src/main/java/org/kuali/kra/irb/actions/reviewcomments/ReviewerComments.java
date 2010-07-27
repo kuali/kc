@@ -19,9 +19,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -67,6 +71,8 @@ public class ReviewerComments implements Serializable {
     public void addNewComment(Protocol protocol) {
         newComment.setProtocol(protocol);
         newComment.setProtocolIdFk(protocol.getProtocolId());
+        newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        newComment.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         comments.add(newComment);
         newComment = new CommitteeScheduleMinute();
     }
@@ -76,6 +82,8 @@ public class ReviewerComments implements Serializable {
      */
     public void addNewComment(Protocol protocol, ProtocolOnlineReview protocolOnlineReview) {
         newComment.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
+        newComment.setProtocolReviewer(protocolOnlineReview.getProtocolReviewer());
+        newComment.setProtocolReviewerIdFk(protocolOnlineReview.getProtocolReviewerId());
         addNewComment( protocol );
     }
     

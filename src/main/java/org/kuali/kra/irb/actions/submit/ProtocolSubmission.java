@@ -400,6 +400,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(protocolReviewers);
+        managedLists.add(protocolOnlineReviews);
         return managedLists;
     }
 
