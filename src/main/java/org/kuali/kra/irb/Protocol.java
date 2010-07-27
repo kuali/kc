@@ -589,7 +589,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getProtocolParticipants());
         managedLists.add(getProtocolUnits());
         managedLists.add(getAttachmentProtocols());
-        
+        managedLists.add(getProtocolOnlineReviews());
         //the attachment personnels must get added to the managed list
         //BEFORE the ProtocolPersons otherwise deleting a ProtocolPerson
         //may cause a DB constraint violation.

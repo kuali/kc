@@ -40,6 +40,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          {
 
     private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
+    private static final String REVIEWER_APPROVAL_NODE_NAME="OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
     
@@ -56,7 +57,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         
         boolean valid = true;
         CommitteeScheduleMinute minute = event.getCommitteeScheduleMinute();
-        if (StringUtils.isEmpty(minute.getMinuteEntry())) {
+        if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
             valid = false;
             GlobalVariables.getErrorMap().clearErrorPath();
             GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
@@ -72,8 +73,9 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
         
         int index = 0;
+        
         for (CommitteeScheduleMinute minute : event.getMinutes()) {
-            if (StringUtils.isEmpty(minute.getMinuteEntry())) {
+            if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
                 valid=false;
                 GlobalVariables.getErrorMap().putError(String.format("comments[%s].minuteEntry" ,index),  
                         KeyConstants.ERROR_ONLINE_REVIEW_COMMENT_REQUIRED);
@@ -93,16 +95,21 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
         
-        int commentIndex = 0;
-        for (CommitteeScheduleMinute minute : event.getMinutes()) {
-            if (!minute.isFinalFlag()) {
-                GlobalVariables.getErrorMap().putError(String.format("comments[%s].finalFlag", commentIndex),
-                        KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
-                valid = false;
+        //check to see if it is on the 
+        boolean isOnReviewerApproveNode = getKraWorkflowService().isDocumentOnNode(event.getProtocolOnlineReviewDocument(), REVIEWER_APPROVAL_NODE_NAME);
+       
+        if (isOnReviewerApproveNode) {
+            //we only enforce "all comments must be final" if we are moving off of the reviewers approval node.
+            int commentIndex = 0;
+            for (CommitteeScheduleMinute minute : event.getMinutes()) {
+                if (!minute.isFinalFlag()) {
+                    GlobalVariables.getErrorMap().putError(String.format("comments[%s].finalFlag", commentIndex),
+                            KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
+                    valid = false;
+                }
+                commentIndex++;
             }
-            commentIndex++;
         }
-        
         return valid;
     }
     

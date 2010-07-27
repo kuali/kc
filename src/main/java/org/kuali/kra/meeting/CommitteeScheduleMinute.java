@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.meeting;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,6 +57,9 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private MinuteEntryType minuteEntryType;
     private CommScheduleActItem commScheduleActItem;
     private ProtocolReviewer protocolReviewer;
+    private String createUser;
+    private Timestamp createTimestamp;
+    
     
     private ProtocolOnlineReview protocolOnlineReview;
     private String minuteEntry; 
@@ -269,7 +273,24 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
         this.protocolReviewer = protocolReviewer;
     }
-    
+
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
     /**
      * Gets the protocolReviewIdFk attribute. 
      * @return Returns the protocolReviewIdFk.
@@ -380,4 +401,5 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
             return null;
         }
     }
+    
 }
