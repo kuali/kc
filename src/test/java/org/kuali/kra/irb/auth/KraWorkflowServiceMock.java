@@ -21,13 +21,16 @@ import org.kuali.rice.kns.document.Document;
 public class KraWorkflowServiceMock implements KraWorkflowService {
 
     private boolean inWorkflow;
+    private boolean isDocumentOnNode;
 
     public KraWorkflowServiceMock() {
         inWorkflow = false;
+        isDocumentOnNode = false;
     }
     
-    public KraWorkflowServiceMock(boolean inWorkflow) {
+    public KraWorkflowServiceMock(boolean inWorkflow, boolean isDocumentOnNode) {
         this.inWorkflow = inWorkflow;
+        this.isDocumentOnNode = isDocumentOnNode;
     }
     
     public boolean hasWorkflowPermission(String userId, Document doc) {
@@ -48,5 +51,9 @@ public class KraWorkflowServiceMock implements KraWorkflowService {
 
     public boolean isUserApprovalRequested(Document doc, String principalId) {
         return false;
+    }
+
+    public boolean isDocumentOnNode(Document doc, String nodeName) {
+        return isDocumentOnNode;
     }
 }
