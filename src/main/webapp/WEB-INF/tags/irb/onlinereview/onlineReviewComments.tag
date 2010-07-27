@@ -40,28 +40,34 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Last Updated By" scope = "col"/>
+                    <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
+                        
                                         
-                <tr>                     <th class="infoline">add</th>
+                <tr>    
+                	<th class="infoline">add</th>
 
                     <td valign="middle" style="text-align:center">
+                                           
                         <c:choose>
                             <c:when test="${empty bean.newComment.protocolContingencyCode}" >
-	                           n/a
+                                (select)
                             </c:when>
                             <c:otherwise>
-
+                                <kul:htmlControlAttribute property="${property}.newComment.protocolContingencyCode" 
+                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
                             </c:otherwise>
                         </c:choose> 
+                        <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
+                                    fieldConversions="protocolContingencyCode:${property}.newComment.protocolContingencyCode" />
                     </td>
                                             
                     <td align="left" valign="middle">
                         <c:choose>
                             <c:when test="${empty bean.newComment.protocolContingencyCode}">
-                              <c:set var = "prop" value = "${property}.newComment.minuteEntry"/>
-                 	          <kul:htmlControlAttribute property="${prop}" 
-                                                        attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "false" />
+                              <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
+                                                        attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "${readOnly}" />
                             </c:when>
                             <c:otherwise>
                                 ${bean.newComment.minuteEntry}
@@ -70,20 +76,17 @@
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
-                  		<c:set var = "prop" value = "${property}.newComment.privateCommentFlag"/>
-                 	          
-                        <kul:htmlControlAttribute property="${prop}" 
+                        <kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" />
                     </td>
 					
 					<td valign="middle" style="text-align:center">
-						<c:set var = "prop" value = "${prop}"/>
-                        <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
+				        <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
                                                   attributeEntry="${minutesAttributes.finalFlag}" />
                     </td>
                     
                     <td>&nbsp;</td>
-
+					<td>&nbsp;</td>
                     <td>
                         <div align="center">
                             <html:image property="methodToCall.add${actionName}ReviewComment.${documentNumber}.anchor${tabKey}"
@@ -124,7 +127,9 @@
                             </c:when>
                             <c:otherwise>
                                 <td style="text-align:center;">
-                                    ${comment.protocolContingencyCode}
+                                   	<kul:htmlControlAttribute property="${property}.comments[${status.index}].protocolContingencyCode" 
+                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
+                               
                                     <c:choose>
 	                            		<c:when test="${!readOnly}">
                                     		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
@@ -153,6 +158,16 @@
                         <td style="text-align:center; vertical-align:middle">
                         	<kul:htmlControlAttribute property="${property}.comments[${status.index}].updateUser" 
                                                       attributeEntry="${minutesAttributes.updateUser}"
+                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.comments[${status.index}].updateTimestamp" 
+                                                      attributeEntry="${minutesAttributes.updateTimestamp}"
+                                                      readOnly="true" />
+                        </td>
+                        
+                        <td style="text-align:center; vertical-align:middle">
+                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].createUser" 
+                                                      attributeEntry="${minutesAttributes.createUser}"
+                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.comments[${status.index}].createTimestamp" 
+                                                      attributeEntry="${minutesAttributes.createTimestamp}"
                                                       readOnly="true" />
                         </td>
                         

@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.UnitAclLoadable;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -37,8 +37,9 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
  * a join between protocol, submission, and a reviewer.  The ProtocolReview
  * is created by the IRB Admin as request.
  */
-public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase implements Permissionable, 
-                                                                                UnitAclLoadable {
+public class ProtocolOnlineReview extends ProtocolAssociate implements Permissionable, 
+                                                                       UnitAclLoadable
+                                                                                    {
 
     
     private static final long serialVersionUID = 531397319695764847L;
@@ -400,6 +401,13 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return super.buildListOfDeletionAwareLists();
     }
 
+    /** {@inheritDoc} */
+    public void resetPersistenceState() {
+        this.protocolOnlineReviewId = null;
+    }
+
+
+   
 
     
 }

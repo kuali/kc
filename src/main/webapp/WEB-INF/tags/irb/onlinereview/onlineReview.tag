@@ -93,10 +93,11 @@
     			</c:forEach>
 	
 			     <tr>
+			     	
 					<kul:htmlAttributeHeaderCell
 		          		labelFor="document.documentHeader.documentDescription"
 		          		attributeEntry="${docHeaderAttributes.documentDescription}"
-		          		horizontal="true" width = "25%" rowspan="2"
+		          		horizontal="true" width = "25%" rowspan="1"
 		          	/>
 		      		<td align="left" valign="middle" width = "25%">
 		      			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.documentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${documentOverviewReadOnly}"/>
@@ -105,9 +106,9 @@
                   		labelFor="document.documentHeader.explanation"
                   		attributeEntry="${docHeaderAttributes.explanation}"
                   		horizontal="true"
-		          		rowspan="2" width = "25%"
+		          		rowspan="1" width = "25%"
                   	/>
-		      		<td align="left" valign="middle" rowspan="2" width = "25%">
+		      		<td align="left" valign="middle" rowspan="1" width = "25%">
                   		<kul:htmlControlAttribute
                       		property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.explanation"
                       		attributeEntry="${docHeaderAttributes.explanation}"
@@ -185,7 +186,7 @@
                 </th>
                 <td width = "25%" class="grid" >
                 	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolReviewer.reviewerTypeCode"
-		                                                                                  attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"/>
+		                                                                                  attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}"/>
 				</td>
               </tr>
          	</table>

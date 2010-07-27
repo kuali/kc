@@ -20,6 +20,8 @@ import java.util.List;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 public interface ProtocolOnlineReviewDao {
     /*
@@ -30,6 +32,11 @@ public interface ProtocolOnlineReviewDao {
      */
     public List<CommitteeMembership> findAvailableCommitteeMembers(ProtocolSubmission submission);
     
+    //public List<ProtocolOnlineReview> findProtocolOnlineReviews( )
+    
+    public List<CommitteeScheduleMinute> findAllFinalProtocolOnlineReviewComments(Protocol protocol, ProtocolSubmission submission);
+    
+    public List<ProtocolOnlineReview> findAllFinalProtocolOnlineReviews(Protocol protocol, ProtocolSubmission submission);
     
     
 }
