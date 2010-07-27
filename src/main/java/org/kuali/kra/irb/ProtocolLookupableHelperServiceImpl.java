@@ -65,12 +65,16 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     
     @Override
     public void validateSearchParameters(Map fieldValues) {
-        super.validateSearchParameters(fieldValues);
+        //super.validateSearchParameters(fieldValues);
         Set<String> keys = fieldValues.keySet();
         for (String key : keys) {
             String value = fieldValues.get(key).toString();
             if (key.toUpperCase().indexOf("DATE") > 0) {
-                boolean valid = validateDate(key, value);
+                //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
+                if(value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
+                    boolean valid = validateDate(key, value);
+                    System.err.println("key:'" + key + "'  value:'" + value + "' valid:'" + valid + "'");
+                }
             }
         }
     }
@@ -80,6 +84,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
             KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
             return true;
         } catch (ParseException e) {
+            System.err.println("Putting an error in '" + dateFieldName + "' that had a value of '" + dateFieldValue + "'");
             GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
             return false;
         }
