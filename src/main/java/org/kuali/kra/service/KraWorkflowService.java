@@ -63,4 +63,14 @@ public interface KraWorkflowService {
      */
     public boolean isUserApprovalRequested(Document doc,String principalId);
     
+    /**
+     * Determine if the document is on a particular node.
+     * @param doc the document
+     * @param nodeName the name of the node.
+     * @return true if the document is currently on a node with the given name.
+     */
+    public boolean isDocumentOnNode(Document doc,String nodeName);
+
+    
+    
 }

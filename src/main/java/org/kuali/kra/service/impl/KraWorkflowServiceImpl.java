@@ -15,19 +15,22 @@
  */
 package org.kuali.kra.service.impl;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * KRA Workflow Service Implementation.
  */
 public class KraWorkflowServiceImpl implements KraWorkflowService {
+    
+    static Logger LOG = Logger.getLogger(KraWorkflowService.class);
     
     /**
      * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.kns.document.Document)
@@ -138,5 +141,19 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         }
         return hasApprovalRequest;
     }
-        
+    
+    /**
+     * @see org.kuali.kra.service.KraWorkflowService#isDocumentOnNode(org.kuali.rice.kns.document.Document, java.lang.String)
+     */
+    public boolean isDocumentOnNode(Document document,String nodeName) {
+        boolean result = false;
+        try {
+            result = document != null && ArrayUtils.contains(document.getDocumentHeader().getWorkflowDocument().getNodeNames(), nodeName);
+            return result;
+        } catch(WorkflowException we) {
+            LOG.error( String.format( "WorkflowException generated when trying to determine if document %s is on %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
+            throw new RuntimeException( String.format( "WorkflowException generated when trying determine if document %s is on %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
+        }
+    }
+    
 }
