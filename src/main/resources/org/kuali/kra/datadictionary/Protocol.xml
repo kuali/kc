@@ -417,12 +417,10 @@
 		<property name="label" value="Reference ID1" />
 		<property name="shortLabel" value="Reference Number 1" />
 		<property name="maxLength" value="50" />
-		<!-- 
 		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" 
-				p:allowWhitespace="true" />
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
 		</property>
-		 -->
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
@@ -438,12 +436,10 @@
 		<property name="label" value="Reference ID2" />
 		<property name="shortLabel" value="Reference Number 2" />
 		<property name="maxLength" value="50" />
-		<!-- 
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" 
-				p:allowWhitespace="true" />
+		 <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
 		</property>
-		 -->
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
