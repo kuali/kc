@@ -350,6 +350,9 @@
 		<property name="shortLabel" value="Application Date" />
 		<property name="summary" value="Application Date" />
 		<property name="description" value="Application Date" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
 	</bean>
 
 	<bean id="Protocol-approvalDate" parent="Protocol-approvalDate-parentBean" />
@@ -359,6 +362,9 @@
 		<property name="shortLabel" value="Initial Approval Date" />
 		<property name="summary" value="Approval Date" />
 		<property name="description" value="Approval Date" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
 	</bean>
 
 	<bean id="Protocol-expirationDate" parent="Protocol-expirationDate-parentBean" />
@@ -368,6 +374,9 @@
 		<property name="shortLabel" value="Expiration Date" />
 		<property name="summary" value="Expiration Date" />
 		<property name="description" value="Expiration Date" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
 	</bean>
 
 	<bean id="Protocol-lastApprovalDate" parent="Protocol-lastApprovalDate-parentBean" />
@@ -377,6 +386,9 @@
 		<property name="shortLabel" value="Last Approval Date" />
 		<property name="summary" value="Last Approval Date" />
 		<property name="description" value="Last Approval Date" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
 	</bean>
 
 	<bean id="Protocol-fdaApplicationNumber" parent="Protocol-fdaApplicationNumber-parentBean" />
@@ -405,10 +417,12 @@
 		<property name="label" value="Reference ID1" />
 		<property name="shortLabel" value="Reference Number 1" />
 		<property name="maxLength" value="50" />
+		<!-- 
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" 
 				p:allowWhitespace="true" />
 		</property>
+		 -->
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
@@ -424,10 +438,12 @@
 		<property name="label" value="Reference ID2" />
 		<property name="shortLabel" value="Reference Number 2" />
 		<property name="maxLength" value="50" />
+		<!-- 
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" 
 				p:allowWhitespace="true" />
 		</property>
+		 -->
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="10" />
