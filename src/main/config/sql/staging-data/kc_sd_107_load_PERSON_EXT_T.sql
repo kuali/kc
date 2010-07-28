@@ -349,7 +349,7 @@ UPDATE PERSON_EXT_T
 	SET DIRECTORY_TITLE = 'Rrabbit Directory Title',
 	HAS_VISA = 'N',
 	IS_HANDICAPPED = 'N',
-	IS_ON_SABATICAL = 'N',
+	IS_ON_SABBATICAL = 'N',
 	IS_RESEARCH_STAFF = 'N',
 	IS_VETERAN = 'N',
 	PRIMARY_TITLE = 'Rrabbit Primary Title'
