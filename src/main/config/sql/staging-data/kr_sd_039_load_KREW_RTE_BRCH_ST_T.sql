@@ -1,4 +1,4 @@
-REM INSERTING into KREW_RTE_BRCH_ST_T
+--REM INSERTING into KREW_RTE_BRCH_ST_T
 Insert into KREW_RTE_BRCH_ST_T (RTE_BRCH_ST_ID,RTE_BRCH_ID,KEY_CD,VAL,VER_NBR) 
 values (3673,3671,'System.PostProcessorProcessed','true',2);
 
