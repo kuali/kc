@@ -6,8 +6,8 @@ UPDATE PERSON_EXT_T
 /
 UPDATE PERSON_EXT_T
 	SET DIRECTORY_TITLE = 'Jtester Directory Title',
-	PRIMARY_TITLE = 
-	WHERE PERSON_ID = 'Jtester Primary Title'
+	PRIMARY_TITLE = 'Jtester Primary Title'
+	WHERE PERSON_ID = '10000000002'
 /
 UPDATE PERSON_EXT_T
 	SET DIRECTORY_TITLE = 'Kuluser Directory Title',
