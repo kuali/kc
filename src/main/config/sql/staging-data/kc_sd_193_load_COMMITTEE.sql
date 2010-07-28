@@ -4,4 +4,5 @@ INSERT INTO COMMITTEE (ID, DOCUMENT_NUMBER, COMMITTEE_ID, COMMITTEE_NAME, HOME_U
     , VER_NBR, SEQUENCE_NUMBER, OBJ_ID)
 VALUES (1, 3094, 'KC001', 'KC IRB 1', '000001', 'Test IRB Committee for Kuali Coeus', 'Meets monthly', '1', 2, 
     22, 2, NULL, '1', '19-JUL-10', 'KCDBA', '19-JUL-10', 'KCDBA', 
-    0, 1, SYS_GUID()) ;
+    0, 1, SYS_GUID()) 
+/
