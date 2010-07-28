@@ -120,8 +120,12 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     public String getFormattedTermStartDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        return dateFormat.format(termStartDate);
+        if (termStartDate == null) {
+            return null;
+        }  else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+            return dateFormat.format(termStartDate);
+        }
     }
 
     public void setTermStartDate(Date termStartDate) {
@@ -133,8 +137,12 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     public String getFormattedTermEndDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-        return dateFormat.format(termEndDate);
+        if (termEndDate == null) {
+            return null;
+        } else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+            return dateFormat.format(termEndDate);
+        }
     }
 
     public void setTermEndDate(Date termEndDate) {
