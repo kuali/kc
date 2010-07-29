@@ -99,6 +99,10 @@ public interface PermissionConstants {
     public static final String VIEW_CORRESPONDENCE_TEMPLATE = "View Correspondence Template";
     public static final String MODIFY_CORRESPONDENCE_TEMPLATE = "Modify Correspondence Template";
 
+    // notification template
+    public static final String VIEW_NOTIFICATION_TEMPLATE = "View Notification Template";
+    public static final String MODIFY_NOTIFICATION_TEMPLATE = "Modify Notification Template";
+
     /*
      * Batch Correspondence Detail Permissions
      */
