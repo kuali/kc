@@ -30,8 +30,8 @@ public enum ProtocolPrintType {
     private final String protocolPrintType;
     private final String template;
 
-    ProtocolPrintType(String budgetPrintType, String template) {
-        this.protocolPrintType = budgetPrintType;
+    ProtocolPrintType(String protocolPrintType, String template) {
+        this.protocolPrintType = protocolPrintType;
         this.template = template;
     }
 
