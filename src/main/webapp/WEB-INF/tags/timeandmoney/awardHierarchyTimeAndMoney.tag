@@ -126,37 +126,10 @@
 			<input type="hidden" id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" value="2" />
 			<input type="hidden" id="inSingleNodeHierarchy" name="inSingleNodeHierarchy" value="1" />
     		<table cellpadding="0" cellspacing="0" summary="">	
-    			
 			<tr>
 				<th>
 					&nbsp;
 				</th>
-				<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 170px;">
-		
-					<c:choose>				
-						<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
-								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending						
-						</c:when>
-						<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
-								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
-					pending						
-						</c:when>
-						<c:otherwise>						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
-								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending					
-						</c:otherwise>
-					</c:choose>				
-				</td>
-				<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
-					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
-				</td>			
 			</tr>
 		</table>
 		

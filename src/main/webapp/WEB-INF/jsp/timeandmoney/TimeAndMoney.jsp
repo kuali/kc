@@ -32,8 +32,9 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-timeandmoney:awardHierarchyTimeAndMoney />
-
+<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
 <kra-timeandmoney:transactions />
+</c:if>
 <kra-a:awardDirectFnAFundsDistribution />
 <kra-timeandmoney:summary />
 <kra-timeandmoney:actionSummary />
