@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.approve;
 import java.sql.Timestamp;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -25,7 +26,7 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * 
@@ -33,13 +34,14 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
-    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
    
     /**{@inheritDoc}**/
-    public void approve(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
+    public void approve(ProtocolDocument protocolDocument, ProtocolApproveBean actionBean) throws Exception {
+        Protocol protocol = protocolDocument.getProtocol();
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.APPROVED);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
@@ -50,10 +52,10 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        documentService.saveDocument(protocolDocument);
         generateCorrespondenceDocumentAndAttach(protocol); 
         
-        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolDocument.getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
 
     }
     
@@ -69,12 +71,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
     
-    /**
-     * Set the business object service.
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {

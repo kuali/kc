@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -39,7 +40,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     private boolean proccessMotion(CommitteeDecision committeeDecision) {
         boolean retVal = true;
         String motionToCompareFrom = committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim();
-        if (!(MotionValuesFinder.APPROVE.equals(motionToCompareFrom) || MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom))) {
+        if (StringUtils.isBlank(motionToCompareFrom)) { 
             retVal = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".motion", 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
@@ -61,16 +62,19 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     
     private boolean proccessCounts(CommitteeDecision committeeDecision) {
         boolean retVal = true;
-        if (committeeDecision.getYesCount() == null) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".yesCount", 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
-            retVal = false;
+        String motionToCompareFrom = committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim(); 
+        if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom) || MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom)) {
+            if (committeeDecision.getYesCount() == null) {
+                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".yesCount", 
+                        KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
+                retVal = false;
+            }
+            if (committeeDecision.getNoCount() == null) {
+                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".noCount", 
+                        KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
+                retVal = false;
+            } 
         }
-        if (committeeDecision.getNoCount() == null) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".noCount", 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
-            retVal = false;
-        } 
         return retVal;
     }
 }

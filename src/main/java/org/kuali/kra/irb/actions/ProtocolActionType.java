@@ -54,7 +54,14 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String SUSPENDED_BY_DSMB = "306";
     public static final String EXPEDITE_APPROVAL = "205";
     public static final String GRANT_EXEMPTION = "206";
-    public static final String ADMINISTRATIVE_CORRECTION = "113";                                
+    public static final String ADMINISTRATIVE_CORRECTION = "113";
+    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "203"; 
+    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "202";
+    
+    //No corresponding actionTypeCode for this in Coeus 
+    //Although we can use DISAPPROVED/SPECIFIC_MINOR_REVISIONS_REQUIRED/SUBSTANTIVE_REVISIONS_REQUIRED instead
+    //We still need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently
+    public static final String RECORD_COMMITTEE_DECISION = "308";
     
     private String protocolActionTypeCode;
     

@@ -190,15 +190,17 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
      */
     public List<KcPerson> getPersonsInRole(Permissionable permissionable, String roleName) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
-        Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-        qualifiedRoleAttrs.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttrs));
-        for(String userId : users) {
-            KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
-            if (person != null && person.getActive()) {
-                persons.add(person);
+        if(permissionable != null && StringUtils.isNotBlank(roleName)) { 
+            Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
+            qualifiedRoleAttrs.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+            Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, new AttributeSet(qualifiedRoleAttrs));
+            for(String userId : users) {
+                KcPerson person = kcPersonService.getKcPersonByPersonId(userId);
+                if (person != null && person.getActive()) {
+                    persons.add(person);
+                }
             }
-        }
+        } 
         return persons;
     }
     
@@ -208,21 +210,23 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public List<RolePersons> getAllRolePersons(Permissionable permissionable) {
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
         
-        List<String> roleNames = permissionable.getRoleNames();
-        
-        for (String roleName : roleNames) {
-            List<String> usernames = getUserNames(permissionable, roleName);
-            RolePersons rolePersons = new RolePersons();
-            rolePersonsList.add(rolePersons);
- 
-            if(roleName.contains(RoleConstants.AGGREGATOR)) {
-                rolePersons.setAggregator(usernames);
-            } else if(roleName.contains(RoleConstants.VIEWER)) {
-                rolePersons.setViewer(usernames); 
-            } else if(roleName.contains(RoleConstants.NARRATIVE_WRITER)) {
-                rolePersons.setNarrativewriter(usernames);
-            } else if(roleName.contains(RoleConstants.BUDGET_CREATOR)) {
-                rolePersons.setBudgetcreator(usernames);
+        if(permissionable != null) {
+            List<String> roleNames = permissionable.getRoleNames();
+            
+            for (String roleName : roleNames) {
+                List<String> usernames = getUserNames(permissionable, roleName);
+                RolePersons rolePersons = new RolePersons();
+                rolePersonsList.add(rolePersons);
+     
+                if(roleName.contains(RoleConstants.AGGREGATOR)) {
+                    rolePersons.setAggregator(usernames);
+                } else if(roleName.contains(RoleConstants.VIEWER)) {
+                    rolePersons.setViewer(usernames); 
+                } else if(roleName.contains(RoleConstants.NARRATIVE_WRITER)) {
+                    rolePersons.setNarrativewriter(usernames);
+                } else if(roleName.contains(RoleConstants.BUDGET_CREATOR)) {
+                    rolePersons.setBudgetcreator(usernames);
+                }
             }
         }
         

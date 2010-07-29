@@ -129,7 +129,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         approvalActionBean.setComments("approving");
         approvalActionBean.setExpirationDate(new Date(System.currentTimeMillis()));
         approvalActionBean.setProtocolId(protocolId);
-        protocolApproveService.approve(protocolDocument.getProtocol(), approvalActionBean);
+        protocolApproveService.approve(protocolDocument, approvalActionBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
         ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmissions().get(0);

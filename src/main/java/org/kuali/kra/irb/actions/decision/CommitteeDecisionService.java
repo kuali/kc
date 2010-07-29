@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.decision;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.meeting.ProtocolMeetingVoter;
 
 /**
@@ -30,7 +31,7 @@ public interface CommitteeDecisionService {
      * @param protocol
      * @param committeeDecision
      */
-    void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision);
+    ProtocolDocument processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception;
     
     /**
      * 

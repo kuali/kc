@@ -29,8 +29,7 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="AssignedToAgenda" />
-                    <requests name="AssignedToAgenda" nextNode="IRBReview" />
+					<start name="Initiated" nextNode="IRBReview" />
 					<requests name="IRBReview" />
 				</routePath>
 			</routePaths>
@@ -38,11 +37,6 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
-                <role name="AssignedToAgenda">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
-                    <activationType>S</activationType>
-					<ruleTemplate>AssignedToAgenda</ruleTemplate>
-	            </role>                
                 <role name="IRBReview">
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>

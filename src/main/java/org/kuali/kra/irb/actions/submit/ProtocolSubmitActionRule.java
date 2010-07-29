@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -43,7 +44,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
        
-        boolean isValid = validateSubmissionType(submitAction);
+        boolean isValid = validateSubmissionType(document, submitAction);
         isValid &= validateProtocolReviewType(submitAction);
         if (isMandatory()) {
             isValid &= validateCommittee(submitAction);
@@ -81,10 +82,19 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         return valid;
     }
 
+    private boolean isSubmissionTypeInvalidForProtocolStatus(ProtocolDocument document, String submissionTypeCode) {
+         String protocolStatusCode = document.getProtocol().getProtocolStatusCode();
+         return ( StringUtils.isNotBlank(protocolStatusCode) && 
+                 (StringUtils.equals(ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, protocolStatusCode) || 
+                StringUtils.equals(ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED, protocolStatusCode)) && 
+                !(StringUtils.equals(ProtocolSubmissionType.RESPONSE_TO_PREV_IRB_NOTIFICATION, submissionTypeCode) ||
+                        StringUtils.equals(ProtocolSubmissionType.CONTINUATION, submissionTypeCode)));
+    }
+    
     /**
      * Validate the Submission Type.
      */
-    private boolean validateSubmissionType(ProtocolSubmitAction submitAction) {
+    private boolean validateSubmissionType(ProtocolDocument document, ProtocolSubmitAction submitAction) {
         boolean isValid = true;
         String submissionTypeCode = submitAction.getSubmissionTypeCode();
         if (StringUtils.isBlank(submissionTypeCode)) {
@@ -93,11 +103,11 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                                                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
-        } else if (isSubmissionTypeInvalid(submissionTypeCode)) {
+        } else if (isSubmissionTypeInvalid(submissionTypeCode) || isSubmissionTypeInvalidForProtocolStatus(document, submissionTypeCode)) {
             isValid = false;
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID, new String[] { submissionTypeCode });
-        }
+        } 
         return isValid;
     }
     
