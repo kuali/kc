@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Protocol withdraw action Notification Message Template -->
+<!-- IRB Notify IRB Notification Message Template -->
+<!-- TODO : can this be shared with other action notification templates ? -->
 <notification xmlns="ns:notification/NotificationRequest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:notification/NotificationRequest resource:notification/NotificationRequest">
     <!-- this is the name of the notification channel -->
     <!-- that has been registered in the system -->
@@ -32,7 +33,7 @@
     <!-- here must match one of the registered priorities -->
     <priority>Normal</priority>
 
-    <title>KC IRB - Withdraw Notification</title>
+    <title>KC IRB - Notify Irb Notification</title>
 
     <!-- this is the name of the content type for the message -->
     <!-- content types are registered in the system, so your value -->
