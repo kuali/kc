@@ -43,7 +43,6 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class CommitteeScheduleAction extends CommitteeAction {
@@ -54,16 +53,9 @@ public class CommitteeScheduleAction extends CommitteeAction {
     private static final String DELETE_QUESTION = "Are you sure you want to delete?";
     
     private static final String DELETE_QUESTION_ID = "committeeSchedule.delete.question";
-    
-    private static final String BASE_ERROR_PATH = "document";
-    
+        
     public static final boolean FALSE = false;
     
-    /**
-     * Just some arbitrarily high max depth that's unlikely to occur in real life to prevent recursion problems
-     */
-    private int maxDictionaryValidationDepth = 100;
-
     /**
      * @see org.kuali.kra.committee.web.struts.action.CommitteeAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -229,11 +221,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     private CommitteeScheduleService getCommitteeScheduleService(){
         return KraServiceLocator.getService(CommitteeScheduleService.class);
     }
-    
-    private DictionaryValidationService getService() {
-        return KraServiceLocator.getService(DictionaryValidationService.class);
-    }
-    
+        
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;     
