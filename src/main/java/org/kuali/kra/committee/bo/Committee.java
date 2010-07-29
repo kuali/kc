@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.bo;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * Represents a single committee within an institution.
@@ -259,12 +261,12 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
 
     public String getCommitteeChair() {
         if (StringUtils.isBlank(committeeChair) && CollectionUtils.isNotEmpty(getCommitteeMemberships())) {
+            List<String> committeeChairs = new ArrayList<String>();
             for (CommitteeMembership committeeMembership : getCommitteeMemberships()) {
                 if (isChairPerson(committeeMembership)) {
-                    setCommitteeChair(committeeMembership.getPersonName());
-                    break;                    
+                    committeeChairs.add(committeeMembership.getPersonName());
                 }
-                
+                setCommitteeChair(committeeChairs.toString());
             }
         }
         return committeeChair;
@@ -273,8 +275,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     private boolean isChairPerson(CommitteeMembership committeeMembership) {
         
         boolean isChairRoleFound = false;
+        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+
         for (CommitteeMembershipRole committeeMembershipRole : committeeMembership.getMembershipRoles()) {
-            if (committeeMembershipRole.getMembershipRoleCode().equals(CHAIR_MEMBERSHIP_ROLE_CODE)) {
+            if (committeeMembershipRole.getMembershipRoleCode().equals(CHAIR_MEMBERSHIP_ROLE_CODE)
+                    && !currentDate.before(committeeMembershipRole.getStartDate()) && !currentDate.after(committeeMembershipRole.getEndDate())) {
                 isChairRoleFound = true;
                 break;
             }
