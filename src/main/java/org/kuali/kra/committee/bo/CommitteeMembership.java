@@ -313,7 +313,8 @@ public class CommitteeMembership extends CommitteeAssociate {
         
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
         for (CommitteeMembershipRole role : membershipRoles) {
-            if (!currentDate.before(role.getStartDate()) && !currentDate.after(role.getEndDate())) {
+            if (role.getStartDate() != null && role.getEndDate() != null 
+                    && !currentDate.before(role.getStartDate()) && !currentDate.after(role.getEndDate())) {
                 if (role.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
                     isActive = false;
                     break;
