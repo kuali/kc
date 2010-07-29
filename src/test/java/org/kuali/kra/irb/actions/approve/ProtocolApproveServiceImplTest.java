@@ -32,7 +32,7 @@ import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 //@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
@@ -50,7 +50,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     
-    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolApproveServiceImpl protocolApproveServiceImpl;
     private ProtocolApproveService protocolApproveService;
     
@@ -67,14 +67,14 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         protocolApproveService = KraServiceLocator.getService(ProtocolApproveService.class);
         protocolApproveServiceImpl = (ProtocolApproveServiceImpl)KraServiceLocator.getService(ProtocolApproveService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        businessObjectService = null;
+        documentService = null;
         protocolApproveService = null;
         protocolApproveServiceImpl = null;
         GlobalVariables.setUserSession(null);
@@ -82,22 +82,23 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testSetBusinessObjectService() {
-        protocolApproveServiceImpl.setBusinessObjectService(businessObjectService);
+    public void testSetDocumentService() {
+        protocolApproveServiceImpl.setDocumentService(documentService);
         assertTrue(true);
     }
 
     @Test
     public void testApprove() throws Exception{
-        Protocol prot = ProtocolFactory.createProtocolDocument().getProtocol();
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        Protocol prot = protocolDocument.getProtocol();
         ProtocolApproveBean actionBean = new ProtocolApproveBean();
         actionBean.setActionDate(BASIC_ACTION_DATE);
         actionBean.setApprovalDate(BASIC_ACTION_DATE);
         actionBean.setComments("some comments go here");
         actionBean.setExpirationDate(BASIC_ACTION_DATE);
-        businessObjectService.save(prot);
-        protocolApproveService.approve(prot, actionBean);
-        businessObjectService.save(prot);
+        documentService.saveDocument(protocolDocument);
+        protocolApproveService.approve(protocolDocument, actionBean);
+        documentService.saveDocument(protocolDocument);
         String expected = ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
@@ -122,7 +123,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
         highRiskLevelProtocol.setComments(HIGH_RISK_LEVEL_COMMENTS);
         protocolRiskLevelBean.addNewProtocolRiskLevel(protocolDocument.getProtocol());
         
-        protocolApproveService.approve(protocolDocument.getProtocol(), protocolApproveBean);
+        protocolApproveService.approve(protocolDocument, protocolApproveBean);
         
         verifyPersistRiskLevel(protocolDocument.getProtocol(), 0, LOW_RISK_CODE, BASIC_ACTION_DATE, ACTIVE_STATUS);
         verifyPersistRiskLevel(protocolDocument.getProtocol(), 1, HIGH_RISK_CODE, BASIC_ACTION_DATE, INACTIVE_STATUS, BASIC_ACTION_DATE, 

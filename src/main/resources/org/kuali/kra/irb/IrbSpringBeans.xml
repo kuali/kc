@@ -493,6 +493,9 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="committeeService" ref="committeeService" />
+        <property name="protocolVersionService" ref="protocolVersionService" />
+        <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
     <bean id="protocolCorrespondenceTemplateService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateServiceImpl">
@@ -511,7 +514,7 @@
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
     </bean>

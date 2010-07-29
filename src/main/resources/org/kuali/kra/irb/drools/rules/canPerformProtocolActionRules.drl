@@ -12,7 +12,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "105", "106", "304"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "106", "304"))
 then	
 	setAction(protocolAction, true);
 end
@@ -41,10 +41,18 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Substantive Revisions Required(Table) Protocol -- Not Expedited or Exempt"
+rule "Substantive Revisions Required(Table) Protocol -- Not Expedited or Exempt" 
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "202", submissionStatusCode == "101", protocolReviewTypeCode not in ("2","3"), minutesCount == true)
+then	
+	setAction(protocolAction, true);
+end
+
+rule "Record Committee Decision"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "308", submissionStatusCode == "101", submissionNumber != null)
 then	
 	setAction(protocolAction, true);
 end

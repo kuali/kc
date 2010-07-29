@@ -23,8 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -35,6 +38,8 @@ import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The CommitteeDecisionService implementation.
@@ -44,6 +49,9 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
     private CommitteeService committeeService;
+    private ProtocolVersionService protocolVersionService;
+    private DocumentService documentService;
+    private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -56,11 +64,25 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         this.committeeService = committeeService;
     }
     
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
+        this.protocolAssignToAgendaService = protocolAssignToAgendaService;
+    }
+
     /**
      * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#setCommitteeDecision(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
-    public void setCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) {
+    public ProtocolDocument processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception {
         ProtocolSubmission submission = getSubmission(protocol);
+        ProtocolDocument documentVersionForRevisions = null;
+        
         if (submission != null) {
             submission.setYesVoteCount(committeeDecision.getYesCount());
             submission.setNoVoteCount(committeeDecision.getNoCount());
@@ -72,13 +94,23 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             
             String protocolActionTypeToUse = "";
             boolean doAddProtocolAction = false;
+            boolean revisionsRequested = false;
             String motionToCompareFrom = committeeDecision.getMotion() == null ? committeeDecision.getMotion() : committeeDecision.getMotion().trim();
             
             if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom)) {
-                protocolActionTypeToUse = ProtocolActionType.APPROVED;
+                protocolActionTypeToUse = ProtocolActionType.RECORD_COMMITTEE_DECISION;
                 doAddProtocolAction = true;
             } else if (MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom)) {
                 protocolActionTypeToUse = ProtocolActionType.DISAPPROVED;
+                disapproveDocument(protocol);
+                doAddProtocolAction = true;
+            } else if (MotionValuesFinder.SMR.equals(motionToCompareFrom)) {
+                protocolActionTypeToUse = ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED;
+                revisionsRequested = true;
+                doAddProtocolAction = true; 
+            } else if (MotionValuesFinder.SRR.equals(motionToCompareFrom)) {
+                protocolActionTypeToUse = ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED;
+                revisionsRequested = true;
                 doAddProtocolAction = true;
             }
             
@@ -99,9 +131,51 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
             businessObjectService.save(submission);
             businessObjectService.save(protocol);
-            
             protocol.refresh();
+            
+            if(revisionsRequested) { 
+                documentVersionForRevisions = versionDocument(protocol);
+            }
         }
+        return (documentVersionForRevisions != null) ? documentVersionForRevisions : protocol.getProtocolDocument();
+    }
+    
+    private void disapproveDocument(Protocol protocol) throws Exception {
+        KualiWorkflowDocument currentWorkflowDocument = null;
+        if(protocol.getProtocolDocument() != null) {
+            currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            if(currentWorkflowDocument != null) {
+                currentWorkflowDocument.disapprove("Disapproving Protocol Document after Committee Decision");
+            }
+        }    
+    }
+    
+    private void returnDocumentForRevisions(ProtocolDocument protocolDocument) throws Exception {
+        KualiWorkflowDocument currentWorkflowDocument = null;
+        if(protocolDocument != null) {
+            currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
+            if(currentWorkflowDocument != null) {
+                currentWorkflowDocument.returnToPreviousRouteLevel("Revisions required", currentWorkflowDocument.getDocRouteLevel() - 1);
+            }
+        }
+    }
+    
+    private ProtocolDocument versionDocument(Protocol protocol) throws Exception {
+        ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+        newDocument.getProtocol().setApprovalDate(null);
+        newDocument.getProtocol().setExpirationDate(null);
+        
+        //if there is an assign to agenda protocol action, remove it.
+        ProtocolAction assignToAgendaProtoclAction = this.protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newDocument.getProtocol());
+        if (assignToAgendaProtoclAction != null) {
+            newDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtoclAction);
+            businessObjectService.delete(assignToAgendaProtoclAction);
+        }        
+        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        documentService.saveDocument(newDocument);
+        newDocument.getProtocol().setProtocolSubmission(null);
+        
+        return newDocument;
     }
     
     private void proccessAbstainers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 

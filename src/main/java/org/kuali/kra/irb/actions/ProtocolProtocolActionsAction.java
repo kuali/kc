@@ -242,7 +242,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                         return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
                                 CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
                     }               
-                    
+
                     getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
                     protocolForm.getActionHelper().getAssignCmtSchedBean().init();
                     protocolForm.getActionHelper().getAssignToAgendaBean().init();
@@ -1271,7 +1271,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-            getProtocolApproveService().approve(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
 
             getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
@@ -1934,11 +1934,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
-            getCommitteeDecisionService().setCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
+            ProtocolDocument newDocument = getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
                                                                protocolForm.getActionHelper().getCommitteeDecision());
             getReviewerCommentsService().persistReviewerComments(
                     protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
+            
+            if(!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                return mapping.findForward(PROTOCOL_TAB);
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

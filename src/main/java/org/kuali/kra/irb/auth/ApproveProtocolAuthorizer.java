@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
@@ -27,7 +28,16 @@ public class ApproveProtocolAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.APPROVED) &&
+        ProtocolAction lastPerformedAction = task.getProtocol().getLastProtocolAction();
+        return canApprove(lastPerformedAction) && 
                hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+    }
+    
+    private boolean canApprove(ProtocolAction lastAction) {
+        if(lastAction != null && ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
+            return true;
+        }
+                
+        return false;
     }
 }

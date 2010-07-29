@@ -67,7 +67,7 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
         committeeDecision.setProtocolId(protocol.getProtocolId());
         committeeDecision.setVotingComments("just some dumb comments");
         committeeDecision.setYesCount(new Integer(2));
-        committeeDecisionService.setCommitteeDecision(protocol, committeeDecision);
+        committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);
     }
 
 }
