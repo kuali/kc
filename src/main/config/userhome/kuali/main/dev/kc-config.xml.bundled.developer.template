@@ -1,14 +1,14 @@
 <config>
 	<!-- KC Client DB -->
-	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KCDEV</param>
-	<param name="datasource.username">KCDEV</param>
-	<param name="datasource.password">devpass</param>
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KCBND</param>
+	<param name="datasource.username">KCBND</param>
+	<param name="datasource.password">bndpass</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
 	<!--
-	<param name="datasource.url">jdbc:mysql://localhost:3306/KCDEV</param>
-	<param name="datasource.username">KCDEV</param>
-	<param name="datasource.password">devpass</param>
+	<param name="datasource.url">jdbc:mysql://localhost:3306/KCBND</param>
+	<param name="datasource.username">KCBND</param>
+	<param name="datasource.password">bndpass</param>
 	<param name="datasource.ojb.platform">MySQL</param>
 	-->
 </config>
