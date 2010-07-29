@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to record committee decisions for a protocol?
@@ -27,6 +28,7 @@ public class RecordCommitteeDecisionProtocolAuthorizer extends ProtocolAuthorize
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+                canExecuteAction(task.getProtocol(), ProtocolActionType.RECORD_COMMITTEE_DECISION) && 
+               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 }

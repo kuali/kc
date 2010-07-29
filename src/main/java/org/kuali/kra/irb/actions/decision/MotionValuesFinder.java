@@ -28,12 +28,16 @@ public class MotionValuesFinder extends KeyValuesBase {
     
     public static final String APPROVE = "1";
     public static final String DISAPPROVE = "2";
+    public static final String SMR = "3";
+    public static final String SRR = "4";
     
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         keyValues.add(new KeyLabelPair(APPROVE, "approve"));
         keyValues.add(new KeyLabelPair(DISAPPROVE, "disapprove"));
+        keyValues.add(new KeyLabelPair(SMR, "specific minor revisions"));
+        keyValues.add(new KeyLabelPair(SRR, "substantive revisions required"));
         return keyValues;
     }
 }

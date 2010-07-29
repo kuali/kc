@@ -24,6 +24,8 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
 	
     public static final String IN_PROGRESS = "100";
     public static final String SUBMITTED_TO_IRB = "101";
+    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "102";
+    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "104";
     public static final String DELETED = "303";
     public static final String AMENDMENT_MERGED = "400";
     public static final String RENEWAL_MERGED = "401";

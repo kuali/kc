@@ -80,34 +80,14 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
         ProtocolSubmission submission = findSubmission(protocol);
         if (actionBean.isProtocolAssigned()) {
-            if (!isAssignedToAgenda(protocol)) {
-                // add a new protocol action
-                ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
-                protocolAction.setComments(actionBean.getComments());
-                protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-                protocol.getProtocolActions().add(protocolAction);
-                protocolActionService.updateProtocolStatus(protocolAction, protocol);
-            } else {
-                // update the comment of an existing protocol action
-                ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-                pa.setComments(actionBean.getComments());
-                pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-                protocolActionService.updateProtocolStatus(pa, protocol);
-                documentService.saveDocument(protocol.getProtocolDocument());
-                return;
-            }
+            // add a new protocol action
+            ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
+            protocolAction.setComments(actionBean.getComments());
+            protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+            protocol.getProtocolActions().add(protocolAction);
+            protocolActionService.updateProtocolStatus(protocolAction, protocol);
             documentService.saveDocument(protocol.getProtocolDocument());
-        } else if (!actionBean.isProtocolAssigned() && isAssignedToAgenda(protocol)) {
-            // un assign the protocol
-            ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-            pa.setProtocolActionTypeCode(ProtocolActionType.DISAPPROVED);
-            pa.setComments(actionBean.getComments());
-            pa.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-            protocolActionService.updateProtocolStatus(pa, protocol);
-            documentService.saveDocument(protocol.getProtocolDocument());
-            return;
-        }
-
+        } 
     }
 
     /** {@inheritDoc} */
