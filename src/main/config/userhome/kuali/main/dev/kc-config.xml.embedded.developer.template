@@ -18,7 +18,7 @@
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
 	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
-	<param name="server.datasource.username">RICEDEV</param>
+	<param name="server.datasource.username">KRDEV</param>
 	<param name="server.datasource.password">devpass</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	
