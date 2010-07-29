@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * 
@@ -30,6 +30,6 @@ public interface ProtocolApproveService {
      * @param actionBean the bean that contains UI information
      * @throws Exception if a problem occurs while persisting the data
      */
-    void approve(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    void approve(ProtocolDocument protocolDocument, ProtocolApproveBean actionBean) throws Exception;
 
 }
