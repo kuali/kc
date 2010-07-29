@@ -12,7 +12,7 @@
 	<param name="plugin.dir">${user.home}/kuali/main/${environment}/rice_embedded/plugins</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="datasource.username">RICEDEV</param>
+	<param name="datasource.username">KRDEV</param>
 	<param name="datasource.password">devpass</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	
@@ -37,8 +37,8 @@
     <param name="sample.enabled">false</param>
 	
 	<!-- other added-->
-	<!--<param name="workflow.url">http://127.0.0.1:8081/kr-dev/kew</param>-->
-	<!--<param name="serviceServletUrl">http://127.0.0.1:8081/kr-dev/remoting/</param>-->
+	<!--<param name="workflow.url">http://127.0.0.1:8080/kr-dev/kew</param>-->
+	<!--<param name="serviceServletUrl">http://127.0.0.1:8080/kr-dev/remoting/</param>-->
 
 	<param name="dev.mode">false</param>
 	
