@@ -70,6 +70,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
                                                                                             KeywordsManager<InstitutionalProposalScienceKeyword>,
                                                                                             SequenceOwner<InstitutionalProposal>, Sponsorable { 
     
+    public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
     public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
     

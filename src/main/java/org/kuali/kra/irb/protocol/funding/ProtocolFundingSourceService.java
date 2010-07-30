@@ -37,12 +37,13 @@ public interface ProtocolFundingSourceService {
     /**
      * 
      * This method is used used by Ajax and the action to set the name and title for a funding source.
-     * @param sourceId
-     * @param sourceType
-     * @param sourceName
+     * @param typeCode
+     * @param source
+     * @param number
+     * @param name
      * @return
      */
-    public ProtocolFundingSource updateProtocolFundingSource(String sourceId, String sourceType, String sourceName);
+    public ProtocolFundingSource updateProtocolFundingSource(String typeCode, String source, String number, String name);
     
     /**
      * 

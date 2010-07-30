@@ -213,10 +213,10 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(FILE_NAME, summary.getAttachments().get(0).getFileName());
         
         assertEquals(1, summary.getFundingSources().size());
-        assertEquals(FUNDING_SOURCE, summary.getFundingSources().get(0).getFundingId());
-        assertEquals(FUNDING_SOURCE_NAME, summary.getFundingSources().get(0).getFundingSource());
-        assertEquals(FUNDING_DESCRIPTION, summary.getFundingSources().get(0).getFundingType());
-        assertEquals(FUNDING_SOURCE_TITLE, summary.getFundingSources().get(0).getTitle());
+        assertEquals(FUNDING_SOURCE, summary.getFundingSources().get(0).getFundingSource());
+        assertEquals(FUNDING_SOURCE_NAME, summary.getFundingSources().get(0).getFundingSourceName());
+        assertEquals(FUNDING_DESCRIPTION, summary.getFundingSources().get(0).getFundingSourceType());
+        assertEquals(FUNDING_SOURCE_TITLE, summary.getFundingSources().get(0).getFundingSourceTitle());
         
         assertEquals(1, summary.getParticipants().size());
         assertEquals(PARTICIPANT_DESCRIPTION, summary.getParticipants().get(0).getDescription());
@@ -298,10 +298,10 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         }
         
         if (summary.getFundingSources().size() > 0) {
-            assertEquals(expected, summary.getFundingSources().get(0).isFundingIdChanged());
             assertEquals(expected, summary.getFundingSources().get(0).isFundingSourceChanged());
-            assertEquals(expected, summary.getFundingSources().get(0).isFundingTypeChanged());
-            assertEquals(expected, summary.getFundingSources().get(0).isTitleChanged());
+            assertEquals(expected, summary.getFundingSources().get(0).isFundingSourceNameChanged());
+            assertEquals(expected, summary.getFundingSources().get(0).isFundingSourceTypeChanged());
+            assertEquals(expected, summary.getFundingSources().get(0).isFundingSourceTitleChanged());
         }
         
         if (summary.getParticipants().size() > 0) {
