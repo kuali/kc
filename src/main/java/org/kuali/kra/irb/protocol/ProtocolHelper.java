@@ -252,17 +252,16 @@ public class ProtocolHelper implements Serializable {
     }
     
     private void syncFundingSource(ProtocolFundingSource source) {
-         if (source.getFundingSourceType() != null 
-                && source.getFundingSourceType().getFundingSourceTypeCode() != null
-                && source.getFundingSource() != null) {
-
-            ProtocolFundingSource syncedSource = 
-                getProtocolFundingSourceService().updateProtocolFundingSource(
-                    source.getFundingSourceType().getFundingSourceTypeCode().toString(), 
-                    source.getFundingSource(),
+        if (source.getFundingSourceType() != null && source.getFundingSourceType().getFundingSourceTypeCode() != null) {
+            ProtocolFundingSource syncedSource = getProtocolFundingSourceService().updateProtocolFundingSource(
+                    source.getFundingSourceType().getFundingSourceTypeCode().toString(), source.getFundingSource(), source.getFundingSourceNumber(), 
                     source.getFundingSourceName());
-            source.setFundingSourceName(syncedSource.getFundingSourceName());
-            source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
+            if (syncedSource != null) {
+                source.setFundingSource(syncedSource.getFundingSource());
+                source.setFundingSourceNumber(syncedSource.getFundingSourceNumber());
+                source.setFundingSourceName(syncedSource.getFundingSourceName());
+                source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
+            }
         }
     }
     

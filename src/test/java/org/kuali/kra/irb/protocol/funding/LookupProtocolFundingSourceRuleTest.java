@@ -88,7 +88,7 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }

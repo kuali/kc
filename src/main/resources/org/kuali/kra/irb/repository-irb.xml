@@ -330,13 +330,16 @@
         <reference-descriptor name="fundingSourceType" class-ref="org.kuali.kra.bo.FundingSourceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="fundingSourceTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="fundingUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="fundingSource"/>
-        </reference-descriptor>
         <reference-descriptor name="fundingSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="fundingSource"/>
-        </reference-descriptor>       
-        <reference-descriptor name="fundingProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        </reference-descriptor>  
+        <reference-descriptor name="fundingUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="fundingSource"/>
+        </reference-descriptor>     
+        <reference-descriptor name="fundingDevelopmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="fundingSource"/>
+        </reference-descriptor> 
+        <reference-descriptor name="fundingInstitutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="fundingSource"/>
         </reference-descriptor> 
         <reference-descriptor name="fundingAward" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
