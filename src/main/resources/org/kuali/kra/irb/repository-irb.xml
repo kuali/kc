@@ -1138,4 +1138,19 @@
         </reference-descriptor>
     </class-descriptor>
     
+    
+    <class-descriptor class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplate" table="PROTO_NOTIFICATION_TEMPL">
+        <field-descriptor name="notificationTemplateId" column="NOTIFICATION_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_NOTIFICATION_TEMPL" autoincrement="true" />
+        <field-descriptor name="actionTypeCode" column="ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="notificationTemplate" column="NOTIFICATION_TEMPLATE" jdbc-type="LONGVARBINARY" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="actionTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
 </descriptor-repository>
