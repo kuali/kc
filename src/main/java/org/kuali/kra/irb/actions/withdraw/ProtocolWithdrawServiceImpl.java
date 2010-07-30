@@ -118,7 +118,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          */
         cancelWorkflow(protocol);
         //sendWithdrawNotification(protocol);
-        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
+//        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
 
         /*
          * Create a new protocol document for the user to edit so they can re-submit at 
