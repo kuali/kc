@@ -15,15 +15,10 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -32,6 +27,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
+import org.kuali.kra.irb.actions.notification.WithdrawEvent;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -39,15 +36,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.ken.service.NotificationService;
-import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 /**
  * The ProtocolWithdrawService implementation.
@@ -62,6 +53,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private KraAuthorizationService kraAuthorizationService;
     private NotificationService notificationService;
+    private ProtocolActionsNotificationService protocolActionsNotificationService;
     private List<String> notificationTemplates;
 
     /**
@@ -125,7 +117,8 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          * Cancelling the workflow document is how we withdraw it.
          */
         cancelWorkflow(protocol);
-        sendWithdrawNotification(protocol);
+        //sendWithdrawNotification(protocol);
+        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
 
         /*
          * Create a new protocol document for the user to edit so they can re-submit at 
@@ -235,100 +228,6 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
     }
 
-    /*
-     * 
-     * This method is to send notification when protocol is withdrawn.
-     * @param protocol
-     * @throws Exception
-     */
-    private void sendWithdrawNotification(Protocol protocol) throws Exception {
-        String withdrawNotificationTemplate = notificationTemplates.get(0);
-        InputStream is = this.getClass().getResourceAsStream(withdrawNotificationTemplate);
-        Document notificationRequestDocument;
-
-        try {
-            notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
-            Element recipients = (Element) notificationRequestDocument.getElementsByTagName("recipients").item(0);
-            //Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            if (StringUtils.isNotBlank(protocol.getPrincipalInvestigator().getPersonId())) {
-                // rolodex does not have username
-                XmlHelper.appendXml(recipients, "<user>" + protocol.getPrincipalInvestigator().getPerson().getUserName() + "</user>");
-               // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
-            }
-            addRecipients(recipients, protocol);
-            
-            Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
-            sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
-
-            Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
-            // TODO : what the withdraw messagte is ?
-            message.setTextContent("Protocol Withdrawn");
-
-            Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
-            title.setTextContent("Protocol " + protocol.getProtocolNumber() + " has been withdrawn");
-
-            Element sendDateTime = (Element) notificationRequestDocument.getElementsByTagName("sendDateTime").item(0);
-            sendDateTime.setTextContent(Util.toXSDDateTimeString(Calendar.getInstance().getTime()));
-        }
-        finally {
-            if (is != null) {
-                is.close();
-            }
-        }
-
-        String XML = Util.writeNode(notificationRequestDocument, true);
-        //Waiting for rice KEN bootstrap to be corrected
-        notificationService.sendNotification(XML);
-    }
-
-    /*
-     * add aggregator & committee members to recipients list
-     */
-    private void addRecipients(Element recipients, Protocol protocol) {
-        addAggregatorToRecients(recipients, protocol);
-        addCommitteeMemberToRecipients(recipients, protocol.getProtocolSubmission().getCommittee());
-        
-    }
-
-    /*
-     * add aggregators to recipient list
-     */
-    private void addAggregatorToRecients(Element recipients, Protocol protocol) {
-        for (KcPerson kcPersons : getAggregators(protocol)) {
-            try {
-                if (StringUtils.isNotBlank(kcPersons.getUserName()) && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName().equals(protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                    XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
-                } 
-            } catch (Exception e) {
-
-            }
-            
-        }
-    }
-
-    /*
-     * add committee members to recipients list
-     */
-    private void addCommitteeMemberToRecipients(Element recipients, Committee committee) {
-        for (CommitteeMembership member : committee.getCommitteeMemberships()) {
-            try {
-                if (StringUtils.isNotBlank(member.getPersonId())) {
-                    XmlHelper.appendXml(recipients, "<user>" + member.getPerson().getUserName() + "</user>");
-                } else if (member.getRolodexId() != null && StringUtils.isNotBlank(member.getRolodex().getUserName())) {
-                    // TODO : rolodex does not have username, so what to do ?
-                    XmlHelper.appendXml(recipients, "<user>" + member.getRolodex().getUserName() + "</user>");
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    
-    private List<KcPerson> getAggregators(Protocol protocol) {
-        return kraAuthorizationService.getPersonsInRole(protocol, "Protocol Aggregator");
-    }
-
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
@@ -339,5 +238,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
+    }
+
+    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
+        this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
 }
