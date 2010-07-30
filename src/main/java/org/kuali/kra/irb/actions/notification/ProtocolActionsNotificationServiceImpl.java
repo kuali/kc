@@ -77,16 +77,14 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
             // message.setTextContent(getTransFormData(protocol, notificationEvent.getTemplatePath()));
-            message.setTextContent(getTransFormData(protocol, new StreamSource(new ByteArrayInputStream(notificationEvent
-                    .getTemplate()))));
+            message.setTextContent(getTransFormData(protocol, notificationEvent.getTemplate()));
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
             title.setTextContent(notificationEvent.getTitle());
 
             Element sendDateTime = (Element) notificationRequestDocument.getElementsByTagName("sendDateTime").item(0);
             sendDateTime.setTextContent(Util.toXSDDateTimeString(Calendar.getInstance().getTime()));
-        }
-        finally {
+        } finally {
             if (is != null) {
                 is.close();
             }

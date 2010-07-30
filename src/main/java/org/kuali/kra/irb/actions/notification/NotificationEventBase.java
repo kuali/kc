@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -97,12 +100,18 @@ public abstract class NotificationEventBase {
      * This method is to get the template for this event.
      * @return
      */
-    public byte[] getTemplate() {
+    public StreamSource getTemplate() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("actionTypeCode", getActionTypeCode());
-        ProtocolNotificationTemplate template = ((List<ProtocolNotificationTemplate>) getBusinessObjectService().findMatching(
-                ProtocolNotificationTemplate.class, fieldValues)).get(0);
-        return template.getNotificationTemplate();
+        List<ProtocolNotificationTemplate> templates = (List<ProtocolNotificationTemplate>) getBusinessObjectService().findMatching(
+                ProtocolNotificationTemplate.class, fieldValues);
+        if (templates != null && !templates.isEmpty()) {
+            return new StreamSource(new ByteArrayInputStream(templates.get(0).getNotificationTemplate()));
+        } else {
+            return new StreamSource(this.getClass().getResourceAsStream(getTemplatePath()));
+
+        }
+        
     }
 
     private BusinessObjectService getBusinessObjectService() {
