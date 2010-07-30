@@ -43,6 +43,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
@@ -186,19 +187,25 @@ public class CommitteeServiceTest {
         CommitteeServiceImpl committeeService = new CommitteeServiceImpl();
         Committee committee = new Committee();
         initCommitteeService(committeeService, committee);
-        
+ 
+        ScheduleStatus cs = new ScheduleStatus();
+        cs.setDescription("Scheduled");
+        cs.setScheduleStatusCode(new Integer(1));
+ 
         committee.setAdvancedSubmissionDaysRequired(10);
         
         CommitteeSchedule schedule1 = new CommitteeSchedule();
         schedule1.setScheduleId("1");
         schedule1.setScheduledDate(new Date(System.currentTimeMillis()));
         schedule1.setTime(new Timestamp(0));
+        schedule1.setScheduleStatus(cs);
         committee.getCommitteeSchedules().add(schedule1);
           
         CommitteeSchedule schedule2 = new CommitteeSchedule();
         schedule2.setScheduleId("2");
         schedule2.setScheduledDate(getDate(20));
         schedule2.setTime(new Timestamp(0));
+        schedule2.setScheduleStatus(cs);
         committee.getCommitteeSchedules().add(schedule2);
         
         List<KeyLabelPair> availDates = committeeService.getAvailableCommitteeDates("999");

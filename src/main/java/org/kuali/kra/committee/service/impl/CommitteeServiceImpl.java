@@ -156,7 +156,9 @@ public class CommitteeServiceImpl implements CommitteeService {
         Calendar now = getCalendar(new Date());
         Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
         now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
-        return now.compareTo(scheduleCalendar) <= 0;
+        boolean dateRangeOK = now.compareTo(scheduleCalendar) <= 0;
+        boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
+        return dateRangeOK && statusOK;
     }
     
     /*
@@ -182,10 +184,15 @@ public class CommitteeServiceImpl implements CommitteeService {
         Date date = schedule.getScheduledDate();
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+        StringBuffer sb = new StringBuffer(dateFormat.format(date));
+        sb.append( ", ");
         if (schedule.getPlace() == null) {
-            return dateFormat.format(date) + ", " + NO_PLACE + ", " + timeFormat.format(schedule.getActualTime());
+            sb.append(NO_PLACE);
+        } else {
+            sb.append(schedule.getPlace());
         }
-        return dateFormat.format(date) + ", " + schedule.getPlace() + ", " + timeFormat.format(schedule.getActualTime());
+        sb.append(", ").append(timeFormat.format(schedule.getActualTime()));
+        return sb.toString();
     }
 
     /**
