@@ -23,13 +23,13 @@ function jq(myid) {
 }
 
 
-function updateSourceNameEditable(fundingTypeCodeFieldName, fundingIdFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
-	var fundingTypeCode = DWRUtil.getValue( fundingTypeCodeFieldName );
+function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
+	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeFieldName );
 	var allowEdit;
-
+	
 	clearRecipients( fundingSourceNameFieldName, "" );
 	clearRecipients( fundingSourceTitleFieldName, "" );
-	if (fundingTypeCode=='') {
+	if (fundingSourceTypeCode=='') {
 		clearRecipients( fundingSourceNameFieldName, "" );
 		clearRecipients( fundingSourceTitleFieldName, "" );
 	} else {
@@ -39,78 +39,64 @@ function updateSourceNameEditable(fundingTypeCodeFieldName, fundingIdFieldName, 
 					allowEdit = data;
 					if (allowEdit == true) {
 					   	changeObjectVisibility(fundingSourceNameFieldName, "block");
-						    var myDiv = document.getElementById("protocolHelper.newFundingSource.fundingSourceName.master.div");
-						    var cDiv = document.getElementById("protocolHelper.newFundingSource.fundingSourceName.div");
-						    if (myDiv!=null && cDiv!=null) {
-						    	myDiv.removeChild(cDiv);
-							    var newdiv = document.createElement("div");
-							    newdiv.setAttribute("id","nofundiv");
-							    myDiv.appendChild(newdiv);
-							 }
 					} else {
 					   	changeObjectVisibility(fundingSourceNameFieldName, "none");
-					   	var myDiv = document.getElementById("protocolHelper.newFundingSource.fundingSourceName.master.div");
-					    var cDiv = document.getElementById("nofundiv");
-					    if (myDiv!=null && cDiv!=null) {
-					    	myDiv.removeChild(cDiv);
-						    var newdiv = document.createElement("div");
-						    newdiv.setAttribute("id","protocolHelper.newFundingSource.fundingSourceName.div");
-						    myDiv.appendChild(newdiv);
-						}
 					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
-				setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
+				setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
+				setRecipientValue( fundingSourceTitleFieldName,  wrapError( "not found" ), true );
 			}
 		};
-		ProtocolFundingSourceService.updateSourceNameEditable(fundingTypeCode, dwrReply);
-		loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
+		ProtocolFundingSourceService.updateSourceNameEditable(fundingSourceTypeCode, dwrReply);
+		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
 	}
 }
 
 /*
- * Load the Funding Source Name field based on the id and type passed in.
+ * Load the Funding Source Name field based on the source and type passed in.
  */
-function loadFundingSourceNameTitle(fundingTypeCodeFieldName, fundingIdFieldName, fundingNameFieldName, fundingTitleFieldName ) {
-	var fundingTypeCode = DWRUtil.getValue( fundingTypeCodeFieldName );
-	var fundingId = DWRUtil.getValue( fundingIdFieldName );
-	var fundingName = DWRUtil.getValue( fundingNameFieldName );
-	var fundingTitle = DWRUtil.getValue( fundingTitleFieldName );
+function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName ) {
+	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeField );
+	var fundingSource = DWRUtil.getValue( fundingSourceFieldName );
+	var fundingSourceNumber = DWRUtil.getValue ( fundingSourceNumberFieldName );
+	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
+	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
 
-	if (fundingTypeCode=='' || fundingId=='') {
-		clearRecipients( fundingNameFieldName, "" );
-		clearRecipients( fundingTitleFieldName, "" );
-	} else {
+	clearRecipients( fundingSourceNameFieldName, "" );
+	clearRecipients( fundingSourceTitleFieldName, "" );
+	if (fundingSourceTypeCode != '' && fundingSourceNumber != '') {
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
-					if ( fundingNameFieldName != null && fundingNameFieldName != "" && data.fundingSourceName!= null) {
-						setRecipientValue( fundingNameFieldName, data.fundingSourceName );
+					if ( fundingSourceNameFieldName != null && fundingSourceNameFieldName != "" 
+						&& data.fundingSourceName != null && data.fundingSourceName != '' ) {
+						setRecipientValue( fundingSourceNameFieldName, data.fundingSourceName );
 					} else {
-						setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
+						setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
 					}
-					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" && data.fundingSourceTitle!=null) {
-						setRecipientValue( fundingTitleFieldName, data.fundingSourceTitle );
+					if ( fundingSourceTitleFieldName != null && fundingSourceTitleFieldName != "" 
+						&& data.fundingSourceTitle != null && data.fundingSourceTitle != '' ) {
+						setRecipientValue( fundingSourceTitleFieldName, data.fundingSourceTitle );
 					}
 				} else {
-					if ( fundingNameFieldName != null && fundingNameFieldName != "" ) {
+					if ( fundingSourceNameFieldName != null && fundingSourceNameFieldName != "" ) {
 						setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
 					}
-					if ( fundingTitleFieldName != null && fundingTitleFieldName != "" ) {
+					if ( fundingSourceTitleFieldName != null && fundingSourceTitleFieldName != "" ) {
 						setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
 					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
-				setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
+				setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
+				setRecipientValue( fundingSourceTitleFieldName,  wrapError( "not found" ), true );
 			}
 		};
-		ProtocolFundingSourceService.updateProtocolFundingSource(fundingTypeCode, fundingId, fundingName, dwrReply);
+		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSource, fundingSourceNumber, fundingSourceName, dwrReply);
 	}
 }
  

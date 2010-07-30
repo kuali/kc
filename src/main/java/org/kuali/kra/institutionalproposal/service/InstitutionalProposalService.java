@@ -48,6 +48,14 @@ public interface InstitutionalProposalService {
     String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget);
     
     /**
+     * Return an Institutional Proposal, if one exists.
+     * 
+     * @param proposalId String
+     * @return InstitutionalProposal, or null if none is found.
+     */
+    InstitutionalProposal getInstitutionalProposal(String proposalId);
+    
+    /**
      * Return the PENDING version of an Institutional Proposal, if one exists.
      * Note, PENDING here refers to the Version Status, NOT the Proposal Status of the Institutional Proposal.
      * 

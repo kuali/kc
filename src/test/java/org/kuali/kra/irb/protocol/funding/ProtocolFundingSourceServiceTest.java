@@ -18,8 +18,6 @@ package org.kuali.kra.irb.protocol.funding;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -34,6 +32,7 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.IrbMockServicesHelper;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -51,6 +50,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
  * 
@@ -64,23 +65,37 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     private ProtocolFundingSourceServiceImpl protocolFundingSourceService;
 
     private final String emptyId = "";
+    
     private final String sponsorIdAirForce = "000100";
     private final String sponsorNameAirForce = "Air Force";
     private final String sponsorIdBad = "-1";
+    private Sponsor sponsorGood;
     
     private final String unitIdGood = "000001";
     private final String unitNameGood = "University";
     private final String unitIdBad = "zzzzz";
     
-    private final String awardIdGood = "1";
-    private final String awardTitleGood = "AwardTitle";
-    private final String awardIdBad = "zzzzz";
-    private Award awardGood;
+    private final String otherIdGood = "otherId";
+    private final String otherNameGood = "otherName";
 
     private final String devProposalIdGood = "1";
     private final String devProposalTitleGood = "DevPropTitle";
     private final String devProposalIdBad = "zzzzz";
     private LookupableDevelopmentProposal  devProposalGood;
+    
+    private final String instProposalIdGood = "99";
+    private final String instProposalNumberGood = "00000001";
+    private final String instProposalTitleGood = "Institutional Proposal Title";
+    private final String instProposalIdBad = "zzzzz";
+    private final String instProposalNumberBad = "zzzzzzzz";
+    private InstitutionalProposal instProposalGood;
+    
+    private final String awardIdGood = "1";
+    private final String awardNumberGood = "000001-00001";
+    private final String awardTitleGood = "AwardTitle";
+    private final String awardIdBad = "zzzzz";
+    private final String awardNumberBad = "zzzzzz-zzzzz";
+    private Award awardGood;
     
     private final String sponsorSourceTypeId = "1";
     private final String unitSourceTypeId = "2";
@@ -89,12 +104,15 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     private final String institutePropSourceTypeId = "5";
     private final String awardSourceTypeId = "6";
     
-    private Sponsor goodSponsor;
     private Sponsor lookupUrlSponsor;
     private AnchorHtmlData inquiryUrl;
     private String inquiryUrlString = "inquiry.do?businessObjectClassName=org.kuali.kra.bo.Sponsor&sponsorCode=005174&methodToCall=start";
     private String expectedLookupUrl = "http://localhost:8080/kra-/kr/"+inquiryUrlString;
 
+    private final String protocolFundingSource = "protocolHelper.newFundingSource.fundingSource";
+    private final String protocolFundingSourceNumber = "protocolHelper.newFundingSource.fundingSourceNumber";
+    private final String protocolFundingSourceName = "protocolHelper.newFundingSource.fundingSourceName";
+    private final String protocolFundingSourceTitle = "protocolHelper.newFundingSource.fundingSourceTitle";
     
     private FundingSourceType fundingSponsorSourceType;
     private FundingSourceType fundingUnitSourceType;
@@ -102,26 +120,16 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     private FundingSourceType fundingDevProposalSourceType;
     private FundingSourceType fundingInstProposalSourceType;
     private FundingSourceType fundingAwardSourceType;
-
-    private final String instPropIdGood = "99";
-    private final String instPropTitleGood = "Institutional Proposal Title";
-    private final String instPropIdBad = "zzzzz";
-    private InstitutionalProposal instProp;
     
     private BusinessObjectService businessObjectService;
     
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
-
-
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    private Parameter parameter;
-     
 
     /**
      * Create the mock services and insert them into the protocol auth service.
@@ -150,108 +158,215 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         fundingInstProposalSourceType= new FundingSourceType();
         fundingInstProposalSourceType.setFundingSourceTypeCode(5);
         fundingInstProposalSourceType.setFundingSourceTypeFlag(true);
-        fundingInstProposalSourceType.setDescription("Institute Proposal");
+        fundingInstProposalSourceType.setDescription("Institutional Proposal");
         fundingAwardSourceType= new FundingSourceType();
         fundingAwardSourceType.setFundingSourceTypeCode(6);
         fundingAwardSourceType.setFundingSourceTypeFlag(true);
         fundingAwardSourceType.setDescription("Award");
         
-        goodSponsor = new Sponsor();
-        goodSponsor.setSponsorName(sponsorNameAirForce);
-        goodSponsor.setSponsorCode(sponsorIdAirForce);
-
-        awardGood = new Award();
-        awardGood.setTitle(awardTitleGood);
-        awardGood.setSponsor(goodSponsor); 
+        sponsorGood = new Sponsor();
+        sponsorGood.setSponsorName(sponsorNameAirForce);
+        sponsorGood.setSponsorCode(sponsorIdAirForce);
         
         devProposalGood = new LookupableDevelopmentProposal();
         devProposalGood.setTitle(devProposalTitleGood);
-        devProposalGood.setSponsor(goodSponsor);   
+        devProposalGood.setSponsor(sponsorGood);
+        
+        instProposalGood = new InstitutionalProposal();
+        instProposalGood.setTitle(instProposalTitleGood);
+        instProposalGood.setSponsor(sponsorGood);
+
+        awardGood = new Award();
+        awardGood.setTitle(awardTitleGood);
+        awardGood.setSponsor(sponsorGood);
                 
         inquiryUrl = new AnchorHtmlData();
         inquiryUrl.setHref(inquiryUrlString);
-        
-        instProp = new InstitutionalProposal(){ 
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {}            
-        };
-        instProp.setTitle(instPropTitleGood);
-        Long longInstPropId = Long.valueOf(instPropIdGood);
-        instProp.setProposalId(longInstPropId);
-        instProp.setSponsorCode(goodSponsor.getSponsorCode());
-        instProp.setSponsor(goodSponsor);
-        
-        
-        setBusinessObjectService(new IrbMockServicesHelper.MockBusinessObjectService());
-        getBusinessObjectService().save(instProp);
-
-        
-        parameter = new Parameter("paramName", "paramValue", "paramConstraintCode");
     }    
-    
 
-    
     @Test
-    public void testCalculateSponsorFundingSource() throws Exception {
+    public void testCalculateSponsorFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdAirForce, null);
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdAirForce, sponsorIdAirForce, null);
         assertNotNull(fundingSource);
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
     }
     
     @Test
-    public void testCalculateSponsorFundingSourceNegative() throws Exception {
+    public void testCalculateSponsorFundingSourceBadId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdBad, null);
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdBad, sponsorIdBad, null);
         assertNotNull(fundingSource);
         assertNull(fundingSource.getFundingSourceName());
     }
     
     @Test
+    public void testCalculateSponsorFundingSourceEmptyId() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setSponsorService(getSponsorService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, emptyId, emptyId, null);
+        assertNull(fundingSource);
+    }   
+    
+    @Test
     public void testCalculateUnitFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        final UnitService unitService = context.mock(UnitService.class);
-        context.checking(new Expectations() {{
-            one(unitService).getUnitName(unitIdGood); 
-            will(returnValue(unitNameGood));
-        }});
-        protocolFundingSourceService.setUnitService(unitService);
+        protocolFundingSourceService.setUnitService(getUnitService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitIdGood, null);
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitIdGood, unitIdGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(unitNameGood));
     }   
     
     @Test
-    public void testCalculateUnitFundingSourceNegative() throws Exception {
+    public void testCalculateUnitFundingSourceBadId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        final UnitService unitService = context.mock(UnitService.class);
-        context.checking(new Expectations() {{
-            one(unitService).getUnitName(unitIdBad); 
-            will(returnValue(null));
-        }});
-        protocolFundingSourceService.setUnitService(unitService);
+        protocolFundingSourceService.setUnitService(getUnitService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitIdBad, null);
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitIdBad, unitIdBad, null);
         assertNotNull(fundingSource);
         assertNull(fundingSource.getFundingSourceName());
     }    
 
     @Test
-    public void testCalculateUnitFundingSourceNegative2() throws Exception {
+    public void testCalculateUnitFundingSourceEmptyId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         final UnitService unitService = context.mock(UnitService.class);
 
         protocolFundingSourceService.setUnitService(unitService);
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, emptyId, null);
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, emptyId, emptyId, null);
         assertNull(fundingSource);
-    }    
+    }
+    
+    @Test
+    public void testCalculateOtherFunding() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, otherIdGood, otherIdGood, otherNameGood);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(otherNameGood));
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
+    } 
+    
+    @Test
+    public void testCalculateOtherFundingEmptyId() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, emptyId, emptyId, null);
+        assertNull(fundingSource);
+    }
+    
+    @Test
+    public void testCalculateDevProposalFunding() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdGood, devProposalIdGood, null);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(devProposalTitleGood));
+    } 
+    
+    @Test
+    public void testCalculateDevProposalFundingBadID() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdBad, devProposalIdBad, null);
+        assertNotNull(fundingSource);
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
+    } 
+    
+    @Test
+    public void testCalculateDevProposalFundingNegativeEmptyID() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, emptyId, emptyId, null);
+        assertNull(fundingSource);
+    }
+
+    @Test
+    public void testCalculateInstProposalFunding() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        
+        ProtocolFundingSource fundingSource  = 
+            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalIdGood, instProposalNumberGood, null);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instProposalTitleGood));
+    }     
+    
+    @Test
+    public void testCalculateInstProposalFundingBadIdGoodNumber() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalIdBad, instProposalNumberGood, null);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instProposalTitleGood));
+    }
+    
+    @Test
+    public void testCalculateInstProposalFundingBadIdBadNumber() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalIdBad, instProposalNumberBad, null);
+        assertNotNull(fundingSource);
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
+        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
+    } 
+    
+    @Test
+    public void testCalculateInstProposalFundingNegativeEmpty() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setParameterService(getParameterService());
+        protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        
+        ProtocolFundingSource fundingSource  
+            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, emptyId, emptyId, null);
+        assertNull(fundingSource);
+    }
     
     @Test
     public void testCalculateAwardFunding() throws Exception {
@@ -261,7 +376,21 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
         
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdGood, null);
+        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdGood, awardNumberGood, null);
+        assertNotNull(fundingSource);
+        assertNotNull(fundingSource.getFundingSourceName());
+        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
+        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(awardTitleGood));
+    }
+    
+    @Test
+    public void testCalculateAwardFundingBadIdGoodNumber() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setAwardService(getAwardService());
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
+        protocolFundingSourceService.setParameterService(getParameterService());
+
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdBad, awardNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -269,135 +398,27 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     } 
 
     @Test
-    public void testCalculateAwardFundingNegative() throws Exception {
+    public void testCalculateAwardFundingBadIdBadNumber() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdBad, null);
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardIdBad, awardNumberBad, null);
         assertNotNull(fundingSource);
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
     } 
     
     @Test
-    public void testCalculateAwardFundingNegative2() throws Exception {
+    public void testCalculateAwardFundingEmptyId() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyId, null);
+        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyId, emptyId, null);
         assertNull(fundingSource);
-    } 
-
-    @Test
-    public void testCalculateInstProposalFunding() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
-        
-        ProtocolFundingSource fundingSource  = 
-            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instPropIdGood, null);
-        assertNotNull(fundingSource);
-        assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
-        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(instPropTitleGood));
-    }     
-    
-    @Test
-    public void testCalculateInstProposalFundingNegative() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = 
-            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, devProposalIdBad, null);
-        assertNotNull(fundingSource);
-        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
-        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
-    } 
-    
-    @Test
-    public void testCalculateInstProposalFundingNegative2() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = 
-            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, emptyId, null);
-        assertNull(fundingSource);
-    } 
-    
-    @Test
-    public void testCalculateDevProposalFunding() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdGood, null);
-        assertNotNull(fundingSource);
-        assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
-        assertTrue(fundingSource.getFundingSourceTitle().equalsIgnoreCase(devProposalTitleGood));
-    } 
-    
-    @Test
-    public void testCalculateDevProposalFundingNegative() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalIdBad, null);
-        assertNotNull(fundingSource);
-        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
-        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
-    } 
-    
-    @Test
-    public void testCalculateDevProposalFundingNegative2() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setLookupableDevelopmentProposalService(getDevProposalService());
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, emptyId, null);
-        assertNull(fundingSource);
-
-    } 
-    
-    @Test
-    public void testCalculateOtherFunding() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, "otherId", "otherName");
-        assertNotNull(fundingSource);
-        assertNotNull(fundingSource.getFundingSourceName());
-        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase("otherName"));
-        assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
-    } 
-    
-    @Test
-    public void testCalculateOtherFundingNegative() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, "", "");
-        assertNull(fundingSource);
-    } 
-    
-    
-    @Test
-    public void testIsValidIdForTypeOther() throws Exception {
-        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());       
-        ProtocolFundingSource fundingSource = new ProtocolFundingSource(otherSourceTypeId, fundingOtherSourceType, "otherName", null);
-        assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
-        
-        fundingSource = new ProtocolFundingSource(otherSourceTypeId, fundingOtherSourceType, emptyId, null);
-        assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
     } 
     
     @Test
@@ -424,6 +445,17 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         
         fundingSource = new ProtocolFundingSource(unitIdBad, fundingUnitSourceType, null, null);
         assertFalse(protocolFundingSourceService.isValidIdForType(fundingSource));
+    }
+    
+    @Test
+    public void testIsValidIdForTypeOther() throws Exception {
+        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
+        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());       
+        ProtocolFundingSource fundingSource = new ProtocolFundingSource(otherSourceTypeId, fundingOtherSourceType, "otherName", null);
+        assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
+        
+        fundingSource = new ProtocolFundingSource(otherSourceTypeId, fundingOtherSourceType, emptyId, null);
+        assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
     } 
     
     @Test
@@ -432,57 +464,56 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());    
         protocolFundingSourceService.setAwardService(getAwardService());
         protocolFundingSourceService.setParameterService(getParameterService());
-
-
-        ProtocolFundingSource fundingSource = new ProtocolFundingSource(awardIdGood, fundingAwardSourceType, null, null);
+        ProtocolFundingSource fundingSource = new ProtocolFundingSource(awardIdGood, awardNumberGood, fundingAwardSourceType, null, null);
         assertTrue(protocolFundingSourceService.isValidIdForType(fundingSource));
         
-        fundingSource = new ProtocolFundingSource(awardIdBad, fundingAwardSourceType, null, null);
+        fundingSource = new ProtocolFundingSource(awardIdBad, awardNumberBad, fundingAwardSourceType, null, null);
         assertFalse(protocolFundingSourceService.isValidIdForType(fundingSource));
     } 
 
-    
     @Test
     public void testGetLookupParameters() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        String fieldConversions;
+        StringBuilder builder = new StringBuilder();
         
         Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
         Assert.assertNotNull(entry);
-        fieldConversions = 
-            (String) entry.getValue();
-        Assert.assertThat(fieldConversions, 
-                JUnitMatchers.containsString("sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:"));
+        builder.append("sponsorCode:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("sponsorName:" + protocolFundingSourceName);
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
+        builder.delete(0, builder.length());
 
         entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.UNIT.getLookupName());
         Assert.assertNotNull(entry);
-        fieldConversions = 
-            (String) entry.getValue();
-        Assert.assertThat(fieldConversions, 
-                JUnitMatchers.containsString("unitNumber:protocolHelper.newFundingSource.fundingSource,unitName:"));
+        builder.append("unitNumber:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("unitName:" + protocolFundingSourceName);
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
+        builder.delete(0, builder.length());
         
         entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName());
         Assert.assertNotNull(entry);
-        fieldConversions = 
-            (String) entry.getValue();
-        Assert.assertThat(fieldConversions, 
-                JUnitMatchers.containsString("proposalNumber:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper"));
+        builder.append("proposalNumber:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("sponsor.sponsorName:" + protocolFundingSourceName + Constants.COMMA);
+        builder.append("title:" + protocolFundingSourceTitle);
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
+        builder.delete(0, builder.length());
 
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getLookupName());
+        Assert.assertNotNull(entry);
+        builder.append("proposalId:" + protocolFundingSource + Constants.COMMA);
+        builder.append("proposalNumber:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("sponsor.sponsorName:" + protocolFundingSourceName + Constants.COMMA);
+        builder.append("title:" + protocolFundingSourceTitle);
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
+        builder.delete(0, builder.length());
+        
         entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.AWARD.getLookupName());
         Assert.assertNotNull(entry);
-        fieldConversions = 
-            (String) entry.getValue();
-        Assert.assertThat(fieldConversions, 
-                JUnitMatchers.containsString("awardId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper"));
-
-        
-            entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTE_PROPOSAL.getLookupName());
-            Assert.assertNotNull(entry);
-            fieldConversions = 
-                (String) entry.getValue();
-            Assert.assertThat(fieldConversions, 
-                    JUnitMatchers.containsString("proposalId:protocolHelper.newFundingSource.fundingSource,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsor.sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,title:protocolHelper.newFundingSource.fundingSourceTitle"));
-
+        builder.append("awardId:" + protocolFundingSource + Constants.COMMA);
+        builder.append("awardNumber:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("sponsor.sponsorName:" + protocolFundingSourceName + Constants.COMMA);
+        builder.append("title:" + protocolFundingSourceTitle);
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
             
         try {
             entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getLookupName());
@@ -496,24 +527,21 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     @Test
     public void testUpdateLookupParameter() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        String fieldConversions;
         Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
         Assert.assertNotNull(entry);
-        fieldConversions = 
-            (String) entry.getValue();
-        Assert.assertThat(fieldConversions, 
-                JUnitMatchers.containsString("sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:"));
-        String parameter = KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL+
-                            KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL+
-                            KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL+
-                            KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
+        String fieldConversions = entry.getValue();
+        StringBuilder builder = new StringBuilder();
+        builder.append("sponsorCode:" + protocolFundingSourceNumber + Constants.COMMA);
+        builder.append("sponsorName:" + protocolFundingSourceName);
         
-        String updatedParam = 
-            protocolFundingSourceService.updateLookupParameter(parameter, 
-                    FundingSourceLookup.SPONSOR.getBOClass().getName(), 
-                    fieldConversions);
-        Assert.assertThat(updatedParam, 
-                JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((sponsorCode:protocolHelper.newFundingSource.fundingSource,sponsorName:protocolHelper.newFundingSource.fundingSourceName,sponsorName:protocolHelper.newFundingSource.fundingSourceName.div,)))"));
+        Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
+        String parameter = KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL 
+                            + KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL
+                            + KNSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL
+                            + KNSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
+        String updatedParam 
+            = protocolFundingSourceService.updateLookupParameter(parameter, FundingSourceLookup.SPONSOR.getBOClass().getName(), fieldConversions);
+        Assert.assertThat(updatedParam, JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((" + builder.toString() + ")))"));
 
     }
     
@@ -527,7 +555,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
       assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.OTHER.getFundingTypeCode()));
       assertFalse(protocolFundingSourceService.isViewable(badFundingTypeCode));
 
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.UNIT.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.SPONSOR.getFundingTypeCode()));
       assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.AWARD.getFundingTypeCode()));
@@ -539,7 +567,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
       protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
       protocolFundingSourceService.setParameterService(getParameterService());
       
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTE_PROPOSAL.getFundingTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode())));
       assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.OTHER.getFundingTypeCode())));
       
       assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.AWARD.getFundingTypeCode())));
@@ -556,8 +584,8 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId,
-                sponsorIdAirForce, null);
+        ProtocolFundingSource fundingSource 
+            = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorIdAirForce, sponsorIdAirForce, null);
         assertNotNull(fundingSource);
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
 
@@ -619,26 +647,46 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         return unitService;
     }
 
-    protected AwardService getAwardService() {
-        final AwardService awardService = context.mock(AwardService.class);
-        context.checking(new Expectations() {{
-            allowing(awardService).getAward(awardIdBad); 
-            will(returnValue(null));
-            allowing(awardService).getAward(awardIdGood); 
-            will(returnValue(awardGood));
-        }});
-        return awardService;
-    }
-
     protected LookupableDevelopmentProposalService getDevProposalService() {
         final LookupableDevelopmentProposalService lookupableDevelopmentProposalService = context.mock(LookupableDevelopmentProposalService.class);
         context.checking(new Expectations() {{
-            allowing(lookupableDevelopmentProposalService).getLookupableDevelopmentProposal(devProposalIdBad); 
-            will(returnValue(null));
             allowing(lookupableDevelopmentProposalService).getLookupableDevelopmentProposal(devProposalIdGood); 
             will(returnValue(devProposalGood));
+            allowing(lookupableDevelopmentProposalService).getLookupableDevelopmentProposal(devProposalIdBad); 
+            will(returnValue(null));
         }});
         return lookupableDevelopmentProposalService;
+    }
+    
+    protected InstitutionalProposalService getInstProposalService() {
+        final InstitutionalProposalService institutionalProposalService = context.mock(InstitutionalProposalService.class);
+        context.checking(new Expectations() {{
+            allowing(institutionalProposalService).getInstitutionalProposal(instProposalIdGood); 
+            will(returnValue(instProposalGood));
+            allowing(institutionalProposalService).getInstitutionalProposal(instProposalIdBad); 
+            will(returnValue(null));
+            allowing(institutionalProposalService).getActiveInstitutionalProposalVersion(instProposalNumberGood); 
+            will(returnValue(instProposalGood));
+            allowing(institutionalProposalService).getActiveInstitutionalProposalVersion(instProposalNumberBad); 
+            will(returnValue(null));
+        }});
+        return institutionalProposalService;
+    }
+    
+    @SuppressWarnings("deprecation")
+    protected AwardService getAwardService() {
+        final AwardService awardService = context.mock(AwardService.class);
+        context.checking(new Expectations() {{
+            allowing(awardService).getAward(Long.parseLong(awardIdGood)); 
+            will(returnValue(awardGood));
+            allowing(awardService).getAward(awardIdBad); 
+            will(returnValue(null));
+            allowing(awardService).findAwardsForAwardNumber(awardNumberGood); 
+            will(returnValue(Collections.singletonList(awardGood)));
+            allowing(awardService).findAwardsForAwardNumber(awardNumberBad); 
+            will(returnValue(Collections.emptyList()));
+        }});
+        return awardService;
     }
 
     protected LookupableHelperService getProtocolLookupableHelperServiceForSponsorInquiryUrl() {

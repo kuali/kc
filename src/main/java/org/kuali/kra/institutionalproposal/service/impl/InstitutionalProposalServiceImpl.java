@@ -141,6 +141,19 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     /**
+     * Return an Institutional Proposal, if one exists.
+     * 
+     * @param proposalId String
+     * @return InstitutionalProposal, or null if none is found.
+     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getInstitutionalProposal(String)
+     */
+    public InstitutionalProposal getInstitutionalProposal(String proposalId) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put(InstitutionalProposal.PROPOSAL_ID_PROPERTY_STRING, proposalId);
+        return (InstitutionalProposal) businessObjectService.findByPrimaryKey(InstitutionalProposal.class, criteria);
+    }
+    
+    /**
      * Return the PENDING version of an Institutional Proposal, if one exists.
      * Note, PENDING here refers to the Version Status, NOT the Proposal Status of the Institutional Proposal.
      * 
@@ -184,7 +197,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         
         try {
             for (String proposalNumber : proposalNumbers) {
-                InstitutionalProposal activeVersion = getInstitutionalProposal(proposalNumber);
+                InstitutionalProposal activeVersion = getActiveInstitutionalProposal(proposalNumber);
                 
                 if (activeVersion != null && !ProposalStatus.FUNDED.equals(activeVersion.getStatusCode())) {
                     
@@ -242,7 +255,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         
         try {
             for (String proposalNumber : proposalNumbers) {
-                InstitutionalProposal activeVersion = getInstitutionalProposal(proposalNumber);
+                InstitutionalProposal activeVersion = getActiveInstitutionalProposal(proposalNumber);
                 
                 if (activeVersion != null && activeVersion.isFundedByAward(awardNumber, awardSequence) 
                         && activeVersion.getActiveAwardFundingProposals().size() == 1) {
@@ -289,7 +302,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @return InstitutionalProposal
      */
     @SuppressWarnings("unchecked")
-    protected InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
+    protected InstitutionalProposal getActiveInstitutionalProposal(String proposalNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposalNumber);
         criteria.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
@@ -304,7 +317,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private InstitutionalProposalDocument versionProposal(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget)
         throws VersionException, WorkflowException {
         
-        InstitutionalProposal currentVersion = getInstitutionalProposal(proposalNumber);
+        InstitutionalProposal currentVersion = getActiveInstitutionalProposal(proposalNumber);
         if (currentVersion == null) {
             throw new RuntimeException(NO_PRIOR_VERSION_MESSAGE);
         }

@@ -364,11 +364,11 @@ public class ProtocolSummary implements Serializable {
         return null;
     }
 
-    public FundingSourceSummary findFundingSource(String fundingType, String fundingId) {
-        for (FundingSourceSummary fundingSource : fundingSources) {
-            if (StringUtils.equals(fundingSource.getFundingType(), fundingType) &&
-                StringUtils.equals(fundingSource.getFundingId(), fundingId)) {
-                return fundingSource;
+    public FundingSourceSummary findFundingSource(String fundingSourceType, String fundingSource) {
+        for (FundingSourceSummary source : fundingSources) {
+            if (StringUtils.equals(source.getFundingSourceType(), fundingSourceType) 
+                    && StringUtils.equals(source.getFundingSource(), fundingSource)) {
+                return source;
             }
         }
         return null;

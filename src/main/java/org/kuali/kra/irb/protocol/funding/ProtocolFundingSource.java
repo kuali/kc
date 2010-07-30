@@ -23,9 +23,10 @@ import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * 
@@ -37,29 +38,55 @@ public class ProtocolFundingSource extends ProtocolAssociate {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6137366673402413087L;
+    
     private Long protocolFundingSourceId;
     private Integer fundingSourceTypeCode;
     private String fundingSource;
+    private transient String fundingSourceNumber;
     private FundingSourceType fundingSourceType;
-
-    private String fundingSourceTitle;
     private String fundingSourceName;
+    private transient String fundingSourceTitle;
     
     private Unit fundingUnit;
     private Sponsor fundingSponsor;
-    private DevelopmentProposal fundingProposal;
+    private DevelopmentProposal fundingDevelopmentProposal;
+    private InstitutionalProposal fundingInstitutionalProposal;
     private Award fundingAward;
     
+    /**
+     * Empty constructor for database.
+     */
     public ProtocolFundingSource() {
     }
     
-    public ProtocolFundingSource(String fundingSource, FundingSourceType fundingSourceType,String fundingSourceName,String fundingSourceTitle) {
+    /**
+     * Constructs a ProtocolFundingSource.
+     * @param fundingSource The foreign key ID to the funding source
+     * @param fundingSourceType The type of the funding source
+     * @param fundingSourceName The name of the funding source
+     * @param fundingSourceTitle The title of the funding source
+     */
+    public ProtocolFundingSource(String fundingSource, FundingSourceType fundingSourceType, String fundingSourceName, String fundingSourceTitle) {
+        this(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle);
+    }
+    
+    /**
+     * Constructs a ProtocolFundingSource.
+     * @param fundingSource The foreign key ID to the funding source
+     * @param fundingSourceNumber The user-readable number of the funding source (often the same as fundingSource)
+     * @param fundingSourceType The type of the funding source
+     * @param fundingSourceName The name of the funding source
+     * @param fundingSourceTitle The title of the funding source
+     */
+    public ProtocolFundingSource(String fundingSource, String fundingSourceNumber, FundingSourceType fundingSourceType, String fundingSourceName, 
+            String fundingSourceTitle) {
         this.fundingSource = fundingSource;
-        this.fundingSourceType= fundingSourceType;
+        this.fundingSourceNumber = fundingSourceNumber;
+        this.fundingSourceType = fundingSourceType;
         this.fundingSourceName = fundingSourceName;
         this.fundingSourceTitle = fundingSourceTitle;
         if  (fundingSourceType != null) {
-            this.fundingSourceTypeCode= fundingSourceType.getFundingSourceTypeCode();
+            this.fundingSourceTypeCode = fundingSourceType.getFundingSourceTypeCode();
         }
     }
     
@@ -79,20 +106,32 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.fundingSponsor = fundingSponsor;
     }
 
-    public DevelopmentProposal getFundingProposal() {
-        if (ProtocolFundingSourceServiceImpl.FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode() 
+    public DevelopmentProposal getFundingDevelopmentProposal() {
+        if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
                 && StringUtils.isNotBlank(getFundingSource())) {
-            this.refreshReferenceObject("fundingProposal");
+            this.refreshReferenceObject("fundingDevelopmentProposal");
         }
-        return fundingProposal;
+        return fundingDevelopmentProposal;
     }
 
-    public void setFundingProposal(DevelopmentProposal fundingProposal) {
-        this.fundingProposal = fundingProposal;
+    public void setFundingDevelopmentProposal(DevelopmentProposal fundingDevelopmentProposal) {
+        this.fundingDevelopmentProposal = fundingDevelopmentProposal;
+    }
+    
+    public InstitutionalProposal getFundingInstitutionalProposal() {
+        if (FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
+                && StringUtils.isNotBlank(getFundingSource())) {
+            this.refreshReferenceObject("fundingInstitutionalProposal");
+        }
+        return fundingInstitutionalProposal;
+    }
+
+    public void setFundingInstitutionalProposal(InstitutionalProposal fundingInstitutionalProposal) {
+        this.fundingInstitutionalProposal = fundingInstitutionalProposal;
     }
 
     public Award getFundingAward() {
-        if (ProtocolFundingSourceServiceImpl.FundingSourceLookup.AWARD.getFundingTypeCode()==getFundingSourceType().getFundingSourceTypeCode()         
+        if (FundingSourceLookup.AWARD.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode()         
                 && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingAward");
         }
@@ -118,8 +157,6 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     public void setFundingSourceName(String fundingSourceName) {
         this.fundingSourceName = fundingSourceName;
     }
-
-
 
     public Long getProtocolFundingSourceId() {
         return protocolFundingSourceId;
@@ -156,6 +193,14 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;
     }
+    
+    public String getFundingSourceNumber() {
+        return fundingSourceNumber;
+    }
+    
+    public void setFundingSourceNumber(String fundingSourceNumber) {
+        this.fundingSourceNumber = fundingSourceNumber;
+    }
 
     public FundingSourceType getFundingSourceType() {
         return fundingSourceType;
@@ -175,6 +220,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         hashMap.put("protocolFundingSourceId", getProtocolFundingSourceId());
         hashMap.put("fundingSourceTypeCode", getFundingSourceTypeCode());
         hashMap.put("fundingSource", getFundingSource());
+        hashMap.put("fundingSourceNumber", getFundingSourceNumber());
         hashMap.put("fundingSourceName", getFundingSourceName());
         hashMap.put("fundingSourceTitle", getFundingSourceTitle());
         return hashMap;
