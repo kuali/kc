@@ -51,7 +51,7 @@ public interface PermissionConstants {
     public static final String CREATE_AMMENDMENT = "Create Ammendment";
     public static final String CREATE_RENEWAL = "Create Renewal";
     public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "MAINTAIN_PROTOCOL_RELATED_PROJ";
-    public static final String EDIT_PROTOCOL_BILLABLE = "EDIT_PROTOCOL_BILLABLE";
+    public static final String EDIT_PROTOCOL_BILLABLE = "Edit Protocol Billable";
     public static final String ADMINSTRATIVE_CORRECTION = "Administrative Correction";
     public static final String MAINTAIN_IRB_CORRESP_TEMPLATE = "MAINTAIN_IRB_CORRESP_TEMPLATE";
     public static final String MAINTAIN_PROTOCOL_SUBMISSIONS = "Maintain Protocol Submissions";
