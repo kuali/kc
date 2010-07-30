@@ -23,30 +23,24 @@ public class FundingSourceSummary implements Serializable {
 
     private static final long serialVersionUID = -9005092006555888615L;
     
-    private String fundingType;
-    private String fundingId;
+    private String fundingSourceType;
     private String fundingSource;
-    private String title;
+    private String fundingSourceNumber;
+    private String fundingSourceName;
+    private String fundingSourceTitle;
     
-    private boolean fundingTypeChanged;
-    private boolean fundingIdChanged;
+    private boolean fundingSourceTypeChanged;
     private boolean fundingSourceChanged;
-    private boolean titleChanged;
+    private boolean fundingSourceNumberChanged;
+    private boolean fundingSourceNameChanged;
+    private boolean fundingSourceTitleChanged;
     
-    public String getFundingType() {
-        return fundingType;
+    public String getFundingSourceType() {
+        return fundingSourceType;
     }
     
-    public void setFundingType(String fundingType) {
-        this.fundingType = fundingType;
-    }
-    
-    public String getFundingId() {
-        return fundingId;
-    }
-    
-    public void setFundingId(String fundingId) {
-        this.fundingId = fundingId;
+    public void setFundingSourceType(String fundingSourceType) {
+        this.fundingSourceType = fundingSourceType;
     }
     
     public String getFundingSource() {
@@ -57,43 +51,64 @@ public class FundingSourceSummary implements Serializable {
         this.fundingSource = fundingSource;
     }
     
-    public String getTitle() {
-        return title;
+    public String getFundingSourceNumber() {
+        return fundingSourceNumber;
     }
     
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFundingSourceNumber(String fundingSourceNumber) {
+        this.fundingSourceNumber = fundingSourceNumber;
+    }
+    
+    public String getFundingSourceName() {
+        return fundingSourceName;
+    }
+    
+    public void setFundingSourceName(String fundingSourceName) {
+        this.fundingSourceName = fundingSourceName;
+    }
+    
+    public String getFundingSourceTitle() {
+        return fundingSourceTitle;
+    }
+    
+    public void setFundingSourceTitle(String fundingSourceTitle) {
+        this.fundingSourceTitle = fundingSourceTitle;
     }
 
-    public boolean isFundingTypeChanged() {
-        return fundingTypeChanged;
-    }
-
-    public boolean isFundingIdChanged() {
-        return fundingIdChanged;
+    public boolean isFundingSourceTypeChanged() {
+        return fundingSourceTypeChanged;
     }
 
     public boolean isFundingSourceChanged() {
         return fundingSourceChanged;
     }
+    
+    public boolean isFundingSourceNumberChanged() {
+        return fundingSourceNumberChanged;
+    }
 
-    public boolean isTitleChanged() {
-        return titleChanged;
+    public boolean isFundingSourceNameChanged() {
+        return fundingSourceNameChanged;
+    }
+
+    public boolean isFundingSourceTitleChanged() {
+        return fundingSourceTitleChanged;
     }
 
     public void compare(ProtocolSummary other) {
-        FundingSourceSummary otherFundingSource = other.findFundingSource(fundingType, fundingId);
+        FundingSourceSummary otherFundingSource = other.findFundingSource(fundingSourceType, fundingSource);
         if (otherFundingSource == null) {
-            fundingTypeChanged = true;
-            fundingIdChanged = true;
+            fundingSourceTypeChanged = true;
             fundingSourceChanged = true;
-            titleChanged = true;
-        }
-        else {
-            fundingTypeChanged = !StringUtils.equals(fundingType, otherFundingSource.fundingType);
-            fundingIdChanged = !StringUtils.equals(fundingId, otherFundingSource.fundingId);
-            fundingSourceChanged = !StringUtils.equals(fundingSource, otherFundingSource.fundingSource);
-            titleChanged = !StringUtils.equals(title, otherFundingSource.title);
+            fundingSourceNumberChanged = true;
+            fundingSourceNameChanged = true;
+            fundingSourceTitleChanged = true;
+        } else {
+            fundingSourceTypeChanged = !StringUtils.equals(fundingSourceType, otherFundingSource.getFundingSourceType());
+            fundingSourceChanged = !StringUtils.equals(fundingSource, otherFundingSource.getFundingSource());
+            fundingSourceNumberChanged = !StringUtils.equals(fundingSourceNumber, otherFundingSource.getFundingSourceNumber());
+            fundingSourceNameChanged = !StringUtils.equals(fundingSourceName, otherFundingSource.getFundingSourceName());
+            fundingSourceTitleChanged = !StringUtils.equals(fundingSourceTitle, otherFundingSource.getFundingSourceTitle());
         }
     }
 }

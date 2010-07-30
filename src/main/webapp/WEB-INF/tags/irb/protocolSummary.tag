@@ -131,7 +131,7 @@
         <tr>
             <th style="width: 50px;">&nbsp;</th>
             <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Funding Type</td>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Funding ID</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Funding Number</td>
             <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Source</td>
             <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Title</td>              
         </tr>
@@ -139,10 +139,10 @@
         <c:forEach items="${protocolSummary.fundingSources}" var="fundingSource" varStatus="status">
             <tr>
                 <th style="width:50px">${status.index + 1}</th>
-                <td class="${fundingSource.fundingTypeChanged ? 'changed' : ''}">${fundingSource.fundingType}</td>
-                <td class="${fundingSource.fundingIdChanged ? 'changed' : ''}">${fundingSource.fundingId}</td>
-                <td class="${fundingSource.fundingSourceChanged ? 'changed' : ''}">${fundingSource.fundingSource}</td>
-                <td class="${fundingSource.titleChanged ? 'changed' : ''}">${fundingSource.title}&nbsp;</td>
+                <td class="${fundingSource.fundingSourceTypeChanged ? 'changed' : ''}">${fundingSource.fundingSourceType}</td>
+                <td class="${fundingSource.fundingSourceNumberChanged ? 'changed' : ''}">${fundingSource.fundingSourceNumber}</td>
+                <td class="${fundingSource.fundingSourceNameChanged ? 'changed' : ''}">${fundingSource.fundingSourceName}</td>
+                <td class="${fundingSource.fundingSourceTitleChanged ? 'changed' : ''}">${fundingSource.fundingSourceTitle}&nbsp;</td>
            </tr>
         </c:forEach>
     </tbody>

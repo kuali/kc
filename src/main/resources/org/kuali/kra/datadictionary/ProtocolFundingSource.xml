@@ -38,6 +38,7 @@
 				<ref bean="ProtocolFundingSource-sequenceNumber" />
 				<ref bean="ProtocolFundingSource-fundingSourceTypeCode" />
                 <ref bean="ProtocolFundingSource-fundingSource" />
+                <ref bean="ProtocolFundingSource-fundingSourceNumber" />
                 <ref bean="ProtocolFundingSource-fundingSourceName" />
                 <ref bean="ProtocolFundingSource-fundingSourceTitle" />
 				<ref bean="ProtocolFundingSource-versionNumber" />
@@ -157,12 +158,30 @@
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
 		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="21" />
-		</property>
+            <bean parent="HiddenControlDefinition"/>
+        </property>
 		<property name="summary" value="Funding Source Id" />
 		<property name="description" value="Funding Source Id" />
 	</bean>
+	
+	<bean id="ProtocolFundingSource-fundingSourceNumber" parent="ProtocolFundingSource-fundingSourceNumber-parentBean" />
+	<bean id="ProtocolFundingSource-fundingSourceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fundingSourceNumber" />
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Funding Number" />
+        <property name="shortLabel" value="Funding Number" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+	    <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="21" />
+        </property>
+        <property name="summary" value="Funding Source Number" />
+        <property name="description" value="Funding Source Number" />
+  </bean>
 
 	<bean id="ProtocolFundingSource-versionNumber" parent="ProtocolFundingSource-versionNumber-parentBean" />
 	<bean id="ProtocolFundingSource-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

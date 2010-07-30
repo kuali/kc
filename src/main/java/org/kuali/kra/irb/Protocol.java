@@ -1478,12 +1478,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     }
 
     private void addFundingSourceSummaries(ProtocolSummary protocolSummary) {
-        for (ProtocolFundingSource fundingSource : getProtocolFundingSources()) {
+        for (ProtocolFundingSource source : getProtocolFundingSources()) {
             FundingSourceSummary fundingSourceSummary = new FundingSourceSummary();
-            fundingSourceSummary.setFundingType(fundingSource.getFundingSourceType().getDescription());
-            fundingSourceSummary.setFundingId(fundingSource.getFundingSource());
-            fundingSourceSummary.setFundingSource(fundingSource.getFundingSourceName());
-            fundingSourceSummary.setTitle(fundingSource.getFundingSourceTitle());
+            fundingSourceSummary.setFundingSourceType(source.getFundingSourceType().getDescription());
+            fundingSourceSummary.setFundingSource(source.getFundingSource());
+            fundingSourceSummary.setFundingSourceNumber(source.getFundingSourceNumber());
+            fundingSourceSummary.setFundingSourceName(source.getFundingSourceName());
+            fundingSourceSummary.setFundingSourceTitle(source.getFundingSourceTitle());
             protocolSummary.add(fundingSourceSummary);
         }
     }
