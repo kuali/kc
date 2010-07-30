@@ -39,6 +39,7 @@
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
         <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
+        <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -334,6 +335,9 @@
       
       <action path="/protocolCorrespondenceTemplate" name="ProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolCorrespondenceTemplate.jsp" />
+      </action>
+      <action path="/protocolNotificationTemplate" name="ProtocolNotificationTemplateForm" input="/WEB-INF/jsp/irb/ProtocolNotificationTemplate.jsp" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationTemplate.jsp" />
       </action>
 
       <action path="/batchCorrespondenceDetail" name="BatchCorrespondenceDetailForm" input="/WEB-INF/jsp/irb/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
