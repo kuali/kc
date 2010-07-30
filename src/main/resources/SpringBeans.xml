@@ -173,6 +173,7 @@
 				<value>questionnaireLookupable</value>
 				<value>questionLookupable</value>
 				<value>kcPersonLookupable</value>
+				<value>kcPersonExtendedAttributesLookupable</value>
 				<value>institutionalProposalLookupable</value>
 				<value>proposalLogLookupable</value>
 				<value>proposalDevelopmentLookupable</value>
@@ -343,6 +344,16 @@
  		<property name="kcPersonService">
  			<ref bean="kcPersonService" />
  		</property>
+  	</bean>
+  	
+  	<bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="kcPersonExtendedAttributesLookupableHelperService" />
+  		</property>  		
+	</bean>	
+  	
+  	<bean id="kcPersonExtendedAttributesLookupableHelperService" class="org.kuali.kra.lookup.KcPersonExtendedAttributesLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
   	</bean>
     
     <bean id="kualiGroupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">

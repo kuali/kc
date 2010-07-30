@@ -53,17 +53,19 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean"/>
-
-  <bean abstract="true" id="KcPersonExtendedAttributes-personId-parentBean" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="personId"/>
-    <property name="label" value="KcPersonExtendedAttributes Id"/>
-    <property name="shortLabel" value="KcPersonExtendedAttributes Id"/>
-    <property name="maxLength" value="40"/>
-    <property name="summary" value="KcPersonExtendedAttributes Id"/>
-    <property name="description" value="KcPersonExtendedAttributes Id"/>
+  <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean" />
+  <bean id="KcPersonExtendedAttributes-personId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="personId" />
+    <property name="label" value="KcPersonExtendedAttributes Id" />
+    <property name="shortLabel" value="KcPersonExtendedAttributes Id" />
+    <property name="maxLength" value="40" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="summary" value="KcPersonExtendedAttributes Id" />
+    <property name="description" value="KcPersonExtendedAttributes Id" />
   </bean>
+
   <bean id="KcPersonExtendedAttributes-ageByFiscalYear" parent="KcPersonExtendedAttributes-ageByFiscalYear-parentBean"/>
   
   <bean abstract="true" id="KcPersonExtendedAttributes-ageByFiscalYear-parentBean" parent="AttributeDefinition">
@@ -485,6 +487,7 @@
 
   <bean abstract="true" id="KcPersonExtendedAttributes-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="KcPersonExtendedAttributes Lookup"/>
+    <property name="lookupableID" value="kcPersonExtendedAttributesLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
     <property name="defaultSort">
       <bean parent="SortDefinition">
