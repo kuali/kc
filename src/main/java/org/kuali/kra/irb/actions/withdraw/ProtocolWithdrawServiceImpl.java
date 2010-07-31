@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -29,6 +30,7 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.WithdrawEvent;
+import org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -45,6 +47,7 @@ import org.kuali.rice.kns.service.DocumentService;
  */
 public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
+    private static final Logger LOG = Logger.getLogger(ProtocolWithdrawServiceImpl.class);
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
@@ -118,7 +121,12 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          */
         cancelWorkflow(protocol);
         //sendWithdrawNotification(protocol);
-//        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
+        LOG.info("withdraw notification exception start" );
+        try {
+            protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
+        } catch (Exception e) {
+            LOG.info("withdraw notification exception " + e.getStackTrace());
+        }
 
         /*
          * Create a new protocol document for the user to edit so they can re-submit at 
