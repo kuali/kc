@@ -400,6 +400,7 @@
 			    <value>/org/kuali/kra/irb/withdraw_notification.xml</value>
             </list>
 		</property>
+		<property name="identityManagementService" ref = "identityManagementService"/>
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">

@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -42,8 +43,8 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     private ProtocolReviewerType protocolReviewerType;
     // transient property for submission detail display
     private String fullName;
-
-    private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
+    @SkipVersioning
+    transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
 
     public ProtocolReviewer() {
         
