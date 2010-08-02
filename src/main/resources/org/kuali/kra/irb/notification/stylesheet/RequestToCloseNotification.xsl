@@ -16,26 +16,12 @@
 			<xsl:value-of select="pi/firstName" />
 			<xsl:text> </xsl:text>
 			<xsl:value-of select="pi/lastName" />
-			has been
+			has had the action "Request to close" performed on it. 
 			<br />
-			withdrawn from review by
-			<xsl:for-each select="protocolReviewers/reviewer">
-				<xsl:variable name="i">
-					<xsl:value-of select="idx" />
-				</xsl:variable>
-				<xsl:choose>
-					<xsl:when test="$i = 0">
-						<xsl:value-of select="fullName" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>, </xsl:text>
-						<xsl:value-of select="fullName" />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>
-			.
-			<br />
-			The protocol may now be modified and resubmitted.
+			The action was executed by 
+						<xsl:value-of select="user/firstName" />
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="user/lastName" />. Additional information and further actions can be accessed through the Kuali Coeus system. 
 		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
