@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -28,9 +26,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.ken.service.NotificationService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -41,10 +36,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     private static final Logger LOG = Logger.getLogger(ProtocolRequestServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
-    private NotificationService notificationService;
-    private RoleService kimRoleManagementService;
-    private KcPersonService kcPersonService;
-    private List<String> requestTemplates;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
 
     /**
@@ -124,22 +115,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
        // RequestToCloseEvent event1 = new RequestToCloseEvent();
         event.setProtocol(protocol);
         protocolActionsNotificationService.sendActionsNotification(protocol, event);
-    }
-
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-
-    public void setKimRoleManagementService(RoleService kimRoleManagementService) {
-        this.kimRoleManagementService = kimRoleManagementService;
-    }
-
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-
-    public void setRequestTemplates(List<String> requestTemplates) {
-        this.requestTemplates = requestTemplates;
     }
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
