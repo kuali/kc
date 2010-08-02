@@ -79,6 +79,8 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.summary.ResearchAreaSummary;
 import org.kuali.kra.irb.summary.SpecialReviewSummary;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -180,6 +182,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private List<ProtocolAmendRenewal> protocolAmendRenewals;
     
     private boolean correctionMode = false;
+    
+    private transient DateTimeService dateTimeService;
+    
     /**
      * 
      * Constructs an Protocol BO.
@@ -928,6 +933,17 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         ProtocolAttachmentBase.removeAttachmentFromCollection(attachmentPersonnel, this.getAttachmentPersonnels());
     }
     
+    private void updateUserFields(KraPersistableBusinessObjectBase bo) {
+        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
+    
+        // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+        if (updateUser.length() > 60) {
+            updateUser = updateUser.substring(0, 60);
+        }
+        bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        bo.setUpdateUser(updateUser);
+    }
+    
     /**
      * Adds a attachment to a Protocol where the type of attachment is used to determine
      * where to add the attachment.
@@ -939,6 +955,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
             throw new IllegalArgumentException("the attachment is null");
         }
         
+        updateUserFields(attachment);
         if (attachment instanceof ProtocolAttachmentProtocol) {
             this.addAttachmentProtocol((ProtocolAttachmentProtocol) attachment);
         } else if (attachment instanceof ProtocolAttachmentPersonnel) {
@@ -1668,5 +1685,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     public void setCorrectionMode(boolean correctionMode) {
         this.correctionMode = correctionMode;
+    }
+    
+    protected DateTimeService getDateTimeService() {
+        if(dateTimeService == null) {
+            dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
+        }
+        return dateTimeService;
     }
 }
