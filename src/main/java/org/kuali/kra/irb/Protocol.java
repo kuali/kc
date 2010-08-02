@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -167,7 +168,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
-    private List<ProtocolOnlineReview> protocolOnlineReviews;
+    @SkipVersioning
+    transient private List<ProtocolOnlineReview> protocolOnlineReviews;
   
     private ProtocolSubmission protocolSubmission;
     

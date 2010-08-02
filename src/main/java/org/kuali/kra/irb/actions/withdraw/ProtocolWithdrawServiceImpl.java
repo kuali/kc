@@ -35,12 +35,16 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * The ProtocolWithdrawService implementation.
@@ -57,8 +61,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private KraAuthorizationService kraAuthorizationService;
     private NotificationService notificationService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
+    private IdentityManagementService identityManagementService;
     private List<String> notificationTemplates;
-
+    
     /**
      * Set the document service.
      * @param documentService
@@ -120,6 +125,12 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
          * Cancelling the workflow document is how we withdraw it.
          */
         cancelWorkflow(protocol);
+               
+        //need to cancel any outstanding review documents
+        for (ProtocolOnlineReview review : protocol.getProtocolOnlineReviews()) {
+            cancelWorkflow(review);
+        }
+        
         //sendWithdrawNotification(protocol);
         LOG.info("withdraw notification exception start" );
         try {
@@ -184,6 +195,19 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private void cancelWorkflow(Protocol protocol) throws WorkflowException {
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
+  
+    private void cancelWorkflow(ProtocolOnlineReview review) {
+        final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+        try {
+            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+            workflowDocument.superUserCancel("Review cancelled - protocol has been withdrawn.");
+        }
+        catch (WorkflowException e) {
+           LOG.error(String.format("WorkflowException generated when cancel called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
+           throw new RuntimeException(String.format("WorkflowException generated when cancel called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
+        }
+    }
+    
 
     /**
      * Get the submission that is being withdrawn.  Since a protocol can have
@@ -250,5 +274,9 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
         this.protocolActionsNotificationService = protocolActionsNotificationService;
+    }
+
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
 }
