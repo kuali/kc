@@ -35,6 +35,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
     private String comments;
     private boolean restrictedView;
     private String noteTopic;
+    private boolean changed;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -241,17 +242,25 @@ public class ProtocolNotepad extends ProtocolAssociate {
     
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        if (updateTimestamp == null || getUpdateTimestamp() == null) {
+        if (updateTimestamp == null || getUpdateTimestamp() == null || isChanged()) {
             super.setUpdateTimestamp(updateTimestamp);
         }
     }
 
     @Override
     public void setUpdateUser(String updateUser) {
-        if (updateUser == null || getUpdateUser() == null ) {
+        if (updateUser == null || getUpdateUser() == null || isChanged() ) {
             super.setUpdateUser(updateUser);
         }
     }
 
+    public boolean isChanged() {
+        return changed;
+    }
 
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+    
+    
 }

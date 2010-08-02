@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -28,6 +29,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -37,7 +39,7 @@ public class ProtocolNotepadHelper {
     
     private final TaskAuthorizationService authService;
     private final BusinessObjectService boService;
-    
+    private final DateTimeService dateTimeService;
     private final ProtocolForm form;
     
     private ProtocolNotepad newProtocolNotepad;
@@ -51,7 +53,7 @@ public class ProtocolNotepadHelper {
      * @throws IllegalArgumentException if the form is null
      */
     public ProtocolNotepadHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), KraServiceLocator.getService(BusinessObjectService.class));
+        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), KraServiceLocator.getService(BusinessObjectService.class), KraServiceLocator.getService(DateTimeService.class));
         
     }
     
@@ -63,7 +65,7 @@ public class ProtocolNotepadHelper {
      * @throws IllegalArgumentException if the form or authService or boService is null
      */
     ProtocolNotepadHelper(final ProtocolForm form,
-        final TaskAuthorizationService authService, final BusinessObjectService boService) {
+        final TaskAuthorizationService authService, final BusinessObjectService boService, final DateTimeService dateTimeService) {
         
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
@@ -80,6 +82,7 @@ public class ProtocolNotepadHelper {
         this.form = form;
         this.authService = authService;
         this.boService = boService;
+        this.dateTimeService = dateTimeService;
     }
     
     /**
@@ -222,6 +225,29 @@ public class ProtocolNotepadHelper {
         this.initProtocolNotepad();
     }
     
+    void processSave() {
+        //process update user fields for note BOs
+        for(ProtocolNotepad note: this.getProtocol().getNotepads()) {
+            updateUserFieldsIfNecessary(note); 
+        }
+
+    }
+    
+    /**
+     * Update the User and Timestamp for the business object.
+     * @param doc the business object
+     */
+    private void updateUserFields(KraPersistableBusinessObjectBase bo) {
+        String updateUser = GlobalVariables.getUserSession().getPrincipalName();
+    
+        // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+        if (updateUser.length() > 60) {
+            updateUser = updateUser.substring(0, 60);
+        }
+        bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        bo.setUpdateUser(updateUser);
+    }
+    
     /**
      * Gets the selected notepad based on an index.  If the index is not valid this method will return null.
      * @param selection the index
@@ -231,6 +257,17 @@ public class ProtocolNotepadHelper {
         return CollectionUtil.getFromList(selection, getProtocol().getNotepads());
     }
     
+    void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
+        if (currentNote != null) {
+            ProtocolNotepad persistedNote = (ProtocolNotepad) this.boService.findBySinglePrimaryKey(ProtocolNotepad.class, currentNote.getId());
+            if(!currentNote.equals(persistedNote)) {
+                currentNote.setChanged(true);
+                updateUserFields(currentNote);
+                currentNote.setChanged(false);
+            }
+        }
+    }
+    
     /**
      * Updates (saves) the selected notepad based on an index.  If the index is not valid this method will do nothing.
      * @param selection the indexs
@@ -238,7 +275,9 @@ public class ProtocolNotepadHelper {
     void updateNotepad(int selection) {
         final ProtocolNotepad notepad = this.getSelectedNotepad(selection);
         if (notepad != null) {
+            updateUserFieldsIfNecessary(notepad);
             this.boService.save(notepad);
+            notepad.setChanged(false);
         }
     }
     
@@ -248,6 +287,7 @@ public class ProtocolNotepadHelper {
      */
     private void addNewNotepad(final ProtocolNotepad notepad) {
         final List<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
+        updateUserFields(this.getNewProtocolNotepad());
         notepads.add(this.getNewProtocolNotepad());
         this.getProtocol().setNotepads(notepads);        
     }
