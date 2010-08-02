@@ -18,6 +18,9 @@ package org.kuali.kra.irb.auth;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The Modify Protocol Authorizer checks to see if the user has 
@@ -46,10 +49,24 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
             /*
              * After the initial save, the protocol can only be modified has the required permission.
              */
-            hasPermission = !protocol.getProtocolDocument().isViewOnly() &&
+            hasPermission = !protocol.getProtocolDocument().isViewOnly() && 
+                            !isPessimisticLocked(protocol.getProtocolDocument()) &&
                             (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) || protocol.isCorrectionMode()) &&
                             hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL);
+
         }
         return hasPermission;
     }
+    
+    private boolean isPessimisticLocked(Document document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
+    }
+
 }
