@@ -16,9 +16,12 @@
 			<xsl:value-of select="pi/firstName" />
 			<xsl:text> </xsl:text>
 			<xsl:value-of select="pi/lastName" />
-			is notifying IRB.
+			has had the action "Notify IRB" performed on it. 
 			<br />
-			There is change to this protocol.
+			The action was executed by 
+						<xsl:value-of select="user/firstName" />
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="user/lastName" />. Additional information and further actions can be accessed through the Kuali Coeus system. 
 		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
