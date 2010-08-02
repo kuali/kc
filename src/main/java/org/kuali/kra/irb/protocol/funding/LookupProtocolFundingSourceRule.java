@@ -20,36 +20,57 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.springframework.util.StringUtils;
+import org.kuali.rice.kns.util.MessageMap;
 
+/**
+ * Validates the conditions necessary for looking up a funding source in the system.
+ */
 public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<LookupProtocolFundingSourceEvent> {
 
+    private static MessageMap messageMap = GlobalVariables.getMessageMap();
+    
+    /**
+     * ${@inheritDoc}
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
     public boolean processRules(LookupProtocolFundingSourceEvent event) {
-        return isValidLookup(event.getLookupBoName());
+        boolean valid = true;
+        
+        if (event.getFundingSourceTypeCode() == null) {
+            messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
+            valid = false;            
+        } else {
+            valid &= isValidLookup(event.getFundingSourceTypeCode());
+        }
+        
+        return valid;
     }
     
-    private boolean isValidLookup(String boClassName) {
+    /**
+     * Throws a validation error if the lookup is of type Other or an unknown type.
+     * @param typeCode
+     * @return
+     */
+    private boolean isValidLookup(Integer typeCode) {
         boolean isValid = true;
-        ErrorMap errMap = GlobalVariables.getErrorMap();
-        if (!StringUtils.hasText(boClassName)) { 
-            errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
-            isValid = false;            
-        } else if (!boClassName.equalsIgnoreCase(FundingSourceLookup.SPONSOR.getLookupName())
-                && !boClassName.equalsIgnoreCase(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getLookupName())
-                && !boClassName.equalsIgnoreCase(FundingSourceLookup.AWARD.getLookupName())
-                && !boClassName.equalsIgnoreCase(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName())
-                && !boClassName.equalsIgnoreCase(FundingSourceLookup.UNIT.getLookupName()) ) { 
-            
-            if (boClassName.equalsIgnoreCase(FundingSourceLookup.OTHER.getLookupName())) {
-               errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL, boClassName);
-               isValid = false;
-           } else { 
-               errMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
-               isValid = false;            
-           }
-       }   
+     
+        if (!typeCode.equals(FundingSourceLookup.SPONSOR.getTypeCode())
+                && !typeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())
+                && !typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
+                && !typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
+                && !typeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) { 
+            if (typeCode.equals(FundingSourceLookup.OTHER.getTypeCode())) {
+                String name = FundingSourceLookup.OTHER.getBOClass().getName();
+                messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL, name);
+                isValid = false;
+            } else { 
+                messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
+                isValid = false;            
+            }
+        }   
+       
         return isValid;
     }
+    
 }
