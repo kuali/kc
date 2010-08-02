@@ -92,7 +92,7 @@ public class DataAnalysisEvent extends NotificationEventBase {
 
     public String getTemplatePath() {
         // TODO Auto-generated method stub
-        return "/org/kuali/kra/printing/stylesheet/ProtocolNotificationDummy.xsl";
+        return "/org/kuali/kra/irb/notification/stylesheet/DataAnalysisNotification.xsl";
     }
 
     /**
