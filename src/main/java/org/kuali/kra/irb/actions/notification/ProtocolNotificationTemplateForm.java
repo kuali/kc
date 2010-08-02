@@ -82,7 +82,7 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         ProtocolNotificationTemplate template = new ProtocolNotificationTemplate();
         template.setActionTypeCode(actionTypeCode);
         template.setFileName(fileName);
-        template.setNotificationTemplate(getFileContent("/org/kuali/kra/printing/stylesheet/"+fileName));
+        template.setNotificationTemplate(getFileContent("/org/kuali/kra/irb/notification/stylesheet/"+fileName));
         template.refreshReferenceObject("protocolActionType");
         return template;
 

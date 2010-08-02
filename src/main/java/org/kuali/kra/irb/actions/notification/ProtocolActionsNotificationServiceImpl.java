@@ -38,6 +38,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.w3c.dom.Document;
@@ -118,6 +119,8 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
             documentNumber.setTextContent(protocol.getProtocolDocument().getDocumentNumber());
             Element pi = (Element) notificationRequestDocument.getElementsByTagName("pi").item(0);
             setPi(pi, protocol.getPrincipalInvestigator());
+            Element user = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
+            setUser(user);
             Element reviewers = (Element) notificationRequestDocument.getElementsByTagName("protocolReviewers").item(0);
             setReviewerNames(reviewers, protocol.getProtocolSubmission().getProtocolReviewers());
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
@@ -175,6 +178,16 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
             }
         }
         catch (Exception e) {
+
+        }
+    }
+    
+    private void setUser(Element userNode) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        try {
+                XmlHelper.appendXml(userNode, "<firstName>" + person.getFirstName() + "</firstName>");
+                XmlHelper.appendXml(userNode, "<lastName>" + person.getLastName() + "</lastName>");
+        }  catch (Exception e) {
 
         }
     }
