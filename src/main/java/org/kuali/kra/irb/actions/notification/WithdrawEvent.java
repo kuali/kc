@@ -89,7 +89,7 @@ public class WithdrawEvent extends NotificationEventBase {
 
     public String getTemplatePath() {
         // TODO Auto-generated method stub
-        return "/org/kuali/kra/printing/stylesheet/ProtocolWithdrawNotification.xsl";
+        return "/org/kuali/kra/irb/notification/stylesheet/ProtocolWithdrawNotification.xsl";
     }
 
     /**

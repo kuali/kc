@@ -30,7 +30,6 @@ import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.notification.WithdrawEvent;
-import org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -132,12 +131,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         }
         
         //sendWithdrawNotification(protocol);
-        LOG.info("withdraw notification exception start" );
-        try {
-            protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
-        } catch (Exception e) {
-            LOG.info("withdraw notification exception " + e.getStackTrace());
-        }
+        protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
 
         /*
          * Create a new protocol document for the user to edit so they can re-submit at 
