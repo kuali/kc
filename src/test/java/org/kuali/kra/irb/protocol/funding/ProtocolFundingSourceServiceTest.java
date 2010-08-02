@@ -464,21 +464,21 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         StringBuilder builder = new StringBuilder();
         
-        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
+        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getTypeCode());
         Assert.assertNotNull(entry);
         builder.append("sponsorCode:" + protocolFundingSourceNumber + Constants.COMMA);
         builder.append("sponsorName:" + protocolFundingSourceName);
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
         builder.delete(0, builder.length());
 
-        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.UNIT.getLookupName());
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.UNIT.getTypeCode());
         Assert.assertNotNull(entry);
         builder.append("unitNumber:" + protocolFundingSourceNumber + Constants.COMMA);
         builder.append("unitName:" + protocolFundingSourceName);
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
         builder.delete(0, builder.length());
         
-        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName());
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode());
         Assert.assertNotNull(entry);
         builder.append("proposalNumber:" + protocolFundingSourceNumber + Constants.COMMA);
         builder.append("sponsor.sponsorName:" + protocolFundingSourceName + Constants.COMMA);
@@ -486,7 +486,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
         builder.delete(0, builder.length());
 
-        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getLookupName());
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode());
         Assert.assertNotNull(entry);
         builder.append("proposalId:" + protocolFundingSource + Constants.COMMA);
         builder.append("proposalNumber:" + protocolFundingSourceNumber + Constants.COMMA);
@@ -495,7 +495,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
         builder.delete(0, builder.length());
         
-        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.AWARD.getLookupName());
+        entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.AWARD.getTypeCode());
         Assert.assertNotNull(entry);
         builder.append("awardId:" + protocolFundingSource + Constants.COMMA);
         builder.append("awardNumber:" + protocolFundingSourceNumber + Constants.COMMA);
@@ -504,7 +504,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         Assert.assertThat(entry.getValue(), JUnitMatchers.containsString(builder.toString()));
             
         try {
-            entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getLookupName());
+            entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.OTHER.getTypeCode());
             fail("IllegalArgumentException was not thrown for invalid test case using OTHER");
         } catch (IllegalArgumentException e) {
             //yup
@@ -515,7 +515,7 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     @Test
     public void testUpdateLookupParameter() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getLookupName());
+        Entry<String, String> entry = protocolFundingSourceService.getLookupParameters(FundingSourceLookup.SPONSOR.getTypeCode());
         Assert.assertNotNull(entry);
         String fieldConversions = entry.getValue();
         StringBuilder builder = new StringBuilder();
@@ -540,14 +540,14 @@ public class ProtocolFundingSourceServiceTest extends Assert{
       protocolFundingSourceService.setParameterService(getParameterService());
 
       
-      assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.OTHER.getFundingTypeCode()));
+      assertFalse(protocolFundingSourceService.isViewable(FundingSourceLookup.OTHER.getTypeCode()));
       assertFalse(protocolFundingSourceService.isViewable(badFundingTypeCode));
 
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode()));
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.UNIT.getFundingTypeCode()));
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.SPONSOR.getFundingTypeCode()));
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.AWARD.getFundingTypeCode()));
-      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.UNIT.getTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.SPONSOR.getTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.AWARD.getTypeCode()));
+      assertTrue(protocolFundingSourceService.isViewable(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode()));
   }
   
   @Test
@@ -555,13 +555,13 @@ public class ProtocolFundingSourceServiceTest extends Assert{
       protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
       protocolFundingSourceService.setParameterService(getParameterService());
       
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode())));
-      assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.OTHER.getFundingTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())));
+      assertTrue(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.OTHER.getTypeCode())));
       
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.AWARD.getFundingTypeCode())));
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode())));
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.SPONSOR.getFundingTypeCode())));
-      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.UNIT.getFundingTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.AWARD.getTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.SPONSOR.getTypeCode())));
+      assertFalse(protocolFundingSourceService.updateSourceNameEditable(Integer.toString(FundingSourceLookup.UNIT.getTypeCode())));
       
   }
     

@@ -472,33 +472,30 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward returnAction = null;
-        String boClassName = null;
+        Integer typeCode = null;
 
         ProtocolForm protocolForm = (ProtocolForm) form;
 
         if (protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType() != null) {
-            boClassName = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType().getDescription();
+            typeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceType().getFundingSourceTypeCode();
         }
 
-        LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, ((ProtocolForm) form)
-                .getDocument(), boClassName, ProtocolEventBase.ErrorType.HARDERROR);
+        LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), typeCode, 
+                ProtocolEventBase.ErrorType.HARDERROR);
 
         if (applyRules(event)) {
-            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(boClassName);
+            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(typeCode);
 
-            boClassName = entry.getKey();
+            String boClassName = entry.getKey();
             String fieldConversions = entry.getValue();
             String fullParameter = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-            String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName,
-                    fieldConversions);
+            String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName, fieldConversions);
 
             request.setAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
             returnAction = super.performLookup(mapping, form, request, response);
 
             protocolForm.getProtocolHelper().setEditProtocolFundingSourceName(false);
-
-        }
-        else {
+        } else {
             returnAction = mapping.findForward(MAPPING_BASIC);
         }
 

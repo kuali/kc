@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
-import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
 
 /**
  * This Service provides the required API for performing a multi-type lookup for funding sources. Business rules used by the View,
@@ -32,7 +31,7 @@ public interface ProtocolFundingSourceService {
      * @param protocol which contains list of ProtocolFundingSources
      * @param lineNumber to be deleted
      */
-    public void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
+    void deleteProtocolFundingSource(Protocol protocol, int lineNumber);
 
     /**
      * 
@@ -43,7 +42,7 @@ public interface ProtocolFundingSourceService {
      * @param name
      * @return
      */
-    public ProtocolFundingSource updateProtocolFundingSource(String typeCode, String source, String number, String name);
+    ProtocolFundingSource updateProtocolFundingSource(String typeCode, String source, String number, String name);
     
     /**
      * 
@@ -51,16 +50,15 @@ public interface ProtocolFundingSourceService {
      * @param source
      * @return
      */
-    public boolean isValidIdForType(ProtocolFundingSource source);
+    boolean isValidIdForType(ProtocolFundingSource source);
     
 
     /**
-     * 
-     * This method returns lookup parameters to create a fundingSource lookup URL based on funding source type
-     * @param boName
+     * This method returns lookup parameters to create a fundingSource lookup URL based on funding source type.
+     * @param fundingSourceTypeCode Integer
      * @return
      */
-    public Entry<String, String> getLookupParameters(String boName);
+    Entry<String, String> getLookupParameters(Integer fundingSourceTypeCode);
     
     /**
      * 
@@ -70,7 +68,7 @@ public interface ProtocolFundingSourceService {
      * @param fieldConversions
      * @return
      */
-    public String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
+    String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
         
     /**
      * 
@@ -80,7 +78,7 @@ public interface ProtocolFundingSourceService {
      * @return
      * @throws Exception
      */
-    public String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
+    String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
     
     /**
      * 
@@ -88,7 +86,7 @@ public interface ProtocolFundingSourceService {
      * @param fundingTypeCode
      * @return
      */
-    public boolean updateSourceNameEditable(String fundingTypeCode);
+    boolean updateSourceNameEditable(String fundingTypeCode);
     
     /**
      * 
@@ -96,5 +94,5 @@ public interface ProtocolFundingSourceService {
      * @param fundingTypeCode
      * @return
      */
-    public boolean isViewable(int fundingTypeCode);
+    boolean isViewable(int fundingTypeCode);
 }

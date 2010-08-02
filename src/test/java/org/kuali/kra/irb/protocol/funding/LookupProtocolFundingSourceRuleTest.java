@@ -32,7 +32,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.AWARD.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.AWARD.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }
@@ -44,7 +45,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.PROPOSAL_DEVELOPMENT.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }
@@ -55,7 +57,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.UNIT.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.UNIT.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }
@@ -66,7 +69,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.OTHER.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.OTHER.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = false;
             }
@@ -77,7 +81,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.SPONSOR.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.SPONSOR.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }
@@ -88,7 +93,8 @@ public class LookupProtocolFundingSourceRuleTest {
         new  TemplateRuleTest<LookupProtocolFundingSourceEvent, LookupProtocolFundingSourceRule> (){            
             @Override
             protected void prerequisite() {            
-                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getLookupName(), ProtocolEventBase.ErrorType.HARDERROR );
+                event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode(), 
+                        ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
                 expectedReturnValue = true;
             }

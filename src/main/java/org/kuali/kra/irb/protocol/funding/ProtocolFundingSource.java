@@ -107,7 +107,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
 
     public DevelopmentProposal getFundingDevelopmentProposal() {
-        if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
+        if (FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
                 && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingDevelopmentProposal");
         }
@@ -119,7 +119,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
     
     public InstitutionalProposal getFundingInstitutionalProposal() {
-        if (FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
+        if (FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode() == getFundingSourceType().getFundingSourceTypeCode() 
                 && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingInstitutionalProposal");
         }
@@ -131,7 +131,7 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
 
     public Award getFundingAward() {
-        if (FundingSourceLookup.AWARD.getFundingTypeCode() == getFundingSourceType().getFundingSourceTypeCode()         
+        if (FundingSourceLookup.AWARD.getTypeCode() == getFundingSourceType().getFundingSourceTypeCode()         
                 && StringUtils.isNotBlank(getFundingSource())) {
             this.refreshReferenceObject("fundingAward");
         }
