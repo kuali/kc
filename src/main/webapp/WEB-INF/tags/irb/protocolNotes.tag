@@ -81,7 +81,7 @@
 							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
 						</td>
 		                <td valign="middle">
-							${KualiForm.document.protocol.notepads[status.index].updateUser}
+							${KualiForm.document.protocol.notepads[status.index].updateUserFullName}
 		                </td>
 		                <td valign="middle">                	
 						<div align="center">

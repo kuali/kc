@@ -168,7 +168,7 @@
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentPersonnels[${itrStatus.index}].updateUserFullName" attributeEntry="${protocolAttachmentPersonnelAttributes.updateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle">

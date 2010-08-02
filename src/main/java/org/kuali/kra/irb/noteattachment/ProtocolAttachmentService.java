@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 
@@ -114,7 +115,7 @@ public interface ProtocolAttachmentService {
      * @param attachment
      * @return
      */
-     boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment);
+    boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment);
      
      /**
       * 
@@ -122,7 +123,15 @@ public interface ProtocolAttachmentService {
       * @param attachment
       * @return
       */
-     boolean isSharedFile(ProtocolAttachmentPersonnel attachment);
+    boolean isSharedFile(ProtocolAttachmentPersonnel attachment);
+
+     
+     /**
+     * Populate the updateUserFullName transient field in each ProtocolAttachmentBase object in the 
+     * list.
+     * @param protocolAttachmentBases The list of ProtocolAttachementBase objects you wish to populate the updateUserFullName field on.
+     */
+    void setProtocolAttachmentUpdateUsersName(List<? extends ProtocolAttachmentBase> protocolAttachmentBases);
 
     
 }
