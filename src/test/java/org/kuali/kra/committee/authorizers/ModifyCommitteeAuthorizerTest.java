@@ -65,6 +65,9 @@ public class ModifyCommitteeAuthorizerTest {
         
         final Committee committee = createCommittee(1L, false);
         
+        final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
+        authorizer.setUnitAuthorizationService(unitAuthorizationService);
+
         final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
@@ -78,6 +81,9 @@ public class ModifyCommitteeAuthorizerTest {
         
         final Committee committee = createCommittee(1L, false);
         
+        final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
+        authorizer.setUnitAuthorizationService(unitAuthorizationService);
+
         final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
@@ -91,6 +97,9 @@ public class ModifyCommitteeAuthorizerTest {
         
         final Committee committee = createCommittee(1L, true);
         
+        final UnitAuthorizationService unitAuthorizationService = new UnitAuthorizationServiceMock(true);
+        authorizer.setUnitAuthorizationService(unitAuthorizationService);
+
         final KraAuthorizationService kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
@@ -102,6 +111,7 @@ public class ModifyCommitteeAuthorizerTest {
        
         CommitteeDocument doc = new CommitteeDocument();
         doc.getCommittee().setId(id);
+        doc.getCommittee().setCommitteeId("Committee Test");
         doc.setViewOnly(viewOnly);
         
         return doc.getCommittee();

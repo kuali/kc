@@ -19,6 +19,9 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * The Modify Committee Authorizer checks to see if the user has 
@@ -36,8 +39,7 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
     public boolean isAuthorized(String userId, CommitteeTask task) {
         boolean hasPermission = true;
         Committee committee = task.getCommittee();
-        Long committeeId = committee.getId();
-        if (committeeId == null) {
+        if (committee.getId() == null) {
             
             // We have to consider the case when we are saving the committee for the first time.
             
@@ -48,8 +50,26 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
              * After the initial save, the committee can only be modified has the required permission.
              */
             hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
+                            !isPessimisticLocked(committee.getCommitteeDocument()) &&
                             hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
         }
+
+        // Verify that document is not locked
+        if (isPessimisticLocked(committee.getCommitteeDocument())) {
+            hasPermission = false;
+        }
+
         return hasPermission;
+    }
+
+    private boolean isPessimisticLocked(Document document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
     }
 }
