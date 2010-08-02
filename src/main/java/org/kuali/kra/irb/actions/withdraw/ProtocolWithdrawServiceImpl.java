@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -36,8 +35,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.service.IdentityManagementService;
@@ -57,11 +54,8 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    private KraAuthorizationService kraAuthorizationService;
-    private NotificationService notificationService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
     private IdentityManagementService identityManagementService;
-    private List<String> notificationTemplates;
     
     /**
      * Set the document service.
@@ -252,18 +246,6 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.INITIAL_SUBMISSION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
-    }
-
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-
-    public void setNotificationTemplates(List<String> notificationTemplates) {
-        this.notificationTemplates = notificationTemplates;
-    }
-
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
     }
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
