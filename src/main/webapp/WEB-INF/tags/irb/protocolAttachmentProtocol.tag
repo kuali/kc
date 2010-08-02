@@ -226,7 +226,7 @@
 			         		</th>
 			         		<td align="left" valign="middle">
 			                	<div align="left">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateUser" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateUserFullName" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
 				            	</div>
 							</td>
 							<th>

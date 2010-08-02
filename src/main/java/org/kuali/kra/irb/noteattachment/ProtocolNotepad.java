@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 
@@ -36,6 +37,9 @@ public class ProtocolNotepad extends ProtocolAssociate {
     private boolean restrictedView;
     private String noteTopic;
     private boolean changed;
+
+    @SkipVersioning
+    private transient String updateUserFullName;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -137,6 +141,22 @@ public class ProtocolNotepad extends ProtocolAssociate {
         this.noteTopic = noteTopic;
     }
 
+    /**
+     * Gets the updateUserFullName attribute. 
+     * @return Returns the updateUserFullName.
+     */
+    public String getUpdateUserFullName() {
+        return updateUserFullName;
+    }
+
+    /**
+     * Sets the updateUserFullName attribute value.
+     * @param updateUserFullName The updateUserFullName to set.
+     */
+    public void setUpdateUserFullName(String updateUserFullName) {
+        this.updateUserFullName = updateUserFullName;
+    }
+    
     /** {@inheritDoc} */
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
@@ -257,6 +277,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
     public boolean isChanged() {
         return changed;
     }
+
 
     public void setChanged(boolean changed) {
         this.changed = changed;

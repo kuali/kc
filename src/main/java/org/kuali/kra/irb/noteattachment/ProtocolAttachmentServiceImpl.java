@@ -15,18 +15,27 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */
@@ -34,6 +43,11 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
     private final BusinessObjectService boService;
     private final ProtocolDao protocolDao;
+    private PersonService<Person> personService;
+    
+    protected final Log LOG = LogFactory.getLog(getClass()); 
+    private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
+    
     
     /**
      * Constructor than sets the dependencies.
@@ -219,5 +233,27 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         keyMap.put("fileId", attachment.getFileId());   
         return this.boService.findMatching(ProtocolAttachmentPersonnel.class, keyMap).size() > 1;
     }
+    
+    /**
+     * @see org.kuali.kra.irb.noteattachment.ProtocolAttachmentService#setProtocolAttachmentPersonnelUpdateUsersName(java.util.List)
+     */
+    public void setProtocolAttachmentUpdateUsersName(List<? extends ProtocolAttachmentBase> protocolAttachmentBases) {
+        
+        for (ProtocolAttachmentBase pab : protocolAttachmentBases) {
+            if (LOG.isDebugEnabled()) { 
+                LOG.debug(String.format("Looking up person for update user %s.", pab.getUpdateUser()));
+            }
+            Person person = personService.getPersonByPrincipalName(pab.getUpdateUser());
+            pab.setUpdateUserFullName(person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, pab.getUpdateUser()):person.getName());
+        }
+    }
+ 
+    /**
+     * Sets the personService attribute value.
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
+    }   
 
 }

@@ -38,6 +38,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     private ProtocolAttachmentType type;
     private String description;
     
+     
     /**
      * empty ctor to satisfy JavaBean convention.
      */
@@ -137,6 +138,7 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
         return false;
     }
 
+       
     /** 
      * {@inheritDoc}
      * also nulling the person id because when saving after versioning, the person id is reverting to the wrong BO.
@@ -262,5 +264,6 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
             super.setUpdateUser(updateUser);
         }
     }
+
 
 }

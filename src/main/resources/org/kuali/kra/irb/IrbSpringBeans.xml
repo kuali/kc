@@ -83,6 +83,11 @@
     <bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
         <constructor-arg index="1" ref="protocolDao"/>
+        <property name = "personService" ref = "personService"/>
+    </bean>
+
+	<bean id="protocolNotepadService" class="org.kuali.kra.irb.noteattachment.ProtocolNotepadServiceImpl">
+        <property name = "personService" ref = "personService"/>
     </bean>
 
     <!-- Protocol Task Authorizers -->
