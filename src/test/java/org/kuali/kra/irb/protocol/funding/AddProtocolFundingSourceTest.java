@@ -61,7 +61,7 @@ public class AddProtocolFundingSourceTest {
     @Before
     public void setUp() throws Exception {
         FundingSourceType fsType = new FundingSourceType();
-        fsType.setFundingSourceTypeCode(FundingSourceLookup.SPONSOR.getFundingTypeCode());
+        fsType.setFundingSourceTypeCode(FundingSourceLookup.SPONSOR.getTypeCode());
         fsType.setDescription(FundingSourceLookup.SPONSOR.getName());
         fundingSource = new ProtocolFundingSource(goodFundingSourceId, fsType, goodFundingSourceName, "" );
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();
