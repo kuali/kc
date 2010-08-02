@@ -22,8 +22,12 @@ import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.w3c.dom.Element;
 
@@ -33,6 +37,7 @@ import org.w3c.dom.Element;
  */
 public abstract class NotificationEventBase {
 
+    private static final Logger LOG = Logger.getLogger(NotificationEventBase.class);
     private Protocol protocol;
 
     /**
@@ -64,7 +69,27 @@ public abstract class NotificationEventBase {
      * This method is to a list of recipients and append to "recipients" element in KEN notification template.
      * @param recipients
      */
-    public abstract void getRecipients(Element recipients);
+    public void getRecipients(Element recipients) {
+        // TODO : based on kcirb-252 : all protocolperson but "SP" are default recipients
+        try {
+            for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+                if (!"SP".equals(protocolPerson.getProtocolPersonRoleId()) && StringUtils.isNotBlank(protocolPerson.getPersonId())) {
+                    // rolodex does not have username
+                    XmlHelper.appendXml(recipients, "<user>" + protocolPerson.getPerson().getUserName() + "</user>");
+                    // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
+                }
+            }
+        } catch (Exception e) {
+            LOG.info("Protocol withdraw - get recipeint - exception " + e.getStackTrace());
+
+        }
+        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
+
+    }
+
+    private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
+        return KraServiceLocator.getService(ProtocolActionsNotificationService.class);
+    }
 
     /**
      * 
