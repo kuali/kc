@@ -65,6 +65,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((ProtocolForm) form).getAttachmentsHelper().processSave();
+        ((ProtocolForm) form).getNotepadHelper().processSave();
     }
     
     /**
@@ -336,7 +337,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * attachmentPersonnels is updated thru 'protocol'.  so use this to sync attachmentpersonnels under protocolperson
      * @see org.kuali.kra.irb.ProtocolAction#postSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

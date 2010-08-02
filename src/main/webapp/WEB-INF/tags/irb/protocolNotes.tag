@@ -78,7 +78,7 @@
 							<c:out value="${status.index+1}" />
 						</th>
 		                <td valign="middle">
-							${KualiForm.document.protocol.notepads[status.index].updateTimestamp}
+							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
 						</td>
 		                <td valign="middle">
 							${KualiForm.document.protocol.notepads[status.index].updateUser}

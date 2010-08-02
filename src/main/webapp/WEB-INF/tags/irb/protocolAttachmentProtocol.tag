@@ -248,8 +248,7 @@
 			         		</th>
 			         		<td align="left" valign="middle">
 			                	<div align="left">
-	                                <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="MM/dd/yyyy HH:mm" />
-			                	<%--	<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>  --%>
+			                	 	     <kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>  
 				            	</div>
 							</td>
 							<th>
