@@ -60,7 +60,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private String createUser;
     private Timestamp createTimestamp;
     
-    
+    @SkipVersioning
     private ProtocolOnlineReview protocolOnlineReview;
     private String minuteEntry; 
     

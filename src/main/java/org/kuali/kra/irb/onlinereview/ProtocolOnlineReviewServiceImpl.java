@@ -103,7 +103,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
 
         ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
         reviewDocument.getProtocolOnlineReview().refresh();
-        
         return reviewDocument;
     }
     
@@ -129,8 +128,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             LOG.debug(String.format("Current submission for protocol %s is %s.", protocol.getProtocolNumber(), submission.getSubmissionNumber()));
         }
         ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, personId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
-        documentService.saveDocument(reviewDocument);
+        
         documentService.routeDocument(reviewDocument, "Review Requested by PI during protocol submission.", new ArrayList<String>());
+        
         return reviewDocument;
     }
     
@@ -194,6 +194,10 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         docHeader.setDocumentDescription(documentDescription);
         docHeader.setOrganizationDocumentNumber(documentOrganizationDocumentNumber);
         docHeader.setExplanation(documentExplanation);
+        
+        protocol.getProtocolOnlineReviews().add(protocolReviewDocument.getProtocolOnlineReview());
+        documentService.saveDocument(protocolReviewDocument);
+        businessObjectService.save(protocolReviewDocument.getProtocolOnlineReview());
         return protocolReviewDocument;
     }
     

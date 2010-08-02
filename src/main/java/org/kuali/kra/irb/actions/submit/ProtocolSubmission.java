@@ -59,7 +59,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
-    private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
+    @SkipVersioning
+    transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
     
     private List<ProtocolReviewer> protocolReviewers = new ArrayList<ProtocolReviewer>();
     private ProtocolSubmissionType protocolSubmissionType;
