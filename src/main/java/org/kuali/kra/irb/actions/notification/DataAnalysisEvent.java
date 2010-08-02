@@ -16,12 +16,9 @@
 package org.kuali.kra.irb.actions.notification;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.rice.kew.util.XmlHelper;
 import org.w3c.dom.Element;
 
 /**
@@ -30,7 +27,6 @@ import org.w3c.dom.Element;
  */
 public class DataAnalysisEvent extends NotificationEventBase {
 
-    private static final Logger LOG = Logger.getLogger(DataAnalysisEvent.class);
 
     public DataAnalysisEvent() {
     }
@@ -44,19 +40,7 @@ public class DataAnalysisEvent extends NotificationEventBase {
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getRecipients(org.w3c.dom.Element)
      */
     public void getRecipients(Element recipients) {
-        try {
-            if (StringUtils.isNotBlank(getProtocol().getPrincipalInvestigator().getPersonId())) {
-                // rolodex does not have username
-                XmlHelper.appendXml(recipients, "<user>" + getProtocol().getPrincipalInvestigator().getPerson().getUserName()
-                        + "</user>");
-                // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
-            }
-        }
-        catch (Exception e) {
-            LOG.info("Data Analysis - get recipeint - exception " + e.getStackTrace());
-
-        }
-        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
+        super.getRecipients(recipients);
     }
 
     /**
@@ -84,10 +68,6 @@ public class DataAnalysisEvent extends NotificationEventBase {
                 + " is Data Analysis";
         return messageBody;
 
-    }
-
-    private ProtocolActionsNotificationService getProtocolActionsNotificationService() {
-        return KraServiceLocator.getService(ProtocolActionsNotificationService.class);
     }
 
     public String getTemplatePath() {
