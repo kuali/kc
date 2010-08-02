@@ -131,7 +131,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         /**
          * Lookup parameters for Institutional Proposal.
          */
-        INSTITUTIONAL_PROPOSAL("Institutional Proposal",   
+        INSTITUTIONAL_PROPOSAL("Institute Proposal",   
                                InstitutionalProposal.class,
                                PROPOSAL_ID,
                                PROPOSAL_NUMBER,

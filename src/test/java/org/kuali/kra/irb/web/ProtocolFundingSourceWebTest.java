@@ -15,73 +15,191 @@
  */
 package org.kuali.kra.irb.web;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-/**
- * Abstract Protocol Web Test base class provides common functionalities required by extended class.
- */
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_FUNDING_SOURCE_TYPE.sql", delimiter = ";")}))
 public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
     private static final String PROTOCOL_FUNDINGSOURCE_TYPE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
     private static final String PROTOCOL_FUNDINGSOURCE_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
     private static final String PROTOCOL_FUNDINGSOURCE_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
     
-
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
+    private static final String VIEW_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor6";
     private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor6";
-    //private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line0.anchor6";
     
-    private static final String FUNDINGSOURCE_TYPE_1= "Sponsor"; 
-    private static final String FUNDINGSOURCE_NAME_1 = "Arkansas Enterprises for the Blind";
-    private static final String FUNDINGSOURCE_ID_1 = "005174";
-    private static final String FUNDINGSOURCE_TYPE_2= "Unit"; 
-    private static final String FUNDINGSOURCE_NAME_2 = "Department of Education";
-    private static final String FUNDINGSOURCE_ID_2 = "000618";
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
+    private static final String SPONSOR_FUNDINGSOURCE_ID = "005174";
+    private static final String SPONSOR_FUNDINGSOURCE_NAME = "Arkansas Enterprises for the Blind"; 
+    
+    private static final String UNIT_FUNDINGSOURCE_VAL = "2";
+    private static final String UNIT_FUNDINGSOURCE_ID = "IU-UNIV";
+    private static final String UNIT_FUNDINGSOURCE_NAME = "UNIVERSITY LEVEL";
+    
+    private static final String OTHER_FUNDINGSOURCE_VAL = "3";
+    private static final String OTHER_FUNDINGSOURCE_ID = "123";
+    private static final String OTHER_FUNDINGSOURCE_NAME = "Other Name";
+    
+    private static final String DEVPROP_FUNDINGSOURCE_VAL = "4";
+    private static final String DEVPROP_FUNDINGSOURCE_ID = "10000";
+    private static final String DEVPROP_FUNDINGSOURCE_NAME = "Novartis Institutes for BioMedical Research Incorporated";
+    
+    private static final String INSTPROP_FUNDINGSOURCE_VAL = "5";
+    private static final String INSTPROP_FUNDINGSOURCE_ID = "Other ID";
+    private static final String INSTPROP_FUNDINGSOURCE_NUMBER = "Other Number";
+    private static final String INSTPROP_FUNDINGSOURCE_NAME = "Other Name";
+    
+    private static final String AWARD_FUNDINGSOURCE_VAL = "6";
+    private static final String AWARD_FUNDINGSOURCE_ID = "10004";
+    private static final String AWARD_FUNDINGSOURCE_NUMBER = "010001-00001";
+    private static final String AWARD_FUNDINGSOURCE_NAME = "Award Title";
 
     @Test
-    public void testFundingSourcePage() throws Exception {
+    public void testAddViewSponsorFundingSourcePage() throws Exception {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
-        String documentNumber = getDocNbr(protocolPage);
-  
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, FUNDINGSOURCE_ID_1);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, FUNDINGSOURCE_NAME_1);
+        
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, SPONSOR_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, SPONSOR_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
         
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, FUNDINGSOURCE_ID_2);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, FUNDINGSOURCE_NAME_2);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
+        protocolPage = saveDoc(protocolPage);
+        
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_ID);
+        assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_NAME);
+        
+        HtmlPage viewSponsorPage = clickOn(protocolPage, VIEW_LOCATION);
+        assertContains(viewSponsorPage, "Sponsor Code: " + SPONSOR_FUNDINGSOURCE_ID);
+    }
+    
+    @Test
+    public void testAddViewUnitFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, UNIT_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, UNIT_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, UNIT_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
         protocolPage = saveDoc(protocolPage);
         
         assertContains(protocolPage, "Document was successfully saved.");
-        assertContains(protocolPage, FUNDINGSOURCE_ID_1);
-        assertContains(protocolPage, FUNDINGSOURCE_NAME_1);
-        assertContains(protocolPage, FUNDINGSOURCE_ID_2);
-        assertContains(protocolPage, FUNDINGSOURCE_NAME_2);
-       
+        assertContains(protocolPage, UNIT_FUNDINGSOURCE_ID);
+        assertContains(protocolPage, UNIT_FUNDINGSOURCE_NAME);
+        
+        HtmlPage viewUnitPage = clickOn(protocolPage, VIEW_LOCATION);
+        assertContains(viewUnitPage, "Unit Number: " + UNIT_FUNDINGSOURCE_ID);
+    }
+    
+    @Test
+    public void testAddOtherFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, OTHER_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, OTHER_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, OTHER_FUNDINGSOURCE_NAME);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+        
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, OTHER_FUNDINGSOURCE_ID);
+        assertContains(protocolPage, OTHER_FUNDINGSOURCE_NAME);
+    }
+    
+    @Test
+    public void testAddViewDevelopmentProposalFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, DEVPROP_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, DEVPROP_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, DEVPROP_FUNDINGSOURCE_NAME);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+        
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, DEVPROP_FUNDINGSOURCE_ID);
+        assertContains(protocolPage, DEVPROP_FUNDINGSOURCE_NAME);
+        
+        HtmlPage viewDevPropPage = clickOn(protocolPage, VIEW_LOCATION);
+        assertContains(viewDevPropPage, "Proposal Number: " + DEVPROP_FUNDINGSOURCE_ID);
+    }
+    
+    /*
+     * This is ignored since there is no available InstProp staging data yet...
+     */
+    @Ignore
+    @Test
+    public void testAddViewInstitutionalProposalFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, INSTPROP_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, INSTPROP_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, INSTPROP_FUNDINGSOURCE_NAME);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+        
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, INSTPROP_FUNDINGSOURCE_NUMBER);
+        assertContains(protocolPage, INSTPROP_FUNDINGSOURCE_NAME);
+        
+        HtmlPage viewDevPropPage = clickOn(protocolPage, VIEW_LOCATION);
+        assertContains(viewDevPropPage, "Institutional Proposal ID: " + INSTPROP_FUNDINGSOURCE_NUMBER);
+    }
+    
+    @Test
+    public void testAddViewAwardFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, AWARD_FUNDINGSOURCE_VAL);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, AWARD_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, AWARD_FUNDINGSOURCE_NAME);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+        
+        assertContains(protocolPage, "Document was successfully saved.");
+        assertContains(protocolPage, AWARD_FUNDINGSOURCE_NUMBER);
+        assertContains(protocolPage, AWARD_FUNDINGSOURCE_NAME);
+        
+        HtmlPage viewDevPropPage = clickOn(protocolPage, VIEW_LOCATION);
+        assertContains(viewDevPropPage, "Award ID: " + AWARD_FUNDINGSOURCE_NUMBER);
+    }
+    
+    @Test
+    public void testAddDeleteFundingSourcePage() throws Exception {
+        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
+        String documentNumber = getDocNbr(protocolPage);
+        
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, SPONSOR_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, SPONSOR_FUNDINGSOURCE_NAME);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+        
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, UNIT_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, UNIT_FUNDINGSOURCE_NAME);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, UNIT_FUNDINGSOURCE_VAL);
+        protocolPage = clickOn(protocolPage, ADD_LOCATION);
+
+        protocolPage = saveDoc(protocolPage);
+
         protocolPage = clickOn(protocolPage, DELETELINE_1_LOCATION);
         protocolPage = saveDoc(protocolPage);
         assertContains(protocolPage, "Document was successfully saved.");
-        assertContains(protocolPage, FUNDINGSOURCE_ID_1);
-        assertContains(protocolPage, FUNDINGSOURCE_NAME_1);
-        assertDoesNotContain(protocolPage, FUNDINGSOURCE_ID_2);
-        assertDoesNotContain(protocolPage, FUNDINGSOURCE_NAME_2);
+        assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_ID);
+        assertContains(protocolPage, SPONSOR_FUNDINGSOURCE_NAME);
+        assertDoesNotContain(protocolPage, UNIT_FUNDINGSOURCE_ID);
+        assertDoesNotContain(protocolPage, UNIT_FUNDINGSOURCE_NAME);
        
         ProtocolDocument doc = (ProtocolDocument) getDocument(documentNumber);
         assertNotNull(doc);
-        assertEquals(FUNDINGSOURCE_NAME_1, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
-       
+        assertEquals(SPONSOR_FUNDINGSOURCE_NAME, doc.getProtocol().getProtocolFundingSources().get(0).getFundingSourceName() );
      }
 
 }

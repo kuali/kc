@@ -33,7 +33,6 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.irb.IrbMockServicesHelper;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
@@ -43,9 +42,6 @@ import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalSe
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -103,11 +99,6 @@ public class ProtocolFundingSourceServiceTest extends Assert{
     private final String developmentPropSourceTypeId = "4";
     private final String institutePropSourceTypeId = "5";
     private final String awardSourceTypeId = "6";
-    
-    private Sponsor lookupUrlSponsor;
-    private AnchorHtmlData inquiryUrl;
-    private String inquiryUrlString = "inquiry.do?businessObjectClassName=org.kuali.kra.bo.Sponsor&sponsorCode=005174&methodToCall=start";
-    private String expectedLookupUrl = "http://localhost:8080/kra-/kr/"+inquiryUrlString;
 
     private final String protocolFundingSource = "protocolHelper.newFundingSource.fundingSource";
     private final String protocolFundingSourceNumber = "protocolHelper.newFundingSource.fundingSourceNumber";
@@ -179,9 +170,6 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         awardGood = new Award();
         awardGood.setTitle(awardTitleGood);
         awardGood.setSponsor(sponsorGood);
-                
-        inquiryUrl = new AnchorHtmlData();
-        inquiryUrl.setHref(inquiryUrlString);
     }    
 
     @Test
@@ -600,31 +588,6 @@ public class ProtocolFundingSourceServiceTest extends Assert{
         assertTrue(protocol.getProtocolFundingSources().isEmpty());
     }
 
-//// This method is an integration test since it requires the Spring framework to use Utilities.substituteConfigParameters launch for OJB stuff
-//    @Test
-//    public void testAddandGetViewFundingSourceUrl() throws Exception {
-//        Protocol protocol = new Protocol();
-//        protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
-//        protocolFundingSourceService.setSponsorService(getSponsorService());
-//        protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-//        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId,
-//                sponsorIdAirForce, null);
-//        assertNotNull(fundingSource);
-//        assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
-//
-//        lookupUrlSponsor = new Sponsor();
-//        lookupUrlSponsor.setSponsorCode(sponsorIdAirForce);
-//
-//        ProtocolProtocolAction action = new ProtocolProtocolAction();
-//        protocolFundingSourceService.setProtocolLookupableHelperService(getProtocolLookupableHelperServiceForSponsorInquiryUrl());
-//        String viewUrl = protocolFundingSourceService.getViewProtocolFundingSourceUrl(fundingSource, action);
-//
-//        assertNotNull(viewUrl);
-//        Assert.assertThat(viewUrl, JUnitMatchers.containsString(expectedLookupUrl));
-//    }
-  
-  
-    
     protected SponsorService getSponsorService() {
         final SponsorService sponsorService = context.mock(SponsorService.class);
         context.checking(new Expectations() {{
@@ -687,15 +650,6 @@ public class ProtocolFundingSourceServiceTest extends Assert{
             will(returnValue(Collections.emptyList()));
         }});
         return awardService;
-    }
-
-    protected LookupableHelperService getProtocolLookupableHelperServiceForSponsorInquiryUrl() {
-        final LookupableHelperService protocolLookupableHelperService = context.mock(LookupableHelperService.class);
-        context.checking(new Expectations() {{
-            allowing(protocolLookupableHelperService).getInquiryUrl(with(any(Sponsor.class)), with(any(String.class))); 
-            will(returnValue(inquiryUrl));
-        }});
-        return protocolLookupableHelperService;
     }
 
     protected ParameterService getParameterService() {
