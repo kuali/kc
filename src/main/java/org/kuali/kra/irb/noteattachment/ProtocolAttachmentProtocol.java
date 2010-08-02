@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -477,6 +478,5 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
                     .getCurrentTimestamp());
         }
     }
-
 
 }

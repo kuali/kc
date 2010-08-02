@@ -47,14 +47,18 @@ public class ProtocolNotepadHelper {
     private boolean modifyNotepads;
     private boolean viewRestricted;
     
+    private final ProtocolNotepadService protocolNotepadService;
+    
     /**
      * Constructs a helper setting the dependencies to default values.
      * @param form the form
      * @throws IllegalArgumentException if the form is null
      */
     public ProtocolNotepadHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), KraServiceLocator.getService(BusinessObjectService.class), KraServiceLocator.getService(DateTimeService.class));
-        
+        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), 
+                   KraServiceLocator.getService(BusinessObjectService.class),
+                   KraServiceLocator.getService(DateTimeService.class),
+                   KraServiceLocator.getService(ProtocolNotepadService.class));
     }
     
     /**
@@ -65,7 +69,7 @@ public class ProtocolNotepadHelper {
      * @throws IllegalArgumentException if the form or authService or boService is null
      */
     ProtocolNotepadHelper(final ProtocolForm form,
-        final TaskAuthorizationService authService, final BusinessObjectService boService, final DateTimeService dateTimeService) {
+        final TaskAuthorizationService authService, final BusinessObjectService boService, final DateTimeService dateTimeService, final ProtocolNotepadService protocolNotepadService) {
         
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
@@ -79,9 +83,18 @@ public class ProtocolNotepadHelper {
             throw new IllegalArgumentException("the boService was null");
         }
         
+        if (protocolNotepadService == null) {
+            throw new IllegalArgumentException("the protocolNotepadService was null.");
+        }
+        
+        if (dateTimeService==null) {
+            throw new IllegalArgumentException("the dateTimeService was null.");
+        }
+        
         this.form = form;
         this.authService = authService;
         this.boService = boService;
+        this.protocolNotepadService = protocolNotepadService;
         this.dateTimeService = dateTimeService;
     }
     
@@ -90,6 +103,7 @@ public class ProtocolNotepadHelper {
      */
     public void prepareView() {
         this.initializePermissions();
+        protocolNotepadService.setProtocolNotepadUpdateUsersName(form.getProtocolDocument().getProtocol().getNotepads());
     }
     
     /**
@@ -298,4 +312,5 @@ public class ProtocolNotepadHelper {
         final Integer maxEntry = notepads.isEmpty() ? Integer.valueOf(0) : Collections.max(notepads, ProtocolNotepad.NotepadByEntryNumber.INSTANCE).getEntryNumber();
         return Integer.valueOf(maxEntry.intValue() + 1);
     }
+
 }

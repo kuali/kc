@@ -107,6 +107,8 @@ public class ProtocolAttachmentHelper {
      */
     public void prepareView() {
         this.initializePermissions();
+        notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+        notesService.setProtocolAttachmentUpdateUsersName(form.getProtocolDocument().getProtocol().getAttachmentPersonnels());
     }
     
     /**
