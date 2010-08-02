@@ -270,7 +270,7 @@
         		<tr>
         		    <td colspan="7" class="infoline">&nbsp;</td>
                 	<th colspan="2" style="padding:3px;">	
-                	<c:if test="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'S'}">
+                	<c:if test="${!readOnly && KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == 'S'}">
                 		<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-deleteselected.gif" 
                 			property="methodToCall.deleteCommitteeSchedule.anchor${currentTabIndex}" styleClass="tinybutton"/>
                 	</c:if>		
