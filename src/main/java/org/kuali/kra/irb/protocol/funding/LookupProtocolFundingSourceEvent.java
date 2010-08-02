@@ -17,7 +17,6 @@ package org.kuali.kra.irb.protocol.funding;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolEventBase;
-import org.kuali.kra.irb.ProtocolEventBase.ErrorType;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -30,27 +29,27 @@ public class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupPr
 
     
     public static final String MSG = "looking up a funding source for Protocol document ";
-    private String lookupBoName;
+    
+    private Integer fundingSourceTypeCode;
 
-    public LookupProtocolFundingSourceEvent(String errorPathPrefix, ProtocolDocument document, String lookupBoName, ErrorType type) {
+    public LookupProtocolFundingSourceEvent(String errorPathPrefix, ProtocolDocument document, Integer fundingSourceTypeCode, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, type);
-        this.lookupBoName = lookupBoName;
+        this.fundingSourceTypeCode = fundingSourceTypeCode;
     }
     
-    public LookupProtocolFundingSourceEvent(String errorPathPrefix, Document document, String lookupBoName,ErrorType type) {
-        this(errorPathPrefix, (ProtocolDocument)document, lookupBoName,type);
+    public LookupProtocolFundingSourceEvent(String errorPathPrefix, Document document, Integer fundingSourceTypeCode, ErrorType type) {
+        this(errorPathPrefix, (ProtocolDocument)document, fundingSourceTypeCode, type);
     }
     
     public LookupProtocolFundingSourceRule getRule() {
         return new LookupProtocolFundingSourceRule();
     }
-
     
-    public String getLookupBoName() {
-        return lookupBoName;
+    public Integer getFundingSourceTypeCode() {
+        return fundingSourceTypeCode;
     }
 
-    public void setLookupBoName(String lookupBoName) {
-        this.lookupBoName = lookupBoName;
+    public void setFundingSourceTypeCode(Integer fundingSourceTypeCode) {
+        this.fundingSourceTypeCode = fundingSourceTypeCode;
     }
 }
