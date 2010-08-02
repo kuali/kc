@@ -63,13 +63,13 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      *      org.kuali.kra.irb.actions.notification.NotificationEventBase)
      */
     public void sendActionsNotification(Protocol protocol, NotificationEventBase notificationEvent) throws Exception {
-        String withdrawNotificationTemplate = notificationTemplates.get(0);
-        InputStream is = this.getClass().getResourceAsStream(withdrawNotificationTemplate);
+        String actionNotificationTemplate = notificationTemplates.get(0);
+        InputStream inputStream = this.getClass().getResourceAsStream(actionNotificationTemplate);
         Document notificationRequestDocument;
 
         try {
             // transForm();
-            notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
+            notificationRequestDocument = Util.parse(new InputSource(inputStream), false, false, null);
             Element recipients = (Element) notificationRequestDocument.getElementsByTagName("recipients").item(0);
             notificationEvent.getRecipients(recipients);
 
@@ -86,8 +86,8 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
             Element sendDateTime = (Element) notificationRequestDocument.getElementsByTagName("sendDateTime").item(0);
             sendDateTime.setTextContent(Util.toXSDDateTimeString(Calendar.getInstance().getTime()));
         } finally {
-            if (is != null) {
-                is.close();
+            if (inputStream != null) {
+                inputStream.close();
             }
         }
 

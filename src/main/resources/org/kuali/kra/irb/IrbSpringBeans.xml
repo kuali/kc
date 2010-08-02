@@ -392,44 +392,20 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-        <property name="notificationService" ref="notificationService" />
-        <property name="notificationTemplates">
-			<list>
-			    <value>/org/kuali/kra/irb/withdraw_notification.xml</value>
-            </list>
-		</property>
 		<property name="identityManagementService" ref = "identityManagementService"/>
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="notificationService" ref="notificationService" />
-        <property name="kimRoleManagementService" ref="roleManagementService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-        <property name="requestTemplates">
-			<list>
-			    <value>/org/kuali/kra/irb/request_notification.xml</value>
-            </list>
-		</property>
     </bean>
     
     <bean id="protocolNotifyIrbService" class="org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="protocolActionService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
-        <property name="notificationService" ref="notificationService" />
-        <property name="kimRoleManagementService" ref="roleManagementService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-        <property name="notificationTemplates">
-			<list>
-			    <value>/org/kuali/kra/irb/notifyirb_notification.xml</value>
-            </list>
-		</property>
     </bean>
     
     <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
@@ -633,7 +609,7 @@
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="notificationTemplates">
 			<list>
-			    <value>/org/kuali/kra/irb/notifyirb_notification.xml</value>
+			    <value>/org/kuali/kra/irb/actions_notification.xml</value>
             </list>
 		</property>
     </bean>

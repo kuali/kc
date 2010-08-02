@@ -15,15 +15,7 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -35,17 +27,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.ken.service.NotificationService;
-import org.kuali.rice.ken.util.Util;
-import org.kuali.rice.kew.util.XmlHelper;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 /**
  * Protocol Request Service Implementation.
@@ -56,11 +38,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
-    private KraAuthorizationService kraAuthorizationService;
-    private NotificationService notificationService;
-    private RoleService kimRoleManagementService;
-    private KcPersonService kcPersonService;
-    private List<String> notificationTemplates;
 
     /**
      * Set the business object service.
@@ -113,23 +90,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         return submissionBuilder.create();
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
-    }
-    
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-    
-    public void setNotificationTemplates(List<String> notificationTemplates) {
-        this.notificationTemplates = notificationTemplates;
-    }
-    public void setKimRoleManagementService(RoleService kimRoleManagementService) {
-        this.kimRoleManagementService = kimRoleManagementService;
-    }
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
         this.protocolActionsNotificationService = protocolActionsNotificationService;
     }
