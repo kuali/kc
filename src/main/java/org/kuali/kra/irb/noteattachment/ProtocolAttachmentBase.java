@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
@@ -38,6 +39,8 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
 
     private transient AttachmentFile file;
     private transient FormFile newFile;
+    @SkipVersioning
+    private transient String updateUserFullName;
     
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -353,5 +356,21 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
 
     public void setDocumentId(Integer documentId) {
         this.documentId = documentId;
+    }
+
+    /**
+     * Gets the updateUserFullName attribute. 
+     * @return Returns the updateUserFullName.
+     */
+    public String getUpdateUserFullName() {
+        return updateUserFullName;
+    }
+
+    /**
+     * Sets the updateUserFullName attribute value.
+     * @param updateUserFullName The updateUserFullName to set.
+     */
+    public void setUpdateUserFullName(String updateUserFullName) {
+        this.updateUserFullName = updateUserFullName;
     }
 }
