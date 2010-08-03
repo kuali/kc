@@ -59,9 +59,9 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private ProtocolReviewer protocolReviewer;
     private String createUser;
     private Timestamp createTimestamp;
-    
+     
     @SkipVersioning
-    private ProtocolOnlineReview protocolOnlineReview;
+    private transient ProtocolOnlineReview protocolOnlineReview;
     private String minuteEntry; 
     
     // TODO : not sure how this protocols yet.
@@ -72,6 +72,13 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private Protocol protocol;
 
     private boolean generateAttendance = false;
+    
+    @SkipVersioning
+    private transient String createUserFullName;
+    @SkipVersioning
+    private transient String updateUserFullName;
+    
+    
     
     public CommitteeScheduleMinute() { 
 
@@ -400,6 +407,38 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         } else {
             return null;
         }
+    }
+    
+    /**
+     * Gets the createUserFullName attribute. 
+     * @return Returns the createUserFullName.
+     */
+    public String getCreateUserFullName() {
+        return createUserFullName;
+    }
+
+    /**
+     * Sets the createUserFullName attribute value.
+     * @param createUserFullName The createUserFullName to set.
+     */
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
+
+    /**
+     * Gets the updateUserFullName attribute. 
+     * @return Returns the updateUserFullName.
+     */
+    public String getUpdateUserFullName() {
+        return updateUserFullName;
+    }
+
+    /**
+     * Sets the updateUserFullName attribute value.
+     * @param updateUserFullName The updateUserFullName to set.
+     */
+    public void setUpdateUserFullName(String updateUserFullName) {
+        this.updateUserFullName = updateUserFullName;
     }
     
 }
