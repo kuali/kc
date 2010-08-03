@@ -122,7 +122,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
         boolean valid = true;
-        valid &= processRequiredFieldsBusinessRules((ProtocolDocument) document);
+        valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
         valid &= processSpecialReviewSaveRules((ProtocolDocument) document);
@@ -152,60 +152,27 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
     
     /**
-     * Executes validation rule for the required fields on a {@link ProtocolDocument ProtocolDocument}.
+     * Validates lead unit rules for a {@link ProtocolDocument ProtocolDocument}.
      * @param document the document
      * @return true if validation passes false if not
      * @throws NullPointerException if the document is null
      */
-    public boolean processRequiredFieldsBusinessRules(ProtocolDocument document) {
-
+    public boolean processLeadUnitBusinessRules(ProtocolDocument document) {
+        boolean isValid = true;
+        
         if (document == null) {
             throw new NullPointerException("the document was null");
         }
-
-        return isValidUnit(document.getProtocol().getLeadUnitNumber()) && isValidUnitProperties(document.getProtocol());
+        Protocol protocol = document.getProtocol();
         
-    }
-
-    /*
-     * Checks if the unit properties contained in a {@link Protocol Protocol} are valid.
-     * 
-     * @param protocol the {@link Protocol Protocol} @return true is valid false if not.
-     */
-    private boolean isValidUnitProperties(Protocol protocol) {
-
-        boolean isValid = true;
-         if (protocol.getLeadUnitForValidation() == null ||  protocol.getLeadUnit() == null) {
-               isValid = false;
-               reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NAME_NOT_FOUND);
-         }
-         return isValid;
-
-    }
-
-
-    /*
-     * Checks if a {@link Unit Unit} is available for a given unit number.
-     *
-     * <p>
-     * This method will return false if passed in a blank unitNUmber
-     * </p>
-     *
-     * @param unitNumber the unitNumber
-     * @return true if unit exists in Unit table false if not.
-     */
-    private boolean isValidUnit(String unitNumber) {
-        boolean isValid = true;
-        if (StringUtils.isBlank(unitNumber)) {
-            isValid = false;
-        } else {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
-            Unit unit = unitService.getUnit(unitNumber);
-            isValid = unit != null;
+        if (StringUtils.isNotBlank(protocol.getLeadUnitNumber())) {
+            Unit unit = getUnitService().getUnit(protocol.getLeadUnitNumber());
+            if (unit == null) {
+                reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
+                isValid = false;
+            }
         }
-        if (!isValid) {
-            reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
-        }
+        
         return isValid;
     }
     
@@ -420,6 +387,10 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CommitteeDecision actionBean) {
         return new CommitteeDecisionRecuserRule().proccessCommitteeDecisionRecuserRule(document, actionBean);
+    }
+    
+    private UnitService getUnitService() {
+        return KraServiceLocator.getService(UnitService.class);
     }
 
 }

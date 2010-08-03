@@ -415,8 +415,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         protocolUnit.setProtocolNumber(protocol.getProtocolNumber());
         protocolUnit.setSequenceNumber(0);
         protocolUnit.refreshReferenceObject(NEW_REFERENCE_UNIT);
-
-        protocol.setLeadUnitForValidation(protocolUnit);
         protocolPerson.getProtocolUnits().clear();
         protocolPerson.getProtocolUnits().add(protocolUnit);
         

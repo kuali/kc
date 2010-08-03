@@ -265,9 +265,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destDoc.getProtocol().setProtocolTypeCode(srcDoc.getProtocol().getProtocolTypeCode());
         destDoc.getProtocol().setTitle(srcDoc.getProtocol().getTitle());
         destDoc.getProtocol().setLeadUnitNumber(srcDoc.getProtocol().getLeadUnitNumber());
-        destDoc.getProtocol().setLeadUnitForValidation(srcDoc.getProtocol().getLeadUnitForValidation());
         destDoc.getProtocol().setPrincipalInvestigatorId(srcDoc.getProtocol().getPrincipalInvestigatorId());
-        destDoc.getProtocol().setLeadUnitForValidation(srcDoc.getProtocol().getLeadUnitForValidation());
     }
     
     /**
