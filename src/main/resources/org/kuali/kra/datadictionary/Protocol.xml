@@ -205,7 +205,7 @@
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:businessObjectClass="org.kuali.kra.irb.protocol.ProtocolType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.irb.protocol.ProtocolTypeValuesFinder"
             	p:includeKeyInLabel="false" 
             	p:includeBlankRow="false"
             	p:keyAttribute="protocolTypeCode"
