@@ -13,27 +13,49 @@
 	<table cellpadding=0 cellspacing=0 summary="">
 	 	<tr>
 		 	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolNumber}"/></div></th>
-	       	<td width="20%"><kul:htmlControlAttribute property="document.protocolList[0].protocolNumber" attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" />
-	       	      <html:hidden property="document.protocolList[0].protocolNumber" />
+	       	<td width="20%">
+	       	   <c:choose>
+	       	       <c:when test="${empty KualiForm.document.protocolList[0].protocolNumber}">
+                        Generated on Save
+                    </c:when>
+                    <c:otherwise>
+                        <kul:htmlControlAttribute property="document.protocolList[0].protocolNumber" attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" />
+                        <html:hidden property="document.protocolList[0].protocolNumber" />
+                    </c:otherwise>
+	       	   </c:choose>
 	       	</td>
 		 	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolStatusCode}"  /></div></th>
 	        <td width="20%">${KualiForm.document.protocolList[0].protocolStatus.description}&nbsp;</td>
 	 	</tr>
 	    <tr>
 			<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.approvalDate}" /></div></th>
-	        <td width="20%"align="left" valign="middle">
-	          	<kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}" readOnly="true" />
+	        <td width="20%" align="left" valign="middle">
+	           <c:choose>
+                   <c:when test="${empty KualiForm.document.protocolList[0].approvalDate}">
+                        Generated on Approval
+                   </c:when>
+                   <c:otherwise>
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}" readOnly="true" />
+	               </c:otherwise>
+	           </c:choose>
 	        </td>
 	        <th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.lastApprovalDate}" /></div></th>
-	        <td width="20%"align="left" valign="middle">
-	          	<kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="true" />
+	        <td width="20%" align="left" valign="middle">
+	           <c:choose>
+                   <c:when test="${empty KualiForm.document.protocolList[0].lastApprovalDate}">
+                        Generated on Approval
+                   </c:when>
+                   <c:otherwise>
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="true" />
+	               </c:otherwise>
+	           </c:choose>
 	        </td>
 	 	</tr>
 	    <tr>
 	       	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.submissionDate}"/></div></th>
 	        <td width="20%">
 	            <c:choose>
-	        	    <c:when test="${KualiForm.document.protocolList[0].submissionDate == null}">
+	        	    <c:when test="${empty KualiForm.document.protocolList[0].submissionDate}">
 	                    Generated on Submission
 	                </c:when>
 	                <c:otherwise>
@@ -43,7 +65,14 @@
 	        </td>
 	        <th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.expirationDate}"/></div></th>
 	        <td width="20%"align="left" valign="middle">
-	          	<kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" readOnly="true" />
+	           <c:choose>
+                   <c:when test="${empty KualiForm.document.protocolList[0].expirationDate}">
+                        Generated on Approval
+                   </c:when>
+                   <c:otherwise>
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" readOnly="true" />
+	               </c:otherwise>
+	           </c:choose>
 	        </td>
 	  	</tr>
 	</table>
