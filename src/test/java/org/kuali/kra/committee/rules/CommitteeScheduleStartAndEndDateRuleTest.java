@@ -61,6 +61,20 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
     }
     
     /**
+     * This method tests for user deletion of start date
+     * @throws Exception
+     */
+    @Test
+    public void testEmptyStartDate() throws Exception {
+        
+        prerequisite(StyleKey.NEVER);
+        
+        event.getScheduleData().setScheduleStartDate(null);
+        
+        testAssertFalse();
+    }
+    
+    /**
      * This method test's rule for user's NEVER selection. 
      * @throws Exception
      */
