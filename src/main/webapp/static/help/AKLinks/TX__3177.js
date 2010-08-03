@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3177", [["Documents/frequency1.htm", "right", "Frequency"],["Documents/frequency.htm", "right", "Frequency"]]);
