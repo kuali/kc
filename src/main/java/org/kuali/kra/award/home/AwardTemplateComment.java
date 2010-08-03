@@ -17,6 +17,7 @@ package org.kuali.kra.award.home;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardTemplateComment extends KraPersistableBusinessObjectBase { 
@@ -29,6 +30,8 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
 	private AwardTemplate template; 
 	
     private String commentTypeCode; 
+    private CommentType commentType;
+    
     private Boolean checklistPrintFlag; 
     private String comments; 
 
@@ -52,11 +55,13 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
 		this.template = template;
 	}
 
-	@SuppressWarnings("unchecked")
     @Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+	protected LinkedHashMap<String, Object> toStringMapper() {
+		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
 		hashMap.put("templateCommentsId", getTemplateCommentsId());
+	    hashMap.put("commentTypeCode", getCommentTypeCode());
+	    hashMap.put("checklistPrintFlag", getChecklistPrintFlag());
+	    hashMap.put("comments", getComments());
 		return hashMap;
 	}
 
@@ -74,6 +79,22 @@ public class AwardTemplateComment extends KraPersistableBusinessObjectBase {
      */
     public void setCommentTypeCode(String commentTypeCode) {
         this.commentTypeCode = commentTypeCode;
+    }
+    
+    /**
+     * Gets the commentType attribute. 
+     * @return Returns the commentType.
+     */
+    public CommentType getCommentType() {
+        return commentType;
+    }
+
+    /**
+     * Sets the commentType attribute value.
+     * @param commentType The commentType to set.
+     */
+    public void setCommentType(CommentType commentType) {
+        this.commentType = commentType;
     }
 
     /**
