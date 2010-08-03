@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.protocol.funding;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -45,8 +46,6 @@ import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
 * The JUnit test class for <code>{@link ProtocolFundingSourceServiceImpl}</code>
