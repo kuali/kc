@@ -31,6 +31,7 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.service.CommitteeScheduleMinuteService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
@@ -76,6 +77,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private boolean initComplete = false;
 
     private transient KcPersonService kcPersonService;
+    private transient CommitteeScheduleMinuteService committeeScheduleMinuteService;
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
@@ -120,7 +122,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                         throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
                     }
                    
-                    
+                    getCommitteeScheduleMinuteService().setMinuteFullUserNames(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
                     ReviewerComments comments = pDoc.getProtocolOnlineReview().getReviewerComments();
                     comments.setProtocolId( pDoc.getProtocolOnlineReview().getProtocolId() );
                  
@@ -459,6 +461,13 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     private DataDictionaryService getDataDictionaryService() {
         return KraServiceLocator.getService(DataDictionaryService.class);
+    }
+    
+    private CommitteeScheduleMinuteService getCommitteeScheduleMinuteService() {
+        if (committeeScheduleMinuteService==null) {
+            committeeScheduleMinuteService = KraServiceLocator.getService(CommitteeScheduleMinuteService.class);
+        }
+        return committeeScheduleMinuteService;
     }
     
     private boolean requiresLock(Document document) {
