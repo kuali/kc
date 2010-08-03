@@ -128,110 +128,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- 
-				Using dependency unpack as opposed to war overlay for a number of reasons
-				1) overlay requires the packaging phase - tomcat plugin run goal does not work with overlays (used by launch files).
-				2) we could force our launch files to use run-exploded or run-war but that is too slow.
-				3) overlayed resources are not placed in a directory (like generated code) making
-				   it difficult for developers to look at the overlayed resources
-				4) our unit test's jetty lifecycle assume all web content resides in src/main/webapp (see point 3)
-			 -->
-			 <!-- 
-			 	Having unpacked resources placed in src/main/webapp as opposed to target directory for the following reasons
-			 	1) we could configure additional web resource directories for war packaging (via the war plugin)
-			 	   (ex: target/generated/rice-web but this does not work with either the tomcat or jetty plugins' run goals.
-			 	2) we could force our launch files to use run-exploded or run-war but that is too slow.
-			 	3) our unit test's jetty lifecycle assume all web content resides in src/main/webapp
-			 	
-			 	This seems like the way to go (placing unpacked content in target like other generated code) if we could find a
-			 	solution for the tomcat/jetty plugins used by our launch files. This rice-web content could be cleaned and unpacked again
-			 	similar to other generated code.  If we did this we would not have to maintain a separate clean step to delete the
-			 	unpacked rice web content.  It would also be nicer in that all unpacked generated code would be place in a single
-			 	directory rather than merged into our source tree.  This has the added benefit that the rice content would
-			 	automatically be excluded from svn.  Currently, we have to use svn:ignore on individual rice folders & files.
-			  -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						 <id>unpack-rice-web</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>	              
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.kuali.rice</groupId>
-									<artifactId>rice-web</artifactId>
-									<version>${org.kuali.rice.version}</version>
-									<type>war</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>src/main/webapp</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-							<includes>*/**</includes>
-							<excludes>${rice.web.excludes}</excludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!-- cleans out rice unpacked rice web content -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
-				<executions>
-					<execution>
-						<id>delete-rice-web</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-						<configuration>
-							<filesets>
-        						<fileset>
-          							<directory>src/main/webapp</directory>
-          							<includes>
-            							<include>index.jsp</include>
-            							<include>kcb/</include>
-            							<include>ken/</include>
-            							<include>kew/</include>
-            							<include>kim/</include>
-            							<include>kr/</include>
-            							<include>ksb/</include>
-            							<include>rice-portal/</include>
-            							<include>WEB-INF/jsp/dummy_login.jsp</include>
-            							<include>WEB-INF/tags/kew/</include>
-            							<include>WEB-INF/tags/kim/</include>
-            							<include>WEB-INF/tags/kr/</include>
-            							<include>WEB-INF/tags/rice-portal/channel/administration/</include>
-            							<include>WEB-INF/tags/rice-portal/channel/main/</include>
-            							<include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
-            							<include>WEB-INF/tags/rice-portal/channel/portalChannelTop.tag</include>
-            							<include>WEB-INF/tags/rice-portal/administrationTab.tag</include>
-            							<include>WEB-INF/tags/rice-portal/iframePortletContainer.tag</include>
-            							<include>WEB-INF/tags/rice-portal/immutableBar.tag</include>
-            							<include>WEB-INF/tags/rice-portal/maintenanceTab.tag</include>
-            							<include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
-            							<include>WEB-INF/tags/rice-portal/portalLink.tag</include>
-          							</includes>
-          							<excludes>
-          								<exclude>WEB-INF/tags/kr/tab.tag</exclude>
-          								<exclude>WEB-INF/tags/kr/tabTop.tag</exclude>
-										<exclude>**/.svn</exclude>
-										<exclude>**/.svn/**</exclude>
-          							</excludes>
-								</fileset>
-							</filesets>
-						</configuration>
-					</execution>
-				</executions>
-    		</plugin>
 		</plugins>
 	</build>
 
@@ -815,6 +711,125 @@
 	</dependencies>
 
 	<profiles>
+	
+		<!-- 
+			This profile handles unpacking and cleaning of the rice web content and is on by default but can be
+			turned off by toggling the activeByDefault flag.  This is useful to test changes to rice files locally.
+		 -->
+		<profile>
+			<id>rice-web</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- 
+						Using dependency unpack as opposed to war overlay for a number of reasons
+						1) overlay requires the packaging phase - tomcat plugin run goal does not work with overlays (used by launch files).
+						2) we could force our launch files to use run-exploded or run-war but that is too slow.
+						3) overlayed resources are not placed in a directory (like generated code) making
+						   it difficult for developers to look at the overlayed resources
+						4) our unit test's jetty lifecycle assume all web content resides in src/main/webapp (see point 3)
+					 -->
+					 <!-- 
+					 	Having unpacked resources placed in src/main/webapp as opposed to target directory for the following reasons
+					 	1) we could configure additional web resource directories for war packaging (via the war plugin)
+					 	   (ex: target/generated/rice-web but this does not work with either the tomcat or jetty plugins' run goals.
+					 	2) we could force our launch files to use run-exploded or run-war but that is too slow.
+					 	3) our unit test's jetty lifecycle assume all web content resides in src/main/webapp
+					 	
+					 	This seems like the way to go (placing unpacked content in target like other generated code) if we could find a
+					 	solution for the tomcat/jetty plugins used by our launch files. This rice-web content could be cleaned and unpacked again
+					 	similar to other generated code.  If we did this we would not have to maintain a separate clean step to delete the
+					 	unpacked rice web content.  It would also be nicer in that all unpacked generated code would be place in a single
+					 	directory rather than merged into our source tree.  This has the added benefit that the rice content would
+					 	automatically be excluded from svn.  Currently, we have to use svn:ignore on individual rice folders & files.
+					  -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.1</version>
+						<executions>
+							<execution>
+								<id>unpack-rice-web</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>	              
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.kuali.rice</groupId>
+											<artifactId>rice-web</artifactId>
+											<version>${org.kuali.rice.version}</version>
+											<type>war</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>src/main/webapp</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+									<includes>*/**</includes>
+									<excludes>${rice.web.excludes}</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<!-- cleans out rice unpacked rice web content -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.4.1</version>
+						<executions>
+							<execution>
+								<id>delete-rice-web</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<filesets>
+		        						<fileset>
+		          							<directory>src/main/webapp</directory>
+		          							<includes>
+		            							<include>index.jsp</include>
+		            							<include>kcb/</include>
+		            							<include>ken/</include>
+		            							<include>kew/</include>
+		            							<include>kim/</include>
+		            							<include>kr/</include>
+		            							<include>ksb/</include>
+		            							<include>rice-portal/</include>
+		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
+		            							<include>WEB-INF/tags/kew/</include>
+		            							<include>WEB-INF/tags/kim/</include>
+		            							<include>WEB-INF/tags/kr/</include>
+		            							<include>WEB-INF/tags/rice-portal/channel/administration/</include>
+		            							<include>WEB-INF/tags/rice-portal/channel/main/</include>
+		            							<include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/channel/portalChannelTop.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/administrationTab.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/iframePortletContainer.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/immutableBar.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/maintenanceTab.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/portalLink.tag</include>
+		          							</includes>
+		          							<excludes>
+		          								<exclude>WEB-INF/tags/kr/tab.tag</exclude>
+		          								<exclude>WEB-INF/tags/kr/tabTop.tag</exclude>
+												<exclude>**/.svn</exclude>
+												<exclude>**/.svn/**</exclude>
+		          							</excludes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+		    		</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
 		<!-- 
 			This profile defines the dependencies/plugins for targeting servlet 2.5 web containers like Tomcat 6+ & Jetty 6+
 			This config also defines plugins for running kc/rice in a bundled configuration.
