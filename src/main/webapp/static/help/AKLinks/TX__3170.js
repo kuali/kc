@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3170", [["Documents/basisofpayment1.htm", "right", "Basis of Payment"],["Documents/basisofpayment.htm", "right", "Basis of Payment"]]);

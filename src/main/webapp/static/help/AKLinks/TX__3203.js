@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3203", [["Documents/exemptstudieschecklist1.htm", "right", "Exempt Studies CheckList"],["Documents/exemptstudieschecklist.htm", "right", "Exempt Studies CheckList"]]);

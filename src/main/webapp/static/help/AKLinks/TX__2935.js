@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2935", [["Documents/notesandattachmentspanel.htm", "right", "Notes and Attachments Panel"],["Documents/notesandattachmentspanel1.htm", "right", "Notes and Attachments Panel"]]);
