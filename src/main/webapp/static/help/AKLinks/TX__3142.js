@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3142", [["Documents/validrates1.htm", "right", "Valid Rates"],["Documents/validrates.htm", "right", "Valid Rates"]]);

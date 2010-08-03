@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3155", [["Documents/narrativetypes1.htm", "right", "Narrative Types"],["Documents/narrativetypes.htm", "right", "Narrative Types"]]);

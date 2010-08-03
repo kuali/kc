@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3193", [["Documents/affiliationtype1.htm", "right", "Affiliation Type"],["Documents/affiliationtype.htm", "right", "Affiliation Type"],["Documents/affiliationtype2.htm", "right", "Affiliation Type"]]);

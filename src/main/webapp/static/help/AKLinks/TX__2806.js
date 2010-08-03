@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2806", [["Documents/adhocrecipientspanel.htm", "right", "Ad Hoc Recipients Panel"],["Documents/adhocrecipientspanel2.htm", "right", "Ad Hoc Recipients Panel"],["Documents/adhocrecipientspanel3.htm", "right", "Ad Hoc Recipients Panel"],["Documents/adhocrecipientspanel1.htm", "right", "Ad Hoc Recipients Panel"]]);
