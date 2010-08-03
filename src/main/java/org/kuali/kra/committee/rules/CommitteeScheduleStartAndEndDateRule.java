@@ -33,15 +33,33 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
     public static final String BLANK = "";
     
     /**
-     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent)
+     * {@inheritDoc}
+     * @see org.kuali.kra.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(
+     *      org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent)
      */
     public boolean processRules(CommitteeScheduleStartAndEndDateEvent addCommitteeScheduleEvent) {
+        boolean valid = true;
         
-        StringBuilder endDateId = new StringBuilder();
-        endDateId.append(Constants.committeeHelper).append(DOT);
-        endDateId.append(Constants.scheduleData).append(DOT);
-        boolean rulePassed = true;
+        StringBuilder errorPathBuilder = new StringBuilder();
+        errorPathBuilder.append(Constants.committeeHelper).append(DOT);
+        errorPathBuilder.append(Constants.scheduleData).append(DOT);
+        
         ScheduleData scheduleData = addCommitteeScheduleEvent.getScheduleData();
+        Date startDate = scheduleData.getScheduleStartDate();
+        
+        if (startDate == null) {
+            errorPathBuilder.append(Constants.scheduleStartDate);
+            reportError(errorPathBuilder.toString(), KeyConstants.ERROR_COMMITTEESCHEDULE_STARTDATE_BLANK);
+            valid = false;
+        } else {
+            valid &= validateStartDateEndDateAfterOrEquals(scheduleData, errorPathBuilder);
+        }
+        
+        return valid;
+    }
+    
+    private boolean validateStartDateEndDateAfterOrEquals(ScheduleData scheduleData, StringBuilder errorPathBuilder) {
+        boolean rulePassed = true;
         Date startDate = scheduleData.getScheduleStartDate();
         Date endDate = null;
         String [] msg = new String[1];
@@ -52,42 +70,29 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
             case DAILY : 
                 endDate = scheduleData.getDailySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
-                endDateId.append(Constants.dailySchedule);
+                errorPathBuilder.append(Constants.dailySchedule);
                 break;
             case WEEKLY :
                 endDate = scheduleData.getWeeklySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg); 
-                endDateId.append(Constants.weeklySchedule);
+                errorPathBuilder.append(Constants.weeklySchedule);
                 break;
             case MONTHLY :
                 endDate = scheduleData.getMonthlySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
-                endDateId.append(Constants.monthlySchedule);
+                errorPathBuilder.append(Constants.monthlySchedule);
                 break;
             case YEARLY : 
                 endDate = scheduleData.getYearlySchedule().getScheduleEndDate();
                 rulePassed = !isStartDateEndDateAfterOrEquals(startDate, endDate, msg);
-                endDateId.append(Constants.yearlySchedule);
+                errorPathBuilder.append(Constants.yearlySchedule);
                 break;            
         }
-        if(!rulePassed) {
-            endDateId.append(DOT).append(Constants.scheduleEndDate);  
-            reportError(endDateId.toString(), msg[0]);
+        if (!rulePassed) {
+            errorPathBuilder.append(DOT).append(Constants.scheduleEndDate);  
+            reportError(errorPathBuilder.toString(), msg[0]);
         }
         return rulePassed;
-    }
-    
-    /**
-     * Helper to identify if start date is before end date.
-     * @param startDate
-     * @param endDate
-     * @return
-     */
-    private boolean isStartDateBeforeEndDate(Date startDate, Date endDate) {
-        boolean retVal = false;
-        if(startDate.before(endDate))
-            retVal = true;
-        return retVal;
     }
     
     private boolean isStartDateEndDateAfterOrEquals(Date startDate, Date endDate, String... msg) {
