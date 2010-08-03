@@ -84,6 +84,10 @@
 		<property name="scheduleService" ref="scheduleService" />
 	</bean>
 	
+	<bean id="committeeScheduleMinuteService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleMinuteServiceImpl">
+		<property name = "personService" ref = "personService"/>
+	</bean>
+	
 	<bean id="committeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="committeeLookupableHelperService" />

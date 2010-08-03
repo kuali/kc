@@ -156,7 +156,7 @@
                         </td>
                         
                         <td style="text-align:center; vertical-align:middle">
-                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].updateUser" 
+                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].updateUserFullName" 
                                                       attributeEntry="${minutesAttributes.updateUser}"
                                                       readOnly="true" />  <kul:htmlControlAttribute property="${property}.comments[${status.index}].updateTimestamp" 
                                                       attributeEntry="${minutesAttributes.updateTimestamp}"
@@ -164,9 +164,9 @@
                         </td>
                         
                         <td style="text-align:center; vertical-align:middle">
-                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].createUser" 
+                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].createUserFullName" 
                                                       attributeEntry="${minutesAttributes.createUser}"
-                                                      readOnly="true" />  <kul:htmlControlAttribute property="${property}.comments[${status.index}].createTimestamp" 
+                                                      readOnly="true" /> <kul:htmlControlAttribute property="${property}.comments[${status.index}].createTimestamp" 
                                                       attributeEntry="${minutesAttributes.createTimestamp}"
                                                       readOnly="true" />
                         </td>
