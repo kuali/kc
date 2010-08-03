@@ -16,21 +16,17 @@
 package org.kuali.kra.external.unit.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.mortbay.log.Log;
 
 /**
  * Default implementation of the
@@ -62,14 +58,13 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
      */
     @SuppressWarnings("unchecked")
     public List<UnitDTO> lookupUnits(HashMap<String, String> searchCriteria) {
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));
-       
+        List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
         List<UnitDTO> unitDTO = new ArrayList<UnitDTO>();
-        Iterator iterator = units.iterator();
-        while (iterator.hasNext()) {
-            unitDTO.add(unitBoToDto((Unit) iterator.next()));
+        
+        for (Unit unit : units) {
+            unitDTO.add(unitBoToDto(unit));
         }
+       
         return unitDTO;
     }
     
@@ -80,18 +75,31 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         ArrayList<String> parentUnits = new ArrayList<String>();
         
         Unit unit = unitService.getUnit(unitNumber); 
-        Unit parentUnit = unit.getParentUnit();
-        parentUnits.add(parentUnit.getUnitNumber());
-        while (parentUnit != null) {
-            Unit currentUnit = parentUnit.getParentUnit();
-            parentUnits.add(parentUnit.getParentUnitNumber());
-            parentUnit = currentUnit;
+        
+        if (ObjectUtils.isNull(unit)) {
+            Log.warn("Cannot get parent units for unit " + unitNumber + ": unit does not exist");
+        } else {
+            Unit parentUnit = unit.getParentUnit();
+            parentUnits.add(parentUnit.getUnitNumber());
+            while (parentUnit != null) {
+                parentUnits.add(parentUnit.getParentUnitNumber());
+                parentUnit = parentUnit.getParentUnit();
+            }
         }
         return parentUnits;
     }
 
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
+    }
+    
+    /**
+     * Sets the businessObjectService attribute value. Injected by Spring.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
     
     /**
@@ -110,5 +118,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         }
         return unitDTO;
     }
+    
+   
     
 }
