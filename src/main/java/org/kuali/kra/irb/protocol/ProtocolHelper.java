@@ -378,8 +378,6 @@ public class ProtocolHelper implements Serializable {
         getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
         getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
-        ProtocolUnit leadUnit = getProtocolPersonnelService().getLeadUnit(principalInvestigator);
-        getProtocol().setLeadUnitForValidation(leadUnit);
     }
     
     private ProtocolNumberService getProtocolNumberService() {

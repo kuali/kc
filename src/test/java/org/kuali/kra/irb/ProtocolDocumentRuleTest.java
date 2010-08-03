@@ -20,12 +20,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolDocumentRule;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
@@ -53,12 +53,14 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
     public void testRequiredBusinessRuleOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
         setProtocolRequiredFields(document);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.addToErrorPath(rule.DOCUMENT_ERROR_PATH);
-        dictionaryValidationService.validateDocumentAndUpdatableReferencesRecursively(document, 10,true,true);
-        assertTrue(errorMap.isEmpty());
-        errorMap.removeFromErrorPath(rule.DOCUMENT_ERROR_PATH);
-        assertTrue(rule.processRequiredFieldsBusinessRules(document));
+        
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        messageMap.addToErrorPath(ResearchDocumentRuleBase.DOCUMENT_ERROR_PATH);
+        dictionaryValidationService.validateDocumentAndUpdatableReferencesRecursively(document, 10, true, true);
+        assertTrue(messageMap.hasNoErrors());
+        messageMap.removeFromErrorPath(ResearchDocumentRuleBase.DOCUMENT_ERROR_PATH);
+        
+        assertTrue(rule.processLeadUnitBusinessRules(document));
     }
     
     @Test
@@ -82,8 +84,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         ProtocolDocument document = getNewProtocolDocument();
         setProtocolRequiredFields(document);
         document.getProtocol().setLeadUnitNumber("bogus");
-        document.getProtocol().setLeadUnitForValidation(null);
-        assertFalse(rule.processRequiredFieldsBusinessRules(document));
+        assertFalse(rule.processLeadUnitBusinessRules(document));
         assertError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
     }
 

@@ -110,8 +110,6 @@ public class ProtocolFactory {
         protocolUnit.setProtocolNumber(protocolNumber == null ? PROTOCOL_NUMBER : protocolNumber);
         protocolUnit.setSequenceNumber(0);
         protocolUnit.refreshReferenceObject(REFERENCE_UNIT);
-
-        protocol.setLeadUnitForValidation(protocolUnit);
         protocolPerson.getProtocolUnits().add(protocolUnit);
         
         protocol.getProtocolPersons().add(protocolPerson);
