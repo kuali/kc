@@ -98,8 +98,6 @@ public abstract class ProtocolRuleTestBase extends KcUnitTestBase {
         protocolUnit.setProtocolNumber("0");
         protocolUnit.setSequenceNumber(0);
         protocolUnit.refreshReferenceObject(REFERENCE_UNIT);
-
-        protocol.setLeadUnitForValidation(protocolUnit);
         protocolPerson.getProtocolUnits().add(protocolUnit);
         
         protocol.getProtocolPersons().add(protocolPerson);

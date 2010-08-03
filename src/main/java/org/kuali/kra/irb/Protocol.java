@@ -143,9 +143,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     
     private List<ProtocolFundingSource> protocolFundingSources; 
 
-    // this is a transient filed for validation purposes only.
-    private ProtocolUnit leadUnitForValidation;
-
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
@@ -739,22 +736,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
     private ProtocolPersonnelService getProtocolPersonnelService() {
         ProtocolPersonnelService protocolPersonnelService = (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
         return protocolPersonnelService;
-    }
-
-    public ProtocolUnit getLeadUnitForValidation() {
-        if (leadUnitForValidation == null && getPrincipalInvestigator() != null) {
-            for (ProtocolUnit protocolUnit : getPrincipalInvestigator().getProtocolUnits()) {
-                if (protocolUnit.getLeadUnitFlag()) {
-                    leadUnitForValidation = protocolUnit;
-                    break;
-                }                
-            }
-        }
-        return leadUnitForValidation;
-    }
-
-    public void setLeadUnitForValidation(ProtocolUnit leadUnitForValidation) {
-        this.leadUnitForValidation = leadUnitForValidation;
     }
 
     public List<ProtocolFundingSource> getProtocolFundingSources() {
