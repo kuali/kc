@@ -2120,6 +2120,7 @@
 	
 	<bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
         <property name="unitService" ref="unitService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
