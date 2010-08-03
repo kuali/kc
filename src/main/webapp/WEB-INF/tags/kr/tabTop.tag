@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2010 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -82,6 +82,7 @@
 
 <%-- KC MODIFICATION --%>
         <c:if test="${! (empty tabAuditKey) or ! (empty tabErrorKey)}">
+        	<%-- display errors for this tab --%>
         	<div class="tab-container-error"><div class="left-errmsg-tab">
 				<c:if test="${! (empty tabErrorKey)}">
 					<kul:errors keyMatch="${tabErrorKey}" errorTitle="Errors found in this Section:" />
@@ -94,8 +95,8 @@
         	</div></div>
       	</c:if>
 <%-- END KC MODIFICATION --%>
-        <!-- Before the jsp:doBody of the kul:tab tag -->
+        <%-- Before the jsp:doBody of the kul:tab tag --%>
         <jsp:doBody/>
-        <!-- After the jsp:doBody of the kul:tab tag -->
+        <%-- After the jsp:doBody of the kul:tab tag --%>
 
 </div>

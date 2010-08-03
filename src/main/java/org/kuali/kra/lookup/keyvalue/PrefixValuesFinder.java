@@ -18,8 +18,8 @@ package org.kuali.kra.lookup.keyvalue;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 
 /**
  * A {@link KeyValuesFinder KeyValuesFinder} that adds a prefix {@link KeyLabelPair KeyLabelPair}.
@@ -129,8 +129,20 @@ public final class PrefixValuesFinder implements KeyValuesFinder {
         return DEFAULT_PREFIX_VALUE;
     }
     
-    public List getKeyValues(boolean includeActiveOnly) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * {@inheritDoc}
+     */
+    public List<KeyLabelPair> getKeyValues(boolean includeActiveOnly) {
+        @SuppressWarnings("unchecked")
+        final List<KeyLabelPair> list = this.finder.getKeyValues(includeActiveOnly);
+        list.add(0, new KeyLabelPair(PREFIX_KEY, this.prefixValue));
+        return list;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void clearInternalCache() {
+        this.finder.clearInternalCache();
     }
 }
