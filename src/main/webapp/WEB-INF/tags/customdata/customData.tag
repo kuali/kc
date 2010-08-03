@@ -69,10 +69,13 @@
                 	</c:when>
                 	<c:otherwise>
                 	    ${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
-                		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
+                        <c:if test="${empty customAttributeDocument.customAttribute.lookupClass}">
+                		    <input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}" />
+                        </c:if>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
-							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
+                            <c:out value="${customAttributeValue}" />
+							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
 						</c:if>
 					
 						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
