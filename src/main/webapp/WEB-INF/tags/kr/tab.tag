@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2010 The Kuali Foundation
+ Copyright 2005-2007 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@
 <%@ attribute name="auditCluster" required="false" description="The error audit cluster associated with this page." %>
 <%@ attribute name="tabAuditKey" required="false" description="The property key this tab should display audit errors associated with." %>
 <%@ attribute name="tabItemCount" required="false" description="Expands the title to display this count alongside." %>
+<%@ attribute name="helpUrl" required="false" description="Will display as a standard help link/image in the tab." %>
 <%@ attribute name="leftSideHtmlProperty" required="false" description="The property name of an attribute to display at the left side of the tab. Used with leftSideHtmlAttribute." %>
 <%@ attribute name="leftSideHtmlAttribute" required="false" type="java.util.Map" description="The data dictionary entry for an attribute to display at the left side of the tab.  Used with leftSideHtmlProperty." %>
 <%@ attribute name="leftSideHtmlDisabled" required="false" description="If leftSideHtmlProperty and leftSideHtmlAttribute have been utilized, whether to display the left hand attribute as disabled." %>
@@ -137,6 +138,9 @@
                   <h2><c:out value="${tabTitle}" /></h2>
                 </c:otherwise>
               </c:choose>
+              <c:if test="${not empty helpUrl }">
+              	<kul:help alternativeHelp="${helpUrl}" />
+              </c:if>
               <%--<h2><c:out value="${tabTitle}" /></h2>--%>
               <c:if test="${highlightTab}">
                 &nbsp;<img src="${ConfigProperties.kr.externalizable.images.url}asterisk_orange.png" alt="changed"/>

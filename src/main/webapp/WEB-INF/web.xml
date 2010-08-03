@@ -74,7 +74,7 @@
         <filter-name>BootstrapFilter</filter-name>
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
-
+    
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>edoclite</servlet-name>
@@ -135,12 +135,15 @@
   <listener>
     <listener-class>org.kuali.kra.web.listener.SessionLoggingListener</listener-class>
   </listener>
+
+<!-- Rice content Start -->
   
 <!-- Rice content Start -->
-<!--    <listener>-->
-<!--      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>-->
-<!--    </listener>-->
-
+<!--
+    <listener>
+      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>
+    </listener>
+-->
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
 	</listener>
@@ -148,8 +151,6 @@
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-	
-
 
 	<servlet>
 		<servlet-name>action</servlet-name>
@@ -326,3 +327,4 @@
 <!-- Rice content End -->
 
 </web-app>
+
