@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__2744", [["Documents/deliveryinfopanel.htm", "right", "Delivery Info Panel"],["Documents/deliveryinfopanel1.htm", "right", "Delivery Info Panel"]]);

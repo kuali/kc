@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3179", [["Documents/methodofpayment1.htm", "right", "Method of Payment"],["Documents/methodofpayment.htm", "right", "Method of Payment"]]);

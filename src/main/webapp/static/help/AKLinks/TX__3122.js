@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3122", [["Documents/negotiationactivitytype1.htm", "right", "Negotiation Activity Type"],["Documents/negotiationactivitytype.htm", "right", "Negotiation Activity Type"]]);
