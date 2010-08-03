@@ -86,8 +86,8 @@
 			              <exclude>javax.activation:activation</exclude>
 			              <!-- already including a geronimo version of this -->
 			              <exclude>javax.mail:mail</exclude>
-			              <!-- already including cglib -->
-			              <exclude>cglib:cglib-nodep</exclude>
+			              <!-- already including cglib-nodep -->
+			              <exclude>cglib:cglib</exclude>
 			              <!-- quartz's groupid was changed causing duplicates to be included - excluding the old quartz -->
 			              <exclude>opensymphony:quartz</exclude>
 			            </excludes>
@@ -241,7 +241,7 @@
 		</dependency>
 		<dependency>
 		    <groupId>cglib</groupId>
-		    <artifactId>cglib</artifactId>
+		    <artifactId>cglib-nodep</artifactId>
 		    <version>2.2</version>
 		</dependency>
 		<dependency>
@@ -292,6 +292,12 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>displaytag</groupId>
@@ -388,16 +394,15 @@
 		    		<artifactId>xerces</artifactId>
 		    		<groupId>xercesImpl</groupId>
 		    	</exclusion>
+		    	<exclusion>
+		    		<artifactId>cglib</artifactId>
+		    		<groupId>cglib</groupId>
+		    	</exclusion>
 		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-api</artifactId>
-			<version>${org.apache.cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-common-utilities</artifactId>
 			<version>${org.apache.cxf.version}</version>
 		</dependency>
 		<dependency>
@@ -443,13 +448,6 @@
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
 			<version>1.1.2</version>
-		</dependency>
-		<!-- including it because it is required as a transitive dependency - replaces banned dependency stax-api -->
-		<!-- remove once we are on jdk 6 -->
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.santuario</groupId>
@@ -521,12 +519,6 @@
 			<artifactId>jmock-legacy</artifactId>
 			<version>${org.jmock.version}</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>cglib</groupId>
-					<artifactId>cglib-nodep</artifactId>
-				</exclusion>			
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
@@ -590,10 +582,6 @@
 			<artifactId>rice-impl</artifactId>
 			<version>${org.kuali.rice.version}</version>
 			<exclusions>
-				<exclusion>
-					<groupId>cglib</groupId>
-					<artifactId>cglib-nodep</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>com.oracle</groupId>
 					<artifactId>ojdbc14</artifactId>
@@ -730,12 +718,12 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-core</artifactId>
+		    <artifactId>spring-context-support</artifactId>
 		    <version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-dao</artifactId>
+		    <artifactId>spring-core</artifactId>
 		    <version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
@@ -745,7 +733,7 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-support</artifactId>
+		    <artifactId>spring-tx</artifactId>
 		    <version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
@@ -1031,12 +1019,12 @@
 	<properties>
 		<com.oracle.version>10.2.0.3.0</com.oracle.version>
 		<mysql.version>5.1.5</mysql.version>
-		<org.apache.cxf.version>2.1.7</org.apache.cxf.version>
+		<org.apache.cxf.version>2.2.9</org.apache.cxf.version>
 		<org.drools.version>5.0.1</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
-		<org.kuali.rice.version>1.0.2.1-KC-06</org.kuali.rice.version>
-		<org.mortbay.jetty.version>7.1.5.v20100705</org.mortbay.jetty.version>
-		<org.springframework.version>2.0.4</org.springframework.version>
+		<org.kuali.rice.version>1.0.3-KC-01</org.kuali.rice.version>
+		<org.mortbay.jetty.version>7.1.6.v20100715</org.mortbay.jetty.version>
+		<org.springframework.version>2.5.6</org.springframework.version>
 		<struts.version>1.2.9</struts.version>
 		<tomcat.version>5.5.23</tomcat.version>
 		<jstl.version>1.1.2</jstl.version>

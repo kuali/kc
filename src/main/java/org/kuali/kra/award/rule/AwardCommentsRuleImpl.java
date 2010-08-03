@@ -17,7 +17,7 @@ package org.kuali.kra.award.rule;
 
 import java.util.Collection;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;

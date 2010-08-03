@@ -377,6 +377,6 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
-    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" /> 
     <plug-in className="org.kuali.kra.web.struts.action.GlobalFormatterRegistry" />
 </struts-config>
