@@ -640,6 +640,7 @@ public final class KeyConstants {
     public static final String ERROR_VALIDATION_ERRORS_EXIST = "error.institutionalproposal.validationFailed";
 
     //CommitteeSchedule Messages
+    public static final String ERROR_COMMITTEESCHEDULE_STARTDATE_BLANK = "error.committeeSchedule.start.date.blank";
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE_EQUAL = "error.committeeSchedule.start.and.endDate.equal";
     public static final String ERROR_COMMITTEESCHEDULE_STARTANDENDDATE = "error.committeeSchedule.start.and.endDate";
     public static final String ERROR_COMMITTEESCHEDULE_BLANK = "error.committeeSchedule.blank";    

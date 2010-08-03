@@ -81,6 +81,22 @@ public class CommitteeScheduleWebAddSchedulePanelTest extends CommitteeScheduleW
     }
     
     /**
+     * This method tests for user deletion of start date.
+     * @throws Exception
+     */
+    @Test
+    public void testCommitteScheduleEmptyStartDate() throws Exception {
+        
+        HtmlPage schedulePage =  prerequisite();             
+        setFields(schedulePage, "");
+        
+        HtmlPage pageAfterAdd = clickOnByName(schedulePage, METHODTOCALL_ADDEVENT_ANCHOR, true);
+        
+        assertTrue(hasError(pageAfterAdd));
+        
+    }
+    
+    /**
      * This method test Never recurrence.
      * @throws Exception
      */
