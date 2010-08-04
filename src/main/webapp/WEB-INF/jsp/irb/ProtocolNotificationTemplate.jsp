@@ -19,7 +19,7 @@
 <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request" />
 
 <kul:page lookup="false" 
-          docTitle="Notification Template" 
+          docTitle="Protocol Action Notification Template" 
           transactionalDocument="false"
           renderMultipart="true" 
           htmlFormAction="protocolNotificationTemplate">
@@ -39,7 +39,7 @@
          
     <div class="tab-container" align="center" id="G100">
         <h3>
-            <span class="subhead-left">Notification Templates</span>
+            <span class="subhead-left">Protocol Action Notification Templates</span>
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplate" altText="help" /></span>
         </h3>
         
@@ -117,18 +117,6 @@
 for(var i= 0; i < 7; i++) {
     showHide('filename1-'+i,'browse1-'+i );
     showHide('filename2-'+i,'browse2-'+i );
- //   showHide('filename1-1','browse1-1' );
- //   showHide('filename2-1','browse2-1' );
- //   showHide('filename1-2','browse1-2' );
- //   showHide('filename2-2','browse2-2' );
- //   showHide('filename1-3','browse1-3' );
- //   showHide('filename2-3','browse2-3' );
- //   showHide('filename1-4','browse1-4' );
- //   showHide('filename2-4','browse2-4' );
- //   showHide('filename1-5','browse1-5' );
- //   showHide('filename2-5','browse2-5' );
- //   showHide('filename1-6','browse1-6' );
- //   showHide('filename2-6','browse2-6' );
 }
 
 </SCRIPT>
