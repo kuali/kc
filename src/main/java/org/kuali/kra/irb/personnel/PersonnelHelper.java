@@ -63,6 +63,10 @@ public class PersonnelHelper implements Serializable {
         }
         return document.getProtocol();
     }
+    
+    public boolean isProtocolFinal() {
+        return form.getDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+    }
    
     private void initializePermissions(Protocol protocol) {
         initializeModifyProtocolPermission(protocol);

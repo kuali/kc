@@ -19,6 +19,9 @@
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
     <c:set var="protocolPersonProperty" value="document.protocolList[0].protocolPersons[${status.index}]" />
+    <c:if test="${not KualiForm.personnelHelper.protocolFinal}">
+        <c:set var="leftSideHtmlProperty" value="${protocolPersonProperty}.delete" />
+    </c:if>
     <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
     <c:set var="transparent" value="false" />
 
@@ -33,7 +36,7 @@
 					 tabAuditKey="" 
 					 useRiceAuditMode="true"
 			         tabDescription="${descri}"
-			         leftSideHtmlProperty="${protocolPersonProperty}.delete" 
+			         leftSideHtmlProperty="${leftSideHtmlProperty}" 
 			         leftSideHtmlAttribute="${protocolPersonAttributes.delete}" 
 			     	 leftSideHtmlDisabled="false" 
 			         defaultOpen="${hasErrors}" 
