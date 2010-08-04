@@ -121,10 +121,11 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         ProtocolUnit newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);
         newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
         newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
+        newProtocolPersonUnit.setPersonId(protocolPerson.getPersonId());
 
         newProtocolPersonUnit.refreshReferenceObject(REFERENCE_UNIT);
         protocolPerson.addProtocolUnit(newProtocolPersonUnit);
-        if(newProtocolPersonUnit.getLeadUnitFlag()) {
+        if (newProtocolPersonUnit.getLeadUnitFlag()) {
             protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
             setLeadUnit(protocolPerson);
         }
