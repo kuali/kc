@@ -48,12 +48,15 @@
 							
 	               			<%-- attachment type error handling logic start--%>
 	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
-	               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+	               			<%-- 	<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>--%>
 	               			<%-- attachment type error handling logic start--%>
-	               			
-	               			<html:select property="${property}" style="${textStyle}">
+	               			<html:select property="${property}">
 	               				<html:options collection="options" labelProperty="label" property="key" />
 	               			</html:select>
+	               			<c:if test="${hasErrors}">
+                    	 		<kul:fieldShowErrorIcon />
+                            </c:if>
+ 
 		            	</div>
 					</td>
 	         	</tr>
@@ -158,10 +161,12 @@
 	              		    <%-- attachment file error handling logic start--%>
 	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
 	               				<%-- highlighting does not work in firefox but does in ie... --%>
-	               				<c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>
+	               				<%-- <c:set var="textStyle" value="${hasErrors == true ? 'background-color:#FFD5D5' : ''}"/>--%>
 	               			<%-- attachment file error handling logic start--%>
-	              		
-	              			<html:file property="${property}" style="${textStyle}" size="50"/>
+	              			<html:file property="${property}" size="50"/>
+	               			<c:if test="${hasErrors}">
+                    	 		<kul:fieldShowErrorIcon />
+                            </c:if>
 	           			</div>
 					</td>
 	         	</tr>
