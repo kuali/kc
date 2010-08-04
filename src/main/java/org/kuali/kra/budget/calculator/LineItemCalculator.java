@@ -124,11 +124,12 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             }
             bli.setLineItemCost(salaryRequested);
             bli.setCostSharingAmount(costSharingRequested);
+        }else{
+            BudgetDecimal lineItemCost = bli.getLineItemCost();
+            BudgetDecimal lineItemCostSharing = bli.getCostSharingAmount();
+            boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
+            boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
         }
-        BudgetDecimal lineItemCost = bli.getLineItemCost();
-        BudgetDecimal lineItemCostSharing = bli.getCostSharingAmount();
-        boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
-        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
     }
     @Override
     protected void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount) {
@@ -138,17 +139,12 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     protected void populateBudgetRateBaseList() {
         List<BudgetRateAndBase> budgetRateAndBaseList = bli.getBudgetRateAndBaseList();
         List<BreakUpInterval> breakupIntervals = getBreakupIntervals();
-        Long prevVersionNumber = null;
         if(!budgetRateAndBaseList.isEmpty()){
-            prevVersionNumber = budgetRateAndBaseList.get(0).getVersionNumber();
             budgetRateAndBaseList.clear();
         }
         
         Integer rateNumber = 0;
         for (BreakUpInterval breakUpInterval : breakupIntervals) {
-            
-            
-            
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
             for (RateAndCost rateAndCost : vecAmountBean) {
                 BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
@@ -156,11 +152,10 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
                 BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
                 BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
-                
 //                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
+//                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
                 budgetRateBase.setBaseCost(rateAndCost.getBaseAmount());
-//              budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 
                 budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(bli.getBudgetPeriod());
@@ -172,8 +167,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 
                 budgetRateBase.setLineItemNumber(bli.getLineItemNumber());
                 budgetRateBase.setOnOffCampusFlag(bli.getOnOffCampusFlag());
-//                budgetRateBase.setProposalNumber(bli.getProposalNumber());
-//                budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
                 budgetRateBase.setBudgetId(bli.getBudgetId());
                 budgetRateBase.setRateClassCode(rateAndCost.getRateClassCode());
                 budgetRateBase.setRateNumber(++rateNumber);

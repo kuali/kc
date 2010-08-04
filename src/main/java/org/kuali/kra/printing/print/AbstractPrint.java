@@ -97,27 +97,9 @@ public abstract class AbstractPrint implements Printable {
 	}
 
 	protected byte[] getBytes(XmlObject xmlObject) {
-		// InputStream xmlStream = null;
 		byte[] xmlBytes = null;
-		// try {
 		String xmlString = xmlObject.xmlText();
 		xmlBytes = xmlString.getBytes();
-		// xmlStream = xmlObject.newInputStream();
-		// if(xmlStream!=null){
-		// xmlBytes = new byte[xmlStream.available()];
-		// xmlStream.read(xmlBytes);
-		// }
-		// }catch (IOException e) {
-		//            
-		// }finally{
-		// try {
-		// if(xmlStream!=null){
-		// xmlStream.close();
-		// }
-		// }catch (IOException e) {
-		// //do nothing
-		// }
-		// }
 		return xmlBytes;
 	}
 

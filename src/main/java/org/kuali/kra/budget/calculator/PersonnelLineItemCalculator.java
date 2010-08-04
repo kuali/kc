@@ -142,9 +142,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     protected void populateBudgetRateBaseList() {
         List<BudgetPersonnelRateAndBase> budgetRateAndBaseList = budgetPersonnelLineItem.getBudgetPersonnelRateAndBaseList();
         List<BreakUpInterval> breakupIntervals = getBreakupIntervals();
-        Long prevVersionNumber = null;
         if(!budgetRateAndBaseList.isEmpty()){
-            prevVersionNumber = budgetRateAndBaseList.get(0).getVersionNumber();
             budgetRateAndBaseList.clear();
         }        
         Integer rateNumber = 0;
@@ -170,8 +168,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 
                 budgetRateBase.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
                 budgetRateBase.setOnOffCampusFlag(budgetPersonnelLineItem.getOnOffCampusFlag());
-//                budgetRateBase.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
-//                budgetRateBase.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
                 budgetRateBase.setBudgetId(budgetPersonnelLineItem.getBudgetId());
                 budgetRateBase.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
                 budgetRateBase.setPersonId(budgetPersonnelLineItem.getPersonId());
@@ -181,7 +177,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
-//                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }
