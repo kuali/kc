@@ -47,7 +47,7 @@ public class RequestToCloseEvent extends NotificationEventBase {
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
      */
     public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Reques To Close";
+        return "Protocol " + getProtocol().getProtocolNumber() + " Request To Close";
     }
 
     /**
