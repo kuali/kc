@@ -98,8 +98,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
                 Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
-                inspectAndCaptureObligatedAmountChanges(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode.getValue(), moneyTransactionDetailItems);
-                inspectAndCaptureAnticipatedAmountChanges(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode.getValue(), moneyTransactionDetailItems);
+                inspectAndCaptureAmountChanges(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode.getValue(), moneyTransactionDetailItems);
                 getBusinessObjectService().save(award);
                 getBusinessObjectService().save(moneyTransactionDetailItems);
                 timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");
@@ -107,60 +106,41 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }   
     }
     
-    private void inspectAndCaptureObligatedAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument, 
+    private void inspectAndCaptureAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument, 
                                                             AwardHierarchyNode awardHierarchyNode,  List<TransactionDetail> moneyTransactionDetailItems) {
-        if(!timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAmountObligatedToDate().equals(aai.getAmountObligatedToDate())){
+        PendingTransaction pendingTransaction = new PendingTransaction();
+        pendingTransaction.setComments("Single Node Money Transaction");
+        if(!timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAmountObligatedToDate().equals(aai.getAmountObligatedToDate())
+                || !timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAnticipatedTotalAmount().equals(aai.getAnticipatedTotalAmount())){
             ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
             Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
             List<Award> awardItems = new ArrayList<Award>();
             awardItems.add(award);
             KualiDecimal obligatedChange = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAmountObligatedToDate().subtract(aai.getAmountObligatedToDate());
-            PendingTransaction pendingTransaction = new PendingTransaction();
-            pendingTransaction.setComments("Single Node Money Transaction");
+            KualiDecimal anticipatedChange = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
             if (obligatedChange.isGreaterThan(new KualiDecimal(0))) {
                 pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-            }else {
+            }else if (obligatedChange.isLessThan(new KualiDecimal(0))){
+                pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
+                pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
+            }
+            if (anticipatedChange.isGreaterThan(new KualiDecimal(0))) {
+                pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
+                pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
+            }else if (anticipatedChange.isLessThan(new KualiDecimal(0))){
                 pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                 pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
             }
             pendingTransaction.setObligatedAmount(obligatedChange.abs());
-            pendingTransaction.setAnticipatedAmount(new KualiDecimal(0));
-            pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-            timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
-            getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
-            aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
-                    awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
-            awardHierarchyNode.setAmountObligatedToDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAmountObligatedToDate());
-            awardHierarchyNode.setObliDistributableAmount(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getObliDistributableAmount());
-        }
-    }
-    
-    
-    private void inspectAndCaptureAnticipatedAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument, 
-            AwardHierarchyNode awardHierarchyNode,  List<TransactionDetail> moneyTransactionDetailItems) {
-        if(!timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAnticipatedTotalAmount().equals(aai.getAnticipatedTotalAmount())){
-            ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
-            Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
-            List<Award> awardItems = new ArrayList<Award>();
-            awardItems.add(award);
-            KualiDecimal anticipatedChange = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAnticipatedTotalAmount().subtract(aai.getAnticipatedTotalAmount());
-            PendingTransaction pendingTransaction = new PendingTransaction();
-            pendingTransaction.setComments("Single Node Money Transaction");
-            if (anticipatedChange.isGreaterThan(new KualiDecimal(0))) {
-                pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-                pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-            }else {
-                pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
-                pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
-            }
-            pendingTransaction.setObligatedAmount(new KualiDecimal(0));
             pendingTransaction.setAnticipatedAmount(anticipatedChange.abs());
             pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
             timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
             getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
             aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
-                    awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
+            awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
+            awardHierarchyNode.setAmountObligatedToDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAmountObligatedToDate());
+            awardHierarchyNode.setObliDistributableAmount(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getObliDistributableAmount());
             awardHierarchyNode.setAnticipatedTotalAmount(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAnticipatedTotalAmount());
             awardHierarchyNode.setAntDistributableAmount(timeAndMoneyForm.getAwardHierarchyNodeItems().get(1).getAntDistributableAmount());
         }
