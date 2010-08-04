@@ -332,12 +332,11 @@
 						         							${attachmentProtocolVersion.authorPersonName}
 						         						</td>
 						         						<td style="width: 20%">
-	                                                       <fmt:formatDate value="${attachmentProtocolVersion.createTimestamp}" pattern="MM/dd/yyyy HH:mm" />
+	                                                       <fmt:formatDate value="${attachmentProtocolVersion.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" />
 						         							
 						         						</td>
 						         						<td style="width: 20%">
-	                                                       <fmt:formatDate value="${attachmentProtocolVersion.updateTimestamp}" pattern="MM/dd/yyyy HH:mm" />
-						         							
+	                                                       <fmt:formatDate value="${attachmentProtocolVersion.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />
 						         						</td>
 														<td style="width: 60%">
 														   <div align="left">
