@@ -41,9 +41,11 @@ import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServic
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -164,12 +166,20 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
             Map<String, BudgetDecimal> totalCalculatedCost = new HashMap<String, BudgetDecimal> ();
             Map<String, BudgetDecimal> totalCalculatedCostSharing = new HashMap<String, BudgetDecimal> ();
-             
+            BudgetDecimal newTotalUrAmount = BudgetDecimal.ZERO;
+            budgetLineItem.getBudgetRateAndBaseList().clear();
+            int rateNumber = 0;
+            boolean resetTotalUnderRecovery = false;
+            BudgetDecimal calcDirectCost = BudgetDecimal.ZERO;
+            BudgetDecimal calcIndirectCost = BudgetDecimal.ZERO;
+            BudgetDecimal calcTotalCostSharing = BudgetDecimal.ZERO;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budget,budgetPersonnelDetails).calculate();
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
                 personnelTotalCostSharing = personnelTotalCostSharing.add(budgetPersonnelDetails.getCostSharingAmount());
+                newTotalUrAmount = newTotalUrAmount.add(budgetPersonnelDetails.getUnderrecoveryAmount());
+                resetTotalUnderRecovery = true;
                 List<BudgetPersonnelCalculatedAmount> calAmts = budgetPersonnelDetails.getBudgetCalculatedAmounts();
                 if (CollectionUtils.isNotEmpty(calAmts)) {
                     String rateKey;
@@ -189,14 +199,30 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             
                         }
                         
+                        if (personnelCalAmt.getRateClass() == null) {
+                            personnelCalAmt.refreshReferenceObject("rateClass");
+                        }
+                        if (!personnelCalAmt.getRateClass().getRateClassType().equals("O")) {
+                            calcDirectCost = calcDirectCost.add(personnelCalAmt.getCalculatedCost());
+                        } else {
+                            calcIndirectCost = calcIndirectCost.add(personnelCalAmt.getCalculatedCost());
+                            
+                        }
+                        calcTotalCostSharing = calcTotalCostSharing.add(personnelCalAmt.getCalculatedCostSharing());
+                        
+                        
                     }
-                    
                 }
+                populateRateAndBase(budgetLineItem,budgetPersonnelDetails,rateNumber);
+            }
+            if (resetTotalUnderRecovery) {
+                budgetLineItem.setUnderrecoveryAmount(newTotalUrAmount);
             }
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
             budgetLineItem.setCostSharingAmount(personnelTotalCostSharing);
-            // still need to populate budgetrateandbase ?
-            new LineItemCalculator(budget,budgetLineItem).calculate();
+            budgetLineItem.setDirectCost(calcDirectCost.add(personnelLineItemTotal));
+            budgetLineItem.setTotalCostSharingAmount(calcTotalCostSharing.add(personnelTotalCostSharing));
+            budgetLineItem.setIndirectCost(calcIndirectCost);
             
             List <BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
             if (CollectionUtils.isNotEmpty(budgetLineItemCalculatedAmounts)) {
@@ -209,10 +235,38 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                     }
                 }
             }
-        
         } else {
             new LineItemCalculator(budget,budgetLineItem).calculate();
         }
+    }
+    private void populateRateAndBase(BudgetLineItem bli, BudgetPersonnelDetails budgetPersonnelDetails,int rateNumber) {
+        List<BudgetRateAndBase> budgetRateAndBaseList = bli.getBudgetRateAndBaseList();
+        List<BudgetPersonnelRateAndBase> budgetPersonnelRateBaseList = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
+        for (BudgetPersonnelRateAndBase budgetPersonnelRateAndBase : budgetPersonnelRateBaseList) {
+            BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
+            BudgetDecimal appliedRate = budgetPersonnelRateAndBase.getAppliedRate();
+            budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
+            BudgetDecimal calculatedCost = budgetPersonnelRateAndBase.getCalculatedCost();
+            BudgetDecimal calculatedCostSharing = budgetPersonnelRateAndBase.getCalculatedCostSharing();
+            budgetRateBase.setBaseCostSharing(budgetPersonnelRateAndBase.getBaseCostSharing());
+            budgetRateBase.setBaseCost(budgetPersonnelRateAndBase.getSalaryRequested());
+            
+            budgetRateBase.setBudgetPeriodId(budgetPersonnelRateAndBase.getBudgetPeriodId());
+            budgetRateBase.setBudgetPeriod(budgetPersonnelRateAndBase.getBudgetPeriod());
+            budgetRateBase.setCalculatedCost(calculatedCost);
+            budgetRateBase.setCalculatedCostSharing(calculatedCostSharing);
+            
+            budgetRateBase.setEndDate(budgetPersonnelRateAndBase.getEndDate());
+            budgetRateBase.setLineItemNumber(budgetPersonnelRateAndBase.getLineItemNumber());
+            budgetRateBase.setOnOffCampusFlag(budgetPersonnelRateAndBase.getOnOffCampusFlag());
+            budgetRateBase.setBudgetId(budgetPersonnelRateAndBase.getBudgetId());
+            budgetRateBase.setRateClassCode(budgetPersonnelRateAndBase.getRateClassCode());
+            budgetRateBase.setRateNumber(++rateNumber);
+            budgetRateBase.setRateTypeCode(budgetPersonnelRateAndBase.getRateTypeCode());
+            budgetRateBase.setStartDate(budgetPersonnelRateAndBase.getStartDate());
+            budgetRateAndBaseList.add(budgetRateBase);
+        }   
+
     }
     public void calculateAndSyncBudgetLineItem(Budget budget,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budget,budgetLineItem).calculate();
@@ -358,7 +412,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetPeriod.setTotalCost(budgetPeriod.getSumTotalCostAmountFromLineItems());
         budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
         budgetPeriod.setCostSharingAmount(budgetPeriod.getSumTotalCostSharingAmountFromLineItems());
-            }
+    }
     
     /**
      * Checks if a positive Total Underrecoverary Amount exists in a line item or in a budget period.

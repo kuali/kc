@@ -50,8 +50,6 @@ public class QuestionnairePrint extends AbstractPrint {
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        // TODO : more work to finish.  need feedback from offshore team
-        // QuestionnaireReport.xsl is just a temporary xsl for testing before offshore team implementation is done.
         Source src = new StreamSource(new PrintingUtils().getClass()
                 .getResourceAsStream(XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
         List<Source> sourceList = new ArrayList<Source>();
