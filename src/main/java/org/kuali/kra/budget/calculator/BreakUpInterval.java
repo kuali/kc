@@ -49,8 +49,6 @@ public class BreakUpInterval{
     private BudgetRate uRRatesBean;
     private boolean laWithEBVACalculated = false;
 
-//    private String proposalNumber;
-//    private Integer budgetVersionNumber;
     private Long budgetId;
     private Integer budgetPeriod;
     private Integer lineItemNumber;
@@ -83,7 +81,6 @@ public class BreakUpInterval{
            Equals eqDepRCType = new Equals("dependentRateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
            And eqRCTypeAndeqDepRCType = new And(eqRCType,eqDepRCType);
            QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCTypeAndeqDepRCType);
-//           QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCType);
            if (tempCalcTypes.size() > 0) {
                tempValidCalcType = tempCalcTypes.get(0);
                eBonLARateClassCode = tempValidCalcType.getRateClassCode();
@@ -94,7 +91,6 @@ public class BreakUpInterval{
            eqRCType = new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
            eqRCTypeAndeqDepRCType = new And(eqRCType,eqDepRCType);
            tempCalcTypes = validCalcTypes.filter(eqRCTypeAndeqDepRCType);
-//           tempCalcTypes = validCalcTypes.filter(eqRCType);
            if (tempCalcTypes.size() > 0) {
                tempValidCalcType = tempCalcTypes.get(0);
                vAonLARateClassCode = tempValidCalcType.getRateClassCode();
@@ -107,7 +103,6 @@ public class BreakUpInterval{
             * of the cvValidCalcTypes QueryList
             */
            for (ValidCalcType validCalcType : validCalcTypes) {
-               //RateAndCost rateAndCostBean;
                String rateClassCode = "0";
                String rateTypeCode = "0";
                BudgetDecimal rate = BudgetDecimal.ZERO;
@@ -143,8 +138,6 @@ public class BreakUpInterval{
                    And notEqRCandnotEqRT = new And(notEqualsRC, notEqualsRT);
                    Or neRCandneRTOrneRT = new Or(notEqRCandnotEqRT, notEqualsRT);
                    rateAndCostList = rateAndCostList.filter(neRCandneRTOrneRT);
-//                   rateAndCostList = rateAndCostList.filter(notEqualsRC);
-//                   rateAndCostList = rateAndCostList.filter(notEqualsRT);
                }
                
                /**
@@ -211,8 +204,6 @@ public class BreakUpInterval{
                        rateAndCost.setBaseAmount(BudgetDecimal.ZERO);
                        rateAndCost.setBaseCostSharingAmount(BudgetDecimal.ZERO);
                    }
-                   //getRateBase(rateAndCost);
-                   
                }
                 
            }
@@ -235,13 +226,8 @@ public class BreakUpInterval{
                BudgetRateAndBase budgetRateBaseBean = new BudgetRateAndBase();
                Boundary boundary = getBoundary();
                boolean flag = amountBean.isApplyRateFlag();
-//               budgetRateBaseBean.setProposalNumber(getProposalNumber());
-//               budgetRateBaseBean.setBudgetVersionNumber(getVersionNumber());
                budgetRateBaseBean.setBudgetId(getBudgetId());
                budgetRateBaseBean.setBudgetPeriod(getBudgetPeriod());
-               
-//               keyMap.put("proposalNumber", getProposalNumber());
-//               keyMap.put("budgetVersionNumber", getVersionNumber());
                
                keyMap.put("budgetId", getBudgetId());
                keyMap.put("budgetPeriod", getBudgetPeriod());
@@ -251,7 +237,6 @@ public class BreakUpInterval{
                }
                keyMap.clear();
                
-               //budgetRateBaseBean.setBudgetPeriodId(getBudgetPeriod().)
                budgetRateBaseBean.setRateNumber(++rateNum);
                budgetRateBaseBean.setLineItemNumber(getLineItemNumber());
                budgetRateBaseBean.setStartDate(new java.sql.Date(boundary.getStartDate().getTime()));;
@@ -356,8 +341,6 @@ public class BreakUpInterval{
                     amountBean.setAppliedRate(rate);
                     amountBean.setCalculatedCost(EBonLAcalculatedCost);
                     amountBean.setCalculatedCostSharing(EBonLAcalculatedCostSharing);
-//                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(EBonLAcalculatedCost));
-//                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(EBonLAcalculatedCostSharing));
                 } else {
                     amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                     amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
@@ -397,8 +380,6 @@ public class BreakUpInterval{
                     amountBean.setAppliedRate(rate);
                     amountBean.setCalculatedCost(VAonLAcalculatedCost);
                     amountBean.setCalculatedCostSharing(VAonLAcalculatedCostSharing);
-//                    amountBean.setCalculatedCost(amountBean.getCalculatedCost().add(VAonLAcalculatedCost));
-//                    amountBean.setCalculatedCostSharing(amountBean.getCalculatedCostSharing().add(VAonLAcalculatedCostSharing));
                 } else {//rates not available, so set to zero
                     amountBean.setCalculatedCost(BudgetDecimal.ZERO);
                     amountBean.setCalculatedCostSharing(BudgetDecimal.ZERO);
@@ -496,7 +477,6 @@ public class BreakUpInterval{
                     //calculate OH cost & costSharing, set it to AmountBean
                     OHcalculatedCost = applicableAmt.add(EBCalculatedCost).add(VACalculatedCost).percentage(applicableRate);
                     // Getting the Base Amount for the OH Calculation  = EB CalculatedCost+LI Cost+Va Caculated Cost
-//                    double baseAmount = EBCalculatedCost+VACalculatedCost+applicableAmt;
                     OHcalculatedCostSharing = (applicableAmtCostSharing.add(EBCalculatedCostSharing).
                                                             add(VACalculatedCostSharing).
                                                                 percentage(applicableRate));
@@ -641,22 +621,6 @@ public class BreakUpInterval{
         this.uRRatesBean = uRRatesBean;
     }
     
-//    /**
-//     * Getter for property proposalNumber.
-//     * @return Value of property proposalNumber.
-//     */
-//    public java.lang.String getProposalNumber() {
-//        return proposalNumber;
-//    }    
-//   
-//    /**
-//     * Setter for property proposalNumber.
-//     * @param proposalNumber New value of property proposalNumber.
-//     */
-//    public void setProposalNumber(java.lang.String proposalNumber) {
-//        this.proposalNumber = proposalNumber;
-//    }    
-    
     /**
      * Getter for property budgetPeriod.
      * @return Value of property budgetPeriod.
@@ -688,22 +652,6 @@ public class BreakUpInterval{
     public void setLineItemNumber(int lineItemNumber) {
         this.lineItemNumber = lineItemNumber;
     }
-    
-//    /**
-//     * Getter for property versionNumber.
-//     * @return Value of property versionNumber.
-//     */
-//    public int getVersionNumber() {
-//        return budgetVersionNumber;
-//    }
-//    
-//    /**
-//     * Setter for property versionNumber.
-//     * @param versionNumber New value of property versionNumber.
-//     */
-//    public void setVersionNumber(int versionNumber) {
-//        this.budgetVersionNumber = versionNumber;
-//    }
     
     /**
      * Getter for property rateNumber.
