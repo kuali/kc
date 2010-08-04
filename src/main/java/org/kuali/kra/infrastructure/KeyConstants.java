@@ -669,6 +669,10 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_ACTION_HISTORY_VIEW_NOT_SPECIFIED = "error.committee.action.history.view.not.specified";
     public static final String ERROR_COMMITTEE_ACTION_PRINT_REPORT_NOT_SPECIFIED = "error.committee.action.print.report.not.specified";
     
+    //Committee Management Questions
+    public static final String QUESTION_COMMITTEE_MANAGEMENT_DELETE_MINUTE_CONFIRMATION = "document.question.committee.management.delete.minute";
+    public static final String QUESTION_COMMITTEE_MANAGEMENT_DELETE_OTHER_ACTION_CONFIRMATION = "document.question.committee.management.delete.otherAction";
+    
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
    
