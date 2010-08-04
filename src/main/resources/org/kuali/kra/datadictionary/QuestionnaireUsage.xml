@@ -65,6 +65,7 @@
         <property name="label" value="Module"/>
         <property name="shortLabel" value="Module"/>
         <property name="maxLength" value="3"/>
+    	<property name="required" value="true" />
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
         </property>
@@ -138,9 +139,10 @@
         <property name="label" value="Label"/>
         <property name="shortLabel" value="Label"/>
         <property name="maxLength" value="50"/>
+    	<property name="required" value="true" />
         <property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
         <property name="control">
-            <bean p:size="10" parent="TextControlDefinition"/>
+            <bean p:size="30" parent="TextControlDefinition"/>
         </property>
         <property name="summary" value="Questionnaire Label"/>
         <property name="description" value="Questionnaire Label"/>
