@@ -70,12 +70,16 @@
                         <td style="border: medium none ;">   
 							<label>Non-employee Search</label> 
 						</td>
+            	        <kul:checkErrors keyMatch="document.protocolList[0].principalInvestigatorId" auditMatch="document.protocolList[0].principalInvestigatorId"/>
                         <td width="40" valign="middle" style="border: medium none ;">	
 							<label>
 							<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
 	                         fieldConversions="rolodexId:protocolHelper.rolodexId,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName,fullName:protocolHelper.principalInvestigatorName"  
 	                         />   
 							</label>
+	               			<c:if test="${hasErrors}">
+                    	 		<kul:fieldShowErrorIcon />
+                            </c:if>
 						 </td>
                          </tr>	
 						</c:if>
