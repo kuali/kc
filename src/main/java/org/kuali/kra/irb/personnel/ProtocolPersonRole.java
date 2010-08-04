@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ProtocolPersonRole extends KraPersistableBusinessObjectBase { 
+public class ProtocolPersonRole extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRole> { 
 	
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -84,6 +84,22 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase {
 
     public void setTrainingDetailsRequired(boolean trainingDetailsRequired) {
         this.trainingDetailsRequired = trainingDetailsRequired;
+    }
+
+    public int compareTo(ProtocolPersonRole other) {
+        int result = 0;
+        if (other!=null) {
+            if ( description != null && other.description != null ) {
+                result = description.compareTo(other.getDescription());
+            } else if (description == null && other.getDescription() != null ) {
+                result = 1;
+            } else if (description != null && other.getDescription() == null) {
+                result = -1;
+            } else {
+                result = 0;
+            }
+        }
+        return result;
     }
 	
 }
