@@ -47,6 +47,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.springframework.util.ObjectUtils;
 
 /**
  * The CommitteeAction is the base class for all Committee actions.  Each derived
@@ -76,6 +77,18 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument doc = committeeForm.getCommitteeDocument();
+        
+        if (doc.getCommittee().getMinimumMembersRequired() == null) {
+            doc.getCommittee().setMinimumMembersRequired(0);
+        }
+        
+        if (doc.getCommittee().getMaxProtocols()==null) {
+            doc.getCommittee().setMaxProtocols(0);
+        }
+        
+        if(doc.getCommittee().getAdvancedSubmissionDaysRequired()==null) {
+            doc.getCommittee().setAdvancedSubmissionDaysRequired(0);
+        }
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
         if (isAuthorized(task)) {
