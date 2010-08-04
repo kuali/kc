@@ -24,7 +24,7 @@
 <c:set var="awardBenefitsRateCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <c:set var="action" value="awardTimeAndMoney" />
 <kul:tab tabTitle="Rates" defaultOpen="false" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
-    <kra:innerTab tabTitle="F&A Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*">
+    <kul:innerTab tabTitle="F&A Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="newAwardFandaRate.*,document.awardList[0].awardFandaRate*">
 		<div class="tab-container" align="right">
 	    	<h3>
 	    		<span class="subhead-left">F&A Rates</span>
@@ -216,9 +216,9 @@
 	        </table>
 	        <BR><BR>
 	    </div>
-    </kra:innerTab>
+    </kul:innerTab>
     
-    <kra:innerTab tabTitle="Benefits Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="document.awardList[0].specialEbRateOnCampus,document.awardList[0].specialEbRateOffCampus,document.awardList[0].benefitsRates*,document.awardList[0].awardBenefitsRateComment.comments">
+    <kul:innerTab tabTitle="Benefits Rates" parentTab="Rates" defaultOpen="false" tabErrorKey="document.awardList[0].specialEbRateOnCampus,document.awardList[0].specialEbRateOffCampus,document.awardList[0].benefitsRates*,document.awardList[0].awardBenefitsRateComment.comments">
 		<div class="tab-container" align="right">
 			<h3>
 				<span class="subhead-left"> Benefits Rates</span>
@@ -254,5 +254,5 @@
 		    	</tr>
 		      </table>
 		</div>
-    </kra:innerTab>
+    </kul:innerTab>
 </kul:tab>

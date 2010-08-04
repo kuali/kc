@@ -23,7 +23,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
-<kra:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
+<kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -260,6 +260,6 @@
     <script>
         updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     </script>
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

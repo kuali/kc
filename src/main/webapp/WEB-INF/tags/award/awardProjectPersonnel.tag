@@ -27,7 +27,7 @@
             <span class="subhead-left">Key Personnel and Credit Split</span>
             <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardPersonCreditSplit" altText="help"/></span>
         </h3>
-        <kra:innerTab tabTitle="Key Personnel" parentTab="Key Personnel and Credit Split" defaultOpen="true" 
+        <kul:innerTab tabTitle="Key Personnel" parentTab="Key Personnel and Credit Split" defaultOpen="true" 
             tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons"
             auditCluster="contactsAuditErrors" tabAuditKey="document.awardList[0].projectPerson*">
 		
@@ -202,7 +202,7 @@
     				</tr>	                     
     	    	</c:forEach>	    	
     	    </table>
-    	</kra:innerTab>
+    	</kul:innerTab>
     	    
 	    <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && KualiForm.document.awardList[0].totalUnitCount > 0}" > 
 	    	<kra-a:creditSplit/>

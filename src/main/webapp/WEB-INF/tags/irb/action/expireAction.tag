@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canExpire}">
 
-<kra:innerTab tabTitle="Expire" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpireBean*">
+<kul:innerTab tabTitle="Expire" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpireBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -78,6 +78,6 @@
         </table>       
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

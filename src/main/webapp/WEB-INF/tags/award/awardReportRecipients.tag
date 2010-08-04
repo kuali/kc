@@ -19,7 +19,7 @@
 
 <c:set var="awardReportTermRecipientAttributes" value="${DataDictionary.AwardReportTermRecipient.attributes}" />
     
-<kra:innerTab parentTab="${innerTabParent}" tabItemCount="${fn:length(KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients)}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="awardReportsBean.newAwardReportTermRecipient[${index}]*,document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients*" >
+<kul:innerTab parentTab="${innerTabParent}" tabItemCount="${fn:length(KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients)}" defaultOpen="false" tabTitle="Recipients" useCurrentTabIndexAsKey="true" tabErrorKey="awardReportsBean.newAwardReportTermRecipient[${index}]*,document.awardList[0].awardReportTermItems[${index}].awardReportTermRecipients*" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
 		<tr>			
 			<th width="6%"><div align="center">&nbsp;</div></th>
@@ -106,4 +106,4 @@
 	    </tr>
 	    </c:forEach>					          	
     </table>	
-</kra:innerTab>
+</kul:innerTab>

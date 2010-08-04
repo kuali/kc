@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canGrantExemption}">
 
-<kra:innerTab tabTitle="Grant Exemption" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolGrantExemptionBean*">
+<kul:innerTab tabTitle="Grant Exemption" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolGrantExemptionBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -93,6 +93,6 @@
         </table>       
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

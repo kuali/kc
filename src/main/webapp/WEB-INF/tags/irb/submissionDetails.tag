@@ -20,7 +20,7 @@
             <tr>
               	<td class="tab-subhead" colspan="2" scope="row">
                    <input type="hidden" name="actionHelper.currentSubmissionNumber" value="${KualiForm.actionHelper.currentSubmissionNumber}"/>
-                        <kra:innerTab tabTitle="Submission Details" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead" >
+                        <kul:innerTab tabTitle="Submission Details" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead" >
     
                             <div class="innerTab-container" align="left">
                                 
@@ -110,6 +110,6 @@
                                     </tbody>
                                 </table>
                               </div>         
-                        </kra:innerTab>  
+                        </kul:innerTab>  
 	                </td>
                 </tr>    

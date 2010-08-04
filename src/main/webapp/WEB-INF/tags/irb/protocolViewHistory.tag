@@ -3,7 +3,7 @@
 <c:set var="dateRangeFilterAttributes" value="${DataDictionary.DateRangeFilter.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 
-<kra:innerTab tabTitle="History" parentTab="" defaultOpen="false">
+<kul:innerTab tabTitle="History" parentTab="" defaultOpen="false">
 
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -82,7 +82,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		    <tr>
             		        <td class="infoline">&nbsp;</td>
             		        <td colspan="4">
-            		        <kra:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+            		        <kul:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
     
                                 <div class="innerTab-container" align="left">
                                 
@@ -114,7 +114,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		                    </tbody>
             		                </table>
             		            </div>
-            		        </kra:innerTab>
+            		        </kul:innerTab>
             		        </td>
             		    </tr>
             		</c:if>
@@ -131,4 +131,4 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
         </table>
     </div>
     			
-</kra:innerTab>
+</kul:innerTab>

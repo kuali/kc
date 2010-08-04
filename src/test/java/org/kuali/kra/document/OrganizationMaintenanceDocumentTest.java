@@ -17,38 +17,14 @@ package org.kuali.kra.document;
 
 import org.junit.Test;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.OrganizationAudit;
-import org.kuali.kra.bo.OrganizationIndirectcost;
-import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.test.data.PerTestUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-// need to delete organization last because fk issue
-//@PerTestUnitTestData(
-//        @UnitTestData(
-//                sqlStatements = {
-//                        @UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 00999")
-//                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 00999")
-//                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 00999")
-//                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 00999")
-//                        ,@UnitTestSql("delete from ORGANIZATION where ORGANIZATION_ID = 00999")
-//                        ,@UnitTestSql("delete from ORGANIZATION_YNQ where ORGANIZATION_ID = 000425")
-//                        ,@UnitTestSql("delete from ORGANIZATION_AUDIT where ORGANIZATION_ID = 000425")
-//                        ,@UnitTestSql("delete from ORGANIZATION_TYPE where ORGANIZATION_ID = 000425")
-//                        ,@UnitTestSql("delete from ORGANIZATION_IDC where ORGANIZATION_ID = 000425")
-//                        ,@UnitTestSql("commit")
-//
-//                }
-//        )
-//    )
 public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "OrganizationMaintenanceDocument";
@@ -56,6 +32,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     private static final String ORG_ID_NEW_1 = Long.toString(System.currentTimeMillis()%1000000);
     private static final String ORG_ID_NEW_2 = Long.toString((System.currentTimeMillis()+1)%1000000);
 
+    @Override
     public String getDocTypeName() {
         return DOCTYPE;
     }
@@ -89,9 +66,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),ORG_ID_NEW_1);
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
-        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(organization.getOrganizationTypes().get(0).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(organization.getOrganizationIdcs().get(0).getIdcNumber(),new Integer(1));
+        assertEquals(organization.getOrganizationAudits().get(0).getFiscalYear(),"2008");
 
                 
 
@@ -125,9 +102,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),ORG_ID_ORIG);
         assertEquals(organization.getOrganizationName(),"Desktop Aeronautics, Incorporated");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
-        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(organization.getOrganizationTypes().get(0).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(organization.getOrganizationIdcs().get(0).getIdcNumber(),new Integer(1));
+        assertEquals(organization.getOrganizationAudits().get(0).getFiscalYear(),"2008");
 
 
     }
@@ -164,9 +141,9 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         assertEquals(organization.getOrganizationId(),ORG_ID_NEW_2);
         assertEquals(organization.getOrganizationName(),"test organization");
         assertEquals(organization.getContactAddressId(),new Integer(1741));
-        assertEquals(((OrganizationType)(organization.getOrganizationTypes()).get(0)).getOrganizationTypeCode(),new Integer(1));
-        assertEquals(((OrganizationIndirectcost)(organization.getOrganizationIdcs()).get(0)).getIdcNumber(),new Integer(1));
-        assertEquals(((OrganizationAudit)(organization.getOrganizationAudits()).get(0)).getFiscalYear(),"2008");
+        assertEquals(organization.getOrganizationTypes().get(0).getOrganizationTypeCode(),new Integer(1));
+        assertEquals(organization.getOrganizationIdcs().get(0).getIdcNumber(),new Integer(1));
+        assertEquals(organization.getOrganizationAudits().get(0).getFiscalYear(),"2008");
    
     }
 

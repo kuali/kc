@@ -49,7 +49,7 @@
   		<c:set var="headerFields" value="${kualiForm.docInfo}" />
   		<c:set var="fieldCounter" value="0" />
   	
-  		<kra:innerTab tabTitle="Document Overview" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">	
+  		<kul:innerTab tabTitle="Document Overview" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">	
 		    <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">
 				<c:forEach var="i" begin="1" end="${numberOfHeaderRows}" varStatus="status">
 	 				<tr>
@@ -128,10 +128,10 @@
               		</td>
             	</tr>
 			</table>   
-         	</kra:innerTab>
+         	</kul:innerTab>
 		  <!-- DOC OVERVIEW TABLE -->
 
-		 	<kra:innerTab tabTitle="Online Review" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+		 	<kul:innerTab tabTitle="Online Review" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 		    <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">
 				<tr>
                 	<th width = "25%" class="grid">
@@ -190,7 +190,7 @@
 				</td>
               </tr>
          	</table>
-			</kra:innerTab>
+			</kul:innerTab>
 		
 		
 			<kra-irb-olr:onlineReviewComments actionName="Online" 
@@ -202,7 +202,7 @@
        										  reviewIndex = "${renderIndex}"></kra-irb-olr:onlineReviewComments>
 		
 
-			<kra:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 				<c:set var = "viewOnly" value = "false"/>
 				
 				<c:set var="documentTypeName" value="${kualiForm.docTypeName}" />
@@ -234,7 +234,7 @@
 	            			
 	        			</div>
         			</c:if>
-			</kra:innerTab>
+			</kul:innerTab>
         </div>
         
 		

@@ -27,7 +27,7 @@
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${reviewIndex}] .*" useCurrentTabIndexAsKey="false">
+<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${reviewIndex}] .*" useCurrentTabIndexAsKey="false">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -193,4 +193,4 @@
             </tbody>
         </table>
     </div>
-</kra:innerTab>
+</kul:innerTab>

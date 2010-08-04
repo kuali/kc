@@ -23,7 +23,7 @@
 
 <c:set var="institutionalProposalPersonAttributes" value="${DataDictionary.InstitutionalProposalPerson.attributes}" />
 
-<kra:innerTab tabTitle="Person Details" parentTab="${institutionalProposalContact.fullName}" defaultOpen="false" tabErrorKey="document.institutionalProposal.projectPersons*">
+<kul:innerTab tabTitle="Person Details" parentTab="${institutionalProposalContact.fullName}" defaultOpen="false" tabErrorKey="document.institutionalProposal.projectPersons*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
 		<tr>
 			<th class="infoline">
@@ -93,4 +93,4 @@
 			</td>
 		</tr>	            				
 	</table>
-</kra:innerTab>
+</kul:innerTab>

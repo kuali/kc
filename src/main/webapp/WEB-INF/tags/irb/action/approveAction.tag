@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canApprove}">
 
-<kra:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean*">
+<kul:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -117,6 +117,6 @@
         </table>       
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

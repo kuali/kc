@@ -26,7 +26,7 @@
 <c:set var="newAwardPersonUnits" value="${KualiForm.projectPersonnelBean.newAwardPersonUnits}" />
 <c:set var="targetAwardPersonUnit" value="${newAwardPersonUnits[awardPersonIndex]}" />
 
-<kra:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
+<kul:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
 				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit[${ awardPersonIndex }]*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Units">
 		<tr>
@@ -186,4 +186,4 @@
             </c:choose>
 		</c:forEach>
 	</table>
-</kra:innerTab>
+</kul:innerTab>
