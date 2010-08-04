@@ -18,6 +18,7 @@ package org.kuali.kra.irb.personnel;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -50,6 +51,7 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
             }
             keyValues.add(new KeyLabelPair(protocolPersonRole.getTargetRoleId(), getTargetRoleDescription(protocolPersonRole)));
         }
+        Collections.sort(keyValues);
         return keyValues;
     }
 
