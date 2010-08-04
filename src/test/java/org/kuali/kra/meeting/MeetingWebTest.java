@@ -473,6 +473,7 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         
         // delete item 1
         HtmlPage pageAfterDelete = clickOnByName(pageAfterSave,"methodToCall.deleteOtherAction.line0", true);
+        pageAfterDelete = clickOnByName(pageAfterDelete,"methodToCall.processAnswer.button0",true);
         assertFalse(hasError(pageAfterDelete));
         pageAfterSave = clickOn(pageAfterDelete, "save");
         assertFalse(hasError(pageAfterSave));
@@ -508,6 +509,10 @@ public class MeetingWebTest extends CommitteeScheduleWebTestBase {
         
         // delete item 1
         HtmlPage pageAfterDelete = clickOnByName(pageAfterSave,"methodToCall.deleteCommitteeScheduleMinute.line0", true);
+        //amswer the confirm question
+        pageAfterDelete = clickOnByName(pageAfterDelete,"methodToCall.processAnswer.button0",true);
+        
+        
         assertFalse(hasError(pageAfterDelete));
         pageAfterSave = clickOn(pageAfterDelete, "save");
         assertFalse(hasError(pageAfterSave));

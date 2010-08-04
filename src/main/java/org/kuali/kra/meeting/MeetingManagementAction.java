@@ -21,14 +21,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.util.MessageResources;
+import org.apache.struts.validator.Resources;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class MeetingManagementAction extends MeetingAction {
     private static final String NEW_SCHEDULE_MINUTE_ERROR_PATH = "meetingHelper.newCommitteeScheduleMinute";
     private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
+    
+    private static final String DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION="deleteCommitteeScheduleMinute";
+    private static final String DELETE_COMMITTEE_OTHER_ACTION_QUESTION="deleteCommitteeScheduleMinute";
+
 
     /**
      * 
@@ -174,10 +183,22 @@ public class MeetingManagementAction extends MeetingAction {
      */
     public ActionForward deleteCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        getMeetingService().deleteCommitteeScheduleMinute(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
-                ((MeetingForm) form).getMeetingHelper().getDeletedCommitteeScheduleMinutes(), getLineToDelete(request));
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC); 
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String callerString = String.format("deleteCommitteeScheduleMinute.line%s.anchor%s",getLineToDelete(request),0);
+        if (question == null){
+            forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_MINUTE_CONFIRMATION), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+         } 
+        else if ((DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+            //nothing to do.
+        }
+        else if ((DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            getMeetingService().deleteCommitteeScheduleMinute(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
+                    ((MeetingForm) form).getMeetingHelper().getDeletedCommitteeScheduleMinutes(), getLineToDelete(request));
+        } 
+        return forward; 
     }
 
     /*
@@ -230,12 +251,29 @@ public class MeetingManagementAction extends MeetingAction {
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
         int lineToDelete = getLineToDelete(request);
+       
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC); 
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String callerString = String.format("deleteOtherAction.line%s.anchor%s",lineToDelete,0);
+        
         if (applyRules(new MeetingDeleteOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR, lineToDelete))) {
-            getMeetingService().deleteOtherAction(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
-                    lineToDelete, ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
+            if (question == null){
+                forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_OTHER_ACTION_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_OTHER_ACTION_CONFIRMATION), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            } 
+            else if ((DELETE_COMMITTEE_OTHER_ACTION_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+                //nothing to do.
+            }
+            else if ((DELETE_COMMITTEE_OTHER_ACTION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                getMeetingService().deleteOtherAction(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule(),
+                        lineToDelete, ((MeetingForm) form).getMeetingHelper().getDeletedOtherActions());
+            }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+       
+        return forward; 
     }
 
 
