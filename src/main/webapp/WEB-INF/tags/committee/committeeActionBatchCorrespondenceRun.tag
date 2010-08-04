@@ -7,7 +7,7 @@
 
 <c:set var="batchRunTitle" value="${committeeBatchCorrespondence.formattedTimeWindowStart} through ${committeeBatchCorrespondence.formattedTimeWindowEnd}" />
 
-<kra:innerTab tabTitle="${batchRunTitle}" 
+<kul:innerTab tabTitle="${batchRunTitle}" 
               parentTab="$Batch Correspondence" 
               defaultOpen="false"
               useCurrentTabIndexAsKey="true" 
@@ -142,4 +142,4 @@
 
         </table>
     </div>
-</kra:innerTab>
+</kul:innerTab>

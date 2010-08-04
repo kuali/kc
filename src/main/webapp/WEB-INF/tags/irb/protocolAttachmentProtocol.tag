@@ -186,7 +186,7 @@
 		    <c:when test="${attachmentProtocol.active}">
 		             <c:set var="modify" value="${KualiForm.attachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3'}" />
 		    
-		    			<kra:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -309,7 +309,7 @@
 			           			<%-- this assumes that the versions collection is sorted descending by sequence number --%>
 			           			<c:set var="doVersionsExist" value="${fn:length(attachmentProtocol.versions) > 0}" />
 			           			<c:if test="${doVersionsExist}">
-				           			<kra:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description} - ${itrStatus.index}" defaultOpen="false">
+				           			<kul:innerTab tabTitle="File Versions" parentTab="${attachmentProtocol.type.description} - ${attachmentProtocol.status.description} - ${itrStatus.index}" defaultOpen="false">
 										<div class="innerTab-container" align="left">
 				         					<table class=tab cellpadding=0 cellspacing="0" summary="" width="100%">
 			         							<tr>
@@ -348,7 +348,7 @@
 							         			</c:forEach>
 						         			</table>
 					         			</div>
-				         			</kra:innerTab>
+				         			</kul:innerTab>
 				         		</c:if>
 							</td>
 			         	</tr>
@@ -376,7 +376,7 @@
 			         	</tr>
          			</table>
          		</div>
-         	</kra:innerTab>
+         	</kul:innerTab>
 		    
 		    
 		    </c:when>

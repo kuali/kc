@@ -17,7 +17,7 @@
 
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp"%>
  
-<kra:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedForeignTravelTripCount}" defaultOpen="false" 
+<kul:innerTab parentTab="Special Approval" tabItemCount="${formAward.approvedForeignTravelTripCount}" defaultOpen="false" 
 				tabTitle="Approved Foreign Travel" tabErrorKey="approvedForeignTravelBean.newApprovedForeignTravel*,${docAward}.approvedForeignTravelTrips*" >
 				
 	<c:set var="approvedForeignTravelAttributes" value="${DataDictionary.AwardApprovedForeignTravel.attributes}" />
@@ -169,4 +169,4 @@
 		</tr>
 		
     </table>
-</kra:innerTab>
+</kul:innerTab>

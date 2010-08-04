@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canTerminate}">
 
-<kra:innerTab tabTitle="Terminate" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolTerminateBean*">
+<kul:innerTab tabTitle="Terminate" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolTerminateBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -78,6 +78,6 @@
         </table>       
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

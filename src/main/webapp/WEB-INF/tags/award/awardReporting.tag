@@ -20,7 +20,7 @@
 
 <c:set var="awardReportingAttributes" value="${DataDictionary.AwardReporting.attributes}" />
 
-<kra:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode" overrideToggleTabMethodString="Reporting.awardReportTerm${index}" >
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Details" useCurrentTabIndexAsKey="true" tabErrorKey="document.awardList[0].awardReportTermItems[${index}].awardReportings*, document.awardList[0].awardReportTermItems[${index}].frequencyBaseCode" overrideToggleTabMethodString="Reporting.awardReportTerm${index}" >
 
         <kra:softError softErrorKey="awardReportTerms-${KualiForm.document.award.awardReportTermItems[index].reportClassCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyBaseCode}-${KualiForm.document.award.awardReportTermItems[index].ospDistributionCode}" />
         <table cellpadding="0" cellspacing="0" summary="">
@@ -79,4 +79,4 @@
             <%-- Existing data --%>
         </table>
 
-</kra:innerTab>
+</kul:innerTab>

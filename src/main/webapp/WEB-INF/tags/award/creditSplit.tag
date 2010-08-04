@@ -29,7 +29,7 @@
 <c:forEach items="${projectPersonnel}" var="projectPerson" varStatus="ppStatus">
 <c:set var="errkey" value="${errkey},document.awardList[0].projectPersons[${ppStatus.index}].cr*,document.awardList[0].projectPersons[${ppStatus.index}].un*"/>
 </c:forEach>
-<kra:innerTab tabTitle="Combined Credit Split" parentTab="Project Personnel" defaultOpen="true" 
+<kul:innerTab tabTitle="Combined Credit Split" parentTab="Project Personnel" defaultOpen="true" 
                 tabErrorKey="${errkey}" auditCluster="contactsCreditSplitAuditErrors" tabAuditKey="document.awardList[0].projectPersons.awardPerson*">
 
     <table cellpadding="0" cellspacing="0" summary="">
@@ -150,4 +150,4 @@
             <html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>        
         </div>
     <%-- </kra:section> --%>        
-</kra:innerTab>
+</kul:innerTab>

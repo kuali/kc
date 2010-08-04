@@ -20,7 +20,7 @@
                                     
 <kra:permission value="${KualiForm.actionHelper.canRequestDataAnalysis}">
 
-<kra:innerTab tabTitle="Request for Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDataAnalysisRequest*">
+<kul:innerTab tabTitle="Request for Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDataAnalysisRequest*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -76,6 +76,6 @@
         </table>
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>
