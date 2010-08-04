@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.external.unit.UnitDTO;
@@ -26,7 +27,7 @@ import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.mortbay.log.Log;
+import org.apache.commons.logging.Log;
 
 /**
  * Default implementation of the
@@ -41,6 +42,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
     
     private UnitService unitService;
     private BusinessObjectService businessObjectService;
+    private static final Log LOG = LogFactory.getLog(InstitutionalUnitServiceImpl.class);
 
     /**
      * {@inheritDoc}
@@ -77,7 +79,7 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         Unit unit = unitService.getUnit(unitNumber); 
         
         if (ObjectUtils.isNull(unit)) {
-            Log.warn("Cannot get parent units for unit " + unitNumber + ": unit does not exist");
+            LOG.warn("Cannot get parent units for unit " + unitNumber + ": unit does not exist");
         } else {
             Unit parentUnit = unit.getParentUnit();
             parentUnits.add(parentUnit.getUnitNumber());
