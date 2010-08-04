@@ -175,7 +175,7 @@ class ProtocolAttachmentBaseRuleHelper {
         //this got much more complex using anon keys
         if (attachmentBase.getFile() == null) {
             valid = false;
-            this.errorReporter.reportError(this.propertyPrefix + "." + ProtocolAttachmentBase.PropertyName.FILE_ID,
+            this.errorReporter.reportError(this.propertyPrefix + ".newFile",
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
         } else {
             valid = this.validationService.isBusinessObjectValid(attachmentBase.getFile(), this.propertyPrefix);
