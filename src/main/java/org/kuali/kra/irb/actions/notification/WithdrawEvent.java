@@ -45,7 +45,7 @@ public class WithdrawEvent extends NotificationEventBase {
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
      */
     public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Withdrawn ";
+        return "Protocol " + getProtocol().getProtocolNumber() + " Withdrawn";
     }
 
     /**
