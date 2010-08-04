@@ -19,7 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
@@ -34,6 +36,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -293,8 +297,11 @@ public abstract class PermissionsHelperBase implements Serializable {
         roles = new ArrayList<Role>();
         List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
-            Role role = new Role(kimRole.getRoleName(), getRoleDisplayName(kimRole.getRoleName()));
-            //role.setPermissions(kimRole.getPermissions());
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("assignedToRole.roleName", kimRole.getRoleName());
+            criteria.put("assignedToRoleNamespaceForLookup", kimRole.getNamespaceCode());
+            List<KimPermissionInfo> permissions = getKimPermissionService().lookupPermissions(criteria, true);
+            Role role = new Role(kimRole.getRoleName(), getRoleDisplayName(kimRole.getRoleName()), permissions);
             roles.add(role);
         }
     }
@@ -489,6 +496,10 @@ public abstract class PermissionsHelperBase implements Serializable {
         }
         
         return this.kcPersonService;
+    }
+    
+    private PermissionService getKimPermissionService() {
+        return KraServiceLocator.getService("kimPermissionService");
     }
 
     /**

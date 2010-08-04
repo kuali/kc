@@ -25,7 +25,7 @@
     		<span class="subhead-right">
     		  <html:image property="methodToCall.getPermissionsRoleRights.line${status.index}.anchor${currentTabIndex}"
                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewrights.gif' styleClass="tinybutton" alt="View Rights"
-                          onclick="proposalRoleRightsPop('${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}'); return false;"/>
+                          onclick="permissionsRoleRightsPop('${name}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}'); return false;"/>
     		</span>
         </h3>
         
