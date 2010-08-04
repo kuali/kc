@@ -22,7 +22,11 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Assigned Roles</span>
-    		<span class="subhead-right">&nbsp;</span>
+    		<span class="subhead-right">
+    		  <html:image property="methodToCall.getPermissionsRoleRights.line${status.index}.anchor${currentTabIndex}"
+                          src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewrights.gif' styleClass="tinybutton" alt="View Rights"
+                          onclick="proposalRoleRightsPop('${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}'); return false;"/>
+    		</span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
