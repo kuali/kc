@@ -25,10 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.FandaRateType;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -260,11 +257,6 @@ public abstract class AbstractBudgetCalculator {
             }
             // loop thru all cal amount rates, sum up the costs and set it
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
-//                if (!calculatedAmount.getApplyRateFlag()) {
-//                    calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
-//                    calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
-//                    continue;
-//                }
                 rateClassCode = calculatedAmount.getRateClassCode();
                 rateTypeCode = calculatedAmount.getRateTypeCode();
                 equalsRC = new Equals("rateClassCode", rateClassCode);
@@ -399,13 +391,7 @@ public abstract class AbstractBudgetCalculator {
         qlCombinedRates.addAll(qlLineItemPropRates);
         qlCombinedRates.addAll(qlLineItemPropLaRates);
 
-        // qlCombinedRates.addAll(filterRates(bd.getBudgetProposalRates(),bli));
-        // qlCombinedRates.addAll(filterRates(bd.getBudgetProposalLaRates(),bli));
-        LOG.info("After filtering combined rates size is " + qlCombinedRates.size());
-        // sort the combined rates in asc order
         qlCombinedRates.sort("startDate", true);
-        // Now start creating breakup periods
-        // First get the breakup boundaries
         Date liStartDate = budgetLineItem.getStartDate();
         Date liEndDate = budgetLineItem.getEndDate();
         List<Boundary> boundaries = createBreakupBoundaries(qlCombinedRates, liStartDate, liEndDate);
@@ -416,10 +402,6 @@ public abstract class AbstractBudgetCalculator {
             for (Boundary boundary : boundaries) {
                 BreakUpInterval breakUpInterval = new BreakUpInterval();
                 breakUpInterval.setBoundary(boundary);
-                
-//                breakUpInterval.setProposalNumber(budgetLineItem.getProposalNumber());
-//                breakUpInterval.setVersionNumber(budgetLineItem.getBudgetVersionNumber());
-//                
                 breakUpInterval.setBudgetId(budgetLineItem.getBudgetId());
                 breakUpInterval.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                 breakUpInterval.setLineItemNumber(budgetLineItem.getLineItemNumber());
@@ -432,16 +414,9 @@ public abstract class AbstractBudgetCalculator {
                 String rateClassCode;
                 String rateTypeCode;
                 Boolean applyRateFlag;
-                // long noOfDays = 0;
-                // // find the no. of days in this small period
-                // noOfDays = boundary.getDateDifference();
-                // find the applicable amount
-                // breakUpInterval.setApplicableAmt(getPerDayCost().multiply(new BudgetDecimal(noOfDays)));
-                // breakUpInterval.setApplicableAmtCostSharing(getPerDayCostSharing().multiply(new BudgetDecimal(noOfDays)));
                 populateApplicableCosts(boundary);
                 breakUpInterval.setApplicableAmt(boundary.getApplicableCost());
                 breakUpInterval.setApplicableAmtCostSharing(boundary.getApplicableCostSharing());
-                // Loop and add all data required in breakup interval
                 
                 List<AbstractBudgetCalculatedAmount> qlLineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
                 
@@ -455,7 +430,6 @@ public abstract class AbstractBudgetCalculator {
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-//                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
                     rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassType();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()
@@ -620,24 +594,14 @@ public abstract class AbstractBudgetCalculator {
             Date tempStartDate = liStartDate;
             Date tempEndDate = liEndDate;
             Date rateChangeDate;
-//            BudgetLaRate laRate;
-            // take all rates greater than start date
             GreaterThan greaterThan = new GreaterThan("startDate", liStartDate);
             qlCombinedRates = qlCombinedRates.filter(greaterThan);
-            // sort asc
             qlCombinedRates.sort("startDate", true);
-            int size = qlCombinedRates.size();
             for (AbstractBudgetRate laRate : qlCombinedRates) {
-//                
-//            }
-//            for (int index = 0; index < size; index++) {
-//                laRate = qlCombinedRates.get(index);
                 rateChangeDate = laRate.getStartDate();
                 if (rateChangeDate.after(tempStartDate)) {
-                    // rate changed so get the previous day date and use it as endDate
                     Calendar temEndCal = dateTimeService.getCalendar(rateChangeDate);
                     temEndCal.add(Calendar.DAY_OF_MONTH, -1);
-//                    tempEndDate = new Date(rateChangeDate.getTime() - 86400000);
                     try {
                         tempEndDate = dateTimeService.convertToSqlDate(temEndCal.get(Calendar.YEAR)+"-"+(temEndCal.get(Calendar.MONTH)+1)+"-"+temEndCal.get(Calendar.DAY_OF_MONTH));
                     }
@@ -756,24 +720,6 @@ public abstract class AbstractBudgetCalculator {
             qValidCeRateTypes = qValidCeRateTypes.filter(notEqualsLabAllocationRateClassType());
         }
 
-//        QueryList<BudgetRate> budgetRates = new QueryList(budget.getBudgetRates());
-//        List<ValidCeRateType> amountsToBeRemoved = new ArrayList<ValidCeRateType>();
-//        for (ValidCeRateType validCeRateType : qValidCeRateTypes) {
-//            Equals eqValidRateClassCode = new Equals("rateClassCode",validCeRateType.getRateClassCode());
-//            Equals eqValidRateTypeCode = new Equals("rateTypeCode",validCeRateType.getRateTypeCode());
-//            And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
-//            QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList(budgetLaRates);
-//            List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
-//            List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
-//            
-//            if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()){
-//                amountsToBeRemoved.add(validCeRateType);
-//            }
-//        }
-//        for (ValidCeRateType validCeRateType : amountsToBeRemoved) {
-//            qValidCeRateTypes.remove(validCeRateType);
-//        }
-        
         addBudgetLineItemCalculatedAmountsForRateTypes(qValidCeRateTypes);
     }
 
@@ -799,10 +745,8 @@ public abstract class AbstractBudgetCalculator {
     private void addOHBudgetLineItemCalculatedAmountForAward(String rateClassCode, 
             RateType rateType, String rateClassType) {
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
-//        QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<BudgetLaRate>(budget.getBudgetLaRates());
         Equals eqOhRateClassType = new Equals("rateClassType",rateClassType);
         Equals eqOhRateClassOnCampusFlag = new Equals("onOffCampusFlag",budgetLineItem.getOnOffCampusFlag());
-//        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateTypeCode);
         And eqRateClassTypeAndOhCampusFlag = new And(eqOhRateClassType,eqOhRateClassOnCampusFlag);
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassTypeAndOhCampusFlag);
         if(!filteredBudgetRates.isEmpty()){
@@ -913,7 +857,6 @@ public abstract class AbstractBudgetCalculator {
         budgetCalculatedAmount.setRateClassCode(rateClassCode);
         budgetCalculatedAmount.setRateTypeCode(rateType.getRateTypeCode());
         budgetCalculatedAmount.setApplyRateFlag(true);
-//        budgetCalculatedAmount.refreshReferenceObject("rateType");
         budgetCalculatedAmount.refreshReferenceObject("rateClass");
         budgetCalculatedAmount.setRateTypeDescription(rateType.getDescription());
         addCalculatedAmount(budgetCalculatedAmount);

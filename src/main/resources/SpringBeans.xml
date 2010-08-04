@@ -2097,7 +2097,7 @@
     </bean>
 	
 	<!--  questionnaire print -->
-        <bean id="questionnaireXmlStream"
+      <bean id="questionnaireXmlStream"
             class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream">
             <property name="businessObjectService">
                 <ref bean="businessObjectService" />
@@ -2105,11 +2105,23 @@
             <property name="dateTimeService">
                 <ref bean="dateTimeService" />
             </property>
-        </bean>
-	    <bean id="questionnairePrint"
-            class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
-            <property name="xmlStream" ref="questionnaireXmlStream" />
-        </bean>
+            <property name="documentService">
+                <ref bean="documentService" />
+            </property>
+            <property name="questionnaireService">
+                <ref bean="questionnaireService" />
+            </property>
+            <property name="questionService">
+                <ref bean="questionService" />
+            </property>
+            <property name="questionnaireAnswerService">
+                <ref bean="questionnaireAnswerService" />
+            </property>
+    </bean>
+    <bean id="questionnairePrint"
+           class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
+           <property name="xmlStream" ref="questionnaireXmlStream" />
+    </bean>
 
 	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
 		<property name="printingService">

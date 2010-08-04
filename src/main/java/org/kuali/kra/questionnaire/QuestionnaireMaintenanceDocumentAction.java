@@ -401,7 +401,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         reportParameters.put("documentNumber", qnForm.getDocument().getDocumentNumber());
-
         // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
         if (dataStream.getContent() != null) {

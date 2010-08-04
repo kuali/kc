@@ -71,8 +71,6 @@ public class BudgetPeriodCalculator {
      */
     public void calculate(Budget budget, BudgetPeriod budgetPeriod) {
         List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
-//        if(cvLineItemDetails.isEmpty())
-//            return;
         budgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
         budgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
         budgetPeriod.setCostSharingAmount(BudgetDecimal.ZERO);
@@ -86,17 +84,10 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
-//            if (!Boolean.valueOf(budget.getBudgetDocument().getParentDocument().getProposalBudgetFlag())) {
-//                ((AwardBudgetExt)budget).setPrevBudget(getBudgetVersionOverview(budget));
-//            }
         }
         if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
-        //if(budget.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budget.getBudgetPeriods().size() == budgetPeriod.getBudgetPeriod()){
-            // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
-            // This approach affect other area, so rolled it back.
             budgetCalculationService.getBudgetFormFromGlobalVariables().setOhRateClassCodePrevValue(budget.getOhRateClassCode());
         }        
-        // syncBudgetTotals(budget);
     }
 
     public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {
