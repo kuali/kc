@@ -162,10 +162,10 @@
 		      		</tr>
 		      		<tr>
 		      			<td colspan="8" class="infoline">
-		      				<kra:innerTab tabTitle="Details" parentTab="${fundingProposal}" defaultOpen="false" tabErrorKey="document.award.fundingProposals*">
+		      				<kul:innerTab tabTitle="Details" parentTab="${fundingProposal}" defaultOpen="false" tabErrorKey="document.award.fundingProposals*">
 		      					<kra-a:awardFundingProposalDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}" />
 		      					<kra-a:awardFundingProposalBudgetDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}"/>
-		      				</kra:innerTab>
+		      				</kul:innerTab>
 		      			</td>
 		      		</tr>
 				</c:forEach>

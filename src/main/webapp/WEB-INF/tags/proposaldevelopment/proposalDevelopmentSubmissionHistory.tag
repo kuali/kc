@@ -21,7 +21,7 @@
 <c:set var="textAreaFieldName" value="document.developmentProposalList[0].programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentGrantsGov" />
 
-<kra:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Submission History">
+<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Submission History">
 <div class="innerTab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
@@ -76,4 +76,4 @@
 		</c:choose>		       
 	   </tbody>
 </table></div>    
-</kra:innerTab>
+</kul:innerTab>

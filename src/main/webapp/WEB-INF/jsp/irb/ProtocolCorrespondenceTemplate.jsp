@@ -50,13 +50,13 @@
                 <c:set var="isOpen" value="true"/>
             </c:if>
 
-            <kra:innerTab tabTitle="${correspondenceType.description}" 
+            <kul:innerTab tabTitle="${correspondenceType.description}" 
                           parentTab="${parentTab}" 
                           defaultOpen="${isOpen}"
                           tabErrorKey="newDefaultCorrespondenceTemplates[${status.index}].*,newCorrespondenceTemplates[${status.index}].*,correspondenceTypes[${status.index}].*,replaceCorrespondenceTemplates[${status.index}].*">
                 <kra-irb:correspondenceDefaultTemplate index="${status.index}" />
                 <kra-irb:correspondenceCommitteeTemplate index="${status.index}" />                
-            </kra:innerTab>
+            </kul:innerTab>
         </c:forEach>
     </div> 
 </kul:tab>

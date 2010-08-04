@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canAssignCmtSched}">
 
-<kra:innerTab tabTitle="Assign to Committee and Schedule" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignCmtSchedAction*">
+<kul:innerTab tabTitle="Assign to Committee and Schedule" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignCmtSchedAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -65,6 +65,6 @@
         </table>
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

@@ -23,7 +23,7 @@
 
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 
-<kra:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
+<kul:innerTab tabTitle="Person Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].k*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].t*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].a*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].s*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].ca*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
@@ -95,4 +95,4 @@
 			</td>
 		</tr>	            				
 	</table>
-</kra:innerTab>
+</kul:innerTab>

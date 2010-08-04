@@ -10,7 +10,7 @@
     <c:set var="nextDisabled" value="true" />
 </c:if>
 
-<kra:innerTab tabTitle="Summary" parentTab="" defaultOpen="false">
+<kul:innerTab tabTitle="Summary" parentTab="" defaultOpen="false">
     <div class="innerTab-container">
     
         <table cellpadding="0" cellspacing="0">
@@ -90,5 +90,5 @@
             </div>
         </c:if>
     </div>
-</kra:innerTab>
+</kul:innerTab>
    

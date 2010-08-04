@@ -29,7 +29,7 @@
         </c:if>
     </c:forEach>
 	<c:if test = "${commentIndex gt -1}">
-	<kra:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
+	<kul:innerTab parentTab="Comments" defaultOpen="false" tabTitle="${commentTypeDescription}" tabErrorKey="" >
 		<table>
 		<tr>
         	<th width="1300" align="left" scope="row"><div align="left">Comments</div></th>
@@ -49,5 +49,5 @@
     		</td>
     	</tr>
         </table>
-  	</kra:innerTab>	
+  	</kul:innerTab>	
   	</c:if>

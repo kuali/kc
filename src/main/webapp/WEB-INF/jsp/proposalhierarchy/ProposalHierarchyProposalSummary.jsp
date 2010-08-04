@@ -28,7 +28,7 @@ http://www.osedu.org/licenses/ECL-2.0
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 	<h3><span class="subhead-left">Proposal Summary</span><span class="subhead-right"><!-- "Open Proposal" button here? --></span></h3>
-	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
+	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 	          	<tr><th width="20%" align="right" valign="middle">Proposal Number:</th><td width="30%" align="left" valign="middle">${proposal.proposalNumber}&nbsp;</td>
@@ -43,8 +43,8 @@ http://www.osedu.org/licenses/ECL-2.0
 					<th width="20%" align="right" valign="middle">Project Title:</th><td width="30%" align="left" valign="middle">${proposal.title}&nbsp;</td></tr>
 			</table>
 		</div>
-	</kra:innerTab>
-	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Sponsor &amp; Program Information" tabDescription="Sponsor &amp; Program Information" defaultOpen="false">
+	</kul:innerTab>
+	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Sponsor &amp; Program Information" tabDescription="Sponsor &amp; Program Information" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 	          	<tr><th width="20%" align="right" valign="middle">Sponsor Deadline Date:</th><td width="30%" align="left" valign="middle">${proposal.deadlineDate}&nbsp;</td>
@@ -62,8 +62,8 @@ http://www.osedu.org/licenses/ECL-2.0
 				<tr><th width="20%" align="right" valign="middle">Opportunity Title:</th><td width="80%" align="left" valign="middle" colspan="3">${proposal.programAnnouncementTitle}&nbsp;</td></tr>
 			</table>
 		</div>
-	</kra:innerTab>
-	<kra:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
+	</kul:innerTab>
+	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Investigator/Units" tabDescription="Investigator/Units" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
 				<tr><th width="20%" align="right" valign="middle">Principle Investigator:</th><td width="30%" align="left" valign="middle">${proposal.principalInvestigator.fullName}&nbsp;</td>
@@ -87,7 +87,7 @@ http://www.osedu.org/licenses/ECL-2.0
 				</c:forEach>
 			</table>
 		</div>
-	</kra:innerTab>
+	</kul:innerTab>
 	<br />
 	<div id="budgetSummaries">
 	<h3><span class="subhead-left">Budget Summary</span><span class="subhead-right"><!-- "Open Budget" button here? --></span></h3>
@@ -96,11 +96,11 @@ http://www.osedu.org/licenses/ECL-2.0
 
 	<c:forEach var="budgetDocumentVersion" items="${proposal.proposalDocument.budgetDocumentVersions}"  varStatus="status">
 		<c:set var="budgetOverview" value="${budgetDocumentVersion.budgetVersionOverview }" />
-		<kra:innerTab parentTab="${parentTabTitle}" tabTitle="${budgetOverview.documentDescription}" tabDescription="${budgetOverview.documentDescription}" defaultOpen="false">
+		<kul:innerTab parentTab="${parentTabTitle}" tabTitle="${budgetOverview.documentDescription}" tabDescription="${budgetOverview.documentDescription}" defaultOpen="false">
 			<div class="innerTab-container" align="center" id="budgetNumber-${budgetOverview.budgetId}">
 				<!-- Summary Not Loaded -->
 			</div>
-		</kra:innerTab>
+		</kul:innerTab>
 	</c:forEach>
 
 

@@ -44,7 +44,7 @@
 
 	<c:set var="personDetailsTabErrorKey" value="${proposalPerson}.projectRole*,${proposalPerson}.percentageEffort,${proposalPerson}.pagerNumber*,${proposalPerson}.userName,${proposalPerson}.emailAddress,${proposalPerson}.officePhone,${proposalPerson}.officePhone,${proposalPerson}.eraCommonsUserName,${proposalPerson}.primaryTitle,${proposalPerson}.directoryTitle,${proposalPerson}.faxNumber,${proposalPerson}.mobilePhoneNumber,${proposalPerson}.officeLocation,${proposalPerson}.addressLine1,${proposalPerson}.addressLine2,${proposalPerson}.addressLine3,${proposalPerson}.city,${proposalPerson}.county,${proposalPerson}.state,${proposalPerson}.postalCode,${proposalPerson}.countryCode,${proposalPerson}.facultyFlag" />				
               
-	<kra:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${personDetailsTabErrorKey}">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${personDetailsTabErrorKey}">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -283,15 +283,15 @@
       </tr>
        </tbody>
 </table></div>
-</kra:innerTab>
+</kul:innerTab>
 </td></tr>
 <tr>
 <td colspan=4>
-<kra:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProposalPersonDegree.*,newProposalPersonDegree[${personIndex}].graduationYear*,newProposalPersonDegree[${personIndex}].degree*,newProposalPersonDegree[${personIndex}].degreeCode*">
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProposalPersonDegree.*,newProposalPersonDegree[${personIndex}].graduationYear*,newProposalPersonDegree[${personIndex}].degree*,newProposalPersonDegree[${personIndex}].degreeCode*">
  <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
-</kra:innerTab>
+</kul:innerTab>
 </td></tr>
 
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
@@ -300,11 +300,11 @@
  <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 		<td colspan=4>
-  <kra:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
-  </kra:innerTab>
+  </kul:innerTab>
  
   </td>
   </tr>
@@ -313,7 +313,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kra:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
+      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${unitsErrorKey}">
         <div class="innerTab-container" align="left">
          <table class=tab cellpadding=0 cellspacing="0" summary=""> 
          <tr>
@@ -332,13 +332,13 @@
      </tr>
     </table>
     </div>
-   </kra:innerTab>
+   </kul:innerTab>
   </td>
   </tr>
   </c:when>
    <c:otherwise>
    <tr><td colspan=4>
-   <kra:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
+   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.developmentProposalList[0].proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
    <div class="innerTab-container" align="left">
    <table class=tab cellpadding=0 cellspacing="0" summary=""> 
     <tr>
@@ -350,7 +350,7 @@
      </tr>
      </div>
      </table>
-     </kra:innerTab>
+     </kul:innerTab>
     </td>
   </tr>
    </c:otherwise>
@@ -364,11 +364,11 @@
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
-  <kra:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false"  auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
      <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
     </table>
- </kra:innerTab>
+ </kul:innerTab>
    </td>
   </tr>
   </c:when>
@@ -376,7 +376,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kra:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*" >
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*" >
       <div class="innerTab-container" align="left">
        <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
@@ -395,13 +395,13 @@
    </tr>
    </div>
    </table>
-   </kra:innerTab>
+   </kul:innerTab>
   </td>
   </tr>
   </c:when>
    <c:otherwise>
    <tr><td colspan=4>
-   <kra:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
+   <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false" >
     <div class="innerTab-container" align="left">
      <table class=tab cellpadding=0 cellspacing="0" summary=""> 
       <tr>
@@ -413,7 +413,7 @@
    </tr>
    </div>
    </table>
-   </kra:innerTab>
+   </kul:innerTab>
   </td>
   </tr>
   </c:otherwise>

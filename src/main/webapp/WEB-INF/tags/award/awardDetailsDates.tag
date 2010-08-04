@@ -25,7 +25,7 @@
 <!-- Institution -->
 <div class="tab-container" align="center">
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Action" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Current Action" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -51,9 +51,9 @@
 		</td>
   	</tr>
 </table>
-</kra:innerTab>	
+</kul:innerTab>	
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -137,11 +137,11 @@
     	</td>
   	</tr>
 </table>
-</kra:innerTab>	
+</kul:innerTab>	
 
 <!-- Sponsor -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Sponsor" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Sponsor" tabErrorKey="" >
 
 <table cellpadding="0" cellspacing="0" summary="">
     <tr>
@@ -218,11 +218,11 @@
         </td>
     </tr>
 </table>
-</kra:innerTab>	
+</kul:innerTab>	
 
 <!-- Sponsor Funding Transferred -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
     <tr>
@@ -285,11 +285,11 @@
 		</tr>
     </c:forEach> 
 </table>
-</kra:innerTab>	
+</kul:innerTab>	
 
 <!-- Time &amp; Money -->
 
-<kra:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
+<kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
 
 <table cellpAdding="0" cellspacing="0" summary="">
 				 <tr>
@@ -406,7 +406,7 @@
 					</c:choose>
 			    </tr>
 </table>
-</kra:innerTab>	
+</kul:innerTab>	
 
 </div>
 

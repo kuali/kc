@@ -29,7 +29,7 @@ http://www.osedu.org/licenses/ECL-2.0
 <kul:tabTop tabTitle="${awardCommentTypeDescription} History" defaultOpen="true">
 
    <c:forEach var="awardComment" items="${KualiForm.awardCommentHistoryByType}" varStatus="awardCommentIndex">        
-     <kra:innerTab parentTab="Comments" defaultOpen="true" tabTitle="${awardComment.updateTimestampDateString}" tabErrorKey="" >
+     <kul:innerTab parentTab="Comments" defaultOpen="true" tabTitle="${awardComment.updateTimestampDateString}" tabErrorKey="" >
 		<table>
 		<tr>
         	<th width="200" align="left" scope="row"><div align="left">Comments:</div></th>
@@ -40,7 +40,7 @@ http://www.osedu.org/licenses/ECL-2.0
             </td>	     	 
     	</tr>
         </table>
-  	</kra:innerTab>	
+  	</kul:innerTab>	
   </c:forEach>
 
 </kul:tabTop>

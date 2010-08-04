@@ -66,7 +66,7 @@
 
 
 
-<kra:innerTab parentTab="${innerTabParent}" defaultOpen="${defaultOpen}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
+<kul:innerTab parentTab="${innerTabParent}" defaultOpen="${defaultOpen}" tabTitle="${tabTitle}" useCurrentTabIndexAsKey="true" tabErrorKey="${tabErrorKey}">
 	<table border="0" cellpadding=0 cellspacing=0 summary="">
 		<tr>
 		    <th width="5%">&nbsp;</th>
@@ -270,4 +270,4 @@
 			</c:otherwise>
 		</c:choose>
     </table>
-</kra:innerTab>
+</kul:innerTab>

@@ -24,7 +24,7 @@
     <table cellpadding="0" cellspacing="0" summary="">
         <tr>
             <td>
-                <kra:innerTab parentTab="Print Forms" tabTitle="Print Reports" defaultOpen="false" tabErrorKey="">
+                <kul:innerTab parentTab="Print Forms" tabTitle="Print Reports" defaultOpen="false" tabErrorKey="">
                     <div class="innerTab-container" align="center" >
                         <table align="right" cellpadding="0" cellspacing="0" summary="">
                             <tbody>
@@ -65,7 +65,7 @@
                             </tbody>
                         </table>
                     </div>
-                </kra:innerTab>
+                </kul:innerTab>
             </td>
         </tr>
     </table>

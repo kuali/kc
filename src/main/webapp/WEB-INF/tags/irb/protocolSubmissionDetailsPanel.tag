@@ -26,7 +26,7 @@
     <c:set var="nextDisabled" value="true" />
 </c:if>
 
-<kra:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="Submission Details">
+<kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="Submission Details">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -61,5 +61,5 @@
         </table>
     </div>
     			
-</kra:innerTab>
+</kul:innerTab>
 

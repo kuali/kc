@@ -108,7 +108,7 @@
 	             </tr>
 	             <tr>	             	
 	        		<td colspan = "5">
-	             	<kra:innerTab parentTab="budgetSubAwards" defaultOpen="false" tabTitle="Details" tabErrorKey="" useCurrentTabIndexAsKey="true">
+	             	<kul:innerTab parentTab="budgetSubAwards" defaultOpen="false" tabTitle="Details" tabErrorKey="" useCurrentTabIndexAsKey="true">
 	             		<div>
     						<table cellpadding=0 cellspacing=0 summary="">
     							<tr>		        					
@@ -133,7 +133,7 @@
 			        			</tr>
 			        		</table>
 			        	</div>		
-	             	</kra:innerTab>
+	             	</kul:innerTab>
 	             	</td>
 	             </tr>   						 		
 			</c:forEach>
