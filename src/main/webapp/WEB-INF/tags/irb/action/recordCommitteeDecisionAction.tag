@@ -22,7 +22,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canRecordCommitteeDecision}">
 
-<kra:innerTab tabTitle="Record Committee Decision" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.committeeDecision.*">
+<kul:innerTab tabTitle="Record Committee Decision" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.committeeDecision.*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -93,7 +93,7 @@
                 <tr>
                     <td colspan="12">
                     
-                        <kra:innerTab tabTitle="Abstainers" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+                        <kul:innerTab tabTitle="Abstainers" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
                             <div class="innerTab-container" align="left">
                                 <table class="tab" cellpadding="0" cellspacing="0" summary="">
                                     <tbody>
@@ -143,7 +143,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </kra:innerTab>
+                        </kul:innerTab>
                     
                     </td>
                 </tr>
@@ -151,7 +151,7 @@
                 <tr>
                     <td colspan="12">
                     
-                        <kra:innerTab tabTitle="Recused" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+                        <kul:innerTab tabTitle="Recused" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
                             <div class="innerTab-container" align="left">
                                 <table class="tab" cellpadding="0" cellspacing="0" summary="">
                                     <tbody>
@@ -201,7 +201,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </kra:innerTab>
+                        </kul:innerTab>
                     
                     </td>
                 </tr>
@@ -228,6 +228,6 @@
         </table>       
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

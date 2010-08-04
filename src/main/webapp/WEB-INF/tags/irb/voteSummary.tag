@@ -18,7 +18,7 @@
           	<tr>
            		<td class="tab-subhead" colspan="2" scope="row">
            		     
-            		<kra:innerTab tabTitle="Vote Summary" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead" >
+            		<kul:innerTab tabTitle="Vote Summary" parentTab="" defaultOpen="false" tabErrorKey="" overrideDivClass="inner-subhead" >
     
                         <div class="innerTab-container" align="left">
                                 
@@ -110,6 +110,6 @@
                                 </tbody>
                             </table>
                         </div>         
-                    </kra:innerTab>  
+                    </kul:innerTab>  
 	            </td>
             </tr>    

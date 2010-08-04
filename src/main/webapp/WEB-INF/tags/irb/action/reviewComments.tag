@@ -24,7 +24,7 @@
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kra:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -152,4 +152,4 @@
             </tbody>
         </table>
     </div>
-</kra:innerTab>
+</kul:innerTab>

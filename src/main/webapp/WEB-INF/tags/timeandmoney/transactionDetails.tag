@@ -29,7 +29,7 @@
        	</c:otherwise>
  </c:choose>
 
-<kra:innerTab parentTab="History" defaultOpen="false" tabTitle="Transaction Details/${tabTitleAttribute} ${idValue}" tabErrorKey="" >
+<kul:innerTab parentTab="History" defaultOpen="false" tabTitle="Transaction Details/${tabTitleAttribute} ${idValue}" tabErrorKey="" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
         	<th width="65%">
@@ -100,7 +100,7 @@
    			</tr>
    		</c:forEach>
 	</table>
-</kra:innerTab>	
+</kul:innerTab>	
    		
    		
    		

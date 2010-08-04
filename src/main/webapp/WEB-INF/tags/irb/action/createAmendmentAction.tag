@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canCreateAmendment}">
 
-<kra:innerTab tabTitle="Create Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCreateAmendment*">
+<kul:innerTab tabTitle="Create Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCreateAmendment*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -135,6 +135,6 @@
         </table>
     </div>
     
-</kra:innerTab>
+</kul:innerTab>
 
 </kra:permission>

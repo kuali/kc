@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
@@ -33,13 +32,11 @@ import org.kuali.rice.kns.web.ui.Section;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 7123853550462673935L;
-    private static final Logger LOG = Logger.getLogger(OrganizationMaintenableImpl.class);
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
      * It initializes the {@link Explanation}s collection.
      *
-     * @param generateDefaultValues true for initialization
      */
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
@@ -49,12 +46,12 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
 
     
     /**
-     * This is just trying to populate existing organization that has no ynq
+     * This is just trying to populate existing organization that has no ynq.
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        Organization organization = getOrganization();
+        Organization organization = getBusinessObject();
         if (organization.getOrganizationYnqs() == null || organization.getOrganizationYnqs().isEmpty()) {
             initOrganizationYnq();
         }
@@ -67,7 +64,7 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * This method generate organizationynqs list based on ynq type or 'organization'
      */
     private void initOrganizationYnq() {
-        Organization organization = getOrganization();
+        Organization organization = getBusinessObject();
         List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
         AssertionUtils.assertThat(organizationYnqs.isEmpty());
         
@@ -90,15 +87,15 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      * @return
      */
     private List<Ynq> getOrganizationTypeYnqs() {
-         List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq("O"));
-         return ynqs;
-     }
+        return KraServiceLocator.getService(YnqService.class).getYnq("O");
+    }
 
 
+    @Override
     @SuppressWarnings("unchecked")
     public Map<String, String> populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
         Map<String, String> map = super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
-        formatCongressionalDistrict(getOrganization());
+        formatCongressionalDistrict(getBusinessObject());
         return map;
     }
 
@@ -113,14 +110,16 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
         if (district != null) {
             int dashPosition = district.indexOf('-');
             if (dashPosition >= 0) {
-                String stateCodePlusDash = district.substring(0, dashPosition+1);   // everything up to, and including, the dash
-                String paddedDistrictNumber = StringUtils.leftPad(district.substring(dashPosition+1), CongressionalDistrict.DISTRICT_NUMBER_LENGTH, '0');
+                // everything up to, and including, the dash
+                String stateCodePlusDash = district.substring(0, dashPosition + 1);
+                String paddedDistrictNumber = StringUtils.leftPad(district.substring(dashPosition + 1), CongressionalDistrict.DISTRICT_NUMBER_LENGTH, '0');
                 organization.setCongressionalDistrict(stateCodePlusDash + paddedDistrictNumber);
             }
         }
     }
     
-    private Organization getOrganization() {
-        return ((Organization)getBusinessObject());
+    @Override
+    public Organization getBusinessObject() {
+        return (Organization) super.getBusinessObject();
     }
 }

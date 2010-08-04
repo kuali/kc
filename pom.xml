@@ -744,6 +744,9 @@
 					 	unpacked rice web content.  It would also be nicer in that all unpacked generated code would be place in a single
 					 	directory rather than merged into our source tree.  This has the added benefit that the rice content would
 					 	automatically be excluded from svn.  Currently, we have to use svn:ignore on individual rice folders & files.
+					 	
+					 	Update:  for jetty support with multiple web resource directories see: 
+					 	http://docs.codehaus.org/display/JETTY/Multiple+WebApp+Source+Directory
 					  -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -815,8 +818,6 @@
 		            							<include>WEB-INF/tags/rice-portal/portalLink.tag</include>
 		          							</includes>
 		          							<excludes>
-		          								<exclude>WEB-INF/tags/kr/tab.tag</exclude>
-		          								<exclude>WEB-INF/tags/kr/tabTop.tag</exclude>
 												<exclude>**/.svn</exclude>
 												<exclude>**/.svn/**</exclude>
 		          							</excludes>
@@ -959,7 +960,7 @@
 		<repository>
 			<id>jboss</id>
 			<name>jboss</name>
-			<url>http://repository.jboss.com/maven2</url>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 
@@ -1047,7 +1048,7 @@
 		<org.apache.cxf.version>2.2.9</org.apache.cxf.version>
 		<org.drools.version>5.0.1</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
-		<org.kuali.rice.version>1.0.3-KC-01</org.kuali.rice.version>
+		<org.kuali.rice.version>1.0.3-KC-02</org.kuali.rice.version>
 		<org.mortbay.jetty.version>7.1.6.v20100715</org.mortbay.jetty.version>
 		<org.springframework.version>2.5.6</org.springframework.version>
 		<struts.version>1.2.9</struts.version>
@@ -1081,8 +1082,6 @@
 			
 			acknowledgments.jsp,
 			portal.jsp,
-			WEB-INF/tags/kr/tab.tag,
-			WEB-INF/tags/kr/tabTop.tag,
 			WEB-INF/tags/rice-portal/portalBody.tag,
 			WEB-INF/tags/rice-portal/portalTabs.tag,
 			WEB-INF/tags/rice-portal/portalTop.tag,
