@@ -62,9 +62,9 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
-import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -1056,7 +1056,7 @@ public class ActionHelper implements Serializable {
                     selectedSubmission.getCommitteeSchedule().getScheduleId());
             for (CommitteeMembership member : members) {
                 for (ProtocolReviewer reviewer : selectedSubmission.getProtocolReviewers()) {
-                    if (isPersonMatched(member, reviewer)) {
+                    if (isReviewerMatchedMember(member, reviewer)) {
                         reviewer.setFullName(member.getPersonName());
                         break;
                     }
@@ -1110,40 +1110,51 @@ public class ActionHelper implements Serializable {
      * This is to set up the full name of Abstainer & Recused based on matched committee member.
      */
     private void setupVoterName() {
-        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
-            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
-                    selectedSubmission.getCommitteeSchedule().getScheduleId());
-            for (CommitteeScheduleAttendance attendance : selectedSubmission.getCommitteeSchedule()
-                    .getCommitteeScheduleAttendances()) {
-                boolean isAbstainee = false;
-                for (ProtocolVoteAbstainee abstainee : abstainees) {
-                    if (attendance.getPersonId().equals(abstainee.getPersonId())) {
-                        abstainee.setFullName(attendance.getPersonName());
-                        isAbstainee = true;
+        List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
+                selectedSubmission.getCommitteeSchedule().getScheduleId());
+        for (CommitteeMembership member : members) {
+            boolean isAbstainee = false;
+            for (ProtocolVoteAbstainee abstainee : abstainees) {
+                if (isVoterMatchedMember(member, abstainee)) {
+                    abstainee.setFullName(member.getPersonName());
+                    isAbstainee = true;
+                    break;
+                }
+            }
+            if (!isAbstainee) {
+                for (ProtocolVoteRecused recuser : recusers) {
+                    if (isVoterMatchedMember(member, recuser)) {
+                        recuser.setFullName(member.getPersonName());
                         break;
                     }
                 }
-                if (!isAbstainee) {
-                    for (ProtocolVoteRecused recuser : recusers) {
-                        if (attendance.getPersonId().equals(recuser.getPersonId())) {
-                            recuser.setFullName(attendance.getPersonName());
-                            break;
-                        }
-                    }
-                }
-
             }
+
         }
     }
 
     /*
      * Utility method to check if reviewer matched committee member
      */
-    private boolean isPersonMatched(CommitteeMembership member, ProtocolReviewer reviewer) {
+    private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewer reviewer) {
         boolean isMatched = false;
         if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(reviewer.getPersonId())) {
             isMatched = true;
         } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(reviewer.getPersonId()) ){
+            isMatched = true;
+        }
+        return isMatched;
+
+    }
+
+    /*
+     * Utility method to check if voter matched committee member
+     */
+    private boolean isVoterMatchedMember(CommitteeMembership member, ProtocolMeetingVoter voter) {
+        boolean isMatched = false;
+        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(voter.getPersonId())) {
+            isMatched = true;
+        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(voter.getPersonId()) ){
             isMatched = true;
         }
         return isMatched;
