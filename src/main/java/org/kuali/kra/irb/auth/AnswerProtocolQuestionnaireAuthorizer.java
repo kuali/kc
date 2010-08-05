@@ -29,6 +29,7 @@ public class AnswerProtocolQuestionnaireAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
 
         return !task.getProtocol().getProtocolDocument().isViewOnly()
+                && !isPessimisticLocked(task.getProtocol().getProtocolDocument())
                 && !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument())
                 && hasPermission(userId, task.getProtocol(), PermissionConstants.ANSWER_PROTOCOL_QUESTIONNAIRE);
     }
