@@ -47,7 +47,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
  */
 public class ProtocolPersonnelAction extends ProtocolAction {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAction.class);
     private ProtocolAttachmentService protocolAttachmentService;
     /**
      * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)

@@ -139,7 +139,7 @@
 		</module>
 
 		<module name="IllegalImport">
-			<property name="severity" value="warning"/>
+			<property name="severity" value="error"/>
 			<property name="illegalPkgs" value="sun, org.apache.log4j"/>
 		</module>
 

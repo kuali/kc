@@ -20,14 +20,15 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 
 public class FindOpportunityTest{
-    private static final Logger LOG = Logger.getLogger(FindOpportunityTest.class);
+    private static final Log LOG = LogFactory.getLog(FindOpportunityTest.class);
     private S2SService getS2SService(){
         return KraServiceLocator.getService(S2SService.class);
     }

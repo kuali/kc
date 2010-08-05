@@ -27,16 +27,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import noNamespace.Investigator;
-
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -48,8 +46,6 @@ import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALSTATUSDocument.PROPOSALSTA
 import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALTYPEDocument.PROPOSALTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.SPECIALREVIEWDocument.SPECIALREVIEW;
 import edu.mit.coeus.utils.xml.v2.organization.ORGANIZATIONDocument.ORGANIZATION;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPABSTRACTDocument.PROPABSTRACT;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPAPPROVALMAPSDocument.PROPAPPROVALMAPS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPCHANGEDDATA31Document.PROPCHANGEDDATA31;
@@ -58,6 +54,7 @@ import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIG
 import edu.mit.coeus.utils.xml.v2.propdev.PROPKEYPERSONSDocument.PROPKEYPERSONS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPLOCATIONDocument.PROPLOCATION;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPNOTEPADDocument.PROPNOTEPAD;
+import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument.PROPOSAL;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
@@ -82,8 +79,8 @@ import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
  */
 public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
-	private static final Logger LOG = Logger
-			.getLogger(ProposalDevelopmentXmlStream.class);
+	private static final Log LOG = LogFactory
+			.getLog(ProposalDevelopmentXmlStream.class);
 	private static final String HIPHEN = " - ";
 	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy");

@@ -26,17 +26,17 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.FundingOpportunity
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.HumanSubjectsType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
-import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchAndRelatedProjectDocument;
-import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProjectDescriptionDocument.ProjectDescription;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchAndRelatedProjectDocument;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchAndRelatedProjectDocument.ResearchAndRelatedProject;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchCoverPageDocument.ResearchCoverPage;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.DescriptionBlockType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProposalPersonType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -49,7 +49,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -90,8 +91,8 @@ import org.kuali.rice.kns.service.ParameterService;
 public class NIHResearchAndRelatedXmlStream extends
 		AbstractResearchAndRelatedStream {
 
-	private static final Logger LOG = Logger
-			.getLogger(NIHResearchAndRelatedXmlStream.class);
+	private static final Log LOG = LogFactory
+			.getLog(NIHResearchAndRelatedXmlStream.class);
 
 	private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
 	private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";

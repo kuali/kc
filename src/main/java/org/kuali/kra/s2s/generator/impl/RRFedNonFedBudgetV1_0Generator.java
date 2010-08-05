@@ -19,41 +19,42 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetTypeDataType;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYear1DataType;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonCompensationDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.OtherPersonnelDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.SectBCompensationDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.SummaryDataType;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.TotalDataType;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.BudgetPeriod;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Equipment;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Equipment.EquipmentList;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.IndirectCosts;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.KeyPersons;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherDirectCosts;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.ParticipantTraineeSupportCosts;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Travel;
-import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Equipment.EquipmentList;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherDirectCosts.Others;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel.GraduateStudents;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel.PostDocAssociates;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel.SecretarialClerical;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.OtherPersonnel.UndergraduateStudents;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.ParticipantTraineeSupportCosts;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.ParticipantTraineeSupportCosts.Other;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.BudgetYearDataType.Travel;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonCompensationDataType;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.KeyPersonDataType;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.OtherPersonnelDataType;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeEquipments;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeOtherDirect;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeTrainee;
 import gov.grants.apply.forms.rrFedNonFedBudgetV10.RRFedNonFedBudgetDocument.RRFedNonFedBudget.BudgetSummary.CumulativeTravels;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.SectBCompensationDataType;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.SummaryDataType;
+import gov.grants.apply.forms.rrFedNonFedBudgetV10.TotalDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -78,7 +79,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(RRFedNonFedBudgetV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);
 
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations

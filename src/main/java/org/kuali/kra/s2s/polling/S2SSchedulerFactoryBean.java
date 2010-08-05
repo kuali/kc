@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.quartz.CronExpression;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -30,7 +31,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  * fire ever again.
  */
 public class S2SSchedulerFactoryBean extends SchedulerFactoryBean {
-    private static final Logger LOG = Logger.getLogger(S2SSchedulerFactoryBean.class);
+    private static final Log LOG = LogFactory.getLog(S2SSchedulerFactoryBean.class);
     private List<S2SCronTrigger> triggers;
 
     /**

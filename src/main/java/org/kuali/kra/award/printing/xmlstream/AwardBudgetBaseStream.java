@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.AwardTransactionType;
-import noNamespace.SchoolInfoType2;
 import noNamespace.AwardType.AwardTransactionInfo;
+import noNamespace.SchoolInfoType2;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -49,7 +50,7 @@ import org.kuali.rice.kns.service.ParameterService;
  */
 public abstract class AwardBudgetBaseStream implements XmlStream {
 
-	private static final Logger LOG = Logger.getLogger(AwardBudgetBaseStream.class);
+	private static final Log LOG = LogFactory.getLog(AwardBudgetBaseStream.class);
 
 	protected BusinessObjectService businessObjectService = null;
 	protected DateTimeService dateTimeService = null;

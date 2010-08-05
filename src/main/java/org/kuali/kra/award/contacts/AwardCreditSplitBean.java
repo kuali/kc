@@ -16,13 +16,13 @@
 package org.kuali.kra.award.contacts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -40,7 +40,7 @@ public class AwardCreditSplitBean implements Serializable {
     static final String PERSON_TOTALS_KEY = "personTotalsKey";
     
     private static final long serialVersionUID = 1330497293834315534L;
-    private static Logger LOGGER = Logger.getLogger(AwardCreditSplitBean.class);
+    private static Log LOGGER = LogFactory.getLog(AwardCreditSplitBean.class);
     private static final String YES = "Y";
     private static final String AWARD_CREDIT_SPLIT_PARM_NAME = "award.creditsplit.enabled";
     private static final KualiDecimal ZERO_VALUE = new KualiDecimal(0);

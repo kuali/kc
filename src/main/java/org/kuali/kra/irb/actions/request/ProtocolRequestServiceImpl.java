@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
@@ -33,7 +34,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     
-    private static final Logger LOG = Logger.getLogger(ProtocolRequestServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(ProtocolRequestServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;

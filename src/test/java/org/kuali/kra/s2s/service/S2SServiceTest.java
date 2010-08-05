@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +48,7 @@ import org.kuali.rice.test.data.UnitTestSql;
         @UnitTestFile(filename = "classpath:sql/s2s/data/load_OSP$PARAMETER.sql", delimiter = ";") }))
 
 public class S2SServiceTest extends KcUnitTestBase{
-    private static final Logger LOG = Logger.getLogger(S2SServiceTest.class);
+    private static final Log LOG = LogFactory.getLog(S2SServiceTest.class);
     private String proposalNumber;
     private DocumentService documentService;
     private ProposalDevelopmentDocument pd1;

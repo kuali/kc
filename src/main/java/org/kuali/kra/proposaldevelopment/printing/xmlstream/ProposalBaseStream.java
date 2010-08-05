@@ -19,21 +19,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
-import org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class will contain all common methods that can be used across Proposal
@@ -43,8 +41,8 @@ import org.kuali.rice.kns.service.ParameterService;
  */
 public abstract class ProposalBaseStream implements XmlStream {
 
-	private final static Logger LOG = Logger
-			.getLogger(ProposalBaseStream.class);
+	private final static Log LOG = LogFactory
+			.getLog(ProposalBaseStream.class);
 	protected DateTimeService dateTimeService;
 	protected BusinessObjectService businessObjectService = null;
 

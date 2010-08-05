@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.logging;
 
-import static org.apache.log4j.Level.ERROR;
-import static org.apache.log4j.Level.FATAL;
-import static org.apache.log4j.Level.WARN;
-
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
- * Class with static methods wrapping {@link Logger} methods. Automatically sets up logger for you. It's called the <code>BufferedLogger</code> because
+ * Class with static methods wrapping {@link Log} methods. Automatically sets up Log for you. It's called the <code>BufferedLogger</code> because
  * it handles everything in a {@link StringBuilder} using {@link StringBuilder#append(CharSequence)} method<br/>
  * <br/>
  *  
@@ -32,7 +29,7 @@ import org.apache.log4j.Logger;
  * import org.kuali.kra.logging.BufferedLogger.*
  * </code>
  * 
- * @see org.apache.log4j.Logger
+ * @see org.apache.commons.logging.Log
  */
 public class BufferedLogger {
     
@@ -55,113 +52,113 @@ public class BufferedLogger {
     }
     
     /**
-     * Uses {@link StackTraceElement[]} from {@link Throwable} to determine the calling class. Then, the {@link Logger} is retrieved for it by
+     * Uses {@link StackTraceElement[]} from {@link Throwable} to determine the calling class. Then, the {@link Log} is retrieved for it by
      * convention
      * 
      * 
-     * @return Logger for the calling class
+     * @return Log for the calling class
      */
-    private static final Logger getLogger() {
+    private static final Log getLogger() {
         try {
-            return Logger.getLogger(Class.forName(new Throwable().getStackTrace()[2].getClassName()));
+            return LogFactory.getLog(Class.forName(new Throwable().getStackTrace()[2].getClassName()));
         }
         catch (Exception e) {
             // This will never happen unless Java is broken
-            return Logger.getLogger(BufferedLogger.class);
+            return LogFactory.getLog(BufferedLogger.class);
         }
     }
 
     /**
-     * Uses {@link StackTraceElement[]} from {@link Throwable} to determine the calling class. Then, the {@link Logger} is retrieved for it by
+     * Uses {@link StackTraceElement[]} from {@link Throwable} to determine the calling class. Then, the {@link Log} is retrieved for it by
      * convention. Just like {@link #getLogger()} except this is intended to be called directly from classes.
      * 
      * 
-     * @return Logger for the calling class
+     * @return Log for the calling class
      */
-    public static final Logger logger() {
+    public static final Log logger() {
         try {
-            return Logger.getLogger(Class.forName(new Throwable().getStackTrace()[1].getClassName()));
+            return LogFactory.getLog(Class.forName(new Throwable().getStackTrace()[1].getClassName()));
         }
         catch (Exception e) {
             // This will never happen unless Java is broken
-            return Logger.getLogger(BufferedLogger.class);
+            return LogFactory.getLog(BufferedLogger.class);
         }
     }
 
     /**
-     * Wraps {@link Logger#trace(String)}
+     * Wraps {@link Log#trace(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void trace(Object ... objs) {
-        Logger log = getLogger();
+        Log log = getLogger();
         if (log.isTraceEnabled()) {
             log.trace(getMessage(objs));
         }
     }
 
     /**
-     * Wraps {@link Logger#debug(String)}
+     * Wraps {@link Log#debug(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void debug(Object ... objs) {
-        Logger log = getLogger();
+        Log log = getLogger();
         if (log.isDebugEnabled()) {
             log.debug(getMessage(objs));
         }
     }
 
     /**
-     * Wraps {@link Logger#info(String)}
+     * Wraps {@link Log#info(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void info(Object ... objs) {
-        Logger log = getLogger();
+        Log log = getLogger();
         if (log.isInfoEnabled()) {
             log.info(getMessage(objs));
         }
     }
 
     /**
-     * Wraps {@link Logger#warn(String)}
+     * Wraps {@link Log#warn(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void warn(Object ... objs) {
-        Logger log = getLogger();
-        if (log.isEnabledFor(WARN)) {
+        Log log = getLogger();
+        if (log.isWarnEnabled()) {
             log.warn(getMessage(objs));
         }
     }
 
     /**
-     * Wraps {@link Logger#error(String)}
+     * Wraps {@link Log#error(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void error(Object ... objs) {
-        Logger log = getLogger();
-        if (log.isEnabledFor(ERROR)) {
+        Log log = getLogger();
+        if (log.isErrorEnabled()) {
             getLogger().error(getMessage(objs));
         }
     }
     
     /**
-     * Wraps {@link Logger#fatal(String)}
+     * Wraps {@link Log#fatal(String)}
      * 
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void fatal(Object ... objs) {
-        Logger log = getLogger();
-        if (log.isEnabledFor(FATAL)) {
+        Log log = getLogger();
+        if (log.isFatalEnabled()) {
             log.fatal(getMessage(objs));
         }
     }

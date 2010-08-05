@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  * </ul>
  */
 public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
-    // non static logger to allow it to be named after the runtime class
+    // non static Log to allow it to be named after the runtime class
     protected final Log LOG = LogFactory.getLog(this.getClass());
 
     private boolean perTestStarted;

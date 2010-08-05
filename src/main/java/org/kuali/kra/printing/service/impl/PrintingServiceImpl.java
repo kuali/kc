@@ -37,12 +37,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.apache.fop.fo.ValidationException;
-import org.apache.log4j.Logger;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -73,8 +73,8 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class PrintingServiceImpl implements PrintingService {
 
-	private static final Logger LOG = Logger
-			.getLogger(PrintingServiceImpl.class);
+	private static final Log LOG = LogFactory
+			.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
 

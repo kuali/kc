@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Class with static methods wrapping {@link Log} methods. Automatically sets up logger for you. It's called the <code>FormattedLogger</code> because
+ * Class with static methods wrapping {@link Log} methods. Automatically sets up Log for you. It's called the <code>FormattedLogger</code> because
  * it handles everything in ansi-C standard printf format. For example, <code>printf("The epoch time is now %d", new Date().getTime())</code>.<br/>
  * <br/>
  *  

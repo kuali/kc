@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
-import org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_0Generator;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 
 /**
@@ -32,7 +32,7 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
-    private static final Logger LOG = Logger.getLogger(S2SFormGeneratorServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(S2SFormGeneratorServiceImpl.class);
 
     
     /**

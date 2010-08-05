@@ -26,7 +26,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.kuali.kra.bo.Unit;
@@ -47,7 +48,7 @@ import org.kuali.rice.kew.util.XmlHelper;
  * This class is a HierarchyProvider implementation that will walk the KRA Unit Hierarchy.
  */
 public class KraHierarchyProvider implements HierarchyProvider {
-    private static final Logger LOG = Logger.getLogger(KraHierarchyProvider.class);
+    private static final Log LOG = LogFactory.getLog(KraHierarchyProvider.class);
     private static final String DOCUMENT_XML_ELEMENT = "document";
     private static final String UNIT_XML_ELEMENT = "ownedByUnitNumber";
 

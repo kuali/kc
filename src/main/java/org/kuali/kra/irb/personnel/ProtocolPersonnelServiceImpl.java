@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonnelServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";

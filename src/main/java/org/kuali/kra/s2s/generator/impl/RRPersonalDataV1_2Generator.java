@@ -22,7 +22,8 @@ import gov.grants.apply.forms.rrPersonalData12V12.RRPersonalData12Document.RRPer
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -35,8 +36,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRPersonalDataV1_2Generator extends RRPersonalDataBaseGenerator {
-	private static final Logger LOG = Logger
-			.getLogger(RRPersonalDataV1_2Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(RRPersonalDataV1_2Generator.class);
 
 	/**
 	 * 

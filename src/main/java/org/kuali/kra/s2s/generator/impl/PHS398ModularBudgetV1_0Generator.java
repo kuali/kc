@@ -49,7 +49,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -74,8 +75,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PHS398ModularBudgetV1_0Generator extends
 		PHS398ModularBudgetBaseGenerator {
 
-	private static final Logger LOG = Logger
-			.getLogger(PHS398ModularBudgetV1_0Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(PHS398ModularBudgetV1_0Generator.class);
 
 	private BudgetDecimal cumulativeConsortiumFandA = BudgetDecimal.ZERO;
 	private BudgetDecimal cumulativeDirectCostLessConsortiumFandA = BudgetDecimal.ZERO;

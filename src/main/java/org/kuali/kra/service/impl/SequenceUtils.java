@@ -49,7 +49,7 @@ import com.google.common.collect.Sets;
 public class SequenceUtils {
     private static final String SEQUENCING_ERR_MSG = "An error occured sequencing";
 
-    private static final Log LOGGER = LogFactory.getLog(SequenceUtils.class);
+    private static final Log LOG = LogFactory.getLog(SequenceUtils.class);
 
     /**
      * Using an identity set to store already sequenced references.  In Java 6 and above the following can be used
@@ -74,7 +74,7 @@ public class SequenceUtils {
             sequenceAssociations(newVersion);
             return newVersion;
         } catch (Exception e) {
-            LOGGER.error(SEQUENCING_ERR_MSG, e);
+            LOG.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
@@ -94,7 +94,7 @@ public class SequenceUtils {
             newAssociate.resetPersistenceState();
             return newAssociate;
         } catch (Exception e) {
-            LOGGER.error(SEQUENCING_ERR_MSG, e);
+            LOG.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
@@ -114,7 +114,7 @@ public class SequenceUtils {
             }
             return newAssociates;
         } catch (Exception e) {
-            LOGGER.error(SEQUENCING_ERR_MSG, e);
+            LOG.error(SEQUENCING_ERR_MSG, e);
             throw new VersionException(e);
         }
     }
@@ -140,7 +140,7 @@ public class SequenceUtils {
                     }                    
                 }
             } catch (GetterException e) {
-                LOGGER.debug("No getter found for " + field.getName(), e);
+                LOG.debug("No getter found for " + field.getName(), e);
             }
         }
         if (clazz.getSuperclass() != null) {
@@ -176,7 +176,7 @@ public class SequenceUtils {
                     }
                 }
             } catch (GetterException e) {
-                LOGGER.debug("No getter found for " + field.getName(), e);
+                LOG.debug("No getter found for " + field.getName(), e);
             }
         }
         if (clazz.getSuperclass() != null) {

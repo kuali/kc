@@ -18,28 +18,28 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications;
-import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.EntirePeriodTotalCost;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.AdditionalNarrativeJustification;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.ConsortiumJustification;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.BudgetJustifications.PersonnelJustification;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.CummulativeBudgetInfo.EntirePeriodTotalCost;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.DirectCost;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.IndirectCost;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods.IndirectCost.IndirectCostItems;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2.DirectCost2;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2.IndirectCost2;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods2.IndirectCost2.IndirectCostItems2;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3.DirectCost3;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3.IndirectCost3;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods3.IndirectCost3.IndirectCostItems3;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4.DirectCost4;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4.IndirectCost4;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods4.IndirectCost4.IndirectCostItems4;
+import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.DirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5.IndirectCostItems5;
@@ -49,7 +49,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -74,8 +75,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PHS398ModularBudgetV1_1Generator extends
 		PHS398ModularBudgetBaseGenerator {
 
-	private static final Logger LOG = Logger
-			.getLogger(PHS398ModularBudgetV1_1Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(PHS398ModularBudgetV1_1Generator.class);
 
 	private BudgetDecimal cumulativeConsortiumFandA = BudgetDecimal.ZERO;
 	private BudgetDecimal cumulativeDirectCostLessConsortiumFandA = BudgetDecimal.ZERO;

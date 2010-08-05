@@ -57,7 +57,7 @@ import org.springframework.util.ObjectUtils;
 public abstract class CommitteeAction extends KraTransactionalDocumentActionBase {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeAction.class);
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

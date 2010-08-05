@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class InstitutionalProposalPersonCreditSplitRuleEvent extends KraDocumentEventBase {
 
-private static final Log LOGGER = LogFactory.getLog(InstitutionalProposalPersonCreditSplitRuleEvent.class);
+private static final Log LOG = LogFactory.getLog(InstitutionalProposalPersonCreditSplitRuleEvent.class);
     
     private Map<String, KualiDecimal> totalsByCreditSplitType;
     
@@ -46,7 +46,7 @@ private static final Log LOGGER = LogFactory.getLog(InstitutionalProposalPersonC
 
     @Override
     protected void logEvent() {
-        LOGGER.info("Logging event");
+        LOG.info("Logging event");
     }
 
     /**

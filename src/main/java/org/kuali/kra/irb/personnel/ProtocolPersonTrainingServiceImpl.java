@@ -27,7 +27,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolPersonTrainingServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonTrainingServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private static final String PERSON_ID_FIELD = "personId";
     

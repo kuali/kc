@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -49,8 +50,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private static final int ZERO = 0;
 	private static final String YNQANSWER_29 = "29";
-	private static final Logger LOG = Logger
-			.getLogger(PHS398ChecklistV1_3Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(PHS398ChecklistV1_3Generator.class);
 
 	/*
 	 * This method returns PHS398ChecklistDocument object based on proposal

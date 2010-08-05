@@ -37,7 +37,7 @@ public class VersioningServiceImpl implements VersioningService {
     private static final String TO = " to ";
     private static final String VERSIONED_FROM = " versioned from ";
     private static final String PERIOD = ".";
-    private static final Log LOGGER = LogFactory.getLog(VersioningServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(VersioningServiceImpl.class);
     
     /**
      * {@inheritDoc}
@@ -117,7 +117,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param newVersion
      */
     private <T extends Sequenceable> void logVersionOperation(long startTime, List<T> oldVersions, List<T> newVersions) {
-        if (LOGGER.isInfoEnabled()) {
+        if (LOG.isInfoEnabled()) {
             final double seconds = calcElapsedTimeInSeconds(startTime, getCurrentTime());
             
             for (int i = 0; i < oldVersions.size(); i++) {
@@ -131,7 +131,7 @@ public class VersioningServiceImpl implements VersioningService {
                     .append(seconds)
                     .append(SECONDS);
                 
-                LOGGER.info(versionLoggingMessage);
+                LOG.info(versionLoggingMessage);
             }
         }
     }

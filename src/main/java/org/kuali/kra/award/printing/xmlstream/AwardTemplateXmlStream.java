@@ -31,7 +31,8 @@ import noNamespace.TemplateDocument;
 import noNamespace.ReportTermDetailsType.MailCopies;
 import noNamespace.TemplateDocument.Template;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -62,7 +63,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  */
 public class AwardTemplateXmlStream implements XmlStream {
 	
-	private static final Logger LOG = Logger.getLogger(AwardTemplateXmlStream.class);
+	private static final Log LOG = LogFactory.getLog(AwardTemplateXmlStream.class);
 	
 	private BusinessObjectService businessObjectService = null;
 	private DateTimeService dateTimeService = null;

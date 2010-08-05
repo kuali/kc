@@ -21,7 +21,7 @@ package org.kuali.kra.committee.web.struts.form.schedule;
 public class DailyScheduleDetails extends ScheduleDetails {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DailyScheduleDetails.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(DailyScheduleDetails.class);
     
     private int defaultDay;
 

@@ -28,7 +28,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.exceptions.Base64DecodingException;
 import org.apache.xml.security.utils.Base64;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -54,7 +55,7 @@ import org.kuali.rice.kns.util.AuditError;
  */
 public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
-    private static final Logger LOG = Logger.getLogger(S2SBaseFormGenerator.class);
+    private static final Log LOG = LogFactory.getLog(S2SBaseFormGenerator.class);
 
     private List<AttachmentData> attachments;
     public static final String TYPE_SEPARATOR = "_";
