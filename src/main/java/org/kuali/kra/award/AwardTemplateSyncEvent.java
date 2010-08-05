@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.award;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
@@ -33,7 +31,7 @@ public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
     private AwardDocument awardDocument;
     private Award award;
     private String listPropertyName;
-    private static final Logger LOG = Logger.getLogger(AwardTemplateSyncEvent.class);
+    private static final Log LOG = LogFactory.getLog(AwardTemplateSyncEvent.class);
     public AwardTemplateSyncEvent(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);
         this.awardDocument = (AwardDocument)document;

@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
@@ -45,7 +45,6 @@ import org.kuali.kra.budget.personnel.TbnPerson;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -145,8 +144,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 	private static final String KEYPERSON_OTHER = "Other (Specify)";
 	private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
 	private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
-	private static final Logger LOG = Logger
-			.getLogger(S2SBudgetCalculatorServiceImpl.class);
+	private static final Log LOG = LogFactory
+			.getLog(S2SBudgetCalculatorServiceImpl.class);
 	private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
 	private static final String KEY_ROLODEX_ID = "rolodexId";
 	private BusinessObjectService businessObjectService;

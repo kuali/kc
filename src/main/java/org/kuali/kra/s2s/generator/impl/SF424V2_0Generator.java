@@ -28,11 +28,11 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationType;
@@ -62,7 +62,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class SF424V2_0Generator extends SF424BaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(SF424V2_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(SF424V2_0Generator.class);
 
     private DepartmentalPerson aorInfo = null;
     private String applicantTypeOtherSpecify = null;

@@ -47,7 +47,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     private static final String COMMITTEE_ID = "committeeId";
 
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeCommitteeAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeCommitteeAction.class);
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

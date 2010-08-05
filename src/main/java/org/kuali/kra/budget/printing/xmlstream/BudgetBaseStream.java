@@ -25,12 +25,13 @@ import java.util.Map;
 
 import noNamespace.GroupsType;
 import noNamespace.ReportHeaderType;
+import noNamespace.ReportPageType.CalculationMethodology;
 import noNamespace.ReportType;
 import noNamespace.SubReportType;
-import noNamespace.ReportPageType.CalculationMethodology;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
@@ -105,7 +106,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected static final String DATE_FORMAT_MMDDYY = "MM/dd/yy";
 	protected static final String BUDGET_PERIOD = "Period";
 
-	private static final Logger LOG = Logger.getLogger(BudgetBaseStream.class);
+	private static final Log LOG = LogFactory.getLog(BudgetBaseStream.class);
 	private static final String BUDGET_CATEGORY_PERSONNEL = "P";
 
 	/**

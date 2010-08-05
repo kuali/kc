@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This the AwardPaymentScheduleRuleEvent
  */
 public class AwardReportTermRuleEvent extends KraDocumentEventBase {
-    private static final Logger LOG = Logger.getLogger(AwardReportTermRuleEvent.class);
+    private static final Log LOG = LogFactory.getLog(AwardReportTermRuleEvent.class);
     
     private Award award;
     private AwardReportTerm awardReportTermItem;

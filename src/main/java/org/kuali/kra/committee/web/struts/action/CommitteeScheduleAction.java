@@ -48,7 +48,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class CommitteeScheduleAction extends CommitteeAction {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleAction.class);
     
     private static final String DELETE_QUESTION = "Are you sure you want to delete?";
     

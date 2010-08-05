@@ -25,15 +25,16 @@ import java.util.List;
 import java.util.Map;
 
 import noNamespace.BudgetSummaryReportDocument;
+import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportHeaderType;
 import noNamespace.ReportPageType;
-import noNamespace.ReportType;
-import noNamespace.SubReportType;
-import noNamespace.BudgetSummaryReportDocument.BudgetSummaryReport;
 import noNamespace.ReportPageType.BudgetSummary;
 import noNamespace.ReportPageType.CalculationMethodology;
+import noNamespace.ReportType;
+import noNamespace.SubReportType;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
@@ -57,8 +58,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public class BudgetSummaryXmlStream extends BudgetBaseStream {
 
-	private static final Logger LOG = Logger
-			.getLogger(BudgetSummaryXmlStream.class);
+	private static final Log LOG = LogFactory
+			.getLog(BudgetSummaryXmlStream.class);
 
 	/**
 	 * This method generates XML for Award Delta Report. It uses data passed in

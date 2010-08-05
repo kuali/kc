@@ -38,7 +38,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class CommitteeMembershipServiceImpl implements CommitteeMembershipService {
 
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
 
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_MEMBERSHIP_TYPE = "membershipType";

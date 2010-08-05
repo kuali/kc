@@ -22,20 +22,17 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
-import org.kuali.kra.award.home.AwardTemplateTerm;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -49,7 +46,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     
     private static final String PERSON_OBJECT_REFERENCE = "person";
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardTemplateMaintainableImpl.class); 
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardTemplateMaintainableImpl.class); 
 
     
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
@@ -163,7 +160,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
 //        
 //        if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
 //            LOG.info( "*********" + referencesToRefresh );
-//            ProposalLog proposalLog = (ProposalLog) this.getBusinessObject();
+//            ProposalLog proposalLOG = (ProposalLog) this.getBusinessObject();
 //            if (proposalLog.getkcPerson() != null) {
 //                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
 //            }

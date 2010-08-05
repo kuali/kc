@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -36,7 +37,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewersService {
 
-    private static Logger LOG = Logger.getLogger(ProtocolAssignReviewersServiceImpl.class);
+    private static Log LOG = LogFactory.getLog(ProtocolAssignReviewersServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;

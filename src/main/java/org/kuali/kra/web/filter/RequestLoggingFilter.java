@@ -16,7 +16,6 @@
 package org.kuali.kra.web.filter;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 
 import javax.servlet.Filter;
@@ -29,8 +28,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+//CHECKSTYLE_OFF:IllegalImport need to use log4j for MDC - commons logging does have this feature
 import org.apache.log4j.MDC;
+//CHECKSTYLE_ON:IllegalImport
 import org.kuali.kra.util.SensitiveFieldFilterUtil;
 
 /**
@@ -56,7 +58,7 @@ import org.kuali.kra.util.SensitiveFieldFilterUtil;
  */
 public class RequestLoggingFilter implements Filter {
     
-    private static final Logger LOG = Logger.getLogger(RequestLoggingFilter.class);
+    private static final Log LOG = LogFactory.getLog(RequestLoggingFilter.class);
     
     //(Partial parameter names can also be used, Note: NO wildcard characters)
     private static final String [] paramsToLogInfoByDefault = {"methodToCall"}; 
@@ -248,11 +250,11 @@ public class RequestLoggingFilter implements Filter {
     }    
 
     /**
-     * Determine if the logging is allowed by using {@link Logger#isInfoEnabled()}. Currently the <code>INFO</code> level
+     * Determine if the logging is allowed by using {@link Log#isInfoEnabled()}. Currently the <code>INFO</code> level
      * is required for logging here. It is possible that by extending this class and overriding {@link #isLoggingAllowed()} the 
      * required log level can be adjusted.
      *
-     * @return the value of {@link Logger#isInfoEnabled()} directly.
+     * @return the value of {@link Log#isInfoEnabled()} directly.
      */
     protected boolean isInfoNotAllowed() {
         return !LOG.isInfoEnabled();

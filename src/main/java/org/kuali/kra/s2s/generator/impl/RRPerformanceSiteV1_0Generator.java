@@ -16,13 +16,14 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument;
-import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument.RRPerformanceSite;
+import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
 import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -38,7 +39,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(RRPerformanceSiteV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(RRPerformanceSiteV1_0Generator.class);
 
     /**
      * 

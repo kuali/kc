@@ -8,15 +8,12 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,8 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -55,7 +53,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	
-	private static final Logger LOG = Logger.getLogger(RRKeyPersonBase.class);
+	private static final Log LOG = LogFactory.getLog(RRKeyPersonBase.class);
 	protected List<ProposalPerson> extraPersons = null;
 	
 	protected static final int BIOSKETCH_DOC_TYPE = 16;

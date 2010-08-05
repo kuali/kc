@@ -59,7 +59,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     private CommitteeHelper committeeHelper;
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeForm.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeForm.class);
     
     // KNS Lookup hooks
     private String lookupResultsSequenceNumber;

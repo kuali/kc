@@ -23,7 +23,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.printing.BudgetPrintType;
@@ -62,8 +63,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 	private IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint;
 	private IndustrialBudgetPrint industrialBudgetPrint;
 	private BudgetCumulativePrint budgetCumulativePrint;
-	private static final Logger LOG = Logger
-			.getLogger(BudgetPrintingServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(BudgetPrintingServiceImpl.class);
 
 	/**
 	 * This method generates the required report and returns the PDF stream as

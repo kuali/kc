@@ -26,7 +26,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
@@ -55,7 +56,7 @@ public class FormMappingLoader {
     private static final String TAG_FORM = "Form";
     private static final String SORT_INDEX = "sortIndex";
     private static final int DEFAULT_SORT_INDEX = 1000;
-    private static final Logger LOG = Logger.getLogger(FormMappingLoader.class);
+    private static final Log LOG = LogFactory.getLog(FormMappingLoader.class);
 
     /**
      * 

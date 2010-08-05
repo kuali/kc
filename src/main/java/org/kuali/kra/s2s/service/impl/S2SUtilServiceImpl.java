@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.Country;
@@ -92,7 +92,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     private static final String CONTACT_TYPE_O = "O";
-	private static final Logger LOG = Logger.getLogger(S2SUtilServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(S2SUtilServiceImpl.class);
 	
 	private static final String MODULE_ITEM_KEY = "moduleItemKey";
 	private static final String MODULE_ITEM_CODE = "moduleItemCode";

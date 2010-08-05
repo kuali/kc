@@ -26,7 +26,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -37,7 +38,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
-    private static final Logger LOG = Logger.getLogger(ED524BudgetV1_1Generator.class);
+    private static final Log LOG = LogFactory.getLog(ED524BudgetV1_1Generator.class);
 
     /**
      * 

@@ -36,7 +36,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RejectAwardBudgetAuthorizer.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RejectAwardBudgetAuthorizer.class);
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */

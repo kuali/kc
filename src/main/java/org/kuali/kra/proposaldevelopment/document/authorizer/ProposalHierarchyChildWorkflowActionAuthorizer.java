@@ -32,7 +32,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuthorizer {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalHierarchyChildWorkflowActionAuthorizer.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalHierarchyChildWorkflowActionAuthorizer.class);
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */

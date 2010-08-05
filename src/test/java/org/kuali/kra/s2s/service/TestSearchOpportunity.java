@@ -17,7 +17,8 @@ package org.kuali.kra.s2s.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -25,11 +26,10 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
-import org.kuali.kra.s2s.service.S2SService;
 
 public class TestSearchOpportunity extends Assert {
     
-    private static final Logger LOG = Logger.getLogger(TestSearchOpportunity.class);
+    private static final Log LOG = LogFactory.getLog(TestSearchOpportunity.class);
     S2SService s2SService =((S2SService) KraServiceLocator.getService(S2SService.class));
     
     @Test

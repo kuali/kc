@@ -24,7 +24,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
@@ -46,7 +47,7 @@ import org.xml.sax.SAXException;
 public class OpportunitySchemaParser {
 
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
-    private static final Logger LOG = Logger.getLogger(OpportunitySchemaParser.class);
+    private static final Log LOG = LogFactory.getLog(OpportunitySchemaParser.class);
 
     /**
      * This method fetches all the forms required from a given schema of opportunity

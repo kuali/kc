@@ -18,7 +18,8 @@ package org.kuali.kra.irb.actions.withdraw;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolVersionService;
@@ -47,7 +48,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
-    private static final Logger LOG = Logger.getLogger(ProtocolWithdrawServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(ProtocolWithdrawServiceImpl.class);
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;

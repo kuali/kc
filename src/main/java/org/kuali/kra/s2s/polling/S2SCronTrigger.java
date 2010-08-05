@@ -19,7 +19,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.scheduling.quartz.CronTriggerBean;
@@ -48,7 +49,7 @@ public class S2SCronTrigger extends CronTriggerBean {
     private ParameterService parameterService;
     private String cronExpressionParameterName;
 
-    private static final Logger LOG = Logger.getLogger(S2SCronTrigger.class);
+    private static final Log LOG = LogFactory.getLog(S2SCronTrigger.class);
 
     /**
      * Sets the ParameterService.
