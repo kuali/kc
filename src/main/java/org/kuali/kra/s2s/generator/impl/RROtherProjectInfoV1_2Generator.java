@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document;
 import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12;
 import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.AbstractAttachments;
@@ -33,7 +30,11 @@ import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -56,8 +57,8 @@ public class RROtherProjectInfoV1_2Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "G6";
 	private static final String EMPTY_STRING = " ";
-	private static final Logger LOG = Logger
-			.getLogger(RROtherProjectInfoV1_2Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(RROtherProjectInfoV1_2Generator.class);
 
 	/*
 	 * This method gives information about RROtherProjectInfo of proposal

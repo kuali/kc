@@ -19,14 +19,15 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Used for logging session information when it's created and destroyed. This allows us to monitor memory usage
  * of a session.
  */
 public class SessionLoggingListener implements HttpSessionListener {
-    private static final Logger LOG = Logger.getLogger(SessionLoggingListener.class);
+    private static final Log LOG = LogFactory.getLog(SessionLoggingListener.class);
     
     /**
      * Triggered when the session is created. Reports the amount of memory currently being used at the time the session
@@ -88,11 +89,11 @@ public class SessionLoggingListener implements HttpSessionListener {
     }
 
     /**
-     * Determine if the logging is allowed by using {@link Logger#isInfoEnabled()}. Currently the <code>INFO</code> level
+     * Determine if the logging is allowed by using {@link Log#isInfoEnabled()}. Currently the <code>INFO</code> level
      * is required for logging here. It is possible that by extending this class and overriding {@link #isLoggingAllowed()} the 
      * required log level can be adjusted.
      *
-     * @return the value of {@link Logger#isInfoEnabled()} directly.
+     * @return the value of {@link Log#isInfoEnabled()} directly.
      */
     protected boolean isLoggingAllowed() {
         return LOG.isInfoEnabled();

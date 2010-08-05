@@ -17,7 +17,8 @@ package org.kuali.kra.award.contacts;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
@@ -27,7 +28,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This class is the event passed when a new projectPerson is being added
  */
 public class SaveAwardProjectPersonsRuleEvent extends KraDocumentEventBase {
-    private static final Logger LOG = Logger.getLogger(SaveAwardProjectPersonsRuleEvent.class);
+    private static final Log LOG = LogFactory.getLog(SaveAwardProjectPersonsRuleEvent.class);
     
     private List<AwardPerson> projectPersons;
     

@@ -22,7 +22,7 @@ import org.kuali.kra.irb.Protocol;
 public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolReferenceServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImpl.class);
     
     /**
      * @see org.kuali.kra.irb.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.protocol.reference.ProtocolReference)

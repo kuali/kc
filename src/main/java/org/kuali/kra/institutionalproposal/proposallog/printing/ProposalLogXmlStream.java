@@ -18,22 +18,21 @@ package org.kuali.kra.institutionalproposal.proposallog.printing;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
-import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
-import org.kuali.kra.printing.PrintingException;
 import noNamespace.ProposalLogDocument;
 import noNamespace.ProposalLogLeadUnit;
 import noNamespace.ProposalLogPrincipalInvestigator;
 import noNamespace.ProposalLogProposalType;
 import noNamespace.ProposalLogSponsor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -46,7 +45,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  */
 public class ProposalLogXmlStream implements XmlStream {
 	
-	private final static Logger LOG=Logger.getLogger(ProposalLogXmlStream.class);
+	private final static Log LOG=LogFactory.getLog(ProposalLogXmlStream.class);
 	private DateTimeService dateTimeService;
 	private BusinessObjectService businessObjectService = null;
 

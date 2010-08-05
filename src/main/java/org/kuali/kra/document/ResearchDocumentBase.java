@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
@@ -47,7 +48,7 @@ import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private static final long serialVersionUID = -1879382692835231633L;
-    private static final Logger LOG = Logger.getLogger(ResearchDocumentBase.class);
+    private static final Log LOG = LogFactory.getLog(ResearchDocumentBase.class);
 
     private String updateUser;
     private Timestamp updateTimestamp;

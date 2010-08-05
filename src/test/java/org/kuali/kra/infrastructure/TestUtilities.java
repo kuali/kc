@@ -69,7 +69,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  */
 public class TestUtilities {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestUtilities.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(TestUtilities.class);
 
     private static final String TEST_TABLE_NAME = "EN_UNITTEST_T";
     private static Thread exceptionThreader;

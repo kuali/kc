@@ -22,53 +22,32 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ApplicantOr
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.AuthorizedOrganizationalRepresentativeType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetPeriodType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetSummaryType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.BudgetTotalsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreApplicantSubmissionQualifiersType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreApplicationCategoryType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreBudgetTotalsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreFederalAgencyReceiptQualifiersType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreFederalDebtDelinquencyQuestionsType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreProjectDatesType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreStateIntergovernmentalReviewType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreStateReceiptQualifiersType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.CoreSubmissionCategoryType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.DescriptionBlockType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.FundingOpportunityDetailsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.HumanSubjectsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OrgAssurancesType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherAgencyQuestionsType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantType;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.PersonFullNameType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectSiteType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.SalariesAndWagesType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelType;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ApplicantOrganizationType.OrganizationContactPerson;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.EquipmentCostsDocument.EquipmentCosts;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ParticipantPatientCostsDocument.ParticipantPatientCosts;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectDescriptionDocument.ProjectDescription;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectSurveyDocument.ProjectSurvey;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument.ResearchAndRelatedProject;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchCoverPageDocument.ResearchCoverPage;
-import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelCostsDocument.TravelCosts;
+import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.SalariesAndWagesType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
@@ -84,7 +63,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -93,7 +71,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -105,8 +82,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStream {
 
-	private static final Logger LOG = Logger
-			.getLogger(ResearchAndRelatedXmlStream.class);
+	private static final Log LOG = LogFactory
+			.getLog(ResearchAndRelatedXmlStream.class);
 	private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
 	private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
 	private static final String DEFAULT_VALUE_FOR_SSN = "XXXXXXXXX";

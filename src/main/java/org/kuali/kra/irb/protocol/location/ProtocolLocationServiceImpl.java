@@ -24,7 +24,7 @@ import org.kuali.kra.service.OrganizationService;
 
 public class ProtocolLocationServiceImpl implements ProtocolLocationService {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolLocationServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolLocationServiceImpl.class);
     private OrganizationService organizationService;
     private static final String REFERENCE_PROTOCOL_ORGANIZATION_TYPE = "protocolOrganizationType";
     private static final String REFERENCE_ORGANIZATION = "organization";

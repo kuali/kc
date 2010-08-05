@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.s2s.service;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.s2s.service.impl.SchedulerServiceImpl;
@@ -23,7 +24,7 @@ import org.kuali.kra.s2s.service.impl.SchedulerServiceImpl;
 
 public class SchedulerServiceTest extends Assert{
 
-    private static final Logger LOG = Logger.getLogger(SchedulerServiceTest.class);
+    private static final Log LOG = LogFactory.getLog(SchedulerServiceTest.class);
     SchedulerServiceImpl schedulerServiceImpl = new SchedulerServiceImpl();
     
     @Test

@@ -29,7 +29,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -49,8 +50,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
-	private static final Logger LOG = Logger
-			.getLogger(PHS398ChecklistV1_1Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(PHS398ChecklistV1_1Generator.class);
 
 	/**
 	 * 

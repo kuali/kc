@@ -15,17 +15,14 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.projectV10.ProjectNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.projectV10.ProjectNarrativeAttachmentsDocument.ProjectNarrativeAttachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -37,7 +34,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class ProjectV1_0Generator extends ProjectBaseGenerator {
 
-    private static final Logger Log = Logger.getLogger(ProjectV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(ProjectV1_0Generator.class);
 
     /**
      * 
@@ -47,7 +44,7 @@ public class ProjectV1_0Generator extends ProjectBaseGenerator {
      */
     private ProjectNarrativeAttachmentsDocument getProjectNarrativeAttachments() {
 
-        Log.info("Inside Project Attachment ");
+        LOG.info("Inside Project Attachment ");
         ProjectNarrativeAttachmentsDocument proAttachmentsDocument = ProjectNarrativeAttachmentsDocument.Factory.newInstance();
         ProjectNarrativeAttachments proAttachments = ProjectNarrativeAttachments.Factory.newInstance();
         proAttachments.setFormVersion(S2SConstants.FORMVERSION_1_0);

@@ -79,7 +79,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private transient KcPersonService kcPersonService;
     private transient CommitteeScheduleMinuteService committeeScheduleMinuteService;
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OnlineReviewsActionHelper.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
     
     /**

@@ -58,7 +58,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     private static final long serialVersionUID = -7633960906991275328L;
     
     ProtocolOnlineReviewDocument document;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewForm.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewForm.class);
     
     public ProtocolOnlineReviewForm() throws Exception {
         super();

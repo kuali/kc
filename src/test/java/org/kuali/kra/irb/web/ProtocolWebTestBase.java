@@ -74,7 +74,7 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     protected static final String PROTOCOL_TYPE_CODE_STR = "1";//test of option "Standard";
     protected static final String PROTOCOL_TITLE_STR = "New protocol test";
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolWebTestBase.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolWebTestBase.class);
 
     // Services
     private DocumentService documentService;

@@ -35,7 +35,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
         @UnitTestFile(filename = "classpath:sql/dml/load_protocol_reference_type.sql", delimiter = ";")}))
 public class ProtocolAdditionalFieldsWebTest extends ProtocolWebTestBase {
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAdditionalFieldsWebTest.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolAdditionalFieldsWebTest.class);
     
     
     protected static final String NEW_PROTOCOL = "Create Protocol";

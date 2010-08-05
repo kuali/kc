@@ -54,7 +54,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class CommitteeMembershipAction extends CommitteeAction {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeMembershipAction.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeMembershipAction.class);
 
     
     /**

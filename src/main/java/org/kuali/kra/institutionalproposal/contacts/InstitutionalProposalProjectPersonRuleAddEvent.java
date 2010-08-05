@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
-import org.apache.log4j.Logger;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardProjectPersonAddRule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.contacts.AwardProjectPersonRuleAddEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
@@ -28,7 +27,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class InstitutionalProposalProjectPersonRuleAddEvent extends KraDocumentEventBase {
 
-private static final Logger LOG = Logger.getLogger(AwardProjectPersonRuleAddEvent.class);
+private static final Log LOG = LogFactory.getLog(AwardProjectPersonRuleAddEvent.class);
     
     private InstitutionalProposalPerson newProjectPerson;
     

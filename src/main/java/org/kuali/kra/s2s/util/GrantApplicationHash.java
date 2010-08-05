@@ -7,7 +7,8 @@ package org.kuali.kra.s2s.util;
 
 import javax.xml.transform.TransformerException;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.algorithms.MessageDigestAlgorithm;
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.Canonicalizer;
@@ -27,7 +28,7 @@ import org.w3c.dom.Node;
  */
 public class GrantApplicationHash {
 
-	static final Logger log = Logger.getLogger(GrantApplicationHash.class
+	static final Log log = LogFactory.getLog(GrantApplicationHash.class
 			.getName());
 
 	static java.security.MessageDigest messageDigester = null;

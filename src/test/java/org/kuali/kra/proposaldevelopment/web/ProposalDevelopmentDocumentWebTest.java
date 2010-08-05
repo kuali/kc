@@ -17,7 +17,8 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTestBase {
 
-    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentDocumentWebTest.class);
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentDocumentWebTest.class);
     private static final int TEXT_INPUT = 0;
     private static final int TEXT_AREA = 1;
     private static final int SELECTED_INPUT = 2;

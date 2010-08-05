@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.DateUtils;
 public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CommitteeScheduleDateConflictEvent> {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleDateConflictRule.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleDateConflictRule.class);
     
     public static final String ID = "document.committeeList[0].committeeSchedules[%1$s].scheduledDate";
     

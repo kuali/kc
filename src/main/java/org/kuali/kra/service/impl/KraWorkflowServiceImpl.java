@@ -16,7 +16,8 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class KraWorkflowServiceImpl implements KraWorkflowService {
     
-    static Logger LOG = Logger.getLogger(KraWorkflowService.class);
+    static Log LOG = LogFactory.getLog(KraWorkflowService.class);
     
     /**
      * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.kns.document.Document)

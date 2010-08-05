@@ -18,7 +18,8 @@ package org.kuali.kra.test.infrastructure;
 import java.net.BindException;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.lifecycle.Lifecycle;
@@ -31,7 +32,7 @@ import org.kuali.rice.core.util.RiceUtilities;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 public class JettyServerLifecycle implements Lifecycle {
-    private static final Logger LOG = Logger.getLogger(JettyServerLifecycle.class);
+    private static final Log LOG = LogFactory.getLog(JettyServerLifecycle.class);
 
     private static final HashMap<Integer, Config> WEBAPP_CONFIGS = new HashMap<Integer, Config>();
 

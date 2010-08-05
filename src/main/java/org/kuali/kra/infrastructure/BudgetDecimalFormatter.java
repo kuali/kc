@@ -20,7 +20,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.format.BigDecimalFormatter;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.web.format.FormatException;
  */
 public class BudgetDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 8395988033199649377L;
-    private static Logger LOG = Logger.getLogger(BudgetDecimalFormatter.class);
+    private static Log LOG = LogFactory.getLog(BudgetDecimalFormatter.class);
 
     public BudgetDecimalFormatter() {
         super();

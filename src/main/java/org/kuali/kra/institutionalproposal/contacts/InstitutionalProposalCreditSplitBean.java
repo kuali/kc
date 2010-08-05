@@ -21,7 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -44,7 +45,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
 
     static final String PERSON_TOTALS_KEY = "personTotalsKey";
     
-    private static Logger LOGGER = Logger.getLogger(InstitutionalProposalCreditSplitBean.class);
+    private static Log LOGGER = LogFactory.getLog(InstitutionalProposalCreditSplitBean.class);
     private static final String PARM_TYPE_CODE = "D";
     private static final String YES = "Y";
     private static final String PROPOSAL_CREDIT_SPLIT_PARM_NAME = "institutionalproposal.creditsplit.enabled";

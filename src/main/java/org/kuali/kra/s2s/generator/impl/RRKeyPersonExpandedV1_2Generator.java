@@ -37,7 +37,8 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
@@ -61,8 +62,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
 public class RRKeyPersonExpandedV1_2Generator extends
 		RRKeyPersonExpandedBaseGenerator {
 
-	private static final Logger LOG = Logger
-			.getLogger(RRKeyPersonExpandedV1_2Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(RRKeyPersonExpandedV1_2Generator.class);
 
 	/*
 	 * This method gives details of Principal Investigator,KeyPersons and the

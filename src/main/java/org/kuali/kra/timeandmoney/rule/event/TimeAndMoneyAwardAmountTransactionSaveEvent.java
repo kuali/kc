@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.timeandmoney.rule.event;
 
-import org.apache.log4j.Logger;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRule;
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KraDocumentEventBase {
 
-    private static final Logger LOG = Logger.getLogger(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
+    private static final Log LOG = LogFactory.getLog(TimeAndMoneyAwardAmountTransactionSaveEvent.class);
     private static final String AWARD_AMOUNT_TRANSACTION = "Award Amount Transaction";
     
     AwardAmountTransaction awardAmountTransaction;

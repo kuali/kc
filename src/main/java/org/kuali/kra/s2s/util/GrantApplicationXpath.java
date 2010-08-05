@@ -10,7 +10,8 @@ import java.io.FileReader;
 
 import javax.xml.transform.TransformerException;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,7 +26,7 @@ public class GrantApplicationXpath
 
     private static final String HASH_ALGORITHM = "glob:hashAlgorithm";
     private static final String SHA_1 = "SHA";
-    static final Logger log = Logger.getLogger(GrantApplicationXpath.class.getName());
+    static final Log log = LogFactory.getLog(GrantApplicationXpath.class.getName());
 
     public static final String GS_HEADER_XPATH = "/*[namespace-uri()='http://apply.grants.gov/system/MetaGrantApplication' and local-name()='GrantApplication']/*[namespace-uri()='http://apply.grants.gov/system/Header-V1.0' and local-name()='GrantSubmissionHeader']";
     public static final String OPPORTUNITY_ID_XPATH = GS_HEADER_XPATH

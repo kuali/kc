@@ -16,6 +16,7 @@
 package org.kuali.kra.web.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -24,11 +25,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KeyConstants;
 
 public class SessionExpiredFilter implements Filter {
-    private static final Logger LOG = Logger.getLogger(SessionExpiredFilter.class);
+    private static final Log LOG = LogFactory.getLog(SessionExpiredFilter.class);
     
     public void destroy() {
     }

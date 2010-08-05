@@ -24,7 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -51,7 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private S2SService s2SService;
-    private static final Logger LOG = Logger.getLogger(S2sOpportunityLookupableHelperServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
 
     /**
      * 

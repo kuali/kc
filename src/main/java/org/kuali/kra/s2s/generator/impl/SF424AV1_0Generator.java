@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.sf424AV10.BudgetInformationDocument;
-import gov.grants.apply.forms.sf424AV10.BudgetInformationType;
 import gov.grants.apply.forms.sf424AV10.BudgetCategoriesDocument.BudgetCategories;
 import gov.grants.apply.forms.sf424AV10.BudgetFirstQuarterAmountsDocument.BudgetFirstQuarterAmounts;
 import gov.grants.apply.forms.sf424AV10.BudgetFirstYearAmountsDocument.BudgetFirstYearAmounts;
 import gov.grants.apply.forms.sf424AV10.BudgetForecastedCashNeedsDocument.BudgetForecastedCashNeeds;
 import gov.grants.apply.forms.sf424AV10.BudgetFourthQuarterAmountsDocument.BudgetFourthQuarterAmounts;
+import gov.grants.apply.forms.sf424AV10.BudgetInformationDocument;
+import gov.grants.apply.forms.sf424AV10.BudgetInformationType;
 import gov.grants.apply.forms.sf424AV10.BudgetSecondQuarterAmountsDocument.BudgetSecondQuarterAmounts;
 import gov.grants.apply.forms.sf424AV10.BudgetSummaryDocument.BudgetSummary;
 import gov.grants.apply.forms.sf424AV10.BudgetThirdQuarterAmountsDocument.BudgetThirdQuarterAmounts;
@@ -39,7 +39,8 @@ import gov.grants.apply.forms.sf424AV10.SummaryTotalsDocument.SummaryTotals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -62,7 +63,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class SF424AV1_0Generator extends SF424BaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(SF424AV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(SF424AV1_0Generator.class);
 
     private Budget budget = null;
 

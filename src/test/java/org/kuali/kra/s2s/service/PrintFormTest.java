@@ -23,7 +23,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +45,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
  * This class is used to test the PDF Printing of Forms
  */
 public class PrintFormTest extends KcUnitTestBase {
-    private static final Logger LOG = Logger.getLogger(PrintFormTest.class);
+    private static final Log LOG = LogFactory.getLog(PrintFormTest.class);
 
     @Before
     public void setUp() throws Exception {

@@ -42,7 +42,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -75,8 +76,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
-	private static final Logger LOG = Logger
-			.getLogger(RRSF424V1_0Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(RRSF424V1_0Generator.class);
 
 	private DepartmentalPerson departmentalPerson;
 
