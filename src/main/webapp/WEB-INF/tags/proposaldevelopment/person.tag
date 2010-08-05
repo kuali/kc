@@ -102,7 +102,7 @@
 
                     <td align="left" colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
                                                          attributeEntry="${proposalPersonAttributes.homeUnit}" 
-                                                               readOnly="${!personEditableFields['fullName'] }" />
+                                                               readOnly="${!personEditableFields['homeUnit'] }" />
                     </td>
                   </tr>
                   <tr>
