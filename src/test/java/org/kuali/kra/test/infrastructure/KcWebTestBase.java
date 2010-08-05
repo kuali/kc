@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -21,13 +21,13 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.JettyServerLifecycle;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.JAXBConfigImpl;
 import org.kuali.rice.core.config.spring.ConfigFactoryBean;
 import org.kuali.rice.core.resourceloader.SpringResourceLoader;
 import org.kuali.rice.test.TestHarnessServiceLocator;
-import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.web.HtmlUnitUtil;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
