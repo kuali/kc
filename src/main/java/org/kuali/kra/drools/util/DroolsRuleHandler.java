@@ -54,12 +54,11 @@ public class DroolsRuleHandler {
             // Read in the rules source file
             Reader source = new InputStreamReader(this.getClass().getResourceAsStream("/" + rulesFile));
 
-            // to force it to use Janino compiler.  There is conflict of JDT compiler.
             PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration();
             pkgBuilderCfg.setClassLoader( this.getClass().getClassLoader() );
             JavaDialectConfiguration javaConf = (JavaDialectConfiguration)
             pkgBuilderCfg.getDialectConfiguration( "java" );
-            javaConf.setCompiler( JavaDialectConfiguration.JANINO );
+            javaConf.setCompiler( JavaDialectConfiguration.ECLIPSE );
             PackageBuilder builder = new PackageBuilder( pkgBuilderCfg );
 
             // This will parse and compile in one step
