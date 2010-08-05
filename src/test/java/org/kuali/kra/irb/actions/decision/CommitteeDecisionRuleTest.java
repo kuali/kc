@@ -50,22 +50,6 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
     }
     
-    @Test
-    public void testProccessCommitteeDecisionRule2() {
-        //more no votes than yes votes .... invalid approve
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setNoCount(5);
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
-    @Test
-    public void testProccessCommitteeDecisionRule3() {
-        //more Yes votes than no votes .... invalid disapprove
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setMotion(MotionValuesFinder.DISAPPROVE);
-        assertFalse(rule.proccessCommitteeDecisionRule(null, decision));
-    }
-    
     /**
 
     @Test
