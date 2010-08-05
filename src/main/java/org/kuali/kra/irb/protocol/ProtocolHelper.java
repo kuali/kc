@@ -18,6 +18,7 @@ package org.kuali.kra.irb.protocol;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -31,6 +32,7 @@ import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -74,7 +76,10 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
+    
+    private boolean leadUnitAutoPopulated = false;
     private transient ParameterService parameterService;
+    private transient KcPersonService personService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -358,6 +363,14 @@ public class ProtocolHelper implements Serializable {
         }
     }
     
+    public boolean isLeadUnitAutoPopulated() {
+        return leadUnitAutoPopulated;
+    }
+
+    public void setLeadUnitAutoPopulated(boolean leadUnitAutoPopulated) {
+        this.leadUnitAutoPopulated = leadUnitAutoPopulated;
+    }
+
     /**
      * This method is a form helper for protocol. It is needed to push the
      * transient form fields into principal investigator /lead unit.
@@ -384,6 +397,13 @@ public class ProtocolHelper implements Serializable {
         return KraServiceLocator.getService(ProtocolNumberService.class);
     }
     
+    private KcPersonService getPersonService() {
+        if(personService == null) {
+            personService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return personService;
+    }
+    
     /**
      * This is used to calculate princiapal investigator ID from fields
      * it's the values set rolodex id or person id depening on 
@@ -399,24 +419,38 @@ public class ProtocolHelper implements Serializable {
         }
     }
     
+    private void verifyLeadUnitAutoPopulation() {
+        if(StringUtils.isNotEmpty(getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getLeadUnitNumber())) { 
+            KcPerson pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
+            if(pi != null && pi.getUnit() != null && !StringUtils.equals(pi.getUnit().getUnitNumber(), getLeadUnitNumber())) {
+                setLeadUnitAutoPopulated(false);
+            }
+        }
+    }
+    
      /**
       * This is used to calculate lead unit info from fields
       * it's the values set into form or (if unset during lookup)
       * from the lookup values returned for PI's home unit
       */
     private void findAndSetLeadUnitFromFields() {
-
         getProtocol().setLeadUnitNumber(getLeadUnitNumber());
         setLeadUnitName(getUnitService().getUnitName(getLeadUnitNumber()));
-        if (StringUtils.isEmpty(getLeadUnitName()) 
-                && StringUtils.isEmpty(getLeadUnitNumber()) ) {
+        verifyLeadUnitAutoPopulation();
+        
+        if ((StringUtils.isEmpty(getLeadUnitName()) 
+                && StringUtils.isEmpty(getLeadUnitNumber())) || isLeadUnitAutoPopulated()) {
             setLeadUnitNumber(getLookupUnitNumber());
-            setLeadUnitName(getLookupUnitName());
+            setLeadUnitName(getLookupUnitName()); 
+            if(StringUtils.isNotEmpty(getLookupUnitNumber())) {
+                setLeadUnitAutoPopulated(true);
+            }
         }
         setLookupUnitNumber(null);
         setLookupUnitName(null);
     }
 
+    
     private ProtocolUnit createLeadUnit() {
         ProtocolUnit ret = null;
         if (StringUtils.isNotEmpty(getLeadUnitNumber()) && StringUtils.isNotEmpty(getLeadUnitName())) {
