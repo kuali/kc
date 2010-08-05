@@ -2,7 +2,7 @@
     <c:set var="committeeScheduleAttendanceAttributes" value="${DataDictionary.CommitteeScheduleAttendance.attributes}" />
     <table id="otherPresent-table" cellpadding=0 cellspacing=0 class="datatable" summary="View/edit other present">
         <tr>
-            <td colspan="5" class="tab-subhead1">Other Presents: ${fn:length(KualiForm.meetingHelper.otherPresentBeans)}</td>
+            <td colspan="5" class="tab-subhead1">Others Present: ${fn:length(KualiForm.meetingHelper.otherPresentBeans)}</td>
         </tr>
     
         <c:if test="${!readOnly}">
