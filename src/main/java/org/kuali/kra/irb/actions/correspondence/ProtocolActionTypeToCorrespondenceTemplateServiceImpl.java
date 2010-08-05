@@ -63,6 +63,8 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.EXPEDITE_APPROVAL, Arrays.asList("Expedited Approval Letter"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.GRANT_EXEMPTION, Arrays.asList("Grant Exemption Notice")); 
         actionTypesToCorrespondenceType.put(ProtocolActionType.ADMINISTRATIVE_CORRECTION, Arrays.asList(""));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, Arrays.asList("Specific Minor Revisions Letter"));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, Arrays.asList("Substantive Revisions Required Letter"));
         /**
          * The following correspondence types don't map to a Protocol Action at this time:
          * Agenda Report, Committee Roster Report, Expedited Approval Letter, Grant Exemption Notice, Notice Of Deferral,
