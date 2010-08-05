@@ -17,16 +17,22 @@ package org.kuali.kra.printing.util;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class PrintingServiceTestBase extends KcUnitTestBase {
+    protected DocumentService documentService;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		GlobalVariables.setUserSession(new UserSession("quickstart"));
+        documentService = KraServiceLocator.getService(DocumentService.class);
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+		
 	}
 
 	@After
