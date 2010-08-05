@@ -25,7 +25,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Part of KRA's {@link FilterChain} that handles timing a {@link HttpServletRequest} and reporting on the state of 
@@ -39,7 +40,7 @@ import org.apache.log4j.Logger;
  * </ul>
  */
 public class PerformanceLoggingFilter implements Filter {
-    private static final Logger LOG = Logger.getLogger(PerformanceLoggingFilter.class);
+    private static final Log LOG = LogFactory.getLog(PerformanceLoggingFilter.class);
     
     /**
      * @see Filter#destroy()

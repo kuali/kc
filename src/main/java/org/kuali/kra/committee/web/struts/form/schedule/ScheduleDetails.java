@@ -25,7 +25,7 @@ import java.sql.Date;
 public class ScheduleDetails implements Serializable {
     
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleDetails.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleDetails.class);
  
     private Date scheduleEndDate;
 

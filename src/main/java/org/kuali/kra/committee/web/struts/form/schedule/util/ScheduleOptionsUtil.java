@@ -23,7 +23,7 @@ import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 public class ScheduleOptionsUtil {
 
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOptionsUtil.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleOptionsUtil.class);
 
     /**
      * This method returns CronSpecialChars of a month.

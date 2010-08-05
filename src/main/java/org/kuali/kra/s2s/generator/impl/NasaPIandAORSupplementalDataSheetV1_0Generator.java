@@ -23,7 +23,8 @@ import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORS
 import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -46,8 +47,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		S2SBaseFormGenerator {
-	private static final Logger LOG = Logger
-			.getLogger(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
 	private S2SUtilService s2sUtilService;
 	private S2SBudgetCalculatorService s2sBudgetCalculatorService;
 	private static final String PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "25";

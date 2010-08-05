@@ -32,7 +32,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
  * This class is to override documentservice.  It is mainly for CommitteeDocument.
  */
 public class KraDocumentServiceImpl extends DocumentServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KraDocumentServiceImpl.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraDocumentServiceImpl.class);
 
     @Override
     public void validateAndPersistDocument(Document document, KualiDocumentEvent event) throws WorkflowException,

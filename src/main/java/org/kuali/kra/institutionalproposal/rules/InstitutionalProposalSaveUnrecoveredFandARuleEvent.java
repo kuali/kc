@@ -17,7 +17,8 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -28,7 +29,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class InstitutionalProposalSaveUnrecoveredFandARuleEvent extends KraDocumentEventBase {
 
-private static final Logger LOG = Logger.getLogger(InstitutionalProposalAddCostShareRuleEvent.class);
+private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostShareRuleEvent.class);
     
     private InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA;
 

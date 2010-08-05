@@ -23,7 +23,8 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -37,7 +38,7 @@ import org.w3c.dom.Element;
  */
 public abstract class NotificationEventBase {
 
-    private static final Logger LOG = Logger.getLogger(NotificationEventBase.class);
+    private static final Log LOG = LogFactory.getLog(NotificationEventBase.class);
     private Protocol protocol;
 
     /**

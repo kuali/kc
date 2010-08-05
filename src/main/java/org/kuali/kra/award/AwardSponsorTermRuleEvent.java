@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.AwardSponsorTerm;
@@ -27,7 +28,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
     
-    private static final Logger LOG = Logger.getLogger(AwardCostShareRuleEvent.class);
+    private static final Log LOG = LogFactory.getLog(AwardCostShareRuleEvent.class);
     private AwardSponsorTerm awardSponsorTerm;
     private String sponsorTermCode;
     private int sponsorTermTypeCode;

@@ -15,15 +15,16 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument.BudgetNarrativeAttachments;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -39,7 +40,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class BudgetV1_1Generator extends S2SBaseFormGenerator {
 
-    private static final Logger Log = Logger.getLogger(ProjectV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(ProjectV1_0Generator.class);
     private static final int BUDGET_ATTACHMENTS = 57;
 
     /**
@@ -73,7 +74,7 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
      *         BUDGET_ATTACHMENTS
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-        Log.debug("Getting AttachedFileDataType ");
+        LOG.debug("Getting AttachedFileDataType ");
         List<AttachedFileDataType> attachedFileDataTypes = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
@@ -82,7 +83,7 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
             	attachedFileDataType = getAttachedFileType(narrative);
             	if (attachedFileDataType != null) {
 					attachedFileDataTypes.add(attachedFileDataType);
-					Log.debug("Attachmentcount" + attachedFileDataTypes.size());
+					LOG.debug("Attachmentcount" + attachedFileDataTypes.size());
 				}
             }
         }

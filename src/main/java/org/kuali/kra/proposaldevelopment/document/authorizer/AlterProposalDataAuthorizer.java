@@ -33,7 +33,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
  */
 public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
 
-    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AlterProposalDataAuthorizer.class);
+    org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */

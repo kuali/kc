@@ -31,22 +31,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.fop.apps.FOPException;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
-import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlCursor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.SponsorFormTemplate;
@@ -85,7 +75,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * to generate PDF for all forms along with their attachments
  */
 public class PrintServiceImpl implements PrintService {
-	private static final Logger LOG = Logger.getLogger(PrintServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(PrintServiceImpl.class);
 
 	private BusinessObjectService businessObjectService;
 	private S2SFormGeneratorService s2SFormGeneratorService;

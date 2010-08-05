@@ -45,7 +45,7 @@ import org.kuali.rice.kns.util.MessageMap;
  */
 @RunWith(KcUnitTestRunner.class)
 public class KcUnitTestBase extends Assert implements KcUnitTestMethodAware {
-    // non static logger to allow it to be named after the runtime class
+    // non static Log to allow it to be named after the runtime class
     protected final Log LOG = LogFactory.getLog(this.getClass());
 
     private static KcUnitTestMainLifecycle LIFECYCLE = new KcUnitTestMainLifecycle();

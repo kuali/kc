@@ -16,10 +16,10 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType;
-import gov.grants.apply.forms.rrKeyPersonV11.ProjectRoleDataType;
-import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument;
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile;
 import gov.grants.apply.forms.rrKeyPersonV11.PersonProfileDataType.Profile.OtherProjectRoleCategory;
+import gov.grants.apply.forms.rrKeyPersonV11.ProjectRoleDataType;
+import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.AdditionalProfilesAttached;
 import gov.grants.apply.forms.rrKeyPersonV11.RRKeyPersonDocument.RRKeyPerson.BioSketchsAttached;
@@ -30,7 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -46,7 +47,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
-	private static final Logger LOG = Logger.getLogger(RRKeyPersonV1_1Generator.class);
+	private static final Log LOG = LogFactory.getLog(RRKeyPersonV1_1Generator.class);
 
     /**
      * 

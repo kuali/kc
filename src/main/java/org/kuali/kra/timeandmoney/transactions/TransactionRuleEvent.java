@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.timeandmoney.transactions;
 
-import org.apache.log4j.Logger;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kns.rule.BusinessRule;
@@ -27,7 +25,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * This the AwardPaymentScheduleRuleEvent
  */
 public class TransactionRuleEvent extends KraDocumentEventBase {
-    private static final Logger LOG = Logger.getLogger(TransactionRuleEvent.class);
+    private static final Log LOG = LogFactory.getLog(TransactionRuleEvent.class);
     
     private PendingTransaction pendingTransactionItem;
     

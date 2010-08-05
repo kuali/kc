@@ -15,34 +15,34 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview;
+import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
+import gov.grants.apply.forms.sf424V10.AddressDocument.Address;
 import gov.grants.apply.forms.sf424V10.ApplicantTypeCodeType;
 import gov.grants.apply.forms.sf424V10.ApplicationTypeCodeType;
-import gov.grants.apply.forms.sf424V10.GrantApplicationDocument;
-import gov.grants.apply.forms.sf424V10.GrantApplicationType;
-import gov.grants.apply.forms.sf424V10.RevisionCodeType;
-import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
-import gov.grants.apply.forms.sf424V10.SubmissionTypeCodeType;
-import gov.grants.apply.forms.sf424V10.AddressDocument.Address;
 import gov.grants.apply.forms.sf424V10.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 import gov.grants.apply.forms.sf424V10.BudgetDocument.Budget;
 import gov.grants.apply.forms.sf424V10.ContactDocument.Contact;
+import gov.grants.apply.forms.sf424V10.GrantApplicationDocument;
+import gov.grants.apply.forms.sf424V10.GrantApplicationType;
 import gov.grants.apply.forms.sf424V10.IndividualDocument.Individual;
 import gov.grants.apply.forms.sf424V10.OrganizationDocument.Organization;
 import gov.grants.apply.forms.sf424V10.OrganizationIdentifyingInformationDocument.OrganizationIdentifyingInformation;
 import gov.grants.apply.forms.sf424V10.ProjectDocument.Project;
+import gov.grants.apply.forms.sf424V10.RevisionCodeType;
 import gov.grants.apply.forms.sf424V10.RevisionDocument.Revision;
+import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
+import gov.grants.apply.forms.sf424V10.SubmissionTypeCodeType;
 import gov.grants.apply.forms.sf424V10.SubmittingOrganizationDocument.SubmittingOrganization;
 import gov.grants.apply.system.globalV10.YesNoType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 import gov.grants.apply.system.universalCodesV10.CurrencyCodeType;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Rolodex;
@@ -63,8 +63,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class SF424V1_0Generator extends SF424BaseGenerator {
 
-	private static final Logger LOG = Logger
-			.getLogger(SF424V1_0Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(SF424V1_0Generator.class);
 	private DepartmentalPerson aorInfo;
 	private String stateReviewDate = null;
 

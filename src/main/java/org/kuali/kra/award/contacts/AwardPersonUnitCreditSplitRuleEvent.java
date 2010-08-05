@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is used by AwardPersonCreditSplitRule implementers
  */
 public class AwardPersonUnitCreditSplitRuleEvent extends KraDocumentEventBase {
-    private static final Log LOGGER = LogFactory.getLog(AwardPersonUnitCreditSplitRuleEvent.class);
+    private static final Log LOG = LogFactory.getLog(AwardPersonUnitCreditSplitRuleEvent.class);
     
     private AwardPerson projectPerson;
     private Map<String, KualiDecimal> totalsByCreditSplitType;
@@ -78,6 +78,6 @@ public class AwardPersonUnitCreditSplitRuleEvent extends KraDocumentEventBase {
 
     @Override
     protected void logEvent() {
-        LOGGER.info("Logging event");
+        LOG.info("Logging event");
     }
 }

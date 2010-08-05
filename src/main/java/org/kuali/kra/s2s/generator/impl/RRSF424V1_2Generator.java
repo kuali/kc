@@ -43,7 +43,8 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -73,8 +74,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
-	private static final Logger LOG = Logger
-			.getLogger(RRSF424V1_2Generator.class);
+	private static final Log LOG = LogFactory
+			.getLog(RRSF424V1_2Generator.class);
 	private DepartmentalPerson departmentalPerson;
 
 	/**

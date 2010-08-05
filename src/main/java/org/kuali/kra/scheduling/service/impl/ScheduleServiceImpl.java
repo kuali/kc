@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleServiceImpl implements ScheduleService {
 
     @SuppressWarnings("unused")
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleServiceImpl.class);
 
     /**
      * This overloaded implementation uses NeverCronExpression, which generates schedule for specific DAY only.

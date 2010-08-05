@@ -27,8 +27,8 @@ import org.kuali.rice.core.lifecycle.Lifecycle;
 
 public class JettyServer implements Lifecycle {
 	
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-			.getLogger(JettyServer.class);
+	private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+			.getLog(JettyServer.class);
 	
     /**
      * The name of an attribute we set in the ServletContext to indicate to the webapp

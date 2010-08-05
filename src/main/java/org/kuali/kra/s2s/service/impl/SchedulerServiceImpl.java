@@ -21,8 +21,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-//import org.kuali.core.mail.MailMessage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.polling.MailInfo;
 import org.kuali.kra.s2s.polling.PollingInfo;
@@ -51,7 +51,7 @@ import org.w3c.dom.NodeList;
  */
 public class SchedulerServiceImpl implements SchedulerService {
     private boolean started;
-    private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(SchedulerServiceImpl.class);
     // private static SchedulerServiceImpl instance;
     private Scheduler scheduler = null;
     private S2SUtilService s2SUtilService;

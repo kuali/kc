@@ -31,7 +31,7 @@ import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
  */
 public class ScheduleData implements Serializable {
     
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleData.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ScheduleData.class);
     
     public static final String NONE = "display: none; background:#f4f4f4; border:solid; border-color:#CCCCCC; border-width:1px; padding:5px";
     

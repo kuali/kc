@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.grants.apply.forms.rrOtherProjectInfoV10.RROtherProjectInfoDocument;
 import gov.grants.apply.forms.rrOtherProjectInfoV10.RROtherProjectInfoDocument.RROtherProjectInfo;
 import gov.grants.apply.forms.rrOtherProjectInfoV10.RROtherProjectInfoDocument.RROtherProjectInfo.AbstractAttachments;
@@ -34,7 +31,11 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -51,7 +52,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGenerator {
 
-    private static final Logger LOG = Logger.getLogger(RROtherProjectInfoV1_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(RROtherProjectInfoV1_0Generator.class);
 
 
     /**

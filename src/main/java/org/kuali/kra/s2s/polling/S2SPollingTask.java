@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -58,7 +58,7 @@ import org.kuali.rice.kns.service.MailService;
  */
 public class S2SPollingTask {
 
-	private static final Logger LOG = Logger.getLogger(S2SPollingTask.class);
+	private static final Log LOG = LogFactory.getLog(S2SPollingTask.class);
 	private final List<String> lstStatus = new ArrayList<String>();
 	private final Map<String, String> sortMsgKeyMap = new Hashtable<String, String>();
 	private DateTimeService dateTimeService = null;
