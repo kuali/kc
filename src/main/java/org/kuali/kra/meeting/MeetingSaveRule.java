@@ -76,6 +76,7 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
         }
         time = committeeSchedule.getViewTime().getTime();
         rulePassed &= processTime(time, ID1);
+        rulePassed &= checkDeadlineBeforeScheduleDate(committeeSchedule);
         return rulePassed;
     }
 
@@ -191,6 +192,18 @@ public class MeetingSaveRule  extends ResearchDocumentRuleBase implements Busine
         return rulePassed;
     }
 
+    /*
+     * check if submitdeadline before scheduled date
+     */
+    private boolean checkDeadlineBeforeScheduleDate(CommitteeSchedule committeeSchedule) {
+        boolean rulePassed = true;
+        if (committeeSchedule.getProtocolSubDeadline() != null && (committeeSchedule.getScheduledDate().before(committeeSchedule.getProtocolSubDeadline()))) {
+            reportError("meetingHelper.committeeSchedule.protocolSubDeadline", KeyConstants.ERROR_COMMITTEESCHEDULE_DEADLINE, committeeSchedule.getProtocolSubDeadline().toString(), committeeSchedule.getScheduledDate().toString());
+            rulePassed = false;
+        }
+        return rulePassed;        
+    }
+    
     private boolean createErrorReport(String id, String prefix, String msg) {
         errorReporter.reportError(id, KeyConstants.ERROR_COMMITTEESCHEDULE_VIEWTIME, prefix, msg);
         return false;
