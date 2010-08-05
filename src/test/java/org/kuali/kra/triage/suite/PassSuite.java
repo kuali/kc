@@ -388,7 +388,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.GenericProtocolAuthorizerTest.class,
     org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceTest.class,
     org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceTest.class,
-    org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
     org.kuali.kra.irb.actions.submit.ProtocolRouteTest.class,
     org.kuali.kra.irb.actions.print.ProtocolPrintingServiceTest.class,
     org.kuali.kra.irb.actions.decision.CommitteeDecisionRuleTest.class,
