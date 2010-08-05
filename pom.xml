@@ -1049,7 +1049,7 @@
 		<com.oracle.version>10.2.0.3.0</com.oracle.version>
 		<mysql.version>5.1.13</mysql.version>
 		<org.apache.cxf.version>2.2.9</org.apache.cxf.version>
-		<org.drools.version>5.0.1</org.drools.version>
+		<org.drools.version>5.1.0</org.drools.version>
 		<org.jmock.version>2.5.1</org.jmock.version>
 		<org.kuali.rice.version>1.0.3-KC-02</org.kuali.rice.version>
 		<jetty.version>7.1.6.v20100715</jetty.version>
