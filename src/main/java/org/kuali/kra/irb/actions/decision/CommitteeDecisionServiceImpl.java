@@ -28,6 +28,8 @@ import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -37,6 +39,7 @@ import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -52,6 +55,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     private ProtocolVersionService protocolVersionService;
     private DocumentService documentService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -74,6 +78,11 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
     public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
         this.protocolAssignToAgendaService = protocolAssignToAgendaService;
+    }
+
+    public void setProtocolActionCorrespondenceGenerationService(
+            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
 
     /**
@@ -134,11 +143,19 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             protocol.refresh();
             
             if(revisionsRequested) { 
+                generateCorrespondenceDocumentAndAttach(protocol, protocolActionTypeToUse);
                 documentVersionForRevisions = versionDocument(protocol);
             }
         }
         return (documentVersionForRevisions != null) ? documentVersionForRevisions : protocol.getProtocolDocument();
     }
+    
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
+        correspondence.setDocument(protocol.getProtocolDocument());
+        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+    } 
     
     private void disapproveDocument(Protocol protocol) throws Exception {
         KualiWorkflowDocument currentWorkflowDocument = null;
