@@ -21,6 +21,9 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.PessimisticLock;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * A Protocol Authorizer determines if a user can perform
@@ -99,4 +102,16 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
                !protocol.getProtocolDocument().isViewOnly() &&
                protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
     }
+    
+    protected boolean isPessimisticLocked(Document document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
+    }
+
 }
