@@ -14,9 +14,9 @@
 	  for (testsuite <- (xml \\ "testsuite")) {
 		for (testcase <- (testsuite \\ "testcase")) {
 		  val className = (testcase \ "@classname").text
-		  total + className
+		  total += className
 		  if ((testcase \\ "failure") != Nil || (testcase \\ "error") != Nil) {
-			errors + className
+			errors += className
 		  }
 		}
 	  }
