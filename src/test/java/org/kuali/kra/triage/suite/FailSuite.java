@@ -318,9 +318,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalGraduateStudentWebTest.class,
     org.kuali.kra.irb.actions.summaryhistory.ProtocolSubmissionDetailsWebTest.class,
     
-    //added for a day
-    org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
-    
     
     org.kuali.kra.award.htmlunitwebtest.AwardSponsorTermWebTest.class
 
