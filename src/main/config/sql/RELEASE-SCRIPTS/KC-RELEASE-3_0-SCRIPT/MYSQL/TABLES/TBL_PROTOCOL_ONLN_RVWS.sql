@@ -1,5 +1,5 @@
 CREATE TABLE PROTOCOL_ONLN_RVWS (PROTOCOL_ONLN_RVW_ID DECIMAL (12, 0) NOT NULL,
-                                 DOCUMENT_NUMBER DECIMAL (10, 0) ,
+                                 DOCUMENT_NUMBER DECIMAL (12, 0) NOT NULL,
                                  PROTOCOL_ID DECIMAL (12, 0) NOT NULL,
                                  SUBMISSION_ID_FK DECIMAL (12, 0) NOT NULL,
                                  PROTOCOL_REVIEWER_FK DECIMAL (12, 0) NOT NULL,
