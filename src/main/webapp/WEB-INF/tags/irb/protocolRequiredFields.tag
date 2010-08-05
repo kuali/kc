@@ -135,6 +135,7 @@
 				
 				</td>
                 <td width="40" valign="middle" style="border: medium none ;">
+            	        <kul:checkErrors keyMatch="document.protocolList[0].leadUnitNumber" auditMatch="document.protocolList[0].leadUnitNumber"/>
                         		 						                  
 	                    <kul:lookup boClassName="org.kuali.kra.bo.Unit" 
 	                     fieldConversions="unitNumber:protocolHelper.leadUnitNumber,unitName:protocolHelper.leadUnitName" />
@@ -143,6 +144,9 @@
 	                     inquiryParameters="protocolHelper.leadUnitNumber:unitNumber" 
 	                     anchor="${tabKey}" />
                     </label>
+	               	<c:if test="${hasErrors}">
+                    	 <kul:fieldShowErrorIcon />
+                    </c:if>
                     <br>
                     </c:if>
                  
