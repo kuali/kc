@@ -58,15 +58,4 @@ public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
         return hasPermission;
     }
     
-    private boolean isPessimisticLocked(Document document) {
-        boolean isLocked = false;
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                isLocked = true;
-            }
-        }
-        return isLocked;
-    }
-
 }
