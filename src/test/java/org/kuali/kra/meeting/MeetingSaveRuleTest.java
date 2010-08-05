@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.meeting;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,16 +26,15 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MeetingSaveRuleTest {
     
     private Time12HrFmt viewStartTime;
     private Time12HrFmt viewEndTime;
     private Time12HrFmt viewTime;
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @Before
     public void setUp() throws Exception {
@@ -119,6 +119,37 @@ public class MeetingSaveRuleTest {
                 viewEndTime.setTime("12:30");
                 viewEndTime.setTime("01:30");
                 viewStartTime.setTime("02:30");
+                meetingHelper.setCommitteeSchedule(committeeSchedule);
+                event = new MeetingSaveEvent(Constants.EMPTY_STRING, null, meetingHelper,  ErrorType.HARDERROR);
+                rule = new MeetingSaveRule();
+                expectedReturnValue = false;
+            }
+       };
+ 
+    
+    }
+
+    @Test
+    public void testSubmissionDeadlineBeforeScheduledDate() {    
+        new  TemplateRuleTest<MeetingSaveEvent, MeetingSaveRule> (){            
+            @Override
+            protected void prerequisite() {            
+                MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
+                meetingHelper.setMemberPresentBeans(new ArrayList<MemberPresentBean>());
+                
+                meetingHelper.getMemberPresentBeans().add(getMemberPresent("001", "tester 1"));
+                meetingHelper.getMemberPresentBeans().add(getMemberPresent("002", "tester 2"));
+
+                CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+                committeeSchedule.setViewStartTime(viewStartTime);
+                committeeSchedule.setViewEndTime(viewEndTime);
+                committeeSchedule.setViewTime(viewTime);
+                try {
+                    committeeSchedule.setScheduledDate(new Date(dateFormat.parse("12/24/2012").getTime()));
+                    committeeSchedule.setProtocolSubDeadline(new Date(dateFormat.parse("12/25/2012").getTime()));
+                } catch (Exception e) {
+                    
+                }
                 meetingHelper.setCommitteeSchedule(committeeSchedule);
                 event = new MeetingSaveEvent(Constants.EMPTY_STRING, null, meetingHelper,  ErrorType.HARDERROR);
                 rule = new MeetingSaveRule();
