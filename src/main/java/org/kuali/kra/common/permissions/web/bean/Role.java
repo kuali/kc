@@ -29,7 +29,7 @@ public class Role implements Serializable {
 
     private String name;
     private String displayName;
-    private List<KimPermissionInfo> permissions;
+    private transient List<KimPermissionInfo> permissions;
     
     public Role(String name, String displayName) {
         this.name = name;
