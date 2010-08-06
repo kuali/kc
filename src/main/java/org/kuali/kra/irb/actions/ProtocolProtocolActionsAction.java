@@ -924,7 +924,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         if (isAuthorized(task)) {
             ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-            System.err.println("from form proccessor  actionBean.getActionDate():" + actionBean.getActionDate() );
             if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
                 getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
