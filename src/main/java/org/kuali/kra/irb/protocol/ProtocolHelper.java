@@ -440,9 +440,9 @@ public class ProtocolHelper implements Serializable {
         
         if ((StringUtils.isEmpty(getLeadUnitName()) 
                 && StringUtils.isEmpty(getLeadUnitNumber())) || isLeadUnitAutoPopulated()) {
-            setLeadUnitNumber(getLookupUnitNumber());
-            setLeadUnitName(getLookupUnitName()); 
             if(StringUtils.isNotEmpty(getLookupUnitNumber())) {
+                setLeadUnitNumber(getLookupUnitNumber());
+                setLeadUnitName(getLookupUnitName()); 
                 setLeadUnitAutoPopulated(true);
             }
         }
