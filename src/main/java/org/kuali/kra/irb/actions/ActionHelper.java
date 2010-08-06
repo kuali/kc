@@ -21,10 +21,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -67,7 +71,9 @@ import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -186,6 +192,7 @@ public class ActionHelper implements Serializable {
     private List<ProtocolVoteAbstainee> abstainees;        
     private List<ProtocolVoteRecused> recusers;        
     private int currentSubmissionNumber = -1;
+    private transient KcPersonService kcPersonService;
 
     /**
      * @throws Exception 
@@ -1107,29 +1114,14 @@ public class ActionHelper implements Serializable {
     }
     
     /*
-     * This is to set up the full name of Abstainer & Recused based on matched committee member.
+     * This is to set up the full name of Abstainer & Recused based on matched kcperson or rolodex.
      */
     private void setupVoterName() {
-        List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
-                selectedSubmission.getCommitteeSchedule().getScheduleId());
-        for (CommitteeMembership member : members) {
-            boolean isAbstainee = false;
-            for (ProtocolVoteAbstainee abstainee : abstainees) {
-                if (isVoterMatchedMember(member, abstainee)) {
-                    abstainee.setFullName(member.getPersonName());
-                    isAbstainee = true;
-                    break;
-                }
-            }
-            if (!isAbstainee) {
-                for (ProtocolVoteRecused recuser : recusers) {
-                    if (isVoterMatchedMember(member, recuser)) {
-                        recuser.setFullName(member.getPersonName());
-                        break;
-                    }
-                }
-            }
-
+        for (ProtocolVoteAbstainee abstainee : abstainees) {
+            abstainee.setFullName(getVoterName(abstainee));
+        }
+        for (ProtocolVoteRecused recuser : recusers) {
+            recuser.setFullName(getVoterName(recuser));
         }
     }
 
@@ -1148,20 +1140,39 @@ public class ActionHelper implements Serializable {
     }
 
     /*
-     * Utility method to check if voter matched committee member
+     * Utility method to get voter name
      */
-    private boolean isVoterMatchedMember(CommitteeMembership member, ProtocolMeetingVoter voter) {
-        boolean isMatched = false;
-        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(voter.getPersonId())) {
-            isMatched = true;
-        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(voter.getPersonId()) ){
-            isMatched = true;
+    private String getVoterName(ProtocolMeetingVoter voter) {
+        String voterName = "Person " + voter.getPersonId() + " not found";
+        if (!voter.getNonEmployeeFlag()) {
+            KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(voter.getPersonId());
+            if (kcPerson != null) {
+                voterName = kcPerson.getFullName();
+            }
+        } else {
+            Map primaryKeys = new HashMap();
+            primaryKeys.put("rolodexId", voter.getPersonId());
+            Rolodex rolodex = (Rolodex) getBusinessObjectService().findByPrimaryKey(Rolodex.class, primaryKeys);
+            if (rolodex != null) {
+                voterName = rolodex.getFullName();
+            }
         }
-        return isMatched;
-
+        return voterName;
     }
 
 
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);    
+    }
+    
     public int getCurrentSubmissionNumber() {
         return currentSubmissionNumber;
     }
