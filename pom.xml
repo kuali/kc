@@ -34,7 +34,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>META-INF/kc-config-build.xml</include>
-					<include>log4j.properties</include>
+					<include>build.log4j.properties</include>
 				</includes>
 			</resource>
 			<resource>
@@ -47,7 +47,7 @@
 				<directory>src/test/resources</directory>
 				<includes>
 					<include>META-INF/kc-test-config.xml</include>
-					<include>log4j.properties</include>
+					<include>build.log4j.properties</include>
 				</includes>
 			</testResource>
 			<testResource>
@@ -92,6 +92,8 @@
 			              <exclude>opensymphony:quartz</exclude>
 			              <!-- bouncycastle's groupid was changed causing duplicates to be included - excluding the old bouncycastle -->
 			              <exclude>bouncycastle</exclude>
+			              <!-- already including slf4j's commons-logging implementation -->
+			              <exclude>commons-logging</exclude>
 			            </excludes>
 			          </bannedDependencies>
 			        </rules>
@@ -104,7 +106,7 @@
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${org.apache.cxf.version}</version>
+				<version>${cxf.version}</version>
 				<executions>
 					<execution>
 						<id>generate-apply-grants-gov</id>
@@ -150,7 +152,7 @@
 		<dependency>
 		    <groupId>com.oracle</groupId>
 		    <artifactId>ojdbc14</artifactId>
-		    <version>${com.oracle.version}</version>
+		    <version>${oracle.version}</version>
 		    <!-- should be provided once embedded jetty is figured out -->
 		    <scope>test</scope>
 		</dependency>
@@ -159,6 +161,12 @@
 		    <groupId>commons-beanutils</groupId>
 		    <artifactId>commons-beanutils</artifactId>
 		    <version>[1.7.0]</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>commons-collections</groupId>
@@ -180,12 +188,44 @@
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<!-- commons-logging implementation, commons-logging calls will go to slf4j -->
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>${slf4j.version}</version>
 		</dependency>
+		
+		<!-- jul bridge, jul calls will go to slf4j -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jul-to-slf4j</artifactId>
+		    <version>${slf4j.version}</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+		<!-- binding forwards slf4j calls to log4j (should only contain a single binder) -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>${slf4j.version}</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>${slf4j.version}</version>
+		    <scope>runtime</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
@@ -214,6 +254,10 @@
 					<groupId>itext</groupId>
 					<artifactId>itext</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>jcl104-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -240,6 +284,10 @@
 		    		<artifactId>bsf</artifactId>
 		    		<groupId>bsf</groupId>
 		    	</exclusion>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 		    </exclusions>
 		</dependency>
 		<dependency>
@@ -251,7 +299,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>${javax.servlet.version}</version>
+			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -292,6 +340,12 @@
 			<artifactId>htmlunit</artifactId>
 			<version>2.7</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>ojb</groupId>
@@ -310,32 +364,48 @@
 		    		<artifactId>cglib</artifactId>
 		    		<groupId>cglib</groupId>
 		    	</exclusion>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-api</artifactId>
-			<version>${org.apache.cxf.version}</version>
+			<version>${cxf.version}</version>
+			<exclusions>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-core</artifactId>
-			<version>${org.apache.cxf.version}</version>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${org.apache.cxf.version}</version>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-simple</artifactId>
-			<version>${org.apache.cxf.version}</version>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${org.apache.cxf.version}</version>
+			<version>${cxf.version}</version>
+			<exclusions>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- replaces banned dependency javax.activation -->
 		<!-- remove once we are on jdk 6 -->
@@ -365,6 +435,12 @@
 			<groupId>org.apache.santuario</groupId>
 			<artifactId>xmlsec</artifactId>
 			<version>1.4.3</version>
+			<exclusions>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
@@ -387,12 +463,16 @@
 					<artifactId>xmlParserAPIs</artifactId>
 					<groupId>xml-apis</groupId>
 				</exclusion>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
-			<version>${org.drools.version}</version>
+			<version>${drools.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.jdt</groupId>
@@ -407,7 +487,7 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
-			<version>${org.drools.version}</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.eclipse.jetty</groupId>
@@ -447,19 +527,19 @@
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock</artifactId>
-			<version>${org.jmock.version}</version>
+			<version>${jmock.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-legacy</artifactId>
-			<version>${org.jmock.version}</version>
+			<version>${jmock.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
-			<version>${org.jmock.version}</version>
+			<version>${jmock.version}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -516,7 +596,7 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>${org.kuali.rice.version}</version>
+			<version>${rice.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.oracle</groupId>
@@ -595,6 +675,10 @@
 					<artifactId>quartz</artifactId>
 					<groupId>opensymphony</groupId>
 				</exclusion>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- the jsp libraries have not been moved over to eclipse as of jetty 7 - this is required for jetty 7 -->
@@ -618,32 +702,68 @@
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-beans</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-core</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-tx</artifactId>
-		    <version>${org.springframework.version}</version>
+		    <version>${springframework.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springmodules</groupId>
@@ -654,6 +774,10 @@
 					<groupId>org.springframework</groupId>
 					<artifactId>spring</artifactId>
 				</exclusion>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -669,6 +793,10 @@
 					<artifactId>commons-fileupload</artifactId>
 					<groupId>commons-fileupload</groupId>
 				</exclusion>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- used in taglibs do not remove -->
@@ -685,6 +813,10 @@
 					<artifactId>jstl</artifactId>
 					<groupId>javax.servlet</groupId>
 				</exclusion>
+				<exclusion>
+		    		<artifactId>commons-logging</artifactId>
+		    		<groupId>commons-logging</groupId>
+		    	</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -767,7 +899,7 @@
 										<artifactItem>
 											<groupId>org.kuali.rice</groupId>
 											<artifactId>rice-web</artifactId>
-											<version>${org.kuali.rice.version}</version>
+											<version>${rice.version}</version>
 											<type>war</type>
 											<overWrite>false</overWrite>
 											<outputDirectory>src/main/webapp</outputDirectory>
@@ -855,7 +987,7 @@
 							<dependency>
 							    <groupId>com.oracle</groupId>
 							    <artifactId>ojdbc14</artifactId>
-							    <version>${com.oracle.version}</version>
+							    <version>${oracle.version}</version>
 							    <scope>runtime</scope>
 							</dependency>
 							<dependency>
@@ -879,7 +1011,7 @@
 							<dependency>
 							    <groupId>com.oracle</groupId>
 							    <artifactId>ojdbc14</artifactId>
-							    <version>${com.oracle.version}</version>
+							    <version>${oracle.version}</version>
 							    <scope>runtime</scope>
 							</dependency>
 							<dependency>
@@ -896,7 +1028,7 @@
 			<properties>
 				<!-- overriding property to change versions of libraries-->
 				<jstl.version>1.2</jstl.version>
-				<javax.servlet.version>2.5</javax.servlet.version>
+				<servlet.version>2.5</servlet.version>
 			</properties>
 		</profile>
 		
@@ -920,7 +1052,7 @@
 		          			<contextHandlers>
 		          				<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
 		          					<!-- this is kind of hacky not sure if there is a better way -->
-                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${org.kuali.rice.version}/rice-web-${org.kuali.rice.version}.war</war>
+                   					<war>${settings.localRepository}/org/kuali/rice/rice-web/${rice.version}/rice-web-${rice.version}.war</war>
                    					<contextPath>/kr-dev</contextPath>
                					</contextHandler>
 		          			</contextHandlers>
@@ -929,7 +1061,7 @@
 							<dependency>
 							    <groupId>com.oracle</groupId>
 							    <artifactId>ojdbc14</artifactId>
-							    <version>${com.oracle.version}</version>
+							    <version>${oracle.version}</version>
 							    <scope>runtime</scope>
 							</dependency>
 							<dependency>
@@ -946,7 +1078,7 @@
 			<properties>
 				<!-- overriding property to change versions of libraries-->
 				<jstl.version>1.2</jstl.version>
-				<javax.servlet.version>2.5</javax.servlet.version>
+				<servlet.version>2.5</servlet.version>
 			</properties>
 		</profile>
 	</profiles>
@@ -1046,18 +1178,19 @@
 	</ciManagement>
 
 	<properties>
-		<com.oracle.version>10.2.0.3.0</com.oracle.version>
-		<mysql.version>5.1.13</mysql.version>
-		<org.apache.cxf.version>2.2.9</org.apache.cxf.version>
-		<org.drools.version>5.1.0</org.drools.version>
-		<org.jmock.version>2.5.1</org.jmock.version>
-		<org.kuali.rice.version>1.0.3-KC-02</org.kuali.rice.version>
+		<cxf.version>2.2.9</cxf.version>
+		<drools.version>5.1.0</drools.version>
 		<jetty.version>7.1.6.v20100715</jetty.version>
-		<org.springframework.version>2.5.6</org.springframework.version>
+		<jmock.version>2.5.1</jmock.version>
+		<jstl.version>1.1.2</jstl.version>
+		<mysql.version>5.1.13</mysql.version>
+		<oracle.version>10.2.0.3.0</oracle.version>
+		<rice.version>1.0.3-KC-02</rice.version>
+		<servlet.version>2.4</servlet.version>
+		<slf4j.version>1.6.1</slf4j.version>
+		<springframework.version>2.5.6</springframework.version>
 		<struts.version>1.2.9</struts.version>
 		<tomcat.version>5.5.23</tomcat.version>
-		<jstl.version>1.1.2</jstl.version>
-		<javax.servlet.version>2.4</javax.servlet.version>
 		
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
