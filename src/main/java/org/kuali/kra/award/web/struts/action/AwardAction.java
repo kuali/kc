@@ -648,82 +648,89 @@ public class AwardAction extends BudgetParentActionBase {
      * @param response
      * @return
      */
+    @SuppressWarnings("deprecation")
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         
+        ActionForward actionForward;
         this.save(mapping, form, request, response);
         
-        AwardForm awardForm = (AwardForm) form;
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
-        boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
-        TransactionDetail transactionDetail = null;
-
-        populateAwardHierarchy(form);
-
-        Award award = awardForm.getAwardDocument().getAward();
-        if(isNewAward(awardForm) && !(award.getBeginDate() == null)){
-            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-            awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                (awardDirectFandADistributionService.
-                                        generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
-        }
-
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
-        fieldValues.put("rootAwardNumber", rootAwardNumber);
-        //fieldValues.put("sequenceNumber", award.getSequenceNumber());
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
-        Award rootAward = getWorkingAwardVersion(rootAwardNumber);
-
-        //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
-        if(timeAndMoneyDocuments.size() > 0) {
-            firstTimeAndMoneyDocCreation = Boolean.FALSE;
-        }
-        TimeAndMoneyDocument timeAndMoneyDocument = null;
-
-        for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
-            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-            timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
-            timeAndMoneyDocument.setAward(rootAward);
-            if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
-                createNewTimeAndMoneyDocument = Boolean.FALSE;
-                break;
+        if(GlobalVariables.getErrorMap().hasNoErrors()){
+            AwardForm awardForm = (AwardForm) form;
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            boolean createNewTimeAndMoneyDocument = Boolean.TRUE;
+            boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
+            TransactionDetail transactionDetail = null;
+    
+            populateAwardHierarchy(form);
+    
+            Award award = awardForm.getAwardDocument().getAward();
+            if(isNewAward(awardForm) && !(award.getBeginDate() == null)){
+                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
+                                    (awardDirectFandADistributionService.
+                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
             }
-        }
-
-        if(createNewTimeAndMoneyDocument){
-            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
-            timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
-            timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
-            timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
-            timeAndMoneyDocument.setAward(rootAward);
-            AwardAmountTransaction aat = new AwardAmountTransaction();
-            aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
-            aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-            if(firstTimeAndMoneyDocCreation) {
-                aat.setTransactionTypeCode(NINE);
-                aat.setAwardNumber(rootAward.getAwardNumber());
-                //any code for initial transaction and history.
-                transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
-                        timeAndMoneyDocument.getDocumentNumber(), INITIAL_TRANSACTION_COMMENT, rootAward);
-                addNewAwardAmountInfoForInitialTransaction(rootAward, timeAndMoneyDocument.getDocumentNumber());
-            }else {
-                aat.setTransactionTypeCode(null);
+    
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
+            fieldValues.put("rootAwardNumber", rootAwardNumber);
+            //fieldValues.put("sequenceNumber", award.getSequenceNumber());
+            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+    
+            List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
+            Award rootAward = getWorkingAwardVersion(rootAwardNumber);
+    
+            //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
+            if(timeAndMoneyDocuments.size() > 0) {
+                firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
-            timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
-            //businessObjectService.save(timeAndMoneyDocument);
-            documentService.saveDocument(timeAndMoneyDocument);
-            if(!(transactionDetail == null)) {
-                getBusinessObjectService().save(transactionDetail);
+            TimeAndMoneyDocument timeAndMoneyDocument = null;
+    
+            for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
+                timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
+                timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
+                timeAndMoneyDocument.setAward(rootAward);
+                if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
+                    createNewTimeAndMoneyDocument = Boolean.FALSE;
+                    break;
+                }
             }
+    
+            if(createNewTimeAndMoneyDocument){
+                timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
+                timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
+                timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
+                timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
+                timeAndMoneyDocument.setAward(rootAward);
+                AwardAmountTransaction aat = new AwardAmountTransaction();
+                aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
+                aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                if(firstTimeAndMoneyDocCreation) {
+                    aat.setTransactionTypeCode(NINE);
+                    aat.setAwardNumber(rootAward.getAwardNumber());
+                    //any code for initial transaction and history.
+                    transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
+                            timeAndMoneyDocument.getDocumentNumber(), INITIAL_TRANSACTION_COMMENT, rootAward);
+                    addNewAwardAmountInfoForInitialTransaction(rootAward, timeAndMoneyDocument.getDocumentNumber());
+                }else {
+                    aat.setTransactionTypeCode(null);
+                }
+                timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
+                //businessObjectService.save(timeAndMoneyDocument);
+                documentService.saveDocument(timeAndMoneyDocument);
+                if(!(transactionDetail == null)) {
+                    getBusinessObjectService().save(transactionDetail);
+                }
+            }
+    
+            Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            String forward = buildForwardUrl(routeHeaderId);
+            actionForward = new ActionForward(forward, true);
+        } else {
+            actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-
-        Long routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        
+        return actionForward;
 
     }
     
