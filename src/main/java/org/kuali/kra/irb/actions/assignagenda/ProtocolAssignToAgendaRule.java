@@ -36,7 +36,6 @@ public class ProtocolAssignToAgendaRule extends ResearchDocumentRuleBase impleme
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".committeeId", 
                                                    KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
-        System.err.println("actionBean.getActionDate(): "+ actionBean.getActionDate());
         if(actionBean.getActionDate() == null) {
             valid = false;
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_ASSIGN_TO_AGENDA_PROPERTY_KEY + ".actionDate", 
