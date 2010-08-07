@@ -24,7 +24,7 @@
 		<property name="lookupDefinition">
 			<ref bean="ProtocolOnlineReviewDeterminationRecommendation-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="statusCode"/>
+		<property name="titleAttribute" value="protocolOnlineReviewDeterminationRecommendationCode"/>
 		<property name="attributes">
 			<list>
 				<ref bean="ProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode"/>
@@ -44,7 +44,7 @@
 		<property name="shortLabel" value="Status Code"/>
 		<property name="maxLength" value="3"/>
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern"/>
+			<bean parent="AlphaNumericValidationPattern"/>
 		</property>
 		<property name="control">
 			<bean p:size="3" parent="TextControlDefinition"/>
@@ -52,22 +52,13 @@
 		<property name="summary" value="Status Code"/>
 		<property name="description" value="Status Code"/>
 	</bean>
-
+	
 	<bean id="ProtocolOnlineReviewDeterminationRecommendation-description" parent="ProtocolOnlineReviewDeterminationRecommendation-description-parentBean"/>
-	<bean abstract="true" id="ProtocolOnlineReviewDeterminationRecommendation-description-parentBean" parent="AttributeDefinition">
-		<property name="name" value="description"/>
-		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Description"/>
-		<property name="shortLabel" value="Description"/>
-		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
-		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
-		</property>
-		<property name="summary" value="Description"/>
-		<property name="description" value="Description"/>
-	</bean>
-
+    <bean abstract="true" id="ProtocolOnlineReviewDeterminationRecommendation-description-parentBean" parent="KraAttributeReferenceDummy-description">
+    	<property name="required" value="true"/>
+    	<property name="maxLength" value="300"/>
+    </bean>
+	
 	<bean id="ProtocolOnlineReviewDeterminationRecommendation-versionNumber" parent="ProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -95,7 +86,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolOnlineReviewDeterminationRecommendation-lookupDefinition" parent="ProtocolOnlineReviewDeterminationRecommendation-lookupDefinition-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReviewDeterminationRecommendation-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Protocol Review Determination Recommendation Lookup"/>
+		<property name="title" value="Protocol Review Determination Recommendation Code Status Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
 		<property name="defaultSort">
