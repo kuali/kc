@@ -103,12 +103,12 @@
 		<property name="forceUppercase" value="false"/>
 		<property name="label" value="Training Number"/>
 		<property name="shortLabel" value="Training Number"/>
-		<property name="maxLength" value="22"/>
+		<property name="maxLength" value="4"/>
 		<property name="validationPattern">
 			<bean parent="NumericValidationPattern"/>
 		</property>
 		<property name="control">
-      		<bean parent="HiddenControlDefinition"/>
+			<bean p:size="4" parent="TextControlDefinition"/>
 		</property>
 		<property name="summary" value="Training Number"/>
 		<property name="description" value="Training Number"/>
@@ -264,6 +264,7 @@
 			<list>
 				<bean p:attributeName="personTrainingId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="personId" parent="FieldDefinition"/>
+				<bean p:attributeName="trainingNumber" parent="FieldDefinition"/>
 				<bean p:attributeName="training.description" parent="FieldDefinition"/>
 				<bean p:attributeName="dateRequested" parent="FieldDefinition"/>
 				<bean p:attributeName="dateSubmitted" parent="FieldDefinition"/>

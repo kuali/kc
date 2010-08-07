@@ -17,7 +17,7 @@
 	<bean id="PersonTrainingMaintenanceDocument" parent="PersonTrainingMaintenanceDocument-parentBean"/>
 	<bean id="PersonTrainingMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.bo.PersonTraining"/>
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.PersonTrainingMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PersonTrainingMaintenanceDocument-EditPersonTraining"/>
@@ -34,6 +34,7 @@
 		
 		
 		<property name="documentTypeName" value="PersonTrainingMaintenanceDocument"/>
+      <!--   <property name="businessRulesClass" value="org.kuali.kra.rules.PersonTrainingMaintenanceDocumentRule"/>-->
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 		
 		
@@ -47,9 +48,9 @@
 		<property name="title" value="Edit Person Training"/>
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="personTrainingId" p:required="true"/>
+				<!--  <bean parent="MaintainableFieldDefinition" p:name="personTrainingId" p:required="true"/> -->
 				<bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="trainingNumber"/>
+				<bean parent="MaintainableFieldDefinition" p:name="trainingNumber" p:required="true" p:unconditionallyReadOnly="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="trainingCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="dateRequested"/>
 				<bean parent="MaintainableFieldDefinition" p:name="dateSubmitted"/>
