@@ -55,21 +55,10 @@
 	</bean>
 
 	<bean id="FundingSourceType-description" parent="FundingSourceType-description-parentBean"/>
-	<bean abstract="true" id="FundingSourceType-description-parentBean" parent="AttributeDefinition">
-		<property name="name" value="description"/>
-		<property name="required" value="true"/>
-		
-		<property name="forceUppercase" value="false"/>
-		<property name="label" value="Funding Type"/>
-		<property name="shortLabel" value="Description"/>
-		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
-		<property name="control">
-			<bean p:size="10" parent="TextControlDefinition"/>
-		</property>
-		<property name="summary" value="Description"/>
-		<property name="description" value="Description"/>
-	</bean>
+    <bean abstract="true" id="FundingSourceType-description-parentBean" parent="KraAttributeReferenceDummy-description">
+    	<property name="required" value="true"/>
+    	<property name="maxLength" value="300"/>
+    </bean>
 
 	<bean id="FundingSourceType-fundingSourceTypeFlag" parent="FundingSourceType-fundingSourceTypeFlag-parentBean"/>
 	<bean abstract="true" id="FundingSourceType-fundingSourceTypeFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
