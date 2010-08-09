@@ -131,7 +131,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.web.SimplePessimisticLockTest.class,
     org.kuali.kra.proposaldevelopment.web.UserRoleBoundDocSearchWebTest.class,
     org.kuali.kra.questionnaire.CoeusModueValuesFinderTest.class,
-    org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
     org.kuali.kra.s2s.generator.impl.CD511V1_1GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.ED524BudgetV1_0GeneratorTest.class,
     org.kuali.kra.s2s.generator.impl.ED524BudgetV1_1GeneratorTest.class,
