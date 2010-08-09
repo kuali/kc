@@ -112,7 +112,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
-        setParticipantsHelper(new ParticipantsHelper());
+        setParticipantsHelper(new ParticipantsHelper(this.getProtocolDocument().getProtocol()));
         setCustomDataHelper(new CustomDataHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setActionHelper(new ActionHelper(this));
