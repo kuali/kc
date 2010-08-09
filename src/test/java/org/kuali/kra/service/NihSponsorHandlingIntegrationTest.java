@@ -28,11 +28,6 @@ public class NihSponsorHandlingIntegrationTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testSponsorableSave() {
-
-    }
-
-    @Test
     public void testNIHDescriptionsAssigned() {
         helper.testNihDescriptionsAssigned();
     }

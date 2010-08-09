@@ -180,7 +180,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.s2s.service.S2SServiceTest.class,
     org.kuali.kra.s2s.service.SchedulerServiceTest.class,
     org.kuali.kra.s2s.service.TestSearchOpportunity.class,
-    org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
     org.kuali.kra.web.PersonWebTest.class,
     org.kuali.kra.web.UnitHierarchyWebTest.class,
     org.kuali.kra.workflow.attribute.ProposalWorkflowRoutingWebTest.class,
@@ -262,16 +261,12 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparatorTest.class,
     // assertion error for below
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentNarrativeRuleTest.class,
-    // assertion error
-    org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
     //data integrity violation exception
     org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0GeneratorTest.class,
     // data integrity violation exception
     org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_1GeneratorTest.class,
     // data integrity constrain
     org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_2GeneratorTest.class,
-    //assertion error..
-    org.kuali.kra.service.NihSponsorHandlingIntegrationTest.class,
     
     // Moved from Web test suite. These are failing web tests
     // non-working tests 
