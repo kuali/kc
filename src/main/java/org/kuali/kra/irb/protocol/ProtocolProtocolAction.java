@@ -46,7 +46,10 @@ import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
+import org.kuali.kra.irb.protocol.participant.ParticipantType;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipantBean;
+import org.kuali.kra.irb.protocol.participant.ProtocolParticipantRule;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
@@ -91,8 +94,28 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {
+        System.err.println("got to the isValidSave function");
         boolean rulePassed = true;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
+        
+        //if there are protocol participants, make sure that any of those updates are made to the action protocol
+        if (protocolForm.getParticipantsHelper().getExistingParticipants() != null) {
+            ProtocolParticipantRule rule = new ProtocolParticipantRule();
+            AddProtocolParticipantEvent event = new AddProtocolParticipantEvent(Constants.EMPTY_STRING, 
+                    protocolForm.getDocument(), protocolForm.getParticipantsHelper().getNewParticipant(), 
+                    protocolForm.getParticipantsHelper().getExistingParticipants());
+            if (rule.processExistingProtocolParticipantBusinessRules(event)) {
+                //we now all the beans are fine, so lets update the BO
+                int index = 0;
+                for (ProtocolParticipantBean existingBean : event.getExistingProtocolParticipants()) {
+                    protocolForm.getProtocolDocument().getProtocol().getProtocolParticipant(index).setParticipantCount(Integer.valueOf(existingBean.getParticipantCount()));
+                    index++;
+                }
+            } else {
+                rulePassed = false;
+            }
+        }
+        
         return rulePassed;
     }
 
@@ -103,17 +126,13 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
+        
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         // Following is for protocol lookup - edit protocol
         ProtocolForm protocolForm = (ProtocolForm) form;
         String commandParam = request.getParameter(KNSConstants.PARAMETER_COMMAND);
-//        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KEWConstants.DOCSEARCH_COMMAND)
-//                && StringUtils.isNotBlank(request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER))) {
-//            getProtocolProtocolService().loadProtocolForEdit(protocolForm.getDocument(),
-//                    request.getParameter(Constants.PROPERTY_PROTOCOL_NUMBER));
-//        }
+
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KEWConstants.DOCSEARCH_COMMAND)
                 && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
             // protocolsubmission lookup
@@ -183,12 +202,15 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolParticipant newProtocolParticipant = protocolForm.getParticipantsHelper().getNewProtocolParticipant();
+        ProtocolParticipantBean newProtocolParticipantBean = protocolForm.getParticipantsHelper().getNewParticipant();
+        List<ProtocolParticipantBean> existingBeans = protocolForm.getParticipantsHelper().getExistingParticipants();
 
-        if (applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolParticipant))) {
-            getProtocolParticipantService()
-                    .addProtocolParticipant(protocolForm.getDocument().getProtocol(), newProtocolParticipant);
-            protocolForm.getParticipantsHelper().setNewProtocolParticipant(new ProtocolParticipant());
+        if (applyRules(new AddProtocolParticipantEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolParticipantBean, existingBeans))) {
+            //deal with managing the beans
+            protocolForm.getParticipantsHelper().getExistingParticipants().add(newProtocolParticipantBean);
+            protocolForm.getParticipantsHelper().setNewParticipant(new ProtocolParticipantBean());
+            //deal with managing the BOs            
+            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipantBean);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -210,6 +232,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
+        protocolForm.getParticipantsHelper().getExistingParticipants().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
