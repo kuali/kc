@@ -38,7 +38,7 @@ public class QuestionAuthorizationServiceTest extends KcUnitTestBase {
  
         GlobalVariables.setUserSession(new UserSession("jtester"));
         assertTrue(KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTION));
-        GlobalVariables.setUserSession(new UserSession("aslusar"));
+        GlobalVariables.setUserSession(new UserSession("rrabbit"));
         assertFalse(KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.VIEW_QUESTION));
 
     }

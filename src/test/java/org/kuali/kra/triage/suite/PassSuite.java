@@ -421,7 +421,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceTest.class,
     org.kuali.kra.service.NihSponsorHandlingIntegrationTest.class,
     org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRuleTest.class,
-    org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class
+    org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
+    org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
