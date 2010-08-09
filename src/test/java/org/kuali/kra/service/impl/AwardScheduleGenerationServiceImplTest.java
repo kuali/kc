@@ -39,9 +39,11 @@ import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.kra.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -79,7 +81,7 @@ public class AwardScheduleGenerationServiceImplTest {
         frequency = new Frequency();        
         awardReportTerms = new ArrayList<AwardReportTerm>();        
         newAwardReportTerm = new AwardReportTerm();        
-        awardScheduleGenerationServiceImpl = new AwardScheduleGenerationServiceImpl();
+        awardScheduleGenerationServiceImpl = (AwardScheduleGenerationServiceImpl) KraServiceLocator.getService(AwardScheduleGenerationService.class);
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
         setMapOfDatesOnAward(award);

@@ -27,15 +27,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
-//@PerTestUnitTestData(
-//        @UnitTestData(
-//                sqlStatements = {
-//                        @UnitTestSql("delete from CUSTOM_ATTRIBUTE_DOC_VALUE where document_number=9999"),
-//                        @UnitTestSql("INSERT INTO CUSTOM_ATTRIBUTE_DOC_VALUE (DOCUMENT_NUMBER,custom_attribute_id,VALUE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) VALUES (9999,8,'test',to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'),'quicksta',1,'908A1305-2CF4-043E-9EDD-DD5001CCB996')")
-//                        ,@UnitTestSql("commit")
-//                }
-//        )
-//    )
 
 public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private CustomAttributeDocumentMaintenanceDocumentRule rule = null;
