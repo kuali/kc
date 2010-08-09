@@ -297,18 +297,10 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     /**
-     * Returns if the committee membership is active or inactive.  This is based on the person's role, that is, the status is 
-     * 
-     *   <code>inactive</code> if the person has a role of Inactive for a period that includes today's date
-     *   <code>active</code> if the person has one or more roles for a period that includes today's date
-     *   <code>inactive</code> otherwise
-     *   
-     * Note that a role of Inactive should overrule any other role date periods.
-     *   
-     * @return <code>active</code> if a role is not Inactive and contains the current date, <code>inactive</code> otherwise
-     * @throws NullPointerException - if any role's membershipRoleCode, startDate, or endDate are null.
+     * This method determines if the current committee member is active.
+     * @return true if member is active, false otherwise
      */
-    public String getStatus() {
+    public boolean isActive() {
         boolean isActive = false;
         
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
@@ -323,8 +315,8 @@ public class CommitteeMembership extends CommitteeAssociate {
                 }
             }
         }
-        
-        return isActive ? "active" : "inactive";
+
+        return isActive;
     }
 
     /**

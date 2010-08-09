@@ -54,6 +54,7 @@ public class CommitteeHelper implements Serializable {
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
     private boolean performAction = false;
+    private boolean showActiveMembersOnly = false;
 
     // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
     // so it know which CommitteeMembership should get them.
@@ -263,6 +264,14 @@ public class CommitteeHelper implements Serializable {
     
     public boolean isPerformAction() {
         return performAction;
+    }
+    
+    public boolean isShowActiveMembersOnly() {
+        return showActiveMembersOnly;
+    }
+    
+    public void setShowActiveMembersOnly(boolean showActiveMembersOnly) {
+        this.showActiveMembersOnly = showActiveMembersOnly;
     }
 
     private List<CommitteeSchedule> getSortedCommitteeScheduleList() {
