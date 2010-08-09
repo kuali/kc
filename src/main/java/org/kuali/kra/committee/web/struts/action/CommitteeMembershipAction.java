@@ -22,6 +22,7 @@ import static org.kuali.rice.kns.util.KNSConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -266,5 +267,20 @@ public class CommitteeMembershipAction extends CommitteeAction {
         }
         return selectedMembershipIndex;
     }
+    
+    public ActionForward showAllMembers(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ((CommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(false);
+        ((CommitteeForm) form).setTabStates(new HashMap<String, String>());
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    public ActionForward showActiveMembersOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ((CommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(true);
+        ((CommitteeForm) form).setTabStates(new HashMap<String, String>());
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
     
 }

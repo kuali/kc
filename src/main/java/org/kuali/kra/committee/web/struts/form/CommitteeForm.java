@@ -227,5 +227,20 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     public void setCommitteeHelper(CommitteeHelper committeeHelper) {
         this.committeeHelper = committeeHelper;
     }
+  
+    /**
+     * Without this hack, a committee member that is inactive and has a validation error can't be
+     * edited in the Active Members only display mode.
+     * 
+     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     */
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        if (propertyName.startsWith("document.committeeList[0].committeeMemberships[")) {
+            return true;
+        } else {
+            return super.isPropertyEditable(propertyName);
+        }
+    }
 }
 
