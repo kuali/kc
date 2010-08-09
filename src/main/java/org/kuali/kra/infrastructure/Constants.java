@@ -453,7 +453,7 @@ public interface Constants {
     public static final String COST_SHARE_ADD_ACTION_PROPERTY_KEY = "newAwardCostShare";
     
     // IRB
-    public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newProtocolParticipant";
+    public static final String PARTICIPANTS_PROPERTY_KEY = "participantsHelper.newParticipant";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE = "1";
     public static final String DEFAULT_PROTOCOL_ORGANIZATION_ID = "000001";
     public static final String DEFAULT_PROTOCOL_STATUS_CODE = "100";

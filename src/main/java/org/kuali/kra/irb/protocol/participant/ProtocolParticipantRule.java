@@ -44,33 +44,61 @@ public class ProtocolParticipantRule extends ResearchDocumentRuleBase implements
      * @param addProtocolParticipantEvent
      * @return <code>true</code> if valid, <code>false</code> otherwise
      */
-    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent 
-            addProtocolParticipantEvent) {
+    public boolean processAddProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
         final String PROPERTY_NAME_TYPE_CODE = Constants.PARTICIPANTS_PROPERTY_KEY +  ".participantTypeCode";
         final String PROPERTY_NAME_COUNT = Constants.PARTICIPANTS_PROPERTY_KEY + ".participantCount";
+        //final String PROPERTY_NAME_COUNT = "participantsHelper.newParticipant.participantCount";
         boolean isValid = true;
-        ProtocolParticipant protocolParticipant = addProtocolParticipantEvent.getProtocolParticipant();
-        String participantTypeCode = protocolParticipant.getParticipantTypeCode(); 
-        
+        ProtocolParticipantBean newParticipant = addProtocolParticipantEvent.getNewProtocolParticipant();
+        String participantTypeCode = newParticipant.getParticipantTypeCode();
         if (StringUtils.isBlank(participantTypeCode)) {
             isValid = false;
             reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED);
         } else if (!isValidParticipantTypeCode(participantTypeCode)) {
             isValid = false;
             reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID);
-        } else if (isDuplicate((ProtocolDocument) addProtocolParticipantEvent.getDocument(), 
-                participantTypeCode)) {
+        } else if (addProtocolParticipantEvent.getExistingProtocolParticipants().contains(addProtocolParticipantEvent.getNewProtocolParticipant())) {
             isValid = false;
             reportError(PROPERTY_NAME_TYPE_CODE, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_TYPE_DUPLICATE);
         }
 
-        Integer participantCount = addProtocolParticipantEvent.getProtocolParticipant().getParticipantCount();
-        if ((participantCount != null) && (participantCount <= 0)) {
+        if (!validateParticipantCount(addProtocolParticipantEvent.getNewProtocolParticipant().getParticipantCount())) {
             isValid = false;
             reportError(PROPERTY_NAME_COUNT, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
         }
+        
+        
 
         return isValid;
+    }
+    
+    public boolean processExistingProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
+        boolean isValid = true;
+        int rowCount = 0;
+        for (ProtocolParticipantBean existingBean : addProtocolParticipantEvent.getExistingProtocolParticipants()) {
+            if (!validateParticipantCount(existingBean.getParticipantCount())) {
+                isValid = false;
+                String fieldName = "participantsHelper.existingParticipants[" + rowCount + "].participantCount";
+                reportError(fieldName, KeyConstants.ERROR_PROTOCOL_PARTICIPANT_COUNT_INVALID);
+            } 
+            rowCount++;
+        }
+        return isValid;
+    }
+    
+    private boolean validateParticipantCount(String participantCount) {
+        if (!(participantCount == null || "".equals(participantCount))){
+            try {
+                //this will throw an error if it's not a number
+                Integer parsedCount = Integer.parseInt(participantCount);
+                if (parsedCount < 1) {
+                    return false;
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
     }
      
     /**

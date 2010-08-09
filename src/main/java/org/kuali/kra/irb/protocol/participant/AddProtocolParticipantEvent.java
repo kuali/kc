@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import org.kuali.kra.irb.Protocol;
+import java.util.List;
+
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
@@ -37,9 +38,10 @@ public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
      * @param protocolParticipant
      */
     public AddProtocolParticipantEvent(String errorPathPrefix, ProtocolDocument document, 
-            ProtocolParticipant protocolParticipant) {
+            ProtocolParticipantBean newProtocolParticipant,
+            List<ProtocolParticipantBean> existingProtocolParticipants) {
         super("adding ProtocolParticipant to document " + getDocumentId(document), 
-                errorPathPrefix, document, protocolParticipant);
+                errorPathPrefix, document, newProtocolParticipant, existingProtocolParticipants);
     }
     
     /**
@@ -51,8 +53,9 @@ public class AddProtocolParticipantEvent extends ProtocolParticipantEventBase {
      * @param protocolParticipant
      */
     public AddProtocolParticipantEvent(String errorPathPrefix, Document document, 
-            ProtocolParticipant protocolParticipant) {
-        this(errorPathPrefix, (ProtocolDocument) document, protocolParticipant);
+            ProtocolParticipantBean newProtocolParticipant,
+            List<ProtocolParticipantBean> existingProtocolParticipants) {
+        this(errorPathPrefix, (ProtocolDocument) document, newProtocolParticipant, existingProtocolParticipants);
     }
     
     /**
