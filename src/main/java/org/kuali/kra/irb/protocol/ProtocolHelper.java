@@ -420,9 +420,9 @@ public class ProtocolHelper implements Serializable {
     }
     
     private void verifyLeadUnitAutoPopulation() {
-        if(StringUtils.isNotEmpty(getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getLeadUnitNumber())) { 
-            KcPerson pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
-            if(pi != null && pi.getUnit() != null && !StringUtils.equals(pi.getUnit().getUnitNumber(), getLeadUnitNumber())) {
+        if(StringUtils.isNotEmpty(getProtocol().getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getProtocol().getLeadUnitNumber())) { 
+            KcPerson pi = getPersonService().getKcPersonByPersonId(getProtocol().getPrincipalInvestigatorId());
+            if(pi != null && pi.getUnit() != null && !StringUtils.equals(pi.getUnit().getUnitNumber(), getProtocol().getLeadUnitNumber())) {
                 setLeadUnitAutoPopulated(false);
             }
         }
