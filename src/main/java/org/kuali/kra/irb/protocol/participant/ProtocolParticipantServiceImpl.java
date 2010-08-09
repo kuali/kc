@@ -63,5 +63,34 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
         protocol.getProtocolParticipants().add(protocolParticipant);
 
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.protocol.participant.ProtocolParticipantService#addProtocolParticipant(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.protocol.participant.ProtocolParticipantBean)
+     */
+    public void addProtocolParticipant(Protocol protocol, ProtocolParticipantBean protocolParticipantBean) {
+        Map keyMap = new HashMap();
+        keyMap.put("participantTypeCode", protocolParticipantBean.getParticipantTypeCode());
+
+        ParticipantType participantType = 
+            (ParticipantType) businessObjectService.findByPrimaryKey(ParticipantType.class, keyMap);
+        
+        protocolParticipantBean.setParticipantTypeDescription(participantType.getDescription());
+        
+        ProtocolParticipant protocolParticipant = new ProtocolParticipant();
+        
+        if (protocolParticipantBean.getParticipantCount() != null && !protocolParticipantBean.getParticipantCount().trim().equals("")) {
+            protocolParticipant.setParticipantCount(Integer.valueOf(protocolParticipantBean.getParticipantCount()));
+        }
+        
+        protocolParticipant.setParticipantTypeCode(protocolParticipantBean.getParticipantTypeCode());
+        
+        protocolParticipant.setParticipantType(participantType);
+
+        protocolParticipant.setProtocolNumber("0");
+        protocolParticipant.setSequenceNumber(0);
+
+        protocol.getProtocolParticipants().add(protocolParticipant);
+    }
 
 }

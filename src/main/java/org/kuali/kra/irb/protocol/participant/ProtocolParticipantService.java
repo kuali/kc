@@ -34,5 +34,14 @@ public interface ProtocolParticipantService {
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
     void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant);
+    
+    /**
+     * 
+     * This method adds the ProtocolParticipant to the List of ProtocolParticipants along with the 
+     * appropriate ParticipantType.
+     * @param protocol
+     * @param protocolParticipantBean
+     */
+    void addProtocolParticipant(Protocol protocol, ProtocolParticipantBean protocolParticipantBean);
 
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
+import java.util.List;
+
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
@@ -24,11 +26,18 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
 public interface ProtocolParticipantEvent extends KualiDocumentEvent {
-    /**
-     * 
-     * Get the <code>{@link ProtocolParticipant}</code> of this event.
-     * 
-     * @return <code>ProtocolParticipant</code>
-     */
-     ProtocolParticipant getProtocolParticipant();
+     
+     /**
+      * 
+      * This method will return a bean that represents a new protocol participant.
+      * @return
+      */
+    ProtocolParticipantBean getNewProtocolParticipant();
+     
+     /**
+      * 
+      * This method will return the List of existing protocol participants in Bean form.
+      * @return
+      */
+    List<ProtocolParticipantBean> getExistingProtocolParticipants();
 }

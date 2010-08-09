@@ -16,11 +16,11 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
+<c:set var="protocolParticipantBeanAttributes" value="${DataDictionary.ProtocolParticipantBean.attributes}" />
 <c:set var="action" value="protocolParticipant" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifySubjects}" />
 
-<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newProtocolParticipant.*,document.protocolList[0].protocolParticipant*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newParticipant.*,document.protocolList[0].protocolParticipant*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Participant Types </span>
@@ -32,8 +32,8 @@
         	<%-- Header --%>
         	<tr>
         		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />
-        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantTypeCode}" scope="col" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantAttributes.participantCount}" scope="col" />
+        		<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantBeanAttributes.participantTypeCode}" scope="col" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${protocolParticipantBeanAttributes.participantCount}" scope="col" />
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -41,45 +41,51 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<kra:permission value="${KualiForm.protocolHelper.modifySubjects}">
+        	<kra:permission value="${KualiForm.protocolHelper.modifySubjects}">            
 	            <tr>
-				<th class="infoline">
-					<c:out value="Add:" />
-				</th>
-	
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               		<kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantTypeCode" attributeEntry="${protocolParticipantAttributes.participantTypeCode}" readOnly="false" />
-	            	</div>
-				</td>
-			
-	            <td align="left" valign="middle" class="infoline">
-	               	<div align="center">
-	               	    <kul:htmlControlAttribute property="participantsHelper.newProtocolParticipant.participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="false" />
-	               	</div>
-	            </td>
-	
-				<td align="left" valign="middle" class="infoline">
-					<div align=center>
-					    <html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-	               </td>
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>
+		
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               		<kul:htmlControlAttribute property="participantsHelper.newParticipant.participantTypeCode" attributeEntry="${protocolParticipantBeanAttributes.participantTypeCode}" readOnly="false" />
+		            	</div>
+					</td>
+				
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               	    <kul:htmlControlAttribute property="participantsHelper.newParticipant.participantCount" attributeEntry="${protocolParticipantBeanAttributes.participantCount}" readOnly="false" />
+		               	</div>
+		            </td>
+		
+					<td align="left" valign="middle" class="infoline">
+						<div align=center>
+						    <html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+					</td>
 	            </tr>
+	            
             </kra:permission>
 			<%-- New data --%>
 			
-			<%-- Existing data --%>
-        	<c:forEach var="protocolParticipant" items="${KualiForm.document.protocolList[0].protocolParticipants}" varStatus="status">
+			<%-- Existing data --%>        	
+        	
+        	<c:forEach var="protocolParticipant" items="${KualiForm.participantsHelper.existingParticipants}" varStatus="status">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                    <div align="center"> ${protocolParticipant.participantType.description} </div>
+	                    <div align="center"> 
+	                    	${protocolParticipant.participantTypeDescription} 
+	                    </div>
 					</td>
 	                <td align="left" valign="middle">
-	                	<div align="center"> <kul:htmlControlAttribute property="document.protocolList[0].protocolParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantAttributes.participantCount}" readOnly="${readOnly}" /> </div>
+	                	<div align="center"> 
+	                		<kul:htmlControlAttribute property="participantsHelper.existingParticipants[${status.index}].participantCount" attributeEntry="${protocolParticipantBeanAttributes.participantCount}" readOnly="${readOnly}" /> 
+	                	</div>
 	                </td>
 
                    <c:if test="${!readOnly}">
@@ -92,6 +98,8 @@
 		            </c:if>
 	            </tr>
         	</c:forEach>
+        	
+        	
 			<%-- Existing data --%>
 			        				
         </table>

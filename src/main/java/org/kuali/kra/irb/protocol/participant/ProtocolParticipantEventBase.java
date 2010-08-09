@@ -15,12 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -32,9 +33,11 @@ public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase
                                                    implements ProtocolParticipantEvent {
 
     private static final Log LOG = LogFactory.getLog(ProtocolParticipantEventBase.class);
+    
+    private ProtocolParticipantBean newProtocolParticipant;
+    private List<ProtocolParticipantBean> existingProtocolParticipants;
 
-    private ProtocolParticipant protocolParticipant;
-
+    
     /**
      * 
      * Constructs a <code>{@link ProtocolParticipantEventBase}</code>
@@ -46,24 +49,14 @@ public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase
      * @param protocolParticipant
      */
     protected ProtocolParticipantEventBase(String description, String errorPathPrefix, 
-            ProtocolDocument document, ProtocolParticipant protocolParticipant) {
+            ProtocolDocument document, ProtocolParticipantBean newProtocolParticipant,
+            List<ProtocolParticipantBean> existingProtocolParticipants) {
         super(description, errorPathPrefix, document);
-
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.protocolParticipant = (ProtocolParticipant) ObjectUtils.deepCopy(protocolParticipant);
+        
+        this.newProtocolParticipant = newProtocolParticipant;
+        this.existingProtocolParticipants = existingProtocolParticipants;
 
         logEvent();
-    }
-
-    /**
-     * 
-     * Get the <code>{@link ProtocolParticipant}</code> of this event.
-     * 
-     * @return <code>ProtocolParticipant</code>
-     */
-    public ProtocolParticipant getProtocolParticipant() {
-        return this.protocolParticipant;
     }
 
     /**
@@ -74,14 +67,29 @@ public abstract class ProtocolParticipantEventBase extends KraDocumentEventBase
         String className = StringUtils.substringAfterLast(this.getClass().getName(), ".");
         StringBuffer logMessage = new StringBuffer(className);
         logMessage.append(" with ");
-
+        
         // vary logging detail as needed
-        if (getProtocolParticipant() == null) {
-            logMessage.append("null protocolParticipant");
+        if (getExistingProtocolParticipants() == null) {
+            logMessage.append("null existingParticipants");
         } else {
-            logMessage.append(getProtocolParticipant().toString());
+            logMessage.append(getExistingProtocolParticipants().toString());
+        }
+        
+     // vary logging detail as needed
+        if (getNewProtocolParticipant() == null) {
+            logMessage.append("null new participant");
+        } else {
+            logMessage.append(getNewProtocolParticipant().toString());
         }
 
         LOG.debug(logMessage);
+    }
+    
+    public List<ProtocolParticipantBean> getExistingProtocolParticipants() {
+        return this.existingProtocolParticipants;
+    }
+
+    public ProtocolParticipantBean getNewProtocolParticipant() {
+        return this.newProtocolParticipant;
     }
 }

@@ -64,10 +64,7 @@ public class ProtocolParticipantServiceTest {
 
         protocol = new Protocol(){
             @Override
-            public void refreshReferenceObject(String referenceObjectName) {}
-
-
-            
+            public void refreshReferenceObject(String referenceObjectName) {}    
         };
         protocol.setProtocolParticipants(new ArrayList<ProtocolParticipant>());
         protocol.getProtocolParticipants().add(protocolParticipant1);
@@ -92,8 +89,6 @@ public class ProtocolParticipantServiceTest {
         }});
 
         protocolParticipantService.addProtocolParticipant(protocol, protocolParticipant);
-
-        context.assertIsSatisfied();
         
         int participantSize = protocol.getProtocolParticipants().size();
         assertTrue("participant size is " + participantSize, participantSize == 4);
