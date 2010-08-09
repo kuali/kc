@@ -423,7 +423,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="45" />
 		</property>
 		<property name="summary" value="Reference Number 1" />
 		<property name="description" value="Reference Number 1" />
@@ -442,7 +442,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="45" />
 		</property>
 		<property name="summary" value="Reference Number 2" />
 		<property name="description" value="Reference Number 2" />
