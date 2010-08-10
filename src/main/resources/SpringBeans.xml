@@ -1243,8 +1243,6 @@
 
 	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
 	</bean>
-	<bean id="specialReviewService" class="org.kuali.kra.service.impl.SpecialReviewServiceImpl">
-	</bean>
 	
 	<bean id="kraLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.KraLookupDaoOjb">
     </bean>

@@ -24,6 +24,7 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
@@ -78,6 +79,7 @@ import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
@@ -132,8 +134,14 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
 
     private boolean processSpecialReviewSaveRules(ProtocolDocument document) {
-        SpecialReviewRulesImpl specialReviewRules = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH2);
-        return specialReviewRules.processSpecialReviewSaveRules(document.getProtocol().getSpecialReviews());
+        boolean valid = true;
+        
+        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+        SaveSpecialReviewEvent<ProtocolSpecialReview> event 
+            = new SaveSpecialReviewEvent<ProtocolSpecialReview>(Constants.EMPTY_STRING, document, specialReviews);
+        valid &= new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH2).processSaveSpecialReviewEvent(event);
+        
+        return valid;
     }
 
     /**
@@ -303,11 +311,21 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     }
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
      */
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<ProtocolSpecialReview> addSpecialReviewEvent) {
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH);
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processSaveSpecialReviewEvent(org.kuali.kra.rule.event.SaveSpecialReviewEvent)
+     */
+    public boolean processSaveSpecialReviewEvent(SaveSpecialReviewEvent<ProtocolSpecialReview> saveSpecialReviewEvent) {
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH);
+        return ruleImpl.processSaveSpecialReviewEvent(saveSpecialReviewEvent);
     }
 
     /**
