@@ -19,23 +19,43 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 
 /**
- * This class validates all rules associated with SpecialReview
+ * This class validates all rules associated with SpecialReview.
  */
-public class SpecialReviewRulesImpl extends ResearchDocumentRuleBase implements SpecialReviewRule {
-
-    private String rootErrorPath = "newSpecialReview";
+@SuppressWarnings("unchecked")
+public class SpecialReviewRulesImpl<T extends AbstractSpecialReview> extends ResearchDocumentRuleBase implements SpecialReviewRule<T> {
+    
+    private static final String DOT = ".";
+    
+    private static final String APPROVAL_TYPE_CODE_APPROVED = "2";
+    
+    private static final String APPROVAL_TYPE_CODE_FIELD = "approvalTypeCode";
+    private static final String SPECIAL_REVIEW_CODE_FIELD = "specialReviewCode";
+    
+    private static final String PROTOCOL_NUMBER_FIELD = "protocolNumber";
+    private static final String PROTOCOL_NUMBER_TITLE = "Protocol Number";
+    private static final String APPLICATION_DATE_FIELD = "applicationDate";
+    private static final String APPLICATION_DATE_TITLE = "Application Date";
+    private static final String APPROVAL_DATE_FIELD = "approvalDate";
+    private static final String APPROVAL_DATE_TITLE = "Approval Date";
+    private static final String EXPIRATION_DATE_FIELD = "expirationDate";
+    private static final String EXPIRATION_DATE_TITLE = "Expiration Date";
+    private static final String EXEMPTION_TYPE_CODE_FIELD = "exemptionTypeCodes";
+    private static final String EXEMPTION_TYPE_CODE_TITLE = "Exemption Number";
+    
+    private String rootErrorPath;
     
     /**
      * Constructs a SpecialReviewRulesImpl.java.
      */
     public SpecialReviewRulesImpl() {
-        
+        this("newSpecialReview");
     }
    
     /**
@@ -47,48 +67,152 @@ public class SpecialReviewRulesImpl extends ResearchDocumentRuleBase implements 
     }
     
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
      */
-    @SuppressWarnings("unchecked")
-    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent addSpecialReviewEvent) {
-        AbstractSpecialReview specialReview = addSpecialReviewEvent.getSpecialReview();
+    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<T> addSpecialReviewEvent) {
         boolean rulePassed = true;
-        String[] dateParams = {"Approval Date","Application Date"};
+        
+        rulePassed &= validateRequiredFields(addSpecialReviewEvent.getSpecialReview(), rootErrorPath);
+        rulePassed &= validateDateFields(addSpecialReviewEvent.getSpecialReview(), rootErrorPath);
+        rulePassed &= validateApprovalFields(addSpecialReviewEvent.getSpecialReview(), rootErrorPath);
 
-        if(StringUtils.isBlank(specialReview.getApprovalTypeCode())){
-            rulePassed = false;
-            reportError(rootErrorPath+".approvalTypeCode", KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
-        }
-        if(StringUtils.isBlank(specialReview.getSpecialReviewCode())){
-            rulePassed = false;
-            reportError(rootErrorPath+".specialReviewCode", KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
-        }
-        if (specialReview.getApplicationDate() !=null && specialReview.getApprovalDate() != null && 
-                specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
-            rulePassed = false;
-            reportError(rootErrorPath+".approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,dateParams);
-        }
         return rulePassed;
     }
-
+    
     /**
-     * Validate the current list of special reviews.  Users are allowed to
-     * modify existing special review entries and thus they need to be validated
-     * on save.
-     * @param specialReviews the list of special reviews
-     * @return true if valid; otherwise false
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processSaveSpecialReviewEvent(org.kuali.kra.rule.event.SaveSpecialReviewEvent)
      */
-    public boolean processSpecialReviewSaveRules(List<? extends AbstractSpecialReview<?>> specialReviews) {
+    public boolean processSaveSpecialReviewEvent(SaveSpecialReviewEvent saveSpecialReviewEvent) {
         boolean rulePassed = true;
-        String[] dateParams = {"Approval Date","Application Date"};
-        for (int i = 0; i < specialReviews.size(); i++) {
-            AbstractSpecialReview<?> specialReview = specialReviews.get(i);
-            if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null && 
-                    specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
-                rulePassed = false;
-                reportError(rootErrorPath+"[" + i + "].approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW, dateParams);
+        
+        List<T> specialReviews = saveSpecialReviewEvent.getSpecialReviews();
+        int i = 0;
+        for (T specialReview : specialReviews) {
+            String errorPath = rootErrorPath + "[" + i++ + "]";
+            rulePassed &= validateRequiredFields(specialReview, errorPath);
+            rulePassed &= validateDateFields(specialReview, errorPath);
+            rulePassed &= validateApprovalFields(specialReview, errorPath);
+        }
+        
+        return rulePassed;
+    }
+    
+    /**
+     * Validates the required fields.
+     * @param specialReview The special review to validate
+     * @param errorPath The error path
+     * @return true if the specialReview is valid, false otherwise
+     */
+    private boolean validateRequiredFields(T specialReview, String errorPath) {
+        boolean isValid = true;
+        
+        if (StringUtils.isBlank(specialReview.getApprovalTypeCode())) {
+            isValid = false;
+            reportError(errorPath + DOT + APPROVAL_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED_SELECT_APPROVAL_STATUS);
+        }
+        if (StringUtils.isBlank(specialReview.getSpecialReviewCode())){
+            isValid = false;
+            reportError(errorPath + DOT + SPECIAL_REVIEW_CODE_FIELD, KeyConstants.ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE);
+        }
+        if (!APPROVAL_TYPE_CODE_APPROVED.equals(specialReview.getApprovalTypeCode()) && specialReview.getApprovalDate() != null) {
+            isValid = false;
+            reportError(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_NOT_APPROVED_SPECIALREVIEW, APPROVAL_DATE_TITLE);
+        }
+        
+        return isValid;
+    }
+    
+    /**
+     * Validates the interdependencies between the different date fields and the statuses.
+     * @param specialReview
+     * @param errorPath The error path
+     * @return true if the specialReview is valid, false otherwise
+     */
+    private boolean validateDateFields(T specialReview, String errorPath) {
+        boolean isValid = true;
+        
+        if (specialReview.getApplicationDate() != null && specialReview.getApprovalDate() != null 
+                && specialReview.getApprovalDate().before(specialReview.getApplicationDate())) {
+            isValid = false;
+            reportError(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW, APPROVAL_DATE_TITLE, 
+                    APPLICATION_DATE_TITLE);
+        }
+        if (specialReview.getApprovalDate() != null && specialReview.getExpirationDate() != null
+                && specialReview.getExpirationDate().before(specialReview.getApprovalDate())) {
+            isValid = false;
+            reportError(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_ORDERING, EXPIRATION_DATE_TITLE,
+                    APPROVAL_DATE_TITLE);
+        }
+        if (specialReview.getApplicationDate() != null && specialReview.getExpirationDate() != null
+                && specialReview.getExpirationDate().before(specialReview.getApplicationDate())) {
+            isValid = false;
+            reportError(errorPath + DOT + EXPIRATION_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_DATE_ORDERING, EXPIRATION_DATE_TITLE,
+                    APPLICATION_DATE_TITLE);
+        }
+        
+        return isValid;
+    }
+    
+    /**
+     * Validates the rules surrounding the ValidSpecialReviewApproval.
+     * @param specialReview The special review to validate
+     * @param errorPath The error path
+     * @return true if the specialReview is valid, false otherwise
+     */
+    private boolean validateApprovalFields(T specialReview, String errorPath) {
+        boolean isValid = true;
+        
+        if (StringUtils.isNotBlank(specialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(specialReview.getSpecialReviewCode())) {
+            specialReview.refreshReferenceObject("validSpecialReviewApproval");
+            ValidSpecialReviewApproval validSpecialReviewApproval = specialReview.getValidSpecialReviewApproval();
+            
+            if (validSpecialReviewApproval != null) {
+                if (validSpecialReviewApproval.isProtocolNumberFlag() && StringUtils.isBlank(specialReview.getProtocolNumber())) {
+                    isValid = false;
+                    reportError(errorPath + DOT + PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, PROTOCOL_NUMBER_TITLE,
+                            getValidSpecialReviewApprovalErrorString(validSpecialReviewApproval));
+                }
+                if (validSpecialReviewApproval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
+                    isValid = false;
+                    reportError(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, PROTOCOL_NUMBER_TITLE,
+                            getValidSpecialReviewApprovalErrorString(validSpecialReviewApproval));
+                }
+                if (validSpecialReviewApproval.isApprovalDateFlag() && specialReview.getApprovalDate() == null) {
+                    isValid = false;
+                    reportError(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, PROTOCOL_NUMBER_TITLE,
+                            getValidSpecialReviewApprovalErrorString(validSpecialReviewApproval));
+                }
+                if (validSpecialReviewApproval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null 
+                        && specialReview.getExemptionTypeCodes().isEmpty()) {
+                    isValid = false;
+                    reportError(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, EXEMPTION_TYPE_CODE_TITLE, 
+                            getValidSpecialReviewApprovalErrorString(validSpecialReviewApproval));
+                }
+                if (!validSpecialReviewApproval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null 
+                        && !specialReview.getExemptionTypeCodes().isEmpty()) {
+                    isValid = false;
+                    reportError(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED, 
+                            getValidSpecialReviewApprovalErrorString(validSpecialReviewApproval));
+                }
             }
         }
-        return rulePassed;
+        
+        return isValid;
     }
+    
+    /**
+     * Composes the String used when reporting specifics of a ValidSpecialReviewApproval error.
+     * @param validSpecialReviewApproval
+     * @return the correct error string for this validSpecialReviewApproval
+     */
+    private String getValidSpecialReviewApprovalErrorString(ValidSpecialReviewApproval validSpecialReviewApproval) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(validSpecialReviewApproval.getSpecialReview().getDescription());
+        stringBuilder.append("/");
+        stringBuilder.append(validSpecialReviewApproval.getSpecialReviewApprovalType().getDescription());
+        return stringBuilder.toString();
+    }
+    
 }
