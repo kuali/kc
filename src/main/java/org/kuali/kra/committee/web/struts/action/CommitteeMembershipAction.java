@@ -68,6 +68,12 @@ public class CommitteeMembershipAction extends CommitteeAction {
 
         ((CommitteeForm)form).getCommitteeHelper().prepareView();
         
+        // reset member index for multi value lookups unless the multi value lookup is performed
+        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.refresh.x") 
+                && (!StringUtils.startsWith((String) request.getAttribute("methodToCallAttribute"), "methodToCall.performLookup."))) {
+            ((CommitteeForm)form).getCommitteeHelper().setMemberIndex(-1);
+        }
+        
         return actionForward;
     }
     
