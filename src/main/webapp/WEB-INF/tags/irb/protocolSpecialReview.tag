@@ -18,6 +18,7 @@
 <c:set var="protocolSpecialReviewAttributes" value="${DataDictionary.ProtocolSpecialReview.attributes}" />
 <c:set var="protocolSpecialReviewExemptionAttributes" value="${DataDictionary.ProtocolSpecialReviewExemption.attributes}" />
 <c:set var="action" value="protocolSpecialReview" />
+<c:set var="exemptionTypes" value="${KualiForm.specialReviewHelper.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.protocolList[0].specialReview*,specialReviewHelper.newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.protocol.specialReview*" useRiceAuditMode="false">
@@ -87,7 +88,10 @@
 	                
 	                <td align="left" valign="middle" class="infoline">
 	               		 <div align="center">
-	               		     <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" attributeEntry="${protocolSpecialReviewExemptionAttributes.exemptionTypeCode}" />
+		               		 <html:select property="specialReviewHelper.newExemptionTypeCodes">
+		               		 	<option value="">select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+								<html:optionsCollection name="exemptionTypes" value="exemptionTypeCode" label="description"/>
+							 </html:select>
 						 </div>	  			
 	                </td>
 					<td class="infoline" rowspan="2">
@@ -138,20 +142,39 @@
 	                <div align="center"><kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].expirationDate" attributeEntry="${protocolSpecialReviewAttributes.expirationDate}"  /></div>
 	                </td>
 	                <td align="left" valign="middle" class="infoline">
-                        <div align="center">
-                            <c:choose>
-                                <c:when test="${!readOnly}">
-                                    <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].exemptionTypeCodes" attributeEntry="${protocolSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- struts/rice wants to display "[]" for empty array so do not display anything for an empty array instead -->
-                                    <c:if test="${not empty KualiForm.document.protocolList[0].specialReviews[status.index].exemptionTypeCodes}">
-                                        <kul:htmlControlAttribute property="document.protocolList[0].specialReview[${status.index}].exemptionTypeCodes" attributeEntry="${protocolSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>			
+	               		 <div align="center">
+	               		 	<c:set var="selected" value="" />
+	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.protocolList[0].specialReviews[status.index].exemptionTypeCodes}"/>
+	               		 	<c:forEach var="key" items="${sltdExemptionTypeCodes}">
+						   		<c:set var="selected" value="${selected},${key}" />
+							</c:forEach>
+							<c:choose> 
+								<c:when test="${readOnly}">
+								    <c:set var="selectedList" value="" />
+									<c:forEach var="keyLabel" items="${exemptionTypes}">
+						  			    <c:if test="${!empty keyLabel.exemptionTypeCode}" >
+						  			        <c:if test="${fn:contains(selected, keyLabel.exemptionTypeCode)}">
+						  			            <c:set var="selectedList" value="${selectedList},${keyLabel.description}" />
+										    </c:if>
+										</c:if>
+									</c:forEach>
+									<c:out value="${fn:substring(selectedList, 1, fn:length(selectedList))}" />
+								</c:when>
+								<c:otherwise>
+				               		 <html:select property="document.protocol.specialReviews[${status.index}].newExemptionTypeCodes">
+				               		 	<option value="">select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+				               		    <c:forEach var="keyLabel" items="${exemptionTypes}">
+						  			    	<c:if test="${!empty keyLabel.exemptionTypeCode}" >
+				                                <option value="${keyLabel.exemptionTypeCode}" <c:if test="${fn:contains(selected, keyLabel.exemptionTypeCode)}"> selected="true" </c:if> >${keyLabel.description}</option>
+											</c:if>
+										</c:forEach>
+									 </html:select>
+								 </select>
+							   </c:otherwise>
+							</c:choose>
+						 </div>	  			
 	                </td>
+
 					<td rowspan="2">
 						<div align=center>&nbsp;
 							<c:if test="${!readOnly}"> 

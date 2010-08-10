@@ -79,7 +79,9 @@
 	<bean id="ProtocolSpecialReview-approvalTypeCode-parentBean" abstract="true" parent="SpecialReviewReference-approvalTypeCode" />
 	
 	<bean id="ProtocolSpecialReview-protocolNumber" parent="ProtocolSpecialReview-protocolNumber-parentBean" />
-	<bean id="ProtocolSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber" />
+	<bean id="ProtocolSpecialReview-protocolNumber-parentBean" abstract="true" parent="SpecialReviewReference-protocolNumber">
+	    <property name="label" value="Protocol #" />
+	</bean>
 	
 	<bean id="ProtocolSpecialReview-applicationDate" parent="ProtocolSpecialReview-applicationDate-parentBean" />
 	<bean id="ProtocolSpecialReview-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >

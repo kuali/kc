@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.specialreview;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -34,9 +35,11 @@ public class SpecialReviewHelper implements Serializable {
      */
     private ProtocolForm form;
     
-    private boolean modifySpecialReview;
+    private boolean modifySpecialReview = false;
     
     private ProtocolSpecialReview newSpecialReview;
+    private List<ProtocolSpecialReviewExemption> newSpecialReviewExemptions;
+    private String[] newExemptionTypeCodes;
     
     public SpecialReviewHelper(ProtocolForm form) {
         this.form = form;
@@ -45,6 +48,12 @@ public class SpecialReviewHelper implements Serializable {
     
     public void prepareView() {
         initializePermissions(getProtocol());
+    }
+    
+    public void reset() {
+        for (ProtocolSpecialReview specialReview : getProtocol().getSpecialReviews()) {
+            specialReview.setNewExemptionTypeCodes(null);
+        }
     }
     
     private void initializePermissions(Protocol protocol) {
@@ -70,6 +79,22 @@ public class SpecialReviewHelper implements Serializable {
 
     public void setNewSpecialReview(ProtocolSpecialReview newSpecialReview) {
         this.newSpecialReview = newSpecialReview;
+    }
+
+    public List<ProtocolSpecialReviewExemption> getNewSpecialReviewExemptions() {
+        return newSpecialReviewExemptions;
+    }
+
+    public void setNewSpecialReviewExemptions(List<ProtocolSpecialReviewExemption> newSpecialReviewExemptions) {
+        this.newSpecialReviewExemptions = newSpecialReviewExemptions;
+    }
+
+    public String[] getNewExemptionTypeCodes() {
+        return newExemptionTypeCodes;
+    }
+
+    public void setNewExemptionTypeCodes(String[] newExemptionTypeCodes) {
+        this.newExemptionTypeCodes = newExemptionTypeCodes;
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
