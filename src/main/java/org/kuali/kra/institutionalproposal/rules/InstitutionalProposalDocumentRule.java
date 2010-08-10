@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,12 +30,11 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
 import org.kuali.rice.kns.document.Document;
@@ -57,14 +55,21 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     
     /**
-     * Error upon add - 
-     * 1.  Select a special review type
-     * 2.  Select an approval status
-     * 3.  Approval Date should be later than Application Date
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
      */
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<InstitutionalProposalSpecialReview> addSpecialReviewEvent) {
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processSaveSpecialReviewEvent(org.kuali.kra.rule.event.SaveSpecialReviewEvent)
+     */
+    public boolean processSaveSpecialReviewEvent(SaveSpecialReviewEvent<InstitutionalProposalSpecialReview> saveSpecialReviewEvent) {
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
+        return ruleImpl.processSaveSpecialReviewEvent(saveSpecialReviewEvent);
     }
     
     /**

@@ -41,6 +41,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.PessimisticLockService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -305,7 +306,16 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
        InstitutionalProposalDocument retrievedDocument = (InstitutionalProposalDocument)KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
        institutionalProposalForm.setDocument(retrievedDocument);
        request.setAttribute(KNSConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
-   }      
+   }
+   
+   /**
+    * Use the Kuali Rule Service to apply the rules for the given event.
+    * @param event the event to process
+    * @return true if success; false if there was a validation error
+    */
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
     
     @Override
     protected PessimisticLockService getPessimisticLockService() {
