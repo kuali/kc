@@ -18,7 +18,6 @@ package org.kuali.kra.award;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -60,13 +59,11 @@ import org.kuali.kra.award.permissions.PermissionsHelper;
 import org.kuali.kra.award.printing.AwardPrintChangeReport;
 import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
@@ -76,7 +73,6 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
-import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -97,7 +93,6 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AwardForm extends BudgetVersionFormBase 
                                         implements MultiLookupFormBase,
-                                                    SpecialReviewFormBase<AwardSpecialReviewExemption>,
                                                     Auditable,
                                                     CustomDataForm,
                                                     PermissionsForm {
@@ -121,9 +116,8 @@ public class AwardForm extends BudgetVersionFormBase
     private String prevAwardNumber;
     private String prevRootAwardNumber;
     
-    private AwardSpecialReview newAwardSpecialReview;
-    private List<AwardSpecialReviewExemption> newSpecialReviewExemptions;
-    private String[] newExemptionTypeCodes;
+    private AwardSpecialReview newSpecialReview;
+
     private AwardComment newAwardCostShareComment;
     
     private AwardFandaRate newAwardFandaRate;    
@@ -215,8 +209,7 @@ public class AwardForm extends BudgetVersionFormBase
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate(); 
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
-        newAwardSpecialReview = new AwardSpecialReview();
-        newSpecialReviewExemptions = new ArrayList<AwardSpecialReviewExemption>();
+        newSpecialReview = new AwardSpecialReview();
         awardCommentHistoryByType = new ArrayList<AwardComment>();
         costShareFormHelper = new CostShareFormHelper(this);
         centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
@@ -399,35 +392,19 @@ public class AwardForm extends BudgetVersionFormBase
     }
 
     /**
-     * Gets the newAwardSpecialReview attribute. 
-     * @return Returns the newAwardSpecialReview.
+     * Gets the newSpecialReview attribute.
+     * @return Returns the newSpecialReview.
      */
     public AwardSpecialReview getNewSpecialReview() {
-        return newAwardSpecialReview;
+        return newSpecialReview;
     }
 
     /**
-     * Sets the newAwardSpecialReview attribute value.
-     * @param newAwardSpecialReview The newAwardSpecialReview to set.
+     * Sets the newSpecialReview attribute value.
+     * @param newSpecialReview The newSpecialReview to set.
      */
-    public void setNewSpecialReview(AwardSpecialReview newAwardSpecialReview) {
-        this.newAwardSpecialReview = newAwardSpecialReview;
-    }
-
-
-    public List<AwardSpecialReviewExemption> getNewSpecialReviewExemptions() {
-        return newSpecialReviewExemptions;
-    }
-
-    public AwardSpecialReviewExemption getNewSpecialReviewExemption(int index) {
-        return newSpecialReviewExemptions.get(index);
-    }
-    /**
-     * Sets the newSpecialReviewExcemptions attribute value.
-     * @param newSpecialReviewExcemptions The newSpecialReviewExcemptions to set.
-     */
-    public void setNewSpecialReviewExemptions(List<AwardSpecialReviewExemption> newSpecialReviewExcemptions) {
-        this.newSpecialReviewExemptions = newSpecialReviewExcemptions;
+    public void setNewSpecialReview(AwardSpecialReview newSpecialReview) {
+        this.newSpecialReview = newSpecialReview;
     }
 
     /**
@@ -444,26 +421,6 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setAwardCommentHistoryByType(List<AwardComment> awardCommentHistoryByType) {
         this.awardCommentHistoryByType = awardCommentHistoryByType;
-    }
-
-    public ResearchDocumentBase getResearchDocument() {
-        return getAwardDocument();
-    }
-
-    /**
-     * Gets the newExemptionTypeCodes attribute. 
-     * @return Returns the newExemptionTypeCodes.
-     */
-    public String[] getNewExemptionTypeCodes() {
-        return newExemptionTypeCodes;
-    }
-
-    /**
-     * Sets the newExemptionTypeCodes attribute value.
-     * @param newExemptionTypeCodes The newExemptionTypeCodes to set.
-     */
-    public void setNewExemptionTypeCodes(String... newExemptionTypeCodes) {
-        this.newExemptionTypeCodes = newExemptionTypeCodes;
     }
 
     /**

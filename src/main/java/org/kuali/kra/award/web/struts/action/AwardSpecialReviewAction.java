@@ -22,21 +22,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.SpecialReviewService;
+import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 
 /**
- * 
- * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp)
+ * This class represents the Struts Action for Special Review page(AwardSpecialReview.jsp).
  */
-public class AwardSpecialReviewAction extends AwardAction {   
+public class AwardSpecialReviewAction extends AwardAction {
+    
     /**
-     * 
-     * This method is for adding AwardSpecialReview
+     * This method is for adding AwardSpecialReview to the list.
      * @param mapping
      * @param form
      * @param request
@@ -45,21 +42,21 @@ public class AwardSpecialReviewAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        boolean success = getSpecialReviewService().addSpecialReview(award,awardForm);
-        if (success) {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument document = awardForm.getAwardDocument();
+        AwardSpecialReview newSpecialReview = awardForm.getNewSpecialReview();
+        
+        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(Constants.EMPTY_STRING, document, newSpecialReview))) {
+            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
+            document.getAward().getSpecialReviews().add(newSpecialReview);
             awardForm.setNewSpecialReview(new AwardSpecialReview());
-            awardForm.setNewExemptionTypeCodes(null);
         }
+
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    private SpecialReviewService<AwardSpecialReview,AwardSpecialReviewExemption> getSpecialReviewService() {
-        return KraServiceLocator.getService(SpecialReviewService.class);
-    }
+
     /**
-     * 
-     * This method deletes the SpecialReview from the list
+     * This method deletes the SpecialReview from the list.
      * @param mapping
      * @param form
      * @param request
@@ -68,19 +65,12 @@ public class AwardSpecialReviewAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        getSpecialReviewService().deleteSpecialReview(award,getLineToDelete(request));
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument document = awardForm.getAwardDocument();
+        
+        document.getAward().getSpecialReviews().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        AwardForm awardForm = (AwardForm)form;
-        Award award = awardForm.getAwardDocument().getAward();
-        getSpecialReviewService().processBeforeSaveSpecialReview(award);
-        return super.save(mapping, form, request, response);
     }
     
 }

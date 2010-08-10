@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award;
 
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -89,14 +92,13 @@ import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SpecialReviewRulesImpl;
@@ -104,9 +106,6 @@ import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 
 
 
@@ -797,14 +796,21 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     }
 
     /**
-     * Error upon add - 
-     * 1.  Select a special review type
-     * 2.  Select an approval status
-     * 3.  Approval Date should be later than Application Date
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
      */
     public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<AwardSpecialReview> addSpecialReviewEvent) {
         SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
         return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.rule.SpecialReviewRule#processSaveSpecialReviewEvent(org.kuali.kra.rule.event.SaveSpecialReviewEvent)
+     */
+    public boolean processSaveSpecialReviewEvent(SaveSpecialReviewEvent<AwardSpecialReview> saveSpecialReviewEvent) {
+        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl();
+        return ruleImpl.processSaveSpecialReviewEvent(saveSpecialReviewEvent);
     }
     
     private boolean processApprovedForeignTravelBusinessRules(ErrorMap errorMap, AwardDocument awardDocument) {
