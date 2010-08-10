@@ -34,29 +34,6 @@ public interface SponsorHierarchyDao {
      * @return
      */
     public Iterator getAllSponsors(String hierarchyName);
-    
-    /**
-     * 
-     * This method is to retrieve sponsor codes for the group.  It's using PS because
-     * it's not working with reportquery and dwr/ajax.
-     * @param hierarchyName
-     * @param level
-     * @param levelName
-     * @return
-     */
-    public String getSponsorCodesForGroup(String hierarchyName, int level, String[] levelName);
-    
-    /**
-     * 
-     * This method is to retrieve subgroup names when dynamic loading sponsor hierarchy.
-     * @param hierarchyName
-     * @param level
-     * @param levelName
-     * @return
-     */
-    public String getsubGroups(String hierarchyName, int level, String[] levelName);
-
-    public String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelName);
 
 
 }
