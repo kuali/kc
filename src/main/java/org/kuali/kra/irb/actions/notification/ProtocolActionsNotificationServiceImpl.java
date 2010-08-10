@@ -162,6 +162,25 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addInitiatorToRecipients(org.w3c.dom.Element, org.kuali.kra.irb.Protocol)
+     */
+    public void addInitiatorToRecipients(Element recipients, Protocol protocol) {
+        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(protocol.getProtocolDocument().getDocumentHeader()
+                .getWorkflowDocument().getInitiatorPrincipalId());
+        try {
+            if (StringUtils.isNotBlank(kcPersons.getUserName())
+                    && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName().equals(
+                            protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
+                XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+    }
 
     /*
      * add the pi node to protocol xml document
