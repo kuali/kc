@@ -122,7 +122,14 @@
 	</bean>
 	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
 	</bean>
-
+	<bean id="specialReviewService" class="org.kuali.kra.service.impl.SpecialReviewServiceImpl">
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
+	</bean>
 	<bean id="awardScheduleGenerationService" class="org.kuali.kra.service.impl.AwardScheduleGenerationServiceImpl">
 		<property name="scheduleService">
 			<ref bean="scheduleService" />

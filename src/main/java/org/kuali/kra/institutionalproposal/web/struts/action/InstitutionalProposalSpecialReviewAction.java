@@ -22,19 +22,21 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.service.SpecialReviewService;
 
 /**
- * Invokes rules on and applies actions to add, delete, or save SpecialReviews.
+ * This class...
  */
 public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
 
     /**
-     * This method is for adding AwardSpecialReview to the list.
+     * 
+     * This method is for adding AwardSpecialReview
      * @param mapping
      * @param form
      * @param request
@@ -43,21 +45,23 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
      * @throws Exception
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        InstitutionalProposalSpecialReview newSpecialReview = institutionalProposalForm.getNewSpecialReview();
-        
-        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(Constants.EMPTY_STRING, document, newSpecialReview))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
-            document.getInstitutionalProposal().getSpecialReviews().add(newSpecialReview);
-            institutionalProposalForm.setNewSpecialReview(new InstitutionalProposalSpecialReview());
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm)form;
+        InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        boolean success = getSpecialReviewService().addSpecialReview(institutionalProposal,institutionalProposalForm);
+        if (success) {
+            institutionalProposalForm.setNewInstitutionalProposalSpecialReview(new InstitutionalProposalSpecialReview());
+            institutionalProposalForm.setNewExemptionTypeCodes(null);
         }
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+    @SuppressWarnings("unchecked")
+    private SpecialReviewService<InstitutionalProposalSpecialReview,InstitutionalProposalSpecialReviewExemption> getSpecialReviewService() {
+        return KraServiceLocator.getService(SpecialReviewService.class);
+    }
     /**
-     * This method deletes the SpecialReview from the list.
+     * 
+     * This method deletes the SpecialReview from the list
      * @param mapping
      * @param form
      * @param request
@@ -65,32 +69,24 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
      * @return
      * @throws Exception
      */
-    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
-        
-        document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm)form;
+        InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
+        getSpecialReviewService().deleteSpecialReview(institutionalProposal,getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.institutionalproposal.web.struts.action.InstitutionalProposalAction#save(org.apache.struts.action.ActionMapping, 
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm)form;
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
-        
+        getSpecialReviewService().processBeforeSaveSpecialReview(institutionalProposal);
         if (!institutionalProposal.getSpecialReviews().isEmpty()) {
             institutionalProposal.setSpecialReviewIndicator("1");
         } else {
             institutionalProposal.setSpecialReviewIndicator("0");
         }
-        
         return super.save(mapping, form, request, response);
     }
     

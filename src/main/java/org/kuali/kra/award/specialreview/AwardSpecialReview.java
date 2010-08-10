@@ -19,6 +19,7 @@ package org.kuali.kra.award.specialreview;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractSpecialReview;
 /**
@@ -74,7 +75,7 @@ public class AwardSpecialReview extends AbstractSpecialReview<AwardSpecialReview
      * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
      */
     @Override
-    public AwardSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
+    public AwardSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
         AwardSpecialReviewExemption awardSpecialReviewExemption = new AwardSpecialReviewExemption();
         awardSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         awardSpecialReviewExemption.setAwardSpecialReview(this);

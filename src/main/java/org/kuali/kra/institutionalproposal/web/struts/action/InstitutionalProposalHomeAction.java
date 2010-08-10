@@ -47,6 +47,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -84,6 +85,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             institutionalProposalNotepadBean.addNote(((InstitutionalProposalForm) form).getInstitutionalProposalNotepadBean());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
     }
 
     /**

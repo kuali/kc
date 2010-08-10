@@ -21,35 +21,35 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.irb.Protocol;
-
 /**
- * This class represents ProtocolSpecialReview BO.
+ * 
+ * This class represents ProtocolSpecialReview BO
  */
 @SuppressWarnings("serial")
-public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> { 
-
+public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol>{ 
+	  
     private Long protocolSpecialReviewId; 
-    private Protocol protocol; 
+	private Protocol protocol; 
 
-    public ProtocolSpecialReview() { 
+	public ProtocolSpecialReview() { 
         super();
     } 
 
-    public Protocol getProtocol() {
-        return protocol;
-    }
+	public Protocol getProtocol() {
+		return protocol;
+	}
 
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
+	public void setProtocol(Protocol protocol) {
+		this.protocol = protocol;
+	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = super.toStringMapper();
-        map.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
-        return map;
-    }
+	protected LinkedHashMap toStringMapper() {
+		LinkedHashMap map = super.toStringMapper();
+		map.put("protocolSpecialReviewId", getProtocolSpecialReviewId());
+		return map;
+	}
 
     /**
      * Gets the protocolSpecialReviewId attribute. 
@@ -68,11 +68,11 @@ public class ProtocolSpecialReview extends AbstractSpecialReview<ProtocolSpecial
     }
 
     /**
-     * It creates new ProtocolSpecialReviewExemption instance.
+     * It creates new ProtocolSpecialReviewExemption instance
      * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
      */
     @Override
-    public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
+    public ProtocolSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
         ProtocolSpecialReviewExemption protocolSpecialReviewExemption = new ProtocolSpecialReviewExemption();
         protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         protocolSpecialReviewExemption.setProtocolSpecialReview(this);
