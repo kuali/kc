@@ -21,7 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.irb.actions.notification.NotificationEventBase;
 import org.kuali.rice.kew.bo.lookup.DocSearchCriteriaDTOLookupableHelperServiceImpl;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -31,6 +34,7 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearchCriteriaDTOLookupableHelperServiceImpl {
     private static final String DOCUMENT_TITLE_FIELD = "documentTitle";
+    private static final Log LOG = LogFactory.getLog(KraDocSearchCriteriaDTOLookupableHelperServiceImpl.class);
 
     // TODO : should use injection to create this list instead ?
     private static ArrayList<String> notificationActions = new ArrayList<String>();
@@ -90,6 +94,7 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
         List<ResultRow> notificationResultRows = new ArrayList<ResultRow>();
         List<DocumentSearchResult> notificationSearchResults = new ArrayList<DocumentSearchResult>();
         String titleForComparison = null;
+        LOG.info("begin filter notification " + docSearchResults.size());
         int index = 0;
         for (DocumentSearchResult docSearchResult : docSearchResults) {
             if ("Notification".equals(docSearchResult.getResultContainer("docTypeLabel").getUserDisplayValue())) {
@@ -103,6 +108,7 @@ public class KraDocSearchCriteriaDTOLookupableHelperServiceImpl extends DocSearc
         }
         resultTable.removeAll(notificationResultRows);
         docSearchResults.removeAll(notificationSearchResults);
+        LOG.info("end filter notification " + docSearchResults.size());
     }
 
     /*
