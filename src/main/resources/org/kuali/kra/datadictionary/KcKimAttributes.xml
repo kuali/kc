@@ -18,6 +18,8 @@
         <ref bean="KcKimAttributes-timeandmoney" />
         <ref bean="KcKimAttributes-unitNumber" />
         <ref bean="KcKimAttributes-subunits" />
+        <ref bean="KcKimAttributes-sectionName" />
+        <ref bean="KcKimAttributes-documentAction" />
       </list>
     </property>
 	<property name="relationships" >
@@ -59,4 +61,27 @@
     <property name="shortLabel" value="Descends Hierarchy"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>    
    </bean>
+   
+   <bean id="KcKimAttributes-sectionName" parent="KcKimAttributes-sectionName-parentBean" />
+   <bean id="KcKimAttributes-sectionName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sectionName"/>
+    <property name="label" value="Section Name"/>
+    <property name="shortLabel" value="Section Name"/>
+    <property name="control">
+        <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+   </bean>
+   
+   <bean id="KcKimAttributes-documentAction" parent="KcKimAttributes-documentAction-parentBean" />
+   <bean id="KcKimAttributes-documentAction-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentAction"/>
+    <property name="label" value="Document Action"/>
+    <property name="shortLabel" value="Document Action"/>
+    <property name="control">
+        <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+   </bean>
+   
 </beans>

@@ -35,6 +35,8 @@ public class KcKimAttributes extends KimAttributes {
     protected String timeandmoney;
     protected String unitNumber;
     protected Boolean subunits;
+    protected String sectionName;
+    protected String documentAction;
     
     protected Unit unit;
     
@@ -100,6 +102,22 @@ public class KcKimAttributes extends KimAttributes {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getDocumentAction() {
+        return documentAction;
+    }
+
+    public void setDocumentAction(String documentAction) {
+        this.documentAction = documentAction;
     }
     
 }
