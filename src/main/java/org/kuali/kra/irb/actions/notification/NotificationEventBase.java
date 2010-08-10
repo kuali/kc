@@ -85,6 +85,7 @@ public abstract class NotificationEventBase {
 
         }
         getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
+        getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol());
 
     }
 
