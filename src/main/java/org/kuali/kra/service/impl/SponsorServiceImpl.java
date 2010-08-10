@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,9 +28,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ojb.broker.util.logging.Logger;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
+import org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.Sponsorable;
@@ -131,11 +134,11 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         String returnSponsorHierarchy = null;
         String[] ascendantList = groups.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
         if (Integer.parseInt(depth) < 10) {
-            returnSponsorHierarchy = sponsorHierarchyDao.getsubGroups(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
+            returnSponsorHierarchy = getSubSponsorHierarchy(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
         }
  
         if (StringUtils.isBlank(returnSponsorHierarchy)) {
-            returnSponsorHierarchy = sponsorHierarchyDao.getSponsorCodesForGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
+            returnSponsorHierarchy = getSponsorCodesForGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
 
             if (StringUtils.isNotBlank(returnSponsorHierarchy)) {
                 returnSponsorHierarchy = "((leafNodes))"+Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C+returnSponsorHierarchy;
@@ -143,6 +146,89 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
        
         return returnSponsorHierarchy;
+    }
+    
+    protected String getSubSponsorHierarchy(String hierarchyName, int level, String[] levelName) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("hierarchyName", hierarchyName);
+        for (int i = 1; i< level; i++) {
+            values.put("level" + i, levelName[i-1]);
+        }
+        Collection<SponsorHierarchy> sponsors = getBusinessObjectService().findMatchingOrderBy(SponsorHierarchy.class, values, "level"+level+"Sortid", true);
+        try {
+            Method getLevel = SponsorHierarchy.class.getDeclaredMethod("getLevel" + level, null);
+            Method getSortId = SponsorHierarchy.class.getDeclaredMethod("getLevel" + level + "Sortid", null);
+            String retVal = null;
+            List<String> uniqueLevel = new ArrayList<String>();
+            for (SponsorHierarchy sponsor : sponsors) {
+                String levelValue = (String) getLevel.invoke(sponsor, null);
+                Integer sortValue = (Integer) getSortId.invoke(sponsor, null);
+                if (levelValue != null && !uniqueLevel.contains(levelValue + ":1:" + sortValue)) {
+                    uniqueLevel.add(levelValue + ":1:" + sortValue);
+                }
+            }
+            for (String uniqueItem : uniqueLevel) {
+                if (retVal == null) {
+                    retVal = uniqueItem.split(":1:")[0];
+                } else {
+                    retVal += Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C + uniqueItem.split(":1:")[0];
+                }
+            }
+            return retVal;
+        }
+        catch (Exception e) {
+            LOG.error("Error getting sponsor hierarchy information", e);
+        }
+        return null;
+    }
+    
+    protected String getSponsorCodesForGroup(String hierarchyName, int level, String[] levelName) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("hierarchyName", hierarchyName);
+        for (int i = 1; i< level; i++) {
+            values.put("level" + i, levelName[i-1]);
+        }
+        int groupingNumber = 300;
+        try {
+           String sysParam = parameterService.getParameterValue(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "A", Constants.NUMBER_PER_SPONSOR_HIERARCHY_GROUP);
+           groupingNumber=Integer.parseInt(sysParam);
+        } catch (Exception e) {
+            LOG.debug("System param for numberPerSponsorHierarchyGroup is not defined");
+        }        
+        Collection<SponsorHierarchy> sponsors = getBusinessObjectService().findMatchingOrderBy(SponsorHierarchy.class, values, "sponsorCode", true);
+        String retVal = null;
+        int i = groupingNumber;
+        for (SponsorHierarchy sponsor : sponsors) {
+            if (StringUtils.isBlank(retVal)) {
+                retVal = sponsor.getSponsorCode()+":"+sponsor.getSponsor().getSponsorName();
+                i--;
+            } else if (i-- > 0){
+                retVal += Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C + sponsor.getSponsorCode() + ":" + sponsor.getSponsor().getSponsorName();
+            } else {
+                retVal += Constants.SPONSOR_HIERARCHY_SEPARATOR_P1P + sponsor.getSponsorCode() + ":" + sponsor.getSponsor().getSponsorName();
+                i = groupingNumber;
+            }
+        }
+        return retVal;
+    }
+    
+    protected String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelName) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("hierarchyName", hierarchyName);
+        for (int i = 1; i< level; i++) {
+            values.put("level" + i, levelName[i-1]);
+        }
+        Collection<SponsorHierarchy> sponsors = getBusinessObjectService().findMatching(SponsorHierarchy.class, values);
+        String retVal = null;
+        for (SponsorHierarchy sponsor : sponsors) {
+            if (StringUtils.isBlank(retVal)) { 
+                retVal = sponsor.getSponsorCode();
+            } else {
+                retVal += ";" + sponsor.getSponsorCode();
+            }
+        }
+        return retVal;
     }
 
     
@@ -221,7 +307,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         String sponsorCodes=Constants.EMPTY_STRING;
         String[] ascendantList = groups.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
         
-        return sponsorHierarchyDao.getSponsorCodesForDeletedGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
+        return getSponsorCodesForDeletedGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
     }
     
     public void updateSponsorCodes(String sponsorCodes) {
