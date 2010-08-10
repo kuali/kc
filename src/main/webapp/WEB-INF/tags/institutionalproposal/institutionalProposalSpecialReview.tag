@@ -20,6 +20,7 @@
 <c:set var="institutionalProposalSpecialReviewExemptionAttributes" value="${DataDictionary.InstitutionalProposalSpecialReviewExemption.attributes}" />
 <c:set var="action" value="institutionalProposalSpecialReview" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="exemptionTypes" value="${KualiForm.newSpecialReview.exemptionTypes}" />
 
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.institutionalProposal.specialReview*,document.institutionalProposalList[0].specialReview*,newSpecialReview*,documentExemptNumber*,propSpecialReview*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.institutionalProposal.specialReview*" useRiceAuditMode="false">
@@ -86,9 +87,11 @@
                </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
-                    <div align="center">
-                        <kul:htmlControlAttribute property="newSpecialReview.exemptionTypeCodes" attributeEntry="${institutionalProposalSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-                    </div>  			
+               		 <div align="center">
+	               		 <html:select property="newExemptionTypeCodes" multiple="true" size="4">
+							<html:optionsCollection name="exemptionTypes" value="exemptionTypeCode" label="description"/>
+						 </html:select>
+					 </div>	  			
                 </td>
                  
                 <td align="left" valign="middle" class="infoline">
@@ -135,19 +138,33 @@
 	                <div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.specialReview[${status.index}].expirationDate" attributeEntry="${institutionalProposalSpecialReviewAttributes.expirationDate}" /></div>
 	                </td>
 	                <td align="left" valign="middle">
-                        <div align="center">
-                            <c:choose>
-                                <c:when test="${!readOnly}">
-                                    <kul:htmlControlAttribute property="document.institutionalProposal.specialReview[${status.index}].exemptionTypeCodes" attributeEntry="${institutionalProposalSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- struts/rice wants to display "[]" for empty array so do not display anything for an empty array instead -->
-                                    <c:if test="${not empty KualiForm.document.institutionalProposal.specialReviews[status.index].exemptionTypeCodes}">
-                                        <kul:htmlControlAttribute property="document.institutionalProposal.specialReview[${status.index}].exemptionTypeCodes" attributeEntry="${institutionalProposalSpecialReviewExemptionAttributes.exemptionTypeCode}" />
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>	  			
+	               		 <div align="center">
+	               		    <c:choose>
+	               		      <c:when test="${!readOnly}">
+	               		 	<c:set var="selected" value="" />
+	               		 	<c:set var="sltdExemptionTypeCodes" value="${KualiForm.document.institutionalProposal.specialReviews[status.index].exemptionTypeCodes}"/>
+	               		 	<c:forEach var="key" items="${sltdExemptionTypeCodes}">
+						   		<c:set var="selected" value="${selected},${key}" />
+							</c:forEach>
+		               		 <html:select property="document.institutionalProposal.specialReviews[${status.index}].exemptionTypeCodes" multiple="true" size="4">
+		               		    <c:forEach var="keyLabel" items="${exemptionTypes}">
+				  			    	<c:if test="${!empty keyLabel.exemptionTypeCode}" >
+		                                <option value="${keyLabel.exemptionTypeCode}" <c:if test="${fn:contains(selected, keyLabel.exemptionTypeCode)}"> selected="true" </c:if> >${keyLabel.description}</option>
+									</c:if>
+								</c:forEach>
+							 </html:select>
+							 </c:when>
+							 <c:otherwise>
+							     <c:forEach var="exemptionCode" items="${KualiForm.document.institutionalProposal.specialReviews[status.index].exemptionTypeCodes}">
+							         <c:forEach var="keyLabel" items="${exemptionTypes}">
+							             <c:if test="${keyLabel.exemptionTypeCode == exemptionCode}">
+							                 <c:out value="${keyLabel.description}" /><br/>
+							             </c:if>
+							         </c:forEach>
+							     </c:forEach>
+							 </c:otherwise>
+							</c:choose>
+						 </div>	  			
 	                </td>
 	                <td align="left" valign="middle">
 	                <div align="center">

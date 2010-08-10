@@ -22,33 +22,35 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.service.SpecialReviewService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
- * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp).
+ * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp)
  */
 public class ProtocolSpecialReviewAction extends ProtocolAction {
     
+    private static final String PRIMARY_KEY_FIELD_NAME = "protocolSpecialReviewId";
+    
     /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, 
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
+        ((ProtocolForm)form).getSpecialReviewHelper().prepareView();
         
         return actionForward;
     }
     
     /**
-     * This method is for adding ProtocolSpecialReview to the list.
+     * This method is for adding ProtocolSpecialReview
      * @param mapping
      * @param form
      * @param request
@@ -57,21 +59,16 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      * @throws Exception
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getDocument();
-        ProtocolSpecialReview newSpecialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
-        
-        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(Constants.EMPTY_STRING, document, newSpecialReview))) {
-            newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
-            document.getProtocol().getSpecialReviews().add(newSpecialReview);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        Protocol protocol = protocolForm.getDocument().getProtocol();
+        if (getSpecialReviewService().addSpecialReview(protocol,protocolForm)) {
             protocolForm.getSpecialReviewHelper().setNewSpecialReview(new ProtocolSpecialReview());
         }
-        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
-     * This method deletes the SpecialReview from the list.
+     * This method deletes the SpecialReview from the list
      * @param mapping
      * @param form
      * @param request
@@ -79,14 +76,33 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getDocument();
-        
-        document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
-        
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        Protocol protocol = protocolForm.getDocument().getProtocol();
+        getSpecialReviewService().deleteSpecialReview(protocol,getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#preDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.preDocumentSave(form);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        Protocol protocol = protocolForm.getDocument().getProtocol();
+        getSpecialReviewService().processBeforeSaveSpecialReview(protocol);
+    }
+    
+    @Override
+    protected void postDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.postDocumentSave(form);
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        Protocol protocol = protocolForm.getDocument().getProtocol();
+        getSpecialReviewService().deleteExemptions(protocol, PRIMARY_KEY_FIELD_NAME, ProtocolSpecialReviewExemption.class);
+    }
+    
+    private SpecialReviewService<ProtocolSpecialReview,ProtocolSpecialReviewExemption> getSpecialReviewService() {
+        return KraServiceLocator.getService(SpecialReviewService.class);
+    }
 }

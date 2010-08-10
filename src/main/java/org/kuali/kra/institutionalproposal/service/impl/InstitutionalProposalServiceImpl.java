@@ -43,7 +43,6 @@ import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreati
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
@@ -54,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -485,8 +485,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipSpecialReview.setSpecialReviewNumber(dpSpecialReview.getSpecialReviewNumber());
         ipSpecialReview.setValidSpecialReviewApproval(dpSpecialReview.getValidSpecialReviewApproval());
         for (String dpExempt : dpSpecialReview.getExemptNumbers()) {
-            InstitutionalProposalSpecialReviewExemption newIpSpecialReviewExemption = ipSpecialReview.createSpecialReviewExemption(dpExempt);
-            ipSpecialReview.getSpecialReviewExemptions().add(newIpSpecialReviewExemption);
+            ipSpecialReview.addSpecialReviewExemption(dpExempt);
         }
         return ipSpecialReview;
     }

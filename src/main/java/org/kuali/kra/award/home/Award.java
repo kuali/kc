@@ -59,6 +59,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.KeywordsManager;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -79,7 +80,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is Award Business Object.
  * It implements ProcessKeywords to process all operations related to AwardScenceKeywords.
  */
-public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, 
+public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>,
+                                                                        SpecialReviewHandler<AwardSpecialReview>, 
                                                                         Permissionable, SequenceOwner<Award>,
                                                                         BudgetParent, Sponsorable {
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
