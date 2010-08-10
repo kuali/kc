@@ -41,4 +41,12 @@ public interface ProtocolActionsNotificationService {
      */
     void addIrbAdminToRecipients(Element recipients, Protocol protocol);
 
+    /**
+     * 
+     * This method is to add the document initiator to the notification list
+     * @param recipients
+     * @param protocol
+     */
+    void addInitiatorToRecipients(Element recipients, Protocol protocol);
+
 }
