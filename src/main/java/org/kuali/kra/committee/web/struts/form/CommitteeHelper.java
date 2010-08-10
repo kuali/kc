@@ -66,6 +66,7 @@ public class CommitteeHelper implements Serializable {
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
         this.setScheduleData(new ScheduleData());
         this.setCommitteeActionsHelper(new CommitteeActionsHelper());
+        this.memberIndex = -1;
     }
     
     public Committee getCommittee() {
