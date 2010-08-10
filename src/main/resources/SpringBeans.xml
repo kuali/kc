@@ -470,11 +470,7 @@
       </property>
     </bean>
     
-    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb">
-	    <property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>	
+    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb"/>	
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
