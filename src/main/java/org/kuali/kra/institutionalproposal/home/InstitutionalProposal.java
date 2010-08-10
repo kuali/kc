@@ -44,6 +44,7 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.KeywordsManager;
+import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
@@ -65,7 +66,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements KeywordsManager<InstitutionalProposalScienceKeyword>,
+public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<InstitutionalProposalSpecialReview>,
+                                                                                            KeywordsManager<InstitutionalProposalScienceKeyword>,
                                                                                             SequenceOwner<InstitutionalProposal>, Sponsorable { 
     
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";

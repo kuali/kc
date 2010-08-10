@@ -17,25 +17,24 @@ package org.kuali.kra.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 /**
  * This class is the base class for special review BO.
- * @param <T> AbstractSpecialReviewExemption
  */
 public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemption> extends KraPersistableBusinessObjectBase {
-    
     /**
      * Comment for <code>serialVersionUID</code>
      * Do we need this???
      */
     private static final long serialVersionUID = 3671069178534624665L;
-    
     private Integer specialReviewNumber;
     private Date applicationDate;
     private Date approvalDate;
@@ -48,24 +47,16 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
     private SpecialReviewApprovalType specialReviewApprovalType;
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
+    private List<T> specialReviewExemptions;
+    private String[] exemptionTypeCodes;
+    private String[] newExemptionTypeCodes = null;
+    private List<ExemptionType> exemptionTypes;
     
-    private transient List<String> exemptionTypeCodes = new ArrayList<String>();
-    private List<T> specialReviewExemptions = new ArrayList<T>();
-    
-    /** 
-     * {@inheritDoc} 
-     */
-    @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) {
-        super.afterLookup(persistenceBroker);
-        this.syncSpecialReviewExemptionsToExemptionTypeCodes();
+    public AbstractSpecialReview() {
+        super();
+        specialReviewExemptions = new ArrayList<T>();
+        exemptionTypes = new ArrayList<ExemptionType>();
     }
-    
-    /**
-     * Returns the identifier specific to the concrete type of the SpecialReview.
-     * @return the database identifier of the concrete type
-     */
-    public abstract Long getSpecialReviewId();
 
     public Integer getSpecialReviewNumber() {
         return specialReviewNumber;
@@ -163,33 +154,15 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
         this.expirationDate = expirationDate;
     }
     
-    public List<String> getExemptionTypeCodes() {
-        return exemptionTypeCodes;
-    }
-
-    public void setExemptionTypeCodes(List<String> exemptionTypeCodes) {
-        this.exemptionTypeCodes = exemptionTypeCodes;
-        syncExemptionTypeCodesToSpecialReviewExemptions();
+    public T getSpecialReviewExemption(int index) {
+        return specialReviewExemptions.get(index);
     }
     
     public List<T> getSpecialReviewExemptions() {
         return specialReviewExemptions;
     }
-    
-    public T getSpecialReviewExemption(int index) {
-        return specialReviewExemptions.get(index);
-    }
-    
-    /**
-     * Creates a SpecialReviewExemption for the given type based on the exemptionTypeCode.
-     * @param exemptionTypeCode The exemption type code connected to the SpecialReviewExemption
-     * @return a new SpecialReviewExemption connected to the exemption type code
-     */
-    public abstract T createSpecialReviewExemption(String exemptionTypeCode);
-    
     public void setSpecialReviewExemptions(List<T> specialReviewExemptions) {
         this.specialReviewExemptions = specialReviewExemptions;
-        this.syncSpecialReviewExemptionsToExemptionTypeCodes();
     }
     
     @SuppressWarnings("unchecked")
@@ -205,58 +178,66 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
         hashMap.put("specialReviewCode", getSpecialReviewCode());
         return hashMap;
     }
+
+    public abstract T newSpecialReviewExemption(String exemptionTypeCode);
     
+    public void addSpecialReviewExemption(String exemptionTypeCode){
+      getSpecialReviewExemptions().add(newSpecialReviewExemption(exemptionTypeCode));
+    }
+
     /**
-     * This method syncs the selected exemptions with the persisted exemptions.
-     * 
-     * This method is needed to ensure that when a user selects exemption(s) on the page that the corresponding persisted exemptions are created.
+     * Gets the exemptionTypeCode attribute. 
+     * @return Returns the exemptionTypeCode array.
      */
-    private void syncExemptionTypeCodesToSpecialReviewExemptions() {
-        if (exemptionTypeCodes != null) {
-            List<T> syncedSpecialReviewExemptions = new ArrayList<T>();
-            for (String exemptionTypeCode : exemptionTypeCodes) {
-                syncedSpecialReviewExemptions.add(getSpecialReviewExemption(exemptionTypeCode));
+    @SuppressWarnings("unchecked")
+    public String[] getExemptionTypeCodes() {
+        if(exemptionTypeCodes==null && specialReviewExemptions.size() > 0){
+            exemptionTypeCodes = new String[specialReviewExemptions.size()];
+            int i = 0;
+            for (Iterator iterator = specialReviewExemptions.iterator(); iterator.hasNext();) {
+                AbstractSpecialReviewExemption specialReviewExemption = 
+                    (AbstractSpecialReviewExemption) iterator.next();
+                exemptionTypeCodes[i++] = specialReviewExemption.getExemptionTypeCode();
             }
-            specialReviewExemptions = new ArrayList<T>(syncedSpecialReviewExemptions);
         }
+        return exemptionTypeCodes;
+    }
+
+    /**
+     * Sets the exemptionTypeCode attribute value.
+     * @param exemptionTypeCodes The exemptionTypeCode to set.
+     */
+    public void setExemptionTypeCodes(String... exemptionTypeCodes) {
+        this.exemptionTypeCodes = exemptionTypeCodes;
     }
     
-    /**
-     * Returns the specific SpecialReviewExemption type based on the exemption type code, or creates one if it does not exist.
-     * @param exemptionTypeCode The exemption type code connected to the SpecialReviewExemption
-     * @return the SpecialReviewExemption connected to the exemption type code
-     */
-    private T getSpecialReviewExemption(String exemptionTypeCode) {
-        T specialReviewExemption = null;
-        
-        for (T exemption : getSpecialReviewExemptions()) {
-            if (StringUtils.equals(exemption.getExemptionTypeCode(), exemptionTypeCode)) {
-                specialReviewExemption = exemption;
-                break;
-            }
-        }
-        
-        if (specialReviewExemption == null) {
-            specialReviewExemption = createSpecialReviewExemption(exemptionTypeCode);
-        }
-        
-        return specialReviewExemption;
+    public void clearExemptionTypeCodes() {
+        this.exemptionTypeCodes = null;
     }
-    
+
     /**
-     * This method syncs the persisted exemptions with the selected exemption type codes.
-     * 
-     * This method is needed to ensure that when the page loads, the currently selected exemption(s) are correctly highlighted on the page.
+     * Gets the exemptionTypes attribute. 
+     * @return Returns the exemptionTypes.
      */
-    private void syncSpecialReviewExemptionsToExemptionTypeCodes() {
-        if (specialReviewExemptions != null) {
-            exemptionTypeCodes = new ArrayList<String>();
-            for (T exemption : specialReviewExemptions) {
-                if (exemption.getExemptionTypeCode() != null) {
-                    exemptionTypeCodes.add(exemption.getExemptionTypeCode());
-                }
-            }
+    public List<ExemptionType> getExemptionTypes() {
+        if(exemptionTypes.isEmpty()){
+            populateExemptionTypes();
         }
+        return exemptionTypes;
+    }
+
+    private void populateExemptionTypes() {
+        KeyValuesService keyValueService = KNSServiceLocator.getKeyValuesService();
+        exemptionTypes = (List)keyValueService.findAll(ExemptionType.class);
+        Collections.sort(exemptionTypes);
+    }
+
+    /**
+     * Sets the exemptionTypes attribute value.
+     * @param exemptionTypes The exemptionTypes to set.
+     */
+    public void setExemptionTypes(List<ExemptionType> exemptionTypes) {
+        this.exemptionTypes = exemptionTypes;
     }
 
     /**
@@ -270,7 +251,8 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
         result = prime * result + ((approvalDate == null) ? 0 : approvalDate.hashCode());
         result = prime * result + ((approvalTypeCode == null) ? 0 : approvalTypeCode.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-        result = prime * result + ((exemptionTypeCodes == null) ? 0 : exemptionTypeCodes.hashCode());
+        result = prime * result + Arrays.hashCode(exemptionTypeCodes);
+        result = prime * result + ((exemptionTypes == null) ? 0 : exemptionTypes.hashCode());
         result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
         result = prime * result + ((protocolNumber == null) ? 0 : protocolNumber.hashCode());
         result = prime * result + ((specialReview == null) ? 0 : specialReview.hashCode());
@@ -287,124 +269,103 @@ public abstract class AbstractSpecialReview<T extends AbstractSpecialReviewExemp
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         AbstractSpecialReview other = (AbstractSpecialReview) obj;
         if (applicationDate == null) {
-            if (other.applicationDate != null) {
+            if (other.applicationDate != null)
                 return false;
-            }
         }
-        else if (!applicationDate.equals(other.applicationDate)) {
+        else if (!applicationDate.equals(other.applicationDate))
             return false;
-        }
         if (approvalDate == null) {
-            if (other.approvalDate != null) {
+            if (other.approvalDate != null)
                 return false;
-            }
         }
-        else if (!approvalDate.equals(other.approvalDate)) {
+        else if (!approvalDate.equals(other.approvalDate))
             return false;
-        }
         if (approvalTypeCode == null) {
-            if (other.approvalTypeCode != null) {
+            if (other.approvalTypeCode != null)
                 return false;
-            }
         }
-        else if (!approvalTypeCode.equals(other.approvalTypeCode)) {
+        else if (!approvalTypeCode.equals(other.approvalTypeCode))
             return false;
-        }
         if (comments == null) {
-            if (other.comments != null) {
+            if (other.comments != null)
                 return false;
-            }
         }
-        else if (!comments.equals(other.comments)) {
+        else if (!comments.equals(other.comments))
             return false;
-        }
-        if (!ListUtils.isEqualList(exemptionTypeCodes, other.exemptionTypeCodes)) {
+        if (!Arrays.equals(exemptionTypeCodes, other.exemptionTypeCodes))
             return false;
-        }
-        if (exemptionTypeCodes == null) {
-            if (other.exemptionTypeCodes != null) {
+        if (exemptionTypes == null) {
+            if (other.exemptionTypes != null)
                 return false;
-            }
         }
-        else if (!ListUtils.isEqualList(exemptionTypeCodes, other.exemptionTypeCodes)) {
+        else if (!exemptionTypes.equals(other.exemptionTypes))
             return false;
-        }
         if (expirationDate == null) {
-            if (other.expirationDate != null) {
+            if (other.expirationDate != null)
                 return false;
-            }
         }
-        else if (!expirationDate.equals(other.expirationDate)) {
+        else if (!expirationDate.equals(other.expirationDate))
             return false;
-        }
         if (protocolNumber == null) {
-            if (other.protocolNumber != null) {
+            if (other.protocolNumber != null)
                 return false;
-            }
         }
-        else if (!protocolNumber.equals(other.protocolNumber)) {
+        else if (!protocolNumber.equals(other.protocolNumber))
             return false;
-        }
         if (specialReview == null) {
-            if (other.specialReview != null) {
+            if (other.specialReview != null)
                 return false;
-            }
         }
-        else if (!specialReview.equals(other.specialReview)) {
+        else if (!specialReview.equals(other.specialReview))
             return false;
-        }
         if (specialReviewApprovalType == null) {
-            if (other.specialReviewApprovalType != null) {
+            if (other.specialReviewApprovalType != null)
                 return false;
-            }
         }
-        else if (!specialReviewApprovalType.equals(other.specialReviewApprovalType)) {
+        else if (!specialReviewApprovalType.equals(other.specialReviewApprovalType))
             return false;
-        }
         if (specialReviewCode == null) {
-            if (other.specialReviewCode != null) {
+            if (other.specialReviewCode != null)
                 return false;
-            }
         }
-        else if (!specialReviewCode.equals(other.specialReviewCode)) {
+        else if (!specialReviewCode.equals(other.specialReviewCode))
             return false;
-        }
         if (specialReviewExemptions == null) {
-            if (other.specialReviewExemptions != null) {
+            if (other.specialReviewExemptions != null)
                 return false;
-            }
         }
-        else if (!specialReviewExemptions.equals(other.specialReviewExemptions)) {
+        else if (!specialReviewExemptions.equals(other.specialReviewExemptions))
             return false;
-        }
         if (specialReviewNumber == null) {
-            if (other.specialReviewNumber != null) {
+            if (other.specialReviewNumber != null)
                 return false;
-            }
         }
-        else if (!specialReviewNumber.equals(other.specialReviewNumber)) {
+        else if (!specialReviewNumber.equals(other.specialReviewNumber))
             return false;
-        }
         if (validSpecialReviewApproval == null) {
-            if (other.validSpecialReviewApproval != null) {
+            if (other.validSpecialReviewApproval != null)
                 return false;
-            }
         }
-        else if (!validSpecialReviewApproval.equals(other.validSpecialReviewApproval)) {
+        else if (!validSpecialReviewApproval.equals(other.validSpecialReviewApproval))
             return false;
-        }
         return true;
     }
-    
+
+    public abstract Long getSpecialReviewId();
+
+    public void setNewExemptionTypeCodes(String[] newExemptionTypeCodes) {
+        this.newExemptionTypeCodes = newExemptionTypeCodes;
+    }
+
+    public String[] getNewExemptionTypeCodes() {
+        return newExemptionTypeCodes;
+    }
 }

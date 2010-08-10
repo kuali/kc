@@ -60,14 +60,29 @@
 	</bean>
 
 	<bean id="AwardSpecialReviewExemption-exemptionTypeCode" parent="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" />
-	<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode">
-	   <property name="control" >
-            <bean parent="MultiselectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemptionValuesFinder"
-                p:includeKeyInLabel="false" 
-                p:size="4"/>
-        </property>
-    </bean>
+	<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode" />
+	<!--<bean id="AwardSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="exemptionTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Exemption #" />
+		<property name="shortLabel" value="Exemption #" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+	    <property name="required" value="true" />
+		<property name="control" >
+			<bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="exemptionTypeCode"
+	            p:labelAttribute="description" />
+		</property>
+		<property name="summary" value="Exemption Type Code" />
+		<property name="description" value="Exemption Type Code" />
+	</bean>-->
 
 	<bean id="AwardSpecialReviewExemption-versionNumber" parent="AwardSpecialReviewExemption-versionNumber-parentBean" />
 	<bean id="AwardSpecialReviewExemption-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">

@@ -77,7 +77,7 @@ public class InstitutionalProposalVersioningTest {
         
         InstitutionalProposalSpecialReview ipSpecialReview = new InstitutionalProposalSpecialReview();
         ipSpecialReview.setProposalSpecialReviewId(new Long(1));
-        InstitutionalProposalSpecialReviewExemption ipSpecialReviewExemption = ipSpecialReview.createSpecialReviewExemption("1");
+        InstitutionalProposalSpecialReviewExemption ipSpecialReviewExemption = ipSpecialReview.newSpecialReviewExemption("1");
         ipSpecialReviewExemption.setInstitutionalProposalSpecialReviewExemptionId(new Long(1));
         ipSpecialReview.getSpecialReviewExemptions().add(ipSpecialReviewExemption);
         institutionalProposal.addSpecialReview(ipSpecialReview);

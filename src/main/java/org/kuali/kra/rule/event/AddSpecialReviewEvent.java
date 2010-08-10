@@ -20,11 +20,11 @@ import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.rule.SpecialReviewRule;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents the event for adding special review.
  */
-@SuppressWarnings("unchecked")
 public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
 
@@ -38,15 +38,17 @@ public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraD
      * @param proposalDevelopmentDocument
      * @param proposalSpecialReview
      */
+    @SuppressWarnings("unchecked")
     public AddSpecialReviewEvent(String errorPathPrefix, Document document, T specialReview) {
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.specialReview = specialReview;
+        this.specialReview = (T) ObjectUtils.deepCopy(specialReview);
         logEvent();
     }
 
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
+    @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return SpecialReviewRule.class;
     }

@@ -13,21 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.rule;
+package org.kuali.kra.document;
+
+import java.util.List;
 
 import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
- * This interface defines the rule to be implemented to validate SpecialReview events
+ * This interface declares all methods required to process SpecialReview.
+ * T represents type of concrete class of SpecialReview
  */
-public interface SpecialReviewRule<T extends AbstractSpecialReview<?>>  extends BusinessRule {
+public interface SpecialReviewHandler<T extends AbstractSpecialReview> {
     /**
      * 
-     * This method validates the AddSpecialReviewEvent
-     * @param addSpecialReviewEvent
-     * @return true if it validates correctly
+     * This method is for adding special review
+     * @param specialReview
      */
-    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<T> addSpecialReviewEvent);
+    public void addSpecialReview(T specialReview);
+    /**
+     * 
+     * Gets the list of SpecialReview BO objects
+     * @return
+     */
+    public List<T> getSpecialReviews();
+    /**
+     * 
+     * Gets the SpecialReview BO at the selected index from the list
+     * @param index
+     * @return SpecialReview
+     */
+    public T getSpecialReview(int index);
 }
