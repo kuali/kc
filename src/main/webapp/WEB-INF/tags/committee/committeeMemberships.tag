@@ -33,7 +33,7 @@
 
     <kul:checkErrors keyMatch="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*" />
 
-    <c:if test="${!KualiForm.committeeHelper.showActiveMembersOnly || membership.active || hasErrors || empty membership.membershipTypeCode}">
+    <c:if test="${!KualiForm.committeeHelper.showActiveMembersOnly || membership.active || hasErrors || empty membership.membershipTypeCode || KualiForm.committeeHelper.memberIndex == status.index}">
         
         <c:choose>
             <c:when test="${empty transparent}">
