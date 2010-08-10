@@ -1,5 +1,4 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -179,7 +178,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         
         submitAction.setExemptStudiesCheckList(exemptStudiesCheckList);
         submitAction.setExpeditedReviewCheckList(expeditedReviewCheckList);
-        submitAction.setSubmissionQualifierTypeCode("2");
+        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
         
         if (!StringUtils.isBlank(committeeId)) {
             createCommittee(committeeId);

@@ -28,6 +28,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
@@ -83,7 +84,7 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
         ProtocolSubmitAction submitAction = createSubmitAction("668", "1", VALID_REVIEW_TYPE);
-        submitAction.setSubmissionQualifierTypeCode("2");
+        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         Committee committee = new Committee();
         protocolDocument.getProtocol().getProtocolSubmission().setCommittee(committee);
