@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
- * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>
+ * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -72,6 +72,12 @@ public class ProtocolParticipantRule extends ResearchDocumentRuleBase implements
         return isValid;
     }
     
+    /**
+     * 
+     * This method validates the existing protocol participant beans on a protocol form, prior to saving.
+     * @param addProtocolParticipantEvent
+     * @return
+     */
     public boolean processExistingProtocolParticipantBusinessRules(AddProtocolParticipantEvent addProtocolParticipantEvent) {
         boolean isValid = true;
         int rowCount = 0;
@@ -87,18 +93,19 @@ public class ProtocolParticipantRule extends ResearchDocumentRuleBase implements
     }
     
     private boolean validateParticipantCount(String participantCount) {
-        if (!(participantCount == null || "".equals(participantCount))){
+        boolean valid = true;
+        if (!(participantCount == null || "".equals(participantCount))) {
             try {
                 //this will throw an error if it's not a number
                 Integer parsedCount = Integer.parseInt(participantCount);
                 if (parsedCount < 1) {
-                    return false;
+                    valid = false;
                 }
             } catch (Exception e) {
-                return false;
+                valid = false;
             }
         }
-        return true;
+        return valid;
     }
      
     /**
