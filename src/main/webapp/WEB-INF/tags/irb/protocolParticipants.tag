@@ -20,7 +20,7 @@
 <c:set var="action" value="protocolParticipant" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifySubjects}" />
 
-<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newParticipant.*,document.protocolList[0].protocolParticipant*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Participant Types" defaultOpen="false" tabErrorKey="participantsHelper.newParticipant.*,participantsHelper.existingParticipants[*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Participant Types </span>
