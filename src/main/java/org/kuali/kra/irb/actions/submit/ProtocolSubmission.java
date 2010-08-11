@@ -236,6 +236,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public Integer getAbstainerCount() {
+        this.refreshReferenceObject("abstainers");
         if (this.abstainers == null) {
             return 0;
         } else {

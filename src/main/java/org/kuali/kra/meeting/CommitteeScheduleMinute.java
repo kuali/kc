@@ -402,11 +402,19 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     }
     
     public Long getProtocolId() {
+        Long protocolId = null;
         if (this.protocol != null) {
-            return this.protocol.getProtocolId();
+            protocolId = this.protocol.getProtocolId();
         } else {
-            return null;
+            if (this.protocolIdFk != null) {
+                this.refreshReferenceObject("protocol");
+            }
+            if (protocol != null) {
+                protocolId = this.protocol.getProtocolId();
+                
+            } 
         }
+        return protocolId;
     }
     
     /**
