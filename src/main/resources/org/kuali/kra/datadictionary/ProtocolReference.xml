@@ -177,7 +177,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="50" />
 		</property>
 		<property name="required" value="true" />
 		<property name="summary" value="Reference Key" />
