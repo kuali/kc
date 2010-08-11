@@ -391,7 +391,12 @@ public class QuestionnaireXmlStream implements XmlStream {
                     questionInfo.setQuestionId(questionId.intValue());
                 }
                 questionInfo.setQuestionNumber(questionNumber);
-                questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
+                if(questionnaireQuestion.getQuestion()==null){
+                    questionnaireQuestion.refreshReferenceObject("question");
+                }
+                if(questionnaireQuestion.getQuestion()!=null){
+                    questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
+                }
                 if(answerHeaders != null && answerHeaders.size() > 0) {
                     for (AnswerHeader answerHeader : answerHeaders) {
                         int selectedAnswer = 0;
