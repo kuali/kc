@@ -34,12 +34,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
+import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * The ProtocolPersonnelAction corresponds to the Personnel tab (web page).  It is
@@ -82,12 +84,20 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public ActionForward addProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolPerson newProtocolPerson = protocolForm.getPersonnelHelper().getNewProtocolPerson();
+        Protocol protocol = protocolForm.getDocument().getProtocol();
         
         // check any business rules
         boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolPerson));
         if (rulePassed) {
-            getProtocolPersonnelService().addProtocolPerson(protocolForm.getDocument().getProtocol(), newProtocolPerson);
+            getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
+        }
+        
+        if (newProtocolPerson.isPrincipalInvestigator()) {
+            // Assign the PI the AGGREGATOR role.
+            KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+            kraAuthService.addRole(newProtocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+            super.refresh(mapping, form, request, response);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC );
