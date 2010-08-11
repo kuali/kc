@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,13 +28,16 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 
 /**
  * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp).
  */
 public class ProtocolSpecialReviewAction extends ProtocolAction {
     
-    private static final String NEW_SPECIAL_REVIEW = "specialReviewHelper.newSpecialReview";
+    private static final String ADD_SPECIAL_REVIEW_FIELD = "specialReviewHelper.newSpecialReview";
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.protocolList[0].specialReview";
+
     
     /**
      * {@inheritDoc}
@@ -63,7 +68,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         ProtocolDocument document = protocolForm.getDocument();
         ProtocolSpecialReview newSpecialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
         
-        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(NEW_SPECIAL_REVIEW, document, newSpecialReview))) {
+        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(ADD_SPECIAL_REVIEW_FIELD, document, newSpecialReview))) {
             newSpecialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getProtocol().getSpecialReviews().add(newSpecialReview);
             protocolForm.getSpecialReviewHelper().setNewSpecialReview(new ProtocolSpecialReview());
@@ -89,6 +94,18 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
+     */
+    @Override
+    protected boolean isValidSave(ProtocolForm protocolForm) {
+        ProtocolDocument document = protocolForm.getDocument();
+        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+
+        return applyRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews));
     }
     
 }

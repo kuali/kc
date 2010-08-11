@@ -24,7 +24,6 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
@@ -72,15 +71,12 @@ import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
-import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
-import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.rules.SaveSpecialReviewRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -96,7 +92,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
-    private static final String SAVE_SPECIAL_REVIEW_ERROR_PATH = "document.protocolList[0].specialReview";
 
 // TODO : move these static constant up to parent 
     @Override
@@ -124,19 +119,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolParticipantBusinessRules((ProtocolDocument) document);
-        valid &= processSpecialReviewSaveRules((ProtocolDocument) document);
-        
-        return valid;
-    }
-
-
-    private boolean processSpecialReviewSaveRules(ProtocolDocument document) {
-        boolean valid = true;
-        
-        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
-        SaveSpecialReviewEvent<ProtocolSpecialReview> event 
-            = new SaveSpecialReviewEvent<ProtocolSpecialReview>(Constants.EMPTY_STRING, document, specialReviews);
-        valid &= new SaveSpecialReviewRule<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_ERROR_PATH).processRules(event);
         
         return valid;
     }
