@@ -134,23 +134,4 @@ public class HtmlUnitUtilTest extends KcWebTestBase {
     public void setDocument(ProposalDevelopmentDocument document) {
         this.document = document;
     }
-    
-    /**
-     * Inserts regex to match against newlines and any amount of spaces.
-     * @param text the text to insert regex
-     * @return the modified text
-     */
-    private static String insertWhitespaceRegex(String text) {
-        if (!text.contains(" ")) {
-            return Pattern.quote(text.trim());
-        }
-        
-        String regex = "(?m)";
-        for (String token : text.trim().split(" ")) {
-            if (!token.equals("") && !token.equals(" ")) {
-                regex += Pattern.quote(token)+ "[\\s]*";
-            }
-        }
-        return regex.substring(0, regex.length() - 5);
-    }
 }
