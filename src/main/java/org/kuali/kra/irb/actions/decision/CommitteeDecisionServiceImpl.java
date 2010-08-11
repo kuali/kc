@@ -292,10 +292,23 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         int nextEntryNumber = 0;
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
             minute.setEntryNumber(nextEntryNumber);
-            minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-            minute.setSubmissionIdFk(submission.getSubmissionId());
-            minute.setProtocolIdFk(submission.getProtocolId());
-            minute.setScheduleIdFk(submission.getScheduleIdFk());
+            // comments are retrieved based on schedule, so should not change other protocol's review comments
+            if (StringUtils.isBlank(minute.getMinuteEntryTypeCode())) {
+                minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+            }
+            if (StringUtils.isNotBlank(minute.getMinuteEntryTypeCode())
+                    && MinuteEntryType.PROTOCOL.equals(minute.getMinuteEntryTypeCode())) {
+                // only "protocol" typpe should be populated with submissionid & protocolid
+                if (minute.getSubmissionIdFk() == null) {
+                    minute.setSubmissionIdFk(submission.getSubmissionId());
+                }
+                if (minute.getProtocolIdFk() == null) {
+                    minute.setProtocolIdFk(submission.getProtocolId());
+                }
+            }
+            if (minute.getScheduleIdFk() == null) {
+                minute.setScheduleIdFk(submission.getScheduleIdFk());
+            }
             nextEntryNumber++;
         }
     }
