@@ -24,8 +24,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -34,6 +37,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
+    private KraAuthorizationService kraAuthorizationService;
+    
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     private static final String REFERENCE_PERSON = "person";
     private static final String REFERENCE_ROLODEX = "rolodex";
@@ -57,6 +62,15 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      */
     public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
         this.protocolPersonTrainingService = protocolPersonTrainingService;
+    }
+
+    /**
+     * Sets the kraAuthorizationService attribute value.
+     * 
+     * @param kraAuthorizationService The kraAuthorizationService to set.
+     */
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 
     /**
@@ -424,6 +438,10 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
                     protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
+                
+                // Assign the PI the AGGREGATOR role.
+                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
             }
         }
     }
