@@ -68,11 +68,8 @@ public abstract class MaintenanceDocumentTestBase extends KcWebTestBase {
         
         MaintenanceDocumentLookupPage = getInnerPages(MaintenanceDocumentLookupPage).get(0);
         assertTrue("Kuali :: Lookup".equals(MaintenanceDocumentLookupPage.getTitleText()));
-        
-        //weird this is not the correct title...
-        HtmlPage lookupPage = clickOn(MaintenanceDocumentLookupPage, "Create a new record", "Kuali Portal Index");
-        lookupPage = getInnerPages(lookupPage).get(0);
-        assertTrue("Kuali :: Lookup".equals(lookupPage.getTitleText()));
+
+        HtmlPage lookupPage = clickOn(MaintenanceDocumentLookupPage, "Create a new record", "Kuali :: Lookup");
         
         return lookupPage;
     }
