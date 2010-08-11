@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReviewExemption;
@@ -80,7 +81,6 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setApprovalTypeCode(ipSpecialReview.getApprovalTypeCode());
         copiedSpecialReview.setComments(ipSpecialReview.getComments());
         copiedSpecialReview.setExemptionTypeCodes(ipSpecialReview.getExemptionTypeCodes());
-        copiedSpecialReview.setExemptionTypes(ipSpecialReview.getExemptionTypes());
         copiedSpecialReview.setExpirationDate(ipSpecialReview.getExpirationDate());
         copiedSpecialReview.setProtocolNumber(ipSpecialReview.getProtocolNumber());
         copiedSpecialReview.setSpecialReview(ipSpecialReview.getSpecialReview());
@@ -88,7 +88,8 @@ class SpecialReviewDataFeedCommand extends ProposalDataFeedCommandBase {
         copiedSpecialReview.setSpecialReviewCode(ipSpecialReview.getSpecialReviewCode());
         for(InstitutionalProposalSpecialReviewExemption ipExempt: ipSpecialReview.getSpecialReviewExemptions()) {
             if (StringUtils.isNotBlank(ipExempt.getExemptionTypeCode())) {
-                copiedSpecialReview.addSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+                AwardSpecialReviewExemption newAwardExempt = copiedSpecialReview.createSpecialReviewExemption(ipExempt.getExemptionTypeCode());
+                copiedSpecialReview.getSpecialReviewExemptions().add(newAwardExempt);
             }
         }
         copiedSpecialReview.setSpecialReviewNumber(ipSpecialReview.getSpecialReviewNumber());
