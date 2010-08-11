@@ -404,7 +404,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="15" />
 		</property>
 		<property name="summary" value="Fda Application Number" />
 		<property name="description" value="Fda Application Number" />
