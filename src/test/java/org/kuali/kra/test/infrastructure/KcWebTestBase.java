@@ -223,7 +223,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
-        assertTrue(id + " not found. page " + page.asText(), element != null);
+        assertTrue(id + " not found. page " + page.asXml(), element != null);
         return clickOn(element, nextPageTitle);
     }
 
@@ -285,7 +285,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @param title the title to find/match
      * @return a page or null
      */
-    private final HtmlPage getMatchingPage(HtmlPage page, String title) {
+    private final HtmlPage getMatchingPage(HtmlPage page, String title) {      
         if (page.getTitleText().equals(title)) {
             return page;
         }
@@ -710,7 +710,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
     private List<HtmlElement> getInputElements(HtmlPage page, String type) {
         List<HtmlElement> elements = new ArrayList<HtmlElement>();
 
-        for (HtmlElement e : page.getAllHtmlChildElements()) {
+        for (HtmlElement e : page.getHtmlElementDescendants()) {
             if (StringUtils.equalsIgnoreCase("input", e.getTagName())) {
                 String value = e.getAttribute("type");
                 if (StringUtils.equalsIgnoreCase(type, value)) {
@@ -1202,7 +1202,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML element or null if not found.
      */
     private HtmlElement getElement(HtmlElement element, String name, String value, String title) {
-        for (HtmlElement child : element.getAllHtmlChildElements()) {
+        for (HtmlElement child : element.getHtmlElementDescendants()) {
             String nameValue = child.getAttribute("name");
             String valueValue = child.getAttribute("value");
             String titleValue = child.getAttribute("title");
@@ -1335,7 +1335,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("name");
             if (!startsWith && name.equals(value)) {
                 return e;
@@ -1385,7 +1385,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByNameEndsWith(HtmlElement element, String name) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("name");
             if (value.endsWith(name)) {
                 return e;
@@ -1430,7 +1430,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByTitle(HtmlElement element, String title) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("title");
             if (title.equals(value)) {
                 return e;
@@ -1448,7 +1448,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByClass(HtmlElement element, String classname) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("class");
             if (classname.equals(value)) {
                 return e;
@@ -1460,7 +1460,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
     
     protected final List<HtmlElement> getErrorElementsByStyle(HtmlElement element, String stylePrefix) {
         List<HtmlElement> errorElements = new ArrayList<HtmlElement>();
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("style");
             if (value.startsWith(stylePrefix)) {
                 errorElements.add(e);
@@ -1510,7 +1510,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the Lookup's HTML element or null if not found.
      */
     private final HtmlImageInput getLookup(HtmlElement element, String tag) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             if (e instanceof HtmlImageInput) {
                 String name = e.getAttribute("name");
                 LOG.info("Found name attribute " + name);
@@ -1541,7 +1541,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
             table = (HtmlTable) element;
         }
         else {
-            for (HtmlElement e : element.getAllHtmlChildElements()) {
+            for (HtmlElement e : element.getHtmlElementDescendants()) {
                 if (e instanceof HtmlTable) {
                     table = (HtmlTable) e;
                     break;
@@ -1584,7 +1584,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @return the HTML Anchor element or null if not found.
      */
     private HtmlAnchor getAnchor(HtmlElement element, String tag) {
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             if (e instanceof HtmlAnchor) {
                 String href = e.getAttribute("href");
                 if (href != null && href.contains(tag)) {
@@ -1625,7 +1625,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     private List<HtmlAnchor> findHelpLinks(HtmlElement element) {
         List<HtmlAnchor> helpLinks = new ArrayList<HtmlAnchor>();
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             if (e instanceof HtmlAnchor) {
                 String target = e.getAttribute("target");
                 if (target != null && target.equals("helpWindow")) {
@@ -1671,7 +1671,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      */
     protected final List<HtmlElement> getAllElementsByName(HtmlElement element, String name, boolean startsWith) {
         List<HtmlElement> elements = new ArrayList<HtmlElement>();
-        for (HtmlElement e : element.getAllHtmlChildElements()) {
+        for (HtmlElement e : element.getHtmlElementDescendants()) {
             String value = e.getAttribute("name");
             if (!startsWith && name.equals(value)) {
                 elements.add(e);

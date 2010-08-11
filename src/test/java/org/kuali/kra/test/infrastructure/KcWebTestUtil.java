@@ -63,11 +63,11 @@ public class KcWebTestUtil extends Assert {
         HtmlImageInput button = HtmlUnitUtil.getImageInput(docSearchPage, KRA_DOCSEARCH_BUTTON_ID);
         HtmlPage docSearchResultsPage = (HtmlPage) button.click();
 
-        return HtmlUnitUtil.getInnerPages(docSearchResultsPage).get(0);
+        return docSearchResultsPage;
     }
     
     public static HtmlPage loadProposalFromSearchResults(HtmlPage searchResultsPage, String documentNumber) throws Exception {
-        HtmlAnchor documentIdLink = searchResultsPage.getFirstAnchorByText(documentNumber);
+        HtmlAnchor documentIdLink = searchResultsPage.getAnchorByHref(documentNumber);
         HtmlPage proposalDocumentPage = (HtmlPage) documentIdLink.click();
         assertEquals(proposalDocumentPage.getTitleText(), KRA_PROPOSAL_PAGE_TITLE);
         return proposalDocumentPage;

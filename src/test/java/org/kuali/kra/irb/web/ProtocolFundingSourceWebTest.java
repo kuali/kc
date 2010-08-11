@@ -28,8 +28,8 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     private static final String PROTOCOL_FUNDINGSOURCE_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
     
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
-    private static final String VIEW_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor6";
-    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor6";
+    private static final String VIEW_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor29";
+    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor29";
     
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
     private static final String SPONSOR_FUNDINGSOURCE_ID = "005174";
