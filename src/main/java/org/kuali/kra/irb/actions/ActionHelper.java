@@ -1226,6 +1226,7 @@ public class ActionHelper implements Serializable {
             setSelectedSubmission(getProtocol().getProtocolSubmission());
 
         }
+        selectedSubmission.refreshReferenceObject("committeeSchedule");
         setupReviewerName(); 
 
         if (selectedSubmission.getCommitteeSchedule() != null) {
