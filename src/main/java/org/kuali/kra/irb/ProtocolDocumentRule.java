@@ -24,6 +24,7 @@ import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
@@ -74,13 +75,12 @@ import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
-import org.kuali.kra.rule.SpecialReviewRule;
-import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.rules.SpecialReviewRulesImpl;
+import org.kuali.kra.rules.SaveSpecialReviewRule;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -91,13 +91,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, SpecialReviewRule<ProtocolSpecialReview>, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
-    private static final String SPECIAL_REVIEW_ERROR_PATH = "specialReviewHelper.newSpecialReview";
-    private static final String SPECIAL_REVIEW_ERROR_PATH2 = "document.protocolList[0].specialReview";
+    private static final String SAVE_SPECIAL_REVIEW_ERROR_PATH = "document.protocolList[0].specialReview";
 
 // TODO : move these static constant up to parent 
     @Override
@@ -132,8 +131,14 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
 
     private boolean processSpecialReviewSaveRules(ProtocolDocument document) {
-        SpecialReviewRulesImpl specialReviewRules = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH2);
-        return specialReviewRules.processSpecialReviewSaveRules(document.getProtocol().getSpecialReviews());
+        boolean valid = true;
+        
+        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+        SaveSpecialReviewEvent<ProtocolSpecialReview> event 
+            = new SaveSpecialReviewEvent<ProtocolSpecialReview>(Constants.EMPTY_STRING, document, specialReviews);
+        valid &= new SaveSpecialReviewRule<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_ERROR_PATH).processRules(event);
+        
+        return valid;
     }
 
     /**
@@ -300,14 +305,6 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);
-    }
-
-    /**
-     * @see org.kuali.kra.rule.SpecialReviewRule#processAddSpecialReviewEvent(org.kuali.kra.rule.event.AddSpecialReviewEvent)
-     */
-    public boolean processAddSpecialReviewEvent(AddSpecialReviewEvent<ProtocolSpecialReview> addSpecialReviewEvent) {
-        SpecialReviewRulesImpl ruleImpl = new SpecialReviewRulesImpl(SPECIAL_REVIEW_ERROR_PATH);
-        return ruleImpl.processAddSpecialReviewEvent(addSpecialReviewEvent);
     }
 
     /**

@@ -15,22 +15,20 @@
  */
 package org.kuali.kra.rule.event;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractSpecialReview;
-import org.kuali.kra.rule.SpecialReviewRule;
+import org.kuali.kra.bo.AbstractSpecialReviewExemption;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rules.AddSpecialReviewRule;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents the event for adding special review.
+ * @param <T> The subclass of AbstractSpecialReview
  */
-public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraDocumentEventBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddSpecialReviewEvent.class);
-
+public class AddSpecialReviewEvent<T extends AbstractSpecialReview<? extends AbstractSpecialReviewExemption>> extends KraDocumentEventBaseExtension {
+    
     private T specialReview;
 
-    public String NEW_SPECIAL_REVIEW = "newSpecialReview";
     /**
      * Constructs an AddProposalSpecialReviewEvent with the given errorPathPrefix, document, and proposalSpecialReview.
      * 
@@ -38,26 +36,9 @@ public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraD
      * @param proposalDevelopmentDocument
      * @param proposalSpecialReview
      */
-    @SuppressWarnings("unchecked")
     public AddSpecialReviewEvent(String errorPathPrefix, Document document, T specialReview) {
         super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
-        this.specialReview = (T) ObjectUtils.deepCopy(specialReview);
-        logEvent();
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    @SuppressWarnings("unchecked")
-    public Class getRuleInterfaceClass() {
-        return SpecialReviewRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((SpecialReviewRule) rule).processAddSpecialReviewEvent(this);
+        this.specialReview = specialReview;
     }
 
     /**
@@ -77,32 +58,14 @@ public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraD
     public void setSpecialReview(T specialReview) {
         this.specialReview = specialReview;
     }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
-     */
-    public void validate() {
-        super.validate();
-        if (getSpecialReview() == null) {
-            throw new IllegalArgumentException("invalid (null) specialreview");
-        }
+    
+    @Override
+    public BusinessRuleInterface<AddSpecialReviewEvent<T>> getRule() {
+        return new AddSpecialReviewRule<T>(getErrorPathPrefix());
     }
 
     /**
-     * Logs the event type and some information about the associated special review
-     */
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-        if (getSpecialReview() == null) {
-            logMessage.append("null specialReview");
-        }else {
-            logMessage.append(getSpecialReview().toString());
-        }
-        LOG.debug(logMessage);
-    }
-
-    /**
+     * {@inheritDoc}
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -114,23 +77,28 @@ public class AddSpecialReviewEvent<T extends AbstractSpecialReview> extends KraD
     }
 
     /**
+     * {@inheritDoc}
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AddSpecialReviewEvent other = (AddSpecialReviewEvent) obj;
-        if (specialReview == null) {
-            if (other.specialReview != null)
-                return false;
         }
-        else if (!specialReview.equals(other.specialReview))
+        if (obj == null) {
             return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AddSpecialReviewEvent<?> other = (AddSpecialReviewEvent<?>) obj;
+        if (specialReview == null) {
+            if (other.specialReview != null) {
+                return false;
+            }
+        } else if (!specialReview.equals(other.specialReview)) {
+            return false;
+        }
         return true;
     }
 
