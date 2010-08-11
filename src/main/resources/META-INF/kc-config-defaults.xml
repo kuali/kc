@@ -143,9 +143,5 @@
 	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
 	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
 	
-	<!-- cannot uncomment until rice upgrade
 	<param name="rice.logging.configure">true</param>
-	<param name="log4j.settings.path">classpath:log4j.properties</param>
-	<param name="log4j.settings.reloadInterval">5</param>
-	 -->
 </config>

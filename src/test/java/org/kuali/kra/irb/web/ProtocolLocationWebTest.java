@@ -38,7 +38,7 @@ public class ProtocolLocationWebTest extends ProtocolWebTestBase{
 
     protected static final String DELETE_LOCATION = "methodToCall.deleteProtocolLocation.line0.anchor";
     protected static final String ADD_LOCATION = "methodToCall.addProtocolLocation.anchor";
-    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor5";
+    protected static final String CLEAR_ADDRESS = "methodToCall.clearProtocolLocationAddress.line0.anchor22";
     protected static final String ERROR_PROTOCOL_WITHOUT_ORGANIZATION = "At least one organization must be entered.";
 
     /**
