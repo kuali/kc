@@ -61,7 +61,12 @@
 
 	<bean id="ProtocolSpecialReviewExemption-exemptionTypeCode" parent="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" />
 	<bean id="ProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" abstract="true" parent="SpecialReviewExemptionReference-exemptionTypeCode">
-	    <property name="required" value="false" />
+	    <property name="control" >
+		    <bean parent="MultiselectControlDefinition"
+	            p:valuesFinderClass="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemptionValuesFinder"
+	            p:includeKeyInLabel="false" 
+	            p:size="4"/>
+	    </property>
 	</bean>
 
 	<bean id="ProtocolSpecialReviewExemption-versionNumber" parent="ProtocolSpecialReviewExemption-versionNumber-parentBean" />

@@ -24,10 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.AbstractSpecialReview;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -43,12 +41,10 @@ import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.participant.ParticipantsHelper;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
-import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.kra.web.struts.form.SpecialReviewFormBase;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -62,7 +58,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable,  SpecialReviewFormBase<ProtocolSpecialReviewExemption> {
+public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
@@ -260,7 +256,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
         onlineReviewsActionHelper.init(true);
-        getSpecialReviewHelper().reset();
     }
     
     public String getLookupResultsSequenceNumber() {
@@ -395,34 +390,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      */
     public void setNotepadHelper(ProtocolNotepadHelper notepadHelper) {
         this.notepadHelper = notepadHelper;
-    }
-
-    /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewExemptionTypeCodes()
-     */
-    public String[] getNewExemptionTypeCodes() {
-        return specialReviewHelper.getNewExemptionTypeCodes();
-    }
-
-    /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReview()
-     */
-    public AbstractSpecialReview<ProtocolSpecialReviewExemption> getNewSpecialReview() {
-        return specialReviewHelper.getNewSpecialReview();
-    }
-
-    /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getNewSpecialReviewExemptions()
-     */
-    public List<ProtocolSpecialReviewExemption> getNewSpecialReviewExemptions() {
-        return specialReviewHelper.getNewSpecialReviewExemptions();
-    }
-
-    /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
-     */
-    public ResearchDocumentBase getResearchDocument() {
-        return this.getDocument();
     }
     
     public ActionHelper getActionHelper() {

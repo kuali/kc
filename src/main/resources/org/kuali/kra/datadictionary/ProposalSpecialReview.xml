@@ -143,8 +143,8 @@
   <bean id="ProposalSpecialReview-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="protocolNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Protocol ID" />
-    <property name="shortLabel" value="Protocol ID" />
+    <property name="label" value="Protocol Number" />
+    <property name="shortLabel" value="Protocol Number" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
