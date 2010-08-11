@@ -37,7 +37,6 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.SpecialReviewHandler;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -69,6 +68,7 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.irb.summary.AdditionalInfoSummary;
 import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.FundingSourceSummary;
@@ -88,8 +88,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends KraPersistableBusinessObjectBase implements SpecialReviewHandler<ProtocolSpecialReview>, 
-                                                                          SequenceOwner<Protocol>, 
+public class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, 
                                                                           Permissionable,
                                                                           UnitAclLoadable {
     /**
@@ -603,6 +602,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Specia
         managedLists.add(getSpecialReviews());
         managedLists.add(getProtocolActions());
         managedLists.add(getProtocolSubmissions());
+        
+        List<ProtocolSpecialReviewExemption> protocolSpecialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
+
+        for (ProtocolSpecialReview protocolSpecialReview : getSpecialReviews()) {
+            protocolSpecialReviewExemptions.addAll(protocolSpecialReview.getSpecialReviewExemptions());
+        }
+        managedLists.add(protocolSpecialReviewExemptions);
+        
         return managedLists;
     }
     

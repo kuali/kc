@@ -194,7 +194,7 @@ implements SequenceAssociate {
      * @see org.kuali.kra.bo.AbstractSpecialReview#newSpecialReviewExemption(java.lang.String)
      */
     @Override
-    public InstitutionalProposalSpecialReviewExemption newSpecialReviewExemption(String exemptionTypeCode) {
+    public InstitutionalProposalSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         InstitutionalProposalSpecialReviewExemption institutionalProposalSpecialReviewExemption = new InstitutionalProposalSpecialReviewExemption();
         institutionalProposalSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         institutionalProposalSpecialReviewExemption.setInstitutionalProposalSpecialReview(this);
