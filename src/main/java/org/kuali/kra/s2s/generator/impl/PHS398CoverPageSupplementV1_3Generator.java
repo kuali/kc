@@ -103,16 +103,12 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	 */
 	private ClinicalTrial getClinicalTrial() {
 		ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
-		if (pdDoc.getDevelopmentProposal().getActivityTypeCode() != null) {
-			if (pdDoc.getDevelopmentProposal().getActivityTypeCode()
-					.equals(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                            ProposalDevelopmentUtils.ACTIVITY_TYPE_CODE_CLINICAL_TRIAL_PARM))) {
-				clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
-			} else {
-				clinicalTrial.setIsClinicalTrial(YesNoDataType.N_NO);
-			}
-		}
-		ProposalYnq proposalYnq = getProposalYnQ(PHASE_III_CLINICAL_TRIAL);
+        ProposalYnq proposalYnq = getProposalYnQ(IS_CLINICAL_TRIAL);
+        if (proposalYnq != null && proposalYnq.getAnswer() != null) {
+            clinicalTrial
+                    .setIsClinicalTrial(getProposalYnQAnswer(proposalYnq));
+        }
+		proposalYnq = getProposalYnQ(PHASE_III_CLINICAL_TRIAL);
 		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
 			clinicalTrial
 					.setIsPhaseIIIClinicalTrial(getProposalYnQAnswer(proposalYnq));
