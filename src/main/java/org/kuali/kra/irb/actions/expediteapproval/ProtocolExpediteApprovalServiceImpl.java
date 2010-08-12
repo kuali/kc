@@ -16,18 +16,14 @@
 package org.kuali.kra.irb.actions.expediteapproval;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.approve.ApproveCorrespondence;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -79,6 +75,7 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
+        protocol.setLastApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         generateCorrespondenceDocumentAndAttach(protocol); 
