@@ -20,7 +20,7 @@
 <input type="hidden" property="viewOnly" id="viewOnly" name="viewOnly" value="${readOnly}" />
 <input type="hidden" id = "canCreateAward" name="canCreateAward" value="${KualiForm.canCreateAward}" />
 
-<kul:tab tabTitle="Hierarchy Actions" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="awardHierarchyTempObject*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Hierarchy Actions" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="awardHierarchyTempObject*" auditCluster="awardHierarchyAuditErrors" tabAuditKey="document.awardHierarchyAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
     	<h3> 
     		<span class="subhead-left">Hierarchy Actions</span>  
