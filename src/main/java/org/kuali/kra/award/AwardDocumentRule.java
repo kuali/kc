@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.award;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
-
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
@@ -100,8 +101,13 @@ import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 
 
 
@@ -294,7 +300,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedSubawardBusinessRules(document);
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
-        retval &= processAwardReportTermBusinessRules(document);
+//        retval &= processAwardReportTermBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
@@ -584,7 +590,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardFandaRateRule().processSaveFandaRateBusinessRules(awardFandaRateSaveEvent);
     }
     
-    protected boolean processAwardReportTermBusinessRules(Document document) {
+    public boolean processAwardReportTermBusinessRules(Document document) {
         boolean retval = true;
         
         int i=0;
@@ -597,8 +603,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             retval &= evaluateBusinessRuleForReportCodeField(awardReportTerm, i);
             if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
                 retval &= evaluateBusinessRuleForFrequencyCodeField(awardReportTerm, i);
-            }
-            if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
                 retval &= evaluateBusinessRuleForFrequencyBaseCodeField(awardReportTerm, i);
             }
             retval &= evaluateBusinessRuleForRecipients(awardReportTerm, i);
@@ -614,7 +618,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
         boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
         if(!retval){            
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
                     , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
         }
@@ -636,7 +640,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(
                 awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
         if(!retval){
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
                     , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);            
         }
@@ -660,13 +664,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(
                 awardReportTerm.getFrequencyCode()));
         if(!retval){
-            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERMS + Constants.LEFT_SQUARE_BRACKET + index
+            GlobalVariables.getErrorMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
                     + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
                     , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);                        
         }
         return retval;
     }
-    
+
     protected boolean isValidFrequencyBase(
             AwardReportTerm awardReportTerm, List<KeyLabelPair> frequencyBaseCodes){
         boolean isValid = false;
