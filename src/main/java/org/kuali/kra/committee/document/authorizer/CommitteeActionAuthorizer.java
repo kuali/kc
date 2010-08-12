@@ -18,6 +18,7 @@ package org.kuali.kra.committee.document.authorizer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
@@ -25,13 +26,26 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * permission to perform committee actions. 
  */
 public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
+    
+    private CommitteeService committeeService;
 
     /**
      * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
         Committee committee = task.getCommittee();
-        return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatusDisplayValue(), "FINAL") 
+        return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatusDisplayValue(), "FINAL")
+                && committee.getCommitteeId() != null
+                && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
                 && hasPermission(userId, committee, PermissionConstants.PERFORM_COMMITTEE_ACTIONS);
     }
+    
+    /**
+     * Set the Committee Service.  Usually injected by the Spring Framework.
+     * @param committeeService
+     */
+    public void setCommitteeService(CommitteeService committeeService) {
+        this.committeeService = committeeService;
+    }
+
 }
