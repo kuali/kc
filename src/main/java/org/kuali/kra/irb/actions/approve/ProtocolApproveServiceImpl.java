@@ -50,6 +50,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         
         protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         protocol.setApprovalDate(actionBean.getApprovalDate());
+        protocol.setLastApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocolDocument);

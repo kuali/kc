@@ -8,21 +8,58 @@
     <tbody>
         <tr>
             <th style="text-align:right; width:135px;">Protocol Number:</th>
-            <td class="${protocolSummary.protocolNumberChanged ? 'changed' : ''}">${protocolSummary.protocolNumber}&nbsp;</td>
+            <td class="${protocolSummary.protocolNumberChanged ? 'changed' : ''}">
+            	<c:choose>
+	       	       <c:when test="${empty protocolSummary.protocolNumber}">
+                        Generated on Save
+                    </c:when>
+                    <c:otherwise>
+                        ${protocolSummary.protocolNumber}&nbsp;
+                    </c:otherwise>
+	       	   	</c:choose>
+            </td>
             <th style="text-align:right; width:135px">Application Date:</th>
             <td class="${protocolSummary.applicationDateChanged ? 'changed' : ''}">${protocolSummary.applicationDate}&nbsp;</td>
         </tr>
             
         <tr>
-            <th style="text-align:right; width:135px;">Approval Date:</th>
-            <td class="${protocolSummary.approvalDateChanged ? 'changed' : ''}">${protocolSummary.approvalDate}&nbsp;</td>
+            <th style="text-align:right; width:135px;">Initial Approval Date:</th>
+            <td class="${protocolSummary.approvalDateChanged ? 'changed' : ''}">
+            	<c:choose>
+	       	       <c:when test="${empty protocolSummary.approvalDate}">
+                        Generated on Approval
+                    </c:when>
+                    <c:otherwise>
+                        ${protocolSummary.approvalDate}&nbsp;
+                    </c:otherwise>
+	       		</c:choose>
+	       	</td>
             <th style="text-align:right; width:135px;">Expiration Date:</th>
-            <td class="${protocolSummary.expirationDateChanged ? 'changed' : ''}">${protocolSummary.expirationDate}&nbsp;</td>
+            <td class="${protocolSummary.expirationDateChanged ? 'changed' : ''}">
+            	<c:choose>
+	       	       <c:when test="${empty protocolSummary.expirationDate}">
+                        Generated on Approval
+                    </c:when>
+                    <c:otherwise>
+                        ${protocolSummary.expirationDate}&nbsp;
+                    </c:otherwise>
+	       	   	</c:choose>
+	    	</td>
         </tr>
         
         <tr>
             <th style="text-align:right; width:135px;">Last Approval Date:</th>
-            <td class="${protocolSummary.lastApprovalDateChanged ? 'changed' : ''}">${protocolSummary.lastApprovalDate}&nbsp;</td>
+            <td class="${protocolSummary.lastApprovalDateChanged ? 'changed' : ''}">
+            	<c:choose>
+	       	       <c:when test="${empty protocolSummary.lastApprovalDate}">
+                        Generated on Approval
+                    </c:when>
+                    <c:otherwise>
+                        ${protocolSummary.lastApprovalDate}&nbsp;
+                    </c:otherwise>
+	       	   	</c:choose>
+            	
+            </td>
             <th style="text-align:right; width:135px">Type:</th>
             <td class="${protocolSummary.typeChanged ? 'changed' : ''}">${protocolSummary.type}&nbsp;</td>
         </tr>
