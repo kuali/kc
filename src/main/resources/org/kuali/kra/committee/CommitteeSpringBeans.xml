@@ -64,6 +64,7 @@
                 
                 <bean class="org.kuali.kra.committee.document.authorizer.CommitteeActionAuthorizer" parent="parentCommitteeAuthorizer">
                     <property name="taskName" value="performCommitteeActions" />
+                    <property name="committeeService" ref="committeeService" />
                 </bean>
             </list>
         </property>
