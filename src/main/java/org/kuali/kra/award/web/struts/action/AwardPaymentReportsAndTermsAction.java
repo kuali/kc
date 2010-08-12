@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -43,6 +44,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -597,8 +599,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(((AwardForm) form).getAwardDocument().getAward());
-        return super.save(mapping, form, request, response);
+        AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
+        getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
+        if(new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument)){
+            return super.save(mapping, form, request, response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
     }
 
     
