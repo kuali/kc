@@ -797,7 +797,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 			String category, String personnelType, String role) {
 		OtherPersonnelInfo otherPersonnelInfo = new OtherPersonnelInfo();
 
-		int count;
+		int count = 0;
 		BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
 		BudgetDecimal salaryCostSharing = BudgetDecimal.ZERO;
 		BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
@@ -967,7 +967,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 								.getLineItemCost());
 						lineItemCostSharingAmount = lineItemCostSharingAmount
 								.add(lineItem.getCostSharingAmount());
-
+						count = lineItem.getQuantity();
 						for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
 								.getBudgetLineItemCalculatedAmounts()) {
 							lineItemCalculatedAmount
@@ -1055,7 +1055,8 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 		bdNonFunds = bdSalaryCostSharing.add(bdFringeCostSharing);
 		bdFunds = bdSalary.add(bdFringe);
-		count = personJobCodes.size();
+		
+		count = personJobCodes.isEmpty()?count:personJobCodes.size();
 		otherPersonnelInfo.setNumberPersonnel(count);
 		otherPersonnelInfo.setPersonnelType(personnelType);
 		otherPersonnelInfo.setRole(role);
