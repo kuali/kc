@@ -24,7 +24,7 @@
     		<span class="subhead-left">Assigned Roles</span>
     		<span class="subhead-right">
     		  <html:image property="methodToCall.getPermissionsRoleRights.line${status.index}.anchor${currentTabIndex}"
-                          src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewrights.gif' styleClass="tinybutton" alt="View Rights"
+                          src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpermissions.gif' styleClass="tinybutton" alt="View Rights"
                           onclick="permissionsRoleRightsPop('${name}','${KualiForm.formKey}',' ${KualiForm.document.sessionDocument}'); return false;"/>
     		</span>
         </h3>
