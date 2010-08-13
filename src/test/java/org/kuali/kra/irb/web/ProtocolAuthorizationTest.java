@@ -69,7 +69,7 @@ public class ProtocolAuthorizationTest extends ProtocolWebTestBase {
         backdoorLogin(USERNAME);
         HtmlPage page = clickOn(getPortalPage(), "Create Protocol", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-        this.assertContains(page, "DocumentAuthorizationException");
+        this.assertContains(page, "user '" + USERNAME + "' is not authorized to initiate document 'ProtocolDocument'");
     }
     
     public String getNewTestingProtocolId() throws Exception {
