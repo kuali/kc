@@ -87,9 +87,11 @@ public class ProtocolSubmissionBuilder {
             protocolSubmission.setRecusedCount(oldSubmission.getRecusedCount());
             protocolSubmission.setRecusers(oldSubmission.getRecusers());
             protocolSubmission.setVotingComments(oldSubmission.getVotingComments());
+            protocolSubmission.setBillable(oldSubmission.isBillable());
         } else {
             protocolSubmission.setAbstainerCount(0);
             protocolSubmission.setRecusedCount(0);
+            protocolSubmission.setBillable(false);
         }
     }
     

@@ -57,6 +57,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private String votingComments; 
     
+    private Boolean billable; 
+    
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
     @SkipVersioning
@@ -68,6 +70,26 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private List<ProtocolVoteAbstainee> abstainers = new ArrayList<ProtocolVoteAbstainee>();
     private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
+    
+    @SkipVersioning
+    transient private CommitteeSchedule committeeSchedule;
+    private ProtocolReviewType protocolReviewType;
+    
+    @SkipVersioning
+    transient private Committee committee;
+    private ProtocolSubmissionStatus submissionStatus;    
+    
+    
+    // lookup field
+    private String piName; 
+    
+    /**
+     * 
+     * Constructs a ProtocolSubmission.java.
+     */
+    public ProtocolSubmission() { 
+        this.billable = false;
+    }
     
     public Integer getRecusedCount() {
         return this.recusers.size();
@@ -92,26 +114,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setRecusers(List<ProtocolVoteRecused> recusers) {
         this.recusers = recusers;
     }
-
-    @SkipVersioning
-    transient private CommitteeSchedule committeeSchedule;
-    private ProtocolReviewType protocolReviewType;
-    
-    @SkipVersioning
-    transient private Committee committee;
-    private ProtocolSubmissionStatus submissionStatus;    
-    
-    
-    // lookup field
-    private String piName; 
-    
-    /**
-     * 
-     * Constructs a ProtocolSubmission.java.
-     */
-    public ProtocolSubmission() { 
-
-    } 
+     
     
     public Long getSubmissionId() {
         return submissionId;
@@ -385,6 +388,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
         hashMap.put("votingComments", this.getVotingComments());
         hashMap.put("exemptStudiesCheckList", getExemptStudiesCheckList());
         hashMap.put("expeditedReviewCheckList", getExpeditedReviewCheckList());
+        hashMap.put("isBillable", isBillable());
         return hashMap;
     }
     
@@ -429,5 +433,13 @@ public class ProtocolSubmission extends ProtocolAssociate {
             //an NPE would happen if the submission IDs aren't set.
             return false;
         }
+    }
+    
+    public boolean isBillable() {
+        return billable == null ? false : billable;
+    }
+
+    public void setBillable(boolean billable) {
+        this.billable = billable;
     }
 }

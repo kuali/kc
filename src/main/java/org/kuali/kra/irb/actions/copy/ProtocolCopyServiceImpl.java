@@ -275,7 +275,6 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      */
     private void copyAdditionalProperties(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         destDoc.getProtocol().setFdaApplicationNumber(srcDoc.getProtocol().getFdaApplicationNumber());
-        destDoc.getProtocol().setBillable(srcDoc.getProtocol().isBillable());
         destDoc.getProtocol().setReferenceNumber1(srcDoc.getProtocol().getReferenceNumber1());
         destDoc.getProtocol().setReferenceNumber2(srcDoc.getProtocol().getReferenceNumber2());
         destDoc.getProtocol().setDescription(srcDoc.getProtocol().getDescription());

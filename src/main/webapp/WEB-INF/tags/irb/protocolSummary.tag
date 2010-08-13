@@ -304,8 +304,14 @@
         <tr>
             <th style="text-align:right; width:135px;">FDA IND or IDE #:</th>
             <td class="${protocolSummary.additionalInfo.fdaApplicationNumberChanged ? 'changed' : ''}">${protocolSummary.additionalInfo.fdaApplicationNumber}&nbsp;</td>
-            <th style="text-align:right; width:135px">Billable:</th>
-            <td class="${protocolSummary.additionalInfo.billableChanged ? 'changed' : ''}">${protocolSummary.additionalInfo.billable}&nbsp;</td>
+            <td></td>
+            <td></td>
+            <%--
+	            <th style="text-align:right; width:135px">Billable:</th>
+	            <td class="${protocolSummary.additionalInfo.billableChanged ? 'changed' : ''}">
+	            	${protocolSummary.additionalInfo.billable}&nbsp;
+	            </td>
+             --%>
         </tr>
         
         <tr>
