@@ -70,13 +70,13 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends KcU
     @Test
     public void getResultsOrganizationalOnly() {
         Map fieldValues = new HashMap();
-        fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
+        fieldValues.put("organization", "George*"); // Search for organizations that start with National
         
         KualiLookupableImpl lookupableService = KraServiceLocator.getService("nonOrganizationalRolodexLookupable");
         lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
         Collection results = lookupableService.getSearchResults(fieldValues);
         
-        assertEquals(2, results.size());
+        assertEquals(6, results.size());
     }
 }
