@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.protocol.summary;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -111,7 +113,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     private static final String NEW_REFERENCE_UNIT = "unit";
     
     private ProtocolDocument protocolDocument;
-    private Date applicationDate;
     private Date approvalDate;
     private Date lastApprovalDate;
     private Date expirationDate;
@@ -123,16 +124,17 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     private Organization organization;
     private ProtocolOrganizationType organizationType;
     private SpecialReview mySpecialReview;
+    private Date specialReviewApplicationDate;
     private SpecialReviewApprovalType specialReviewApprovalType;
     private List<ProtocolSpecialReviewExemption> specialReviewExemptions;
+    private Timestamp submissionDate;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
         
-        applicationDate = new Date(System.currentTimeMillis());
         approvalDate = new Date(System.currentTimeMillis() - TEN_DAYS);
-        lastApprovalDate = new Date(System.currentTimeMillis() - 2 * TEN_DAYS);
+        lastApprovalDate = new Date(System.currentTimeMillis());
         expirationDate = new Date(System.currentTimeMillis() + TEN_DAYS);
         
         protocolType = new ProtocolType();
@@ -161,6 +163,8 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         mySpecialReview = new SpecialReview();
         mySpecialReview.setDescription(SPECIAL_REVIEW_DESCRIPTION);
         
+        specialReviewApplicationDate = new Date(System.currentTimeMillis() - (2 * TEN_DAYS));
+        
         specialReviewApprovalType = new SpecialReviewApprovalType();
         specialReviewApprovalType.setDescription(SPECIAL_REVIEW_APPROVAL_TYPE_DESCRIPTION);
         
@@ -171,6 +175,8 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         specialReviewExemption.setExemptionType(exemptionType);
         specialReviewExemptions.add(specialReviewExemption);
         
+        submissionDate = new Timestamp(System.currentTimeMillis() - (2 * TEN_DAYS));
+        
         protocolDocument = createProtocolDocument();
     }
 
@@ -180,7 +186,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertNotNull(summary);
         
         assertEquals(PROTOCOL_NUMBER, summary.getProtocolNumber());
-        assertEquals(dateFormat.format(applicationDate), summary.getApplicationDate());
         assertEquals(dateFormat.format(approvalDate), summary.getApprovalDate());
         assertEquals(dateFormat.format(lastApprovalDate), summary.getLastApprovalDate());
         assertEquals(dateFormat.format(expirationDate), summary.getExpirationDate());
@@ -227,7 +232,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(ORGANIZATION_FWA_NUMBER, summary.getOrganizations().get(1).getFwaNumber());
         
         assertEquals(1, summary.getSpecialReviews().size());
-        assertEquals(dateFormat.format(applicationDate), summary.getSpecialReviews().get(0).getApplicationDate());
+        assertEquals(dateFormat.format(specialReviewApplicationDate), summary.getSpecialReviews().get(0).getApplicationDate());
         assertEquals(dateFormat.format(approvalDate), summary.getSpecialReviews().get(0).getApprovalDate());
         assertEquals(dateFormat.format(expirationDate), summary.getSpecialReviews().get(0).getExpirationDate());
         assertEquals(PROTOCOL_NUMBER, summary.getSpecialReviews().get(0).getProtocolNumber());
@@ -235,6 +240,8 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(SPECIAL_REVIEW_APPROVAL_TYPE_DESCRIPTION, summary.getSpecialReviews().get(0).getApprovalStatus());
         assertEquals(SPECIAL_REVIEW_DESCRIPTION, summary.getSpecialReviews().get(0).getType());
         assertEquals(EXEMPTION_DESCRIPTION, summary.getSpecialReviews().get(0).getExemptionNumbers());
+    
+        assertEquals(dateFormat.format(submissionDate), summary.getSubmissionDate());
     }
     
     @Test
@@ -266,7 +273,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     
     private void verifyComparison(ProtocolSummary summary, boolean expected) {
         assertEquals(expected, summary.isProtocolNumberChanged());
-        assertEquals(expected, summary.isApplicationDateChanged());
+        assertEquals(expected, summary.isSubmissionDateChanged());
         assertEquals(expected, summary.isApprovalDateChanged());
         assertEquals(expected, summary.isLastApprovalDateChanged());
         assertEquals(expected, summary.isExpirationDateChanged());
@@ -335,7 +342,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         Protocol protocol = protocolDocument.getProtocol();
         
         protocol.setProtocolNumber(PROTOCOL_NUMBER);
-        protocol.setApplicationDate(applicationDate);
         protocol.setApprovalDate(approvalDate);
         protocol.setLastApprovalDate(lastApprovalDate);
         protocol.setProtocolType(protocolType);
@@ -383,7 +389,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         protocol.getProtocolLocations().add(location);
         
         ProtocolSpecialReview specialReview = new ProtocolSpecialReview();
-        specialReview.setApplicationDate(applicationDate);
+        specialReview.setApplicationDate(specialReviewApplicationDate);
         specialReview.setApprovalDate(approvalDate);
         specialReview.setExpirationDate(expirationDate);
         specialReview.setProtocolNumber(PROTOCOL_NUMBER);
@@ -391,8 +397,13 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         specialReview.setSpecialReview(mySpecialReview);
         specialReview.setSpecialReviewApprovalType(specialReviewApprovalType);
         specialReview.setSpecialReviewExemptions(specialReviewExemptions);
-        
         protocol.getSpecialReviews().add(specialReview);
+        
+        ProtocolSubmission protocolSubmission = new ProtocolSubmission();
+        protocolSubmission.setScheduleIdFk(1L);
+        protocolSubmission.setSubmissionDate(submissionDate);
+        protocol.setProtocolSubmission(protocolSubmission);
+        protocol.getProtocolSubmissions().add(protocolSubmission);
         
         return protocolDocument;
     }

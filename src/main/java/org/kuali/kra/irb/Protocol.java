@@ -107,7 +107,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private String protocolStatusCode; 
     private String title; 
     private String description; 
-    private Date applicationDate; 
     private Date approvalDate; 
     private Date expirationDate; 
     private Date lastApprovalDate; 
@@ -297,14 +296,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
         return submissionDate;
     }
-    
-    public Date getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(Date applicationDate) {
-        this.applicationDate = applicationDate;
-    }
 
     public Date getApprovalDate() {
         return approvalDate;
@@ -439,7 +430,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         hashMap.put("protocolStatusCode", getProtocolStatusCode());
         hashMap.put("title", getTitle());
         hashMap.put("description", getDescription());
-        hashMap.put("applicationDate", getApplicationDate());
         hashMap.put("approvalDate", getApprovalDate());
         hashMap.put("expirationDate", getExpirationDate());
         hashMap.put("lastApprovalDate", getLastApprovalDate());
@@ -1249,7 +1239,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.protocolTypeCode = amendment.getProtocolTypeCode();
         this.title = amendment.getTitle();
         this.description = amendment.getDescription();
-        this.applicationDate = amendment.getApplicationDate();
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
         //this.billable = amendment.isBillable();
         this.referenceNumber1 = amendment.getReferenceNumber1();
@@ -1536,7 +1525,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         summary.setProtocolNumber(getProtocolNumber().toString());
         summary.setPiName(getPrincipalInvestigator().getPersonName());
         summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
-        summary.setApplicationDate(getApplicationDate());
+        summary.setSubmissionDate(getSubmissionDate());
         summary.setApprovalDate(getApprovalDate());
         summary.setLastApprovalDate(getLastApprovalDate());
         summary.setExpirationDate(getExpirationDate());

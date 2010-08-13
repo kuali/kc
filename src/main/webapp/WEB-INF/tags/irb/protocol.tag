@@ -49,9 +49,9 @@
             </tr>
  --%>            
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.applicationDate}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.submissionDate}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.protocolList[0].applicationDate" attributeEntry="${protocolAttributes.applicationDate}"  />
+                	<kul:htmlControlAttribute property="document.protocolList[0].submissionDate" attributeEntry="${protocolAttributes.submissionDate}"  />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.approvalDate}" /></div></th>
                 <td align="left" valign="middle">
