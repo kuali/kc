@@ -24,13 +24,13 @@ public class AdditionalInfoSummary implements Serializable {
     private static final long serialVersionUID = 1740333929467337320L;
     
     private String fdaApplicationNumber;
-    private String billable;
+    //private String billable;
     private String referenceId1;
     private String referenceId2;
     private String description;
     
     private boolean fdaApplicationNumberChanged;
-    private boolean billableChanged;
+    //private boolean billableChanged;
     private boolean referenceId1Changed;
     private boolean referenceId2Changed;
     private boolean descriptionChanged;
@@ -41,14 +41,6 @@ public class AdditionalInfoSummary implements Serializable {
     
     public void setFdaApplicationNumber(String fdaApplicationNumber) {
         this.fdaApplicationNumber = fdaApplicationNumber;
-    }
-    
-    public String getBillable() {
-        return billable;
-    }
-    
-    public void setBillable(boolean billable) {
-        this.billable = billable ? "Yes" : "No";
     }
     
     public String getReferenceId1() {
@@ -77,7 +69,6 @@ public class AdditionalInfoSummary implements Serializable {
 
     public void compare(AdditionalInfoSummary other) {
         fdaApplicationNumberChanged = !StringUtils.equals(fdaApplicationNumber, other.fdaApplicationNumber);
-        billableChanged = !StringUtils.equals(billable, other.billable);
         referenceId1Changed = !StringUtils.equals(referenceId1, other.referenceId1);
         referenceId2Changed = !StringUtils.equals(referenceId2, other.referenceId2);
         descriptionChanged = !StringUtils.equals(description, other.description);
@@ -85,10 +76,6 @@ public class AdditionalInfoSummary implements Serializable {
 
     public boolean isFdaApplicationNumberChanged() {
         return fdaApplicationNumberChanged;
-    }
-
-    public boolean isBillableChanged() {
-        return billableChanged;
     }
 
     public boolean isReferenceId1Changed() {

@@ -494,6 +494,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
     
     <bean id="protocolCommitteeDecisionService" class="org.kuali.kra.irb.actions.decision.CommitteeDecisionServiceImpl">
@@ -525,6 +526,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
     
     <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">

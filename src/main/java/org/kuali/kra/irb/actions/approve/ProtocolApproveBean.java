@@ -24,6 +24,7 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
 
     private Date approvalDate = new Date(System.currentTimeMillis());
     private Date expirationDate;
+    private boolean billable;
     
     private ProtocolRiskLevelBean protocolRiskLevelBean;
     
@@ -52,6 +53,14 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
        
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
+    }
+    
+    public boolean isBillable() {
+        return billable;
+    }
+
+    public void setBillable(boolean billable) {
+        this.billable = billable;
     }
     
 }

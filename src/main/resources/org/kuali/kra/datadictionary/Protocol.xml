@@ -53,7 +53,6 @@
 				<ref bean="Protocol-fdaApplicationNumber" />
 				<ref bean="Protocol-referenceNumber1" />
 				<ref bean="Protocol-referenceNumber2" />
-				<ref bean="Protocol-isBillable" />
 				<ref bean="Protocol-specialReviewIndicator" />
 				<ref bean="Protocol-vulnerableSubjectIndicator" />
 				<ref bean="Protocol-keyStudyPersonIndicator" />
@@ -448,15 +447,6 @@
 		<property name="description" value="Reference Number 2" />
 	</bean>
 
-	<bean id="Protocol-isBillable" parent="Protocol-isBillable-parentBean" />
-	<bean id="Protocol-isBillable-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-		<property name="name" value="billable" />
-		<property name="label" value="Billable" />
-		<property name="shortLabel" value="Is Billable" />
-		<property name="summary" value="Is Billable" />
-		<property name="description" value="Is Billable" />
-	</bean>
-
 	<bean id="Protocol-specialReviewIndicator" parent="Protocol-specialReviewIndicator-parentBean" />
 	<bean id="Protocol-specialReviewIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="specialReviewIndicator" />
@@ -732,8 +722,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="referenceNumber2" />
 							<bean parent="FieldDefinition"
-								p:attributeName="billable" />
-							<bean parent="FieldDefinition"
 								p:attributeName="specialReviewIndicator" />
 							<bean parent="FieldDefinition"
 								p:attributeName="vulnerableSubjectIndicator" />
@@ -814,8 +802,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="referenceNumber2" />
 				<bean parent="FieldDefinition"
-					p:attributeName="billable" />
-				<bean parent="FieldDefinition"
 					p:attributeName="specialReviewIndicator" />
 				<bean parent="FieldDefinition"
 					p:attributeName="vulnerableSubjectIndicator" />
@@ -871,8 +857,6 @@
 					p:attributeName="referenceNumber1" />
 				<bean parent="FieldDefinition"
 					p:attributeName="referenceNumber2" />
-				<bean parent="FieldDefinition"
-					p:attributeName="billable" />
 				<bean parent="FieldDefinition"
 					p:attributeName="specialReviewIndicator" />
 				<bean parent="FieldDefinition"

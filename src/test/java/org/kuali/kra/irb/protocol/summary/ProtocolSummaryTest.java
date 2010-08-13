@@ -192,7 +192,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(PRINCIPAL_INVESTIGATOR_NAME, summary.getPiName());
         
         assertEquals(FDA_APP_NUMBER, summary.getAdditionalInfo().getFdaApplicationNumber());
-        assertEquals("Yes", summary.getAdditionalInfo().getBillable());
         assertEquals(REFERENCE_NUMBER_1, summary.getAdditionalInfo().getReferenceId1());
         assertEquals(REFERENCE_NUMBER_2, summary.getAdditionalInfo().getReferenceId2());
         assertEquals(DESCRIPTION, summary.getAdditionalInfo().getDescription());
@@ -277,7 +276,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         assertEquals(expected, summary.isPiNameChanged());
         
         assertEquals(expected, summary.getAdditionalInfo().isFdaApplicationNumberChanged());
-        assertEquals(expected, summary.getAdditionalInfo().isBillableChanged());
         assertEquals(expected, summary.getAdditionalInfo().isReferenceId1Changed());
         assertEquals(expected, summary.getAdditionalInfo().isReferenceId2Changed());
         assertEquals(expected, summary.getAdditionalInfo().isDescriptionChanged());
@@ -346,7 +344,6 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
         protocol.setTitle(TITLE);
         
         protocol.setFdaApplicationNumber(FDA_APP_NUMBER);
-        protocol.setBillable(true);
         protocol.setReferenceNumber1(REFERENCE_NUMBER_1);
         protocol.setReferenceNumber2(REFERENCE_NUMBER_2);
         protocol.setDescription(DESCRIPTION);

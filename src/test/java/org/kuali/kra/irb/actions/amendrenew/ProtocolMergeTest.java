@@ -77,7 +77,6 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         amendment.setDescription(DESCRIPTION);
         amendment.setApplicationDate(APPLICATION_DATE);
         amendment.setFdaApplicationNumber(FDA_NUM);
-        amendment.setBillable(true);
         amendment.setReferenceNumber1(REF1);
         amendment.setReferenceNumber2(REF2);
         
@@ -87,7 +86,6 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         assertEquals(DESCRIPTION, protocol.getDescription());
         assertEquals(APPLICATION_DATE, protocol.getApplicationDate());
         assertEquals(FDA_NUM, protocol.getFdaApplicationNumber());
-        assertEquals(true, protocol.isBillable());
         assertEquals(REF1, protocol.getReferenceNumber1());
         assertEquals(REF2, protocol.getReferenceNumber2());
     }
