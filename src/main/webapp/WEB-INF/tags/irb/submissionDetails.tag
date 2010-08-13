@@ -107,6 +107,18 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <c:if test="${KualiForm.protocolHelper.displayBillable}">
+                                        	<tr>
+                                        		<th class="infoline" align="right" width="20%">
+                                                   <kul:htmlAttributeLabel attributeEntry="${protocolSubmissionAttributes.billable}" />
+                                            	</th>
+                                            	<td align="left" valign="middle" width="80%">
+                                            		<div align="left">
+                                            			<kul:htmlControlAttribute property="actionHelper.selectedSubmission.billable" attributeEntry="${protocolSubmissionAttributes.billable}" readOnly="true"/>
+                                            		</div>
+                                            	</td>
+                                        	</tr>
+                                        </c:if>
                                     </tbody>
                                 </table>
                               </div>         
