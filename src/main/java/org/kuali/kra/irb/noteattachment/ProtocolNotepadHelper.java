@@ -289,6 +289,7 @@ public class ProtocolNotepadHelper {
     void updateNotepad(int selection) {
         final ProtocolNotepad notepad = this.getSelectedNotepad(selection);
         if (notepad != null) {
+            notepad.setRestrictedView(!notepad.getRestrictedView());  
             updateUserFieldsIfNecessary(notepad);
             this.boService.save(notepad);
             notepad.setChanged(false);
