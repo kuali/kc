@@ -174,5 +174,12 @@ public interface ProtocolPersonnelService {
      * @return
      */
     public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons);
+    
+    /** This method is to check if the person playing the PI role is also being added as a CO-I 
+     * @param protocolPersons
+     * @param newProtocolPerson
+     * @return 
+     */
+    public boolean isPISameAsCoI(ProtocolPerson piProtocolPerson, ProtocolPerson newProtocolPerson);
 
 }

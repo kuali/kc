@@ -138,8 +138,10 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             proccessAbstainers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk(), submission.getSubmissionId());
             proccessRecusers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk(), submission.getSubmissionId());
 
-            businessObjectService.save(submission);
-            businessObjectService.save(protocol);
+            //businessObjectService.save(submission);
+            //businessObjectService.save(protocol);
+            
+            documentService.saveDocument(protocol.getProtocolDocument());
             protocol.refresh();
             
             if(revisionsRequested) { 
