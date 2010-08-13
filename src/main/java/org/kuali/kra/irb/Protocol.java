@@ -114,7 +114,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private String fdaApplicationNumber; 
     private String referenceNumber1; 
     private String referenceNumber2; 
-    private Boolean billable; 
     private String specialReviewIndicator = "Y"; 
     private String vulnerableSubjectIndicator; 
     private String keyStudyPersonIndicator; 
@@ -188,7 +187,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public Protocol() {
         super();
         sequenceNumber = new Integer(0);
-        billable = false;
+        //billable = false;
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new TypedArrayList(ProtocolParticipant.class);
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();
@@ -355,14 +354,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.referenceNumber2 = referenceNumber2;
     }
 
-    public boolean isBillable() {
-        return billable;
-    }
-
-    public void setBillable(boolean billable) {
-        this.billable = billable;
-    }
-
     public String getSpecialReviewIndicator() {
         return specialReviewIndicator;
     }
@@ -455,7 +446,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         hashMap.put("fdaApplicationNumber", getFdaApplicationNumber());
         hashMap.put("referenceNumber1", getReferenceNumber1());
         hashMap.put("referenceNumber2", getReferenceNumber2());
-        hashMap.put("isBillable", isBillable());
         hashMap.put("specialReviewIndicator", getSpecialReviewIndicator());
         hashMap.put("vulnerableSubjectIndicator", getVulnerableSubjectIndicator());
         hashMap.put("keyStudyPersonIndicator", getKeyStudyPersonIndicator());
@@ -1261,7 +1251,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.description = amendment.getDescription();
         this.applicationDate = amendment.getApplicationDate();
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
-        this.billable = amendment.isBillable();
+        //this.billable = amendment.isBillable();
         this.referenceNumber1 = amendment.getReferenceNumber1();
         this.referenceNumber2 = amendment.getReferenceNumber2();
     }
@@ -1430,7 +1420,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private void addAdditionalInfoSummary(ProtocolSummary protocolSummary) {
         AdditionalInfoSummary additionalInfoSummary = new AdditionalInfoSummary();
         additionalInfoSummary.setFdaApplicationNumber(this.getFdaApplicationNumber());
-        additionalInfoSummary.setBillable(isBillable());
+        //additionalInfoSummary.setBillable(isBillable());
         additionalInfoSummary.setReferenceId1(this.getReferenceNumber1());
         additionalInfoSummary.setReferenceId2(this.getReferenceNumber2());
         additionalInfoSummary.setDescription(getDescription());

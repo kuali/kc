@@ -23,6 +23,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
+import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.service.DocumentService;
 /**
  * The ProtocolExpediteApprovalService implementation.
  */
-public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteApprovalService {
+public class ProtocolExpediteApprovalServiceImpl extends ProtocolProccessBillableService implements ProtocolExpediteApprovalService {
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -73,7 +74,7 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        
+        this.proccessBillable(protocol, actionBean.isBillable());
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setLastApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());

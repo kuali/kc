@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Timestamp;
 
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -24,7 +25,9 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
+import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -32,7 +35,7 @@ import org.kuali.rice.kns.service.DocumentService;
  * 
  * This class handles approving a protocol status change.
  */
-public class ProtocolApproveServiceImpl implements ProtocolApproveService {
+public class ProtocolApproveServiceImpl extends ProtocolProccessBillableService implements ProtocolApproveService {
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -47,6 +50,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        
+        this.proccessBillable(protocol, actionBean.isBillable());        
         
         protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         protocol.setApprovalDate(actionBean.getApprovalDate());
@@ -82,7 +87,5 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
-    
-    
+    } 
 }
