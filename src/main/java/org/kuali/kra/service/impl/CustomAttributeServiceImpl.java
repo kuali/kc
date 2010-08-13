@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
@@ -200,7 +201,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
                 if (StringUtils.isNotBlank(customAttributeDocument.getCustomAttribute().getValue())) {
-                    customDataDef.addProperty(customAttributeDocument.getCustomAttribute().getName(), customAttributeDocument.getCustomAttribute().getValue());
+                    customDataDef.addProperty(customAttributeDocument.getCustomAttribute().getName(), StringEscapeUtils.escapeXml(customAttributeDocument.getCustomAttribute().getValue()));
                 }
             }
         }
