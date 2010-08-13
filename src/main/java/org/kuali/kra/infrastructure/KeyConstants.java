@@ -505,6 +505,8 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED = "error.protocol.submission.committee.required";
     public static final String ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED = "error.protocol.submission.schedule.required";
     public static final String ERROR_PROTOCOL_ADMIN_CORRECTION_COMMENTS_REQUIRED = "error.protocol.correction.comments.required";
+    public static final String ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED = "error.protocol.approve.approveDate.required";
+    public static final String ERROR_PROTOCOL_APPROVAL_EXPIRATION_DATE_REQUIRED = "error.protocol.approve.expirationDate.required";
     public static final String ERROR_PROTOCOL_UNDO_LASTACTION_COMMENTS_REQUIRED = "error.protocol.undolastaction.comments.required";
     public static final String ERROR_PROTOCOL_RECORD_COMMITTEE_ABSTAIN_RECUSED_ALREADY_EXISTS = "error.protocol.recordcommittee.abstainer.already.used";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION = "error.protocol.recordcommittee.motion.not.selected";
@@ -542,6 +544,7 @@ public final class KeyConstants {
 
     // IRB Protocol Personnel Validation Messages
     public static final String ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI = "error.protocolPersonnel.pi.already.exists";
+    public static final String ERROR_PROTOCOL_PERSONNEL_PI_SAMEAS_COI = "error.protocolPersonnel.pi.sameas.coi";
     public static final String ERROR_PROTOCOL_PERSONNEL_ROLE_MANDATORY = "error.protocolPersonnel.role.mandatory";
     public static final String ERROR_DUPLICATE_PROTOCOL_PERSONNEL = "error.duplicate.protocolPersonnel";
     public static final String ERROR_ROLE_CHANGE_NOT_PERMITTED = "error.role.change.notPermitted";

@@ -237,6 +237,10 @@ public class ProtocolPerson extends ProtocolAssociate {
         }
     }
 
+    public String getPersonKey() {
+        return this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId();
+    }
+    
     /**
      * This method is to build and return a unique key for protocol person.
      * 
