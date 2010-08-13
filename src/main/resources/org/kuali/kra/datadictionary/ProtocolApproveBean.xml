@@ -30,6 +30,7 @@
 			    <ref bean="ProtocolApproveBean-expirationDate" />
 			    <ref bean="ProtocolGenericActionBean-comments" />
 				<ref bean="ProtocolGenericActionBean-actionDate" />
+				<ref bean="ProtocolApproveBean-isBillable" />
 			</list>
 		</property>
 	</bean>
@@ -55,5 +56,14 @@
         <property name="summary" value="Expiration Date"/>
         <property name="description" value="Expiration Date"/>
     </bean> 
+    
+    <bean id="ProtocolApproveBean-isBillable" parent="ProtocolApproveBean-isBillable-parentBean" />
+	<bean id="ProtocolApproveBean-isBillable-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="billable" />
+		<property name="label" value="Billable" />
+		<property name="shortLabel" value="Is Billable" />
+		<property name="summary" value="Is Billable" />
+		<property name="description" value="Is Billable" />
+	</bean>
     
 </beans>

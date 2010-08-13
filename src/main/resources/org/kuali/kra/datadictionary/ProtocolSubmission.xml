@@ -56,6 +56,7 @@
                 <ref bean="ProtocolSubmission-protocolSubmissionType.description" />
                 <ref bean="ProtocolSubmission-protocolReviewType.description" />
                 <ref bean="ProtocolSubmission-protocolSubmissionQualifierType.description" />
+                <ref bean="ProtocolSubmission-isBillable" />
             </list>
         </property>
     
@@ -485,6 +486,15 @@
     <property name="label" value="Submission Type" />
     <property name="shortLabel" value="Submission Type" />
   </bean>
+  
+  <bean id="ProtocolSubmission-isBillable" parent="ProtocolSubmission-isBillable-parentBean" />
+	<bean id="ProtocolSubmission-isBillable-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+		<property name="name" value="billable" />
+		<property name="label" value="Billable" />
+		<property name="shortLabel" value="Is Billable" />
+		<property name="summary" value="Is Billable" />
+		<property name="description" value="Is Billable" />
+	</bean>
 
 
     <!-- Business Object Inquiry Definition -->
