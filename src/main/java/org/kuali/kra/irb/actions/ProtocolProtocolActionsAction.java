@@ -47,6 +47,7 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaEvent;
@@ -1269,11 +1270,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
-            ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-            getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
-
-            getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
-                    protocolForm.getProtocolDocument().getProtocol());
+            if (applyRules(new ProtocolApproveEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
+                    .getProtocolApproveBean()))) {
+                ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
+                getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
+    
+                getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
+                        protocolForm.getProtocolDocument().getProtocol());
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

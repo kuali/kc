@@ -274,7 +274,7 @@ public class ProtocolNotepadHelper {
     void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
         if (currentNote != null) {
             ProtocolNotepad persistedNote = (ProtocolNotepad) this.boService.findBySinglePrimaryKey(ProtocolNotepad.class, currentNote.getId());
-            if(!currentNote.equals(persistedNote)) {
+            if(persistedNote != null && !currentNote.equals(persistedNote)) {
                 currentNote.setChanged(true);
                 updateUserFields(currentNote);
                 currentNote.setChanged(false);
