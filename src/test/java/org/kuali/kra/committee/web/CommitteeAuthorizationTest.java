@@ -75,7 +75,7 @@ public class CommitteeAuthorizationTest extends CommitteeWebTestBase {
         HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
         HtmlPage page = clickOn(centralAdminPage, "Create Committee", "Kuali Portal Index");
         page = getInnerPages(page).get(0);
-        this.assertContains(page, "DocumentAuthorizationException");
+        this.assertContains(page, "user 'majors' is not authorized to initiate document 'CommitteeDocument'");
     }
     
     /**
