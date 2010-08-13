@@ -49,6 +49,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             isValid = false;
         }else {
             isValid = !isDuplicateInvestigator(protocolPerson, getProtocolPersons(addProtocolPersonnelEvent), true);
+            isValid &= !isPISameAsCoI(protocolPerson, getProtocolPersons(addProtocolPersonnelEvent));
             isValid &= !isDuplicatePerson(protocolPerson, addProtocolPersonnelEvent);
         }
         return isValid;
@@ -67,6 +68,15 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             investigatorDuplicate = isDuplicatePI(protocolPersons, protocolPersons, true);
         }
         return investigatorDuplicate;
+    }
+    
+    private boolean isPISameAsCoI(ProtocolPerson newProtocolPerson, List<ProtocolPerson> protocolPersons) {
+        ProtocolPerson pi = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
+        boolean duplicatePerson = getProtocolPersonnelService().isPISameAsCoI(pi, newProtocolPerson);
+        if(duplicatePerson) {
+            reportError(formatErrorPropertyName(true, protocolPersons.indexOf(pi), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_PI_SAMEAS_COI);
+        }
+        return duplicatePerson;
     }
     
     /**

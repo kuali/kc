@@ -367,6 +367,14 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         return duplicateUnit;
     }
     
+    public boolean isPISameAsCoI(ProtocolPerson pi, ProtocolPerson newProtocolPerson) {
+        boolean duplicatePerson = false;
+        if(newProtocolPerson.getPersonKey().equalsIgnoreCase(pi.getPersonKey()) && isCoInvestigator(newProtocolPerson)) { 
+            duplicatePerson = true;
+        }
+        return duplicatePerson;
+    }
+    
     /**
      * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.irb.personnel.ProtocolPerson)
      */
