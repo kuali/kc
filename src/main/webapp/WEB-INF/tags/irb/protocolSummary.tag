@@ -18,8 +18,17 @@
                     </c:otherwise>
 	       	   	</c:choose>
             </td>
-            <th style="text-align:right; width:135px">Application Date:</th>
-            <td class="${protocolSummary.applicationDateChanged ? 'changed' : ''}">${protocolSummary.applicationDate}&nbsp;</td>
+            <th style="text-align:right; width:135px">Submission Date:</th>
+            <td class="${protocolSummary.submissionDateChanged ? 'changed' : ''}">
+                <c:choose>
+                   <c:when test="${empty protocolSummary.submissionDate}">
+                        Generated on Submission
+                    </c:when>
+                    <c:otherwise>
+                        ${protocolSummary.submissionDate}&nbsp;
+                    </c:otherwise>
+                </c:choose>
+            </td>
         </tr>
             
         <tr>
