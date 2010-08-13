@@ -74,8 +74,6 @@ import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposa
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 
 /**
  * This class generates XML that conforms with the XSD related to Institution
@@ -448,9 +446,9 @@ public class InstitutionalProposalXmlStream extends
 										.getDescription());
 					}
 				}
-				if (protocol.getApplicationDate() != null) {
+				if (protocol.getSubmissionDate() != null) {
 					specialReviewType.setApplicationDate(dateTimeService
-							.getCalendar(protocol.getApplicationDate()));
+							.getCalendar(protocol.getSubmissionDate()));
 				}
 				if (protocol.getApprovalDate() != null) {
 					specialReviewType.setApprovalDate(dateTimeService
