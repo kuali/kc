@@ -17,11 +17,11 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.ProtocolAction;
 
@@ -33,9 +33,9 @@ public class ProtocolSummary implements Serializable {
     
     private String lastProtocolActionDescription;
     private String protocolNumber;
+    private String submissionDate;
     private String approvalDate;
     private String lastApprovalDate;
-    private String applicationDate;
     private String expirationDate;
     private String piName;
     private Integer piProtocolPersonId;
@@ -52,9 +52,9 @@ public class ProtocolSummary implements Serializable {
     private AdditionalInfoSummary additionalInfoSummary;
     
     private boolean protocolNumberChanged = false;
+    private boolean submissionDateChanged = false;
     private boolean approvalDateChanged = false;
     private boolean lastApprovalDateChanged = false;
-    private boolean applicationDateChanged = false;
     private boolean expirationDateChanged = false;
     private boolean piNameChanged = false;
     private boolean typeChanged = false;
@@ -86,6 +86,14 @@ public class ProtocolSummary implements Serializable {
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
+    
+    public String getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Timestamp submissionDate) {
+        this.submissionDate = formatDate(submissionDate);
+    }
 
     public String getApprovalDate() {
         return approvalDate;
@@ -101,14 +109,6 @@ public class ProtocolSummary implements Serializable {
 
     public void setLastApprovalDate(Date lastApprovalDate) {
         this.lastApprovalDate = formatDate(lastApprovalDate);
-    }
-
-    public String getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(Date applicationDate) {
-        this.applicationDate = formatDate(applicationDate);
     }
 
     public String getExpirationDate() {
@@ -159,7 +159,7 @@ public class ProtocolSummary implements Serializable {
         this.title = title;
     }
     
-    private String formatDate(Date date) {
+    private String formatDate(java.util.Date date) {
         return (date == null) ? "" : dateFormat.format(date);
     }
 
@@ -229,9 +229,9 @@ public class ProtocolSummary implements Serializable {
     
     public void compare(ProtocolSummary other) {
         protocolNumberChanged = !StringUtils.equals(protocolNumber, other.protocolNumber);
+        submissionDateChanged = !StringUtils.equals(submissionDate, other.submissionDate);
         approvalDateChanged = !StringUtils.equals(approvalDate, other.approvalDate);
         lastApprovalDateChanged = !StringUtils.equals(lastApprovalDate, other.lastApprovalDate);
-        applicationDateChanged = !StringUtils.equals(applicationDate, other.applicationDate);
         expirationDateChanged = !StringUtils.equals(expirationDate, other.expirationDate);
         piNameChanged = !StringUtils.equals(piName, other.piName);
         typeChanged = !StringUtils.equals(type, other.type);
@@ -294,6 +294,10 @@ public class ProtocolSummary implements Serializable {
     public boolean isProtocolNumberChanged() {
         return protocolNumberChanged;
     }
+    
+    public boolean isSubmissionDateChanged() {
+        return submissionDateChanged;
+    }
 
     public boolean isApprovalDateChanged() {
         return approvalDateChanged;
@@ -301,10 +305,6 @@ public class ProtocolSummary implements Serializable {
 
     public boolean isLastApprovalDateChanged() {
         return lastApprovalDateChanged;
-    }
-
-    public boolean isApplicationDateChanged() {
-        return applicationDateChanged;
     }
 
     public boolean isExpirationDateChanged() {
