@@ -81,26 +81,27 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolPerson newProtocolPerson = protocolForm.getPersonnelHelper().getNewProtocolPerson();
         Protocol protocol = protocolForm.getDocument().getProtocol();
-        
+
         // check any business rules
-        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getDocument(), newProtocolPerson));
+        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getDocument(),
+            newProtocolPerson));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
+            if (newProtocolPerson.isPrincipalInvestigator()) {
+                // Assign the PI the AGGREGATOR role.
+                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                kraAuthService.addRole(newProtocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                super.refresh(mapping, form, request, response);
+            }
         }
-        
-        if (newProtocolPerson.isPrincipalInvestigator()) {
-            // Assign the PI the AGGREGATOR role.
-            KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-            kraAuthService.addRole(newProtocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-            super.refresh(mapping, form, request, response);
-        }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC );
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

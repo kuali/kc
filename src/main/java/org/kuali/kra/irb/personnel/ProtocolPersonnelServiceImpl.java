@@ -369,7 +369,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     
     public boolean isPISameAsCoI(ProtocolPerson pi, ProtocolPerson newProtocolPerson) {
         boolean duplicatePerson = false;
-        if(newProtocolPerson.getPersonKey().equalsIgnoreCase(pi.getPersonKey()) && isCoInvestigator(newProtocolPerson)) { 
+        // if existing PI changed to new role and the new person assigned as pi, then pi is null
+        if(pi !=null && newProtocolPerson.getPersonKey().equalsIgnoreCase(pi.getPersonKey()) && isCoInvestigator(newProtocolPerson)) { 
             duplicatePerson = true;
         }
         return duplicatePerson;
