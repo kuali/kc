@@ -23,6 +23,8 @@
     <bean id="InstitutionalProposalNotepad-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" />
 		<property name="objectLabel" value="Institutional Proposal Notepad" />
+		<property name="boNotesEnabled" value="true"/>
+    
         <property name="inquiryDefinition" >
             <ref bean="InstitutionalProposalNotepad-inquiryDefinition" />
         </property>
@@ -137,7 +139,7 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="3"
-                p:cols="100" />
+                p:cols="50" />
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
