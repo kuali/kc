@@ -266,7 +266,7 @@ public class ProtocolPerson extends ProtocolAssociate {
      * @return true / false
      */
     public boolean isNonEmployee() {
-        return this.rolodex != null;
+        return this.rolodex != null || (this.rolodexId != null && StringUtils.isNotBlank(this.rolodexId.toString())); 
     }
 
     /**
@@ -276,7 +276,7 @@ public class ProtocolPerson extends ProtocolAssociate {
      */
     public ProtocolUnit getLeadUnit() {
         ProtocolUnit leadUnit = null;
-        for (ProtocolUnit unit : this.getProtocolUnits()) {
+        for (ProtocolUnit unit : this.getProtocolUnits()) { 
             if (unit.getLeadUnitFlag()) {
                 leadUnit = unit;
                 break;
