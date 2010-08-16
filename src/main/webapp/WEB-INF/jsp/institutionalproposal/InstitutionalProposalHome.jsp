@@ -18,7 +18,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="institutionalProposalHome"
 	documentTypeName="InstitutionalProposalDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
