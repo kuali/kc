@@ -545,6 +545,7 @@ public final class KeyConstants {
     // IRB Protocol Personnel Validation Messages
     public static final String ERROR_PROTOCOL_PERSONNEL_MULTIPLE_PI = "error.protocolPersonnel.pi.already.exists";
     public static final String ERROR_PROTOCOL_PERSONNEL_PI_SAMEAS_COI = "error.protocolPersonnel.pi.sameas.coi";
+    public static final String ERROR_PROTOCOL_PERSONNEL_ROLODEX_AS_PI = "error.protocolPersonnel.rolodex.pi";
     public static final String ERROR_PROTOCOL_PERSONNEL_ROLE_MANDATORY = "error.protocolPersonnel.role.mandatory";
     public static final String ERROR_DUPLICATE_PROTOCOL_PERSONNEL = "error.duplicate.protocolPersonnel";
     public static final String ERROR_ROLE_CHANGE_NOT_PERMITTED = "error.role.change.notPermitted";
