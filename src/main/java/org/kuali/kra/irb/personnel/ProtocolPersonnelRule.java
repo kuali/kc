@@ -48,11 +48,22 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
         if(isEmptyPersonOrRole(protocolPerson)) {
             isValid = false;
         }else {
-            isValid = !isDuplicateInvestigator(protocolPerson, getProtocolPersons(addProtocolPersonnelEvent), true);
-            isValid &= !isPISameAsCoI(protocolPerson, getProtocolPersons(addProtocolPersonnelEvent));
+            List<ProtocolPerson> protocolPersons = getProtocolPersons(addProtocolPersonnelEvent);
+            isValid = !isPersonPIRolodex(protocolPerson, protocolPersons, true);
+            isValid &= !isDuplicateInvestigator(protocolPerson, protocolPersons, true);
+            isValid &= !isPISameAsCoI(protocolPerson, protocolPersons);
             isValid &= !isDuplicatePerson(protocolPerson, addProtocolPersonnelEvent);
         }
         return isValid;
+    }
+    
+    private boolean isPersonPIRolodex(ProtocolPerson protocolPerson, List<ProtocolPerson> protocolPersons, boolean newPerson) {
+        if(protocolPerson.isNonEmployee() && protocolPerson.isPrincipalInvestigator()) {
+            reportError(formatErrorPropertyName(true, -1, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLODEX_AS_PI);
+            return true;
+        }
+        
+        return false;
     }
     
     /**
