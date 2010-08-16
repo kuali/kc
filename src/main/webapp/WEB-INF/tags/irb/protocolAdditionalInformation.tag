@@ -30,21 +30,9 @@
                 	<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnly}" />
                 </td>
                 <th width="23%">
-                	<div align="right">
-	                	<%-- 
-	                	<c:if test="${KualiForm.protocolHelper.displayBillable}">                	
-							<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.billable}" />
-						</c:if>
-						--%>
- 				  </div>
- 				 </th>
-                <td width="18%" align=left valign=middle>
-                	<%--
-                	<c:if test="${KualiForm.protocolHelper.displayBillable}">
-                		<kul:htmlControlAttribute property="document.protocolList[0].billable" attributeEntry="${protocolAttributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}"/>
-                	</c:if>
-                	 --%>
-                </td>
+ 				</th>
+                <th width="18%" align=left valign=middle>
+                </th>
               </tr>
               <tr>
                 <th><div align="right">
