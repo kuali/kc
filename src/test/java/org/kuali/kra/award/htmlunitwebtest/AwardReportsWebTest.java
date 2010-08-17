@@ -118,7 +118,7 @@ public class AwardReportsWebTest extends AwardPaymentsAndTermsWebTest {
     
     @Test
     public void testAwardReportsMiscProcurementPurchasingPanelTest() throws Exception{
-        setFieldValue(paymentReportsAndTermsPage, SMALL_BUSINESS_SUBCONTRACTING_PLAN, "R");
+        setFieldValue(paymentReportsAndTermsPage, SMALL_BUSINESS_SUBCONTRACTING_PLAN, "Y");
         setFieldValue(paymentReportsAndTermsPage, PROCUREMENT_PRIORITY_CODE, "DO0076");
         HtmlPage awardPaymentReportsAndTermsPageAfterSave = clickOn(paymentReportsAndTermsPage, "methodToCall.save");
         assertDoesNotContain(awardPaymentReportsAndTermsPageAfterSave, ERROR_TABLE_OR_VIEW_DOES_NOT_EXIST);        
