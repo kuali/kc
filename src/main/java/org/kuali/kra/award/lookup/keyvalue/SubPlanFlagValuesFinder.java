@@ -38,7 +38,7 @@ public class SubPlanFlagValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
         keyValues.add(new KeyLabelPair('U', new String("Unknown")));
-        keyValues.add(new KeyLabelPair('R', new String("Required")));
+        keyValues.add(new KeyLabelPair('Y', new String("Required")));
         keyValues.add(new KeyLabelPair('N', new String("Not Required")));
                 
         return keyValues;
