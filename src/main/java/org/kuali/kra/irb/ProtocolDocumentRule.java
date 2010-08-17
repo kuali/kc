@@ -44,6 +44,9 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule;
+import org.kuali.kra.irb.actions.modifysubmission.ExcecuteProtocolModifySubmissionRule;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionRule;
@@ -87,7 +90,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExcecuteProtocolModifySubmissionRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -350,6 +353,10 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
      */
     public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision actionBean) {
         return new CommitteeDecisionRule().proccessCommitteeDecisionRule(document, actionBean);
+    }
+    
+    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
+        return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
     }
     
     /**
