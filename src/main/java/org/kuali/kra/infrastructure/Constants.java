@@ -513,6 +513,7 @@ public interface Constants {
     public static final String PROTOCOL_APPROVE_ACTION_PROPERTY_KEY = "actionHelper.protocolApproveBean";
     public static final String PROTOCOL_UNDO_LASTACTION_PROPERTY_KEY = "actionHelper.undoLastActionBean";
     public static final String PROTOCOL_RECORD_COMMITTEE_KEY = "actionHelper.committeeDecision";
+    public static final String PROTOCOL_MODIFY_SUBMISSION_KEY = "actionHelper.protocolModifySubmissionAction";
     
     //Online Review
     public static final String PROTOCOL_ONLINE_REVIEW_KEY="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
