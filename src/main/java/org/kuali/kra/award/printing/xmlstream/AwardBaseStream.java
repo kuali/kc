@@ -27,33 +27,7 @@ import java.util.Map;
 import noNamespace.AmountInfoType;
 import noNamespace.AwardDisclosureType;
 import noNamespace.AwardHeaderType;
-import noNamespace.AwardNoticeDocument.AwardNotice;
-import noNamespace.AwardNoticeDocument.AwardNotice.AODetails;
-import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
 import noNamespace.AwardTransactionType;
-import noNamespace.AwardType.AwardComments;
-import noNamespace.AwardType.AwardContacts;
-import noNamespace.AwardType.AwardContacts.ContactDetails;
-import noNamespace.AwardType.AwardCostSharing;
-import noNamespace.AwardType.AwardCostSharing.CostSharingItem;
-import noNamespace.AwardType.AwardDetails;
-import noNamespace.AwardType.AwardDetails.OtherHeaderDetails;
-import noNamespace.AwardType.AwardFundingProposals;
-import noNamespace.AwardType.AwardFundingProposals.FundingProposal;
-import noNamespace.AwardType.AwardIndirectCosts;
-import noNamespace.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
-import noNamespace.AwardType.AwardInvestigators;
-import noNamespace.AwardType.AwardKeyPersons;
-import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
-import noNamespace.AwardType.AwardReportingDetails;
-import noNamespace.AwardType.AwardScienceCodes;
-import noNamespace.AwardType.AwardSpecialItems;
-import noNamespace.AwardType.AwardSpecialItems.Equipment;
-import noNamespace.AwardType.AwardSpecialItems.ForeignTravel;
-import noNamespace.AwardType.AwardTermsDetails;
-import noNamespace.AwardType.AwardTransactionInfo;
-import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
-import noNamespace.AwardType.CloseOutDeadlines;
 import noNamespace.CommentDetailsType;
 import noNamespace.CommentType2;
 import noNamespace.DisclosureItemType;
@@ -68,6 +42,32 @@ import noNamespace.ScienceCodeDetailType;
 import noNamespace.SpecialReviewType;
 import noNamespace.TermDetailsType2;
 import noNamespace.TermType2;
+import noNamespace.AwardNoticeDocument.AwardNotice;
+import noNamespace.AwardNoticeDocument.AwardNotice.AODetails;
+import noNamespace.AwardNoticeDocument.AwardNotice.PrintRequirement;
+import noNamespace.AwardType.AwardComments;
+import noNamespace.AwardType.AwardContacts;
+import noNamespace.AwardType.AwardCostSharing;
+import noNamespace.AwardType.AwardDetails;
+import noNamespace.AwardType.AwardFundingProposals;
+import noNamespace.AwardType.AwardIndirectCosts;
+import noNamespace.AwardType.AwardInvestigators;
+import noNamespace.AwardType.AwardKeyPersons;
+import noNamespace.AwardType.AwardReportingDetails;
+import noNamespace.AwardType.AwardScienceCodes;
+import noNamespace.AwardType.AwardSpecialItems;
+import noNamespace.AwardType.AwardTermsDetails;
+import noNamespace.AwardType.AwardTransactionInfo;
+import noNamespace.AwardType.CloseOutDeadlines;
+import noNamespace.AwardType.AwardContacts.ContactDetails;
+import noNamespace.AwardType.AwardCostSharing.CostSharingItem;
+import noNamespace.AwardType.AwardDetails.OtherHeaderDetails;
+import noNamespace.AwardType.AwardFundingProposals.FundingProposal;
+import noNamespace.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
+import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
+import noNamespace.AwardType.AwardSpecialItems.Equipment;
+import noNamespace.AwardType.AwardSpecialItems.ForeignTravel;
+import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -97,6 +97,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -105,7 +106,6 @@ import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -2551,10 +2551,8 @@ public abstract class AwardBaseStream implements XmlStream {
 							.getCfdaNumber().equals(prevAward.getCfdaNumber()))) {
 				otherHeaderDetails.setCFDANumber(award.getCfdaNumber());
 			}
-			if (award.getSubPlanFlag() != null
-					&& (prevAward.getSubPlanFlag() != null || !award
-							.getSubPlanFlag()
-							.equals(prevAward.getSubPlanFlag()))) {
+			if (award.getSubPlanFlag() != null	&& 
+			        (prevAward.getSubPlanFlag() != null || !award.getSubPlanFlag().equals(prevAward.getSubPlanFlag()))) {
 				otherHeaderDetails.setSubPlan(award.getSubPlanFlag());
 			}
 			if (award.getPrimeSponsorCode() != null
@@ -2577,7 +2575,9 @@ public abstract class AwardBaseStream implements XmlStream {
 			}
 		}
 
-		// TODO : Need to set DFAFSNumber field
+        if (award.getDocumentFundingId() != null) {
+            otherHeaderDetails.setDFAFSNumber(award.getDocumentFundingId());
+        }
 		if (award.getProcurementPriorityCode() != null) {
 			otherHeaderDetails.setProcurementPriorityCode(award
 					.getProcurementPriorityCode());

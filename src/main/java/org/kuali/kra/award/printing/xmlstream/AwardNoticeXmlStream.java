@@ -199,6 +199,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private void initialize(AwardDocument awardDocument) {
 		this.awardDocument = awardDocument;
 		award = awardDocument.getAward();
+		award.refreshNonUpdateableReferences();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
 			awardAmountInfo = awardAmountInfos.get(0);
@@ -550,15 +551,15 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 */
 	private String getPrintRequirementTypeRequired(
 			Map<String, Object> reportParameters, String printRequirementType) {
-		String signatureRequired = null;
+		String required = null;
 		if (reportParameters.get(printRequirementType) != null
 				&& ((Boolean) reportParameters.get(printRequirementType))
 						.booleanValue()) {
-			signatureRequired = REQUIRED;
+			required = REQUIRED;
 		} else {
-			signatureRequired = NOT_REQUIRED;
+			required = NOT_REQUIRED;
 		}
-		return signatureRequired;
+		return required;
 	}
 
 	/*
