@@ -74,6 +74,8 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
@@ -2019,6 +2021,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward modifySubmsionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolModifySubmissionAction bean = protocolForm.getActionHelper().getProtocolModifySubmissionAction();
+        System.err.println("******************* Got to modifySubmsionAction *********************");
+        KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+        return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
     public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
