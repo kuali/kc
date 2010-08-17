@@ -53,6 +53,14 @@
                                         </td>
                                         <th> 
                                             <div align="right">
+                                                <kul:htmlAttributeLabel attributeEntry="${attributes.recusedCount}" />
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <kul:htmlControlAttribute property="actionHelper.selectedSubmission.recusedCount" attributeEntry="${attributes.recusedCount}" readOnly="true" />
+                                        </td>
+                                        <th> 
+                                            <div align="right">
                                                 <nobr>
                                                     <kul:htmlAttributeLabel attributeEntry="${attributes.votingComments}" />
                                                 </nobr>
@@ -69,12 +77,12 @@
                                         <tr>
                                             <c:choose>
                                                 <c:when test="${status.index == 0}">
-                                                    <th colspan="7" align="right">
+                                                    <th colspan="9" align="right">
                                                        Abstainers:
                                                     </th>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <th colspan="7" align="right">
+                                                    <th colspan="9" align="right">
                                                       &nbsp;
                                                     </th>
                                                 </c:otherwise>
@@ -90,12 +98,12 @@
                                         <tr>
                                             <c:choose>
                                                 <c:when test="${status.index == 0}">
-                                                    <th colspan="7" align="right">
+                                                    <th colspan="9" align="right">
                                                        Recused:
                                                     </th>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <th colspan="7" align="right">
+                                                    <th colspan="9" align="right">
                                                       &nbsp;
                                                     </th>
                                                 </c:otherwise>
