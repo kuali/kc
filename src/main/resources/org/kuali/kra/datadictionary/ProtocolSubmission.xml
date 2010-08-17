@@ -441,7 +441,8 @@
         <property name="shortLabel" value="Voting Comments" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" 
+                  p:allowWhitespace="true" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
