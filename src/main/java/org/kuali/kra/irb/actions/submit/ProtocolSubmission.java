@@ -92,7 +92,12 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
     
     public Integer getRecusedCount() {
-        return this.recusers.size();
+        this.refreshReferenceObject("recusers");
+        if (this.recusers == null) {
+            return 0;
+        } else {
+            return this.recusers.size();
+        }
     }
 
     public void setRecusedCount(Integer recusedCount) {
