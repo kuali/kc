@@ -15,9 +15,18 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
+import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
+import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -27,19 +36,96 @@ import org.kuali.rice.kns.service.DocumentService;
 public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillableService implements ProtocolModifySubmissionService  {
     
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * 
      * @see org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService#modifySubmisison(org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
      */
     public void modifySubmisison(ProtocolDocument protocolDocument, ProtocolModifySubmissionAction bean) throws Exception {
-        protocolDocument.getProtocol().getProtocolSubmission().setSubmissionTypeCode(bean.getSubmissionTypeCode());
-        protocolDocument.getProtocol().getProtocolSubmission().setSubmissionTypeQualifierCode(bean.getSubmissionQualifierTypeCode());
-        this.proccessBillable(protocolDocument.getProtocol(), bean.isBillable()); 
+        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+        submission.setSubmissionTypeCode(bean.getSubmissionTypeCode());
+        submission.setSubmissionTypeQualifierCode(bean.getSubmissionQualifierTypeCode());
+        this.proccessBillable(protocolDocument.getProtocol(), bean.isBillable());
+        
+        String existingReviewType = submission.getProtocolReviewTypeCode();
+        String newReviewType = bean.getProtocolReviewTypeCode();
+        
+        if (existingReviewType.equals(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE) 
+                || existingReviewType.equals(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
+            //remove existingCheckBoxes if old review type is EXPEDITED_REVIEW_TYPE_CODE or EXEMPT_STUDIES_REVIEW_TYPE_CODE
+            deleteExistingCheckBoxes(submission);
+        }
+        if (!existingReviewType.equals(newReviewType)) {
+            //if new Review Type is different than old review type, get the proper review type from DB and add to submission, 
+            //and update code
+            proccessNewReviewType(submission, newReviewType);
+        }
+        if (newReviewType.equals(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
+            //if new review type is EXPEDITED_REVIEW_TYPE_CODE proccess those check boxes
+            proccessExpeditedReviewCheckBoxes(submission, bean);
+        } else if (newReviewType.equals(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE)) {
+            //if new review type is EXEMPT_STUDIES_REVIEW_TYPE_CODE, proccess those check boxes
+            proccessExemptStudiesCheckBoxes(submission, bean);
+        }
+        
         documentService.saveDocument(protocolDocument);
+    }
+    
+    private void deleteExistingCheckBoxes(ProtocolSubmission submission) {
+        this.businessObjectService.delete(submission.getExemptStudiesCheckList());
+        this.businessObjectService.delete(submission.getExpeditedReviewCheckList());
+        submission.getExemptStudiesCheckList().clear();
+        submission.getExpeditedReviewCheckList().clear();
+    }
+    
+    private void proccessNewReviewType(ProtocolSubmission submission, String newReviewType) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("PROTOCOL_REVIEW_TYPE_CODE", newReviewType);
+        ProtocolReviewType newType = (ProtocolReviewType) this.businessObjectService.findByPrimaryKey(ProtocolReviewType.class, fieldValues);
+        submission.setProtocolReviewType(newType);
+        submission.setProtocolReviewTypeCode(newType.getReviewTypeCode());
+    }
+    
+    private void proccessExemptStudiesCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionAction bean) {
+        for (ExemptStudiesCheckListItem beanItem : bean.getExemptStudiesCheckList()) {
+            if (beanItem.getChecked()) {
+                ProtocolExemptStudiesCheckListItem newItem = new ProtocolExemptStudiesCheckListItem();
+                newItem.setExemptStudiesCheckListCode(beanItem.getExemptStudiesCheckListCode());
+                newItem.setProtocol(submission.getProtocol());
+                newItem.setProtocolId(submission.getProtocolId());
+                newItem.setProtocolNumber(submission.getProtocolNumber());
+                newItem.setProtocolSubmission(submission);
+                newItem.setSubmissionIdFk(submission.getSubmissionId());
+                newItem.setSubmissionNumber(submission.getSubmissionNumber());
+                newItem.setSequenceNumber(submission.getSequenceNumber());
+                submission.getExemptStudiesCheckList().add(newItem);
+            }
+        }
+    }
+    
+    private void proccessExpeditedReviewCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionAction bean) {
+        for (ExpeditedReviewCheckListItem beanItem : bean.getExpeditedReviewCheckList()) {
+            if (beanItem.getChecked()) {
+                ProtocolExpeditedReviewCheckListItem newItem = new ProtocolExpeditedReviewCheckListItem();
+                newItem.setExpeditedReviewCheckListCode(beanItem.getExpeditedReviewCheckListCode());
+                newItem.setProtocol(submission.getProtocol());
+                newItem.setProtocolId(submission.getProtocolId());
+                newItem.setProtocolNumber(submission.getProtocolNumber());
+                newItem.setProtocolSubmission(submission);
+                newItem.setSubmissionIdFk(submission.getSubmissionId());
+                newItem.setSubmissionNumber(submission.getSubmissionNumber());
+                newItem.setSequenceNumber(submission.getSequenceNumber());
+                submission.getExpeditedReviewCheckList().add(newItem);
+            }
+        }
     }
     
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
