@@ -529,6 +529,11 @@
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
     
+    <bean id="protocolModifySubmissionService" class="org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+    </bean>
+    
     <bean id="protocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
