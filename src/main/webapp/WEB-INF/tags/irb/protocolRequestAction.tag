@@ -24,6 +24,7 @@
 		<c:if test="${KualiForm.document.protocol.active}">
             <kra-irb-action:submitAction />
             <kra-irb-action:withdrawAction />
+            <kra-irb-action:modifySubmissionAction />
             <kra-irb-action:assignCmtSchedAction />
             <kra-irb-action:assignReviewersAction />
             <kra-irb-action:assignToAgendaAction />

@@ -53,6 +53,7 @@ import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
@@ -137,6 +138,7 @@ public class ActionHelper implements Serializable {
     private boolean canMakeAdminCorrection = false;
     private boolean canRecordCommitteeDecision = false;
     private boolean canUndoLastAction = false;
+    private boolean canModifyProtocolSubmission = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -167,6 +169,7 @@ public class ActionHelper implements Serializable {
     private AdminCorrectionBean protocolAdminCorrectionBean;
     private UndoLastActionBean undoLastActionBean;
     private CommitteeDecision committeeDecision;
+    private ProtocolModifySubmissionAction protocolModifySubmissionAction;
     
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
@@ -246,6 +249,7 @@ public class ActionHelper implements Serializable {
         committeeDecision = new CommitteeDecision();
         committeeDecision.init(getProtocol());
         addReviewerCommentsToBean(committeeDecision, this.form);
+        protocolModifySubmissionAction = new ProtocolModifySubmissionAction(this.getProtocol().getProtocolSubmission());
     }
     
     
@@ -799,6 +803,10 @@ public class ActionHelper implements Serializable {
     public CommitteeDecision getCommitteeDecision() {
         return committeeDecision;
     }
+    
+    public ProtocolModifySubmissionAction getProtocolModifySubmissionAction() {
+        return this.protocolModifySubmissionAction;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -914,6 +922,11 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanRecordCommitteeDecision() {
         return canRecordCommitteeDecision;
+    }
+    
+    public boolean getCanModifyProtocolSubmission() {
+        //return this.canModifyProtocolSubmission;
+        return false;
     }
     
     public void setPrintTag(String printTag) {
