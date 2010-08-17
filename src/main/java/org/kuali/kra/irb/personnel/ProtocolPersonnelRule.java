@@ -59,7 +59,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
     
     private boolean isPersonPIRolodex(ProtocolPerson protocolPerson, List<ProtocolPerson> protocolPersons, boolean newPerson) {
         if(protocolPerson.isNonEmployee() && protocolPerson.isPrincipalInvestigator()) {
-            reportError(formatErrorPropertyName(true, -1, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLODEX_AS_PI);
+            reportError(formatErrorPropertyName(newPerson, (newPerson ? -1 : protocolPersons.indexOf(protocolPerson)), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLODEX_AS_PI);
             return true;
         }
         
@@ -212,7 +212,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
      */
     private boolean isValidPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
         boolean investigatorValid = true;
-        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
+        //getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
         if(principalInvestigator == null) {
             investigatorValid = false;
@@ -221,6 +221,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             List<ProtocolPerson> existingProtocolPersons = new ArrayList<ProtocolPerson>();
             existingProtocolPersons.addAll(protocolPersons);
             existingProtocolPersons.remove(principalInvestigator);
+            investigatorValid = !isPersonPIRolodex(principalInvestigator, existingProtocolPersons, false);
             investigatorValid = !isDuplicatePI(existingProtocolPersons, protocolPersons, false); 
         }
         return investigatorValid;
