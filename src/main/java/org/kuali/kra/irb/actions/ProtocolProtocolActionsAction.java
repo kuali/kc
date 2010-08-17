@@ -75,6 +75,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionEvent;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
@@ -2028,7 +2029,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolModifySubmissionAction bean = protocolForm.getActionHelper().getProtocolModifySubmissionAction();
         System.err.println("******************* Got to modifySubmsionAction *********************");
-        KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+        if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
+                .getProtocolModifySubmissionAction()))) {
+            KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
