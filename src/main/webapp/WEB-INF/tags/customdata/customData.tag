@@ -70,7 +70,7 @@
                 	<c:otherwise>
                 	    ${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
                         <c:if test="${empty customAttributeDocument.customAttribute.lookupClass}">
-                		    <input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}" />
+                		    <input id="${customAttributeId}" type="text" name="${customAttributeId}" value='<c:out value="${customAttributeValue}" escapeXml="true" />' style="${customAttributeErrorStyle}" />
                         </c:if>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
