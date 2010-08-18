@@ -221,7 +221,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             List<ProtocolPerson> existingProtocolPersons = new ArrayList<ProtocolPerson>();
             existingProtocolPersons.addAll(protocolPersons);
             existingProtocolPersons.remove(principalInvestigator);
-            investigatorValid = !isPersonPIRolodex(principalInvestigator, existingProtocolPersons, false);
+            investigatorValid = !isPersonPIRolodex(principalInvestigator, protocolPersons, false);
             investigatorValid &= !isDuplicatePI(existingProtocolPersons, protocolPersons, false); 
         }
         return investigatorValid;
