@@ -111,7 +111,9 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -252,7 +254,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
                     protocolForm.getActionHelper().getAssignCmtSchedBean().init();
                     protocolForm.getActionHelper().getAssignToAgendaBean().init();
-                    forward = super.route(mapping, form, request, response);
+                    super.route(mapping, form, request, response);
+                    forward = returnToSender(request, mapping, protocolForm);
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
                     GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
