@@ -114,7 +114,7 @@
 </div>
 <hr>
 <SCRIPT type="text/javascript">
-for(var i= 0; i < 7; i++) {
+for(var i= 0; i < 8; i++) {
     showHide('filename1-'+i,'browse1-'+i );
     showHide('filename2-'+i,'browse2-'+i );
 }

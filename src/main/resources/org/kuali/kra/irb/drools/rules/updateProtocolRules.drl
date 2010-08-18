@@ -33,6 +33,7 @@ function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolActio
 	ProtocolReviewType protocolReviewType = new ProtocolReviewType();
 	protocolReviewType.setReviewTypeCode(reviewCode); 
 	protocolSubmission.setProtocolReviewType(protocolReviewType);
+	protocolSubmission.setProtocolReviewTypeCode(reviewCode);
 	
 	ProtocolSubmissionStatus protocolSubmissionStatus = new ProtocolSubmissionStatus();
 	protocolSubmissionStatus.setProtocolSubmissionStatusCode(submissionStatusCode);

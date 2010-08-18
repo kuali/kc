@@ -39,6 +39,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
+import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
@@ -139,7 +140,7 @@ public class ActionHelper implements Serializable {
     private boolean canRecordCommitteeDecision = false;
     private boolean canUndoLastAction = false;
     private boolean canModifyProtocolSubmission = false;
-    
+    private boolean canIrbAcknowledgement = false;
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
@@ -169,6 +170,7 @@ public class ActionHelper implements Serializable {
     private AdminCorrectionBean protocolAdminCorrectionBean;
     private UndoLastActionBean undoLastActionBean;
     private CommitteeDecision committeeDecision;
+    private IrbAcknowledgementBean irbAcknowledgementBean;
     private ProtocolModifySubmissionAction protocolModifySubmissionAction;
     
     private transient ParameterService parameterService;
@@ -234,6 +236,8 @@ public class ActionHelper implements Serializable {
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
         protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
         addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
+        irbAcknowledgementBean = new IrbAcknowledgementBean();
+        addReviewerCommentsToBean(irbAcknowledgementBean, this.form);
         protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
         protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
@@ -490,6 +494,7 @@ public class ActionHelper implements Serializable {
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
+        canIrbAcknowledgement = hasIrbAcknowledgementPermission();
         
         if (getCurrentSequenceNumber() == -1) {
             initSummaryDetails();
@@ -657,6 +662,11 @@ public class ActionHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    private boolean hasIrbAcknowledgementPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
     private TaskAuthorizationService getTaskAuthorizationService() {
         if (this.taskAuthorizationService == null) {
             this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
@@ -752,6 +762,11 @@ public class ActionHelper implements Serializable {
         return protocolGrantExemptionBean;
     }
     
+    public IrbAcknowledgementBean getIrbAcknowledgementBean() {
+        return irbAcknowledgementBean;
+    }
+    
+
     public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
     }
@@ -929,6 +944,11 @@ public class ActionHelper implements Serializable {
         return false;
     }
     
+    public boolean getCanIrbAcknowledgement() {
+        return canIrbAcknowledgement;
+    }
+    
+
     public void setPrintTag(String printTag) {
         this.printTag = printTag;
     }
