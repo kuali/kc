@@ -74,6 +74,7 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         templates.add(getTemplate("108", "OpenEnrollmentNotification.xsl"));
         templates.add(getTemplate("114", "DataAnalysisNotification.xsl"));
         templates.add(getTemplate("115", "CloseEnrollmentNotification.xsl"));
+        templates.add(getTemplate("209", "IrbAcknowledgementNotification.xsl"));
 
         return templates;
     }

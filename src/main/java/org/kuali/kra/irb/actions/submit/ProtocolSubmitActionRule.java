@@ -37,6 +37,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";
+    private static final String REVIEW_TYPE_FYI = "7";
     private ParameterService parameterService;
 
     /**
@@ -121,12 +122,19 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             // If the user didn't select a review type, i.e. he/she choose the "select:" option,
             // then the Protocol Review Type Code will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
-                                                   KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
+            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
         } else if (isReviewTypeInvalid(protocolReviewTypeCode)) {
             isValid = false;
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode", 
-                             KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID, new String[] { protocolReviewTypeCode });
+            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID, new String[] { protocolReviewTypeCode });
+        } else if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
+                && ProtocolSubmissionType.NOTIFY_IRB.equals(submitAction.getSubmissionTypeCode())
+                && !REVIEW_TYPE_FYI.equals(submitAction.getProtocolReviewTypeCode())) {
+            // if submission type is "FYI", then review type must be FYI
+            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI);
+
         }
         return isValid;
     }

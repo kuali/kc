@@ -169,7 +169,8 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         assertEquals(new Integer(1), submission.getSubmissionNumber());
         
         assertEquals(ProtocolSubmissionType.NOTIFY_IRB, submission.getSubmissionTypeCode());
-        assertEquals(ProtocolReviewType.FULL_TYPE_CODE, submission.getProtocolReviewTypeCode());
+        //assertEquals(ProtocolReviewType.FULL_TYPE_CODE, submission.getProtocolReviewTypeCode());
+        assertEquals(ProtocolReviewType.FYI_TYPE_CODE, submission.getProtocolReviewTypeCode());
         assertEquals(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE, submission.getSubmissionStatusCode());
        
         assertEquals(convert(requestBean.getCommitteeId()), convert(submission.getCommitteeId()));

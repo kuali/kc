@@ -29,6 +29,7 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
     public static final String FULL_TYPE_CODE = "1";
     public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
     public static final String EXEMPT_STUDIES_REVIEW_TYPE_CODE = "3";
+    public static final String FYI_TYPE_CODE = "7";
 
     private String reviewTypeCode;
     private String description;
