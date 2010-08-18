@@ -283,6 +283,9 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolMaintainOnlineReviewsAuthorizer" parent="parentProtocolAuthorizer">
                 	<property name="taskName" value="maintainProtocolOnlineReviews"/>
                 </bean>
+                <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="irbAcknowledgement" />
+                </bean>
                 
             </list>
         </property>
@@ -633,6 +636,12 @@
     <bean id="protocolNotificationTemplateAuthorizationService" class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+    <bean id="irbAcknowledgementService" class="org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
     </bean>
 
 </beans>

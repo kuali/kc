@@ -112,6 +112,7 @@ public interface TaskName {
     public static final String PROTOCOL_UNDO_LAST_ACTION = "protocolUndoLastAction";
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
+    public static final String IRB_ACKNOWLEDGEMENT = "irbAcknowledgement";
     
     /*
      * Protocol - Online Review Tasks

@@ -44,6 +44,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
+import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementService;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
@@ -1109,6 +1111,18 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward irbAcknowledgement(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
+        getIrbAcknowledgementService().irbAcknowledgement(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+        getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
+                protocolForm.getProtocolDocument().getProtocol());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+
     /**
      * Add a review comment to a grant exemption request.
      * @param mapping
@@ -1126,7 +1140,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
     }
-    
+        
+    public ActionForward addIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
+    }
+
     /**
      * Delete a review comment from a grant exemption request.
      * @param mapping
@@ -1141,6 +1164,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
+        return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward deleteIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
         return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -1161,6 +1192,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
+    public ActionForward moveUpIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
+        return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
     /**
      * Move a review comment down one in a grant exemption request.
      * @param mapping
@@ -1175,6 +1214,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
+        return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward moveDownIrbAcknowledgementReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IrbAcknowledgementBean actionBean = protocolForm.getActionHelper().getIrbAcknowledgementBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -2173,6 +2220,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
         return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
+    }
+    
+    private IrbAcknowledgementService getIrbAcknowledgementService() {
+        return KraServiceLocator.getService(IrbAcknowledgementService.class);
     }
     
     private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
