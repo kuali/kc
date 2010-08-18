@@ -500,6 +500,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID = "error.protocol.submissionTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED = "error.protocol.reviewTypeCode.notFound";
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_INVALID = "error.protocol.reviewTypeCode.invalid";
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI = "error.protocol.reviewTypeCode.mustbe.fyi";
     public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocol.reviewerTypeCode.notFoundButReviewerChecked";
     public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocol.reviewerTypeCode.selectedButReviewerUnchecked";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocol.reviewerTypeCode.invalid";

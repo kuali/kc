@@ -82,7 +82,8 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
      */
     private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, ProtocolSubmissionType.NOTIFY_IRB);
-        submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        //submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FYI_TYPE_CODE);
         submissionBuilder.setSubmissionTypeQualifierCode(notifyIrbBean.getSubmissionQualifierTypeCode());
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionBuilder.setCommittee(notifyIrbBean.getCommitteeId());
