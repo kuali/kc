@@ -67,7 +67,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResults(fieldValues), fieldValues);
+        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
