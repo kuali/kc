@@ -9,7 +9,7 @@
 
 			The IRB protocol number
 			<a title="" target="_self"
-				href="../kew/DocHandler.do?command=displayDocSearchView&amp;docId={$documentNumber}">
+				href="../protocolProtocol.do?viewDocument=false&amp;docId={$documentNumber}&amp;submissionId=&amp;docTypeName=ProtocolDocument&amp;methodToCall=docHandler&amp;command=displayDocSearchView" >
 				<xsl:value-of select="protocolNumber" />
 			</a>
 			, Principal Investigator

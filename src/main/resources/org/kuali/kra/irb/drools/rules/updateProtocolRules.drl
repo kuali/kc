@@ -373,7 +373,8 @@ when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "116")
 then	
 	createAuditTrail(protocolAction);
-	setNewProtocolSubmission(protocolAction, "112", "7", "102");
+	# new submission already created in notifyirbservice.  this is duplicate
+	#setNewProtocolSubmission(protocolAction, "112", "7", "102");
 end
 
 rule "fn_data_analysis_only: Submission Status = 211 (Closed for Enrollment); Protocol Status =  202 (Active Data Analysis Only)" 

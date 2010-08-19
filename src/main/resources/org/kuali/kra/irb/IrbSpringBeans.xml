@@ -629,6 +629,7 @@
         <property name="notificationService" ref="notificationService" />
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
         <property name="notificationTemplates">
 			<list>
 			    <value>/org/kuali/kra/irb/actions_notification.xml</value>
@@ -638,12 +639,12 @@
     <bean id="protocolNotificationTemplateAuthorizationService" class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
+     </bean>
 
     <bean id="irbAcknowledgementService" class="org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-    </bean>
+   </bean>
 
 </beans>

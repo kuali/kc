@@ -66,6 +66,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         businessObjectService.save(protocol.getProtocolDocument());
+        protocol.refreshReferenceObject("protocolSubmissions");
         try {
             //sendNotifyIrbNotification(protocol, notifyIrbBean);
             protocolActionsNotificationService.sendActionsNotification(protocol, new NotifyIrbEvent(protocol));
