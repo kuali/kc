@@ -113,9 +113,11 @@
 								<html:image property="methodToCall.editRoles.line${status.index}.anchor${tabKey}"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-editrole.gif' styleClass="tinybutton"
 											onclick="javascript: permissionsEditRolesPop('${name}', '${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
-								&nbsp;
-								<html:image property="methodToCall.deleteUser.line${status.index}.anchor${tabKey}"
-										    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                                <c:if test="${KualiForm.document.protocolList[0].principalInvestigatorId != user.person.personId}">            
+								    &nbsp;
+								    <html:image property="methodToCall.deleteUser.line${status.index}.anchor${tabKey}"
+									    	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                                </c:if>
 							</nobr>
 							</div>
 						</td>
