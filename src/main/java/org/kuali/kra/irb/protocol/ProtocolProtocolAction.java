@@ -94,7 +94,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     @Override
     protected boolean isValidSave(ProtocolForm protocolForm) {
-        System.err.println("got to the isValidSave function");
         boolean rulePassed = true;
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         
