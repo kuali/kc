@@ -47,7 +47,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The CommitteeAction is the base class for all Committee actions.  Each derived
@@ -62,7 +61,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);  
+        ActionForward actionForward = super.execute(mapping, form, request, response); 
         return actionForward;
     }
     
@@ -256,7 +255,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommitteeForm) form).getCommitteeHelper().prepareView();
+        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
         return mapping.findForward("committeeMembership");
     }
 
