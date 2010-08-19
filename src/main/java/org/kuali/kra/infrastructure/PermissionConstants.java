@@ -60,6 +60,7 @@ public interface PermissionConstants {
     public static final String VIEW_RESTRICTED_NOTES = "View Restricted Notes";
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "Answer Protocol Questionnaire";
     public static final String MAINTAIN_ONLINE_REVIEWS = "Maintain Protocol Online Reviews";
+    public static final String MODIFY_PROTOCOL_SUBMISSION = "Modify Protocol Submission";
     /* IRB - Online Review Permissions */
     
     public static final String MODIFY_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";

@@ -45,12 +45,12 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
         } else {
             if (ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(actionBean.getProtocolReviewTypeCode()) 
                     && !verifyExemptChecklist(actionBean)) {
-                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".exemptStudiesCheckList", 
+                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".exemptStudiesCheckList[0].checked", 
                         KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXEMPT_CHECKBOX_REQ);
                 valid = false;
             } else if (ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(actionBean.getProtocolReviewTypeCode()) 
                     && !verifyExpediteChecklist(actionBean)) {
-                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".expeditedReviewCheckList", 
+                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".expeditedReviewCheckList[0].checked", 
                         KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXPEDITED_CHECKBOX_REQ);
                 valid = false;
             }
