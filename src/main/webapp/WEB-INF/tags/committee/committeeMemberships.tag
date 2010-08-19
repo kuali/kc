@@ -9,17 +9,17 @@
     <c:choose>
         <c:when test="${KualiForm.committeeHelper.showActiveMembersOnly}">
               <html:image property="methodToCall.showAllMembers" 
-                          src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_showallmembers.gif" 
+                          src="${ConfigProperties.kra.externalizable.images.url}tinybutton-showallmembers.gif" 
                           title="Show All Members" 
                           alt="Show All Members" 
-                          styleClass="globalbuttons"/>
+                          styleClass="tinybutton"/>
         </c:when>
         <c:otherwise>
               <html:image property="methodToCall.showActiveMembersOnly" 
-                          src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_showactivemembers.gif" 
+                          src="${ConfigProperties.kra.externalizable.images.url}tinybutton-showactivemembers.gif" 
                           title="Show Active Members" 
                           alt="Show Active Members" 
-                          styleClass="globalbuttons"/>
+                          styleClass="tinybutton"/>
         </c:otherwise>
     </c:choose>
   </p>
@@ -33,7 +33,7 @@
 
     <kul:checkErrors keyMatch="${committeeMembershipProperty}.*,${committeeMembershipRoleProperty}.*,${committeeMembershipExpertiseProperty}.*" />
 
-    <c:if test="${!KualiForm.committeeHelper.showActiveMembersOnly || membership.active || hasErrors || empty membership.membershipTypeCode || KualiForm.committeeHelper.memberIndex == status.index}">
+    <c:if test="${!KualiForm.committeeHelper.showActiveMembersOnly || !membership.wasInactiveAtLastSave || hasErrors || KualiForm.committeeHelper.memberIndex == status.index}">
         
         <c:choose>
             <c:when test="${empty transparent}">
