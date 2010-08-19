@@ -28,7 +28,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -94,14 +93,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
-            if (newProtocolPerson.isPrincipalInvestigator()) {
-                // Assign the PI the AGGREGATOR role.
-                if (StringUtils.isNotBlank(newProtocolPerson.getPersonId())) {
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                    kraAuthService.addRole(newProtocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-                }
-                super.refresh(mapping, form, request, response);
-            }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -249,10 +240,18 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         // TODO Auto-generated method stub
         super.preSave(mapping, form, request, response);
         Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
+        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+            if (protocolPerson.isPrincipalInvestigator()) {
+                // Assign the PI the AGGREGATOR role.
+                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+            }
+        }
+
         Map keyMap = new HashMap();
         keyMap.put("protocolNumber", protocol.getProtocolNumber());
         keyMap.put("sequenceNumber", protocol.getSequenceNumber());
-   
+ 
         List<ProtocolAttachmentPersonnel> attachments = (List<ProtocolAttachmentPersonnel>)getBusinessObjectService().findMatching(ProtocolAttachmentPersonnel.class, keyMap);
         List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
         List<Long> attachmentIds = new ArrayList<Long>();
