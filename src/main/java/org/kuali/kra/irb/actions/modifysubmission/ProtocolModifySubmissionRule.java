@@ -36,7 +36,6 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
      * @see org.kuali.kra.irb.actions.modifysubmission.ExcecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
      */
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
-        System.err.println("Running modify submission rules");
         boolean valid = true;
         if (actionBean.getProtocolReviewTypeCode() == null || "".equals(actionBean.getProtocolReviewTypeCode())) {
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode", 
