@@ -97,20 +97,16 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td valign="middle">
-						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createTimestamp}&nbsp;
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createTimestamp}" />
 					</td>
 	                <td valign="middle">
-						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateUser}&nbsp;
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateUser}" />
 	                </td>
 	                <td valign="middle">                	
-					<div align="center">
-						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].noteTopic}&nbsp;  
-					</div>
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].noteTopic}" />  
 					</td>
 	                <td valign="middle">                	
-					<div align="left">
-						${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].comments}&nbsp; 
-					</div>
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].comments}" /> 
 					</td>
 	                <td valign="middle">
 					<div align="center">
