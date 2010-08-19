@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
 /**
  * 
@@ -27,8 +33,46 @@ public class IrbAcknowledgementAuthorizer extends ProtocolAuthorizer {
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.IRB_ACKNOWLEDGEMENT)
+        return isValidToPerform(task)
                 && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
+    private boolean isValidToPerform(ProtocolTask task) {
+        boolean isValid = false;
+        Protocol protocol = task.getProtocol();
+        if (protocol.getNotifyIrbSubmissionId() != null) {
+            // not the current submission, then check programically
+            for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+                if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
+                    isValid = isValidFYI(submission);
+                }
+            }
+        }
+        if (!isValid) {
+            // if not valid, then this submission is not for ack, so not needed.
+            protocol.setNotifyIrbSubmissionId(null);
+            isValid = canExecuteAction(task.getProtocol(), ProtocolActionType.IRB_ACKNOWLEDGEMENT);
+        }
+        return isValid;
+    }
+
+    private boolean isValidFYI(ProtocolSubmission submission) {
+        return isFYISubmission(submission.getSubmissionTypeCode()) && isFYIReview(submission.getProtocolReviewTypeCode())
+                && isStatusValid(submission.getSubmissionStatusCode());
+    }
+
+
+    private boolean isFYISubmission(String submissionTypeCode) {
+        return StringUtils.isNotBlank(submissionTypeCode) && ProtocolSubmissionType.NOTIFY_IRB.equals(submissionTypeCode);
+    }
+
+    private boolean isFYIReview(String reviewTypeCode) {
+        return StringUtils.isNotBlank(reviewTypeCode) && ProtocolReviewType.FYI_TYPE_CODE.equals(reviewTypeCode);
+    }
+
+    private boolean isStatusValid(String submissionStatusCode) {
+        return StringUtils.isNotBlank(submissionStatusCode)
+                && (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(submissionStatusCode) || ProtocolSubmissionStatus.IN_AGENDA
+                        .equals(submissionStatusCode));
+    }
 }
