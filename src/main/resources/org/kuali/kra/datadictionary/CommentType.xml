@@ -113,6 +113,10 @@
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="templateFlag" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="awardCommentScreenFlag" />
             </list>
           </property>
         </bean>
@@ -139,6 +143,10 @@
               p:attributeName="commentTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+              p:attributeName="templateFlag" />
+        <bean parent="FieldDefinition"
+              p:attributeName="awardCommentScreenFlag" />
       </list>
     </property>
     <property name="resultFields" >
@@ -148,6 +156,10 @@
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+	    <bean parent="FieldDefinition"
+	          p:attributeName="templateFlag" />
+	    <bean parent="FieldDefinition"
+              p:attributeName="awardCommentScreenFlag" />
       </list>
     </property>
   </bean>
