@@ -41,7 +41,6 @@ public abstract class ProtocolProccessBillableService {
      * @param billable
      */
     public void proccessBillable(Protocol protocol, boolean billable) {
-        System.err.println("canUpdateBillableField(protocol):'" + canUpdateBillableField(protocol) + "' billable:'" + billable + "'");
         if (canUpdateBillableField(protocol)) {
             protocol.getProtocolSubmission().setBillable(billable);
         }
