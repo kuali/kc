@@ -286,7 +286,9 @@
                 <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="irbAcknowledgement" />
                 </bean>
-                
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
+                	<property name="taskName" value="modifyProtocolSubmisison"/>
+                </bean>
             </list>
         </property>
     </bean>
