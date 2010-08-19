@@ -25,7 +25,7 @@
     		<span class="subhead-right">
     			<kul:help businessObjectClassName="org.kuali.kra.timeandmoney.AwardHierarchyNode" altText="help"/>
 			</span>
-        </h3>    	        
+        </h3>   	        
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
     		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" />
@@ -72,7 +72,6 @@
     		
     	</tr>
     </table>
- 	<div>
 	<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
 			
   			<table cellpadding="0" cellspacing="0" summary="">	
@@ -134,7 +133,6 @@
 		</table>
 		
 		</c:if>
-		</div>
     
     <div align="left">    
                                             <%-- <div id="treecontrol" style="display:inline;">
@@ -143,9 +141,8 @@
                                             </div> --%>
 
 	
-     <div style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; position: relative;" >
-     
-     <div class="divAHT"><div style="padding-right: 47px;">
+     <div style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: scroll; overflow-x: scroll; position: relative;" >
+     <div class="divAHT"><div>
      	<c:forEach items="${KualiForm.awardHierarchyNodeItems}" var="tempNode" varStatus="status">
 			<c:set var="finalExpirationDateProperty" value="${tempNode.finalExpirationDate}" />  
 			<c:set var="currentFundEffectiveDateProperty" value="${tempNode.currentFundEffectiveDate}" />
@@ -167,53 +164,65 @@
 		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
 		</span>
 		</td>
-		<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 800px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+		<%--<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. Start
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 912px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1212px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1024px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1324px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Project End
+			</td>
+		</c:if>--%>
+		
+		<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px;  align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. Start
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			Oblg. End
+			</td>
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Project End
 			</td>
 		</c:if>
 
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 1}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 465px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. Start
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 582px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; position: absolute; left: 699px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Project End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 816px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			&nbsp;
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 932px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Obligated
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 1044px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Anticipated
 			</td> 
 		</c:if>
 		
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 2}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 885px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. Start
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 997px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; position: absolute; left: 1109px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Project End
 			</td>		
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; position: absolute; left: 1221px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Obligated
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: right; width: 110px; position: absolute; left: 1335px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Anticipated
 			</td>
 		</c:if>
