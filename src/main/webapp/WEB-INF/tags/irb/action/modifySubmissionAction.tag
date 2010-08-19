@@ -63,7 +63,7 @@
                             	</nobr>
                             </div>
                 		</th>
-                		<td>
+                		<td colspan="3">
                 			<kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.billable" attributeEntry="${attributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}" />
                 		</td>
                 	</tr>

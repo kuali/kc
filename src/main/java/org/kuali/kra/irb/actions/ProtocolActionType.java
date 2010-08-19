@@ -63,6 +63,9 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     //We still need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently
     public static final String RECORD_COMMITTEE_DECISION = "308";
     
+    //No corresponding actionTypeCode for this in Coeus 
+    public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
+    
     private String protocolActionTypeCode;
     
     private String description;

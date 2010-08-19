@@ -494,6 +494,7 @@ public class ActionHelper implements Serializable {
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
+        canModifyProtocolSubmission = hasModifyProtocolSubmissionPermission();
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
         
         if (getCurrentSequenceNumber() == -1) {
@@ -650,6 +651,10 @@ public class ActionHelper implements Serializable {
     
     private boolean hasEnterRiskLevelPermission() {
         return hasPermission(TaskName.ENTER_RISK_LEVEL);
+    }
+    
+    private boolean hasModifyProtocolSubmissionPermission() {
+        return hasPermission(TaskName.MODIFY_PROTOCOL_SUBMISSION);
     }
     
     private boolean hasPermission(String taskName) {
@@ -940,8 +945,7 @@ public class ActionHelper implements Serializable {
     }
     
     public boolean getCanModifyProtocolSubmission() {
-        //return this.canModifyProtocolSubmission;
-        return false;
+        return this.canModifyProtocolSubmission;
     }
     
     public boolean getCanIrbAcknowledgement() {
