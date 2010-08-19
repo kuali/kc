@@ -25,6 +25,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.IrbAcknowledgementEvent;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -65,16 +67,31 @@ public class IrbAcknowledgementServiceImpl implements IrbAcknowledgementService 
         protocolAction.setComments(irbAcknowledgementBean.getComments());
         protocolAction.setActionDate(new Timestamp(irbAcknowledgementBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
-        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        if (protocol.getNotifyIrbSubmissionId() == null) {
+            protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        } else {
+            updateNorifyIrbSubmission(protocol);
+        }
 
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
         try {
             protocolActionsNotificationService.sendActionsNotification(protocol, new IrbAcknowledgementEvent(protocol));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.info("IRB Acknowledgement Notification exception " + e.getStackTrace());
         }
 
+    }
+
+    private void updateNorifyIrbSubmission(Protocol protocol) {
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
+                submission.setSubmissionStatusCode(ProtocolSubmissionStatus.IRB_ACKNOWLEDGEMENT);
+                protocol.setNotifyIrbSubmissionId(null);
+            }
+        }
+        
     }
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
