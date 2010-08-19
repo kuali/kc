@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
@@ -40,7 +41,9 @@ import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -55,7 +58,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     private RoleService kimRoleManagementService;
     private KcPersonService kcPersonService;
     private List<String> notificationTemplates;
-
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * 
@@ -78,7 +81,14 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
             // message.setTextContent(getTransFormData(protocol, notificationEvent.getTemplatePath()));
-            message.setTextContent(getTransFormData(protocol, notificationEvent.getTemplate()));
+            String messageBody = getTransFormData(protocol, notificationEvent.getTemplate());
+            if (ProtocolActionType.NOTIFY_IRB.equals(notificationEvent.getActionTypeCode())) {
+                // this url is needed for embedded mode
+                String applicationUrl = kualiConfigurationService.getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+                messageBody = messageBody.replace("submissionId=", "submissionId="+protocol.getProtocolSubmission().getSubmissionId());
+                messageBody = messageBody.replace("../", applicationUrl + "/");
+            }
+            message.setTextContent(messageBody);
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
             title.setTextContent(notificationEvent.getTitle());
@@ -273,6 +283,11 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
         // writer.toString();
         return writer.toString();
 
+    }
+
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }

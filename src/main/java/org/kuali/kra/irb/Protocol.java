@@ -178,6 +178,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private boolean correctionMode = false;
     
     private transient DateTimeService dateTimeService;
+    // passed in req param submissionid.  used to check if irb ack is needed
+    // this link is from protocosubmission or notify irb message
+    private transient Long notifyIrbSubmissionId;
     
     /**
      * 
@@ -1659,5 +1662,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             dateTimeService = (DateTimeService) KraServiceLocator.getService(DateTimeService.class);
         }
         return dateTimeService;
+    }
+
+    public Long getNotifyIrbSubmissionId() {
+        return notifyIrbSubmissionId;
+    }
+
+    public void setNotifyIrbSubmissionId(Long notifyIrbSubmissionId) {
+        this.notifyIrbSubmissionId = notifyIrbSubmissionId;
     }
 }

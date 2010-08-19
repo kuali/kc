@@ -136,6 +136,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
             // protocolsubmission lookup
             for (ProtocolSubmission protocolSubmission : protocolForm.getDocument().getProtocol().getProtocolSubmissions()) {
+                if (StringUtils.isNotBlank(request.getParameter("submissionId"))) {
+                    protocolForm.getDocument().getProtocol().setNotifyIrbSubmissionId(Long.parseLong(request.getParameter("submissionId")));
+                }
                 if (request.getParameter("submissionId").equals(protocolSubmission.getSubmissionId().toString())) {
                     protocolForm.getDocument().getProtocol().setProtocolSubmission(protocolSubmission);
                     break;

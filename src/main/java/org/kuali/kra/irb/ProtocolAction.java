@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -42,14 +41,11 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -308,7 +304,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         String command = protocolForm.getCommand();
-        
+
         if (KEWConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
              String docIdRequestParameter = request.getParameter(KNSConstants.PARAMETER_DOC_ID);
              Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
