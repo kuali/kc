@@ -58,6 +58,7 @@ public class CommitteeMembership extends CommitteeAssociate {
     private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
+    private boolean wasInactiveAtLastSave;
     
     private transient KcPersonService kcPersonService;
     private transient KcPerson kcPerson;
@@ -240,6 +241,14 @@ public class CommitteeMembership extends CommitteeAssociate {
 
     public void setDelete(boolean delete) {
         this.delete = delete;
+    }
+    
+    public boolean getWasInactiveAtLastSave() {
+        return wasInactiveAtLastSave;
+    }
+    
+    public void setWasInactiveAtLastSave(boolean wasInactiveAtLastSave) {
+        this.wasInactiveAtLastSave = wasInactiveAtLastSave;
     }
 
     @Override

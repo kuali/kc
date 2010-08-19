@@ -54,7 +54,7 @@ public class CommitteeHelper implements Serializable {
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
     private boolean performAction = false;
-    private boolean showActiveMembersOnly = false;
+    private boolean showActiveMembersOnly = true;
 
     // Needed when multipleValuesLookup populates a CommitteeMembership with the CommitteeMembershipExpertise,
     // so it know which CommitteeMembership should get them.
@@ -157,7 +157,7 @@ public class CommitteeHelper implements Serializable {
     }
     
     public List<CommitteeMembershipRole> getNewCommitteeMembershipRoles() {
-        if (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipRoles.size()) {
+        while (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipRoles.size()) {
             this.newCommitteeMembershipRoles.add(this.newCommitteeMembershipRoles.size(), new CommitteeMembershipRole());
         }
         return newCommitteeMembershipRoles;
@@ -168,7 +168,7 @@ public class CommitteeHelper implements Serializable {
     }
     
     public List<CommitteeMembershipExpertise> getNewCommitteeMembershipExpertise() {
-        if (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipExpertise.size()) {
+        while (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipExpertise.size()) {
             this.newCommitteeMembershipExpertise.add(this.newCommitteeMembershipExpertise.size(), new CommitteeMembershipExpertise());
         }
         return newCommitteeMembershipExpertise;
@@ -273,6 +273,16 @@ public class CommitteeHelper implements Serializable {
     
     public void setShowActiveMembersOnly(boolean showActiveMembersOnly) {
         this.showActiveMembersOnly = showActiveMembersOnly;
+    }
+    
+    public void flagInactiveMembers() {
+        for (CommitteeMembership committeeMembership : committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships()) {
+            if (!committeeMembership.isActive()) {
+                committeeMembership.setWasInactiveAtLastSave(true);
+            } else {
+                committeeMembership.setWasInactiveAtLastSave(false);
+            }
+        }
     }
 
     private List<CommitteeSchedule> getSortedCommitteeScheduleList() {

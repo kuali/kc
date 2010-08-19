@@ -288,5 +288,24 @@ public class CommitteeMembershipAction extends CommitteeAction {
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        return actionForward;
+    }
+
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.route(mapping, form, request, response);
+        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        return actionForward;
+    }
+
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        return actionForward;
+    }
 }
