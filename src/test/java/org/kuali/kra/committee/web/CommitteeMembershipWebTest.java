@@ -39,6 +39,7 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
     private static final String NON_EMPLOYEE_NAME = "Ho, Pauline";
     private static final String ADD_MEMBER_BUTTON = "methodToCall.addCommitteeMembership";
     private static final String CLEAR_BUTTON = "methodToCall.clearCommitteeMembership";
+    private static final String SHOW_ALL_MEMBERS_BUTTON = "methodToCall.showAllMembers";
     
     private static final String ADD_ROLE_BUTTON = "methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[0].line0";
 
@@ -117,9 +118,9 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
         
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].membershipTypeCode", "1");
         setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termStartDate", "01/01/2009");
-        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termEndDate", "12/31/2009");
+        setFieldValue(membersPage, "document.committeeList[0].committeeMemberships[0].termEndDate", "12/31/9999");
         
-        membersPage = addMemberRole(membersPage, 0, "2", "01/01/2009", "12/31/2009");
+        membersPage = addMemberRole(membersPage, 0, "2", "01/01/2009", "12/31/9999");
         membersPage = addMemberRole(membersPage, 0, "1", "01/01/2009", "01/10/2009");
         membersPage = addMemberRole(membersPage, 0, "1", "02/01/2009", "02/10/2009");
         membersPage = addMemberExpertise(membersPage, "01.0101");
@@ -132,18 +133,11 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
         assertContains(membersPage, "Document was successfully saved.");
 
         /*
-         * Get the document again and verify that it was correctly saved to the database.
-         */
-         // Don't have 'reload' button anymore
-//        membersPage = clickOn(membersPage, "reload");
-//        assertFalse(hasError(membersPage));
-//        assertContains(membersPage, "Document was successfully reloaded.");
-        
-        /*
          * Verify that the role table of the first member has five rows (title, form, and new role row),
          * and verify that the new roles are what we expected.
          */
         HtmlTable table = getTable(membersPage, "membership-role-table-0");
+        System.out.println(">>>" + table.asText());
         assertEquals(5, table.getRowCount());
         assertTrue(table.asText().contains("Member - Scientist"));
         assertTrue(table.asText().contains("Chair"));
