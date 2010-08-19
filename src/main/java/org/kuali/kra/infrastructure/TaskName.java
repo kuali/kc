@@ -113,6 +113,7 @@ public interface TaskName {
     public static final String RECORD_COMMITTEE_DECISION = "protocolRecordCommitteeDecision";
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
     public static final String IRB_ACKNOWLEDGEMENT = "irbAcknowledgement";
+    public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
     
     /*
      * Protocol - Online Review Tasks

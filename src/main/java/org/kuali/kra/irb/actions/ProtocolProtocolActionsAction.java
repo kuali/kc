@@ -2078,7 +2078,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolModifySubmissionAction bean = protocolForm.getActionHelper().getProtocolModifySubmissionAction();
-        System.err.println("******************* Got to modifySubmsionAction *********************");
         if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
                 .getProtocolModifySubmissionAction()))) {
             KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
