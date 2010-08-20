@@ -240,14 +240,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         // TODO Auto-generated method stub
         super.preSave(mapping, form, request, response);
         Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
-        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
-            if (protocolPerson.isPrincipalInvestigator()) {
-                // Assign the PI the AGGREGATOR role.
-                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-            }
-        }
-
         Map keyMap = new HashMap();
         keyMap.put("protocolNumber", protocol.getProtocolNumber());
         keyMap.put("sequenceNumber", protocol.getSequenceNumber());
@@ -286,5 +278,14 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
             }
 
+        Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
+        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+            if (protocolPerson.isPrincipalInvestigator()) {
+                // Assign the PI the AGGREGATOR role.
+                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                super.reload(mapping, form, request, response);
+            }
+        }
     }
 }
