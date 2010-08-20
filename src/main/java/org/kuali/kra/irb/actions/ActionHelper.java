@@ -501,6 +501,7 @@ public class ActionHelper implements Serializable {
         canUndoLastAction = hasUndoLastActionPermission();
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
         canDefer = hasDeferPermission();
+        canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         
         if (getCurrentSequenceNumber() == -1) {
             initSummaryDetails();
@@ -674,6 +675,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasIrbAcknowledgementPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasCanModifySubmissionPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
@@ -950,8 +956,7 @@ public class ActionHelper implements Serializable {
     }
     
     public boolean getCanModifyProtocolSubmission() {
-        //return this.canModifyProtocolSubmission;
-        return false;
+        return this.canModifyProtocolSubmission;
     }
     
     public boolean getCanIrbAcknowledgement() {
