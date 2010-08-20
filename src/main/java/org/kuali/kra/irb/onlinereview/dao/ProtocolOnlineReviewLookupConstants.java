@@ -15,25 +15,15 @@
  */
 package org.kuali.kra.irb.onlinereview.dao;
 
-import java.util.List;
-import java.util.Map;
+public interface ProtocolOnlineReviewLookupConstants {
 
-import org.apache.commons.httpclient.protocol.Protocol;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-
-public interface ProtocolOnlineReviewDao {
-    
-
-    /**
-     * 
-     * This method get protocols lookup search results.
-     * @param fieldValues
-     * @return
-     */
-    List<ProtocolOnlineReview> getProtocolOnlineReviews(Map<String,String> fieldValues);
-    
-    
+    public static class Property {
+        public static final String REVIEWER_EMPLOYEE = "lookupReviewerPersonId";
+        public static final String REVIEWER_NONEMPLOYEE = "lookupReviewerRolodexId";
+        public static final String PROTOCOL_ID="protocolId";
+        public static final String PROTOCOL_NUMBER="lookupProtocolNumber";
+        public static final String SUBMISSION_ID="submissionIdFk";
+        public static final String DATE_DUE="dateDue";
+        public static final String DATE_REQUESTED="dateRequested";
+    }
 }

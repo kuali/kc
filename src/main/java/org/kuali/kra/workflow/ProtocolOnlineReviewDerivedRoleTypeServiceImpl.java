@@ -21,25 +21,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
   
     private static final Map<String, String> proposalRoleCodeConsants = new HashMap<String, String>();
     private ProtocolOnlineReviewService protocolOnlineReviewService;
+    private BusinessObjectService businessObjectService;
     
 	protected WorkflowInfo workflowInfo = new WorkflowInfo();
     
@@ -57,11 +54,16 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		
 		String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
 		Long submissionId = Long.parseLong(qualification.get("submissionId"));
-		String personId = qualification.get("personId");
+		
 		String reviewId = qualification.get("protocolOnlineReviewId");
+		Map<String,Object> primaryKeys = new HashMap<String,Object>();
+		
+		primaryKeys.put("protocolReviewerId", qualification.get("protocolReviewerId"));
+		ProtocolReviewer reviewer = (ProtocolReviewer) businessObjectService.findByPrimaryKey(ProtocolReviewer.class, primaryKeys);
 		
 		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getOnlineReviewersForProtocolSubmission(submissionId)) {
-		    if( StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") && (personId == null || StringUtils.equals(personId, pReview.getProtocolReviewer().getPersonId() ))) {
+		    if( !pReview.getProtocolReviewer().getNonEmployeeFlag() && 
+		            (StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") ) ) {
 		        pReview.refresh();
 		        members.add( new RoleMembershipInfo(null, null, pReview.getProtocolReviewer().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
 		    }
@@ -74,7 +76,6 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 	public boolean hasApplicationRole(
 	        String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification){
 	        validateRequiredAttributesAgainstReceived(qualification);
-	        
 	        //a principal has the role if they have an online review for the protocol.
 	        String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
 	        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviewService().getProtocolReviewsForCurrentSubmission(protocolNumber);
@@ -93,7 +94,13 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
     public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return protocolOnlineReviewService;
     }
-
-	
-
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
 }

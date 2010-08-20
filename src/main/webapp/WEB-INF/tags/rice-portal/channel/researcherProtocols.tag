@@ -33,6 +33,7 @@
             <li>Protocols Pending Committee Action </li>
             <li>All My Protocols </li>
             <li><portal:portalLink displayTitle="true" title="Search Protocols" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+            <li><portal:portalLink displayTitle="true" title="All My Reviews" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.onlinereview.ProtocolOnlineReview&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&lookupReviewerPersonId=${UserSession.principalId}" /></li>
         </ul>  
 </div>
 <channel:portalChannelBottom />

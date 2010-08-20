@@ -41,7 +41,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
             if (submission != null) {
                 List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
                 for (ProtocolReviewer reviewer : reviewers) {
-                    keyValues.add(new KeyLabelPair(reviewer.getProtocolReviewerId().toString(), getPersonName(reviewer)));
+                    keyValues.add(new KeyLabelPair(reviewer.getProtocolReviewerId().toString(), reviewer.getFullName()));
                 }
             }
         }
@@ -49,13 +49,13 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
         return keyValues;
     }
 
-    private String getPersonName(ProtocolReviewer reviewer) {
-        if (reviewer.getNonEmployeeFlag()) {
-            return getRolodexService().getRolodex(Integer.parseInt(reviewer.getPersonId())).getFullName();            
-        } else {
-           return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
-        }
-    }
+//    private String getPersonName(ProtocolReviewer reviewer) {
+//        if (reviewer.getNonEmployeeFlag()) {
+//            return getRolodexService().getRolodex(reviewer.getRolodexId()).getFullName();            
+//        } else {
+//           return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
+//        }
+//    }
 
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
