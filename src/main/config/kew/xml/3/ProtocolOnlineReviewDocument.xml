@@ -77,10 +77,6 @@
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
 				</qualifier>
 				
-				<qualifier name="personId">
-					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolReviewer/personId</xPathExpression>
-				</qualifier>
-				
 				<qualifier name="protocolOnlineReviewId">
 					<xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
 				</qualifier>
@@ -100,7 +96,7 @@
 	</ruleAttributes>
     
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-        	
+  		      	
          
 	</ruleTemplates>
 	

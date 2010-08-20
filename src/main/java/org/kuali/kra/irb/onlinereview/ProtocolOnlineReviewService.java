@@ -39,8 +39,7 @@ public interface ProtocolOnlineReviewService {
      * Name of the online review document.
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
-    
-    
+   
     
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
@@ -49,7 +48,38 @@ public interface ProtocolOnlineReviewService {
      * 
      * 
      * @param protocol The protocol for which the review is being requested.
-     * @param personId The id of the person being made a reviewer.
+     * @param personId The id of the person that will review the document.
+     * @param personIsEmployee Do we lookup the person as an employee (KcPerson) or a rolodex entry. 
+     * @param documentDescription The description to be used on the associated workflow document
+     * @param documentExplanation The explanation to be used on the associated workflow document
+     * @param documentOrganizationDocumentNumber the organization document number to be used on the associated workflow document
+     * @param documentRouteAnnotation - The annotation to apply to the document when routing it.
+     * @param approveDocument Should the service approve the document with the given principalID.  In the case of
+     * IRB Administrators this will approve the document through the initial node.
+     * @param principalId The principalId to use when creating the document, and routing it into workflow.
+     * @return The ProtocolReviewDocument that was created.
+     */
+   
+//    ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
+//            String personId, 
+//            boolean personIsEmployee,
+//            String documentDescription,
+//            String documentExplanation,
+//            String documentOrganizationDocumentNumber,
+//            String documentRouteAnnotation,
+//            boolean approveDocument,
+//            String principalId) throws WorkflowException;
+//    
+//    
+    
+    /**
+     * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
+     * This method will create a new ProtocolReviewDocument, and the associated BO and return it.
+     * The method routes the document so it will show immediately in the reviewer's kew action list.
+     * 
+     * 
+     * @param protocol The protocol for which the review is being requested.
+     * @param committeeMembershipId The id of the membership which will review the document.
      * @param documentDescription The description to be used on the associated workflow document
      * @param documentExplanation The explanation to be used on the associated workflow document
      * @param documentOrganizationDocumentNumber the organization document number to be used on the associated workflow document
@@ -61,7 +91,7 @@ public interface ProtocolOnlineReviewService {
      */
    
     ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
-            String personId, 
+            Long committeeMembershipId, 
             String documentDescription,
             String documentExplanation,
             String documentOrganizationDocumentNumber,
@@ -84,7 +114,7 @@ public interface ProtocolOnlineReviewService {
      * @return
      * @throws WorkflowException
      */
-    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, String personId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, String principalId)
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, Long committeeMembershipId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, String principalId)
     throws WorkflowException;
     
     
@@ -123,7 +153,16 @@ public interface ProtocolOnlineReviewService {
      * @param protocolNumber 
      * @return
      */
+    List<ProtocolOnlineReview> getProtocolReviewsForCurrentSubmission(Protocol protocol);
+    
+
+    /**
+     * Get a list of current ProtocolReview documents associated with the protocol and current submission.
+     * @param protocolNumber 
+     * @return
+     */
     List<ProtocolOnlineReview> getProtocolReviewsForCurrentSubmission(String protocolNumber);
+    
     
     /**
      * Get the other ProtocolOnlineReviews - the list will not include the provided review.

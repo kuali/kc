@@ -163,7 +163,8 @@
 				<value>copyPeriodsQuestion</value>
 				<value>sponsorLookupable</value>	
 				<value>pessimisticLockLookupable</value>	
-				<value>protocolLookupable</value>	
+				<value>protocolLookupable</value>
+				<value>protocolOnlineReviewLookupable</value>	
 				<value>protocolSubmissionLookupable</value>	
 				<value>committeeLookupable</value>	
 				<value>committeeScheduleLookupable</value>	

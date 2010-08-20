@@ -472,6 +472,9 @@ public final class KeyConstants {
     //IRB Protocol Search Screen Error Messages
     public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.protocol.search.invalid.date";
     
+    //IRB Protocol Online Review Error Messages
+    public static final String ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY="error.protocol.onlinereview.search.onlyoneperson";
+    
     // IRB Protocol Participant Types Validation Messages
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_NOT_SELECTED = "error.protocol.participantType.notselected";
     public static final String ERROR_PROTOCOL_PARTICIPANT_TYPE_INVALID = "error.protocol.participantType.invalid";

@@ -901,6 +901,7 @@
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
+        
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>

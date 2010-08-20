@@ -114,6 +114,7 @@
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
    		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
    		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
+   		<property name="protocolFinderDao" ref="protocolFinderDao" />
     </bean>
     
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
@@ -286,12 +287,12 @@
                 <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="irbAcknowledgement" />
                 </bean>
-                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
                 	<property name="taskName" value="modifyProtocolSubmisison"/>
-                </bean>               
+                </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolDeferAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolDefer" />
-                </bean>                
+                </bean>    
             </list>
         </property>
     </bean>
@@ -343,6 +344,34 @@
         scope="prototype" parent="lookupableHelperService">
         <property name="protocolDao">
             <ref bean="protocolDao" />
+        </property>
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
+        <property name="kraAuthorizationService">
+            <ref bean="kraAuthorizationService" />
+        </property>
+    </bean>
+	          
+	<bean id="protocolOnlineReviewLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="protocolOnlineReviewLookupableHelperService" />
+        </property>         
+    </bean> 
+	
+	<bean id="protocolOnlineReviewDao" parent="platformAwareDao" class="org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewDaoOjb">
+        <property name="lookupDao">
+            <ref bean="lookupDao" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+    </bean> 
+    
+	<bean id="protocolOnlineReviewLookupableHelperService" class="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
+        <property name="protocolOnlineReviewDao">
+            <ref bean="protocolOnlineReviewDao" />
         </property>
         <property name="kcPersonService">
             <ref bean="kcPersonService" />
@@ -580,6 +609,9 @@
 		<property name="protocolOnlineReviewService">
 			<ref bean="protocolOnlineReviewService" />
 		</property>		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 	</bean>
 	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
