@@ -16,11 +16,14 @@
 package org.kuali.kra.irb.actions.assignreviewers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -80,7 +83,23 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                 if (reviewerBean.getChecked() && newReviewer) {
                     
                     try {
-                        ProtocolOnlineReviewDocument pDocument = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, reviewerBean.getPersonId(), 
+                        
+                        //lookup the CommitteeMembership
+                        Map<String,Object> fieldValues = new HashMap<String,Object>();
+                        
+                        if( reviewerBean.getNonEmployeeFlag() ) {
+                            fieldValues.put("rolodexId", reviewerBean.getPersonId());
+                        } else {
+                            fieldValues.put("personId", reviewerBean.getPersonId());
+                        }
+                        
+                        fieldValues.put( "committeeIdFk", submission.getCommitteeId() );
+                        List<CommitteeMembership> memberships = (List<CommitteeMembership>)businessObjectService.findMatching(CommitteeMembership.class, fieldValues);
+                        
+                        if( memberships.size() != 1 ) {
+                            throw new IllegalStateException( "Could not find a unique committee member for keys:"+fieldValues);
+                        }
+                        ProtocolOnlineReviewDocument pDocument = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, memberships.get(0).getCommitteeMembershipId(),
                                 String.format("%s/Protocol# %s",protocol.getPrincipalInvestigator().getPerson().getLastName(),protocol.getProtocolNumber()),
                                 "", 
                                 "",
@@ -107,18 +126,23 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
      * @param nonEmployeeFlag
      * @return
      */
-    private ProtocolReviewer createReviewer(ProtocolSubmission submission, String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
-        ProtocolReviewer protocolReviewer = new ProtocolReviewer();
-        protocolReviewer.setProtocolId(submission.getProtocolId());
-        protocolReviewer.setSubmissionIdFk(submission.getSubmissionId());
-        protocolReviewer.setProtocolNumber(submission.getProtocolNumber());
-        protocolReviewer.setSequenceNumber(submission.getSequenceNumber());
-        protocolReviewer.setSubmissionNumber(submission.getSubmissionNumber());
-        protocolReviewer.setPersonId(personId);
-        protocolReviewer.setReviewerTypeCode(reviewerTypeCode);
-        protocolReviewer.setNonEmployeeFlag(nonEmployeeFlag);
-        return protocolReviewer;
-    }
+//    private ProtocolReviewer createReviewer(ProtocolSubmission submission, String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
+//        ProtocolReviewer protocolReviewer = new ProtocolReviewer();
+//        protocolReviewer.setProtocolId(submission.getProtocolId());
+//        protocolReviewer.setSubmissionIdFk(submission.getSubmissionId());
+//        protocolReviewer.setProtocolNumber(submission.getProtocolNumber());
+//        protocolReviewer.setSequenceNumber(submission.getSequenceNumber());
+//        protocolReviewer.setSubmissionNumber(submission.getSubmissionNumber());
+//        
+//        if(nonEmployeeFlag) {
+//            protocolReviewer.setRolodexId(Integer.parseInt(personId));
+//        } else {
+//            protocolReviewer.setPersonId(personId);
+//        }
+//        protocolReviewer.setReviewerTypeCode(reviewerTypeCode);
+//        protocolReviewer.setNonEmployeeFlag(nonEmployeeFlag);
+//        return protocolReviewer;
+//    }
 
 
     /**

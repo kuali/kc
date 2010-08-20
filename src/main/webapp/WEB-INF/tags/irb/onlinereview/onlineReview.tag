@@ -31,8 +31,8 @@
 
 <c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[documentNumber]}"/>
 <c:set var = "document" value = "${documentHelperMap['document']}"/>
-<c:set var = "reviewerComments" value = "${documentHelperMap['reviewerComments']}"/>
-<c:set var = "reviewerPerson" value = "${documentHelperMap['reviewerPerson']}"/>
+<c:set var = "reviewerComments" value = "${document.protocolOnlineReview.committeeScheduleMinutes}"/>
+<c:set var = "reviewerPerson" value = "${document.protocolOnlineReview.protocolReviewer}"/>
 <c:set var = "kualiForm" value = "${documentHelperMap['kualiForm']}"/>
 
 <c:set var="readOnly" value="${not kualiForm.editingMode['fullEntry']}" scope="request" />
@@ -140,7 +140,7 @@
                 		</div>
                 	</th>
                 	<td width = "25%" nowrap class="grid">
-						<c:out value = "${KualiForm.onlineReviewsActionHelper.reviewerPersons[renderIndex].fullName}"/>
+						<c:out value = "${reviewerPerson.fullName}"/>
 					</td>
                 <th width = "25%" class="grid">
                 	<div align="right">

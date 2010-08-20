@@ -21,9 +21,15 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
@@ -34,15 +40,25 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     private String protocolNumber;
     private Integer sequenceNumber;
     private Integer submissionNumber;
-    private String personId;
+
     private boolean nonEmployeeFlag;
     private String reviewerTypeCode;
     
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
     private ProtocolReviewerType protocolReviewerType;
+    
+//    private ProtocolPersonRolodex rolodex;
+//    private Integer rolodexId;
+    
+    private String personId;
+    private transient KcPersonService kcPersonService;
+    private transient KcPerson kcPerson;
+    private transient RolodexService rolodexService;
+    private transient Rolodex rolodex;
+    
     // transient property for submission detail display
-    private String fullName;
+    
     @SkipVersioning
     transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
 
@@ -164,6 +180,36 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
+
+    
+//    public ProtocolPersonRolodex getRolodex() {
+//        return this.rolodex;
+//    }
+//
+//    /**
+//     * Gets the rolodexId attribute. 
+//     * @return Returns the rolodexId.
+//     */
+//    public Integer getRolodexId() {
+//        return rolodexId;
+//    }
+//
+//    /**
+//     * Sets the rolodexId attribute value.
+//     * @param rolodexId The rolodexId to set.
+//     */
+//    public void setRolodexId(Integer rolodexId) {
+//        this.rolodexId = rolodexId;
+//    }
+//
+//    /**
+//     * Sets the rolodex attribute value.
+//     * @param rolodex The rolodex to set.
+//     */
+//    public void setRolodex(ProtocolPersonRolodex rolodex) {
+//        this.rolodex = rolodex;
+//    }
+//    
     
     @SuppressWarnings("unchecked")
     @Override
@@ -180,14 +226,24 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         map.put("reviewerTypeCode", getReviewerTypeCode());
         return map;
     }
+    
+    
+    public Rolodex getRolodex() {
+        if (nonEmployeeFlag) {
+            return getRolodexService().getRolodex(Integer.parseInt(this.personId));
+        } else {
+            return null;
+        }
+    }
 
     public String getFullName() {
-        return fullName;
+        if (nonEmployeeFlag) {
+            return getRolodex().getFullName();
+        } else {
+            return getPerson().getFullName();
+        }
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
     
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -196,5 +252,28 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         return managedLists;
     }
 
+    public KcPerson getPerson() {
+        if (kcPerson == null) {
+            kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
+        }
+        return kcPerson;
+    }
     
+    
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
+    
+    protected RolodexService getRolodexService() {
+        if (this.rolodexService==null) {
+            this.rolodexService = KraServiceLocator.getService(RolodexService.class);
+        }
+        return this.rolodexService;
+    }
+
+
 }

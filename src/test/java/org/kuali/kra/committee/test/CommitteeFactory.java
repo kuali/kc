@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -36,7 +37,7 @@ public class CommitteeFactory {
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
   
     public static CommitteeDocument createCommitteeDocument(String committeeId) throws WorkflowException {
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        DocumentService documentService = KraServiceLocator.getService("kraDocumentService");//KNSServiceLocator.getDocumentService();
         CommitteeDocument committeeDocument = (CommitteeDocument) documentService.getNewDocument("CommitteeDocument");
         setRequiredFields(committeeDocument, committeeId);
         documentService.saveDocument(committeeDocument);
@@ -47,6 +48,7 @@ public class CommitteeFactory {
         Committee committee = document.getCommittee();
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESCRIPTION);
         document.setDocumentNextvalues(new ArrayList<DocumentNextvalue>());
+        document.setCommitteeId(committeeId);
         committee.setCommitteeDocument(document);
         committee.setCommitteeId(committeeId);
         committee.setCommitteeTypeCode(DEFAULT_TYPE_CODE);

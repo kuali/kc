@@ -93,7 +93,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
         valid &= ruleService.applyRules(new SaveProtocolOnlineReviewEvent(event.getProtocolOnlineReviewDocument(),event.getMinutes(),event.getOnlineReviewIndex()));
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
+        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
         
         //check to see if it is on the 
         boolean isOnReviewerApproveNode = getKraWorkflowService().isDocumentOnNode(event.getProtocolOnlineReviewDocument(), REVIEWER_APPROVAL_NODE_NAME);
@@ -101,11 +101,13 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         if (isOnReviewerApproveNode) {
             //we only enforce "all comments must be final" if we are moving off of the reviewers approval node.
             int commentIndex = 0;
+            
             for (CommitteeScheduleMinute minute : event.getMinutes()) {
                 if (!minute.isFinalFlag()) {
                     GlobalVariables.getErrorMap().putError(String.format("comments[%s].finalFlag", commentIndex),
                             KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
                     valid = false;
+                   
                 }
                 commentIndex++;
             }
