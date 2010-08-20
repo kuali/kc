@@ -52,8 +52,8 @@
 		<c:forEach items = "${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsForCurrentSubmission}" var = "review" varStatus = "status">
 			
 			<c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[review.documentNumber]}"/>
-			<c:set var = "reviewerPerson" value = "${documentHelperMap['reviewerPerson']}"/>
-			<kul:tab tabTitle="Online Review: ${reviewerPerson.fullName}" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${status.index}]*" >
+			
+			<kul:tab tabTitle="Online Review: ${review.protocolOnlineReview.protocolReviewer.fullName}" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${status.index}]*" >
 				<kra-irb-olr:onlineReview renderIndex = "${status.index}" documentNumber="${review.documentNumber}"/>
 			</kul:tab>
 		</c:forEach>
@@ -62,22 +62,14 @@
 	<c:otherwise>
 		<!--  PROTOCOL ONLINE REVIEWER VIEW -->
 		<c:set var="protocolOnlineReviewDocument" value="${KualiForm.onlineReviewsActionHelper.documentForCurrentUser}"/> 
-		<c:set var="reviewerPerson" value = "${KualiForm.onlineReviewsActionHelper.reviewerPersonForCurrentUser}"/>
-		<c:set var="indexForReviewer" value = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}"/>		
-		<kul:tabTop tabTitle="Online Review: ${reviewerPerson.fullName}" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${indexForReviewer}]*}" >
+		<c:set var="indexForReviewer" value = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}"/>	
+						
+		<kul:tabTop tabTitle="Online Review: ${protocolOnlineReviewDocument.protocolOnlineReview.protocolReviewer.fullName}" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${indexForReviewer}]*" >
 			<kra-irb-olr:onlineReview renderIndex = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}" documentNumber="${protocolOnlineReviewDocument.documentNumber}" />
 		</kul:tabTop>
 
 	</c:otherwise>
 </c:choose>
-
-
-
-
-
-
-
-
 
 <kul:panelFooter />
 <%-- <kul:panelFooter /> --%>

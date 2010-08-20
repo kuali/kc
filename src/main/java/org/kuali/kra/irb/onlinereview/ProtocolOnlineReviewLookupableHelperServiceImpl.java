@@ -1,0 +1,184 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.irb.onlinereview;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.drools.core.util.StringUtils;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewDao;
+import org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewLookupConstants;
+import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+
+public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewLookupableHelperServiceImpl.class);
+    
+    private DictionaryValidationService dictionaryValidationService;
+    private ProtocolOnlineReviewDao protocolOnlineReviewDao;
+    private KcPersonService kcPersonService;
+    private KraAuthorizationService kraAuthorizationService;
+    
+    //field names
+    private static final String REVIEWER_EMPLOYEE="lookupReviewerPersonId";
+    private static final String REVIEWER_NONEMPLOYEE="lookupReviewerRolodexId";
+    private static final String PROTOCOL_ID="protocolId";
+    private static final String PROTOCOL_NUMBER="lookupProtocolNumber";
+    private static final String SUBMISSION_ID="submissionIdFk";
+    private static final String DATE_DUE="dateDue";
+    private static final String DATE_REQUESTED="dateRequested";
+    
+    //translateed field names to object graph
+    private static final String OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE="protocolReviewer.personId";
+    private static final String OBJ_PROTOCOLREVIEWER_NONEMPLOYEE="protocolReviewer.personId";
+    private static final String OBJ_PROTOCOL_PROTOCOL_NUMBER="protocol.protocolNumber";
+    
+    
+    
+    
+    @Override
+    protected String getDocumentTypeName() {
+        return "ProtocolOnlineReviewDocument";
+    }
+
+    @Override
+    protected String getHtmlAction() {
+        return "protocolOnlineReviewRedirectAction.do";
+    }
+
+    @Override
+    protected String getKeyFieldName() {
+        return "protocolOnlineReviewId";
+    }
+    
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+   }
+
+   public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+       this.kraAuthorizationService = kraAuthorizationService;
+   }
+   
+   public void setProtocolOnlineReviewDao(ProtocolOnlineReviewDao protocolOnlineReviewDao) {
+       this.protocolOnlineReviewDao = protocolOnlineReviewDao;
+   }
+
+   /**
+    * 
+    * This method returns an instance of a DictionaryValidationService implementation
+    * @return
+    */
+   public DictionaryValidationService getDictionaryValidationService() {
+       if (dictionaryValidationService == null) {
+           dictionaryValidationService = KNSServiceLocator.getDictionaryValidationService();
+       }
+       return dictionaryValidationService;
+   }
+
+   private boolean validateDate(String dateFieldName, String dateFieldValue) {
+       try{
+           KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
+           return true;
+       } catch (ParseException e) {
+           GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+           return false;
+       } catch (Exception e) {
+           e.printStackTrace();
+           GlobalVariables.getErrorMap().putError(dateFieldName, KeyConstants.ERROR_PROTOCOL_SEARCH_INVALID_DATE);
+           return false;
+       }
+   }
+
+   @Override
+   public void validateSearchParameters(Map fieldValues) {
+       Map<String,String> fvalues = (Map<String,String>)fieldValues;
+       super.validateSearchParameters(fieldValues);
+       Set<String> keys = fieldValues.keySet();
+       for (String key : keys) {
+           String value = fieldValues.get(key).toString();
+           if (key.toUpperCase().indexOf("DATE") > 0) {
+               //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
+               if(value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
+                   if( !StringUtils.isEmpty(value)) {
+                       boolean valid = validateDate(key, value);
+                   }
+               }
+           }
+       }
+       
+
+       if (!StringUtils.isEmpty(fvalues.get(REVIEWER_NONEMPLOYEE)) && !StringUtils.isEmpty(fvalues.get(REVIEWER_EMPLOYEE))) {
+           //we can only search for one at a time.
+           GlobalVariables.getErrorMap().putError(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_NONEMPLOYEE, KeyConstants.ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY);
+           
+       }
+       
+       
+       
+       
+   }
+  
+   @Override
+   public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+       validateSearchParameters(fieldValues);
+       List<ProtocolOnlineReview> results;
+       // need to set backlocation & docformkey here. Otherwise, they are empty
+       Map<String,String> formProps = new HashMap<String,String>();
+       if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_EMPLOYEE))) {
+           fieldValues.put(OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE, fieldValues.get(REVIEWER_EMPLOYEE));
+       } else if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_NONEMPLOYEE))) {
+           fieldValues.put(OBJ_PROTOCOLREVIEWER_NONEMPLOYEE, fieldValues.get(REVIEWER_NONEMPLOYEE));
+       }
+       
+       if (!StringUtils.isEmpty(fieldValues.get(PROTOCOL_NUMBER))) {
+           fieldValues.put( OBJ_PROTOCOL_PROTOCOL_NUMBER, fieldValues.get(PROTOCOL_NUMBER));
+       }
+       
+       fieldValues.remove(REVIEWER_NONEMPLOYEE);
+       fieldValues.remove(REVIEWER_EMPLOYEE);
+       fieldValues.remove(PROTOCOL_NUMBER);
+       
+       super.setBackLocationDocFormKey(fieldValues);
+       results = (List<ProtocolOnlineReview>)super.getSearchResults(fieldValues);
+       return results;
+   }
+
+   /**
+    * Sets the kcPersonService attribute value.
+    * @param kcPersonService The kcPersonService to set.
+    */
+   public void setKcPersonService(KcPersonService kcPersonService) {
+       this.kcPersonService = kcPersonService;
+   }
+  
+   
+}

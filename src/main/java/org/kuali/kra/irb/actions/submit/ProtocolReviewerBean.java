@@ -17,6 +17,8 @@ package org.kuali.kra.irb.actions.submit;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 /**
@@ -34,8 +36,27 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     private String reviewerTypeCode;
     private boolean nonEmployeeFlag;
     
+    public ProtocolReviewerBean() {
+        
+    }
+    
+    public ProtocolReviewerBean(CommitteeMembership member) {
+        if (!StringUtils.isBlank(member.getPersonId())) {
+            this.setPersonId(member.getPersonId());
+            this.setNonEmployeeFlag(false);
+        }
+        else {
+            this.setPersonId(member.getRolodexId().toString());
+            this.setNonEmployeeFlag(true);
+        }
+    }
+    
     public String getPersonId() {
-        return personId;
+        return nonEmployeeFlag?null:personId;
+    }
+    
+    public Integer getRolodexId() {
+        return nonEmployeeFlag?Integer.parseInt(personId):null;
     }
     
     public void setPersonId(String personId) {

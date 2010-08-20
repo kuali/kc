@@ -29,16 +29,18 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeScheduleMinuteService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.Document;
@@ -54,14 +56,14 @@ public class OnlineReviewsActionHelper implements Serializable {
 
     public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
     public static final String DOCUMENT_MAP_KEY = "document";
-    public static final String REVIEWER_PERSON_MAP_KEY = "reviewerPerson";
+    //public static final String REVIEWER_PERSON_MAP_KEY = "reviewerPerson";
     public static final String FORM_MAP_KEY = "kualiForm";
     
     private static final long serialVersionUID = 1L;
     private ProtocolForm form;
     
     //new reviewer data
-    private String newProtocolReviewPersonId;
+    private Long newProtocolReviewCommitteeMembershipId;
     private String newReviewerTypeCode;
     private Date newReviewDateRequested;
     private Date newReviewDateDue;
@@ -73,7 +75,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     private Map<String,Map<String,Object>> documentHelperMap;
     private List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments;
     private List<ReviewerComments> reviewerComments;
-    private List<KcPerson> reviewerPersons;
+    //private List<Object> reviewerPersons;
     private boolean initComplete = false;
 
     private transient KcPersonService kcPersonService;
@@ -97,14 +99,18 @@ public class OnlineReviewsActionHelper implements Serializable {
         if( (!initComplete || force )  ) {
             ProtocolSubmission currentSubmission = KraServiceLocator.getService(ProtocolAssignReviewersService.class).getCurrentSubmission(form.getProtocolDocument().getProtocol());
             if( currentSubmission != null ) {
-                this.newReviewDateRequested = new Date((new java.util.Date()).getTime());
-                protocolOnlineReviewDocuments = getProtocolOnlineReviewService()
-                    .getProtocolReviewDocumentsForCurrentSubmission(form.getProtocolDocument().getProtocol()); 
+                ProtocolDocument protocolDocument = form.getProtocolDocument();
+                ProtocolPerson principalInvestigator = protocolDocument.getProtocol().getPrincipalInvestigator();
                 
-                reviewerComments = new ArrayList<ReviewerComments>();
-                reviewerPersons = new ArrayList<KcPerson>();
-                documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
-                newReviewDocumentDescription = String.format(REVIEW_DOCUMENT_DESCRIPTION_FORMAT,form.getProtocolDocument().getProtocol().getPrincipalInvestigator().getPerson().getLastName(), form.getProtocolDocument().getProtocol().getProtocolNumber());
+                this.newReviewDateRequested = new Date((new java.util.Date()).getTime());
+                this.protocolOnlineReviewDocuments = getProtocolOnlineReviewService()
+                .getProtocolReviewDocumentsForCurrentSubmission(protocolDocument.getProtocol()); 
+                this.reviewerComments = new ArrayList<ReviewerComments>();
+                this.documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
+                if (principalInvestigator != null ) {
+                    String piLastName = principalInvestigator.getPersonId()!=null?principalInvestigator.getPerson().getLastName():principalInvestigator.getRolodex().getLastName();
+                    this.newReviewDocumentDescription = String.format(REVIEW_DOCUMENT_DESCRIPTION_FORMAT,piLastName, protocolDocument.getProtocol().getProtocolNumber());
+                }
                 
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
                     Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
@@ -129,15 +135,6 @@ public class OnlineReviewsActionHelper implements Serializable {
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, comments);
                     reviewerComments.add(comments);
                     
-                    
-                    KcPerson p = getKcPersonService().getKcPersonByPersonId(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
-                    if( p!= null ) {
-                        reviewerPersons.add( p );
-                        pDocMap.put(REVIEWER_PERSON_MAP_KEY, p);
-                    } else { 
-                        reviewerPersons.add( null );
-                        pDocMap.put(REVIEWER_PERSON_MAP_KEY, null);
-                    }
                 }
                 initComplete = true;
             }
@@ -314,16 +311,16 @@ public class OnlineReviewsActionHelper implements Serializable {
      * Gets the newProtocolReviewPersonId attribute. 
      * @return Returns the newProtocolReviewPersonId.
      */
-    public String getNewProtocolReviewPersonId() {
-        return newProtocolReviewPersonId;
+    public Long getNewProtocolReviewCommitteeMembershipId() {
+        return newProtocolReviewCommitteeMembershipId;
     }
 
     /**
      * Sets the newProtocolReviewPersonId attribute value.
      * @param newProtocolReviewPersonId The newProtocolReviewPersonId to set.
      */
-    public void setNewProtocolReviewPersonId(String newProtocolReviewPersonId) {
-        this.newProtocolReviewPersonId = newProtocolReviewPersonId;
+    public void setNewProtocolReviewCommitteeMembershipId(Long newProtocolReviewCommitteeMembershipId) {
+        this.newProtocolReviewCommitteeMembershipId = newProtocolReviewCommitteeMembershipId;
     }
 
     /**
@@ -342,21 +339,7 @@ public class OnlineReviewsActionHelper implements Serializable {
         this.reviewerComments = reviewerComments;
     }
 
-    /**
-     * Gets the reviewerPersons attribute. 
-     * @return Returns the reviewerPersons.
-     */
-    public List<KcPerson> getReviewerPersons() {
-        return reviewerPersons;
-    }
-
-    /**
-     * Sets the reviewerPersons attribute value.
-     */
-    public void setReviewerPersons(List<KcPerson> reviewerPersons) {
-        this.reviewerPersons = reviewerPersons;
-    }
-
+    
     /**
      * Gets the documentHelperMap attribute. 
      * @return Returns the documentHelperMap.
@@ -393,14 +376,6 @@ public class OnlineReviewsActionHelper implements Serializable {
             throw new IllegalStateException(String.format("Document %s was not stored in the helper map.", documentNumber));
         }
         return protocolDocument;
-    }
-
-    public KcPerson getReviewerPersonFromHelperMap(String documentNumber) {
-        KcPerson person = (KcPerson)getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_PERSON_MAP_KEY);
-        if (person==null) {
-            throw new IllegalStateException(String.format("KcPerson for document %s was not stored in the helper map.", documentNumber));
-        }
-        return person;
     }
     
     public ReviewerComments getReviewerCommentsFromHelperMap(String documentNumber) {
@@ -439,17 +414,12 @@ public class OnlineReviewsActionHelper implements Serializable {
         return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId());
     }
     
-    public KcPerson getReviewerPersonForCurrentUser() {
-        return getReviewerPersonFromHelperMap(getDocumentNumberForCurrentUser());
-    }
-
-    
     public int getDocumentIndexForCurrentUser() {
         return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId());
     }
     
     private KcPersonService getKcPersonService() {
-        if (kcPersonService == null ) {
+        if (kcPersonService == null) {
             kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
@@ -486,6 +456,10 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     private PessimisticLockService getPessimisticLockService() {
         return KraServiceLocator.getService(PessimisticLockService.class);
+    }
+    
+    private RolodexService getRolodexService() {
+        return KraServiceLocator.getService(RolodexService.class);
     }
     
     protected void populateAuthorizationFields(ProtocolOnlineReviewForm form, ProtocolOnlineReviewDocument document) {

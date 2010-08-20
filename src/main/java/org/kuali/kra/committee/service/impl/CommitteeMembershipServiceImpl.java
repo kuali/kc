@@ -133,9 +133,8 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         boolean isReviewer = false;
         for (ProtocolSubmission submission : getProtocolSubmissionsForCommittee(committeeId)) {
             for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
-                if (StringUtils.equals(reviewer.getPersonId(), member.getPersonId())
-                        || (member.getRolodexId() != null && StringUtils.equals(reviewer.getPersonId(), member.getRolodexId()
-                                .toString()))) {
+                if ((member.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), member.getPersonId()))
+                        || (member.getRolodexId() != null && reviewer.getPersonId().equals(member.getRolodexId().toString()))) {
                     isReviewer = true;
                 }
             }

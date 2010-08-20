@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
@@ -35,17 +36,20 @@ import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -62,11 +66,16 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
 
     private static final String VALID_SUBMISSION_TYPE = "100";
     private static final String VALID_REVIEW_TYPE = "1";
+    private static final String MEMBER_EXPERTISE_CODE = "05.0125";
     
     private ProtocolSubmitActionService protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private PersonService personService;
+    private RolodexService rolodexService;
+    private DocumentService documentService;
+    private IdentityManagementService identityManagementService;
+    private List<ProtocolReviewerBean> defaultReviewers;
     
     @SuppressWarnings("unchecked")
     @Before
@@ -79,6 +88,10 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolOnlineReviewService = KraServiceLocator.getService(ProtocolOnlineReviewService.class);
         personService = KraServiceLocator.getService(PersonService.class);
+        rolodexService = KraServiceLocator.getService(RolodexService.class);
+        documentService = KraServiceLocator.getService("kraDocumentService");
+        identityManagementService = KraServiceLocator.getService(IdentityManagementService.class);
+        defaultReviewers = getDefaultReviewers();
         
     }
 
@@ -123,7 +136,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testSubmissionWithReviewers() throws Exception {
-        runTest("668", "1", VALID_REVIEW_TYPE, getReviewers(), null, null);
+        runTest("668", "1", VALID_REVIEW_TYPE, defaultReviewers, null, null);
     }
    
     /*
@@ -156,27 +169,61 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmitAction submitAction = createSubmitAction(committeeId, scheduleId, protocolReviewTypeCode);
         
+        
         submitAction.setExemptStudiesCheckList(exemptStudiesCheckList);
         submitAction.setExpeditedReviewCheckList(expeditedReviewCheckList);
         submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
+        Committee committee = null;
         
-        if (!StringUtils.isBlank(committeeId)) {
-            createCommittee(committeeId);
+        if(!StringUtils.isEmpty(committeeId)) {
+            //see if the committee exists already
+            Map<String,Object> keymap = new HashMap<String,Object>();
+            keymap.put("committeeId", committeeId);
+            List<Committee> comms = (List<Committee>)businessObjectService.findMatching(Committee.class, keymap);
+            if( comms.size() == 1 )
+                committee = comms.get(0);
+                
+            if (committee==null)
+                committee =  createCommittee(committeeId).getCommittee();
         }
+        
         //protocolSubmitActionService.setDocumentService(documentService);
         
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
-        if (reviewers != null) {
+        if (reviewers != null && committee != null) {
             for (ProtocolReviewerBean reviewer : reviewers) {
-              if(reviewer.getChecked()) {
-                  ProtocolOnlineReviewDocument doc =  protocolOnlineReviewService.createProtocolOnlineReviewDocument(protocolDocument.getProtocol(), personService.getPersonByPrincipalName(reviewer.getPersonId()).getPrincipalId(), "Test Protocol Online Review", null, null, GlobalVariables.getUserSession().getPrincipalId());
-              }
-              submitAction.getReviewers().add( reviewer );
+                CommitteeMembership member = null;
+                if(reviewer.getChecked()) {
+                      
+                      //find the committee member this corresponds to
+                      for ( CommitteeMembership membership : committee.getCommitteeMemberships() ) {
+                          
+                          if (membership.getPersonId() == null && membership.getRolodexId().equals(reviewer.getRolodexId())){
+                              member = membership;
+                              break;
+                          } else if (membership.getRolodexId() == null && StringUtils.equals(reviewer.getPersonId(), membership.getPersonId())) {
+                              member = membership;
+                              break;
+                          }
+                      }
+                      
+                      if(member==null) {
+                          throw new IllegalStateException( "Could not find membership record for reviewer!" + reviewer.toString() ); 
+                      }
+                      
+                      
+                      protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolDocument.getProtocol(), member.getCommitteeMembershipId(), String.format("%s/Protocol# %s","TEST PROTOCOL",protocolDocument.getProtocol().getProtocolNumber()),
+                              "", 
+                              "",
+                              "Online Review Requested by PI during protocol submission.",
+                              false,
+                              GlobalVariables.getUserSession().getPrincipalId());
+                      submitAction.getReviewers().add( reviewer );
+                }
             }
         }
-        
-        
+              
         
         ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolSubmission);
@@ -232,32 +279,64 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     /*
      * Get a couple of reviewers.
      */
-    private List<ProtocolReviewerBean> getReviewers() {
+    private List<ProtocolReviewerBean> getDefaultReviewers() {
         List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
         ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
         
-        //reviewers should come from the committee membership, and should be valid kim principals.
         
+        KimPrincipalInfo prncpl = identityManagementService.getPrincipalByPrincipalName("quickstart");
         reviewer.setChecked(true);
-        reviewer.setPersonId("quickstart");
+        reviewer.setPersonId(prncpl.getPrincipalId());
         reviewer.setNonEmployeeFlag(false);
         reviewer.setReviewerTypeCode("1");
+        reviewer.setFullName(prncpl.getPrincipalName());
         reviewers.add(reviewer);
         
+        
         reviewer = new ProtocolReviewerBean();
+        prncpl = identityManagementService.getPrincipalByPrincipalName("majors");
         reviewer.setChecked(false);
-        reviewer.setPersonId("majors");
+        reviewer.setPersonId(prncpl.getPrincipalId());
         reviewer.setNonEmployeeFlag(false);
         reviewer.setReviewerTypeCode("1");
+        reviewer.setFullName(prncpl.getPrincipalName());
         reviewers.add(reviewer);
         
         return reviewers;
     }
 
+
+
+    /*
+     * Get a couple of reviewers.
+     * We are going to pull them from the committee, and check one of the boxes.
+     */
+    private List<ProtocolReviewerBean> getReviewersFromCommittee(Committee committee) {
+        List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
+        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
+        
+        for( CommitteeMembership membership : committee.getCommitteeMemberships()) {
+            reviewer.setChecked(false);
+            reviewer.setPersonId(membership.getPersonId()==null?membership.getRolodexId().toString():membership.getPersonId());
+            reviewer.setNonEmployeeFlag(membership.getPersonId()==null);
+            reviewer.setReviewerTypeCode("1");
+            reviewers.add(reviewer);
+        }
+        
+        if( reviewers.size() == 0 )
+            throw new IllegalStateException( "Committee has no members!" );
+        reviewers.get(0).setChecked(true);
+        
+        return reviewers;
+    }
+
+    
+    
     /*
      * Create a committee.
      */
     private CommitteeDocument createCommittee(String committeeId) throws WorkflowException {
+        
         CommitteeDocument committeeDocument = CommitteeFactory.createCommitteeDocument(committeeId);
         Committee committee = committeeDocument.getCommittee();
         CommitteeSchedule schedule = new CommitteeSchedule();
@@ -274,7 +353,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         schedule.setScheduleStatusCode(1);
         committee.getCommitteeSchedules().add(schedule);
         addMembers(committee);
-        //businessObjectService.save(committeeDocument);
+        documentService.saveDocument(committeeDocument);
+        documentService.routeDocument(committeeDocument, "Test Routing", new ArrayList());
         return committeeDocument;
     }
 
@@ -287,6 +367,10 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         member.setTermStartDate(new Date(System.currentTimeMillis() - 10000));
         member.setTermEndDate(new Date(System.currentTimeMillis() + 10000));
         member.setMembershipTypeCode(membershipTypeCode);
+        CommitteeMembershipExpertise expertise = new CommitteeMembershipExpertise();
+        expertise.setResearchAreaCode(MEMBER_EXPERTISE_CODE);
+        member.getMembershipExpertise().add(expertise); 
+        member.setMembershipId("0");
         List<CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
         CommitteeMembershipRole role = new CommitteeMembershipRole();
         role.setStartDate(member.getTermStartDate());
@@ -294,14 +378,17 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         role.setMembershipRoleCode(membershipRoleCode);
         roles.add(role);
         member.setMembershipRoles(roles);
+        committee.getCommitteeMemberships().add(member);
     }
     
     /*
      * Add a member to the committee.
      */
     private void addMembers(Committee committee) {
-        addMember("quickstart","Don","1","1",committee);
-        addMember("majors","Majors","1","2",committee);
+        //make each of the default reviewers a committee member.
+        for( ProtocolReviewerBean reviewer : defaultReviewers ) {
+            addMember(reviewer.getPersonId(),reviewer.getFullName(),"1","1",committee);
+        }
     }
 
     /*
@@ -445,7 +532,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
      * Verify the review in the submission matches the reviewer from the orignal submission request.
      */
     private void verifyReviewer(ProtocolReviewerBean protocolReviewerBean, ProtocolReviewer protocolReviewer) {
-        assertEquals(personService.getPersonByPrincipalName(protocolReviewerBean.getPersonId()).getPrincipalId(), protocolReviewer.getPersonId());
+        assertEquals(protocolReviewer.getPersonId(), protocolReviewerBean.getPersonId());
         assertEquals(protocolReviewerBean.getReviewerTypeCode(), protocolReviewer.getReviewerTypeCode());
         assertEquals(protocolReviewerBean.getNonEmployeeFlag(), protocolReviewer.getNonEmployeeFlag());   
     }

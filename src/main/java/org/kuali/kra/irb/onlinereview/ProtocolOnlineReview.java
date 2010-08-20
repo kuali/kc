@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.UnitAclLoadable;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
@@ -63,6 +65,13 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     
     private List<CommitteeScheduleMinute> committeeScheduleMinutes;
     private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
+    
+    //lookup fields
+    private transient String lookupProtocolNumber;
+    private transient Integer lookupReviewerRolodexId;
+    private transient Rolodex lookupReviewerRolodex;
+    private transient String lookupReviewerPersonId;
+    private transient KcPerson lookupReviewerPerson;
     
     /**
      * Gets the protocolReviewId attribute. 
@@ -361,8 +370,6 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         return null;
     }
 
-    
-
     /**
      * Gets the committeeScheduleMinutes attribute. 
      * @return Returns the committeeScheduleMinutes.
@@ -407,8 +414,88 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolOnlineReviewId = null;
     }
 
+    /**
+     * Gets the lookupProtocolNumber attribute. 
+     * @return Returns the lookupProtocolNumber.
+     */
+    public String getLookupProtocolNumber() {
+        return lookupProtocolNumber;
+    }
 
-   
+    /**
+     * Sets the lookupProtocolNumber attribute value.
+     * @param lookupProtocolNumber The lookupProtocolNumber to set.
+     */
+    public void setLookupProtocolNumber(String lookupProtocolNumber) {
+        this.lookupProtocolNumber = lookupProtocolNumber;
+    }
 
+    /**
+     * Gets the lookupReviewerRolodexId attribute. 
+     * @return Returns the lookupReviewerRolodexId.
+     */
+    public Integer getLookupReviewerRolodexId() {
+        return lookupReviewerRolodexId;
+    }
+
+    /**
+     * Sets the lookupReviewerRolodexId attribute value.
+     * @param lookupReviewerRolodexId The lookupReviewerRolodexId to set.
+     */
+    public void setLookupReviewerRolodexId(Integer lookupReviewerRolodexId) {
+        this.lookupReviewerRolodexId = lookupReviewerRolodexId;
+    }
+
+    /**
+     * Gets the lookupReviewerPersonId attribute. 
+     * @return Returns the lookupReviewerPersonId.
+     */
+    public String getLookupReviewerPersonId() {
+        return lookupReviewerPersonId;
+    }
+
+
+    /**
+     * Sets the lookupReviewerPersonId attribute value.
+     * @param lookupReviewerPersonId The lookupReviewerPersonId to set.
+     */
+    public void setLookupReviewerPersonId(String lookupReviewerPersonId) {
+        this.lookupReviewerPersonId = lookupReviewerPersonId;
+    }
+
+    /**
+     * Gets the lookupReviewerRolodex attribute. 
+     * @return Returns the lookupReviewerRolodex.
+     */
+    public Rolodex getLookupReviewerRolodex() {
+        return lookupReviewerRolodex;
+    }
+
+
+    /**
+     * Sets the lookupReviewerRolodex attribute value.
+     * @param lookupReviewerRolodex The lookupReviewerRolodex to set.
+     */
+    public void setLookupReviewerRolodex(Rolodex lookupReviewerRolodex) {
+        this.lookupReviewerRolodex = lookupReviewerRolodex;
+    }
+
+
+    /**
+     * Gets the lookupReviewerPerson attribute. 
+     * @return Returns the lookupReviewerPerson.
+     */
+    public KcPerson getLookupReviewerPerson() {
+        return lookupReviewerPerson;
+    }
+
+
+    /**
+     * Sets the lookupReviewerPerson attribute value.
+     * @param lookupReviewerPerson The lookupReviewerPerson to set.
+     */
+    public void setLookupReviewerPerson(KcPerson lookupReviewerPerson) {
+        this.lookupReviewerPerson = lookupReviewerPerson;
+    }
     
 }

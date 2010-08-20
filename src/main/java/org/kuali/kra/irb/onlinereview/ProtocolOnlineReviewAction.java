@@ -165,7 +165,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
          
         
         protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument( protocolForm.getProtocolDocument().getProtocol(),
-                                                          onlineReviewHelper.getNewProtocolReviewPersonId(), 
+                                                          onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId(), 
                                                           onlineReviewHelper.getNewReviewDocumentDescription(),
                                                           onlineReviewHelper.getNewReviewExplanation(),
                                                           onlineReviewHelper.getNewReviewOrganizationDocumentNumber(),

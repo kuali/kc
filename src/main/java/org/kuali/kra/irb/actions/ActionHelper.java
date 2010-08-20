@@ -957,7 +957,7 @@ public class ActionHelper implements Serializable {
     public boolean getCanIrbAcknowledgement() {
         return canIrbAcknowledgement;
     }
-
+    
     public boolean getCanDefer() {
         return canDefer;
     }
@@ -1103,22 +1103,22 @@ public class ActionHelper implements Serializable {
     /*
      * retrieve reviewer's full name from member data
      */
-    private void setupReviewerName() {
-        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
-            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
-                    selectedSubmission.getCommitteeSchedule().getScheduleId());
-            for (CommitteeMembership member : members) {
-                for (ProtocolReviewer reviewer : selectedSubmission.getProtocolReviewers()) {
-                    if (isReviewerMatchedMember(member, reviewer)) {
-                        reviewer.setFullName(member.getPersonName());
-                        break;
-                    }
-                }
-
-            }
-        }
-    }
-    
+//    private void setupReviewerName() {
+//        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
+//            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
+//                    selectedSubmission.getCommitteeSchedule().getScheduleId());
+//            for (CommitteeMembership member : members) {
+//                for (ProtocolReviewer reviewer : selectedSubmission.getProtocolReviewers()) {
+//                    if (isReviewerMatchedMember(member, reviewer)) {
+//                        //reviewer.setFullName(member.getPersonName());
+//                        break;
+//                    }
+//                }
+//
+//            }
+//        }
+//    }    
+  
     private CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
     }
@@ -1174,17 +1174,15 @@ public class ActionHelper implements Serializable {
     /*
      * Utility method to check if reviewer matched committee member
      */
-    private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewer reviewer) {
+   private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewer reviewer) {
         boolean isMatched = false;
-        if (StringUtils.isNotBlank(member.getPersonId())   && member.getPersonId().equals(reviewer.getPersonId())) {
+        if (!reviewer.getNonEmployeeFlag() && member.getPersonId().equals(reviewer.getPersonId())) {
             isMatched = true;
-        } else if (member.getRolodexId() != null && member.getRolodexId().toString().equals(reviewer.getPersonId()) ){
+        } else if (reviewer.getNonEmployeeFlag() && member.getRolodexId().equals(Integer.parseInt(reviewer.getPersonId())) ){
             isMatched = true;
         }
         return isMatched;
-
     }
-
     /*
      * Utility method to get voter name
      */
@@ -1273,7 +1271,7 @@ public class ActionHelper implements Serializable {
 
         }
         selectedSubmission.refreshReferenceObject("committeeSchedule");
-        setupReviewerName(); 
+        //setupReviewerName(); 
 
         if (selectedSubmission.getCommitteeSchedule() != null) {
             setReviewComments();
