@@ -425,6 +425,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.service.impl.AwardScheduleGenerationServiceImplTest.class,
     org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceTest.class,
     org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementServiceTest.class,
+    org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementWebTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRuleTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceTest.class
 })
