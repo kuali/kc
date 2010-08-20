@@ -65,13 +65,13 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.ADMINISTRATIVE_CORRECTION, Arrays.asList(""));
         actionTypesToCorrespondenceType.put(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, Arrays.asList("Specific Minor Revisions Letter"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, Arrays.asList("Substantive Revisions Required Letter"));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.DEFERRED, Arrays.asList("Notice Of Deferral"));
         /**
          * The following correspondence types don't map to a Protocol Action at this time:
-         * Agenda Report, Committee Roster Report, Expedited Approval Letter, Grant Exemption Notice, Notice Of Deferral,
+         * Agenda Report, Committee Roster Report, 
          * Protocol Optional Report #1,  Protocol Optional Report #2, Reminder to IRB Notification #1, Reminder to IRB Notification #2,
          * Reminder to IRB Notification #3, Renewal Reminder Letter #1, Renewal Reminder Letter #2, Renewal Reminder Letter #3,
-         * Schedule Minutes, Schedule Optional Report #1, Schedule Optional Report #2, Specific Minor Revisions Letter,
-         * Substantive Revisions Required Letter
+         * Schedule Minutes, Schedule Optional Report #1, Schedule Optional Report #2
          */
     }
     
