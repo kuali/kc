@@ -177,7 +177,7 @@
      */
 	function isConditionMatchAnswers(responseDiv, condition, conditionValue, parentAnswer) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = isNaN(condition) || isConditionMatched(condition, conditionValue, parentAnswer);
+		var isMatched = (condition == "") || isNaN(condition) || isConditionMatched(condition, conditionValue, parentAnswer);
 		if (!isMatched && responseDiv.siblings('div[class^=Qresponsediv]').size() > 0) {
 			responseDiv.siblings('div[class^=Qresponsediv]').each (
 				function() {
