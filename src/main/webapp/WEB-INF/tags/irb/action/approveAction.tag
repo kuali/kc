@@ -71,21 +71,6 @@
                     </td>
                 </tr>
                 
-                <c:if test="${KualiForm.protocolHelper.displayBillable}">
-                	<tr>
-                		<th>
-                			<div align="right">
-                            	<nobr>
-                            		<kul:htmlAttributeLabel attributeEntry="${attributes.billable}" />
-                            	</nobr>
-                            </div>
-                		</th>
-                		<td>
-                			<kul:htmlControlAttribute property="actionHelper.protocolApproveBean.billable" attributeEntry="${attributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}" />
-                		</td>
-                	</tr>
-                </c:if>
-                
                 <tr>
                     <th width="15%"> 
                         <div align="right">

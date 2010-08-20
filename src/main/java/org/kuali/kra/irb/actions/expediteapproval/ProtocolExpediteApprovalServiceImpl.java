@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.DocumentService;
 /**
  * The ProtocolExpediteApprovalService implementation.
  */
-public class ProtocolExpediteApprovalServiceImpl extends ProtocolProccessBillableService implements ProtocolExpediteApprovalService {
+public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteApprovalService {
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -74,7 +74,6 @@ public class ProtocolExpediteApprovalServiceImpl extends ProtocolProccessBillabl
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        this.proccessBillable(protocol, actionBean.isBillable());
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setLastApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());

@@ -35,7 +35,7 @@ import org.kuali.rice.kns.service.DocumentService;
  * 
  * This class handles approving a protocol status change.
  */
-public class ProtocolApproveServiceImpl extends ProtocolProccessBillableService implements ProtocolApproveService {
+public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -49,9 +49,7 @@ public class ProtocolApproveServiceImpl extends ProtocolProccessBillableService 
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
-        protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        
-        this.proccessBillable(protocol, actionBean.isBillable());        
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);     
         
         protocol.setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         protocol.setApprovalDate(actionBean.getApprovalDate());
