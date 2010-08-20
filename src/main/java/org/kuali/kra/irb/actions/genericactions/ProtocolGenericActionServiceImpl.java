@@ -119,6 +119,11 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
     }
     
+    /**{@inheritDoc}**/
+    public void defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
+    }
+    
     /**
      * 
      * This method performs the Generic action persistence.  A state change, action date, and a comment, that's it

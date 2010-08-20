@@ -440,3 +440,13 @@ then
 	setProtocolStatusCode(protocolAction, "106");
 end
 
+rule "fn_table:  Protocol Defer" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "201")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "206");
+	setProtocolStatusCode(protocolAction, "103");
+end
+

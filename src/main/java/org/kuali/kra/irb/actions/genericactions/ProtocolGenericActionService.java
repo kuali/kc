@@ -87,4 +87,12 @@ public interface ProtocolGenericActionService {
      */
     void permitDataAnalysis(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
+    /**
+     * Defer a protocol.
+     * @param protocol Protocol object
+     * @param actionBean ProtocolGenericActionBean object
+     * @throws Exception if there was a general problem performing the action
+     */
+    void defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+
 }

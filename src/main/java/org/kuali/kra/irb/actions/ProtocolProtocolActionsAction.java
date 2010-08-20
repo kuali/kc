@@ -70,6 +70,7 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
+import org.kuali.kra.irb.actions.defer.ProtocolDeferService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
 import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
@@ -111,9 +112,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -1336,6 +1335,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (hasPermission(TaskName.DEFER_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+            ProtocolDocument newDocument = getProtocolDeferService().defer(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
+                    protocolForm.getProtocolDocument().getProtocol());
+            
+            if(!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                return mapping.findForward(PROTOCOL_TAB);
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward addApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -2242,6 +2262,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ReviewerCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewerCommentsService.class);
+    }
+    
+    private ProtocolDeferService getProtocolDeferService() {
+        return KraServiceLocator.getService(ProtocolDeferService.class);
     }
 
 }

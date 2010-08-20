@@ -286,9 +286,12 @@
                 <bean class="org.kuali.kra.irb.auth.IrbAcknowledgementAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="irbAcknowledgement" />
                 </bean>
-                <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
+                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
                 	<property name="taskName" value="modifyProtocolSubmisison"/>
-                </bean>
+                </bean>               
+                <bean class="org.kuali.kra.irb.auth.ProtocolDeferAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolDefer" />
+                </bean>                
             </list>
         </property>
     </bean>
@@ -647,4 +650,12 @@
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
    </bean>
 
+    <bean id="protocolDeferService" class="org.kuali.kra.irb.actions.defer.ProtocolDeferServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolVersionService" ref="protocolVersionService" />
+        <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
+		<property name="identityManagementService" ref = "identityManagementService"/>
+		<property name="protocolGenericActionService" ref = "protocolGenericActionService"/>
+    </bean>
 </beans>
