@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
  * 
@@ -30,8 +29,9 @@ public class AnswerProtocolQuestionnaireAuthorizer extends ProtocolAuthorizer {
 
         return !task.getProtocol().getProtocolDocument().isViewOnly()
                 && !isPessimisticLocked(task.getProtocol().getProtocolDocument())
-                && !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument())
-                && hasPermission(userId, task.getProtocol(), PermissionConstants.ANSWER_PROTOCOL_QUESTIONNAIRE);
+                && !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument());
+        // kcirb-876 : Answer questionnaire permission is not needed   
+           //     && hasPermission(userId, task.getProtocol(), PermissionConstants.ANSWER_PROTOCOL_QUESTIONNAIRE);
     }
 
 }
