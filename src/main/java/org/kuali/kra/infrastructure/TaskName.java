@@ -114,6 +114,7 @@ public interface TaskName {
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
     public static final String IRB_ACKNOWLEDGEMENT = "irbAcknowledgement";
     public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
+    public static final String DEFER_PROTOCOL = "protocolDefer";
     
     /*
      * Protocol - Online Review Tasks

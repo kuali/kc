@@ -100,6 +100,7 @@ public class ActionHelper implements Serializable {
     private static final int EXPIRE_BEAN_TYPE = 7;
     private static final int TERMINATE_BEAN_TYPE = 8;
     private static final int PERMIT_DATA_ANALYSIS_BEAN_TYPE = 9;
+    private static final int DEFER_BEAN_TYPE = 10;
     
     /**
      * Each Helper must contain a reference to its document form
@@ -141,6 +142,8 @@ public class ActionHelper implements Serializable {
     private boolean canUndoLastAction = false;
     private boolean canModifyProtocolSubmission = false;
     private boolean canIrbAcknowledgement = false;
+    private boolean canDefer = false;
+    
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
@@ -172,6 +175,7 @@ public class ActionHelper implements Serializable {
     private CommitteeDecision committeeDecision;
     private IrbAcknowledgementBean irbAcknowledgementBean;
     private ProtocolModifySubmissionAction protocolModifySubmissionAction;
+    private ProtocolGenericActionBean protocolDeferBean;
     
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
@@ -254,6 +258,7 @@ public class ActionHelper implements Serializable {
         committeeDecision.init(getProtocol());
         addReviewerCommentsToBean(committeeDecision, this.form);
         protocolModifySubmissionAction = new ProtocolModifySubmissionAction(this.getProtocol().getProtocolSubmission());
+        protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
     }
     
     
@@ -494,8 +499,8 @@ public class ActionHelper implements Serializable {
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
-        canModifyProtocolSubmission = hasModifyProtocolSubmissionPermission();
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
+        canDefer = hasDeferPermission();
         
         if (getCurrentSequenceNumber() == -1) {
             initSummaryDetails();
@@ -653,8 +658,8 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.ENTER_RISK_LEVEL);
     }
     
-    private boolean hasModifyProtocolSubmissionPermission() {
-        return hasPermission(TaskName.MODIFY_PROTOCOL_SUBMISSION);
+    private boolean hasDeferPermission() {
+        return hasPermission(TaskName.DEFER_PROTOCOL);
     }
     
     private boolean hasPermission(String taskName) {
@@ -945,13 +950,17 @@ public class ActionHelper implements Serializable {
     }
     
     public boolean getCanModifyProtocolSubmission() {
-        return this.canModifyProtocolSubmission;
+        //return this.canModifyProtocolSubmission;
+        return false;
     }
     
     public boolean getCanIrbAcknowledgement() {
         return canIrbAcknowledgement;
     }
-    
+
+    public boolean getCanDefer() {
+        return canDefer;
+    }
 
     public void setPrintTag(String printTag) {
         this.printTag = printTag;
@@ -1297,5 +1306,9 @@ public class ActionHelper implements Serializable {
      */
     public boolean isShowCommittee() {
         return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
+    }
+
+    public ProtocolGenericActionBean getProtocolDeferBean() {
+        return protocolDeferBean;
     }
 }

@@ -12,7 +12,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "106", "304"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "304"))
 then	
 	setAction(protocolAction, true);
 end
@@ -392,4 +392,12 @@ when
 	protocolAction : ProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101')
 then	
     setAction(protocolAction, true);
+end
+
+rule "Defer"
+salience 100
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "201", submissionStatusCode in ("100", "101"), protocolStatusCode == "101" )
+then	
+	setAction(protocolAction, true);
 end
