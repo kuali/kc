@@ -16,6 +16,8 @@
 package org.kuali.kra.irb;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -48,6 +50,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 
@@ -70,7 +73,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
     private static final String ACTUAL_ACTION_DATE = "actualActionDate";
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
-    
+    private DateTimeService dateTimeService;
+
     /**
      * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol.
      *   <li> 200 - Active, open to enrollment
@@ -104,6 +108,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private Map<String, CritField> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
     private List<String> collectionFieldNames = new ArrayList<String>();
+    private Date fromSubmissionDate;
+    private Date toSubmissionDate;
     
     public ProtocolDaoOjb() {
         super();
@@ -137,7 +143,49 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         }
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
         logQuery(q);
-        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        List<Protocol> protocols = (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        if (fromSubmissionDate == null && toSubmissionDate == null) {
+            return protocols;
+        } else {
+            return matchedSubmissionProtocols(protocols);
+        }
+    }
+
+    /*
+     * submissionDate is not a saved in DB, so lookup criteria will not work.
+     * This is to filter out programming check.
+     */
+    private List<Protocol> matchedSubmissionProtocols(List<Protocol> protocols) {
+        List<Protocol> results = new ArrayList<Protocol>();
+        for (Protocol protocol : protocols) {
+            if (protocol.getSubmissionDate() != null) {
+                if (isValidSubmission(protocol.getSubmissionDate())) {
+                    results.add(protocol);
+                }
+            }
+        }
+        return results;
+        
+    }
+    
+    /*
+     * check if submissionDate is within specified range.  has to convert submission to submission date, so the comparison is purely based on date.
+     */
+    private boolean isValidSubmission(Timestamp submissionTime) {
+        boolean isValid = false;
+        try {
+            Date submissionDate = dateTimeService.convertToSqlDate(submissionTime);
+            submissionDate = parseDate(dateTimeService.toDateString(submissionTime));            
+            if (fromSubmissionDate == null || (submissionDate.compareTo(fromSubmissionDate) >= 0)) {
+                if (toSubmissionDate == null || (submissionDate.compareTo(toSubmissionDate) <= 0)) {
+                    isValid = true;
+                }
+            }
+        }
+        catch (Exception e) {
+
+        }
+        return isValid;
     }
 
     /** {@inheritDoc} */
@@ -472,6 +520,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      */
     @SuppressWarnings("unchecked") 
     private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
+        fromSubmissionDate = null;
+        toSubmissionDate = null;
         Criteria criteria = new Criteria();
         Iterator propsIter = formProps.keySet().iterator();
         while (propsIter.hasNext()) {
@@ -485,7 +535,9 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
                     }
                 }
             } else {
-                if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
+                if ("submissionDate".equals(propertyName)) {
+                    setSubmissionDate((String) formProps.get(propertyName));
+                } else  if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
                         isCaseSensitive(businessObject,  propertyName), false, criteria)) {
                     continue;
                 }
@@ -494,6 +546,29 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         return criteria;
     }
 
+
+    /*
+     * set submission from & to date, if it is specified.
+     */
+    private void setSubmissionDate(String value) {
+        if (value.startsWith(">=")) {
+            fromSubmissionDate = parseDate(StringUtils.replace(value, ">=", KNSConstants.EMPTY_STRING));
+        } else if (value.startsWith("<=")) {
+            toSubmissionDate = parseDate(StringUtils.replace(value, "<=", KNSConstants.EMPTY_STRING));
+        } else if (value.contains("..")) {
+            fromSubmissionDate = parseDate(value.substring(0,10));
+            toSubmissionDate = parseDate(value.substring(12));
+        }
+    }
+ 
+    private java.sql.Date parseDate(String dateString) {
+        dateString = dateString.trim();
+        try {
+            return dateTimeService.convertToSqlDate(dateString);
+        } catch (ParseException ex) {
+            return null;
+        }
+    }
 
     /*
      * extract method for casesensitive in method getCollectionCriteriaFromMap
@@ -554,5 +629,9 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         subQuery = QueryFactory.newReportQuery(Protocol.class, subCrit);
         subQuery.setAttributes(new String[] { "max(sequence_number)" });
         return subQuery;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }
