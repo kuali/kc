@@ -73,6 +73,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
     private static final String ACTUAL_ACTION_DATE = "actualActionDate";
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
+    private static final String GREATER_EQUAL = ">=";
+    private static final String LESS_EQUAL = "<=";
     private DateTimeService dateTimeService;
 
     /**
@@ -551,10 +553,10 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * set submission from & to date, if it is specified.
      */
     private void setSubmissionDate(String value) {
-        if (value.startsWith(">=")) {
-            fromSubmissionDate = parseDate(StringUtils.replace(value, ">=", KNSConstants.EMPTY_STRING));
-        } else if (value.startsWith("<=")) {
-            toSubmissionDate = parseDate(StringUtils.replace(value, "<=", KNSConstants.EMPTY_STRING));
+        if (value.startsWith(GREATER_EQUAL)) {
+            fromSubmissionDate = parseDate(StringUtils.replace(value, GREATER_EQUAL, KNSConstants.EMPTY_STRING));
+        } else if (value.startsWith(LESS_EQUAL)) {
+            toSubmissionDate = parseDate(StringUtils.replace(value, LESS_EQUAL, KNSConstants.EMPTY_STRING));
         } else if (value.contains("..")) {
             fromSubmissionDate = parseDate(value.substring(0,10));
             toSubmissionDate = parseDate(value.substring(12));
