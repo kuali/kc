@@ -22,7 +22,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * 
  * This class defines the rules for modifying a protocol submission.
  */
-public interface ExcecuteProtocolModifySubmissionRule extends BusinessRule {
+public interface ExecuteProtocolModifySubmissionRule extends BusinessRule {
     /**
      * 
      * This method is the rule for modifying a protocol submission.

@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.modifysubmission;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.kns.rule.BusinessRule;
 
@@ -57,7 +56,7 @@ public class ProtocolModifySubmissionEvent extends KraDocumentEventBase {
     }
 
     public Class getRuleInterfaceClass() {
-        return ExcecuteProtocolModifySubmissionRule.class;
+        return ExecuteProtocolModifySubmissionRule.class;
     }
     
     /**
@@ -65,6 +64,6 @@ public class ProtocolModifySubmissionEvent extends KraDocumentEventBase {
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExcecuteProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocument) getDocument(), actionBean);
+        return ((ExecuteProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocument) getDocument(), actionBean);
     }
 }
