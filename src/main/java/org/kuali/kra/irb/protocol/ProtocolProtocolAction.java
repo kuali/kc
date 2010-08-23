@@ -104,10 +104,17 @@ public class ProtocolProtocolAction extends ProtocolAction {
                     protocolForm.getDocument(), protocolForm.getParticipantsHelper().getNewParticipant(), 
                     protocolForm.getParticipantsHelper().getExistingParticipants());
             if (rule.processExistingProtocolParticipantBusinessRules(event)) {
-                //we now all the beans are fine, so lets update the BO
+                //we know all the beans are fine, so lets update the BO
                 int index = 0;
                 for (ProtocolParticipantBean existingBean : event.getExistingProtocolParticipants()) {
-                    protocolForm.getProtocolDocument().getProtocol().getProtocolParticipant(index).setParticipantCount(Integer.valueOf(existingBean.getParticipantCount()));
+                    ProtocolParticipant protocolParticipant = protocolForm.getProtocolDocument().getProtocol().getProtocolParticipant(index);
+                    String existingBeanParticipantCount = existingBean.getParticipantCount();
+                    if(existingBeanParticipantCount != null && !"".equals(existingBeanParticipantCount.trim())) {
+                        protocolParticipant.setParticipantCount(Integer.valueOf(existingBeanParticipantCount));
+                    } else {
+                        protocolParticipant.setParticipantCount(null);
+                    }
+                    
                     index++;
                 }
             } else {
