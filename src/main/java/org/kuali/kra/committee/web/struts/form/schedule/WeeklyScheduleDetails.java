@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.committee.web.struts.form.schedule;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
 
 
 /**
@@ -24,14 +29,14 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
     
     private Integer week;
     
-    private String[] daysOfWeek;    
+    private List<String> daysOfWeek;    
     
     public WeeklyScheduleDetails() {
         super();
         this.setWeek(1);
-        this.daysOfWeek = new String[2];
-        this.daysOfWeek[0] = DayOfWeek.Monday.name();
-        this.daysOfWeek[1] = "Hidden";
+        this.daysOfWeek = new ArrayList<String>(2);
+        this.daysOfWeek.add(DayOfWeek.Monday.name());
+        this.daysOfWeek.add("Hidden");
     }
 
     public void setWeek(Integer week) {
@@ -42,23 +47,25 @@ public class WeeklyScheduleDetails extends ScheduleDetails {
         return week;
     }
 
-    public void setDaysOfWeek(String[] daysOfWeek) {
+    public void setDaysOfWeek(List<String> daysOfWeek) {
         this.daysOfWeek = (null != daysOfWeek? convertToWeekDays(daysOfWeek) : null);
     }
 
-    public String[] getDaysOfWeek() {
+    public List<String> getDaysOfWeek() {
         return daysOfWeek;
     }
     
-    private String[] convertToWeekDays(String[] daysOfWeek) {     
-        if(daysOfWeek.length == 1 && daysOfWeek[0].equalsIgnoreCase("Hidden"))
+    private List<String> convertToWeekDays(List<String> daysOfWeek) {     
+        if(daysOfWeek.size() == 1 && daysOfWeek.get(0).equalsIgnoreCase("Hidden"))
             return null;
-        String [] tmp = new String[daysOfWeek.length - 1];
+        List<String> tmp = new ArrayList<String>(daysOfWeek.size() - 1);
         int i = 0;
-        for(String dayOfWeek : daysOfWeek) {
-            if(dayOfWeek.equalsIgnoreCase("Hidden"))
-                continue;
-            tmp[i++] = dayOfWeek;
+        if(CollectionUtils.isNotEmpty(daysOfWeek)) {
+            for(String dayOfWeek : daysOfWeek) {
+                if(dayOfWeek.equalsIgnoreCase("Hidden"))
+                    continue;
+                tmp.add(dayOfWeek);
+            }
         }
         return tmp;
     }

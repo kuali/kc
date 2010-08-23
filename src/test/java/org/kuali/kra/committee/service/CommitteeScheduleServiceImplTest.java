@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -245,9 +246,10 @@ public class CommitteeScheduleServiceImplTest  {
         scheduleData.setRecurrenceType(StyleKey.WEEKLY.toString());      
         scheduleData.setWeeklySchedule(new WeeklyScheduleDetails());
         scheduleData.getWeeklySchedule().setScheduleEndDate(getDate(7));
-        String[] daysOfWeek = new String[2];
-        daysOfWeek[0] = DayOfWeek.Monday.name();
-        daysOfWeek[1] = "Hidden";
+        List<String> daysOfWeek = new ArrayList<String>(2);
+        daysOfWeek.add(DayOfWeek.Monday.name());
+        daysOfWeek.add("Hidden");
+        
         scheduleData.getWeeklySchedule().setDaysOfWeek(daysOfWeek);
         context.checking(new Expectations() {{
             Date dt = scheduleData.getScheduleStartDate();
@@ -255,7 +257,10 @@ public class CommitteeScheduleServiceImplTest  {
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time  = new Time24HrFmt(TIME24HR_0_1); 
-            CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek());
+            CronSpecialChars[] dow = null;
+            if(CollectionUtils.isNotEmpty(scheduleData.getWeeklySchedule().getDaysOfWeek())) {
+                dow = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[scheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
+            }
             ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(),scheduleData.getWeeklySchedule().getWeek(),dow.length);
             one(scheduleService).getScheduledDates(dt,endDt,time,dow,scheduleSequence);will(returnValue(dates));
         }});
