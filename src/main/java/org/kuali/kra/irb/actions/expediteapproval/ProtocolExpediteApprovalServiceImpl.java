@@ -75,7 +75,6 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setApprovalDate(actionBean.getApprovalDate());
-        protocol.setLastApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
         generateCorrespondenceDocumentAndAttach(protocol); 
