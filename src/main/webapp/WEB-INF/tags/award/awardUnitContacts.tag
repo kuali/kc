@@ -132,8 +132,10 @@
 						</c:if>
 						<div align="center">
 						  <c:if test="${!readOnly}">
-							<html:image property="methodToCall.deleteUnitContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" disabled="${isLeadUnit}"/>
+						  	<c:if test="${!isLeadUnit}">
+						  		<html:image property="methodToCall.deleteUnitContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" disabled="${isLeadUnit}"/>
+							</c:if>
 						  </c:if>
 						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
