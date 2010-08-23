@@ -43,7 +43,7 @@
 	        <td width="20%" align="left" valign="middle">
 	           <c:choose>
                    <c:when test="${empty KualiForm.document.protocolList[0].lastApprovalDate}">
-                        Generated on Approval
+                        Generated on Renewal
                    </c:when>
                    <c:otherwise>
 	          	        <kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="true" />
