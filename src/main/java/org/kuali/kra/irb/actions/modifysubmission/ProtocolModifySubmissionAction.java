@@ -67,7 +67,7 @@ public class ProtocolModifySubmissionAction implements Serializable {
         expeditedReviewCheckList = getCheckListService().getExpeditedReviewCheckList();        
         for (ExpeditedReviewCheckListItem displayItem : expeditedReviewCheckList) {
             for (ProtocolExpeditedReviewCheckListItem databaseItem : protocolSubmission.getExpeditedReviewCheckList()) {
-                if(displayItem.getExpeditedReviewCheckListCode().equals(databaseItem.getExpeditedReviewCheckListCode())){
+                if (displayItem.getExpeditedReviewCheckListCode().equals(databaseItem.getExpeditedReviewCheckListCode())) {
                     displayItem.setChecked(true);
                 }
             }
