@@ -62,7 +62,7 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
         assertContains(protocolPage,SAVE_SUCCESS_MESSAGE);        
         String protocolNumber = getFieldValue(protocolPage, "document.protocolList[0].protocolNumber");
         assertContains(protocolPage,"Protocol #: "+ protocolNumber +" Protocol Status: Pending/In Progress ");        
-        assertContains(protocolPage,"Initial Approval Date: Generated on Approval Last Approval Date: Generated on Approval");        
+        assertContains(protocolPage,"Initial Approval Date: Generated on Approval Last Approval Date: Generated on Renewal");        
         assertContains(protocolPage,"Submission Date: Generated on Submission Expiration Date: Generated on Approval");   
         // How did this work before? It said date updated.
         assertContains(protocolPage,"Risk Levels * Risk Level * Date Assigned Date Inactivated * Status Comments Additional Information"); 

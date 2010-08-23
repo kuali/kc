@@ -138,6 +138,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         newProtocolDocument.getProtocol().setProtocolSubmission(null);
         //update some info
         newProtocolDocument.getProtocol().setApprovalDate(null);
+        newProtocolDocument.getProtocol().setLastApprovalDate(null);
         newProtocolDocument.getProtocol().setExpirationDate(null);
 
         // COEUS does not set these values to null for 'withdraw action
