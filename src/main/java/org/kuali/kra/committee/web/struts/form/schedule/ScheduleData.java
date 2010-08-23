@@ -17,7 +17,6 @@ package org.kuali.kra.committee.web.struts.form.schedule;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,7 +219,7 @@ public class ScheduleData implements Serializable {
         LOG.info("=========================================================");
         LOG.info("Schedule Weekly End Date is :" + weeklySchedule.getScheduleEndDate());
         LOG.info("Week is :" + weeklySchedule.getWeek());
-        LOG.info("Days is :" + Arrays.toString(weeklySchedule.getDaysOfWeek()));
+        LOG.info("Days is :" + weeklySchedule.getDaysOfWeek().toString());
         LOG.info("=========================================================");
         LOG.info("Schedule Monthly End Date is :" + monthlySchedule.getScheduleEndDate());
         LOG.info("Day is :" + monthlySchedule.getDay());
