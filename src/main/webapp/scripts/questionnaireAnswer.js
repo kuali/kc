@@ -84,7 +84,7 @@
                         var qidx = $(this).attr("id").substring(prefix.length+1);
                         // not sure why conditionDiv is not 'undefine' if the node is not set
                         if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
-                           if (isConditionMatchAnswers(responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
+                           if (isConditionMatchAnswers(answer, responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
                            		$(this).show();                                   		
                            		$("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
                            		$("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
@@ -175,15 +175,15 @@
     /*
      * check if the answer matched the condition set up for the child question.
      */
-	function isConditionMatchAnswers(responseDiv, condition, conditionValue, parentAnswer) {
+	function isConditionMatchAnswers(parentAnswerField, responseDiv, condition, conditionValue, parentAnswer) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = (condition == "") || isNaN(condition) || isConditionMatched(condition, conditionValue, parentAnswer);
+		var isMatched = (condition == "") || isNaN(condition) || isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer);
 		if (!isMatched && responseDiv.siblings('div[class^=Qresponsediv]').size() > 0) {
 			responseDiv.siblings('div[class^=Qresponsediv]').each (
 				function() {
 					if (!isMatched) {
                         var answer = $(this).children().children().children().children().children().children('input').attr("value");
-                        isMatched = isConditionMatched(condition, conditionValue, answer);
+                        isMatched = isConditionMatched(parentAnswerField, condition, conditionValue, answer);
 					}
                     
 				}
@@ -198,7 +198,7 @@
      * condition check for all the conditions implemented in this release 2.1.
      * Coeus seems only to allow positive integer if condition is related to number
      */
-    function isConditionMatched(condition, conditionValue, parentAnswer) {
+    function isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer) {
 
       /* The following conditions is set up in questionnaire maintenance document maintenance
        * var responseArray = [ 'select', 'Contains text value', 'Matches text',
@@ -234,30 +234,53 @@
             	            (condition == 10 && (Number(parentAnswer) > Number(conditionValue)));
             }    
     	} else if (condition > 10) {
-        	if (!isDate(parentAnswer, 'MM/dd/yyyy')) {
-    		    alert("Not a Valid Date (mm/dd/yyyy)");
+        	if (!parseDate(parentAnswer)) {
+    		    alert(parentAnswer + " is Not a Valid Date ");
         	} else {
-        		isMatched = isDateMatched(parentAnswer, conditionValue, condition)
+        		setDate(parentAnswerField, parentAnswer);
+        		//$(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
+        		isMatched = isDateMatched($(parentAnswerField).attr("value"), conditionValue, condition)
         	}
     	}	  
 
         return isMatched;	
 	}
 
+    /*
+     * This method is to convert some special formatted to rice supported date format.
+     * These special formats have no "year" specified, so it parse to year like 110. or -1790
+     * the current year will be added to these format, so it can behave like rice's 'MMM d'
+     */
+    function setDate(parentAnswerField, parentAnswer) {
+    	if (isDate(parentAnswer, "MMM d") || isDate(parentAnswer, "M/d") || isDate(parentAnswer, "M-d")) {
+    		// "MMM d" will be converted to MMM d, 110, and cause issue.  so, make it "MMM d, yyyy"
+    		var d = new Date();
+    		if (isDate(parentAnswer, "MMM d")) {
+    			parentAnswer = parentAnswer + ", " +d.getFullYear();
+    		} else if (isDate(parentAnswer, "M/d")) {
+    			parentAnswer = parentAnswer + "/" +d.getFullYear();
+    		} else if (isDate(parentAnswer, "M-d")) {
+    			parentAnswer = parentAnswer + "-" +d.getFullYear();
+    		} 
+    		
+    	}
+    		$(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
+    	
+    }
 
 	/*
 	 * check if date is either 'before date' or 'after date'
 	 */
 	function isDateMatched(parentAnswer, conditionValue, condition)
 	 {
-	     var mon1  = parentAnswer.substring(0,2)-1;
-	     var dt1 = parentAnswer.substring(3,5);
-	     var yr1  = parentAnswer.substring(6,10);
-	     var mon2  = conditionValue.substring(0,2)-1;
-	     var dt2 = conditionValue.substring(3,5);
-	     var yr2  = conditionValue.substring(6,10);
-	     var date1 = new Date(yr1, mon1, dt1);
-	     var date2 = new Date(yr2, mon2, dt2);
+	 //    var mon1  = parentAnswer.substring(0,2)-1;
+	 //    var dt1 = parentAnswer.substring(3,5);
+	 //    var yr1  = parentAnswer.substring(6,10);
+	 //    var mon2  = conditionValue.substring(0,2)-1;
+	 //    var dt2 = conditionValue.substring(3,5);
+	 //    var yr2  = conditionValue.substring(6,10);
+	     var date1 = parseDate(parentAnswer);
+	     var date2 = parseDate(conditionValue);
 
 		 return (condition == 11 && (date1 < date2)) ||
 		            (condition == 12 && (date1 > date2));
