@@ -29,11 +29,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This class maintains the rules for modifying a protocol submission.
  */
-public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase implements ExcecuteProtocolModifySubmissionRule {
+public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase implements ExecuteProtocolModifySubmissionRule {
     
     /**
      * 
-     * @see org.kuali.kra.irb.actions.modifysubmission.ExcecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
+     * @see org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
      */
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
         boolean valid = true;
