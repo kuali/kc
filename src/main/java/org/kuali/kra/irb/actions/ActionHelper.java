@@ -503,13 +503,9 @@ public class ActionHelper implements Serializable {
         canDefer = hasDeferPermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         
-        if (getCurrentSequenceNumber() == -1) {
-            initSummaryDetails();
-        }
+        initSummaryDetails();
         
-        if (getCurrentSubmissionNumber() == -1) {
-            initSubmissionDetails();
-        }
+        initSubmissionDetails();
 
     }
     

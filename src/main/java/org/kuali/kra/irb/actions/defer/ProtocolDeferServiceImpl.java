@@ -94,6 +94,7 @@ public class ProtocolDeferServiceImpl implements ProtocolDeferService {
         newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.DEFERRED);
         newProtocolDocument.getProtocol().setProtocolSubmission(null);
         newProtocolDocument.getProtocol().setApprovalDate(null);
+        newProtocolDocument.getProtocol().setLastApprovalDate(null);
         newProtocolDocument.getProtocol().setExpirationDate(null);
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);

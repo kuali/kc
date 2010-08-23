@@ -61,7 +61,7 @@
             <td class="${protocolSummary.lastApprovalDateChanged ? 'changed' : ''}">
             	<c:choose>
 	       	       <c:when test="${empty protocolSummary.lastApprovalDate}">
-                        Generated on Approval
+                        Generated on Renewal
                     </c:when>
                     <c:otherwise>
                         ${protocolSummary.lastApprovalDate}&nbsp;
