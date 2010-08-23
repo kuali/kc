@@ -47,7 +47,7 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule;
-import org.kuali.kra.irb.actions.modifysubmission.ExcecuteProtocolModifySubmissionRule;
+import org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
@@ -93,7 +93,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExcecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule {
+public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements AddProtocolReferenceRule, AddProtocolParticipantRule, AddProtocolLocationRule, AddProtocolPersonnelRule, SaveProtocolPersonnelRule, PermissionsRule, AddProtocolUnitRule, CustomAttributeRule, BusinessRuleInterface, ExecuteProtocolSubmitActionRule, ExecuteProtocolAssignCmtSchedRule, ExecuteProtocolAssignReviewersRule, ExecuteProtocolAdminCorrectionRule, ExecuteCommitteeDecisionRule, ExecuteCommitteeDecisionAbstainerRule, ExecuteCommitteeDecisionRecuserRule, ExecuteProtocolModifySubmissionRule, ExecuteProtocolApproveRule {
 
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";

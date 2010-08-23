@@ -30,8 +30,6 @@ public class ModifyProtocolSubmissionAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        System.err.println("hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) '" + hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) + "'");
-        System.err.println("getProtocolActionService().isActionAllowed(ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON, protocol) '" + getProtocolActionService().isActionAllowed(ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON, protocol) + "'");
         return hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) 
             && getProtocolActionService().isActionAllowed(ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON, protocol);
     }
