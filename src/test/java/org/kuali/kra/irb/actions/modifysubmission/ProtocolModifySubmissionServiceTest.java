@@ -21,11 +21,14 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -61,59 +64,86 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         protocolModifySubmissionServiceImpl = null;
     }
 
-    //@Test
-    public void testModifySubmisison() throws Exception{
-        /*
-        ProtocolDocument pd = ProtocolFactory.createProtocolDocument("pdMPS101");
-        pd.getProtocol().setProtocolId(new Long(101));
+    @Test
+    public void testModifySubmisison1() throws Exception{       
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
-        ProtocolSubmission ps = new ProtocolSubmission();
-        ps.setProtocol(pd.getProtocol());
-        ps.setComments("test this");
-        ps.setProtocolId(pd.getProtocol().getProtocolId());
-        //ps.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);\
-        ps.setProtocolReviewTypeCode("1");
-        ps.setSubmissionTypeQualifierCode(ProtocolSubmissionQualifierType.COMPLAINT);
-        ps.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        ps.setSubmissionId(new Long(666));
-        ps.setSubmissionNumber(new Integer(666));
-        ps.setProtocolId(pd.getProtocol().getProtocolId());
-        ps.setSequenceNumber(new Integer(101));
-        ps.setSubmissionStatusCode(ProtocolSubmissionStatus.PENDING);
-        ps.setSubmissionDate(new Timestamp(2010, 8, 20, 12, 12, 12, 12));
-        
-        ProtocolSubmissionType type = new ProtocolSubmissionType();
-        type.setDescription("test");
-        type.setSubmissionTypeCode(ProtocolSubmissionType.NOTIFY_IRB);
-        ps.setSubmissionTypeCode(type.getSubmissionTypeCode());
-        ps.setProtocolSubmissionType(type);
-        ps.setProtocolReviewTypeCode("tst");
-        
-        pd.getProtocol().setProtocolSubmission(ps);
-        businessObjectService.save(pd);
-        businessObjectService.save(ps);
-        */
-        Map fieldValue1 = new HashMap();
-        fieldValue1.put("SUBMISSION_ID", "10712");
-        ProtocolSubmission ps = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue1);
-        ProtocolDocument pd = ProtocolFactory.createProtocolDocument("pdMPS101");
-        ps.getProtocol().setProtocolDocument(pd);
-        pd.getProtocol().setProtocolSubmission(ps);
-        ps.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        
-        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(ps);
+        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
         actionBean.setBillable(true);
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
         
-        protocolModifySubmissionService.modifySubmisison(ps.getProtocol().getProtocolDocument(), actionBean);
+        protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
         
         Map fieldValue = new HashMap();
-        fieldValue.put("SUBMISSION_ID", ps.getSubmissionId());
+        fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
         
         ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
         
-        assertEquals(ps.getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+    }
+    
+    @Test
+    public void testModifySubmisison2() throws Exception{       
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        submission.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        
+        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
+        actionBean.setBillable(true);
+        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
+        actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
+        
+        protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
+        
+        Map fieldValue = new HashMap();
+        fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
+        
+        ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
+        
+        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+    }
+    
+    @Test
+    public void testModifySubmisison3() throws Exception{       
+        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
+        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        submission.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
+        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        
+        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
+        actionBean.setBillable(true);
+        actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
+        actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
+        
+        protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
+        
+        Map fieldValue = new HashMap();
+        fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
+        
+        ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
+        
+        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+    }
+    
+    private ProtocolSubmission createSubmission(Protocol protocol, String statusCode) {
+        ProtocolSubmission submission = new ProtocolSubmission();
+        submission.setProtocol(protocol);
+        submission.setProtocolId(protocol.getProtocolId());
+        submission.setProtocolNumber(protocol.getProtocolNumber());
+        submission.setSubmissionNumber(1);
+        submission.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
+        submission.setSubmissionStatusCode(statusCode);
+        submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        if (StringUtils.equals(statusCode, ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            submission.setCommitteeId("1");
+        }
+        return submission;
     }
 
     @Test
