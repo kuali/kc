@@ -860,6 +860,7 @@
 					p:attributeName="relatedProjectsIndicator" /> -->
 			</list>
 		</property>
-	</bean>
+        <property name="resultSetLimit" value="200" />
+ 	</bean>
 
 </beans>
