@@ -80,7 +80,6 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -89,10 +88,8 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -185,9 +182,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public ProposalDevelopmentForm() {
         super();
-        this.setDocument(new ProposalDevelopmentDocument());
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ProposalDevelopmentDocument";
     }
     
     /**
@@ -223,12 +225,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setOtherOrganizationHelpers(new TypedArrayList(CongressionalDistrictHelper.class));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getDocument()));
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        this.setHeaderNavigationTabs(list);
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
@@ -1028,6 +1024,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * then a reload will be executed instead.
      * @return the Header Dispatch action
      */
+    @Override
     public String getHeaderDispatch() {
         return this.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
     }
@@ -1107,9 +1104,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
-            
-            KualiWorkflowDocument wfDoc=doc.getDocumentHeader().getWorkflowDocument();
- 
             if ( isCanSubmitToSponsor() ) {
                 String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submittosponsor.gif";
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
@@ -1311,15 +1305,18 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return getSponsorFormTemplates().get(index);
     }
 
+    @Override
     public boolean isSaveAfterCopy() {
         return saveAfterCopy;
     }
 
+    @Override
     public void setSaveAfterCopy(boolean val) {
         saveAfterCopy = val;
     }
     
 //  Set the document controls that should be available on the page
+    @Override
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
 
@@ -1335,6 +1332,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     // Returns piece that should be locked for this form
+    @Override
     protected String getLockRegion() {
         //default lock region
         String lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
@@ -1491,6 +1489,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return Returns the headerNavigationTabs filtered based on hierarchy status.
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
+    @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();

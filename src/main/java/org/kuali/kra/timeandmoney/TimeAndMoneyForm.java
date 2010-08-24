@@ -17,7 +17,6 @@ package org.kuali.kra.timeandmoney;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +35,6 @@ import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.TransactionBean;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -92,13 +89,11 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     }
 
     public TimeAndMoneyForm() {
-        super(); 
-        this.setDocument(new TimeAndMoneyDocument());
+        super();
         initialize();        
     }
     
     public void initialize() {
-        initializeHeaderNavigationTabs();
         transactionBean = new TransactionBean(this);
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
@@ -115,6 +110,12 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         }
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "TimeAndMoneyDocument";
     }
     
     /**
@@ -135,6 +136,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&M, and
      * we need to register these properties explicitly before we call populate.
      */
+    @Override
     public void populate(HttpServletRequest request) {
         this.registerEditableProperty("controlForAwardHierarchyView");
         this.registerEditableProperty("currentOrPendingView");
@@ -176,21 +178,6 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     protected void setSaveDocumentControl(Map editMode) {
         // TODO Auto-generated method stub
         
-    }
-    
-    
-    /**
-     * 
-     * This method initializes the loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(
-                org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
     }
     
     /**

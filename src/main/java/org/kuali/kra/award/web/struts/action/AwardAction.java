@@ -567,7 +567,6 @@ public class AwardAction extends BudgetParentActionBase {
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
-        awardForm.setIndexOfAwardAmountInfoWithHighestTransactionId(index);
         
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }

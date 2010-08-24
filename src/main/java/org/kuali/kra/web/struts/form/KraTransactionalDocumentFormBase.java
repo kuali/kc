@@ -180,6 +180,11 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         super.setDocument(document);
         ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected abstract String getDefaultDocumentTypeName();
+
 
     public boolean isMedusaOpenedDoc() {
         return medusaOpenedDoc;
