@@ -33,7 +33,9 @@ import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -60,9 +62,32 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         validateSearchParameters(fieldValues);
         // need to set backlocation & docformkey here. Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);        
-        return protocolDao.getProtocols(fieldValues);
+        List<Protocol> protocols = protocolDao.getProtocols(fieldValues);
+        Long matchingResultsCount = new Long(protocols.size());
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Protocol.class);
+        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
+            return new CollectionIncomplete(protocols, new Long(0));
+        } else {
+            return new CollectionIncomplete(trimResult(protocols, searchResultsLimit), matchingResultsCount);
+        }
     }
     
+    /**
+     * This method trims the search result.
+     * @param result, the result set to be trimmed
+     * @param trimSize, the maximum size of the trimmed result set
+     * @return the trimmed result set
+     */
+    private List<Protocol> trimResult(List<Protocol> result, Integer trimSize) {
+        List<Protocol> trimedResult = new ArrayList<Protocol>();
+        for (Protocol protocol : result) {
+            if (trimedResult.size()< trimSize) {
+                trimedResult.add(protocol); 
+            }
+        }
+        return trimedResult;
+    }
+
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
