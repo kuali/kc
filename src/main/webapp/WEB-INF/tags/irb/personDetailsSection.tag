@@ -27,6 +27,7 @@
 </c:choose>
 <c:set var="personAffiliationRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.affiliationDetailsRequired}" />
 <c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
+<c:set var="commentsRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.commentsDetailsRequired}" />
 <c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" />
 
 <table cellpadding=0 cellspacing=0 summary="">
@@ -99,6 +100,19 @@
 	                   					</td>
 	                				</tr>              
     							</c:if> 
+                                
+                                <c:if test="${commentsRequired}">
+                                    <tr>
+                                    <th>
+                                    <div align="right">
+                                        <kul:htmlAttributeLabel attributeEntry="${protocolPersonAttributes.comments}" />
+                                    </div>
+                                    </th>
+                                    <td colspan="3">
+                                         <kul:htmlControlAttribute property="${protocolPerson}.comments" attributeEntry="${protocolPersonAttributes.comments}" readOnly="${readOnly}"/>
+                                    </td>
+                                    </tr>
+                                </c:if>
      						</tbody>
 					</table>
 				</div>
