@@ -37,6 +37,7 @@
 				<ref bean="ProtocolPersonRole-unitDetailsRequired" />
 				<ref bean="ProtocolPersonRole-affiliationDetailsRequired" />
 				<ref bean="ProtocolPersonRole-trainingDetailsRequired" />
+                <ref bean="ProtocolPersonRole-commentsDetailsRequired" />
 				<ref bean="ProtocolPersonRole-versionNumber" />
 			</list>
 		</property>
@@ -94,6 +95,11 @@
   	<bean id="ProtocolPersonRole-trainingDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     	<property name="name" value="trainingDetailsRequired" />
   	</bean>
+
+    <bean id="ProtocolPersonRole-commentsDetailsRequired" parent="ProtocolPersonRole-commentsDetailsRequired-parentBean" />
+    <bean id="ProtocolPersonRole-commentsDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="commentsDetailsRequired" />
+    </bean>
 
 	<bean id="ProtocolPersonRole-versionNumber" parent="ProtocolPersonRole-versionNumber-parentBean" />
 	<bean id="ProtocolPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
