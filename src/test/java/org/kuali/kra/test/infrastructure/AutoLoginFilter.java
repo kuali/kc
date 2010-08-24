@@ -36,7 +36,7 @@ public class AutoLoginFilter implements Filter {
 	/** {@inheritDoc} */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		if (filterConfig.getInitParameter(USER_PARAM_NAME) == null) {
-		    throw new IllegalStateException("the autouser param is not set");
+		    throw new IllegalStateException("the " + USER_PARAM_NAME + " param is not set");
 		}
 	    
 	    chain.doFilter(new HttpServletRequestWrapper((HttpServletRequest) request) {
