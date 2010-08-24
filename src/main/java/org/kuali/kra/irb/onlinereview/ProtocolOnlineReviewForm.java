@@ -82,7 +82,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     @Override
     public void setDocument(Document document) {
         super.setDocument(document);
-        this.setDocTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        this.setDocTypeName(getDefaultDocumentTypeName());
     }
     
     /**

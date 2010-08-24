@@ -28,7 +28,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -72,6 +71,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private transient Rolodex lookupReviewerRolodex;
     private transient String lookupReviewerPersonId;
     private transient KcPerson lookupReviewerPerson;
+    //private transient String lookupReviewerFullName;
     
     /**
      * Gets the protocolReviewId attribute. 
@@ -419,7 +419,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * @return Returns the lookupProtocolNumber.
      */
     public String getLookupProtocolNumber() {
-        return lookupProtocolNumber;
+        return protocol.getProtocolNumber();
     }
 
     /**
@@ -497,5 +497,23 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     public void setLookupReviewerPerson(KcPerson lookupReviewerPerson) {
         this.lookupReviewerPerson = lookupReviewerPerson;
     }
+
+
+    /**
+     * Gets the loopReviewerFullName attribute. 
+     * @return Returns the loopReviewerFullName.
+     */
+    public String getLookupReviewerFullName() {
+        return protocolReviewer.getFullName();
+    }
+
+    /**
+     * Sets the loopReviewerFullName attribute value.
+     * @param loopReviewerFullName The loopReviewerFullName to set.
+     */
+    public void setLookupReviewerFullName(String loopReviewerFullName) {
+        //this.loopReviewerFullName = loopReviewerFullName;
+    }
+       
     
 }
