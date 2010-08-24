@@ -20,7 +20,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.customattributes.CustomDataForm;
@@ -34,14 +33,10 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.authorization.ProtocolOnlineReviewTask;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -62,21 +57,9 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     
     public ProtocolOnlineReviewForm() throws Exception {
         super();
-        this.setDocument(new ProtocolOnlineReviewDocument());
-        initialize();
         this.registerEditableProperty("methodToCall");
     }
 
-    /**
-     *
-     * This method initialize all form variables
-     * @throws Exception 
-     */
-    public void initialize() throws Exception {
-        initializeHeaderNavigationTabs(); 
-        
-    }
-    
     /**
      * Gets a {@link ProtocolDocument ProtocolDocument}.
      * @return {@link ProtocolDocument ProtocolDocument}
@@ -86,18 +69,10 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         return (ProtocolOnlineReviewDocument) super.getDocument();
     }
 
-    /**
-     * 
-     * This method initializes the loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.irb.ProtocolOnlineReviewDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ProtocolOnlineReviewDocument";
     }
     
     /*
@@ -107,14 +82,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     @Override
     public void setDocument(Document document) {
         super.setDocument(document);
-        try {
-            this.setDocTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
-        } catch (RuntimeException re) {
-            //this can happen when the form is initialized with an empty protocol without a header.
-            if (!StringUtils.equals("transient workflowDocument is null - this should never happen", re.getMessage())) {
-                LOG.error("Unexpected runtime exception caught setting ProtocolOnlineReviewDocument",re);
-            }
-        }
+        this.setDocTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
     }
     
     /**
@@ -140,19 +108,23 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
      * @param mapping
      * @param request
      */
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
     }
     
     
+    @Override
     protected void setSaveDocumentControl(Map editMode) {
       
     }
     
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
     }
     
+    @Override
     public String getActionName() {
         return "protocol";
     }
@@ -221,6 +193,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         extraButtons.add(newButton);
     }
 
+    @Override
     public List<ExtraButton> getExtraButtons() {
         return getExtraActionsButtons();
     }

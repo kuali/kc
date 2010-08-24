@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.form;
 
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -38,8 +37,6 @@ import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -84,10 +81,14 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      * Constructs a AwardForm.
      */
     public InstitutionalProposalForm() {
-        super();        
-        initializeHeaderNavigationTabs();
-        this.setDocument(new InstitutionalProposalDocument());
+        super();
         initialize();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "InstitutionalProposalDocument";
     }
     
     /**
@@ -124,20 +125,6 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
      */
     public String getDocumentTypeName() {
         return "InstitutionalProposalDocument";
-    }
-    
-    /**
-     * 
-     * This method initializes the loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(
-                org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
     }
     
     /**
@@ -277,6 +264,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         this.newSpecialReview = newSpecialReview;
     }
 
+    @Override
     public String getActionName() {
         return "institutionalProposal";
     }

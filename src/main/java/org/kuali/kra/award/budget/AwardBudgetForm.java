@@ -39,8 +39,6 @@ public class AwardBudgetForm extends BudgetForm {
 
     public AwardBudgetForm() {
         super();
-        AwardBudgetDocument budgetDocument = new AwardBudgetDocument();
-        this.setDocument(budgetDocument);
     }
     public void initialize() {
         super.initialize();
