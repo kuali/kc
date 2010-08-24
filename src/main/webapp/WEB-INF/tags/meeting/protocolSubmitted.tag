@@ -104,21 +104,13 @@
 					                       </td>
 
                                           <c:if test="${!readOnly}">
-						                       <td>
-						<%--	<div align=center>&nbsp;					
-								<html:image property="methodToCall.viewProtocolSubmission.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-										alt="View Protocol"  /> --%>
-                       <%-- if viewprotocol is using a popupwindow      
-                       onclick="viewProtocolPop('true', ${status.index}, ${currentTabIndex});return false"/>   --%>      
-
-<%-- view protocol popup alternatives --%>
-                                                    <a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
-                                                       <img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
-
-							                       </div>
-		                                       </td>
-		                                   </c:if>
+                                          	<td> 
+                                          		<%-- view protocol popup alternatives --%>
+                                          		<a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
+                                          			<img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
+                                          		</a>
+		                                    </td>
+		                                  </c:if>
 	                                   </tr>
 	                                 </c:if>  
         	                       </c:forEach>

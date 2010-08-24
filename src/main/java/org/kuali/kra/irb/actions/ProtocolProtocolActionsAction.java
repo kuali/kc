@@ -910,6 +910,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
         ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
                 protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber()));
+        ((ProtocolForm) form).initialize();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
