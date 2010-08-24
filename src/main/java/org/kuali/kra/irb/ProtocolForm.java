@@ -45,7 +45,6 @@ import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -93,9 +92,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     public ProtocolForm() throws Exception {
         super();
-        this.setDocument(new ProtocolDocument());
         initialize();
         this.registerEditableProperty("methodToCall");
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ProtocolDocument";
     }
 
     /**
@@ -104,7 +108,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @throws Exception 
      */
     public void initialize() throws Exception {
-        initializeHeaderNavigationTabs(); 
         setProtocolHelper(new ProtocolHelper(this));
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
@@ -118,7 +121,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setNewProtocolReference(new ProtocolReference());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
-    
+
     /**
      * Gets a {@link ProtocolDocument ProtocolDocument}.
      * @return {@link ProtocolDocument ProtocolDocument}
@@ -127,21 +130,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public ProtocolDocument getDocument() {
         return (ProtocolDocument) super.getDocument();
     }
-    
-    /**
-     * 
-     * This method initializes the loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.irb.ProtocolDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
-    }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      * 
@@ -251,6 +240,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @param mapping
      * @param request
      */
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
@@ -314,14 +304,17 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return newProtocolReference;
     }
     
+    @Override
     protected void setSaveDocumentControl(Map editMode) {
       
     }
     
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
     }
     
+    @Override
     public String getActionName() {
         return "protocol";
     }
@@ -409,7 +402,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
 
     public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
+        return getDocument();
     }
 
     public QuestionnaireHelper getQuestionnaireHelper() {

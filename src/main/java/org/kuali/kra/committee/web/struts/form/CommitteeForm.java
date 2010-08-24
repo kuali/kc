@@ -16,7 +16,6 @@
 package org.kuali.kra.committee.web.struts.form;
 
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -70,17 +64,20 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      */
     public CommitteeForm() {
         super();
-        this.setDocument(new CommitteeDocument());
-
         //this.setScheduleData(new ScheduleData());
         initialize();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CommitteeDocument";
     }
 
     /**
      * This method initialize all form variables
      */
     public void initialize() {
-        initializeHeaderNavigationTabs();
         setCommitteeHelper(new CommitteeHelper(this));
     }
 
@@ -89,30 +86,10 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * @return the committee document
      */
     public CommitteeDocument getCommitteeDocument() {
-        return (CommitteeDocument) this.getDocument();
+        return this.getDocument();
     }
 
-    /**
-     * This method initializes and loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DocumentEntry docEntry = getDataDictionaryService().getDataDictionary()
-                                    .getDocumentEntry(org.kuali.kra.committee.document.CommitteeDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
-    }
-    
-    /**
-     * Get the Data Dictionary Service.
-     * @return the Data Dictionary Service
-     */
-    private DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-    }
-
-    /**
+    /**o
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -141,6 +118,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
      */
+    @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         CommitteeDocument committeeDoc = getDocument();
@@ -167,6 +145,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
@@ -208,6 +187,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(org.kuali.core.document.authorization.DocumentActionFlags, java.util.Map)
      */
+    @Override
     @SuppressWarnings("unchecked")
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
@@ -216,6 +196,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
      */
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_COMMITTEE;
     }
