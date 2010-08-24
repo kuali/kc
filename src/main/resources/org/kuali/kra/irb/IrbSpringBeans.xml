@@ -406,6 +406,9 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
     </bean> 
     <bean id="protocolProtocolService" class="org.kuali.kra.irb.protocol.ProtocolProtocolServiceImpl">
         <property name="businessObjectService">
