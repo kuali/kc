@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Request an Action (Under Construction)" defaultOpen="${KualiForm.auditActivated}"  
+<kul:tabTop tabTitle="Request an Action" defaultOpen="${KualiForm.auditActivated}"  
             tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
