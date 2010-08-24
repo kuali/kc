@@ -62,12 +62,12 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.form.Auditable;
@@ -76,9 +76,6 @@ import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -147,7 +144,6 @@ public class AwardForm extends BudgetVersionFormBase
     
     private boolean auditActivated;
     private boolean awardInMultipleNodeHierarchy;
-    private int indexOfAwardAmountInfoWithHighestTransactionId;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
@@ -183,21 +179,18 @@ public class AwardForm extends BudgetVersionFormBase
     private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
 
     /**
-     *
-     * Constructs a AwardForm.
-     */
-    public AwardForm() {
-        this(new AwardDocument());
-    }
-
-    /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
      * @param document
      */
-    public AwardForm(AwardDocument document) {
+    public AwardForm() {
         super();
-        this.setDocument(document);
         initialize();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "AwardDocument";
     }
     
     /**
@@ -205,7 +198,6 @@ public class AwardForm extends BudgetVersionFormBase
      * This method initialize all form variables
      */
     public void initialize() {
-        initializeHeaderNavigationTabs();        
         //newAwardCostShare = new AwardCostShare();
         newAwardFandaRate = new AwardFandaRate(); 
         //setNewSponsorTerms(new ArrayList<SponsorTerm>());
@@ -293,34 +285,11 @@ public class AwardForm extends BudgetVersionFormBase
     
     /**
      * 
-     * This method initializes the loads the header navigation tabs.
-     */
-    protected void initializeHeaderNavigationTabs(){
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(
-                org.kuali.kra.award.document.AwardDocument.class.getName());
-        List<HeaderNavigation> navList = docEntry.getHeaderNavigationList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        super.setHeaderNavigationTabs(list); 
-    }
-    
-    /**
-     * 
-     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
-     * @return
-     */
-    protected DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-    }
-    
-    /**
-     * 
      * This method initializes either the document or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
         if (KEWConstants.INITIATE_COMMAND.equals(getCommand())) {
-            getAwardDocument().initialize();
+            getDocument().initialize();
         }else{
             initialize();
         }
@@ -363,6 +332,7 @@ public class AwardForm extends BudgetVersionFormBase
      * Gets the lookupResultsBOClassName attribute. 
      * @return Returns the lookupResultsBOClassName.
      */
+    @Override
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -371,6 +341,7 @@ public class AwardForm extends BudgetVersionFormBase
      * Sets the lookupResultsBOClassName attribute value.
      * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
      */
+    @Override
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
@@ -379,6 +350,7 @@ public class AwardForm extends BudgetVersionFormBase
      * Gets the lookupResultsSequenceNumber attribute. 
      * @return Returns the lookupResultsSequenceNumber.
      */
+    @Override
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
     }
@@ -387,6 +359,7 @@ public class AwardForm extends BudgetVersionFormBase
      * Sets the lookupResultsSequenceNumber attribute value.
      * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
      */
+    @Override
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
@@ -523,11 +496,13 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     /** {@inheritDoc} */
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
@@ -550,32 +525,13 @@ public class AwardForm extends BudgetVersionFormBase
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
     }
     
-    
-
-//    /**
-//     * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
-//     * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
-//     */
-//    public int getIndexOfAwardAmountInfoWithHighestTransactionId() {
-//        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
-//        return awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(getAwardDocument().getAward().getAwardAmountInfos());
-//    }
-    
     /**
      * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
      * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
      * @throws WorkflowException 
      */
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
-        return getAwardDocument().getAward().getIndexOfAwardAmountInfoForDisplay();
-    }
-
-    /**
-     * Sets the indexOfAwardAmountInfoWithHighestTransactionId attribute value.
-     * @param indexOfAwardAmountInfoWithHighestTransactionId The indexOfAwardAmountInfoWithHighestTransactionId to set.
-     */
-    public void setIndexOfAwardAmountInfoWithHighestTransactionId(int indexOfAwardAmountInfoWithHighestTransactionId) {
-        this.indexOfAwardAmountInfoWithHighestTransactionId = indexOfAwardAmountInfoWithHighestTransactionId;
+        return getDocument().getAward().getIndexOfAwardAmountInfoForDisplay();
     }
 
     public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
@@ -610,6 +566,7 @@ public class AwardForm extends BudgetVersionFormBase
         return "AwardDocument";
     }
     
+    @Override
     public String getActionName() {
         return "award";
     }
@@ -973,18 +930,18 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the hiddenObject.
      */
     public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
-        if(getAwardDocument().getAward().getAwardHierarchyTempObjects() == null) {
-            getAwardDocument().getAward().initializeAwardHierarchyTempObjects(); 
+        if(getDocument().getAward().getAwardHierarchyTempObjects() == null) {
+            getDocument().getAward().initializeAwardHierarchyTempObjects(); 
         }
         
-        return getAwardDocument().getAward().getAwardHierarchyTempObjects();
+        return getDocument().getAward().getAwardHierarchyTempObjects();
     }
     
     public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
         while(getAwardHierarchyTempObjects().size() <= index) {
-            getAwardDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
+            getDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
         }
-        return getAwardDocument().getAward().getAwardHierarchyTempObjects().get(index);
+        return getDocument().getAward().getAwardHierarchyTempObjects().get(index);
     }
     
     public String getValueFinderResultDoNotCache(){
@@ -1055,14 +1012,6 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     /**
-     * This method...
-     * @return
-     */
-    private MedusaService getMedusaService() {
-        return KraServiceLocator.getService(MedusaService.class);
-    }
-
-    /**
      * This is a hack to fix a problem with Award Hierarchy. The way the AH UI was implemented was in JavaScript. For some reason, the awardHierarchyTempObject
      * form field data doesn't get set on the temp objects by Rice's property setting mechanism. Time is short, so I just do it manually here. jack frosch
      *
@@ -1072,7 +1021,7 @@ public class AwardForm extends BudgetVersionFormBase
     public void postprocessRequestParameters(Map requestParameters) {
         super.postprocessRequestParameters(requestParameters);
 
-        @SuppressWarnings("unchecked") Map<String, Object> parms = (Map<String, Object>) requestParameters;
+        @SuppressWarnings("unchecked") Map<String, Object> parms = requestParameters;
         for(String parmKey: parms.keySet()) {
             if(parmKey.startsWith(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX)) {
                 populateAwardHierarchyTempObject(parms, parmKey);
@@ -1178,8 +1127,8 @@ public class AwardForm extends BudgetVersionFormBase
     
     public List<Long> getLinkedProposals() {
         List<Long> linkedProposals = new ArrayList<Long>();
-        if (this.getAwardDocument() != null && this.getAwardDocument().getAward() != null) {
-            for (AwardFundingProposal fundingProposal : this.getAwardDocument().getAward().getFundingProposals()) {
+        if (this.getDocument() != null && this.getDocument().getAward() != null) {
+            for (AwardFundingProposal fundingProposal : this.getDocument().getAward().getFundingProposals()) {
                 linkedProposals.add(fundingProposal.getProposalId());
             }
         }
@@ -1194,7 +1143,7 @@ public class AwardForm extends BudgetVersionFormBase
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);
 
-        AwardDocument awardDocument = getAwardDocument();
+        AwardDocument awardDocument = getDocument();
         getDocInfo().clear();
         getDocInfo().add(
                 new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
@@ -1202,7 +1151,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = getAwardDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
+            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatusDisplayValue();
         }
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
         String unitName = awardDocument.getAward().getUnitName();
@@ -1271,9 +1220,9 @@ public class AwardForm extends BudgetVersionFormBase
     
     public boolean getDisplayEditButton() {
         VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, 
-                this.getAwardDocument().getAward().getAwardNumber());
+                this.getDocument().getAward().getAwardNumber());
         if (activeVersion != null) {
-            return activeVersion.getSequenceOwnerSequenceNumber().equals(this.getAwardDocument().getAward().getSequenceNumber());
+            return activeVersion.getSequenceOwnerSequenceNumber().equals(this.getDocument().getAward().getSequenceNumber());
         }
         return false;
     }
@@ -1353,6 +1302,17 @@ public class AwardForm extends BudgetVersionFormBase
     public String getCanCreateAward() {
         Boolean aFlag = this.getEditingMode().containsKey(Constants.CAN_CREATE_AWARD_KEY);
         return aFlag.toString();
+    }
+    
+    /**
+     * Retrieves the {@link AwardDocument AwardDocument}.
+     * @return {@link AwardDocument AwardDocument}
+     */
+    @Override
+    public AwardDocument getDocument() {
+        //overriding and using covariant return to avoid casting
+        //Document to AwardDocument everywhere
+        return (AwardDocument) super.getDocument();
     }
 
 }

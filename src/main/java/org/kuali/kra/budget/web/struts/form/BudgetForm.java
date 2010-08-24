@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
@@ -46,10 +45,8 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -150,10 +147,14 @@ public class BudgetForm extends BudgetVersionFormBase {
 
     public BudgetForm() {
         super();
-        BudgetDocument budgetDocument = new BudgetDocument();
-        this.setDocument(budgetDocument);
         //Its actually calling from Action's docHandler. So, no need to call in here
 //        initialize();        
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BudgetDocument";
     }
 
     /**
@@ -161,10 +162,6 @@ public class BudgetForm extends BudgetVersionFormBase {
      * This method initialize all form variables
      */
     public void initialize() {
-        List<HeaderNavigation> navList = getBudgetHeaderNavigatorList();
-        HeaderNavigation[] list = new HeaderNavigation[navList.size()];
-        navList.toArray(list);
-        this.setHeaderNavigationTabs(list);
         Budget budget = getDocument().getBudget();
         BudgetPeriod newBudgetPeriod =  budget.getNewBudgetPeriod();
         newBudgetPeriod.setBudget(budget);
@@ -184,17 +181,12 @@ public class BudgetForm extends BudgetVersionFormBase {
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
     }
-
-    protected List<HeaderNavigation> getBudgetHeaderNavigatorList(){
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        DocumentEntry docEntry = dataDictionaryService.getDataDictionary().getDocumentEntry(getBudgetDocument().getClass().getName());
-        return docEntry.getHeaderNavigationList();
-    }
     
     public BudgetDocument getBudgetDocument() {
-        return (BudgetDocument) this.getDocument();
+        return this.getDocument();
     }
     
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...
@@ -653,7 +645,7 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
-        BudgetDocument budgetDocument = (BudgetDocument) getDocument();
+        BudgetDocument budgetDocument = getDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         KualiWorkflowDocument parentWorkflowDocument = null;
         
@@ -775,10 +767,12 @@ public class BudgetForm extends BudgetVersionFormBase {
         this.subAwardFile = subAwardFile;
     }
     
+    @Override
     public boolean isSaveAfterCopy() {
         return saveAfterCopy;
     }
 
+    @Override
     public void setSaveAfterCopy(boolean val) {
         saveAfterCopy = val;
     }
@@ -833,6 +827,7 @@ public class BudgetForm extends BudgetVersionFormBase {
         || ("BudgetVersionsAction".equals(this.actionName));
     }
     
+    @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
     }
@@ -855,6 +850,7 @@ public class BudgetForm extends BudgetVersionFormBase {
      * @return Returns the headerNavigationTabs filtered based on hierarchy status.
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
+    @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         BudgetParentDocument parentDocument = getDocument().getParentDocument();
