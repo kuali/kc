@@ -37,6 +37,7 @@ public class ProtocolPerson extends ProtocolAssociate {
     private String protocolPersonRoleId;
     private Integer rolodexId;
     private Integer affiliationTypeCode;
+    private String comments;
 
     private AffiliationType affiliationType;
     private ProtocolPersonRole protocolPersonRole;
@@ -105,6 +106,14 @@ public class ProtocolPerson extends ProtocolAssociate {
 
     public void setAffiliationTypeCode(Integer affiliationTypeCode) {
         this.affiliationTypeCode = affiliationTypeCode;
+    }
+
+    public String getComments() {
+        return this.comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public AffiliationType getAffiliationType() {
