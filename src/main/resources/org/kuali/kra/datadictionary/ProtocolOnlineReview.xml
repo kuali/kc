@@ -43,10 +43,12 @@
 				<!--  <ref bean="ProtocolOnlineReview-lookupReviewerRolodex"/> -->
 				<ref bean="ProtocolOnlineReview-lookupReviewerPersonId"/>
 				<ref bean="ProtocolOnlineReview-lookupReviwerPerson.lastName"/>
-				
-				
-				<!-- <ref bean="ProtocolOnlineReview-lookupReviewerPerson"/> -->
-				
+				<ref bean="ProtocolOnlineReview-lookupReviewerFullName"/>
+				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionNumber"/>
+				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionTypeCode"/>
+				<ref bean="ProtocolOnlineReview-protocol.principalInvestigator.personName"/>
+				<ref bean="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
+				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
 			</list>
 		</property>
 		 
@@ -332,7 +334,122 @@
 		<property name="summary" value="Protocol Number" />
 		<property name="description" value="Protocol Number" />
 	</bean>
+
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionNumber" parent="ProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" />
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolSubmission.submissionNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Number" />
+		<property name="shortLabel" value="Submission Number" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Protocol Submission Number" />
+		<property name="description" value="Protocol Submission Number" />
+	</bean>
 	
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionStatus.description" parent="ProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" />
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolSubmission.submissionStatus.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Status" />
+		<property name="shortLabel" value="Submission Status" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Protocol Submission Status" />
+		<property name="description" value="Protocol Submission Status" />
+	</bean>
+	
+	<bean id="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description" parent="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description-parentBean" />
+	<bean id="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolSubmission.protocolSubmissionType.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Type" />
+		<property name="shortLabel" value="Submission Type" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Protocol Submission Type" />
+		<property name="description" value="Protocol Submission Type" />
+	</bean>
+
+
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionTypeCode" parent="ProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" />
+	<bean id="ProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolSubmission.submissionTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Submission Type Code" />
+		<property name="shortLabel" value="Type Code" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Protocol Submission Type Code" />
+		<property name="description" value="Protocol Submission Type Code" />
+	</bean>
+
+	<bean id="ProtocolOnlineReview-lookupReviewerFullName" parent="ProtocolOnlineReview-lookupReviewerFullName-parentBean" />
+	<bean id="ProtocolOnlineReview-lookupReviewerFullName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="lookupReviewerFullName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Reviewer Name" />
+		<property name="shortLabel" value="Reviewer Name" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Reviewer Name" />
+		<property name="description" value="Reviewer Name" />
+	</bean>
+
+	<bean id="ProtocolOnlineReview-protocol.principalInvestigator.personName" parent="ProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" />
+	<bean id="ProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocol.principalInvestigator.personName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Principal Investigator" />
+		<property name="shortLabel" value="PI" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Principal Investigator" />
+		<property name="description" value="Principal Investigator" />
+	</bean>
+
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="ProtocolOnlineReview-inquiryDefinition" parent="ProtocolOnlineReview-inquiryDefinition-parentBean"/>
@@ -382,10 +499,13 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
-				<bean p:attributeName="protocolId" p:forceInquiry="true" parent="FieldDefinition"/>
-				<bean p:attributeName="submissionIdFk" p:forceInquiry="true" parent="FieldDefinition"/>
-				<bean p:attributeName="protocolReviewerId" p:forceInquiry="true" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocol.principalInvestigator.personName" parent = "FieldDefinition"/>
+				<bean p:attributeName="lookupProtocolNumber" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocolSubmission.submissionNumber" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocolSubmission.protocolSubmissionType.description" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
+				<bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
