@@ -30,6 +30,7 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
 	private boolean unitDetailsRequired;
     private boolean affiliationDetailsRequired;
     private boolean trainingDetailsRequired;
+    private boolean commentsDetailsRequired;
 	
 	public ProtocolPersonRole() { 
 
@@ -59,6 +60,7 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
         hashMap.put("unitDetailsRequired", isUnitDetailsRequired());
         hashMap.put("affiliationDetailsRequired", isAffiliationDetailsRequired());
         hashMap.put("trainingDetailsRequired", isTrainingDetailsRequired());
+        hashMap.put("commentsDetailsRequired", isCommentsDetailsRequired());
 		return hashMap;
 	}
 
@@ -84,6 +86,14 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
 
     public void setTrainingDetailsRequired(boolean trainingDetailsRequired) {
         this.trainingDetailsRequired = trainingDetailsRequired;
+    }
+
+    public boolean isCommentsDetailsRequired() {
+        return commentsDetailsRequired;
+    }
+
+    public void setCommentsDetailsRequired(boolean commentsDetailsRequired) {
+        this.commentsDetailsRequired = commentsDetailsRequired;
     }
 
     public int compareTo(ProtocolPersonRole other) {

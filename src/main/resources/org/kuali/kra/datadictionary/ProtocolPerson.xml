@@ -40,6 +40,7 @@
 				<ref bean="ProtocolPerson-protocolPersonRoleId" />
 				<ref bean="ProtocolPerson-rolodexId" />
 				<ref bean="ProtocolPerson-affiliationTypeCode" />
+                <ref bean="ProtocolPerson-comments" />
 				<ref bean="ProtocolPerson-versionNumber" />
         		<ref bean="ProtocolPerson-delete" />
         		<ref bean="ProtocolPerson-trained" />
@@ -193,6 +194,27 @@
 		<property name="summary" value="Affiliation Type" />
 		<property name="description" value="Affiliation Type" />
 	</bean>
+
+    <bean id="ProtocolPerson-comments" parent="ProtocolPerson-comments-parentBean" />
+    <bean id="ProtocolPerson-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="100" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>
 
 	<bean id="ProtocolPerson-versionNumber" parent="ProtocolPerson-versionNumber-parentBean" />
 	<bean id="ProtocolPerson-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
