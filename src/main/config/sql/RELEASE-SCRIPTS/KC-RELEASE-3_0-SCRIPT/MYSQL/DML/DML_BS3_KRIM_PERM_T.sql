@@ -40,4 +40,9 @@ SELECT MAX(ID),UUID(),1,
         (SELECT T.PERM_TMPL_ID FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KC-IDM' AND T.NM = 'Perform Document Action'),
         'KC-PROTOCOL','Edit Protocol Billable','can check the billable check box or not','Y' FROM KRIM_PERM_ID_S;
 
+INSERT INTO KRIM_PERM_ID_S VALUES (NULL);
+
+INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
+SELECT MAX(ID),UUID(), 1, (SELECT T.PERM_TMPL_ID FROM KRIM_PERM_TMPL_T T WHERE T.NMSPC_CD = 'KC-IDM' AND T.NM = 'Perform Document Action') , 'KC-PROTOCOL', 'Modify Protocol Submission', 'modify an existing protocol submission', 'Y' FROM KRIM_PERM_ID_S;
+
 COMMIT;
