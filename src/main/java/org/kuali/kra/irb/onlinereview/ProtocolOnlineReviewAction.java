@@ -86,8 +86,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     //Protocol Online Review Action Forwards
   
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
-    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    private static final String SUBMISSION_ID = "submissionId";
+    private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
     
     /** {@inheritDoc} */
     
@@ -235,7 +234,26 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         return result;
     }
     
-    
+    /**
+     * 
+     * This method is to render protocol review page.  It is redirected to by the protocol online review redirect action
+     * when the edit link is clicked on in the action list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        String protocolDocumentNumber = request.getParameter(PROTOCOL_DOCUMENT_NUMBER);
+        ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
+                protocolDocumentNumber));
+        ((ProtocolForm) form).initialize();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     
     /**
