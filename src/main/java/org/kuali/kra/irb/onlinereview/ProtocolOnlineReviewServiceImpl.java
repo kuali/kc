@@ -606,7 +606,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
         boolean result = false;
         ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
-        if( submission != null ) {
+        if( submission != null && submission.getCommitteeIdFk() != null && submission.getCommitteeSchedule() != null ) {
             result = true;
         }
         return result;
