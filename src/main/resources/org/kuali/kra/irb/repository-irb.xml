@@ -48,6 +48,7 @@
         <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="initialSubmissionDate" column="INITIAL_SUBMISSION_DATE" jdbc-type="DATE" />
         <field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
         <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
         <field-descriptor name="lastApprovalDate" column="LAST_APPROVAL_DATE" jdbc-type="DATE" />

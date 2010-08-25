@@ -22,7 +22,7 @@ import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 
 public class ProtocolApproveBean extends ProtocolGenericActionBean {
 
-    private Date approvalDate = new Date(System.currentTimeMillis());
+    private Date approvalDate;
     private Date expirationDate;
     
     private ProtocolRiskLevelBean protocolRiskLevelBean;
