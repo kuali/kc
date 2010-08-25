@@ -35,6 +35,7 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
+                    <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                                         
@@ -70,7 +71,12 @@
                         <kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
                                                   attributeEntry="${minutesAttributes.privateCommentFlag}" />
                     </td>
-
+					
+					<td valign="middle" style="text-align:center">
+				        <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
+                                                  attributeEntry="${minutesAttributes.finalFlag}" />
+                    </td>
+                
                     <td>
                         <div align="center">
                             <html:image property="methodToCall.add${actionName}ReviewComment.anchor${tabKey}"
@@ -127,6 +133,12 @@
                         <td style="text-align:center; vertical-align:middle">
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
                                                       attributeEntry="${minutesAttributes.privateCommentFlag}"
+                                                      readOnly="${readOnly}" />
+                        </td>
+                        
+                        <td style="text-align:center; vertical-align:middle">
+                            <kul:htmlControlAttribute property="${property}.comments[${status.index}].finalFlag" 
+                                                      attributeEntry="${minutesAttributes.finalFlag}"
                                                       readOnly="${readOnly}" />
                         </td>
                                                 
