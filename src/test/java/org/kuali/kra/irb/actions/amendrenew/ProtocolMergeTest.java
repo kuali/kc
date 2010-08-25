@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -34,9 +35,15 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class ProtocolMergeTest extends KcUnitTestBase {
     
+    private static final long DAY = 86400000L;
+    
     private static final String TITLE = "Amendment Title"; 
     private static final String PROTOCOL_TYPE_CODE = "1";
     private static final String DESCRIPTION = "amendment description";
+    private static final Date INITIAL_SUBMISSION_DATE = new Date(System.currentTimeMillis() - (2 * DAY));
+    private static final Date APPROVAL_DATE = new Date(System.currentTimeMillis() - DAY);
+    private static final Date EXPIRATION_DATE = new Date(System.currentTimeMillis() + (2 * DAY));
+    private static final Date LAST_APPROVAL_DATE = new Date(System.currentTimeMillis());
     private static final String FDA_NUM = "777";
     private static final String REF1 = "amendment ref 1";
     private static final String REF2 = "amendment ref 2";
@@ -73,6 +80,10 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         amendment.setTitle(TITLE);
         amendment.setProtocolTypeCode(PROTOCOL_TYPE_CODE);
         amendment.setDescription(DESCRIPTION);
+        amendment.setInitialSubmissionDate(INITIAL_SUBMISSION_DATE);
+        amendment.setApprovalDate(APPROVAL_DATE);
+        amendment.setExpirationDate(EXPIRATION_DATE);
+        amendment.setLastApprovalDate(LAST_APPROVAL_DATE);
         amendment.setFdaApplicationNumber(FDA_NUM);
         amendment.setReferenceNumber1(REF1);
         amendment.setReferenceNumber2(REF2);
@@ -81,6 +92,10 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         assertEquals(TITLE, protocol.getTitle());
         assertEquals(PROTOCOL_TYPE_CODE, protocol.getProtocolTypeCode());
         assertEquals(DESCRIPTION, protocol.getDescription());
+        assertEquals(INITIAL_SUBMISSION_DATE, protocol.getInitialSubmissionDate());
+        assertEquals(APPROVAL_DATE, protocol.getApprovalDate());
+        assertEquals(EXPIRATION_DATE, protocol.getExpirationDate());
+        assertEquals(LAST_APPROVAL_DATE, protocol.getLastApprovalDate());
         assertEquals(FDA_NUM, protocol.getFdaApplicationNumber());
         assertEquals(REF1, protocol.getReferenceNumber1());
         assertEquals(REF2, protocol.getReferenceNumber2());

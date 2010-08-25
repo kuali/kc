@@ -46,6 +46,7 @@
 				<ref bean="Protocol-principalInvestigatorId" />
 				<ref bean="Protocol-title" />
 				<ref bean="Protocol-description" />
+				<ref bean="Protocol-initialSubmissionDate" />
 				<ref bean="Protocol-approvalDate" />
 				<ref bean="Protocol-expirationDate" />
 				<ref bean="Protocol-lastApprovalDate" />
@@ -331,6 +332,18 @@
 		<property name="summary" value="Description" />
 		<property name="description" value="Description" />
 	</bean>
+	
+	<bean id="Protocol-initialSubmissionDate" parent="Protocol-initialSubmissionDate-parentBean" />
+    <bean id="Protocol-initialSubmissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="initialSubmissionDate" />
+        <property name="label" value="Initial Submission Date" />
+        <property name="shortLabel" value="Initial Submission Date" />
+        <property name="summary" value="Initial Submission Date" />
+        <property name="description" value="Initial Submission Date" />
+        <property name="validationPattern" >
+            <bean parent="DateValidationPattern" />
+        </property>
+    </bean>
 	
     <bean id="Protocol-submissionDate" parent="Protocol-submissionDate-parentBean" />
 	<bean id="Protocol-submissionDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericTimestamp" >
@@ -694,6 +707,8 @@
 								p:attributeName="title" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
+						    <bean parent="FieldDefinition"
+                                p:attributeName="initialSubmissionDate" />
 							<bean parent="FieldDefinition"
 								p:attributeName="submissionDate" />
 							<bean parent="FieldDefinition"
@@ -759,6 +774,8 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
 				<bean parent="FieldDefinition"
+                    p:attributeName="initialSubmissionDate" />
+				<bean parent="FieldDefinition"
 					p:attributeName="submissionDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
@@ -819,6 +836,8 @@
 					p:attributeName="title" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition"
+                    p:attributeName="initialSubmissionDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="submissionDate" />
 				<bean parent="FieldDefinition"

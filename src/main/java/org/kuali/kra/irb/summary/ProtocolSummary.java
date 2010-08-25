@@ -17,7 +17,6 @@ package org.kuali.kra.irb.summary;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class ProtocolSummary implements Serializable {
     
     private String lastProtocolActionDescription;
     private String protocolNumber;
-    private String submissionDate;
+    private String initialSubmissionDate;
     private String approvalDate;
     private String lastApprovalDate;
     private String expirationDate;
@@ -52,7 +51,7 @@ public class ProtocolSummary implements Serializable {
     private AdditionalInfoSummary additionalInfoSummary;
     
     private boolean protocolNumberChanged = false;
-    private boolean submissionDateChanged = false;
+    private boolean initialSubmissionDateChanged = false;
     private boolean approvalDateChanged = false;
     private boolean lastApprovalDateChanged = false;
     private boolean expirationDateChanged = false;
@@ -87,12 +86,12 @@ public class ProtocolSummary implements Serializable {
         this.protocolNumber = protocolNumber;
     }
     
-    public String getSubmissionDate() {
-        return submissionDate;
+    public String getInitialSubmissionDate() {
+        return initialSubmissionDate;
     }
 
-    public void setSubmissionDate(Timestamp submissionDate) {
-        this.submissionDate = formatDate(submissionDate);
+    public void setInitialSubmissionDate(Date initialSubmissionDate) {
+        this.initialSubmissionDate = formatDate(initialSubmissionDate);
     }
 
     public String getApprovalDate() {
@@ -229,7 +228,7 @@ public class ProtocolSummary implements Serializable {
     
     public void compare(ProtocolSummary other) {
         protocolNumberChanged = !StringUtils.equals(protocolNumber, other.protocolNumber);
-        submissionDateChanged = !StringUtils.equals(submissionDate, other.submissionDate);
+        initialSubmissionDateChanged = !StringUtils.equals(initialSubmissionDate, other.initialSubmissionDate);
         approvalDateChanged = !StringUtils.equals(approvalDate, other.approvalDate);
         lastApprovalDateChanged = !StringUtils.equals(lastApprovalDate, other.lastApprovalDate);
         expirationDateChanged = !StringUtils.equals(expirationDate, other.expirationDate);
@@ -295,8 +294,8 @@ public class ProtocolSummary implements Serializable {
         return protocolNumberChanged;
     }
     
-    public boolean isSubmissionDateChanged() {
-        return submissionDateChanged;
+    public boolean isInitialSubmissionDateChanged() {
+        return initialSubmissionDateChanged;
     }
 
     public boolean isApprovalDateChanged() {

@@ -448,7 +448,7 @@ public class InstitutionalProposalXmlStream extends
 				}
 				if (protocol.getSubmissionDate() != null) {
 					specialReviewType.setApplicationDate(dateTimeService
-							.getCalendar(protocol.getSubmissionDate()));
+							.getCalendar(protocol.getInitialSubmissionDate()));
 				}
 				if (protocol.getApprovalDate() != null) {
 					specialReviewType.setApprovalDate(dateTimeService
