@@ -33,6 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
 
+    private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
@@ -43,16 +44,15 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
    
     public ActionForward redirectToProtocolFromReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-    
         ProtocolOnlineReviewForm protocolOnlineReviewForm = (ProtocolOnlineReviewForm)form;
         super.loadDocument(protocolOnlineReviewForm);
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put( "protocolId", protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId() );
         Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
-        String redirect = String.format( "/kew/DocHandler.do?docId=%s&command=displayActionListView", protocol.getProtocolDocument().getDocumentNumber() );
-        ActionForward forward = new ActionForward( redirect );
-        forward.setRedirect(true);
-        return forward;
+        
+        response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+        return null;
+       
     }
     
 }
