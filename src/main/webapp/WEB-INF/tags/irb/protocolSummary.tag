@@ -18,14 +18,14 @@
                     </c:otherwise>
 	       	   	</c:choose>
             </td>
-            <th style="text-align:right; width:135px">Submission Date:</th>
-            <td class="${protocolSummary.submissionDateChanged ? 'changed' : ''}">
+            <th style="text-align:right; width:135px">Initial Submission Date:</th>
+            <td class="${protocolSummary.initialSubmissionDateChanged ? 'changed' : ''}">
                 <c:choose>
-                   <c:when test="${empty protocolSummary.submissionDate}">
-                        Generated on Submission
+                   <c:when test="${empty protocolSummary.initialSubmissionDate}">
+                        Generated on Initial Submission
                     </c:when>
                     <c:otherwise>
-                        ${protocolSummary.submissionDate}&nbsp;
+                        ${protocolSummary.initialSubmissionDate}&nbsp;
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -61,7 +61,7 @@
             <td class="${protocolSummary.lastApprovalDateChanged ? 'changed' : ''}">
             	<c:choose>
 	       	       <c:when test="${empty protocolSummary.lastApprovalDate}">
-                        Generated on Renewal
+                        Generated on Renewal Approval
                     </c:when>
                     <c:otherwise>
                         ${protocolSummary.lastApprovalDate}&nbsp;

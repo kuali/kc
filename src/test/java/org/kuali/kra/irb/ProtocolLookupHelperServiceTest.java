@@ -49,8 +49,11 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=000001&methodToCall=start";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 22;
+    
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 24;
+    
     private Mockery context = new JUnit4Mockery();
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -75,7 +78,7 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     public void testGetRows() {
 
         List<Row> rows = protocolLookupableHelperServiceImpl.getRows();
-        assertEquals(rows.size(), NUMBER_LOOKUP_CRITERIA_FIELDS);
+        assertEquals(NUMBER_LOOKUP_CRITERIA_FIELDS, rows.size());
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("researchAreaCode")) {

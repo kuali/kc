@@ -88,6 +88,10 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument), true);
+        amendProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
+        amendProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
+        amendProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
+        amendProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
         amendProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.AMENDMENT_IN_PROGRESS);
         amendProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
@@ -103,7 +107,10 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public String createRenewal(ProtocolDocument protocolDocument) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
-        renewProtocolDocument.getProtocol().setLastApprovalDate(new Date(System.currentTimeMillis()));
+        renewProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
+        renewProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
+        renewProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
+        renewProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
         renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         
@@ -125,7 +132,10 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
-        renewProtocolDocument.getProtocol().setLastApprovalDate(new Date(System.currentTimeMillis()));
+        renewProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
+        renewProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
+        renewProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
+        renewProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
         renewProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.RENEWAL_IN_PROGRESS);
         renewProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
         

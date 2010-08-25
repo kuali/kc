@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
@@ -96,7 +98,14 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
          */
         String prevSubmissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
-        ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);  
+        ProtocolSubmission submission = createProtocolSubmission(protocol, submitAction);
+        
+        /*
+         * If this is an initial submission, then set the initial submission date.
+         */
+        if (protocol.getInitialSubmissionDate() == null) {
+            protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
+        }
         
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(SUBMIT_TO_IRB);
@@ -110,7 +119,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         ProtocolStatus protocolStatus = new ProtocolStatus();
         protocolStatus.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         protocol.setProtocolStatus(protocolStatus);
-        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);      
+        protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
