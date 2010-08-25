@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader;
 
 /**
- * A custom {@link edu.iu.uis.eden.plugin.ResourceLoader} which wraps a Spring BeanFactory and delegates certain
+ * A custom {@link org.kuali.rice.core.resourceloader.SpringBeanFactoryResourceLoader} which wraps a Spring BeanFactory and delegates certain
  * service lookups to the BeanFactory.
  */
 public class KraResourceLoader extends SpringBeanFactoryResourceLoader {
