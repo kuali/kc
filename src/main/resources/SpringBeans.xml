@@ -18,13 +18,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
        xmlns:p="http://www.springframework.org/schema/p" 
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:lang="http://www.springframework.org/schema/lang"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
                            http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"> 
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.5.xsd"> 
                            
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
@@ -42,6 +51,22 @@
 		<property name="targetObject" ref="config" />
 		<property name="targetMethod" value="getProperties" />
 	</bean>
+
+	<util:list id="kcPackages">
+		<value>org.kuali.kra</value>
+	</util:list>
+
+	<bean id="riceApplicationConfigurationService" class="org.kuali.rice.kns.service.impl.RiceApplicationConfigurationServiceImpl">
+        <property name="packagePrefixes" ref="kcPackages" />
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition"
+	      p:service-ref="riceApplicationConfigurationService"
+	      p:localServiceName="riceApplicationConfigurationService" />
+	  </property>
+	</bean>
 	
 	<bean id="baseModuleConfiguration" parent="baseModuleConfiguration-parentBean" />
 	
@@ -51,11 +76,7 @@
 		<!-- Rice hack this isn't really the right namespace but we cannot set it correctly until we address modularity
 		(breaking up our DD files, SpringBeans, namespaces, etc. -->
 		<property name="namespaceCode" value="KC-SYS" />
-		<property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kra</value>
-            </list>
-        </property>
+		<property name="packagePrefixes" ref="kcPackages" />
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kra/datadictionary</value>
@@ -183,6 +204,7 @@
 				<value>noEditLookupable</value>
 				<value>budgetPeriodLookupable</value>	
 				<value>kimPersonLookupable</value>
+				<value>riceApplicationConfigurationService</value>
 			</set>
 		</property>
 	</bean>	
