@@ -34,12 +34,12 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Keyword Code"/>
     <property name="shortLabel" value="Science Keyword Code"/>
-    <property name="maxLength" value="3"/>
+    <property name="maxLength" value="15"/>
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
     <property name="control">
-      <bean p:size="10" parent="TextControlDefinition"/>
+      <bean p:size="15" parent="TextControlDefinition"/>
     </property>
     <property name="summary" value="Science Keyword Code"/>
     <property name="description" value="Science Keyword Code"/>
