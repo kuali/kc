@@ -106,7 +106,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private String protocolTypeCode; 
     private String protocolStatusCode; 
     private String title; 
-    private String description; 
+    private String description;
+    private Date initialSubmissionDate;
     private Date approvalDate; 
     private Date expirationDate; 
     private Date lastApprovalDate; 
@@ -298,6 +299,14 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             submissionDate = getProtocolSubmission().getSubmissionDate();
         }
         return submissionDate;
+    }
+    
+    public Date getInitialSubmissionDate() {
+        return initialSubmissionDate;
+    }
+    
+    public void setInitialSubmissionDate(Date initialSubmissionDate) {
+        this.initialSubmissionDate = initialSubmissionDate;
     }
 
     public Date getApprovalDate() {
@@ -1241,6 +1250,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private void mergeGeneralInfo(Protocol amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
         this.title = amendment.getTitle();
+        this.initialSubmissionDate = amendment.getInitialSubmissionDate();
+        this.approvalDate = amendment.getApprovalDate(); 
+        this.expirationDate = amendment.getExpirationDate(); 
+        this.lastApprovalDate = amendment.getLastApprovalDate();
         this.description = amendment.getDescription();
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
         //this.billable = amendment.isBillable();
@@ -1528,7 +1541,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         summary.setProtocolNumber(getProtocolNumber().toString());
         summary.setPiName(getPrincipalInvestigator().getPersonName());
         summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
-        summary.setSubmissionDate(getSubmissionDate());
+        summary.setInitialSubmissionDate(getInitialSubmissionDate());
         summary.setApprovalDate(getApprovalDate());
         summary.setLastApprovalDate(getLastApprovalDate());
         summary.setExpirationDate(getExpirationDate());
@@ -1602,6 +1615,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         return;
     }
+    
+    public boolean isNew() {
+        return !isAmendment() && !isRenewal();
+    }
+    
     public boolean isAmendment() {
         return protocolNumber.contains(AMENDMENT_LETTER);
     }

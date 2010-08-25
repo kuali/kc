@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -77,6 +78,7 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -291,10 +293,56 @@ public class ActionHelper implements Serializable {
                     protocolAction.getActionDate().getDay());
             bean.setActionDate(actionDate);
         }
-        bean.setApprovalDate(protocol.getApprovalDate());
-        bean.setExpirationDate(protocol.getExpirationDate());
+        bean.setApprovalDate(buildApprovalDate(protocol));
+        bean.setExpirationDate(buildExpirationDate(protocol, bean.getApprovalDate()));
         addReviewerCommentsToBean(bean, this.form);
         return bean;
+    }
+    
+    /**
+     * Builds an approval date, defaulting to the approval date from the protocol.
+     * 
+     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
+     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
+     * 
+     * @param protocol
+     * @return a non-null approval date
+     */
+    private Date buildApprovalDate(Protocol protocol) {
+        Date approvalDate = protocol.getApprovalDate();
+        
+        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
+            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            if (committeeSchedule != null) {
+                approvalDate = committeeSchedule.getScheduledDate();
+            } else {
+                approvalDate = new Date(System.currentTimeMillis());
+            }
+        }
+        
+        return approvalDate;
+    }
+    
+    /**
+     * Builds an expiration date, defaulting to the expiration date from the protocol.  
+     * 
+     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
+     * less than the approval date.
+     * 
+     * @param protocol
+     * @param approvalDate
+     * @return a non-null expiration date
+     */
+    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+        Date expirationDate = protocol.getExpirationDate();
+        
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
+            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+        }
+        
+        return expirationDate;
     }
 
     private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {

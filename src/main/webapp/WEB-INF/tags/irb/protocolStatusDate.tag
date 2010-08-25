@@ -43,7 +43,7 @@
 	        <td width="20%" align="left" valign="middle">
 	           <c:choose>
                    <c:when test="${empty KualiForm.document.protocolList[0].lastApprovalDate}">
-                        Generated on Renewal
+                        Generated on Renewal Approval
                    </c:when>
                    <c:otherwise>
 	          	        <kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="true" />
@@ -52,14 +52,14 @@
 	        </td>
 	 	</tr>
 	    <tr>
-	       	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.submissionDate}"/></div></th>
+	       	<th width="30%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.initialSubmissionDate}"/></div></th>
 	        <td width="20%">
 	            <c:choose>
-	        	    <c:when test="${empty KualiForm.document.protocolList[0].submissionDate}">
-	                    Generated on Submission
+	        	    <c:when test="${empty KualiForm.document.protocolList[0].initialSubmissionDate}">
+	                    Generated on Initial Submission
 	                </c:when>
 	                <c:otherwise>
-	                    <kul:htmlControlAttribute property="document.protocolList[0].submissionDate" attributeEntry="${protocolAttributes.submissionDate}" readOnly="true" />
+	                    <kul:htmlControlAttribute property="document.protocolList[0].initialSubmissionDate" attributeEntry="${protocolAttributes.initialSubmissionDate}" readOnly="true" />
 	                </c:otherwise>    
 	            </c:choose> 
 	        </td>
