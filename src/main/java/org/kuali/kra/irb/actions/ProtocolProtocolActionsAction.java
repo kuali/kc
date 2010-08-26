@@ -38,6 +38,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -246,13 +249,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
-                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
+                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
                         forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
                     } else {
-                        forward = submitForReviewAndRedirect(mapping, form, request, response);                       
-                        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-                        protocolForm.getActionHelper().getAssignToAgendaBean().init();
-                        super.route(mapping, protocolForm, request, response);
+                        forward = submitForReviewAndRedirect(mapping, form, request, response);
                     }
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
@@ -265,7 +265,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
-        return false;
+        boolean isMax = false;
+        
+        Committee committee = getCommitteeService().getCommitteeById(committeeId);
+        if (committee != null) {
+            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
+            if (schedule != null) {
+                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : schedule.getProtocolSubmissions().size();
+                int maxSubmissionCount = schedule.getMaxProtocols();
+                isMax = currentSubmissionCount >= maxSubmissionCount;
+            }
+        }
+        
+        return isMax;
     }
 
     /*
@@ -321,6 +333,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
         
         getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
+        protocolForm.getActionHelper().getAssignToAgendaBean().init();
+        
+        super.route(mapping, protocolForm, request, response);
         
         ActionForward forward = returnToSender(request, mapping, protocolForm);
         
@@ -2289,6 +2305,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolApproveService getProtocolApproveService() {
         return KraServiceLocator.getService(ProtocolApproveService.class);
+    }
+    
+    private CommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeService.class);
     }
     
     private CommitteeDecisionService getCommitteeDecisionService() {
