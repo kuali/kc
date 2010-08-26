@@ -32,6 +32,10 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).
@@ -45,6 +49,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     
     /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    private static final String ATTACHMNENT_PATH = "document.protocolList[0].attachmentProtocols[";
     
     /** 
      * prepares the view.
@@ -144,10 +149,32 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      */
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
-        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
+        int selection = this.getSelectedLine(request);
+        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getAttachmentsHelper().retrieveExistingAttachmentByType(
+                selection, ProtocolAttachmentProtocol.class);
+        if (isValidContactData(attachment, ATTACHMNENT_PATH + selection + "]")) {
+            return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
     
+    /*
+     * add this check, so to prevent the situation that data is not editable after deletion.
+     */
+    private boolean isValidContactData(ProtocolAttachmentBase attachment, String errorPath) {
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.addToErrorPath(errorPath);
+        getDictionaryValidationService().validateBusinessObject(attachment);
+        errorMap.removeFromErrorPath(errorPath);
+        return errorMap.hasNoErrors();
+    
+    }
+
+    protected DictionaryValidationService getDictionaryValidationService() {
+            return KNSServiceLocator.getDictionaryValidationService();
+    }
+
     /**
      * Method called when confirming the deletion an attachment protocol.
      * 
