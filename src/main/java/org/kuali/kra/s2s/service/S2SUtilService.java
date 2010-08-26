@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Country;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -276,5 +277,8 @@ public interface S2SUtilService {
      * @param ProposalDevelopmentDocument
      */
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
+    
+    public BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
+
 
 }

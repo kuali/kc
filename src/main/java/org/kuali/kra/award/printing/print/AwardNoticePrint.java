@@ -21,6 +21,7 @@ import java.util.List;
 import javax.xml.transform.Source;
 
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -36,14 +37,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
  */
 public class AwardNoticePrint extends AbstractPrint {
 
-	/**
-	 * Fetches the {@link ResearchDocumentBase}
-	 * 
-	 * @return {@link ResearchDocumentBase} document
-	 */
-	public ResearchDocumentBase getDocument() {
-		return document;
-	}
 
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the

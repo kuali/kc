@@ -26,7 +26,9 @@ import noNamespace.SalaryType;
 import noNamespace.BudgetSalaryDocument.BudgetSalary;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -52,16 +54,16 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
 	 * once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		this.budget = ((BudgetDocument) document).getBudget();
+		this.budget = (Budget) printableBusinessObject;
 		BudgetSalaryDocument budgetSalaryDocument = BudgetSalaryDocument.Factory
 				.newInstance();
 		if (budget != null) {

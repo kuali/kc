@@ -24,8 +24,9 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
@@ -38,16 +39,19 @@ import org.kuali.kra.printing.print.AbstractPrint;
  */
 public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrint {
     
-    private ProtocolDocument protocolDocument;
+    private Protocol protocol;
     
-    public void setProtocolDocument(ProtocolDocument protcolDocument) {
-        this.protocolDocument = protcolDocument;
+    public void setProtocol(Protocol protcol) {
+        this.protocol = protcol;
     }
     
-    public ProtocolDocument getProtocolDocument() {
-        return this.protocolDocument;
+    public Protocol getProtocol() {
+        return this.protocol;
     }
-    
+    @Override
+    public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+        return getProtocol();
+    }
     private ProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
         return KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
     }
@@ -59,11 +63,6 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
      */
     public abstract String getProtocolActionType();
 
-    
-    @Override
-    public ResearchDocumentBase getDocument() {
-        return this.protocolDocument;
-    }
     
     private List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates() {
         List<ProtocolCorrespondenceTemplate> templates = 

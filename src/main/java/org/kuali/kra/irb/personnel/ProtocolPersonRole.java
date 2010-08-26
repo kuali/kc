@@ -25,6 +25,11 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4525940858799917386L;
+    public static final String ROLE_PRINCIPAL_INVESTIGATOR = "PI";
+    public static final String ROLE_CO_INVESTIGATOR = "COI";
+    public static final String ROLE_STUDY_PERSONNEL = "SP";
+    public static final String ROLE_CORRESPONDENT_CRC = "CRC";
+    public static final String ROLE_CORRESPONDENT_ADMINISTRATOR = "CA";
     private String protocolPersonRoleId; 
 	private String description; 
 	private boolean unitDetailsRequired;

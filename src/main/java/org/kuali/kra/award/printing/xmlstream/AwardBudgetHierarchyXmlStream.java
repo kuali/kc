@@ -31,6 +31,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
@@ -47,17 +48,16 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
-		AwardDocument awardDocument = (AwardDocument) document;
-		Award award = awardDocument.getAward();
+		Award award = (Award) printableBusinessObject;
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory.newInstance();
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
 		awardNotice.setAward(getAwardType(award));

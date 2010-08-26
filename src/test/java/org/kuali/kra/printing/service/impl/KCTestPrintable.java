@@ -28,7 +28,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -70,7 +70,7 @@ public class KCTestPrintable extends PersistableBusinessObjectBase implements
 
 	}
 
-	public ResearchDocumentBase getDocument() {
+	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
 		// TODO Auto-generated method stub
 		return null;
 	}

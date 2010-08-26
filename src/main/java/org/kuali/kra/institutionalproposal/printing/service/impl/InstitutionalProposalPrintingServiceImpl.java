@@ -2,6 +2,7 @@ package org.kuali.kra.institutionalproposal.printing.service.impl;
 
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint;
@@ -37,7 +38,7 @@ public class InstitutionalProposalPrintingServiceImpl implements
 	 * 
 	 */
 	public AttachmentDataSource printInstitutionalProposalReport(
-			ResearchDocumentBase proposalDocument, String reportName,
+			KraPersistableBusinessObjectBase institutionalProposal, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
@@ -46,7 +47,7 @@ public class InstitutionalProposalPrintingServiceImpl implements
 						.getInstitutionalProposalPrintType())) {
 			printable = getInstitutionalProposalPrint();
 		}
-		printable.setDocument(proposalDocument);
+		printable.setPrintableBusinessObject(institutionalProposal);
 		printable.setReportParameters(reportParameters);
 		source = getPrintingService().print(printable);
 		return source;

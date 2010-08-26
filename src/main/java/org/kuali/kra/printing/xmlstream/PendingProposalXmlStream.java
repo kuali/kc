@@ -11,6 +11,7 @@ import noNamespace.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.Pen
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -36,14 +37,14 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();
 		CurrentAndPendingSupport currentAndPendingSupport = CurrentAndPendingSupport.Factory

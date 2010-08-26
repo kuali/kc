@@ -49,7 +49,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_SUMMARY_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils
@@ -71,7 +71,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_TOTAL_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils.getBudgetTotalReportParameters());
@@ -91,7 +91,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils
@@ -112,7 +112,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils
@@ -133,7 +133,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_SALARY_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils.getBudgetSalaryReportParameters());
@@ -153,7 +153,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_CUMULATIVE_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils
@@ -174,7 +174,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils
@@ -195,7 +195,7 @@ public class BudgetPrintingServiceTest extends PrintingServiceTestBase {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printBudgetReport(
-							budgetDoc,
+							budgetDoc.getBudget(),
 							BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
 									.getBudgetPrintType(),
 							PrintingTestUtils

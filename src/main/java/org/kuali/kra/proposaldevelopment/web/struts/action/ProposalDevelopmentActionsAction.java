@@ -946,7 +946,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         // TODO fix - printing code does not catch null fields in proposal and does not fail gracefully when certain fields are blank
         try {
-            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument, 
+            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument.getDevelopmentProposal(), 
                     ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
             streamToResponse(dataStream, response);
             return null;//mapping.findForward(Constants.MAPPING_AWARD_BASIC);

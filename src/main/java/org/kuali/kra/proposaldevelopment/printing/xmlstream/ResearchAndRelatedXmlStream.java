@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.bo.OrganizationYnq;
@@ -110,21 +111,20 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * populating the XML nodes. The XMl once generated is returned as
 	 * {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
-		ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-		Budget budget = getBudget(proposalDevelopmentDocument);
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
+		Budget budget = getBudget(developmentProposal.getProposalDocument());
 		ResearchAndRelatedProjectDocument researchAndRelatedProjectDocument = ResearchAndRelatedProjectDocument.Factory
 				.newInstance();
 		researchAndRelatedProjectDocument
-				.setResearchAndRelatedProject(getResearchAndRelatedProject(
-						proposalDevelopmentDocument, budget));
+				.setResearchAndRelatedProject(getResearchAndRelatedProject(developmentProposal, budget));
 
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
@@ -137,13 +137,10 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * Organization assurances , budget summary, Research Cover page, and
 	 * keyPerson.
 	 */
-	private ResearchAndRelatedProject getResearchAndRelatedProject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument,
-			Budget budget) {
+	private ResearchAndRelatedProject getResearchAndRelatedProject(DevelopmentProposal developmentProposal,
+			                                                                                                    Budget budget) {
 		ResearchAndRelatedProject researchAndRelatedProject = ResearchAndRelatedProject.Factory
 				.newInstance();
-		DevelopmentProposal developmentProposal = proposalDevelopmentDocument
-				.getDevelopmentProposal();
 		researchAndRelatedProject
 				.setProjectDescription(getProjectDescription(developmentProposal));
 		researchAndRelatedProject
@@ -151,16 +148,8 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		researchAndRelatedProject
 				.setKeyPerson(getKeyPersonType(developmentProposal));
 
-		try {
-			researchAndRelatedProject
-					.setResearchCoverPage(getResearchCoverPage(
-							developmentProposal, budget));
-		} catch (ParseException e) {
-			LOG.error("Unable to parse String date", e);
-		}
-
-		researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,
-				developmentProposal.getProposalNumber()));
+		researchAndRelatedProject.setResearchCoverPage(getResearchCoverPage(developmentProposal, budget));
+		researchAndRelatedProject.setBudgetSummary(getBudgetSummary(developmentProposal,budget));
 		return researchAndRelatedProject;
 	}
 
@@ -169,21 +158,15 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * BudgetSummaryType from budget and budgetPeriod which having final
 	 * versionFlag enable.
 	 */
-	private BudgetSummaryType getBudgetSummary(Budget budget,
-			String proposalNumber) {
-		BudgetSummaryType budgetSummaryType = BudgetSummaryType.Factory
-				.newInstance();
+	private BudgetSummaryType getBudgetSummary(DevelopmentProposal developmentPropsal,Budget budget) {
+		BudgetSummaryType budgetSummaryType = BudgetSummaryType.Factory.newInstance();
 		if (budget != null) {
 			BudgetPeriod budgetPeriod = budget.getBudgetPeriod(1);
-			budgetSummaryType.setInitialBudgetTotals(getBudgetTotals(
-					budgetPeriod.getTotalCost(), budgetPeriod
-							.getCostSharingAmount()));
-			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget
-					.getTotalCost(), budget.getCostSharingAmount()));
-			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(budget
-					.getBudgetPeriods()));
-			budgetSummaryType
-					.setBudgetJustification(getBudgetJustification(proposalNumber));
+			budgetSummaryType.setInitialBudgetTotals(getBudgetTotals(budgetPeriod.getTotalCost(), 
+			                                                                budgetPeriod.getCostSharingAmount()));
+			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
+			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(budget.getBudgetPeriods()));
+			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentPropsal.getProposalNumber()));
 			// budgetSummaryType.setBudgetDirectCostsTotal(budget
 			// .getTotalDirectCost().bigDecimalValue());
 			// budgetSummaryType.setBudgetIndirectCostsTotal(budget
@@ -198,48 +181,29 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * This method gets arrays of BudgetPeriodType XMLObjects by setting each
 	 * BudgetPeriodType data from budgetPeriod data
 	 */
-	private BudgetPeriodType[] getBudgetPeriodArray(
-			List<BudgetPeriod> budgetPeriodList) {
+	private BudgetPeriodType[] getBudgetPeriodArray(List<BudgetPeriod> budgetPeriodList) {
 		List<BudgetPeriodType> budgetPeriodTypeList = new ArrayList<BudgetPeriodType>();
 		for (BudgetPeriod budgetPeriod : budgetPeriodList) {
 			if (budgetPeriod.getBudgetPeriod() != null) {
-				List<BudgetLineItem> budgetLineItems = budgetPeriod
-						.getBudgetLineItems();
-				BudgetPeriodType budgetPeriodType = BudgetPeriodType.Factory
-						.newInstance();
-				budgetPeriodType.setBudgetPeriodID(new BigInteger(String
-						.valueOf(budgetPeriod.getBudgetPeriod())));
-				budgetPeriodType.setStartDate(dateTimeService
-						.getCalendar(budgetPeriod.getStartDate()));
-				budgetPeriodType.setEndDate(dateTimeService
-						.getCalendar(budgetPeriod.getEndDate()));
+				List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+				BudgetPeriodType budgetPeriodType = BudgetPeriodType.Factory.newInstance();
+				budgetPeriodType.setBudgetPeriodID(new BigInteger(String.valueOf(budgetPeriod.getBudgetPeriod())));
+				budgetPeriodType.setStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
+				budgetPeriodType.setEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
 				budgetPeriodType.setFee(new BigDecimal(0));
-				budgetPeriodType
-						.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
-				budgetPeriodType
-						.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
-				budgetPeriodType
-						.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
-				budgetPeriodType
-						.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
-				budgetPeriodType
-						.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
-				budgetPeriodType
-						.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
-				budgetPeriodType
-						.setTravelCostsArray(getTravelCosts(budgetLineItems));
-				budgetPeriodType
-						.setTravelTotal(getTravelTotal(budgetLineItems));
-				budgetPeriodType
-						.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
-				budgetPeriodType
-						.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
-				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod
-						.getTotalDirectCost().bigDecimalValue());
-				budgetPeriodType.setIndirectCostsTotal(budgetPeriod
-						.getTotalIndirectCost().bigDecimalValue());
-				budgetPeriodType.setPeriodCostsTotal(budgetPeriod
-						.getTotalCost().bigDecimalValue());
+				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
+				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(budgetLineItems));
+				budgetPeriodType.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
+				budgetPeriodType.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
+				budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(budgetLineItems));
+				budgetPeriodType.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
+				budgetPeriodType.setTravelCostsArray(getTravelCosts(budgetLineItems));
+				budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
+				budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(budgetLineItems));
+				budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
+				budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
+				budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
+				budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost().bigDecimalValue());
 				budgetPeriodType.setProgramIncome(new BigDecimal(0));
 				budgetPeriodTypeList.add(budgetPeriodType);
 			}
@@ -338,7 +302,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * Description if the budgetCategory description role not match with the
 	 * enum type the roleType set to Other
 	 */
-	private gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum getOtherDirectType(
+	protected gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum getOtherDirectType(
 			String budgetCategoryDesc) {
 		gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum otherDirectType = OtherDirectType.Enum
 				.forString(budgetCategoryDesc);
@@ -408,48 +372,33 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * This method gets ResearchCoverPage XMLObject and set values to it from
 	 * developmentProposal
 	 */
-	private ResearchCoverPage getResearchCoverPage(
-			DevelopmentProposal developmentProposal, Budget budget)
-			throws ParseException {
-		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory
-				.newInstance();
-		researchCoverPage
-				.setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
-						developmentProposal.getActivityType().getDescription(),
-						developmentProposal.getCreationStatusCode()));
+	private ResearchCoverPage getResearchCoverPage(DevelopmentProposal developmentProposal, Budget budget){
+	    developmentProposal.refreshNonUpdateableReferences();
+		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory.newInstance();
+		researchCoverPage.setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
+						                        developmentProposal.getActivityType().getDescription(),
+						                        developmentProposal.getCreationStatusCode()));
 		researchCoverPage
 				.setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
 						.getProposalType().getDescription()));
-		researchCoverPage
-				.setApplicantSubmissionQualifiers(getApplicantSubmissionQualifiersForResearchCoverPage());
-		researchCoverPage
-				.setFederalAgencyReceiptQualifiers(getFederalAgencyReceiptQualifiersForResearchCoverPage());
-		researchCoverPage
-				.setStateReceiptQualifiers(getStateReceiptQualifiersForResearchCoverPage());
-		researchCoverPage
-				.setStateIntergovernmentalReview(getStateIntergovernmentalReviewForResearchCoverPage());
-		researchCoverPage
-				.setFederalDebtDelinquencyQuestions(getFederalDebtDelinquencyQuestionForResearchCoverPage());
+		
+		setApplicantSubmissionQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewApplicantSubmissionQualifiers());
+		setFederalAgencyReceiptQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewFederalAgencyReceiptQualifiers());
+		setStateReceiptQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewStateReceiptQualifiers());
+		setStateIntergovernmentalReviewForResearchCoverPage(developmentProposal,researchCoverPage.addNewStateIntergovernmentalReview());
+		setFederalDebtDelinquencyQuestionForResearchCoverPage(developmentProposal,researchCoverPage.addNewFederalDebtDelinquencyQuestions());
 		researchCoverPage.setProjectDates(getProjectDatesForResearchCoverPage(
-				developmentProposal.getRequestedStartDateInitial(),
-				developmentProposal.getRequestedEndDateInitial()));
-		researchCoverPage
-				.setBudgetTotals(getBudgetTotalsForResearchCoverPage(budget));
-		researchCoverPage
-				.setProjectTitle(developmentProposal.getTitle() == null ? DEFAULT_VALUE_UNKNOWN
-						: developmentProposal.getTitle());
-		researchCoverPage
-				.setOtherAgencyQuestions(getOtherAgencyQuestionsForResearchCoverPage(developmentProposal));
-		researchCoverPage
-				.setApplicantOrganization(getApplicantOrganizationForResearchCoverPage(developmentProposal));
-		researchCoverPage
-				.setPrimaryProjectSite(getProjectSiteForResearchCoverPage(developmentProposal));
-		researchCoverPage
-				.setProgramDirectorPrincipalInvestigator(getProgramDirectorPrincipalInvestigatorForResearchCoverPage(developmentProposal));
-		researchCoverPage
-				.setFundingOpportunityDetails(getFundingOpportunityDetailsForResearchCoverPage(developmentProposal));
-		researchCoverPage
-				.setAuthorizedOrganizationalRepresentative(getAuthorizedOrganizationalRepresentative(developmentProposal));
+		                                developmentProposal.getRequestedStartDateInitial(),
+		                                developmentProposal.getRequestedEndDateInitial()));
+		researchCoverPage.setBudgetTotals(getBudgetTotalsForResearchCoverPage(budget));
+		researchCoverPage.setProjectTitle(developmentProposal.getTitle() == null ? DEFAULT_VALUE_UNKNOWN
+						                                                            : developmentProposal.getTitle());
+		researchCoverPage.setOtherAgencyQuestions(getOtherAgencyQuestionsForResearchCoverPage(developmentProposal));
+		researchCoverPage.setApplicantOrganization(getApplicantOrganizationForResearchCoverPage(developmentProposal));
+		researchCoverPage.setPrimaryProjectSite(getProjectSiteForResearchCoverPage(developmentProposal));
+		researchCoverPage.setProgramDirectorPrincipalInvestigator(getProgramDirectorPrincipalInvestigatorForResearchCoverPage(developmentProposal));
+		researchCoverPage.setFundingOpportunityDetails(getFundingOpportunityDetailsForResearchCoverPage(developmentProposal));
+		researchCoverPage.setAuthorizedOrganizationalRepresentative(getAuthorizedOrganizationalRepresentative(developmentProposal));
 		return researchCoverPage;
 	}
 

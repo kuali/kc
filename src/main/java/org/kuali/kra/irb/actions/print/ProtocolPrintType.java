@@ -20,7 +20,7 @@ import java.util.List;
 
 public enum ProtocolPrintType {
     
-    PROTOCOL_SUMMARY_VIEW_REPORT("Summary View Report", "SummaryViewReport.xsl"), 
+    PROTOCOL_SUMMARY_VIEW_REPORT("Summary View Report", "ProtocolSummary.xsl"), 
     PROTOCOL_FULL_PROTOCOL_REPORT("Full Protocol Report", "FullProtocolReport.xsl"),
     PROTOCOL_PROTOCOL_HISTORY_REPORT("Protocol History Report", "ProtocolHistoryReport.xsl"), 
     PROTOCOL_REVIEW_COMMENTS_REPORT("Review Comments Report", "ReviewCommentsReport.xsl");

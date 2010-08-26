@@ -631,12 +631,18 @@
     
     <!-- Protocol Print -->
         <bean id="protocolXmlStream"
-            class="org.kuali.kra.irb.actions.print.ProtocolXmlStream">
-            <property name="businessObjectService">
-                <ref bean="businessObjectService" />
+            class="org.kuali.kra.irb.actions.print.ProtocolXmlStream" parent="printBaseXmlStream">
+            <property name="irbPrintXmlUtilService">
+                <ref bean="irbPrintXmlUtilService" />
             </property>
-            <property name="dateTimeService">
-                <ref bean="dateTimeService" />
+            <property name="kcPersonService">
+                <ref bean="kcPersonService" />
+            </property>
+        </bean>
+        <bean id="correspondenceXmlStream"
+            class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream">
+            <property name="protocolXmlStream">
+                <ref bean="protocolXmlStream" />
             </property>
         </bean>
         <bean id="protocolPrintingService"

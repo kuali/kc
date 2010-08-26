@@ -43,6 +43,7 @@ import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -71,18 +72,18 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
-		initialize((AwardDocument) document, reportParameters);
+		initialize((Award) printableBusinessObject, reportParameters);
 		if (award != null) {
 			awardNoticeDocument
 					.setAwardNotice(getAwardNotice(reportParameters));
@@ -97,9 +98,9 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * This method initializes the awardDocument ,award , and ,awardAmountInfo
 	 * reference variables.
 	 */
-	private void initialize(AwardDocument awardDocument,
+	private void initialize(Award award,
 			Map<String, Object> reportParameters) {
-		this.awardDocument = awardDocument;
+		this.awardDocument = award.getAwardDocument();
 		String awardNumber = getAwardNumberFromAward(awardDocument);
 		if (awardNumber != null) {
 			List<VersionHistory> awardSequenceHistoryList = versionHistoryService

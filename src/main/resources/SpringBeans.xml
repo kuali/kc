@@ -1793,32 +1793,43 @@
             <property name="protocolCorrespondenceTemplatePrint" ref="protocolCorrespondenceTemplatePrint" />
             <property name="committeeRosterPrint" ref="committeeRosterPrint" />
             <property name="committeeFutureScheduledMeetingsPrint" ref="committeeFutureScheduledMeetingsPrint" />
+            <property name="protocolBatchCorrespondencePrint" ref="protocolBatchCorrespondencePrint" />
             
             <property name="dateTimeService">
                 <ref bean="dateTimeService" />
             </property>
         </bean>
-
-        <bean id="committeeTemplatePrint"
-            class="org.kuali.kra.committee.print.CommitteeTemplatePrint" scope="prototype">
-            <property name="xmlStream" ref="committeeXmlStream" />
+		<bean id="irbPrintXmlUtilService"
+            class="org.kuali.kra.committee.print.IrbPrintXmlUtilServiceImpl">
+            <property name="businessObjectService" ref="businessObjectService" />
+            <property name="dateTimeService" ref="dateTimeService" />
+        </bean>
+		
+        <bean id="templatePrint"
+            class="org.kuali.kra.committee.print.TemplatePrint" scope="prototype" abstract="true">
             <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
+        </bean>
+        <bean id="committeeTemplatePrint"
+            class="org.kuali.kra.committee.print.CommitteeTemplatePrint" scope="prototype" parent="templatePrint">
+            <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
 	
         <bean id="scheduleTemplatePrint"
-            class="org.kuali.kra.committee.print.ScheduleTemplatePrint" scope="prototype">
+            class="org.kuali.kra.committee.print.ScheduleTemplatePrint" scope="prototype"  parent="templatePrint">
             <property name="xmlStream" ref="committeeXmlStream" />
-            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
         </bean>
 	
         <bean id="protocolCorrespondenceTemplatePrint"
-            class="org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint" scope="prototype">
+            class="org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint" scope="prototype" parent="templatePrint">
             <property name="xmlStream" ref="committeeXmlStream" />
-            <property name="protocolCorrespondenceTemplateService" ref="protocolCorrespondenceTemplateService" />
+        </bean>
+        <bean id="protocolBatchCorrespondencePrint"
+            class="org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint" scope="prototype" parent="templatePrint">
+            <property name="xmlStream" ref="protocolXmlStream" />
         </bean>
 	
         <bean id="committeeRosterPrint"
-            class="org.kuali.kra.committee.print.CommitteeRosterPrint" scope="prototype">
+            class="org.kuali.kra.committee.print.CommitteeRosterPrint" scope="prototype" parent="templatePrint">
             <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
     
@@ -1827,8 +1838,8 @@
             <property name="xmlStream" ref="committeeXmlStream" />
         </bean>
         
-        <bean id="committeeXmlStream"
-            class="org.kuali.kra.committee.print.CommitteeXmlStream">
+        <bean id="printBaseXmlStream"
+            class="org.kuali.kra.printing.xmlstream.PrintBaseXmlStream" abstract="true">
             <property name="businessObjectService">
                 <ref bean="businessObjectService" />
             </property>
@@ -1837,6 +1848,27 @@
             </property>
         </bean>
     
+        <bean id="committeeXmlStream"
+            class="org.kuali.kra.committee.print.CommitteeXmlStream" parent="printBaseXmlStream">
+            <property name="scheduleXmlStream">
+                <ref bean="scheduleXmlStream" />
+            </property>
+            <property name="irbPrintXmlUtilService">
+                <ref bean="irbPrintXmlUtilService" />
+            </property>
+        </bean>
+        <bean id="scheduleXmlStream"
+            class="org.kuali.kra.committee.print.ScheduleXmlStream" parent="printBaseXmlStream">
+            <property name="irbPrintXmlUtilService">
+                <ref bean="irbPrintXmlUtilService" />
+            </property>
+            <property name="committeeMembershipService">
+                <ref bean="committeeMembershipService" />
+            </property>
+            <property name="kcPersonService">
+                <ref bean="kcPersonService" />
+            </property>
+        </bean>
 		<!-- Institute Proposal Service Configuration Start -->
 		<bean id="institutionalProposalPersonService"
 			class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPersonServiceImpl">
@@ -1956,24 +1988,31 @@
 				<ref bean="dateTimeService" />
 			</property>
 		</bean>
-		<bean id="researchAndRelatedXmlStream"
-			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream">
+		<bean id="abstractResearchAndRelatedStream"
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.AbstractResearchAndRelatedStream" abstract="true">
 			<property name="businessObjectService">
 				<ref bean="businessObjectService" />
 			</property>
+			<property name="kcPersonService">
+				<ref bean="kcPersonService" />
+			</property>
+			<property name="s2SUtilService" ref="s2SUtilService" /> 
+		</bean>
+		<bean id="researchAndRelatedXmlStream"
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ResearchAndRelatedXmlStream" parent="abstractResearchAndRelatedStream">
 			<property name="dateTimeService">
 				<ref bean="dateTimeService" />
 			</property>
 		</bean>
 		<bean id="nihResearchAndRelatedXmlStream"
-			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream">
-			<property name="businessObjectService">
-				<ref bean="businessObjectService" />
-			</property>
+			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream" parent="abstractResearchAndRelatedStream">
+			<property name="parameterService" ref="parameterService" /> 
 			<property name="dateTimeService">
 				<ref bean="dateTimeService" />
 			</property>
-			<property name="parameterService" ref="parameterService" /> 
+			<property name="sponsorService">
+				<ref bean="sponsorService" />
+			</property>
 		</bean>
 		<bean id="proposalDevelopmentXmlStream"
 			class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream">

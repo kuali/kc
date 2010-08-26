@@ -30,6 +30,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -55,17 +56,16 @@ public class AwardBudgetHistoryTransaction extends AwardBudgetBaseStream {
 	 * uses data passed in {@link ResearchDocumentBase} for populating the XML
 	 * nodes. The XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
-		AwardDocument awardDocument = (AwardDocument) document;
-		Award award = awardDocument.getAward();
+		Award award = (Award) printableBusinessObject;
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
 		String awardNumber = getAwardNumber(reportParameters);
 		Long transactionId = getTransactionId(reportParameters);

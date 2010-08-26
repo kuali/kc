@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
@@ -63,7 +64,7 @@ public class ProposalLogXmlStream implements XmlStream {
      *             in case of any errors occur during XML generation.
      */
     public Map<String, XmlObject> generateXmlStream(
-            ResearchDocumentBase document, Map<String, Object> reportParameters) {
+            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ProposalLog proposalLog = (ProposalLog)reportParameters.get(ProposalLogPrintingService.PROPOSAL_LOG_KEY);
         proposalLog.refreshNonUpdateableReferences();

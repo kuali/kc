@@ -17,10 +17,12 @@ package org.kuali.kra.questionnaire.print;
 
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase;
 
 public interface QuestionnairePrintingService {
     
@@ -43,7 +45,7 @@ public interface QuestionnairePrintingService {
      *             if any errors occur during report generation
      */
     AttachmentDataSource printQuestionnaire(
-            ResearchDocumentBase document,
+            KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException;
 
     /**
@@ -53,7 +55,7 @@ public interface QuestionnairePrintingService {
      * printed, then fetches the required report generator. The report generator
      * generates XML which is then passed to {@link PrintingService} for
      * transforming into PDF.
-     * @param document
+     * @param printableBusinessObject
      *            data using which report is generated
      * @param reportName
      *            report to be generated
@@ -65,6 +67,6 @@ public interface QuestionnairePrintingService {
      *             if any errors occur during report generation
      */
     AttachmentDataSource printQuestionnaireAnswer(
-            ResearchDocumentBase document,
+            KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) throws PrintingException;
 }

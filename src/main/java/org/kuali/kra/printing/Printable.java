@@ -22,7 +22,7 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
@@ -56,7 +56,7 @@ public interface Printable extends Serializable {
 	 * 
 	 * @return ResearchDocument
 	 */
-	public ResearchDocumentBase getDocument();
+	public KraPersistableBusinessObjectBase getPrintableBusinessObject();
 	
 	/**
 	 * This method will return the PDF attachments specific to the printable.

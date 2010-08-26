@@ -154,8 +154,8 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     
     private void generateCorrespondenceDocumentAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-        correspondence.setDocument(protocol.getProtocolDocument());
-        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     } 
     

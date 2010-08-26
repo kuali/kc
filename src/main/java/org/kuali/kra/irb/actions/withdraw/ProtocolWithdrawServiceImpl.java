@@ -171,7 +171,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      */
     private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
         WithdrawCorrespondence correspondence = withdrawBean.getCorrespondence();
-        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     } 
 
