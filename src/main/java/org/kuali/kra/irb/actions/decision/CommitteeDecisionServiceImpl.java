@@ -179,18 +179,12 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
     
-    private ProtocolDocument versionDocument(Protocol protocol) throws Exception {
+    private ProtocolDocument versionDocument(Protocol protocol) throws Exception { 
         ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newDocument.getProtocol().setApprovalDate(null);
         newDocument.getProtocol().setLastApprovalDate(null);
         newDocument.getProtocol().setExpirationDate(null);
-        
-        //if there is an assign to agenda protocol action, remove it.
-        ProtocolAction assignToAgendaProtoclAction = this.protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newDocument.getProtocol());
-        if (assignToAgendaProtoclAction != null) {
-            newDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtoclAction);
-            businessObjectService.delete(assignToAgendaProtoclAction);
-        }        
+       
         newDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newDocument);
         newDocument.getProtocol().setProtocolSubmission(null);
