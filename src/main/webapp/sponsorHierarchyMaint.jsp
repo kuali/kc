@@ -61,9 +61,6 @@ body {
 </style>
 <!--end custom header content for this example-->
 
-<link rel="stylesheet" type="text/css"
-	href="../treeview/assets/css/folders/tree.css"></link>
-
 <!--Additional custom style rules for this example:-->
 
 <!--custom icon for each unit-->
