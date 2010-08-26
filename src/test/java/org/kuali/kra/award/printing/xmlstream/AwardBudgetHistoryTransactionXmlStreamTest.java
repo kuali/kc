@@ -2,7 +2,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import java.util.Map;
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.printing.util.XmlStreamTestBase;
 
@@ -20,9 +20,9 @@ public class AwardBudgetHistoryTransactionXmlStreamTest extends
 	}
 
 	@Override
-	protected ResearchDocumentBase prepareData() {
+	protected KraPersistableBusinessObjectBase prepareData() {
 		//TODO Need to verify
-		return PrintingTestUtils.getAwardDocument();
+		return PrintingTestUtils.getAwardDocument().getAward();
 	}
 
 }

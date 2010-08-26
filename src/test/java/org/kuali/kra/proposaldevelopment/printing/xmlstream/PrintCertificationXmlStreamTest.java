@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -55,11 +56,11 @@ public class PrintCertificationXmlStreamTest extends
 	}
 
 	@Override
-	protected ResearchDocumentBase prepareData() {
-		return getPrintCertification();
+	protected KraPersistableBusinessObjectBase prepareData() {
+		return getPrintCertification().getDevelopmentProposal();
 	}
 	
-	public static ResearchDocumentBase getPrintCertification(){
+	public static ProposalDevelopmentDocument getPrintCertification(){
 		ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) PrintingTestUtils.getProposalDevelopmentDocument();
 		
 		//DevelopmentProposal

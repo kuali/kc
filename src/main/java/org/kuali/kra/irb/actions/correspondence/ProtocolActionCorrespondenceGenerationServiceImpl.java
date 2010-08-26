@@ -86,7 +86,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         throws PrintingException {
         if (printableCorrespondence.getXSLTemplates().size() > 0) {
             //there are templates in play, lets do some printing and attaching            
-            Protocol protocol = printableCorrespondence.getProtocolDocument().getProtocol();
+            Protocol protocol = printableCorrespondence.getProtocol();
             AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
             buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
         }

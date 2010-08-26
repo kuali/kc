@@ -313,12 +313,12 @@ public class CommitteeActionsAction extends CommitteeAction {
                 List<Printable> printableArtifactList = new ArrayList<Printable>();
                 if (printRooster) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
-                    printable.setDocument(committeeForm.getCommitteeDocument());
+                    printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
                     printableArtifactList.add(printable);
                 }
                 if (printFutureScheduledMeeting) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
-                    printable.setDocument(committeeForm.getCommitteeDocument());
+                    printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
                     printableArtifactList.add(printable);
                 }
                 AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);

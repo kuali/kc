@@ -32,7 +32,9 @@ public enum CommitteeReportType {
     ROSTER ("roster"),
 
     /** Report type for the committee future scheduled meetings. */
-    FUTURE_SCHEDULED_MEETINGS ("futureScheduledMeetings");
+    FUTURE_SCHEDULED_MEETINGS ("futureScheduledMeetings"),
+    
+    PROTOCOL_BATCH_CORRESPONDENCE("prtocolBatchCorrespondence");
 
     private String committeeReportType;
 

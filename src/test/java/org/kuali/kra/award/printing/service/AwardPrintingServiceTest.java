@@ -38,7 +38,7 @@ public class AwardPrintingServiceTest extends PrintingServiceTestBase {
 	public void testAwardNoticeReportPrinting() {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
-					.printAwardReport(PrintingTestUtils.getAwardDocument(),
+					.printAwardReport(PrintingTestUtils.getAwardDocument().getAward(),
 							AwardPrintType.AWARD_NOTICE_REPORT.getAwardPrintType(),
 							PrintingTestUtils.getAwardNoticeReportParameters());
 
@@ -60,7 +60,7 @@ public class AwardPrintingServiceTest extends PrintingServiceTestBase {
 	public void testAwardDeltaReportPrinting() {
 		try {
 			AttachmentDataSource pdfBytes = getPrintingService()
-					.printAwardReport(PrintingTestUtils.getAwardDocument(),
+					.printAwardReport(PrintingTestUtils.getAwardDocument().getAward(),
 							AwardPrintType.AWARD_DELTA_REPORT.getAwardPrintType(),
 							PrintingTestUtils.getAwardDeltaReportParameters());
 

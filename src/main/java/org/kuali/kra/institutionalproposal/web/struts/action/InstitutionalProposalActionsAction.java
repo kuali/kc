@@ -106,7 +106,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
         InstitutionalProposalPrintingService ipPrintingService = KraServiceLocator.getService(InstitutionalProposalPrintingService.class);
         AttachmentDataSource dataStream = ipPrintingService.printInstitutionalProposalReport(
-                ipForm.getInstitutionalProposalDocument(), 
+                ipForm.getInstitutionalProposalDocument().getInstitutionalProposal(), 
                 InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT.getInstitutionalProposalPrintType(), 
                 new HashMap<String, Object>());
         streamToResponse(dataStream, response);

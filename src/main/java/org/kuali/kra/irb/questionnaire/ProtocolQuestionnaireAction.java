@@ -167,7 +167,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         // for release 3 : if questionnaire questions has answer, then print answer. 
        reportParameters.put("questionnaireId", ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireId());
 
-        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument(), reportParameters);
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocolForm.getProtocolDocument().getProtocol(), reportParameters);
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);
             forward = null;

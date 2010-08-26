@@ -80,7 +80,7 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTes
     public void testGenerateCorrespondenceDocumentAndAttach() throws WorkflowException{
         try{
             WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
-            correspondence.setProtocolDocument(ProtocolFactory.createProtocolDocument());
+            correspondence.setProtocol(ProtocolFactory.createProtocolDocument().getProtocol());
             protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
             assertTrue(true);
         } catch (PrintingException e){

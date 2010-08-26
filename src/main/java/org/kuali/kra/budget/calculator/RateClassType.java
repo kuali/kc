@@ -23,9 +23,9 @@ public enum RateClassType {
     OVERHEAD("O"),
     EMPLOYEE_BENEFITS("E"),
     LAB_ALLOCATION("L"),
-    LA_WITH_EB_VA("Y"),
+    LA_SALARIES("Y"),
     VACATION("V"),
-    VACATION_ON_LA("X");
+    OTHER("X");
     private final String rateClassType;
     RateClassType(String rateClassType){
         this.rateClassType = rateClassType;

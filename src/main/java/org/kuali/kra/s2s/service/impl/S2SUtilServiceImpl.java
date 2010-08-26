@@ -36,6 +36,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -895,6 +896,65 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return contactType;
     }
 
+    /**
+     * 
+     * This method computes the number of months between any 2 given
+     * {@link Date} objects
+     * 
+     * @param dateStart
+     *            starting date.
+     * @param dateEnd
+     *            end date.
+     * 
+     * @return number of months between the start date and end date.
+     */
+    public BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+        BudgetDecimal monthCount = BudgetDecimal.ZERO;
+        int fullMonthCount = 0;
+
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+        startDate.setTime(dateStart);
+        endDate.setTime(dateEnd);
+
+        startDate.clear(Calendar.HOUR);
+        startDate.clear(Calendar.MINUTE);
+        startDate.clear(Calendar.SECOND);
+        startDate.clear(Calendar.MILLISECOND);
+
+        endDate.clear(Calendar.HOUR);
+        endDate.clear(Calendar.MINUTE);
+        endDate.clear(Calendar.SECOND);
+        endDate.clear(Calendar.MILLISECOND);
+
+        if (startDate.after(endDate)) {
+            return BudgetDecimal.ZERO;
+        }
+        int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
+                - startDate.get(Calendar.DATE);
+        startMonthDays++;
+        int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
+        BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays)
+                .divide(new BudgetDecimal(startMonthMaxDays));
+
+        int endMonthDays = endDate.get(Calendar.DATE);
+        int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
+
+        BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays)
+                .divide(new BudgetDecimal(endMonthMaxDays));
+
+        startDate.set(Calendar.DATE, 1);
+        endDate.set(Calendar.DATE, 1);
+
+        while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
+            startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
+            fullMonthCount++;
+        }
+        fullMonthCount = fullMonthCount - 1;
+        monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(
+                startMonthFraction).add(endMonthFraction);
+        return monthCount;
+    }
     /**
      * Gets the sponsorService attribute. 
      * @return Returns the sponsorService.

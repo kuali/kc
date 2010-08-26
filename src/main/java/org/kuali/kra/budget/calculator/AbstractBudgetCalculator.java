@@ -466,7 +466,7 @@ public abstract class AbstractBudgetCalculator {
                     And RCRTandgtStartDateAndltEndDate = new And(RCandRT, gtOrEqStartDateAndltOrEqEndDate);
 
                     if (rateClassType.equalsIgnoreCase(RateClassType.LAB_ALLOCATION.getRateClassType())
-                            || rateClassType.equalsIgnoreCase(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
+                            || rateClassType.equalsIgnoreCase(RateClassType.LA_SALARIES.getRateClassType())) {
                         qlTempRates = qlLineItemPropLaRates.filter(RCRTandLtStartDate);
                         if (qlTempRates != null && qlTempRates.size() > 0) {
                             /*
@@ -704,7 +704,7 @@ public abstract class AbstractBudgetCalculator {
 
     private And notEqualsLabAllocationRateClassType() {
         return new NotEquals("rateClassType", RateClassType.LAB_ALLOCATION.getRateClassType())
-            .and(new NotEquals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType()));
+            .and(new NotEquals("rateClassType", RateClassType.LA_SALARIES.getRateClassType()));
     }
 
     
@@ -784,7 +784,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private Equals equalsLabAllocationSalariesRateClassType() {
-        return new Equals("rateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
+        return new Equals("rateClassType", RateClassType.LA_SALARIES.getRateClassType());
     }
 
     private void setLabAllocationSalariesCalculatedAmounts(BudgetLineItemBase lineItem) {
@@ -798,7 +798,7 @@ public abstract class AbstractBudgetCalculator {
             List<ValidCalcType> validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, equalsEmployeeBenefitsRateClassType());
             if (CollectionUtils.isNotEmpty(validCalCTypes)) {
                 ValidCalcType validCalcType = validCalCTypes.get(0);
-                if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
+                if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())) {
                     addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
                             .getRateType(), validCalcType.getRateClassType());
                 }
@@ -806,7 +806,7 @@ public abstract class AbstractBudgetCalculator {
             validCalCTypes = queryEngine.executeQuery(ValidCalcType.class, equalsVacationRateClassType());
             if (!validCalCTypes.isEmpty()) {
                 ValidCalcType validCalcType = (ValidCalcType) validCalCTypes.get(0);
-                if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
+                if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())) {
                     addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
                             .getRateType(), validCalcType.getRateClassType());
                 }

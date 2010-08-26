@@ -18,20 +18,21 @@ import noNamespace.AwardType.AwardDetails;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
-		initialize((AwardDocument) document);
+		initialize((Award) printableBusinessObject);
 		awardNoticeDocument.setAwardNotice(getAwardNotice(reportParameters));
 		xmlObjectList.put(AwardPrintType.MONEY_AND_END_DATES_HISTORY
 				.getAwardPrintType(), awardNoticeDocument);
@@ -42,9 +43,8 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 	 * This method initializes the awardDocument ,award and awardAamountInfo
 	 * reference variables
 	 */
-	private void initialize(AwardDocument awardDocument) {
-		this.awardDocument = awardDocument;
-		award = awardDocument.getAward();
+	private void initialize(Award award) {
+		this.awardDocument = award.getAwardDocument();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
 			awardAmountInfo = awardAmountInfos.get(0);

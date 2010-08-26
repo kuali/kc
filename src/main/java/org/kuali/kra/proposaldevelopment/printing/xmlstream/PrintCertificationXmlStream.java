@@ -34,6 +34,7 @@ import noNamespace.PrintCertificationDocument.PrintCertification;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SponsorHierarchy;
@@ -88,7 +89,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
@@ -97,11 +98,9 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 *             in case of any errors occur during XML generation.
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
+		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		ProposalPerson personToPrint = (ProposalPerson) reportParameters.get(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON);
 		for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
 		    if (personToPrint == null || personToPrint.equals(proposalPerson)) {

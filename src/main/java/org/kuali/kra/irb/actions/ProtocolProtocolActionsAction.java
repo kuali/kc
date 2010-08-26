@@ -38,9 +38,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -249,10 +246,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
-                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
+                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
                         forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
                     } else {
-                        forward = submitForReviewAndRedirect(mapping, form, request, response);
+                        forward = submitForReviewAndRedirect(mapping, form, request, response);                       
+                        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
+                        protocolForm.getActionHelper().getAssignToAgendaBean().init();
+                        super.route(mapping, protocolForm, request, response);
                     }
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
@@ -265,19 +265,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
-        boolean isMax = false;
-        
-        Committee committee = getCommitteeService().getCommitteeById(committeeId);
-        if (committee != null) {
-            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
-            if (schedule != null) {
-                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : schedule.getProtocolSubmissions().size();
-                int maxSubmissionCount = schedule.getMaxProtocols();
-                isMax = currentSubmissionCount >= maxSubmissionCount;
-            }
-        }
-        
-        return isMax;
+        return false;
     }
 
     /*
@@ -333,10 +321,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
         
         getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-        protocolForm.getActionHelper().getAssignToAgendaBean().init();
-        
-        super.route(mapping, protocolForm, request, response);
         
         ActionForward forward = returnToSender(request, mapping, protocolForm);
         
@@ -749,7 +733,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         } else {
             // print protocol
             ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(protocolForm.getActionHelper().getPrintTag()));
-            List<Printable> printableArtifactList = getPrintableArtifacts(protocolForm.getProtocolDocument(), printType);
+            List<Printable> printableArtifactList = getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), printType);
             AttachmentDataSource dataStream = getProtocolPrintingService().print(printableArtifactList);
             if(dataStream.getContent()!=null){
                 dataStream.setFileName(printType.getTemplate().substring(0, printType.getTemplate().indexOf(".")));
@@ -1386,6 +1370,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (hasPermission(TaskName.DEFER_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
+            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+            ProtocolDocument newDocument = getProtocolDeferService().defer(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
+                    protocolForm.getProtocolDocument().getProtocol());
+            
+            if(!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                return mapping.findForward(PROTOCOL_TAB);
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward addApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -1416,60 +1421,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
-        return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        if (hasPermission(TaskName.DEFER_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-            ProtocolDocument newDocument = getProtocolDeferService().defer(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
-                    protocolForm.getProtocolDocument().getProtocol());
-            
-            if(!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
-                protocolForm.setDocId(newDocument.getDocumentNumber());
-                loadDocument(protocolForm);
-                protocolForm.getProtocolHelper().prepareView();
-                return mapping.findForward(PROTOCOL_TAB);
-            }
-        }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    public ActionForward addDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
-        return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
-    }
-    
-    public ActionForward deleteDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    public ActionForward moveUpDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
-    }
-    
-    public ActionForward moveDownDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -2204,10 +2155,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private List<Printable> getPrintableArtifacts(ProtocolDocument document, ProtocolPrintType protocolPrintType) {
+    private List<Printable> getPrintableArtifacts(Protocol protocol, ProtocolPrintType protocolPrintType) {
 
         Printable printable = getProtocolPrintingService().getProtocolPrintable(protocolPrintType);
-        ((AbstractPrint) printable).setDocument(document);
+        ((AbstractPrint) printable).setPrintableBusinessObject(protocol);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
         return printableArtifactList;
@@ -2338,10 +2289,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolApproveService getProtocolApproveService() {
         return KraServiceLocator.getService(ProtocolApproveService.class);
-    }
-    
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
     }
     
     private CommitteeDecisionService getCommitteeDecisionService() {

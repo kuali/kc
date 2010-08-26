@@ -108,7 +108,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		NASASeniorKeyPersonSupplementalDataSheet nasaSeniorKPDataSheet = NASASeniorKeyPersonSupplementalDataSheet.Factory
 				.newInstance();
 		nasaSeniorKPDataSheet.setFormVersion(S2SConstants.FORMVERSION_1_0);
-		nasaSeniorKPDataSheet.setSeniorKeyPersonArray(populateInvestigators());
+		populateInvestigators(nasaSeniorKPDataSheet);
+//		nasaSeniorKPDataSheet.setSeniorKeyPersonArray(populateInvestigators());
 		if (extraPersons != null && extraPersons.size() > 0) {
 			int extraPersonNumber = extraPersons.size();
 			int attPersons;
@@ -167,7 +168,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 *         (NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[])
 	 * 
 	 */
-	private gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[] populateInvestigators() {
+	private void populateInvestigators(NASASeniorKeyPersonSupplementalDataSheet nasaSeniorKPDataSheet) {
 		List<ProposalPerson> proposalPersonns = pdDoc.getDevelopmentProposal()
 				.getProposalPersons();
 		Collections.sort(proposalPersonns, new ProposalPersonComparator());
@@ -187,14 +188,14 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 				keyPersons, true, MAX_KEY_PERSON_COUNT);
 		extraPersons = s2sUtilService.getNKeyPersons(keyPersons, false,
 				MAX_KEY_PERSON_COUNT);
-		List<gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson> seniorKeyPersonList = new LinkedList<gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson>();
+		List<NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson> seniorKeyPersonList = new LinkedList<gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson>();
 		for (ProposalPerson proposalPerson : nKeyPersons) {
-			seniorKeyPersonList.add(getPerson(proposalPerson));
+			getPerson(nasaSeniorKPDataSheet,proposalPerson);
 		}
-		gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[] seniorKeyPersonsArray = new gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[0];
-		seniorKeyPersonsArray = seniorKeyPersonList
-				.toArray(seniorKeyPersonsArray);
-		return seniorKeyPersonsArray;
+//		gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[] seniorKeyPersonsArray = new gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson[0];
+//		seniorKeyPersonsArray = seniorKeyPersonList
+//				.toArray(seniorKeyPersonsArray);
+//		return seniorKeyPersonsArray;
 	}
 
 	/**
@@ -236,10 +237,9 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 *         (NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson)
 	 *         corresponding to the ProposalPerson object.
 	 */
-	private gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson getPerson(
-			ProposalPerson proposalPerson) {
-		gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson seniorKeyPerson = gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson.Factory
-				.newInstance();
+	private NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson getPerson(
+	        NASASeniorKeyPersonSupplementalDataSheet nasaSeniorKPDataSheet,ProposalPerson proposalPerson) {
+	    NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson seniorKeyPerson = nasaSeniorKPDataSheet.addNewSeniorKeyPerson();
 		seniorKeyPerson.setInternationalParticipation(YesNoDataType.N_NO); // default
 		seniorKeyPerson.setUSGovernmentParticipation(YesNoDataType.N_NO); // default
 		int sponsortType = -1;

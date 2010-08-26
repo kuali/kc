@@ -1,0 +1,205 @@
+CREATE OR REPLACE FUNCTION FN_GET_PARENT_SUBMISSION
+	(AS_PROTOCOL_NUMBER in OSP$PROTOCOL.PROTOCOL_NUMBER%TYPE,
+	 AI_SUBMISSION_NUMBER IN OSP$PROTOCOL_SUBMISSION.SUBMISSION_NUMBER%TYPE )
+RETURN	number IS
+
+
+ll_SequenceNumber  		osp$protocol_submission.sequence_number%type;
+ll_SubmissionType  		osp$protocol_submission.submission_type_code%type;
+ll_ReviewType  			osp$protocol_submission.protocol_review_type_code%type;
+ll_SubmissionStatus  	osp$protocol_submission.submission_status_code%type;
+ll_submission_number    osp$protocol_submission.submission_number%type;
+
+
+ll_PrevSequenceNumber  		osp$protocol_submission.sequence_number%type;
+ll_PrevSubmissionType  		osp$protocol_submission.submission_type_code%type;
+ll_PrevReviewType  			osp$protocol_submission.protocol_review_type_code%type;
+ll_PrevSubmissionStatus  	osp$protocol_submission.submission_status_code%type;
+ll_PrevSubmissionNumber    osp$protocol_submission.submission_number%type;
+
+CURSOR CUR_PREV_SUBMISSION IS
+	   SELECT SEQUENCE_NUMBER,
+			  SUBMISSION_TYPE_CODE,
+			  PROTOCOL_REVIEW_TYPE_CODE,
+			  SUBMISSION_STATUS_CODE,
+			  SUBMISSION_NUMBER
+		FROM OSP$PROTOCOL_SUBMISSION
+		WHERE PROTOCOL_NUMBER = AS_PROTOCOL_NUMBER
+			   AND SUBMISSION_NUMBER < AI_SUBMISSION_NUMBER
+				order by SUBMISSION_NUMBER desc;
+
+ll_Count				  number;
+
+BEGIN
+
+	ll_submission_number := null;
+
+	begin
+		select sequence_number,
+				 submission_type_code,
+				 protocol_review_type_code,
+				 submission_status_code
+		into ll_SequenceNumber, ll_SubmissionType, ll_ReviewType, ll_SubmissionStatus
+		from osp$protocol_submission
+		where protocol_number = AS_PROTOCOL_NUMBER and
+				submission_number = AI_SUBMISSION_NUMBER;
+
+		if (ll_SubmissionType = 103) then
+			--This current submission is Response to Previous IRB Notification
+         --We need to get the submission which resulted in this submission
+
+			if AI_SUBMISSION_NUMBER = 1 then
+				--If this is the first submission, don't bother about prev submissions
+				ll_submission_number := AI_SUBMISSION_NUMBER;
+			else
+				if substr(AS_PROTOCOL_NUMBER, 11, 1) = 'A' then
+				/********
+				This is an amendment.  Need to go back and get the submission
+				whose submission type was 102 - Amendment
+				*********/
+
+					open CUR_PREV_SUBMISSION;
+					loop
+						fetch CUR_PREV_SUBMISSION
+
+						into ll_PrevSequenceNumber, ll_PrevSubmissionType,
+							  ll_PrevReviewType, ll_PrevSubmissionStatus, ll_PrevSubmissionNumber;
+
+						exit when CUR_PREV_SUBMISSION%NOTFOUND;
+
+						if (ll_PrevSubmissionType = 102 ) and (ll_PrevSubmissionStatus in (201, 202)) then
+						/*******
+							Prev submission type is Amendment and prev submission status
+							is specific minor revisions or Substantive revisions
+							This is the submission we were looking for
+						*******/
+
+							ll_submission_number := ll_PrevSubmissionNumber;
+							exit;  --Exit from the loop. No need to look any further
+						end if;
+
+					end loop;
+					close CUR_PREV_SUBMISSION;
+
+				elsif substr(AS_PROTOCOL_NUMBER, 11, 1) = 'R' then
+				/*****
+				This is a Revision.  Need to go back and get the submission
+				whose submission type was 101 - Continuing Review
+				*****/
+
+					open CUR_PREV_SUBMISSION;
+					loop
+						fetch CUR_PREV_SUBMISSION
+
+						into ll_PrevSequenceNumber, ll_PrevSubmissionType,
+							  ll_PrevReviewType, ll_PrevSubmissionStatus, ll_PrevSubmissionNumber;
+
+						exit when CUR_PREV_SUBMISSION%NOTFOUND;
+
+						if (ll_PrevSubmissionType in (101,115) ) and (ll_PrevSubmissionStatus in (201, 202)) then
+						/*******
+							Prev submission type is Continuing Review and prev submission status
+							is specific minor revisions or Substantive revisions
+							This is the submission we were looking for
+						*******/
+
+							ll_submission_number := ll_PrevSubmissionNumber;
+							exit;  --Exit from the loop. No need to look any further
+						end if;
+
+					end loop;
+					close CUR_PREV_SUBMISSION;
+
+				else
+					/******
+					Check if this submission was for an ammendment or renewal
+					which resulted in a new sequence of the original protocol
+					*******/
+						select count(protocol_number)
+						into ll_Count
+						from OSP$PROTO_AMEND_RENEWAL
+							where protocol_number = AS_PROTOCOL_NUMBER and
+									sequence_number = ll_SequenceNumber;
+
+						if ll_Count > 0 then
+							/******
+							This submission was for an ammendment or renewal
+							look back in history for prev submissions for this sequence number
+							of the protocol.  For ammendments and renewals all submissions happened in
+							same sequence number of the protocol
+							*******/
+							open CUR_PREV_SUBMISSION;
+							loop
+								fetch CUR_PREV_SUBMISSION
+
+								into ll_PrevSequenceNumber, ll_PrevSubmissionType,
+									  ll_PrevReviewType, ll_PrevSubmissionStatus, ll_PrevSubmissionNumber;
+
+								exit when CUR_PREV_SUBMISSION%NOTFOUND;
+
+								if (ll_PrevSequenceNumber = ll_SequenceNumber) then
+
+									if (ll_PrevSubmissionType in (101, 102, 115) ) and (ll_PrevSubmissionStatus in (201, 202)) then
+									/*******
+										Prev submission type is Continuing Review or Amendment and prev submission status
+										is specific minor revisions or Substantive revisions
+										This is the submission we were looking for
+									*******/
+
+										ll_submission_number := ll_PrevSubmissionNumber;
+										exit;  --Exit from the loop. No need to look any further
+									end if;
+
+								end if;
+							end loop;
+							close CUR_PREV_SUBMISSION;
+
+						else
+							/*****
+							This submission was for the original protocol
+							******/
+							open CUR_PREV_SUBMISSION;
+							loop
+								fetch CUR_PREV_SUBMISSION
+
+								into ll_PrevSequenceNumber, ll_PrevSubmissionType,
+									  ll_PrevReviewType, ll_PrevSubmissionStatus, ll_PrevSubmissionNumber;
+
+								exit when CUR_PREV_SUBMISSION%NOTFOUND;
+
+								if (ll_PrevSubmissionType = 100) and (ll_PrevSubmissionStatus in (201, 202)) then
+								/*******
+									Prev submission type is initial and prev submission status
+									is specific minor revisions or Substantive revisions
+									This is the submission we were looking for
+								*******/
+
+									ll_submission_number := ll_PrevSubmissionNumber;
+									exit;  --Exit from the loop. No need to look any further
+								end if;
+							end loop;
+							close CUR_PREV_SUBMISSION;
+						end if;
+
+				end if;
+			end if;
+		else
+			ll_submission_number := AI_SUBMISSION_NUMBER;
+		end if;
+
+	exception
+		when others then
+			ll_submission_number := AI_SUBMISSION_NUMBER;
+	end;
+
+	if ll_submission_number is null then
+		ll_submission_number := AI_SUBMISSION_NUMBER;
+	end if;
+
+
+	return ll_submission_number;
+
+
+END;
+/
+

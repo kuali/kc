@@ -44,7 +44,7 @@ public class ProposalLogPrintingServiceImpl implements ProposalLogPrintingServic
         Map<String, Object> reportParams = new HashMap<String, Object>();
         reportParams.put(PROPOSAL_LOG_KEY, log);
         AbstractPrint printable = getProposalLogPrint();
-        printable.setDocument(null);
+        printable.setPrintableBusinessObject(null);
         printable.setReportParameters(reportParams);
         AttachmentDataSource source = getPrintingService().print(printable);
         source.setFileName("ProposalLog-" + log.getProposalNumber());

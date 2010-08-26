@@ -399,8 +399,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getRequireSignature());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument(),
+                award,
                 AwardPrintType.AWARD_NOTICE_REPORT.getAwardPrintType(),
                 reportParameters);
         streamToResponse(dataStream, response);
@@ -424,7 +426,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument(), AwardPrintType.AWARD_DELTA_REPORT
+                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT
                         .getAwardPrintType(), reportParameters);
         streamToResponse(dataStream, response);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -436,7 +438,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument(),
+                awardForm.getAwardDocument().getAward(),
                 AwardPrintType.AWARD_BUDGET_HIERARCHY.getAwardPrintType(),
                 reportParameters);
         streamToResponse(dataStream, response);
@@ -469,7 +471,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument(),
+                awardForm.getAwardDocument().getAward(),
                 AwardPrintType.MONEY_AND_END_DATES_HISTORY.getAwardPrintType(),
                 reportParameters);
         streamToResponse(dataStream, response);
@@ -484,7 +486,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument(),
+                awardForm.getAwardDocument().getAward(),
                 AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
                         .getAwardPrintType(), reportParameters);
         streamToResponse(dataStream, response);

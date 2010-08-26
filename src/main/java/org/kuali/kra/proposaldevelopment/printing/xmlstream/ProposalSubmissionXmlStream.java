@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -106,7 +107,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
@@ -115,11 +116,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 *             in case of any errors occur during XML generation.
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
-		ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-		Budget budget = getBudget(proposalDevelopmentDocument);
-		DevelopmentProposal developmentProposal = proposalDevelopmentDocument
-				.getDevelopmentProposal();
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
+		Budget budget = getBudget(developmentProposal.getProposalDocument());
 		PROPOSALDocument proposalDocument = PROPOSALDocument.Factory
 				.newInstance();
 		PROPOSAL proposal = getProposal(developmentProposal, budget);
