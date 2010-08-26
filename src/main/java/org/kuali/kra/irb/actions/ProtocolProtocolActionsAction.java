@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
@@ -34,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.Constants;
@@ -232,8 +234,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return the name of the HTML page to display
      * @throws Exception
      */
-    public ActionForward submitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward submitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -246,15 +247,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
                     if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getCommitteeId(), submitAction.getScheduleId())) {
-                        return confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response),
-                                CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
-                    }               
-
-                    getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-                    protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-                    protocolForm.getActionHelper().getAssignToAgendaBean().init();
-                    super.route(mapping, form, request, response);
-                    forward = returnToSender(request, mapping, protocolForm);
+                        forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
+                    } else {
+                        forward = submitForReviewAndRedirect(mapping, form, request, response);                       
+                        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
+                        protocolForm.getActionHelper().getAssignToAgendaBean().init();
+                        super.route(mapping, protocolForm, request, response);
+                    }
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
                     GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
@@ -263,6 +262,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         return forward;
+    }
+    
+    private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
+        return false;
     }
 
     /*
@@ -282,25 +285,56 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @param form The Protocol form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original Protocol Document web page that caused this action to be invoked)
+     * @return the destination
      * @throws Exception
      * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
-    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
-
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
-            getProtocolSubmitActionService().submitToIrbForReview(protocolForm.getProtocolDocument().getProtocol(), submitAction);
+            forward = submitForReviewAndRedirect(mapping, form, request, response);
         }
 
-        return mapping.findForward(MAPPING_BASIC);
+        return forward;
     }
-
-    private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
-        return false;
+    
+    /**
+     * Submits the Protocol for review and calculates the redirect back to the portal page, adding in the proper parameters for displaying a message to the
+     * user upon successful submission.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination
+     * @throws Exception
+     */
+    private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
+        
+        getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        
+        ActionForward forward = returnToSender(request, mapping, protocolForm);
+        
+        Properties parameters = new Properties();
+        parameters.put("successfulSubmission", Boolean.TRUE.toString());
+        parameters.put("submissionType", "Protocol");
+        parameters.put("refId", protocolDocument.getProtocol().getProtocolNumber());
+        
+        ActionRedirect redirect = new ActionRedirect(forward);
+        for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
+            redirect.addParameter(parameter.getKey().toString(), parameter.getValue());
+        }
+        
+        return redirect;
     }
 
     /**
