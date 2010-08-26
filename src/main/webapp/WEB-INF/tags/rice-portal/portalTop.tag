@@ -29,13 +29,24 @@
 	<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
         <script type="text/javascript" src="${ConfigProperties.application.url}/${fn:trim(javascriptFile)}"></script>
 	</c:if>
-</c:forEach> 
+</c:forEach>
 
 <script type="text/javascript" >
 if (top.location != self.location) {
 	top.location = self.location;
 }
 </script>
+
+<bean:parameter id="successfulSubmission" name="successfulSubmission" value="false" />
+<bean:parameter id="submissionType" name="submissionType" value="" />
+<bean:parameter id="refId" name="refId" value="" />
+<c:if test="${successfulSubmission}">
+    <script type="text/javascript">
+    window.onload = function() {
+        alert("${submissionType} ${refId} submitted successfully.");
+    }
+    </script>
+</c:if>
 
 </head>
 <body>
