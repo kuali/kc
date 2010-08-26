@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.committee.print;
 
-import java.util.List;
-
-import javax.xml.transform.Source;
-
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
-
 /**
  * This class provides the implementation for printing Committee Roster.
  * It generates XML that conforms with Certification Report XSD, fetches
@@ -31,23 +23,13 @@ import org.kuali.kra.printing.util.PrintingUtils;
  * streaming etc.
  * 
  */
-public class CommitteeRosterPrint extends AbstractPrint {
+public class CommitteeRosterPrint extends TemplatePrint {
 
     private static final long serialVersionUID = -4077775486854400861L;
 
     @Override
-    public ResearchDocumentBase getDocument() {
-        return document;
-    }
-
-    /**
-     * This method fetches the XSL style-sheets required for transforming the
-     * generated XML into PDF.
-     * 
-     * @return {@link ArrayList}} of {@link Source} XSLs
-     */
-    public List<Source> getXSLTemplates() {
-        return PrintingUtils.getXSLTforReport(CommitteeReportType.ROSTER.getCommitteeReportType());
+    public String getProtoCorrespTypeCode() {
+        return "15";
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -20,21 +21,11 @@ public class S2SFormPrint extends AbstractPrint {
 		// do nothing
 	}
 
-	public S2SFormPrint(XmlStream xmlStream, Source template,
-			ResearchDocumentBase document) {
+	public S2SFormPrint(XmlStream xmlStream, Source template,KraPersistableBusinessObjectBase printableBusinessObject) {
 		setXmlStream(xmlStream);
-		setDocument(document);
+		setPrintableBusinessObject(printableBusinessObject);
 		templates = new ArrayList<Source>();
 		templates.add(template);
-	}
-
-	/**
-	 * Fetches the {@link ResearchDocumentBase}
-	 * 
-	 * @return {@link ResearchDocumentBase} document
-	 */
-	public ResearchDocumentBase getDocument() {
-		return document;
 	}
 
 	public void setXSLT(ArrayList<Source> templates) {

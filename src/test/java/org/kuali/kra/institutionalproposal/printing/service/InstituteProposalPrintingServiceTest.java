@@ -42,7 +42,7 @@ public class InstituteProposalPrintingServiceTest extends
 			AttachmentDataSource pdfBytes = getPrintingService()
 					.printInstitutionalProposalReport(
 							PrintingTestUtils
-									.getInstituteProposalDocument(),
+									.getInstituteProposalDocument().getInstitutionalProposal(),
 							InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT
 									.getInstitutionalProposalPrintType(),
 							PrintingTestUtils

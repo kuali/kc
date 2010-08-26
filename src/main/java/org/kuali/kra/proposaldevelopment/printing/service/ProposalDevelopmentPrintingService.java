@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.printing.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -57,7 +58,7 @@ public interface ProposalDevelopmentPrintingService {
 	 *             if any errors occur during report generation
 	 */
 	public AttachmentDataSource printProposalDevelopmentReport(
-			ResearchDocumentBase document, String reportName,
+			KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException;
 	
 	

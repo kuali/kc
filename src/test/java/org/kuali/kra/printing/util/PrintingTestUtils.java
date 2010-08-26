@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import noNamespace.InstituteProposalDocument;
+
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -154,7 +156,7 @@ public class PrintingTestUtils {
 		return businessObjectService;
 	}
 
-	public static ResearchDocumentBase getAwardDocument() {
+	public static AwardDocument getAwardDocument() {
 		GlobalVariables.setUserSession(new UserSession("quickstart"));
 		AwardDocument doc = null;
 		try {
@@ -1047,7 +1049,7 @@ public class PrintingTestUtils {
 		return award;
 	}
 
-	public static ResearchDocumentBase getBudgetDocument() {
+	public static BudgetDocument getBudgetDocument() {
 
 		documentService = KraServiceLocator.getService(DocumentService.class);
 		GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -1090,7 +1092,7 @@ public class PrintingTestUtils {
 				.getRateClassType());
 		rateClass1.setDescription("Employee Benefits");
 		RateClass rateClass2 = new RateClass();
-		rateClass2.setRateClassType(RateClassType.LA_WITH_EB_VA
+		rateClass2.setRateClassType(RateClassType.LA_SALARIES
 				.getRateClassType());
 		rateClass2.setDescription("Lab Allocation - Salaries");
 		RateClass rateClass3 = new RateClass();
@@ -1101,7 +1103,7 @@ public class PrintingTestUtils {
 		rateClass4.setRateClassType(RateClassType.VACATION.getRateClassType());
 		rateClass4.setDescription("Vacation");
 		RateClass rateClass5 = new RateClass();
-		rateClass5.setRateClassType(RateClassType.VACATION_ON_LA
+		rateClass5.setRateClassType(RateClassType.OTHER
 				.getRateClassType());
 		rateClass5.setDescription("Other");
 		// RateType
@@ -1192,7 +1194,7 @@ public class PrintingTestUtils {
 		budgetLineItemCalcAmount.setRateTypeCode("1");
 		budgetLineItemCalcAmount.setApplyRateFlag(true);
 		budgetLineItemCalcAmount.setCalculatedCost(new BudgetDecimal(3794.77));
-		budgetLineItemCalcAmount.setRateClass(rateClass);
+		budgetLineItemCalcAmount.setRateClass(rateClass); 
 //		budgetLineItemCalcAmount.setRateType(rateType);
 		budgetLineItemCalculatedAmounts.add(budgetLineItemCalcAmount);
 
@@ -1742,7 +1744,7 @@ public class PrintingTestUtils {
 		return bd;
 	}
 
-	public static ResearchDocumentBase getProposalDevelopmentDocument() {
+	public static ProposalDevelopmentDocument getProposalDevelopmentDocument() {
 		ProposalDevelopmentDocument pd = null;
 		try {
 			pd = (ProposalDevelopmentDocument) getDocumentService()
@@ -1816,7 +1818,7 @@ public class PrintingTestUtils {
 		return reportParamsMap;
 	}
 
-	public static ResearchDocumentBase getInstituteProposalDocument() {
+	public static InstitutionalProposalDocument getInstituteProposalDocument() {
 		InstitutionalProposalDocument ipd = null;
 		try {
 			ipd = (InstitutionalProposalDocument) getDocumentService()

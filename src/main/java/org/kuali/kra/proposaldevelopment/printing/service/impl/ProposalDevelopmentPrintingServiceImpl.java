@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -33,6 +34,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
@@ -78,7 +80,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * 
 	 */
 	public AttachmentDataSource printProposalDevelopmentReport(
-			ResearchDocumentBase document, String reportName,
+	        KraPersistableBusinessObjectBase printableBusinessObject, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
@@ -89,19 +91,18 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		}
 		// TODO provide the XMLStream Object before printing.
 
-		printable.setDocument(document);
+		printable.setPrintableBusinessObject(printableBusinessObject);
 		printable.setReportParameters(reportParameters);
 		source = getPrintingService().print(printable);
-		source.setFileName(getReportName(document, reportName));
+		source.setFileName(getReportName(printableBusinessObject, reportName));
 		source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 		return source;
 	}
 
-	private String getReportName(ResearchDocumentBase researchDoc,
+	private String getReportName(KraPersistableBusinessObjectBase printableBusinessObject,
 			String reportName) {
-		ProposalDevelopmentDocument pdDoc = ((ProposalDevelopmentDocument) researchDoc);
-		String proposalNumber = pdDoc.getDevelopmentProposal()
-				.getProposalNumber();
+		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
+		String proposalNumber = developmentProposal.getProposalNumber();
 
 		StringBuilder reportFullName = new StringBuilder(proposalNumber)
 				.append("_").append(reportName.replace(' ', '_')).append(

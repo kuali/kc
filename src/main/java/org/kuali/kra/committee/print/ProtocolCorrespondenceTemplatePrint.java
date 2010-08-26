@@ -23,4 +23,9 @@ public class ProtocolCorrespondenceTemplatePrint extends TemplatePrint {
 
     private static final long serialVersionUID = 8304381236192765809L;
 
+    @Override
+    public String getProtoCorrespTypeCode() {
+        return  (String) getReportParameters().get("protoCorrespTypeCode");
+    }
+
 }

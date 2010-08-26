@@ -21,8 +21,8 @@ import noNamespace.BudgetSalaryDocument;
 import noNamespace.SalaryType;
 
 import org.junit.Test;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.printing.util.XmlStreamTestBase;
 
@@ -47,8 +47,8 @@ public class IndustrialCumulativeBudgetXmlStreamTest extends
 	}
 
 	@Override
-	protected ResearchDocumentBase prepareData() {
-		return PrintingTestUtils.getBudgetDocument();
+	protected KraPersistableBusinessObjectBase prepareData() {
+		return PrintingTestUtils.getBudgetDocument().getBudget();
 	}
 
 	private BudgetSalaryDocument getBudgetSalaryDocument() {

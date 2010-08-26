@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -33,15 +34,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
  * 
  */
 public class BudgetSalaryPrint extends AbstractPrint {
-
-	/**
-	 * Fetches the {@link ResearchDocumentBase}
-	 * 
-	 * @return {@link ResearchDocumentBase} document
-	 */
-	public ResearchDocumentBase getDocument() {
-		return document;
-	}
 
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the

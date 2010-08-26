@@ -46,6 +46,7 @@ import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
@@ -66,6 +67,7 @@ import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Rolodex;
@@ -171,18 +173,18 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * {@link ResearchDocumentBase} for populating the XML nodes. The XML once
 	 * generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
-		initialize((AwardDocument) document);
+		initialize((Award) printableBusinessObject);
 		if (award != null) {
 			awardNoticeDocument
 					.setAwardNotice(getAwardNotice(reportParameters));
@@ -196,9 +198,8 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * This method initializes the awardDocument ,award and awardAamountInfo
 	 * reference variables
 	 */
-	private void initialize(AwardDocument awardDocument) {
-		this.awardDocument = awardDocument;
-		award = awardDocument.getAward();
+	private void initialize(Award award) {
+		this.awardDocument = award.getAwardDocument();
 		award.refreshNonUpdateableReferences();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {

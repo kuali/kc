@@ -28,11 +28,13 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream;
@@ -54,15 +56,6 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
     private BusinessObjectService businessObjectService;
     private NIHResearchAndRelatedXmlStream nihResearchAndRelatedXmlStream;
 	private ProposalDevelopmentXmlStream proposalDevelopmentXmlStream;
-    /**
-	 * Fetches the {@link ResearchDocumentBase}
-	 * 
-	 * @return {@link ResearchDocumentBase} document
-	 */
-	public ResearchDocumentBase getDocument() {
-		return document;
-	}
-
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
@@ -111,8 +104,8 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	
 	@Override
 	public Map<String, byte[]> renderXML() throws PrintingException {
-		ProposalDevelopmentDocument pdDoc=(ProposalDevelopmentDocument) document;
-		if (pdDoc.getDevelopmentProposal().getSponsorCode().equals(getProposalParameterValue(LOCAL_PRINT_FORM_SPONSOR_CODE))){
+		DevelopmentProposal developmentProposal=(DevelopmentProposal) getPrintableBusinessObject();
+		if (developmentProposal.getSponsorCode().equals(getProposalParameterValue(LOCAL_PRINT_FORM_SPONSOR_CODE))){
 			setXmlStream(proposalDevelopmentXmlStream);
 		} else {
 			setXmlStream(nihResearchAndRelatedXmlStream);

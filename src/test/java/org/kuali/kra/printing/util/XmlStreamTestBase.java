@@ -22,6 +22,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -81,7 +82,7 @@ public abstract class XmlStreamTestBase<T> extends KcUnitTestBase {
 
 	protected abstract Map<String, Object> getReportParameters();
 
-	protected abstract ResearchDocumentBase prepareData();
+	protected abstract KraPersistableBusinessObjectBase prepareData();
 
 	protected abstract Class<T> getXmlStream();
 }

@@ -17,12 +17,14 @@ package org.kuali.kra.questionnaire.print;
 
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase;
 
 public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 
@@ -34,7 +36,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
      * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaire(org.kuali.kra.document.ResearchDocumentBase,
      *      java.util.Map)
      */
-    public AttachmentDataSource printQuestionnaire(ResearchDocumentBase document, Map<String, Object> reportParameters)
+    public AttachmentDataSource printQuestionnaire(
+            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
         /* TODO : Questionnaire is a maintenance document.  questionnaireId is generated when document is approved and
         *   saved to DB. so, pk is not in doc xml content, and passing questionnaireid will not work.
@@ -44,7 +47,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {
-            printable.setDocument(document);
+            printable.setPrintableBusinessObject(printableBusinessObject);
             printable.setReportParameters(reportParameters);
             source = getPrintingService().print(printable);
             source.setFileName("Questionnaire-" + reportParameters.get("documentNumber") + Constants.PDF_FILE_EXTENSION);
@@ -55,15 +58,15 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(org.kuali.kra.document.ResearchDocumentBase,
+     * @see org.kuali.kra.questionnaire.print.QuestionnairePrintingService#printQuestionnaireAnswer(KewPersistableBusinessObjectBase,
      *      java.util.Map)
      */
-    public AttachmentDataSource printQuestionnaireAnswer(ResearchDocumentBase document, Map<String, Object> reportParameters)
+    public AttachmentDataSource printQuestionnaireAnswer(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {
-            printable.setDocument(document);
+            printable.setPrintableBusinessObject(printableBusinessObject);
             printable.setReportParameters(reportParameters);
             source = getPrintingService().print(printable);
             source.setFileName("QuestionnaireAnswer" + reportParameters.get("questionnaireId") + Constants.PDF_FILE_EXTENSION);

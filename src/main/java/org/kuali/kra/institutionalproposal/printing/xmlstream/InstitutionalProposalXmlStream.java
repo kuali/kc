@@ -51,6 +51,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
@@ -113,20 +114,18 @@ public class InstitutionalProposalXmlStream extends
 	 * passed in {@link ResearchDocumentBase} for populating the XML nodes. The
 	 * XMl once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+		InstitutionalProposal institutionalProposal = (InstitutionalProposal) printableBusinessObject;
 		InstituteProposalDocument instituteProposalDocument = InstituteProposalDocument.Factory
 				.newInstance();
-		InstitutionalProposal institutionalProposal = institutionalProposalDocument
-				.getInstitutionalProposal();
 		InstituteProposal instituteProposalXmlObject = getInstituteProposal(institutionalProposal);
 		instituteProposalDocument
 				.setInstituteProposal(instituteProposalXmlObject);

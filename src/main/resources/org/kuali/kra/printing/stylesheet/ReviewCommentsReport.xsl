@@ -10,7 +10,7 @@
         </fo:layout-master-set>
     </xsl:variable>
     <xsl:template match="/">
-        <xsl:variable name="maxwidth" select="7.30000" />
+        <xsl:variable name="maxwidth" select="7.30000"/>
         <fo:root>
             <xsl:copy-of select="$fo:layout-master-set" />
             <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
@@ -38,7 +38,7 @@
                                         <fo:table-cell font-size="14pt" font-weight="bold" text-align="center" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-size="14pt" font-weight="bold">
-                                                    <xsl:text>Review Comments - Temporary Template</xsl:text>
+                                                    <xsl:text>Review Comments</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
@@ -66,22 +66,22 @@
                             <xsl:variable name="columnwidth1_1" select="0.20833 * $factor1" />
                             <xsl:variable name="columnwidth1_2" select="0.20833 * $factor1" />
                             <xsl:variable name="columnwidth1_3" select="0.41667 * $factor1" />
-                            <fo:table table-layout="fixed" width="{$tablewidth1}in" border-collapse="separate" border-separation="0.04167in" font-size="9pt" color="black" display-align="center">
-                                <fo:table-column column-width="{$columnwidth1_0}in" />
-                                <fo:table-column column-width="{$columnwidth1_1}in" />
-                                <fo:table-column column-width="{$columnwidth1_2}in" />
-                                <fo:table-column column-width="{$columnwidth1_3}in" />
+                            <fo:table table-layout="fixed" width="100%" border-collapse="separate" border-separation="0.04167in" font-size="9pt" color="black" display-align="center">
+                                <fo:table-column column-width="20%" />
+                                <fo:table-column column-width="30%" />
+                                <fo:table-column column-width="20%" />
+                                <fo:table-column column-width="30%" />
                                 <fo:table-body font-size="9pt">
                                     <fo:table-row font-size="9pt">
-                                        <fo:table-cell font-size="9pt" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
+                                            <fo:block>
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Protocol Number:</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="0" display-align="center">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                         <xsl:for-each select="n1:ProtocolNumber">
@@ -95,8 +95,8 @@
                                                 </xsl:for-each>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
+                                            <fo:block>
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Sequence Number:</xsl:text>
                                                 </fo:inline>
@@ -119,7 +119,7 @@
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
-                                        <fo:table-cell font-size="9pt" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Principal Investigator:</xsl:text>
@@ -145,7 +145,7 @@
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
-                                        <fo:table-cell font-size="9pt" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Title:</xsl:text>
@@ -153,7 +153,7 @@
                                             </fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell number-columns-spanned="3" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                         <xsl:for-each select="n1:ProtocolTitle">
@@ -169,15 +169,15 @@
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
-                                        <fo:table-cell font-size="9pt" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Committee Id:</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="0" display-align="center">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:Submissions">
                                                         <xsl:for-each select="n1:CommitteeMasterData">
@@ -193,15 +193,15 @@
                                                 </xsl:for-each>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Committee Name:</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="0" display-align="center">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:Submissions">
                                                         <xsl:for-each select="n1:CommitteeMasterData">
@@ -219,15 +219,15 @@
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
-                                        <fo:table-cell font-size="9pt" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
+                                            <fo:block>
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Schedule Id:</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="0" display-align="center">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:Submissions">
                                                         <xsl:for-each select="n1:ScheduleMasterData">
@@ -243,15 +243,15 @@
                                                 </xsl:for-each>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="2pt" text-align="left" display-align="before">
+                                            <fo:block>
                                                 <fo:inline font-weight="bold">
                                                     <xsl:text>Schedule Date:</xsl:text>
                                                 </fo:inline>
                                             </fo:block>
                                         </fo:table-cell>
-                                        <fo:table-cell padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
-                                            <fo:block padding-top="1pt" padding-bottom="1pt">
+                                        <fo:table-cell font-size="9pt" padding="0" display-align="center">
+                                            <fo:block>
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:Submissions">
                                                         <xsl:for-each select="n1:ScheduleMasterData">

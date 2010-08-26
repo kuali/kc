@@ -74,8 +74,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
      */
     private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.APPROVED);
-        correspondence.setDocument(protocol.getProtocolDocument());
-        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
     

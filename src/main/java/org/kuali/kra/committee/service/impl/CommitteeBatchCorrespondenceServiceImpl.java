@@ -305,10 +305,11 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         protocolCorrespondence.setActionId(protocolAction.getActionId());
         protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
         
-        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_CORRESPONDENCE_TEMPLATE);
-        printable.setDocument(protocol.getProtocolDocument());
+        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
+        printable.setPrintableBusinessObject(protocol);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(COMMITTEE_ID, committeeId);
+        reportParameters.put("submissionNumber", protocolAction.getSubmissionNumber());
         reportParameters.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();

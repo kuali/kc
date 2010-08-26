@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -15,7 +16,7 @@ public class GenericPrintable implements Printable {
 	Map<String, byte[]> attachments;
 	Map<String, Source> xSLTemplateWithBookmarks;
 	List<Source> xSLTemplates;
-	ResearchDocumentBase documentBase;
+	KraPersistableBusinessObjectBase printableBusinessObject;
 
 	public void setStreamMap(Map<String, byte[]> streamMap) {
 		this.streamMap = streamMap;
@@ -34,16 +35,16 @@ public class GenericPrintable implements Printable {
 		xSLTemplates = templates;
 	}
 
-	public void setDocumentBase(ResearchDocumentBase documentBase) {
-		this.documentBase = documentBase;
+	public void setPrintableBusinessObject(KraPersistableBusinessObjectBase printableBusinessObject) {
+		this.printableBusinessObject = printableBusinessObject;
 	}
 
 	public Map<String, byte[]> getAttachments() {
 		return attachments;
 	}
 
-	public ResearchDocumentBase getDocument() {
-		return documentBase;
+	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+		return printableBusinessObject;
 	}
 
 	public Map<String, Source> getXSLTemplateWithBookmarks() {

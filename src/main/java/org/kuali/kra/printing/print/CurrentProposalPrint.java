@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.printing.PrintingException;
@@ -45,8 +46,8 @@ public class CurrentProposalPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ResearchDocumentBase} document
 	 */
-	public ResearchDocumentBase getDocument() {
-		return document;
+	public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
+		return getPrintableBusinessObject();
 	}
 
 	/**

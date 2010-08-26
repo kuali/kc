@@ -47,6 +47,7 @@ import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.printing.AwardPrintType;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
@@ -75,17 +76,16 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
 	 * once generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> awardTemplateXmlStream = new HashMap<String, XmlObject>();
-		AwardDocument awardDocument = (AwardDocument) document;
-		Award award = awardDocument.getAward();
+		Award award = (Award) printableBusinessObject;
 		TemplateDocument templateDocument = TemplateDocument.Factory
 				.newInstance();
 		if (award.getAwardTemplate() != null) {

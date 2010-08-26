@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.printing.BudgetPrintType;
@@ -85,11 +86,11 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 	 * 
 	 */
 	public AttachmentDataSource printBudgetReport(
-			ResearchDocumentBase budgetDocument, String reportName)
+	        KraPersistableBusinessObjectBase budget, String reportName)
 			throws PrintingException {
 		AttachmentDataSource attachmentDataSource = null;
 		AbstractPrint printable = null;
-		String fileName = reportName+"-"+((BudgetDocument)budgetDocument).getParentDocumentKey()+Constants.PDF_FILE_EXTENSION;
+		String fileName = reportName+"-"+((Budget)budget).getBudgetDocument().getParentDocumentKey()+Constants.PDF_FILE_EXTENSION;
 		if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
 				.getBudgetPrintType())) {
 			printable = getBudgetSummaryPrint();
@@ -118,7 +119,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 				.getBudgetPrintType())) {
 			printable = getIndustrialBudgetPrint();
 		}
-		printable.setDocument(budgetDocument);
+		printable.setPrintableBusinessObject(budget);
 		attachmentDataSource = getPrintingService().print(printable);
 		try {
             attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
@@ -241,8 +242,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 	public AttachmentDataSource readBudgetPrintStream(Budget budget,
 			String selectedBudgetPrintFormId) {
 		try {
-			return printBudgetReport(budget.getBudgetDocument(),
-					selectedBudgetPrintFormId);
+			return printBudgetReport(budget,selectedBudgetPrintFormId);
 		} catch (PrintingException e) {
 			LOG.error(e.getMessage(), e);
 			return null;

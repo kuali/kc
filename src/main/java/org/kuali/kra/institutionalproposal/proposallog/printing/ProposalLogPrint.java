@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.PrintingException;
@@ -54,7 +54,7 @@ public class ProposalLogPrint extends AbstractPrint {
 	}
 
     @Override
-    public ResearchDocumentBase getDocument() {
+    public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
         return null;
     }
 

@@ -78,7 +78,7 @@ public class BreakUpInterval{
            
            // get the EB on LA RateClassCode & RateTypeCode if any
            Equals eqRCType = new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-           Equals eqDepRCType = new Equals("dependentRateClassType", RateClassType.LA_WITH_EB_VA.getRateClassType());
+           Equals eqDepRCType = new Equals("dependentRateClassType", RateClassType.LA_SALARIES.getRateClassType());
            And eqRCTypeAndeqDepRCType = new And(eqRCType,eqDepRCType);
            QueryList<ValidCalcType> tempCalcTypes = validCalcTypes.filter(eqRCTypeAndeqDepRCType);
            if (tempCalcTypes.size() > 0) {
@@ -154,7 +154,7 @@ public class BreakUpInterval{
                }           
                
                //Calculate LA rate classes which get EB and vacation (rateClassType = 'Y')
-               if (rateClassType.equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
+               if (rateClassType.equals(RateClassType.LA_SALARIES.getRateClassType())) {
                    calculateLAWithEBandVA(rateAndCostList, eBonLARateClassCode,
                                eBonLARateTypeCode, vAonLARateClassCode,vAonLARateTypeCode);
                    laWithEBVACalculated = true;

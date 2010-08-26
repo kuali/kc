@@ -21,6 +21,7 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -33,15 +34,6 @@ public class QuestionnairePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -5905174316529503137L;
     private static final String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
-
-    /**
-     * Fetches the {@link ResearchDocumentBase}
-     * 
-     * @return {@link ResearchDocumentBase} document
-     */
-    public ResearchDocumentBase getDocument() {
-        return document;
-    }
 
     /**
      * This method fetches the XSL style-sheets required for transforming the
