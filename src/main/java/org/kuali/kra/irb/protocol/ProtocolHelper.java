@@ -18,7 +18,8 @@ package org.kuali.kra.irb.protocol;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Contactable;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -33,6 +34,7 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -80,6 +82,7 @@ public class ProtocolHelper implements Serializable {
     private boolean leadUnitAutoPopulated = false;
     private transient ParameterService parameterService;
     private transient KcPersonService personService;
+    private transient RolodexService rolodexService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -92,6 +95,13 @@ public class ProtocolHelper implements Serializable {
         return this.parameterService;
     }
     
+    protected RolodexService getRolodexService() {
+        if (this.rolodexService == null) {
+            this.rolodexService = KraServiceLocator.getService(RolodexService.class);        
+        }
+        return this.rolodexService;
+    }
+
     public boolean isEditProtocolFundingSourceName() {
         return editProtocolFundingSourceName;
     }
@@ -419,10 +429,22 @@ public class ProtocolHelper implements Serializable {
         }
     }
     
+    private Unit getPIUnit(String piId) {
+        Contactable pi = null;
+        if(StringUtils.isNotBlank(piId)) {
+            if(!nonEmployeeFlag) {
+                pi = getPersonService().getKcPersonByPersonId(getProtocol().getPrincipalInvestigatorId());
+            } else {
+                pi = getRolodexService().getRolodex(Integer.parseInt(piId));
+            }
+        }
+        return (pi == null? null : pi.getUnit());
+    }
+    
     private void verifyLeadUnitAutoPopulation() {
-        if(StringUtils.isNotEmpty(getProtocol().getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getProtocol().getLeadUnitNumber())) { 
-            KcPerson pi = getPersonService().getKcPersonByPersonId(getProtocol().getPrincipalInvestigatorId());
-            if(pi != null && pi.getUnit() != null && !StringUtils.equals(pi.getUnit().getUnitNumber(), getProtocol().getLeadUnitNumber())) {
+        if(StringUtils.isNotEmpty(getProtocol().getPrincipalInvestigatorId()) && StringUtils.isNotEmpty(getProtocol().getLeadUnitNumber())) {
+            Unit piUnit = getPIUnit(getProtocol().getPrincipalInvestigatorId()) ;
+            if(piUnit != null && !StringUtils.equals(piUnit.getUnitNumber(), getProtocol().getLeadUnitNumber())) {
                 setLeadUnitAutoPopulated(false);
             }
         }
