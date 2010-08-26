@@ -237,9 +237,26 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         super.preSave(mapping, form, request, response);
-        Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getDocument().getProtocol();
+        
+        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+            if (protocolPerson.isPrincipalInvestigator() &&
+                    (protocolPerson.getPersonId() != protocol.getPrincipalInvestigatorId())) {
+                // reset PI from cached getter
+                protocol.setPrincipalInvestigatorId(null);
+
+                if (protocolPerson.getPersonId() != null) {
+                    // Assign the PI the AGGREGATOR role.
+                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                    protocolForm.getPermissionsHelper().resetUserStates();
+                }
+            }
+        }
+
         Map keyMap = new HashMap();
         keyMap.put("protocolNumber", protocol.getProtocolNumber());
         keyMap.put("sequenceNumber", protocol.getSequenceNumber());
@@ -257,7 +274,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 filesToDelete.add(attachment.getFile());
             }
         }
-        ((ProtocolForm) form).getAttachmentsHelper().setFilesToDelete(filesToDelete);
+        protocolForm.getAttachmentsHelper().setFilesToDelete(filesToDelete);
     }
 
     
@@ -276,20 +293,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         if (!((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().isEmpty()) {
             getBusinessObjectService().delete(((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete());
             ((ProtocolForm) form).getAttachmentsHelper().getFilesToDelete().clear();
-            }
-
-        Protocol protocol = ((ProtocolForm) form).getDocument().getProtocol();
-        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
-            if (protocolPerson.isPrincipalInvestigator()) {
-                // Assign the PI the AGGREGATOR role.
-                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-                // 
-                if ((protocolPerson.getPersonId() != null && protocolPerson.getPersonId() != protocol.getPrincipalInvestigatorId())
-                        || protocolPerson.getRolodexId() != null && protocolPerson.getRolodexId().toString() != protocol.getPrincipalInvestigatorId()) {
-                    protocol.setPrincipalInvestigatorId(null);
-                }
-            }
         }
     }
 }
