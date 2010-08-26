@@ -49,21 +49,11 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             isValid = false;
         }else {
             List<ProtocolPerson> protocolPersons = getProtocolPersons(addProtocolPersonnelEvent);
-            isValid = !isPersonPIRolodex(protocolPerson, protocolPersons, true);
             isValid &= !isDuplicateInvestigator(protocolPerson, protocolPersons, true);
             isValid &= !isPISameAsCoI(protocolPerson, protocolPersons);
             isValid &= !isDuplicatePerson(protocolPerson, addProtocolPersonnelEvent);
         }
         return isValid;
-    }
-    
-    private boolean isPersonPIRolodex(ProtocolPerson protocolPerson, List<ProtocolPerson> protocolPersons, boolean newPerson) {
-        if(protocolPerson.isNonEmployee() && protocolPerson.isPrincipalInvestigator()) {
-            reportError(formatErrorPropertyName(newPerson, (newPerson ? -1 : protocolPersons.indexOf(protocolPerson)), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_ROLODEX_AS_PI);
-            return true;
-        }
-        
-        return false;
     }
     
     /**
@@ -212,7 +202,7 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
      */
     private boolean isValidPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
         boolean investigatorValid = true;
-        //getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
+        getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
         if(principalInvestigator == null) {
             investigatorValid = false;
@@ -221,7 +211,6 @@ public class ProtocolPersonnelRule extends ResearchDocumentRuleBase implements A
             List<ProtocolPerson> existingProtocolPersons = new ArrayList<ProtocolPerson>();
             existingProtocolPersons.addAll(protocolPersons);
             existingProtocolPersons.remove(principalInvestigator);
-            investigatorValid = !isPersonPIRolodex(principalInvestigator, protocolPersons, false);
             investigatorValid &= !isDuplicatePI(existingProtocolPersons, protocolPersons, false); 
         }
         return investigatorValid;
