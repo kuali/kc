@@ -698,4 +698,9 @@
 		<property name="identityManagementService" ref = "identityManagementService"/>
 		<property name="protocolGenericActionService" ref = "protocolGenericActionService"/>
     </bean>
+    
+    <bean id="committeeScheduleAttendanceService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">
+        <property name="committeeService" ref="committeeService" />
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
 </beans>
