@@ -519,6 +519,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION = "error.protocol.recordcommittee.motion.not.selected";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES = "error.protocol.recordcommittee.no.nocount";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES = "error.protocol.recordcommittee.no.yescount";
+    public static final String ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT = "error.protocol.recordcommittee.votecount.invalid";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_MOTION_MISMATCH = "error.protocol.recordcommittee.vote.count.motion.mismatch";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";
     

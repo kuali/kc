@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.test.ProtocolFactory;
 
 public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     
@@ -28,6 +28,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     @Before
     public void setUp() throws Exception {
         rule = new CommitteeDecisionRule();
+        rule.setAttendanceService(new MockCommitteeScheduleAttendanceService());
     }
 
     @After
@@ -36,18 +37,22 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule0() {
+    public void testProccessCommitteeDecisionRule0() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision();
-        assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
+        decision.setProtocolId(document.getProtocol().getProtocolId());
+        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule1() {
+    public void testProccessCommitteeDecisionRule1() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         //more no votes than yes votes .... valid disapprove
         CommitteeDecision decision = buildValidCommitteeDecision();
+        decision.setProtocolId(document.getProtocol().getProtocolId());
         decision.setNoCount(5);
         decision.setMotion(MotionValuesFinder.DISAPPROVE);
-        assertTrue(rule.proccessCommitteeDecisionRule(null, decision));
+        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
     /**
