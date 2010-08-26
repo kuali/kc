@@ -115,6 +115,14 @@ public abstract class PermissionsHelperBase implements Serializable {
     }
     
     /**
+     * This method empties the userStates cache such that the data is updated.
+     * Needed when adding or removing permissions through service calls.
+     */
+    public void resetUserStates() {
+        userStates = new ArrayList<UserState>(); 
+    }
+    
+    /**
      * Initialize the permissions for viewing/editing the Permissions web page.
      */
     private void initializePermissions() {

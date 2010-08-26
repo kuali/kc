@@ -450,9 +450,11 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
                 
-                // Assign the PI the AGGREGATOR role.
-                KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                // Assign the PI the AGGREGATOR role if PI has a personId.
+                if (newPrincipalInvestigator.getPersonId() != null) {
+                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                }
             }
         }
     }
