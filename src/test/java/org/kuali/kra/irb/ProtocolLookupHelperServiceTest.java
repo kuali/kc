@@ -50,7 +50,7 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
     
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 24;
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 22;
     
     private Mockery context = new JUnit4Mockery();
     
