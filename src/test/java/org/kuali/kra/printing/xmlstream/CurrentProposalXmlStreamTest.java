@@ -17,6 +17,7 @@ package org.kuali.kra.printing.xmlstream;
 
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
 import org.kuali.kra.printing.util.XmlStreamTestBase;
@@ -42,7 +43,7 @@ public class CurrentProposalXmlStreamTest extends
 	}
 
 	@Override
-	protected ResearchDocumentBase prepareData() {
-		return PrintingTestUtils.getProposalDevelopmentDocument();
+	protected KraPersistableBusinessObjectBase prepareData() {
+		return PrintingTestUtils.getProposalDevelopmentDocument().getDevelopmentProposal();
 	}
 }

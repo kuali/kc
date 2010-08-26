@@ -60,8 +60,8 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
 
     public void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.EXPEDITE_APPROVAL);
-        correspondence.setDocument(protocol.getProtocolDocument());
-        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
 

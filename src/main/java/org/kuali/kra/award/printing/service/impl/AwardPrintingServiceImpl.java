@@ -18,6 +18,7 @@ package org.kuali.kra.award.printing.service.impl;
 import java.util.Map;
 
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint;
 import org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint;
@@ -26,6 +27,7 @@ import org.kuali.kra.award.printing.print.AwardNoticePrint;
 import org.kuali.kra.award.printing.print.AwardTemplatePrint;
 import org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
@@ -71,7 +73,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	 * 
 	 */
 	public AttachmentDataSource printAwardReport(
-			ResearchDocumentBase awardDocument, String reportName,
+			KraPersistableBusinessObjectBase awardDocument, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;
 		AbstractPrint printable = null;
@@ -96,7 +98,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 			printable = getAwardBudgetHistoryTransactionPrint();
 		}
 		if (printable != null) {
-			printable.setDocument(awardDocument);
+			printable.setPrintableBusinessObject(awardDocument);
 			printable.setReportParameters(reportParameters);
 			source = getPrintingService().print(printable);
 			source.setFileName(getReportName(awardDocument, reportName));
@@ -105,10 +107,10 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 		return source;
 	}
 
-	private String getReportName(ResearchDocumentBase researchDoc,
+	private String getReportName(KraPersistableBusinessObjectBase researchDoc,
 			String reportName) {
-		AwardDocument awardDoc = ((AwardDocument) researchDoc);
-		String awardNumber = awardDoc.getAward().getAwardNumber();
+		Award award = ((Award) researchDoc);
+		String awardNumber = award.getAwardNumber();
 
 		StringBuilder reportFullName = new StringBuilder(awardNumber).append(
 				"_").append(reportName.replace(' ', '_')).append(

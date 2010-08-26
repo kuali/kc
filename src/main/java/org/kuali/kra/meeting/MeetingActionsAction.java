@@ -92,7 +92,7 @@ public class MeetingActionsAction extends MeetingAction {
     private List<Printable> getPrintableArtifacts(CommitteeDocument document, String protoCorrespTypeCode) {
 
         Printable printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
-        ((AbstractPrint) printable).setDocument(document);
+        ((AbstractPrint) printable).setPrintableBusinessObject(document.getCommittee());
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", document.getCommittee().getCommitteeId());
         reportParameters.put("protoCorrespTypeCode", protoCorrespTypeCode);
@@ -279,13 +279,13 @@ public class MeetingActionsAction extends MeetingAction {
             List<Printable> printableArtifactList = new ArrayList<Printable>();
             if (printRooster) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER);
-                printable.setDocument(document);
+                printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
                 ((MeetingForm) form).getMeetingHelper().setPrintRooster(false);
             }
             if (printFutureScheduledMeeting) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS);
-                printable.setDocument(document);
+                printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
                 ((MeetingForm) form).getMeetingHelper().setPrintFutureScheduledMeeting(false);
             }

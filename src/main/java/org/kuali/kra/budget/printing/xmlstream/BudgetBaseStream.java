@@ -489,7 +489,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	/**
 	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
 	 * BudgetLineItem and iterate through BudgetRateAndBase for BudgetLASalary
-	 * based on RateClassType VACATION_ON_LA
+	 * based on RateClassType OTHER
 	 * 
 	 * @param reportTypeList
 	 */
@@ -565,7 +565,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE,
 				RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
 		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE,
-				RateClassType.LA_WITH_EB_VA.getRateClassType());
+				RateClassType.LA_SALARIES.getRateClassType());
 		ValidCalcType validCalcType = (ValidCalcType) businessObjectService
 				.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
 		if (validCalcType != null) {
@@ -585,7 +585,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		liVacOnLaRateTypeCodeMap.put(RATE_CLASS_TYPE, RateClassType.VACATION
 				.getRateClassType());
 		liVacOnLaRateTypeCodeMap.put(DEPENDENT_RATE_CLASS_TYPE,
-				RateClassType.LA_WITH_EB_VA.getRateClassType());
+				RateClassType.LA_SALARIES.getRateClassType());
 		ValidCalcType validCalcType = (ValidCalcType) businessObjectService
 				.findByPrimaryKey(ValidCalcType.class, liVacOnLaRateTypeCodeMap);
 		if (validCalcType != null) {
@@ -1181,11 +1181,11 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 			setBudgetPersRateAndBaseListForBudgetLARateAndBase(
 					tempReportTypeVOList, budgetLineItem, rateClassType,
-					RateClassType.LA_WITH_EB_VA.getRateClassType());
+					RateClassType.LA_SALARIES.getRateClassType());
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 				setBudgetRateAndBaseListForBudgetLARateAndBase(
 						tempReportTypeVOList, budgetLineItem, rateClassType,
-						RateClassType.LA_WITH_EB_VA.getRateClassType());
+						RateClassType.LA_SALARIES.getRateClassType());
 			}
 		}
 		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList,
@@ -1296,13 +1296,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	/*
 	 * This method gets subReportType for BudgetOtherRateBase from List of
-	 * BudgetLineItems based on rateClassType VACATION_ON_LA and setGroupArray
+	 * BudgetLineItems based on rateClassType OTHER and setGroupArray
 	 * to subreportType by getting groupType through ReportTypeList
 	 */
 	private SubReportType getBudgetOtherRateBaseForPeriod() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList;
-		reportTypeList = getReportTypeListForBudgetOtherRateAndBase(RateClassType.VACATION_ON_LA
+		reportTypeList = getReportTypeListForBudgetOtherRateAndBase(RateClassType.OTHER
 				.getRateClassType());
 		subReportType.setGroupArray(getGroupsType(reportTypeList,
 				rateClassRateType));
@@ -2234,7 +2234,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected boolean isLineItemCalAmountOfRateClassTypeLAWithEBVA(
 			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
 		return lineItemCalcAmount.getRateClass().getRateClassType().equals(
-				RateClassType.LA_WITH_EB_VA.getRateClassType());
+				RateClassType.LA_SALARIES.getRateClassType());
 	}
 
 	/**
@@ -2275,7 +2275,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
 			return rateAndBase.getRateClass().getRateClassType().equals(
-					RateClassType.LA_WITH_EB_VA.getRateClassType());
+					RateClassType.LA_SALARIES.getRateClassType());
 		}
 		return status;
 	}

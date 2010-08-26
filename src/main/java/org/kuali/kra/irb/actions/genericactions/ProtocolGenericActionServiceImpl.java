@@ -145,8 +145,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocol.refreshReferenceObject("protocolStatus");
         businessObjectService.save(protocol);
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-        correspondence.setDocument(protocol.getProtocolDocument());
-        correspondence.setProtocolDocument(protocol.getProtocolDocument());
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
 }

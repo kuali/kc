@@ -23,6 +23,7 @@ import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.print.CommitteeTemplatePrint;
+import org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint;
 import org.kuali.kra.committee.print.ProtocolCorrespondenceTemplatePrint;
 import org.kuali.kra.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
@@ -44,6 +45,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     private CommitteeTemplatePrint committeeTemplatePrint;
     private ScheduleTemplatePrint scheduleTemplatePrint;
     private ProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint;
+    private ProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint;
     private CommitteeRosterPrint committeeRosterPrint;
     private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
@@ -69,6 +71,9 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
             case FUTURE_SCHEDULED_MEETINGS :
                 printable = getCommitteeFutureScheduledMeetingsPrint();
                 break;
+            case PROTOCOL_BATCH_CORRESPONDENCE :
+                printable = getProtocolBatchCorrespondencePrint();
+                break;
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
@@ -91,6 +96,19 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         return attachmentDataSource;
     }
     
+    public AttachmentDataSource printRenewalReminder(List<Printable> printableArtifactList) throws PrintingException {
+        AttachmentDataSource attachmentDataSource = super.print(printableArtifactList);
+        String fileName = "RenewalReminder" + Constants.PDF_FILE_EXTENSION;
+        try {
+            attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            attachmentDataSource.setFileName(fileName);
+        }
+        attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+
+        return attachmentDataSource;
+    }
+
     public CommitteeTemplatePrint getCommitteeTemplatePrint() {
         return committeeTemplatePrint;
     }
@@ -129,6 +147,22 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
 
     public void setCommitteeFutureScheduledMeetingsPrint(CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint) {
         this.committeeFutureScheduledMeetingsPrint = committeeFutureScheduledMeetingsPrint;
+    }
+
+    /**
+     * Sets the protocolBatchCorrespondencePrint attribute value.
+     * @param protocolBatchCorrespondencePrint The protocolBatchCorrespondencePrint to set.
+     */
+    public void setProtocolBatchCorrespondencePrint(ProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint) {
+        this.protocolBatchCorrespondencePrint = protocolBatchCorrespondencePrint;
+    }
+
+    /**
+     * Gets the protocolBatchCorrespondencePrint attribute. 
+     * @return Returns the protocolBatchCorrespondencePrint.
+     */
+    public ProtocolBatchCorrespondencePrint getProtocolBatchCorrespondencePrint() {
+        return protocolBatchCorrespondencePrint;
     }
 
 }

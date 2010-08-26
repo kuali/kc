@@ -23,4 +23,9 @@ public class CommitteeTemplatePrint extends TemplatePrint {
 
     private static final long serialVersionUID = 8819040007652342082L;
 
+    @Override
+    public String getProtoCorrespTypeCode() {
+        return  (String) getReportParameters().get("protoCorrespTypeCode");
+    }
+
 }

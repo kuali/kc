@@ -86,7 +86,7 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
             reportParameters.put(PENDING_REPORT_BEANS_KEY, loadPendingReportData((String)reportParameters.get(PERSON_ID_KEY)));
             printable = pendingProposalPrint;
         }
-        printable.setDocument(null);
+        printable.setPrintableBusinessObject(null);
         printable.setReportParameters(reportParameters);
         source = printingService.print(printable);
         source.setFileName(reportName.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);

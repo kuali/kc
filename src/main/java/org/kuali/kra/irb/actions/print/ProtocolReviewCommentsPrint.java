@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
@@ -27,15 +28,6 @@ import org.kuali.kra.document.ResearchDocumentBase;
 public class ProtocolReviewCommentsPrint extends ProtocolReportPrint {
 
     private static final long serialVersionUID = 7330987522940892013L;
-
-    /**
-     * Fetches the {@link ResearchDocumentBase}
-     * 
-     * @return {@link ResearchDocumentBase} document
-     */
-    public ResearchDocumentBase getDocument() {
-        return document;
-    }
 
     /**
      * 

@@ -41,6 +41,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -89,13 +90,13 @@ public class QuestionnaireXmlStream implements XmlStream {
      * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      * 
-     * @param document
+     * @param printableBusinessObject
      *            using which XML is generated
      * @param reportParameters
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
-    public Map<String, XmlObject> generateXmlStream(ResearchDocumentBase document, Map<String, Object> reportParameters) {
+    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         /* 
          * Just want to mention that Questionnaire is a maintenance document (not transactional doc), so passed in document will be null.
          * the report parameters does have a documentNumber, so it can be retrieved from document xml content.
@@ -103,7 +104,7 @@ public class QuestionnaireXmlStream implements XmlStream {
          */
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         try {
-            xmlObjectList.put("Questionnaire", getQuestionnaireData(document,reportParameters));
+            xmlObjectList.put("Questionnaire", getQuestionnaireData(printableBusinessObject,reportParameters));
         }
         catch (PrintingException e) {
             LOG.error(e);
@@ -138,7 +139,8 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @throws PrintingException
      */
     @SuppressWarnings("unchecked")
-    private QuestionnaireDocument getQuestionnaireData(ResearchDocumentBase document, Map<String, Object> params) throws PrintingException {
+    private QuestionnaireDocument getQuestionnaireData(
+            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) throws PrintingException {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
@@ -158,7 +160,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         Boolean questionnaireCompletionFlag = (Boolean)params.get("QUESTIONNAIRE_COMPLETION_FLAG");
         questionnaireCompletionFlag = questionnaireCompletionFlag==null?Boolean.FALSE:questionnaireCompletionFlag;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(document);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject);
         if(questionnaire != null) {
             Integer questId = questionnaire.getQuestionnaireId();
             if(questId!=null){
@@ -175,9 +177,9 @@ public class QuestionnaireXmlStream implements XmlStream {
             String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
             if(moduleCode!=null){
                 if(moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)){
-                    setDevProposalInfo((ProposalDevelopmentDocument)document,questionnaireType);
+                    setDevProposalInfo((DevelopmentProposal)printableBusinessObject,questionnaireType);
                 }else if(moduleCode.equals(CoeusModule.IRB_MODULE_CODE)){
-                    setProtocolInfo((ProtocolDocument)document,questionnaireType);
+                    setProtocolInfo((Protocol)printableBusinessObject,questionnaireType);
                 }
             }
         }
@@ -188,8 +190,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param protocolDocument
      * @param questionnaireType
      */
-    private void setProtocolInfo(ProtocolDocument protocolDocument, Questionnaire questionnaireType) {
-        Protocol protocolInfoBean = protocolDocument.getProtocol();
+    private void setProtocolInfo(Protocol protocolInfoBean, Questionnaire questionnaireType) {
         ProtocolInfoType protocolInfo = questionnaireType.addNewProtocolInfo();
         if(protocolInfoBean != null) {
             Person personInfo = protocolInfo.addNewInvestigator();
@@ -206,9 +207,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param document
      * @param questionnaireType
      */
-    private void setDevProposalInfo(ProposalDevelopmentDocument document, Questionnaire questionnaireType) {
-        DevelopmentProposal proposalBean = (DevelopmentProposal)businessObjectService.findBySinglePrimaryKey(
-                                                                                DevelopmentProposal.class, document);
+    private void setDevProposalInfo(DevelopmentProposal proposalBean, Questionnaire questionnaireType) {
         if(proposalBean!=null){
             ProposalInfoType proposalInfo = questionnaireType.addNewProposalInfo();
             proposalInfo.setTitle(proposalBean.getTitle());
@@ -299,17 +298,18 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param document
      * @return
      */
-    private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(ResearchDocumentBase document) {
+    private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
+            KraPersistableBusinessObjectBase printableBusinessObject) {
         String moduleItemCode = null;;
         String moduleItemKey = null;
         String moduleSubItemKey = null;
-        if(document instanceof ProtocolDocument){
-            Protocol protocol = ((ProtocolDocument)document).getProtocol();
+        if(printableBusinessObject instanceof Protocol){
+            Protocol protocol = (Protocol)printableBusinessObject;
             moduleItemCode = CoeusModule.IRB_MODULE_CODE;
             moduleItemKey = protocol.getProtocolNumber();
             moduleSubItemKey = protocol.getSequenceNumber().toString();
-        }else if(document instanceof ProposalDevelopmentDocument){
-            DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument)document).getDevelopmentProposal();
+        }else if(printableBusinessObject instanceof DevelopmentProposal){
+            DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = developmentProposal.getProposalNumber();
         }

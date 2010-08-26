@@ -35,8 +35,10 @@ import noNamespace.ReportPageType.CalculationMethodology;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -63,16 +65,16 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		this.budget = ((BudgetDocument) document).getBudget();
+		this.budget = (Budget) printableBusinessObject;
 		if (budget != null) {
 			BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory
 					.newInstance();
@@ -287,7 +289,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	/*
 	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
 	 * BudgetPeriods, BudgetLineItem and iterate through BudgetRateAndBase for
-	 * BudgetLASalary based on RateClassType VACATION_ON_LA
+	 * BudgetLASalary based on RateClassType OTHER
 	 */
 	private void setBudgetLASalaryForBudgetRateAndBaseForCumulativeReport(
 			List<ReportType> reportTypeList) {
@@ -810,11 +812,11 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetLARateAndBase(
 						tempReportTypeVOList, budgetLineItem, rateClassType,
-						RateClassType.LA_WITH_EB_VA.getRateClassType());
+						RateClassType.LA_SALARIES.getRateClassType());
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetLARateAndBase(
 							tempReportTypeVOList, budgetLineItem,
-							rateClassType, RateClassType.LA_WITH_EB_VA
+							rateClassType, RateClassType.LA_SALARIES
 									.getRateClassType());
 				}
 			}
@@ -859,11 +861,11 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 
 	/*
 	 * This method gets subReportType for CumulativeBudgetOtherRateBase by
-	 * BudgetPeriod for RateClassType VACATION_ON_LA
+	 * BudgetPeriod for RateClassType OTHER
 	 */
 	private SubReportType getCumulativeBudgetOtherRateBase() {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
-		String rateClassType = RateClassType.VACATION_ON_LA.getRateClassType();
+		String rateClassType = RateClassType.OTHER.getRateClassType();
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {

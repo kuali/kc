@@ -23,4 +23,9 @@ public class ScheduleTemplatePrint extends TemplatePrint {
 
     private static final long serialVersionUID = -1565960151556324475L;
 
+    @Override
+    public String getProtoCorrespTypeCode() {
+        return  (String) getReportParameters().get("protoCorrespTypeCode");
+    }
+
 }

@@ -22,7 +22,7 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -40,15 +40,10 @@ public abstract class TemplatePrint extends AbstractPrint {
     private static final long serialVersionUID = -370310478073561152L;
 
     private String committeeId; 
-    private String protoCorrespTypeCode; 
 
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
 
-    @Override
-    public ResearchDocumentBase getDocument() {
-        return document;
-    }
-
+    abstract public String getProtoCorrespTypeCode();
     /**
      * This method fetches the XSL style-sheets required for transforming the
      * generated XML into PDF.
@@ -59,7 +54,7 @@ public abstract class TemplatePrint extends AbstractPrint {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
         ProtocolCorrespondenceTemplate template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
-                (String) getReportParameters().get("committeeId") , (String) getReportParameters().get("protoCorrespTypeCode"));
+                getCommitteeId() , getProtoCorrespTypeCode());
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
             sourceList.add(src);
@@ -73,14 +68,6 @@ public abstract class TemplatePrint extends AbstractPrint {
 
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
-    }
-
-    public String getProtoCorrespTypeCode() {
-        return protoCorrespTypeCode;
-    }
-
-    public void setProtoCorrespTypeCode(String protoCorrespTypeCode) {
-        this.protoCorrespTypeCode = protoCorrespTypeCode;
     }
 
     /**

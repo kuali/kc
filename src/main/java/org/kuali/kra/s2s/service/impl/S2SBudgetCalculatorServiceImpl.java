@@ -789,9 +789,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            role of the proposal person.
 	 * @return OtherPersonnelInfo information about the other personnel.
 	 */
-	// TODO: method too long - should be broken down into smaller units.
-	// TODO:(Suggestion) too many if else levels - more than 3 - is it possible
-	// to reduce some of them?
 	private OtherPersonnelInfo getOtherPersonnelDetails(
 			BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc,
 			String category, String personnelType, String role) {
@@ -851,103 +848,39 @@ public class S2SBudgetCalculatorServiceImpl implements
 								personExistsAsProposalPerson = false;
 								// get sum of salary of other personnel, but
 								// exclude the key persons and investigators
-								for (ProposalPerson proposalPerson : pdDoc
-										.getDevelopmentProposal()
-										.getProposalPersons()) {
-									if (budgetPersonId.equals(proposalPerson
-											.getPersonId())) {
+								for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+									if (budgetPersonId.equals(proposalPerson.getPersonId())) {
 										personExistsAsProposalPerson = true;
 										break;
 									}
 								}
 								if (!personExistsAsProposalPerson) {
-									salaryRequested = salaryRequested
-											.add(personDetails
-													.getSalaryRequested());
-									salaryCostSharing = salaryCostSharing
-											.add(personDetails
-													.getCostSharingAmount());
+									salaryRequested = salaryRequested.add(personDetails.getSalaryRequested());
+									salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
 
-									numberOfMonths = getNumberOfMonths(
-											personDetails.getStartDate(),
-											personDetails.getEndDate());
-									if (personDetails
-											.getPeriodTypeCode()
-											.equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
-										academicMonths = academicMonths
-												.add(personDetails
-														.getPercentEffort()
-														.multiply(
-																numberOfMonths)
-														.multiply(
-																new BudgetDecimal(
-																		0.01)));
-									} else if (personDetails
-											.getPeriodTypeCode().equals(
-													PERIOD_TYPE_SUMMER_MONTHS)) {
-										summerMonths = summerMonths
-												.add(personDetails
-														.getPercentEffort()
-														.multiply(
-																numberOfMonths)
-														.multiply(
-																new BudgetDecimal(
-																		0.01)));
-									} else if (personDetails
-											.getPeriodTypeCode()
-											.equals(PERIOD_TYPE_CALENDAR_MONTHS)) {
-										calendarMonths = calendarMonths
-												.add(personDetails
-														.getPercentEffort()
-														.multiply(
-																numberOfMonths)
-														.multiply(
-																new BudgetDecimal(
-																		0.01)));
-									} else if (personDetails
-											.getPeriodTypeCode().equals(
-													PERIOD_TYPE_CYCLE_MONTHS)) {
-										cycleMonths = cycleMonths
-												.add(personDetails
-														.getPercentEffort()
-														.multiply(
-																numberOfMonths)
-														.multiply(
-																new BudgetDecimal(
-																		0.01)));
+									numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),personDetails.getEndDate());
+									if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
+										academicMonths = academicMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+									} else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
+										summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+									} else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_CALENDAR_MONTHS)) {
+										calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+									} else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_CYCLE_MONTHS)) {
+										cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
 									}
 									// Get total count of unique
 									// personId+jobCode combination for those
 									// persons who are part of
 									// BudgetPersonnelDetails but are not
 									// proposal persons
-									personJobCodes.put(personDetails
-											.getPersonId()
-											+ personDetails.getJobCode(), "");
-
+									personJobCodes.put(personDetails.getPersonId()+ personDetails.getJobCode(), "");
 									// Calcculate the fringe cost
 									for (BudgetPersonnelCalculatedAmount personCalculatedAmount : (List<BudgetPersonnelCalculatedAmount>) personDetails
 											.getBudgetCalculatedAmounts()) {
-										if ((personCalculatedAmount
-												.getRateClassCode()
-												.equals(
-														RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !personCalculatedAmount
-												.getRateTypeCode()
-												.equals(
-														RATE_TYPE_SUPPORT_STAFF_SALARIES))
-												|| (personCalculatedAmount
-														.getRateClassCode()
-														.equals(
-																RATE_CLASS_CODE_VACATION) && !personCalculatedAmount
-														.getRateTypeCode()
-														.equals(
-																RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
-											fringeCost = fringeCost
-													.add(personCalculatedAmount
-															.getCalculatedCost());
-											fringeCostSharingAmount = fringeCostSharingAmount
-													.add(personCalculatedAmount
-															.getCalculatedCostSharing());
+										if ((personCalculatedAmount.getRateClassCode().equals(RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !personCalculatedAmount.getRateTypeCode().equals(RATE_TYPE_SUPPORT_STAFF_SALARIES))
+												|| (personCalculatedAmount.getRateClassCode().equals(RATE_CLASS_CODE_VACATION) && !personCalculatedAmount.getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
+											fringeCost = fringeCost.add(personCalculatedAmount.getCalculatedCost());
+											fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount.getCalculatedCostSharing());
 										}
 									}
 								}
@@ -963,33 +896,21 @@ public class S2SBudgetCalculatorServiceImpl implements
 						// item.
 						// get costs for this budget category that do not have
 						// persons attached to the cost element
-						lineItemCost = lineItemCost.add(lineItem
-								.getLineItemCost());
-						lineItemCostSharingAmount = lineItemCostSharingAmount
-								.add(lineItem.getCostSharingAmount());
+						lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
+						lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
 						count = lineItem.getQuantity();
-						for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
-								.getBudgetLineItemCalculatedAmounts()) {
-							lineItemCalculatedAmount
-									.refreshReferenceObject("rateClass");
+						for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
+							lineItemCalculatedAmount.refreshReferenceObject("rateClass");
 
 							// Calculate fringe cost
 							if ((lineItemCalculatedAmount.getRateClassCode()
 									.equals(RATE_CLASS_CODE_EMPLOYEE_BENEFITS) && !lineItemCalculatedAmount
-									.getRateTypeCode().equals(
-											RATE_TYPE_SUPPORT_STAFF_SALARIES))
-									|| (lineItemCalculatedAmount
-											.getRateClassCode().equals(
+									.getRateTypeCode().equals(RATE_TYPE_SUPPORT_STAFF_SALARIES))
+									|| (lineItemCalculatedAmount.getRateClassCode().equals(
 													RATE_CLASS_CODE_VACATION) && !lineItemCalculatedAmount
-											.getRateTypeCode()
-											.equals(
-													RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
-								fringeCost = fringeCost
-										.add(lineItemCalculatedAmount
-												.getCalculatedCost());
-								fringeCostSharingAmount = fringeCostSharingAmount
-										.add(lineItemCalculatedAmount
-												.getCalculatedCostSharing());
+											.getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
+								fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
+								fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount.getCalculatedCostSharing());
 							}
 
 							// Calculate the salary and fringe for category
@@ -2096,7 +2017,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 					.getBudgetPersonnelDetailsList()) {
 				if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson,
 						personDetails)) {
-					numberOfMonths = getNumberOfMonths(personDetails
+					numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails
 							.getStartDate(), personDetails.getEndDate());
 					if (personDetails.getPeriodTypeCode().equals(
 							PERIOD_TYPE_ACADEMIC_MONTHS)) {
@@ -2170,65 +2091,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 		return compensationInfo;
 	}
 
-	/**
-	 * 
-	 * This method computes the number of months between any 2 given
-	 * {@link Date} objects
-	 * 
-	 * @param dateStart
-	 *            starting date.
-	 * @param dateEnd
-	 *            end date.
-	 * 
-	 * @return number of months between the start date and end date.
-	 */
-	private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-		BudgetDecimal monthCount = BudgetDecimal.ZERO;
-		int fullMonthCount = 0;
-
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
-		startDate.setTime(dateStart);
-		endDate.setTime(dateEnd);
-
-		startDate.clear(Calendar.HOUR);
-		startDate.clear(Calendar.MINUTE);
-		startDate.clear(Calendar.SECOND);
-		startDate.clear(Calendar.MILLISECOND);
-
-		endDate.clear(Calendar.HOUR);
-		endDate.clear(Calendar.MINUTE);
-		endDate.clear(Calendar.SECOND);
-		endDate.clear(Calendar.MILLISECOND);
-
-		if (startDate.after(endDate)) {
-			return BudgetDecimal.ZERO;
-		}
-		int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
-				- startDate.get(Calendar.DATE);
-		startMonthDays++;
-		int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-		BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays)
-				.divide(new BudgetDecimal(startMonthMaxDays));
-
-		int endMonthDays = endDate.get(Calendar.DATE);
-		int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
-
-		BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays)
-				.divide(new BudgetDecimal(endMonthMaxDays));
-
-		startDate.set(Calendar.DATE, 1);
-		endDate.set(Calendar.DATE, 1);
-
-		while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
-			startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
-			fullMonthCount++;
-		}
-		fullMonthCount = fullMonthCount - 1;
-		monthCount = monthCount.add(new BudgetDecimal(fullMonthCount)).add(
-				startMonthFraction).add(endMonthFraction);
-		return monthCount;
-	}
 
 	/**
 	 * 

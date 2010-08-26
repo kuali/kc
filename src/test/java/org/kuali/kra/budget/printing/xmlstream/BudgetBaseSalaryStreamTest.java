@@ -2,6 +2,7 @@ package org.kuali.kra.budget.printing.xmlstream;
 
 import java.util.Map;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.printing.xmlstream.BudgetBaseSalaryStream;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.util.PrintingTestUtils;
@@ -21,7 +22,7 @@ public class BudgetBaseSalaryStreamTest extends XmlStreamTestBase<BudgetBaseSala
 	}
 
 	@Override
-	protected ResearchDocumentBase prepareData() {
+	protected KraPersistableBusinessObjectBase prepareData() {
 		return null;
 	}
 

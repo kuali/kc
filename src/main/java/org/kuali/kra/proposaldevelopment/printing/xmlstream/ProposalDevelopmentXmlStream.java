@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -84,7 +85,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 	private static final String HIPHEN = " - ";
 	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy");
-	private ProposalDevelopmentDocument proposalDevelopmentDocument;
+	private DevelopmentProposal developmentProposal;
 	private static final String YES = "y";
 	private static final String NO = "n";
 	Calendar calendar;
@@ -95,15 +96,15 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 	 * populating the XML nodes. The XMl once generated is returned as
 	 * {@link XmlObject}
 	 * 
-	 * @param document
+	 * @param printableBusinessObject
 	 *            using which XML is generated
 	 * @param reportParameters
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
 	public Map<String, XmlObject> generateXmlStream(
-			ResearchDocumentBase document, Map<String, Object> reportParameters) {
-		this.proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
+			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+		this.developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		PROPOSALDocument proposalDocument = PROPOSALDocument.Factory
 				.newInstance();
 
@@ -144,11 +145,9 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 	private PROPUNITS[] getPROPUNITSArray() {
 		List<PROPUNITS> propUnitList = new ArrayList<PROPUNITS>();
-		Unit proposalUnit = proposalDevelopmentDocument
-				.getDevelopmentProposal().getUnit();
+		Unit proposalUnit = developmentProposal.getUnit();
 		PROPUNITS propUnits = PROPUNITS.Factory.newInstance();
-		propUnits.setPROPOSALNUMBER(proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalNumber());
+		propUnits.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
 		PROPPERSON propPerson = PROPPERSON.Factory.newInstance();
 		// propPerson.setLASTNAME()
 		propUnits.setPROPPERSON(propPerson);
@@ -168,7 +167,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 	private BudgetMaster getBudgetMaster() {
 		BudgetMaster budgetMaster = BudgetMaster.Factory.newInstance();
-		Budget budget = getBudget(proposalDevelopmentDocument);
+		Budget budget = getBudget(developmentProposal.getProposalDocument());
 		budgetMaster.setCOMMENTS(budget.getComments());
 		budgetMaster.setCOSTSHARINGAMOUNT(budget.getCostSharingAmount()
 				.bigDecimalValue());
@@ -179,8 +178,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 		budgetMaster.setMODULARBUDGETFLAG(getFlag(budget.getModularBudgetFlag()));
 		budgetMaster.setOHRATECLASSCODE(getCode(budget.getOhRateClassCode()));
 		budgetMaster.setOHRATETYPECODE(getCode(budget.getOhRateTypeCode()));
-		budgetMaster.setPROPOSALNUMBER(proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalNumber());
+		budgetMaster.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
 		budgetMaster.setRESIDUALFUNDS(budget.getResidualFunds()
 				.bigDecimalValue());
 		calendar = Calendar.getInstance();
@@ -207,8 +205,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 	private PROPYNQ[] getPROPYNQArray() {
 		List<PROPYNQ> propYnqList = new ArrayList<PROPYNQ>();
 		PROPYNQ propynq = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
-				.getDevelopmentProposal().getProposalYnqs()) {
+		for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
 			propynq = PROPYNQ.Factory.newInstance();
 			propynq.setANSWER(proposalYnq.getAnswer());
 			propynq.setEXPLANATION(proposalYnq.getExplanation());
@@ -242,13 +239,11 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 	private PROPSPECIALREVIEW[] getPROPSPECIALREVIEWArray() {
 		List<PROPSPECIALREVIEW> propSpecialReviewList = new ArrayList<PROPSPECIALREVIEW>();
-		List<ProposalSpecialReview> propSpecialReviews = proposalDevelopmentDocument
-				.getDevelopmentProposal().getPropSpecialReviews();
+		List<ProposalSpecialReview> propSpecialReviews = developmentProposal.getPropSpecialReviews();
 		PROPSPECIALREVIEW proposalReview = null;
 		for (ProposalSpecialReview specialReview : propSpecialReviews) {
 			proposalReview = PROPSPECIALREVIEW.Factory.newInstance();
-			proposalReview.setPROPOSALNUMBER(proposalDevelopmentDocument
-					.getDevelopmentProposal().getProposalNumber());
+			proposalReview.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
 			proposalReview.setSPECIALREVIEWNUMBER(specialReview
 					.getSpecialReviewNumber());
 			SPECIALREVIEW proposalSpecialReview = SPECIALREVIEW.Factory
@@ -298,8 +293,6 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 	private PROPOSALMASTER getPROPOSALMASTER() {
 		PROPOSALMASTER proposalmaster = PROPOSALMASTER.Factory.newInstance();
-		DevelopmentProposal developmentProposal = proposalDevelopmentDocument
-				.getDevelopmentProposal();
 		proposalmaster.setPROPOSALNUMBER(developmentProposal
 				.getProposalNumber());
 		PROPOSALTYPE proposaltype = PROPOSALTYPE.Factory.newInstance();
@@ -324,7 +317,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 		proposalmaster.setTITLE(developmentProposal.getTitle());
 		proposalmaster.setPERIOD(getPERIOD());
-		Budget budget = getBudget(proposalDevelopmentDocument);
+		Budget budget = getBudget(developmentProposal.getProposalDocument());
 		proposalmaster.setSPONSORCOST(getCurrencyFormat(budget.getTotalCost().bigDecimalValue()));
 		proposalmaster.setCOSTSHARING(getCurrencyFormat(budget.getCostSharingAmount().bigDecimalValue()));
 //		proposalmaster.setOTHERCOMMENTS(otherComments);
@@ -333,11 +326,9 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
 	private String getPERIOD() {
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(simpleDateFormat.format(proposalDevelopmentDocument
-				.getDevelopmentProposal().getRequestedStartDateInitial()));
+		stringBuffer.append(simpleDateFormat.format(developmentProposal.getRequestedStartDateInitial()));
 		stringBuffer.append(HIPHEN);
-		stringBuffer.append(simpleDateFormat.format(proposalDevelopmentDocument
-				.getDevelopmentProposal().getRequestedEndDateInitial()));
+		stringBuffer.append(simpleDateFormat.format(developmentProposal.getRequestedEndDateInitial()));
 		return stringBuffer.toString();
 	}
 
@@ -378,13 +369,11 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 	private PROPINVESTIGATORS[] getPROPINVESTIGATORSArray() {
 		List<PROPINVESTIGATORS> propInvestigatorList = new ArrayList<PROPINVESTIGATORS>();
 
-		List<ProposalPerson> investigatorList = proposalDevelopmentDocument
-				.getDevelopmentProposal().getInvestigators();
+		List<ProposalPerson> investigatorList = developmentProposal.getInvestigators();
 		PROPINVESTIGATORS propInvestigator = null;
 		for (ProposalPerson proposalPerson : investigatorList) {
 			propInvestigator = PROPINVESTIGATORS.Factory.newInstance();
-			propInvestigator.setPROPOSALNUMBER(proposalDevelopmentDocument
-					.getDevelopmentProposal().getProposalNumber());
+			propInvestigator.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
 			propInvestigator.setPERSONID(proposalPerson.getPersonId());
 			propInvestigator.setPERSONNAME(proposalPerson.getFullName());
 			propInvestigator.setPRINCIPALINVESTIGATORFLAG(getFlag(proposalPerson.isInvestigator()));
