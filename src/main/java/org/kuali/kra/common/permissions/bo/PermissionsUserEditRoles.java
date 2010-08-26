@@ -37,6 +37,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 public class PermissionsUserEditRoles extends BusinessObjectBase {
     
     private String userName;
+    private boolean principalInvestigator;
     private List<PermissionsRoleState> roleStates;
     private int lineNum = 0;
     private boolean javaScriptEnabled;
@@ -53,6 +54,14 @@ public class PermissionsUserEditRoles extends BusinessObjectBase {
         return userName;
     }
     
+    public void setPrinipalInvestigator(boolean principalInvestigator) {
+        this.principalInvestigator = principalInvestigator;
+    }
+    
+    public boolean isPrincipalInvestigator() {
+        return principalInvestigator;
+    }
+
     public List<PermissionsRoleState> getRoleStates() {
         return roleStates;
     }
