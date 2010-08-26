@@ -46,6 +46,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.document.Document;
@@ -323,6 +324,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
         editRoles.setLineNum(lineNum);
         editRoles.setJavaScriptEnabled(isJavaScriptEnabled(request));
         editRoles.setUserName(user.getPerson().getUserName());
+        editRoles.setPrinipalInvestigator(isPrincipalInvestigator((ProtocolDocument) permissionsForm.getDocument(), user.getPerson().getPersonId()));
             
         List<PermissionsRoleState> roleStates = new ArrayList<PermissionsRoleState>();
         List<Role> roles = permissionsHelper.getNormalRoles();
@@ -507,5 +509,12 @@ public abstract class PermissionsActionHelperBase implements Serializable {
      */
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
+    }
+
+    /*
+     * Check if user is PI
+     */
+    private boolean isPrincipalInvestigator(ProtocolDocument protocolDocument, String personId) {
+        return StringUtils.equals(personId, protocolDocument.getProtocol().getPrincipalInvestigatorId());
     }
 }
