@@ -5,7 +5,7 @@
 }
 
 .treeview ul {
-	/*background-color: white;*/
+	background-color: white;
 	margin-top: 4px;
 }
 
@@ -29,16 +29,14 @@
 }
 
 .treeview a.selected {
-	/*background-color: #eee;*/
+	background-color: #eee;
 }
 
 #treecontrol { margin: 1em 0; display: none; }
 
-.treeview .redonhover.div { color: red; cursor: pointer; }
-
 .treeview .hover { color: red; cursor: pointer; }
 
-.treeview li { background: url(../../static/images/jquery/treeview-default-line.gif) 0 0 no-repeat; list-style: none;}
+.treeview li { background: url(../../static/images/jquery/treeview-default-line.gif) 0 0 no-repeat; }
 .treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
 
 .treeview .expandable-hitarea { background-position: -80px -3px; }
