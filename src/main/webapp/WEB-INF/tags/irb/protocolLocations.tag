@@ -111,7 +111,8 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].protocolOrganizationType.description" readOnly="true" attributeEntry="${protocolOrganizationTypeAttributes.description}" />
+                		<kul:htmlControlAttribute property="document.protocolList[0].protocolLocations[${status.index}].protocolOrganizationTypeCode" 
+                			readOnly="${readOnly}" attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
