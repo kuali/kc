@@ -22,7 +22,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canRecordCommitteeDecision}">
 
-<kul:innerTab tabTitle="Record Committee Decision" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.committeeDecision.*">
+<kul:innerTab tabTitle="Record Committee Decision" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.committeeDecision*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
