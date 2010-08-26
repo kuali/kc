@@ -15,10 +15,16 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-public abstract class CommitteeDecisionRuleBase {
-    
+import java.util.HashSet;
+import java.util.Set;
+
+import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+
+public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
+    private CommitteeDecision committeeDecision;
     protected CommitteeDecision buildValidCommitteeDecision() {
-        CommitteeDecision committeeDecision = new CommitteeDecision();
+        committeeDecision = new CommitteeDecision();
         //committeeDecision.setAbstainCount(new Integer(0));
         committeeDecision.setMotion(MotionValuesFinder.APPROVE);
         committeeDecision.setNoCount(new Integer(0));
@@ -46,5 +52,21 @@ public abstract class CommitteeDecisionRuleBase {
         CommitteePerson person = new CommitteePerson();
         person.setMembershipId(new Long(3));
         return person;
+    }
+    
+    public class MockCommitteeScheduleAttendanceService implements CommitteeScheduleAttendanceService {
+
+        public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
+            return new HashSet<String>(committeeDecision.getTotalVoteCount());
+        }
+
+        public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
+            return new HashSet<String>(committeeDecision.getTotalVoteCount());
+         }
+
+        public int getActualVotingMembersCount(String committeeId, String scheduleId) {
+            return committeeDecision.getTotalVoteCount();
+        }
+        
     }
 }

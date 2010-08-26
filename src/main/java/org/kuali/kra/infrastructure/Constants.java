@@ -527,6 +527,7 @@ public interface Constants {
     
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
+    public static final String COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE = "COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE";
     
     public static final String CONFIRM_DELETE_PERMISSIONS_USER_KEY = "confirmDeletePermissionsUser";
    

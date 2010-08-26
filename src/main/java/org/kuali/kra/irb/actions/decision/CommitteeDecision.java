@@ -232,4 +232,8 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     public void setNewRecused(CommitteePerson newRecused) {
         this.newRecused = newRecused;
     }
+    
+    public int getTotalVoteCount() {
+        return this.getYesCount() + this.getNoCount() + this.getAbstainCount() + this.getRecusedCount();
+    }
 }
