@@ -25,11 +25,19 @@
         <table id="edit-roles-table" cellpadding="0" cellspacing="0" summary="">
              
             <c:forEach var="roleState" items="${KualiForm.permissionsHelper.editRoles.roleStates}" varStatus="status">
+                <c:choose>
+                    <c:when test="${KualiForm.permissionsHelper.editRoles.principalInvestigator && (roleState.role.displayName == 'Aggregator')}">
+                        <c:set var="updateDisabled" value="true" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="updateDisabled" value="false" />
+                    </c:otherwise>
+                </c:choose>
 	          	<tr>
 	            	<th width="35%"><div align="right">${roleState.role.displayName}</div></th>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="permissionsHelper.editRoles.roleStates[${status.index}].state" 
-	                	                          attributeEntry="${roleStateAttributes.state}" />
+	                	                          attributeEntry="${roleStateAttributes.state}" disabled="${updateDisabled}" />
 					</td>
 	        	</tr>
 	        	
