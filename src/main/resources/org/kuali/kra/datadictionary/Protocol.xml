@@ -776,8 +776,6 @@
 				<bean parent="FieldDefinition"
                     p:attributeName="initialSubmissionDate" />
 				<bean parent="FieldDefinition"
-					p:attributeName="submissionDate" />
-				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
 			    <bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />				
@@ -838,8 +836,6 @@
 					p:attributeName="description" />
 				<bean parent="FieldDefinition"
                     p:attributeName="initialSubmissionDate" />
-				<bean parent="FieldDefinition"
-					p:attributeName="submissionDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
