@@ -35,7 +35,7 @@
                         Generated on Approval
                    </c:when>
                    <c:otherwise>
-	          	        <kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}" readOnly="true" />
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].approvalDate" attributeEntry="${protocolAttributes.approvalDate}" readOnly="${!KualiForm.document.protocolList[0].correctionMode}" />
 	               </c:otherwise>
 	           </c:choose>
 	        </td>
@@ -46,7 +46,7 @@
                         Generated on Renewal Approval
                    </c:when>
                    <c:otherwise>
-	          	        <kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="true" />
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].lastApprovalDate" attributeEntry="${protocolAttributes.lastApprovalDate}" readOnly="${!KualiForm.document.protocolList[0].correctionMode}" />
 	               </c:otherwise>
 	           </c:choose>
 	        </td>
@@ -59,7 +59,7 @@
 	                    Generated on Initial Submission
 	                </c:when>
 	                <c:otherwise>
-	                    <kul:htmlControlAttribute property="document.protocolList[0].initialSubmissionDate" attributeEntry="${protocolAttributes.initialSubmissionDate}" readOnly="true" />
+	                    <kul:htmlControlAttribute property="document.protocolList[0].initialSubmissionDate" attributeEntry="${protocolAttributes.initialSubmissionDate}" readOnly="${!KualiForm.document.protocolList[0].correctionMode}" />
 	                </c:otherwise>    
 	            </c:choose> 
 	        </td>
@@ -70,7 +70,7 @@
                         Generated on Approval
                    </c:when>
                    <c:otherwise>
-	          	        <kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" readOnly="true" />
+	          	        <kul:htmlControlAttribute property="document.protocolList[0].expirationDate" attributeEntry="${protocolAttributes.expirationDate}" readOnly="${!KualiForm.document.protocolList[0].correctionMode}" />
 	               </c:otherwise>
 	           </c:choose>
 	        </td>
