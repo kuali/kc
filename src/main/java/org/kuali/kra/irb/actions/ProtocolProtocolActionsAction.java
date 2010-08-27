@@ -1642,10 +1642,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward closeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
