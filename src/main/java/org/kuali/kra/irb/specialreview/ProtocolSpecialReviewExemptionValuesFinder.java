@@ -18,7 +18,6 @@ package org.kuali.kra.irb.specialreview;
 import java.util.List;
 
 import org.kuali.kra.bo.ExemptionType;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -41,7 +40,7 @@ public class ProtocolSpecialReviewExemptionValuesFinder extends KeyValuesBase {
         boFinder.setKeyAttributeName("exemptionTypeCode");
         boFinder.setLabelAttributeName("description");
         
-        this.finder = new PrefixValuesFinder(new SortedValuesFinder(boFinder));
+        this.finder = new SortedValuesFinder(boFinder);
     }
     
     /**
