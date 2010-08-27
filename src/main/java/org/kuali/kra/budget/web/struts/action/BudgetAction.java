@@ -582,7 +582,7 @@ public class BudgetAction extends BudgetActionBase {
         if(form.isAuditActivated()) {
             forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
         }
-        
+        forwardUrl += "&methodToCallAttribute=methodToCall.reload";
         return new ActionForward(forwardUrl, true);
     }
     
