@@ -147,6 +147,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             if(revisionsRequested) { 
                 generateCorrespondenceDocumentAndAttach(protocol, protocolActionTypeToUse);
                 documentVersionForRevisions = versionDocument(protocol);
+                documentService.cancelDocument(protocol.getProtocolDocument(), "Canceling the Original Protocol Workflow Document since a new Document is created for revisions.");
             }
         }
         return (documentVersionForRevisions != null) ? documentVersionForRevisions : protocol.getProtocolDocument();
