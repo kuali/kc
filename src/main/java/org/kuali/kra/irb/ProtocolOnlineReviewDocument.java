@@ -27,10 +27,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -58,7 +61,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 	
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
-    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewDocument.class);
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -158,6 +161,15 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
+        if ( StringUtils.equals( statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_CANCEL_CD ) 
+                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KEWConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
+            }
+            ReviewerComments reviewerComments = getProtocolOnlineReview().getReviewerComments();
+            reviewerComments.deleteAllComments();
+            KraServiceLocator.getService(ReviewerCommentsService.class).persistReviewerComments(reviewerComments, getProtocolOnlineReview().getProtocol());
+        }
     }
   
     /**

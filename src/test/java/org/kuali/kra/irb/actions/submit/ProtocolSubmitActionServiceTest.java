@@ -198,11 +198,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
                       
                       //find the committee member this corresponds to
                       for ( CommitteeMembership membership : committee.getCommitteeMemberships() ) {
-                          
-                          if (membership.getPersonId() == null && membership.getRolodexId().equals(reviewer.getRolodexId())){
-                              member = membership;
-                              break;
-                          } else if (membership.getRolodexId() == null && StringUtils.equals(reviewer.getPersonId(), membership.getPersonId())) {
+                          if (reviewer.isProtocolReviewerBeanForCommitteeMembership(membership)){
                               member = membership;
                               break;
                           }
@@ -532,12 +528,9 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
      * Verify the review in the submission matches the reviewer from the orignal submission request.
      */
     private void verifyReviewer(ProtocolReviewerBean protocolReviewerBean, ProtocolReviewer protocolReviewer) {
-        assertEquals(protocolReviewer.getPersonId(), protocolReviewerBean.getPersonId());
-        assertEquals(protocolReviewerBean.getReviewerTypeCode(), protocolReviewer.getReviewerTypeCode());
-        assertEquals(protocolReviewerBean.getNonEmployeeFlag(), protocolReviewer.getNonEmployeeFlag());   
+        assertTrue( protocolReviewerBean.isProtocolReviewerBeanForReviewer(protocolReviewer) );
     }
     
-
     /*
      * Verfy that the Protocol Action is correct.
      */

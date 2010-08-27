@@ -51,16 +51,9 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		validateRequiredAttributesAgainstReceived(qualification);
 		
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-		
-		String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
 		Long submissionId = Long.parseLong(qualification.get("submissionId"));
-		
 		String reviewId = qualification.get("protocolOnlineReviewId");
-		Map<String,Object> primaryKeys = new HashMap<String,Object>();
-		
-		primaryKeys.put("protocolReviewerId", qualification.get("protocolReviewerId"));
-		ProtocolReviewer reviewer = (ProtocolReviewer) businessObjectService.findByPrimaryKey(ProtocolReviewer.class, primaryKeys);
-		
+
 		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getOnlineReviewersForProtocolSubmission(submissionId)) {
 		    if( !pReview.getProtocolReviewer().getNonEmployeeFlag() && 
 		            (StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") ) ) {
@@ -80,7 +73,7 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 	        String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
 	        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviewService().getProtocolReviewsForCurrentSubmission(protocolNumber);
 	        for( ProtocolOnlineReview review : reviews ) {
-	            if( StringUtils.equals( review.getProtocolReviewer().getPersonId(), principalId ) ) {
+	            if( !review.getProtocolReviewer().getNonEmployeeFlag() && StringUtils.equals( review.getProtocolReviewer().getPersonId(), principalId ) ) {
 	                return  true;
 	            }
 	        }
