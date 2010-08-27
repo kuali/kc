@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
@@ -680,21 +682,49 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * This method is specifically to route committee because committee's BOs will be persisted at route.
      */
     private ActionForward routeCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
 
-        kualiDocumentFormBase.setDerivedValuesOnForm(request);
+        committeeForm.setDerivedValuesOnForm(request);
         ActionForward preRulesForward = promptBeforeValidation(mapping, form, request, response);
         if (preRulesForward != null) {
             return preRulesForward;
         }
 
-        Document document = kualiDocumentFormBase.getDocument();
+        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
 
-        getKraDocumentService().routeDocument(document, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        getKraDocumentService().routeDocument(committeeDocument, committeeForm.getAnnotation(), combineAdHocRecipients(committeeForm));
         GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
-        kualiDocumentFormBase.setAnnotation("");
+        committeeForm.setAnnotation("");
 
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        return createSuccessfulSubmitRedirect("Committee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
+    }
+    
+    /**
+     * Creates a redirect to the sender after a successful route (submit).
+     * 
+     * @param submissionType The name of the type of document routed (i.e. Protocol, Committee)
+     * @param refId The user-readable number created for the document
+     * @param request
+     * @param mapping
+     * @param form
+     * @return the redirect back to the sender (most likely the portal page)
+     */
+    protected ActionForward createSuccessfulSubmitRedirect(String submissionType, String refId, HttpServletRequest request, ActionMapping mapping, 
+            KualiDocumentFormBase form) {
+        
+        ActionForward forward = returnToSender(request, mapping, form);
+        
+        Properties parameters = new Properties();
+        parameters.put("successfulSubmission", Boolean.TRUE.toString());
+        parameters.put("submissionType", submissionType);
+        parameters.put("refId", refId);
+        
+        ActionRedirect redirect = new ActionRedirect(forward);
+        for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
+            redirect.addParameter(parameter.getKey().toString(), parameter.getValue());
+        }
+        
+        return redirect;
     }
 
     /*
