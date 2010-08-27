@@ -52,11 +52,7 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     }
     
     public String getPersonId() {
-        return nonEmployeeFlag?null:personId;
-    }
-    
-    public Integer getRolodexId() {
-        return nonEmployeeFlag?Integer.parseInt(personId):null;
+        return personId;
     }
     
     public void setPersonId(String personId) {
@@ -110,4 +106,20 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     public void refresh() {
        
     }
+    
+    public boolean isProtocolReviewerBeanForReviewer( ProtocolReviewer reviewer ) {
+        boolean result = ( reviewer.getNonEmployeeFlag() && StringUtils.equals(this.getPersonId(), reviewer.getRolodexId().toString() ))
+                         ||
+                         ( !reviewer.getNonEmployeeFlag() && StringUtils.equals(reviewer.getPersonId(), this.getPersonId()));
+        return result;
+    }   
+    
+    public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembership membership ) {
+        boolean result = ( membership.getPersonId()==null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
+                         ||
+                         ( membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
+        return result;
+    }   
+    
+    
 }

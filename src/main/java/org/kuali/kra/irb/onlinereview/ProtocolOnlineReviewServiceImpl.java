@@ -190,7 +190,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
         protocolReviewDocument.getProtocolOnlineReview().setDateRequested(new java.sql.Date((new java.util.Date()).getTime()));
         
-        ProtocolReviewer reviewer = getOrCreateProtocolReviewerByPersonIdAndSubmissionId(membership, protocol, submission);
+        ProtocolReviewer reviewer = getOrCreateProtocolReviewerForMembershipProtocolAndSubmission(membership, protocol, submission);
         if (reviewer.getProtocolOnlineReviews().size() > 0) {
             throw new IllegalStateException(String.format( "Reviewer %s already has an assigned OnlineReview for (protocolId=%s,submissionId=%s)",protocol.getProtocolId(),submission.getSubmissionId()));
         }
@@ -218,7 +218,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @return
      */
     @SuppressWarnings("unchecked")
-    private ProtocolReviewer getOrCreateProtocolReviewerByPersonIdAndSubmissionId(CommitteeMembership membership, Protocol protocol, ProtocolSubmission submission) {
+    private ProtocolReviewer getOrCreateProtocolReviewerForMembershipProtocolAndSubmission(CommitteeMembership membership, Protocol protocol, ProtocolSubmission submission) {
         
         Long protocolId = protocol.getProtocolId();
         Long submissionId = submission.getSubmissionId();
@@ -237,14 +237,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             result =  reviewers.get(0);
         } else if (reviewers.size() == 0) {
             result = new ProtocolReviewer();
-            if (membership.getPersonId()!=null) {
-                result.setPersonId(membership.getPersonId());
-                result.setNonEmployeeFlag(false);
-            } else {
-                result.setPersonId(membership.getRolodexId().toString());
-                result.setNonEmployeeFlag(false);
-            }
-            //result.setRolodexId(membership.getRolodexId());
+            result.setPersonId(membership.getPersonId());
+            result.setRolodexId(membership.getRolodexId());
             result.setProtocolId(protocolId);
             result.setSubmissionIdFk(submissionId);
             result.setProtocolNumber(protocol.getProtocolNumber());
@@ -252,7 +246,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             result.setSubmissionNumber(submission.getSubmissionNumber());
             result.setSequenceNumber(1);
             result.setNonEmployeeFlag(membership.getPersonId()==null);
-            //TODO:FIX
             result.setReviewerTypeCode("1");
             businessObjectService.save(result);
             result.refresh();
@@ -315,8 +308,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         for (CommitteeMembership member : committeeMembers) {
             boolean found = false;
             for( ProtocolOnlineReview review : currentReviews ) {
-                if ( (!review.getProtocolReviewer().getNonEmployeeFlag() && StringUtils.equals(review.getProtocolReviewer().getPersonId(),member.getPersonId())) 
-                        || (review.getProtocolReviewer().getNonEmployeeFlag() &&  (new Integer(Integer.parseInt(review.getProtocolReviewer().getPersonId()))).equals(member.getRolodexId()))) {
+                if ( review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member)) {
                     found=true;
                     break;
                 }
@@ -584,14 +576,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isUserAnOnlineReviewerOfProtocol(java.lang.String, org.kuali.kra.irb.Protocol)
      */
-    public boolean isUserAnOnlineReviewerOfProtocol(String principalId, Protocol protocol) {
+    public boolean isUserAnOnlineReviewerOfProtocol(String personId, Protocol protocol) {
         
         boolean result = false;
         ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
         if (submission != null) {
             List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews(protocol.getProtocolId(), submission.getSubmissionId());
             for (ProtocolOnlineReview review : reviews) {
-                if (StringUtils.equals(review.getProtocolReviewer().getPersonId(),principalId)) {
+                if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId)) {
                     result = true;
                     break;
                 }

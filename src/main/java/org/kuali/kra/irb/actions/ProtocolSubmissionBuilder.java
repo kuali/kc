@@ -198,7 +198,11 @@ public class ProtocolSubmissionBuilder {
         protocolReviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
         protocolReviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
         protocolReviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-        protocolReviewer.setPersonId(personId);
+        if (nonEmployeeFlag) {
+            protocolReviewer.setRolodexId(Integer.parseInt(personId));
+        } else {
+            protocolReviewer.setPersonId(personId);
+        }
         protocolReviewer.setReviewerTypeCode(reviewerTypeCode);
         protocolReviewer.setNonEmployeeFlag(nonEmployeeFlag);
         return protocolReviewer;

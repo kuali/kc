@@ -1224,13 +1224,8 @@ public class ActionHelper implements Serializable {
      * Utility method to check if reviewer matched committee member
      */
    private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewer reviewer) {
-        boolean isMatched = false;
-        if (!reviewer.getNonEmployeeFlag() && member.getPersonId().equals(reviewer.getPersonId())) {
-            isMatched = true;
-        } else if (reviewer.getNonEmployeeFlag() && member.getRolodexId().equals(Integer.parseInt(reviewer.getPersonId())) ){
-            isMatched = true;
-        }
-        return isMatched;
+       if( reviewer == null || member == null ) return false;
+       return reviewer.isProtocolReviewerFromCommitteeMembership(member);
     }
     /*
      * Utility method to get voter name

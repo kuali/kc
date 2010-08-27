@@ -37,6 +37,7 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
@@ -389,7 +390,9 @@ public class OnlineReviewsActionHelper implements Serializable {
     public int getDocumentIndexByReviewer(String personId) {
         int idx = 0;
         for (ProtocolOnlineReviewDocument reviewDocument : protocolOnlineReviewDocuments ) {
-            if (StringUtils.equals(personId,reviewDocument.getProtocolOnlineReview().getProtocolReviewer().getPersonId())) {
+            ProtocolReviewer reviewer = reviewDocument.getProtocolOnlineReview().getProtocolReviewer();
+            if (reviewer.isPersonIdProtocolReviewer(personId)) 
+            {
                 break;
             }
             idx++;
