@@ -2323,4 +2323,36 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(ProtocolDeferService.class);
     }
 
+    public ActionForward addDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+        actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
+    }
+    
+    public ActionForward deleteDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+        return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward moveUpDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+        return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    public ActionForward moveDownDeferReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
+        return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
 }
