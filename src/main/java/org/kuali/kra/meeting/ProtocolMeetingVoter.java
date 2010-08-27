@@ -17,7 +17,9 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
@@ -30,9 +32,17 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
     private Long submissionIdFk;
     private String personId; 
     private boolean nonEmployeeFlag; 
+    private Integer rolodexId;
+    private Rolodex rolodex;
     private String comments; 
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
+    
+    private transient KcPerson person;
+    
+    
+    
+    
     public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
@@ -111,6 +121,39 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    /**
+     * Gets the rolodexId attribute. 
+     * @return Returns the rolodexId.
+     */
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    /**
+     * Sets the rolodexId attribute value.
+     * @param rolodexId The rolodexId to set.
+     */
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    /**
+     * Gets the rolodex attribute. 
+     * @return Returns the rolodex.
+     */
+    public Rolodex getRolodex() {
+        return rolodex;
+    }
+
+    /**
+     * Sets the rolodex attribute value.
+     * @param rolodex The rolodex to set.
+     */
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
     }    
 
+    
 }

@@ -83,8 +83,7 @@ public class ProtocolAssignReviewersBean implements Serializable{
                     
                     for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
                         for (ProtocolReviewerBean reviewerBean : reviewers) {
-                            if ((review.getProtocolReviewer().getNonEmployeeFlag() == reviewerBean.getNonEmployeeFlag()) &&
-                                (StringUtils.equals(reviewerBean.getPersonId(), review.getProtocolReviewer().getPersonId()))) {
+                            if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
                                 reviewerBean.setChecked(true);
                                 reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
                                 break;
