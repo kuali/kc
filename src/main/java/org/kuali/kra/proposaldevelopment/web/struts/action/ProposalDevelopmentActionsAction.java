@@ -134,6 +134,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload")) {
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+            ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+            printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
+        }
         return actionForward;
     }
 
