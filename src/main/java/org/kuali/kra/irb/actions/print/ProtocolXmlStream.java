@@ -378,7 +378,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());
-        protocolMaster.setDocumentNumber(protocol.getDocumentKey());
+        //protocolMaster.setDocumentNumber(protocol.getDocumentKey());
 
         if (protocol.getSubmissionDate() != null) {
             protocolMaster.setApplicationDate(getDateTimeService().getCalendar(protocol.getSubmissionDate()));
