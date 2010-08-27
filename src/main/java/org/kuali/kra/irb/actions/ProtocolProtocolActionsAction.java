@@ -338,19 +338,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         super.route(mapping, protocolForm, request, response);
         
-        ActionForward forward = returnToSender(request, mapping, protocolForm);
-        
-        Properties parameters = new Properties();
-        parameters.put("successfulSubmission", Boolean.TRUE.toString());
-        parameters.put("submissionType", "Protocol");
-        parameters.put("refId", protocolDocument.getProtocol().getProtocolNumber());
-        
-        ActionRedirect redirect = new ActionRedirect(forward);
-        for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
-            redirect.addParameter(parameter.getKey().toString(), parameter.getValue());
-        }
-        
-        return redirect;
+        return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
     }
 
     /**

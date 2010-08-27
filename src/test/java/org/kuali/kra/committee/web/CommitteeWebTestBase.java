@@ -15,19 +15,28 @@
  */
 package org.kuali.kra.committee.web;
 
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.startsWith;
+
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.irb.web.ProtocolWebTestBase;
-import org.kuali.rice.test.data.PerSuiteUnitTestData;
-import org.kuali.rice.test.data.UnitTestData;
-import org.kuali.rice.test.data.UnitTestFile;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
+import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 /**
  * Base class for all htmlunit tests involving the Committee Page.
@@ -48,24 +57,42 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
 //public abstract class CommitteeWebTestBase extends IrbWebTestBase {
     
+    protected static final String CENTRAL_ADMIN_TAB = "Central Admin";
+    
     protected static final String COMMITTEE_LINK_NAME = "committee";
     protected static final String SCHEDULE_LINK_NAME = "committeeSchedule";
     protected static final String MEMBERS_LINK_NAME = "committeeMembership";
     protected static final String ACTIONS_LINK_NAME = "committeeActions";
     
     protected static final String SUBMIT_BUTTON_NAME = "methodToCall.route";
+    protected static final String SEARCH_BUTTON_NAME = "methodToCall.search";
     
-    protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
-    protected static final String COMMITTEE_TYPE_CODE_ID = "document.committeeList[0].committeeTypeCode";
-    protected static final String COMMITTEE_MAX_PROTOCOLS_ID = "document.committeeList[0].maxProtocols";
-    protected static final String COMMITTEE_HOME_UNIT_NUMBER_ID = "document.committeeList[0].homeUnitNumber";
-    protected static final String COMMITTEE_MIN_MEMBERS_REQUIRED_ID = "document.committeeList[0].minimumMembersRequired";
-    protected static final String COMMITTEE_NAME_ID = "document.committeeList[0].committeeName";
-    protected static final String COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID = "document.committeeList[0].advancedSubmissionDaysRequired";
-    protected static final String COMMITTEE_REVIEW_TYPE_CODE_ID = "document.committeeList[0].reviewTypeCode";
-    protected static final String COMMITTEE_ID_ID = "document.committeeList[0].committeeId";
-    protected static final String COMMITTEE_DESCRIPTION_ID = "document.committeeList[0].committeeDescription";
-    protected static final String COMMITTEE_SCHEDULE_DESCRIPTION_ID = "document.committeeList[0].scheduleDescription";
+    protected static final String DOCUMENT_HEADER_PREFIX = "document.documentHeader.";
+    protected static final String COMMITTEE_LIST_PREFIX = "document.committeeList[0].";
+    
+    protected static final String DOCUMENT_DESCRIPTION = "documentDescription";
+    protected static final String COMMITTEE_TYPE_CODE = "committeeTypeCode";
+    protected static final String COMMITTEE_MAX_PROTOCOLS = "maxProtocols";
+    protected static final String COMMITTEE_HOME_UNIT_NUMBER = "homeUnitNumber";
+    protected static final String COMMITTEE_MIN_MEMBERS_REQUIRED = "minimumMembersRequired";
+    protected static final String COMMITTEE_NAME = "committeeName";
+    protected static final String COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED = "advancedSubmissionDaysRequired";
+    protected static final String COMMITTEE_REVIEW_TYPE_CODE = "reviewTypeCode";
+    protected static final String COMMITTEE = "committeeFIELD";
+    protected static final String COMMITTEE_DESCRIPTION = "committeeDescription";
+    protected static final String COMMITTEE_SCHEDULE_DESCRIPTION = "scheduleDescription";
+    
+    protected static final String DOCUMENT_DESCRIPTION_ID = DOCUMENT_HEADER_PREFIX + "documentDescription";
+    protected static final String COMMITTEE_TYPE_CODE_ID = COMMITTEE_LIST_PREFIX + "committeeTypeCode";
+    protected static final String COMMITTEE_MAX_PROTOCOLS_ID = COMMITTEE_LIST_PREFIX + "maxProtocols";
+    protected static final String COMMITTEE_HOME_UNIT_NUMBER_ID = COMMITTEE_LIST_PREFIX + "homeUnitNumber";
+    protected static final String COMMITTEE_MIN_MEMBERS_REQUIRED_ID = COMMITTEE_LIST_PREFIX + "minimumMembersRequired";
+    protected static final String COMMITTEE_NAME_ID = COMMITTEE_LIST_PREFIX + "committeeName";
+    protected static final String COMMITTEE_ADV_SUBMISSION_DAYS_REQUIRED_ID = COMMITTEE_LIST_PREFIX + "advancedSubmissionDaysRequired";
+    protected static final String COMMITTEE_REVIEW_TYPE_CODE_ID = COMMITTEE_LIST_PREFIX + "reviewTypeCode";
+    protected static final String COMMITTEE_ID_ID = COMMITTEE_LIST_PREFIX + "committeeId";
+    protected static final String COMMITTEE_DESCRIPTION_ID = COMMITTEE_LIST_PREFIX + "committeeDescription";
+    protected static final String COMMITTEE_SCHEDULE_DESCRIPTION_ID = COMMITTEE_LIST_PREFIX + "scheduleDescription";
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Committee Web Test";
     protected static final String DEFAULT_TYPE_CODE = "1"; // IRB
@@ -82,6 +109,7 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     /* check for save success - any errors found in the page */
     protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+    protected static final String LOADED_SUCCESS_MESSAGE = "Document was successfully reloaded.";
 
     
     private static Integer nextCommitteeId = 0;
@@ -96,7 +124,12 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        
+        webClient.setAlertHandler(new AlertHandler() {
+            public void handleAlert(Page page, String message) {
+                assertThat(message, startsWith("Committee "));
+                assertThat(message, endsWith(" submitted successfully."));
+            }
+        });
         setCommitteePage(buildCommitteePage());
     }
     
@@ -115,7 +148,7 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage buildCommitteePage() throws Exception {
-        HtmlPage centralAdminPage = clickOn(getPortalPage(), "Central Admin");
+        HtmlPage centralAdminPage = clickOn(getPortalPage(), CENTRAL_ADMIN_TAB);
         HtmlPage retval = clickOn(centralAdminPage, "Create Committee", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
         assertTrue("Kuali :: Committee Document".equals(retval.getTitleText()));
@@ -264,9 +297,9 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     
     /**
      * Get the Actions Web Page. To do this, we first
-     * get the Committee Web Page and fill in the required
-     * fields with some default values.  We can then navigate to the
-     * Actions Web Page.
+     * get the Committee Web Page, fill in the required
+     * fields with some default values, submit, and go back.  
+     * We can then navigate to the Actions Web Page.
      * 
      * @return the Actions Web Page.
      * @throws Exception
@@ -274,9 +307,42 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     protected HtmlPage getActionsPage() throws Exception {
         HtmlPage committeePage = this.getCommitteePage();
         this.setDefaultRequiredFields(committeePage);
-        HtmlPage submittedCommitteePage = clickOnTab(committeePage, SUBMIT_BUTTON_NAME);
+        HtmlPage submittedCommitteePage = submit(committeePage);
         HtmlPage actionsPage = clickOnTab(submittedCommitteePage, ACTIONS_LINK_NAME);
+        assertContains(actionsPage, LOADED_SUCCESS_MESSAGE);
         return actionsPage;
+    }
+    
+    /**
+     * Submit the committee, and since submission redirects to the
+     * portal page, searches for the submitted committee and returns
+     * the submitted committee page.
+     * 
+     * @param committeePage
+     * @return the Submitted Committee Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage submit(HtmlPage committeePage) throws Exception {
+        HtmlPage portalPage = clickOn(committeePage, SUBMIT_BUTTON_NAME);
+        HtmlPage centralAdminPage = clickOn(portalPage, CENTRAL_ADMIN_TAB);
+        
+        HtmlPage lookupPage = clickOn(centralAdminPage, "Committee Lookup", "Kuali Portal Index");
+        setFieldValue(lookupPage, COMMITTEE_NAME, DEFAULT_NAME);
+
+        // click on the search button
+        HtmlImageInput searchBtn = (HtmlImageInput) getElement(lookupPage, "methodToCall.search", "search", "search");
+        HtmlPage resultsPage = (HtmlPage) searchBtn.click();
+
+        HtmlTable table = (HtmlTable) getElement(resultsPage, "row");
+        HtmlTableBody body = table.getBodies().get(0);
+        List<HtmlTableRow> rows = body.getRows();
+
+        HtmlTableRow row = rows.get(0);
+        List<HtmlTableCell> cells = row.getCells();
+        HtmlTableCell cell = cells.get(0);
+        HtmlAnchor editAnchor = (HtmlAnchor) getFirstChild(cell);
+        HtmlAnchor viewAnchor = (HtmlAnchor) getNextSibling(editAnchor);
+        return (HtmlPage) viewAnchor.click();
     }
     
     /**

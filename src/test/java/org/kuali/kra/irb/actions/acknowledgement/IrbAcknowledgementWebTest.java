@@ -118,9 +118,8 @@ public class IrbAcknowledgementWebTest  extends CommitteeScheduleWebTestBase {
 
               
         // Submit it
-        schedulePage = clickOn(schedulePage, "submit");
-        assertFalse(hasError(schedulePage));
-        assertContains(schedulePage, "Document was successfully submitted.");
+        HtmlPage portalPage = clickOn(schedulePage, "submit");
+        assertFalse(hasError(portalPage));
         
         // set up protocol submitted
         HtmlPage protocolActionPage = getProtocolSubmission();
