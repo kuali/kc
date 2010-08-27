@@ -17,6 +17,7 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
 
 <kra:permission value="${KualiForm.actionHelper.canExpediteApproval}">
 
@@ -36,7 +37,9 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.approvalDate" attributeEntry="${attributes.approvalDate}"  />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.approvalDate" 
+                                                      attributeEntry="${attributes.approvalDate}"
+                                                      readOnly="${datesReadOnly}" />
                         </nobr>
                     </td>
                 </tr>
@@ -51,7 +54,9 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.expirationDate" attributeEntry="${attributes.approvalDate}"  />
+                            <kul:htmlControlAttribute property="actionHelper.protocolExpediteApprovalBean.expirationDate" 
+                                                      attributeEntry="${attributes.expirationDate}" 
+                                                      readOnly="${datesReadOnly}" />
                         </nobr>
                     </td>
                 </tr>
