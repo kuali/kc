@@ -204,7 +204,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     private void addProtocolReviewers(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         for (ProtocolReviewerBean reviewer : submitAction.getReviewers()) {
             if (reviewer.getChecked()) {
-                submissionBuilder.addReviewer(reviewer.getPersonId(),
+                String pId = reviewer.getPersonId();
+                submissionBuilder.addReviewer(pId,
                                               reviewer.getReviewerTypeCode(),
                                               reviewer.getNonEmployeeFlag());
             }

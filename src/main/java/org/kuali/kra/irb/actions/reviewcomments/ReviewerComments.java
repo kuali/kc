@@ -101,6 +101,17 @@ public class ReviewerComments implements Serializable {
     }
     
     /**
+     * This method deletes all comments.
+     * 
+     */
+    
+    public void deleteAllComments() {
+        for (int i = 0; i<comments.size();i++) {
+            deleteComment(i);
+        }
+    }
+    
+    /**
      * 
      * This method changes the position of one element in the collection by one value.
      * @param index the integer value of the position in the collection to act upon.

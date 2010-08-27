@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -52,10 +54,13 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
 //    private Integer rolodexId;
     
     private String personId;
+    private Integer rolodexId;
+    private Rolodex rolodex;
+    
     private transient KcPersonService kcPersonService;
     private transient KcPerson kcPerson;
     private transient RolodexService rolodexService;
-    private transient Rolodex rolodex;
+    
     
     // transient property for submission detail display
     
@@ -181,35 +186,34 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
+    /**
+     * Gets the rolodexId attribute. 
+     * @return Returns the rolodexId.
+     */
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    /**
+     * Sets the rolodexId attribute value.
+     * @param rolodexId The rolodexId to set.
+     */
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
     
-//    public ProtocolPersonRolodex getRolodex() {
-//        return this.rolodex;
-//    }
-//
-//    /**
-//     * Gets the rolodexId attribute. 
-//     * @return Returns the rolodexId.
-//     */
-//    public Integer getRolodexId() {
-//        return rolodexId;
-//    }
-//
-//    /**
-//     * Sets the rolodexId attribute value.
-//     * @param rolodexId The rolodexId to set.
-//     */
-//    public void setRolodexId(Integer rolodexId) {
-//        this.rolodexId = rolodexId;
-//    }
-//
-//    /**
-//     * Sets the rolodex attribute value.
-//     * @param rolodex The rolodex to set.
-//     */
-//    public void setRolodex(ProtocolPersonRolodex rolodex) {
-//        this.rolodex = rolodex;
-//    }
-//    
+    public Rolodex getRolodex() {
+        return this.rolodex;
+    }
+
+    /**
+     * Sets the rolodex attribute value.
+     * @param rolodex The rolodexId to set.
+     */
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
+    }
+
     
     @SuppressWarnings("unchecked")
     @Override
@@ -222,20 +226,13 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         map.put("sequenceNumber", getSequenceNumber());
         map.put("submissionNumber", getSubmissionNumber());
         map.put("personId", getPersonId());
+        map.put("rolodexId", getRolodexId());
         map.put("nonEmployeeFlag", getNonEmployeeFlag());
         map.put("reviewerTypeCode", getReviewerTypeCode());
         return map;
     }
-    
-    
-    public Rolodex getRolodex() {
-        if (nonEmployeeFlag) {
-            return getRolodexService().getRolodex(Integer.parseInt(this.personId));
-        } else {
-            return null;
-        }
-    }
 
+    
     public String getFullName() {
         if (nonEmployeeFlag) {
             return getRolodex().getFullName();
@@ -275,5 +272,24 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         return this.rolodexService;
     }
 
-
+    public boolean isProtocolReviewerFromCommitteeMembership( CommitteeMembership member ) {
+        boolean isMatched = false;
+        if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(),getPersonId())) {
+            isMatched = true;
+        } else if (getNonEmployeeFlag() && ObjectUtils.equals(member.getRolodexId(),getRolodexId()) ){
+            isMatched = true;
+        }
+        return isMatched;
+    }
+    
+    public boolean isPersonIdProtocolReviewer( String personId ) {
+        boolean result = false;
+        if ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId().toString(), personId ))
+            ||
+            ( !getNonEmployeeFlag() && StringUtils.equals( personId, this.personId ) )) {
+            result = true;
+        }
+        return result;
+    }
+    
 }
