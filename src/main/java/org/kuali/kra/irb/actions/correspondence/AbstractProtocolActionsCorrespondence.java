@@ -27,7 +27,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
@@ -99,8 +98,11 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
     
     @Override
     public Map<String, byte[]> renderXML() throws PrintingException {
-        ProtocolXmlStream xmlStream = new ProtocolXmlStream();
-        setXmlStream(xmlStream);
+        setXmlStream(getProtocolXmlStream());
         return super.renderXML();
+    }
+
+    public ProtocolXmlStream getProtocolXmlStream() {
+         return KraServiceLocator.getService(ProtocolXmlStream.class);
     }
 }
