@@ -30,7 +30,6 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
 import org.kuali.kra.committee.print.IrbPrintXmlUtilService;
 import org.kuali.kra.committee.print.ScheduleXmlStream;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -65,7 +64,8 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
 
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
     private KcPersonService kcPersonService;
-
+    private CommitteeXmlStream committeeXmlStream;
+    private ScheduleXmlStream scheduleXmlStream;
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
@@ -76,6 +76,18 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         Map<String,XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
         xmlObjectMap.put("Protocol", protocolDocumentType);
         return xmlObjectMap;
+    }
+
+    /**
+     * 
+     * This method is to create xml data for protocol action notifications
+     * @param protocol
+     * @return
+     */
+    public String generateXmlStreamForNotification(org.kuali.kra.irb.Protocol protocol) {
+        edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
+        protocolDocumentType.setProtocol(getProtocol(protocol));
+        return protocolDocumentType.toString();
     }
 
     public Protocol getProtocol(org.kuali.kra.irb.Protocol protocolInfoBean, Integer submissionNumber) {
@@ -218,20 +230,21 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
         submission.setCurrentSubmissionFlag(currentFlag);
         CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
-        getIrbPrintXmlUtilService().setProcotolSubmissionMinutes(committeeSchedule, submissionInfoBean, submission);
+        if (committeeSchedule != null) {
+            // notify irb - schedule is null
+            getIrbPrintXmlUtilService().setProcotolSubmissionMinutes(committeeSchedule, submissionInfoBean, submission);
+        }
         if (submissionInfoBean.getCommitteeId() != null) {
             Committee committee = submissionInfoBean.getCommittee();
-            CommitteeXmlStream committeeStream = new CommitteeXmlStream();
 
-            committeeStream.setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
-            committeeStream.setCommitteeMembers(committee, submission);
+            committeeXmlStream.setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
+            committeeXmlStream.setCommitteeMembers(committee, submission);
         }
 
         if (submissionInfoBean.getScheduleId() != null) {
-            ScheduleXmlStream scheduleStream = new ScheduleXmlStream();
-            scheduleStream.setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
+            scheduleXmlStream.setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
             NextSchedule nextSchedule = submission.addNewNextSchedule();
-            scheduleStream.setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
+            scheduleXmlStream.setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
         }
     }
 
@@ -348,6 +361,9 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                     || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
                 Investigator investigator = protocolType.addNewInvestigator();
+                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                    investigator.setPIFlag(true);
+                }
                 getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             }
             else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_STUDY_PERSONNEL)) {
@@ -378,7 +394,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());
-        //protocolMaster.setDocumentNumber(protocol.getDocumentKey());
+//      protocolMaster.setDocumentNumber(protocol.getDocumentKey());
 
         if (protocol.getSubmissionDate() != null) {
             protocolMaster.setApplicationDate(getDateTimeService().getCalendar(protocol.getSubmissionDate()));
@@ -449,6 +465,14 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public void setCommitteeXmlStream(CommitteeXmlStream committeeXmlStream) {
+        this.committeeXmlStream = committeeXmlStream;
+    }
+
+    public void setScheduleXmlStream(ScheduleXmlStream scheduleXmlStream) {
+        this.scheduleXmlStream = scheduleXmlStream;
     }
 
 }

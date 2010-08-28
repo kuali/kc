@@ -494,7 +494,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      */
     private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
-        scheduleParam.put("committeeId", scheduleDetailsBean.getCommittee().getCommitteeId());
+        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getCommittee().getId().toString());
         List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class,
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {
