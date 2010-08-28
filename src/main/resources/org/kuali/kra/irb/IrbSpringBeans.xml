@@ -638,6 +638,10 @@
             <property name="kcPersonService">
                 <ref bean="kcPersonService" />
             </property>
+            <property name="committeeXmlStream" ref="committeeXmlStream" />
+            <property name="scheduleXmlStream">
+                <ref bean="scheduleXmlStream" />
+            </property>
         </bean>
         <bean id="correspondenceXmlStream"
             class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream">
@@ -679,6 +683,7 @@
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+       <!--  <property name="protocolXmlStream" ref="protocolXmlStream" /> -->
         <property name="notificationTemplates">
 			<list>
 			    <value>/org/kuali/kra/irb/actions_notification.xml</value>
@@ -709,4 +714,14 @@
         <property name="committeeService" ref="committeeService" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
+       <!--  <bean id="abstractProtocolActionsCorrespondence"
+            class="org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence" abstract="true">
+         <property name="protocolXmlStream" ref="protocolXmlStream" />
+        </bean> -->
+            <bean id="renewalReminderStream"
+            class="org.kuali.kra.irb.actions.print.RenewalReminderStream" parent="printBaseXmlStream">
+         <property name="protocolXmlStream" ref="protocolXmlStream" />
+         <property name="committeeXmlStream" ref="committeeXmlStream" />
+        </bean>
+ 
 </beans>

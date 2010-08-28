@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
@@ -209,7 +210,7 @@ public class CommitteeMembership extends CommitteeAssociate {
     public KcPerson getPerson() {
         // Each kcpersonservice call will get kimidentityservice call
         // in tag, it may need several calls of this.  just try to improve performance.
-        if (kcPerson == null) {
+        if (kcPerson == null && StringUtils.isNotBlank(personId)) {
             kcPerson = getKcPersonService().getKcPersonByPersonId(personId);
         }
         return kcPerson;
