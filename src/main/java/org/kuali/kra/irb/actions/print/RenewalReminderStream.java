@@ -39,6 +39,8 @@ import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
  * This class...
  */
 public class RenewalReminderStream extends PrintBaseXmlStream {
+    private ProtocolXmlStream protocolXmlStream;
+    private CommitteeXmlStream committeeXmlStream;
 
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
@@ -49,9 +51,8 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
         Committee committee = getBusinessObjectService().findBySinglePrimaryKey(Committee.class, committeeId);
-        CommitteeXmlStream committeeStream = new CommitteeXmlStream() ;
         CommitteeMasterData committeeMasterData = CommitteeMasterData.Factory.newInstance();
-        committeeStream.setCommitteeMasterData(committee,committeeMasterData) ;
+        committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
         List<CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
@@ -66,15 +67,22 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
             }
         }
 
-       ProtocolXmlStream protocolStream = new ProtocolXmlStream();
        if (reportParameters.get("submissionNumber") ==null ){    
-          renewalReminder.setProtocol(protocolStream.getProtocol(protocol)) ;
+          renewalReminder.setProtocol(protocolXmlStream.getProtocol(protocol)) ;
        }else{
-           renewalReminder.setProtocol(protocolStream.getProtocol(protocol,
+           renewalReminder.setProtocol(protocolXmlStream.getProtocol(protocol,
                                                    (Integer)reportParameters.get("submissionNumber"))) ;
        }
        Map<String,XmlObject> xmlObjectMap = new HashMap<String,XmlObject>();
        xmlObjectMap.put("Renewal reminder", renewalReminder);
        return xmlObjectMap;
+    }
+
+    public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
+        this.protocolXmlStream = protocolXmlStream;
+    }
+
+    public void setCommitteeXmlStream(CommitteeXmlStream committeeXmlStream) {
+        this.committeeXmlStream = committeeXmlStream;
     }
 }

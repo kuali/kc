@@ -143,7 +143,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
 
     private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("scheduleIdFk", protocolSubmission.getScheduleIdFk());
+        param.put("submissionIdFk", protocolSubmission.getSubmissionId());
         List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
                 "actionId", true);
         return actions.isEmpty() ? null : actions.get(0);
