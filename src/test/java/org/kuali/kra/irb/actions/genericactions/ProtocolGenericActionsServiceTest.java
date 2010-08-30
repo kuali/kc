@@ -175,7 +175,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     }
     
     private ProtocolGenericActionBean buildProtocolGenericActionBean(){
-        ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean();
+        ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean(null);
         actionBean.setComments(BASIC_COMMENT);
         actionBean.setActionDate(BASIC_ACTION_DATE);
         return actionBean;

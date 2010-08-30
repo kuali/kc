@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.genericactions;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 
@@ -29,6 +30,14 @@ public class ProtocolGenericActionBean extends ReviewerCommentsBean implements S
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
+    
+    /**
+     * Constructs a ProtocolGenericActionBean.
+     * @param actionHelper Reference back to the parent ActionHelper
+     */
+    public ProtocolGenericActionBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
     
     public String getComments() {
         return comments;

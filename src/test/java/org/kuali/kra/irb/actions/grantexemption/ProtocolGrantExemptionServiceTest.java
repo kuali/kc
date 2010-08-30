@@ -92,7 +92,7 @@ public class ProtocolGrantExemptionServiceTest extends KcUnitTestBase {
     public void testGrantExemption() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
 
-        ProtocolGrantExemptionBean grantExemptionBean = new ProtocolGrantExemptionBean();
+        ProtocolGrantExemptionBean grantExemptionBean = new ProtocolGrantExemptionBean(null);
         grantExemptionBean.setComments(COMMENTS);
         grantExemptionBean.setApprovalDate(new Date(System.currentTimeMillis()));
         grantExemptionBean.setActionDate(new Date(System.currentTimeMillis()));
@@ -103,7 +103,7 @@ public class ProtocolGrantExemptionServiceTest extends KcUnitTestBase {
         submitAction.setSubmissionQualifierTypeCode("2");
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
-        grantExemptionBean.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        grantExemptionBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
         protocolGrantExemptionService.grantExemption(protocolDocument.getProtocol(), grantExemptionBean);
     
         assertEquals(ProtocolStatus.EXEMPT, protocolDocument.getProtocol().getProtocolStatusCode());

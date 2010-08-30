@@ -15,17 +15,44 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
+import java.util.List;
+
+import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ActionHelper;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
- * 
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.
  */
 public class ReviewerCommentsBean {
     
+    private ActionHelper actionHelper;
+    
     private ReviewerComments reviewComments = new ReviewerComments();
-    private Long protocolId;
+    
+    private CommitteeScheduleService committeeScheduleService;
+    
     /**
-     * 
+     * Constructs a ReviewerCommentsBean.
+     * @param actionHelper Reference back to the parent ActionHelper
+     */
+    public ReviewerCommentsBean(ActionHelper actionHelper) {
+        this.actionHelper = actionHelper;
+    }
+    
+    /**
+     * Initializes the ReviewerComments.
+     */
+    public void initComments() {
+        Long scheduleIdFk = actionHelper.getProtocol().getProtocolSubmission().getScheduleIdFk();
+        List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        reviewComments.setComments(minutes);
+        reviewComments.setProtocolId(actionHelper.getProtocol().getProtocolId());
+    }
+    
+    /**
      * This method needs to return the reviewer comments object held by the bean. Maintained by data entry by the remote user
      * 
      * @return ReviewComments object
@@ -35,7 +62,6 @@ public class ReviewerCommentsBean {
     } 
 
     /**
-     * 
      * This method sets the reviewer comments object of the bean, pulled from the database or by user input.
      * 
      * @param reviewComments ReviewComments object
@@ -44,8 +70,19 @@ public class ReviewerCommentsBean {
         this.reviewComments = reviewComments;
     }
     
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-        this.reviewComments.setProtocolId(protocolId);
+    /**
+     * Returns the parent ActionHelper.
+     * @return ActionHelper
+     */
+    public ActionHelper getActionHelper() {
+        return actionHelper;
     }
+    
+    private CommitteeScheduleService getCommitteeScheduleService() {
+        if (committeeScheduleService == null) {
+            committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
+        }
+        return committeeScheduleService;
+    }
+    
 }

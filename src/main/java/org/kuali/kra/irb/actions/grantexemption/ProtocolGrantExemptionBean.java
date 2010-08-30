@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.grantexemption;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 /**
@@ -30,6 +30,14 @@ public class ProtocolGrantExemptionBean extends ReviewerCommentsBean implements 
     private Date approvalDate = new Date(System.currentTimeMillis());
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
+    
+    /**
+     * Constructs a ProtocolGrantExemptionBean.
+     * @param actionHelper Reference back to the paren ActionHelper
+     */
+    public ProtocolGrantExemptionBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
     
     public Date getApprovalDate() {
         return approvalDate;

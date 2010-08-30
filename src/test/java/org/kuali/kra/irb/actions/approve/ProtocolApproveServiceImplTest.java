@@ -91,7 +91,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     public void testApprove() throws Exception{
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         Protocol prot = protocolDocument.getProtocol();
-        ProtocolApproveBean actionBean = new ProtocolApproveBean();
+        ProtocolApproveBean actionBean = new ProtocolApproveBean(null);
         actionBean.setActionDate(BASIC_ACTION_DATE);
         actionBean.setApprovalDate(BASIC_ACTION_DATE);
         actionBean.setComments("some comments go here");
@@ -106,7 +106,7 @@ public class ProtocolApproveServiceImplTest extends KcUnitTestBase {
     @Test
     public void testApproveRiskLevels() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolApproveBean protocolApproveBean = new ProtocolApproveBean();
+        ProtocolApproveBean protocolApproveBean = new ProtocolApproveBean(null);
         ProtocolRiskLevelBean protocolRiskLevelBean = protocolApproveBean.getProtocolRiskLevelBean();
         
         ProtocolRiskLevel lowRiskLevelProtocol = protocolRiskLevelBean.getNewProtocolRiskLevel();
