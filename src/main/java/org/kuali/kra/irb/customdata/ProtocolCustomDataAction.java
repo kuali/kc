@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.customdata;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -55,11 +58,41 @@ public class ProtocolCustomDataAction extends ProtocolAction {
          */
         CustomDataAction.copyCustomDataToDocument(form);
 
-        ((ProtocolForm)form).getCustomDataHelper().prepareView();
+        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getDocument());
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        
+        for (Map.Entry<String, String[]>customAttributeValue: protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
+            String customAttributeId = customAttributeValue.getKey().substring(2);
+            String value = customAttributeValue.getValue()[0];
+            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
+        }
+        
         
         return super.execute(mapping, form, request, response);
     }
     
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        super.reload(mapping, form, request, response);
+        CustomDataAction.copyCustomDataToDocument(form);
+        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getDocument());
+        
+        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        
+        for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
+            String customAttributeId = customAttributeValue.getKey().substring(2);
+            String value = customAttributeValue.getValue()[0];
+            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
+        }
+        return mapping.findForward("customData");    
+    }
+
     /**
      * @see org.kuali.kra.irb.ProtocolAction#isValidSave(org.kuali.kra.irb.ProtocolForm)
      */
