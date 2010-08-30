@@ -219,8 +219,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
     org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizerTest.class,
-    org.kuali.kra.committee.service.CommitteeAuthorizationServiceImplTest.class,
-    org.kuali.kra.committee.rules.CommitteeMembershipAddRuleTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class,
     org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class,
