@@ -139,6 +139,10 @@ public class PrintServiceImpl implements PrintService {
 		} else {
 			resetSelectedFormList(sponsorFormTemplates);
 		}
+	    Set set = new HashSet();
+        set.addAll(sponsorFormTemplates);
+        sponsorFormTemplates.clear();
+        sponsorFormTemplates.addAll(set);
 		Collections.sort(sponsorFormTemplates);
 	}
 
