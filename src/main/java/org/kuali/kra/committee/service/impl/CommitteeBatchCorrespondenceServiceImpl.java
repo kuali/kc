@@ -210,7 +210,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @throws Exception
      */
     private void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
-        ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean();
+        ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean(null);
         actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
         
         if (StringUtils.equals(ProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {

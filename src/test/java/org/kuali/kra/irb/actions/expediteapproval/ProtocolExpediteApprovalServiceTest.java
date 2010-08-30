@@ -93,7 +93,7 @@ public class ProtocolExpediteApprovalServiceTest extends KcUnitTestBase {
     public void testGrantExemption() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
 
-        ProtocolApproveBean expeditedApprovalBean = new ProtocolApproveBean();
+        ProtocolApproveBean expeditedApprovalBean = new ProtocolApproveBean(null);
         expeditedApprovalBean.setComments(COMMENTS);
         expeditedApprovalBean.setApprovalDate(new Date(System.currentTimeMillis()));
         expeditedApprovalBean.setExpirationDate(new Date(System.currentTimeMillis()));
@@ -105,7 +105,7 @@ public class ProtocolExpediteApprovalServiceTest extends KcUnitTestBase {
         submitAction.setSubmissionQualifierTypeCode("2");
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
-        expeditedApprovalBean.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        expeditedApprovalBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
         protocolExpediteApprovalService.grantExpeditedApproval(protocolDocument.getProtocol(), expeditedApprovalBean);
     
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
