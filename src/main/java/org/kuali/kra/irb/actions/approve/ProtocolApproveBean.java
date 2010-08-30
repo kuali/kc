@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Date;
 
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 
@@ -30,7 +31,8 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean {
     /**
      * Constructor initializes variables with no default values.
      */
-    public ProtocolApproveBean() {
+    public ProtocolApproveBean(ActionHelper actionHelper) {
+        super(actionHelper);
         protocolRiskLevelBean = new ProtocolRiskLevelBean();
     }
     

@@ -18,17 +18,25 @@ package org.kuali.kra.irb.actions.acknowledgement;
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 
 /**
- * 
- * This class is the form data of IRB acknowledgement sub-panel
+ * This class is the form data of IRB acknowledgement sub-panel.
  */
 public class IrbAcknowledgementBean extends ReviewerCommentsBean implements Serializable {
 
     private static final long serialVersionUID = 793214946729519060L;
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
+    
+    /**
+     * Constructs a IrbAcknowledgementBean.
+     * @param actionHelper Reference back to the parent ActionHelper
+     */
+    public IrbAcknowledgementBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
 
     public String getComments() {
         return comments;

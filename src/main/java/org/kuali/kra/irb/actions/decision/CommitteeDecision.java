@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -35,7 +36,6 @@ import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
- * 
  * This class is a bean for managing the input for a committee decision.
  */
 @SuppressWarnings("serial")
@@ -57,11 +57,18 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
     private List<CommitteePerson> recusedToDelete = new ArrayList<CommitteePerson>();
     
     /**
-     * 
-     * This method initializes the class.
-     * @param protocol as Protocol object
+     * Constructs a CommitteeDecision.
+     * @param actionHelper Reference back to the parent ActionHelper
      */
-    public void init(Protocol protocol) {
+    public CommitteeDecision(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
+    
+    /**
+     * This method initializes the class.
+     */
+    public void init() {
+        Protocol protocol = getActionHelper().getProtocol();
         ProtocolSubmission submission = getSubmission(protocol);
         if (submission != null) {
             this.noCount = submission.getNoVoteCount();
@@ -77,6 +84,7 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
                 initializeRecused(protocol, submission);
             }
         }
+        initComments();
     }
     
     public Integer getRecusedCount() {
