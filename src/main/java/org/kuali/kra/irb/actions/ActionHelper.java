@@ -1165,10 +1165,11 @@ public class ActionHelper implements Serializable {
      */
     private void setReviewComments() {
         reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        if (getSelectedSubmission() != null && CollectionUtils.isNotEmpty(getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes())) {
-            for (CommitteeScheduleMinute minute : getSelectedSubmission().getCommitteeSchedule().getCommitteeScheduleMinutes()) {
-                if (minute.getMinuteEntryTypeCode().equals(MinuteEntryType.PROTOCOL) 
-                        && minute.getProtocolId().equals(selectedSubmission.getProtocolId())) {
+        if (selectedSubmission != null && CollectionUtils.isNotEmpty(selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes())) {
+            for (CommitteeScheduleMinute minute : selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes()) {
+                String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
+                String protocolNumber = minute.getProtocol().getProtocolNumber();
+                if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && selectedSubmission.getProtocol().getProtocolNumber().equals(protocolNumber)) {
                     reviewComments.add(minute);
                 }
 
