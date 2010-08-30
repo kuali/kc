@@ -29,23 +29,12 @@ import org.kuali.kra.printing.Printable;
  */
 @SuppressWarnings("serial")
 public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements Serializable {
-
-    private ActionHelper actionHelper;
-
+    
     private String committeeId = "";
     private String committeName = "";
     private String scheduleDate = "";
     private boolean protocolAssigned = false;
     private Date actionDate = new Date(System.currentTimeMillis());
-    
-    public Date getActionDate() {
-        return actionDate;
-    }
-
-
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
-    }
 
     private transient ProtocolAssignToAgendaService agendaService;
 
@@ -56,8 +45,18 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      * @param actionHelper an ActionHelper object
      */
     public ProtocolAssignToAgendaBean(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
+        super(actionHelper);
 
+    }
+    
+    
+    public Date getActionDate() {
+        return actionDate;
+    }
+
+
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
     }
 
 
@@ -81,23 +80,21 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
     }
 
     /**
-     * 
      * This method initializes the values of the bean.
      */
     public void init() {
-        if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-            String committeeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+        Protocol protocol = getActionHelper().getProtocol();
+        if (protocol != null && protocol.getProtocolNumber() != null) {
+            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(protocol);
             if (committeeId != null) {
-                this.committeeId = committeeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
-
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
-
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
-
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+                this.committeeId = assignedCommitteeId;
+                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(protocol);
+                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(protocol));
+                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(protocol);
+                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(protocol);
             }
         }
+        initComments();
     }
 
 
@@ -106,15 +103,6 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
             this.agendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
         }
         return this.agendaService;
-    }
-
-    private Protocol getProtocol() {
-        return actionHelper.getProtocolForm().getProtocolDocument().getProtocol();
-    }
-
-
-    public ActionHelper getActionHelper() {
-        return actionHelper;
     }
 
 
@@ -147,7 +135,7 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
          * that we display if the committee has changed.
          * Note: no known javascript issues at this, but leaving the code in place so it will be easy to put in if/when an issue arises.
          */
-        if (actionHelper.getProtocolForm().isJavaScriptEnabled()) {
+        if (getActionHelper().getProtocolForm().isJavaScriptEnabled()) {
         } else {
         }
     }

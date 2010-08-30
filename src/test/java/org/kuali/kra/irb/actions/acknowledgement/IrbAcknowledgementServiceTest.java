@@ -68,7 +68,7 @@ public class IrbAcknowledgementServiceTest extends KcUnitTestBase {
     public void testIrbAcknowledgement() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
 
-        IrbAcknowledgementBean irbAcknowledgementBean = new IrbAcknowledgementBean();
+        IrbAcknowledgementBean irbAcknowledgementBean = new IrbAcknowledgementBean(null);
         irbAcknowledgementBean.setComments(COMMENTS);
         irbAcknowledgementBean.setActionDate(new Date(System.currentTimeMillis()));
         addComments(protocolDocument.getProtocol(), irbAcknowledgementBean);
@@ -77,7 +77,7 @@ public class IrbAcknowledgementServiceTest extends KcUnitTestBase {
         submitAction.setSubmissionQualifierTypeCode("2");
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
-        irbAcknowledgementBean.setProtocolId(protocolDocument.getProtocol().getProtocolId());
+        irbAcknowledgementBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
         irbAcknowledgementService.irbAcknowledgement(protocolDocument.getProtocol(), irbAcknowledgementBean);
     
         assertEquals("101", protocolDocument.getProtocol().getProtocolStatusCode());

@@ -123,12 +123,12 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertTrue(result);
 
-        ProtocolApproveBean approvalActionBean = new ProtocolApproveBean();
+        ProtocolApproveBean approvalActionBean = new ProtocolApproveBean(null);
         approvalActionBean.setActionDate(new Date(System.currentTimeMillis()));
         approvalActionBean.setApprovalDate(new Date(System.currentTimeMillis()));
         approvalActionBean.setComments("approving");
         approvalActionBean.setExpirationDate(new Date(System.currentTimeMillis()));
-        approvalActionBean.setProtocolId(protocolId);
+        approvalActionBean.getReviewComments().setProtocolId(protocolId);
         protocolApproveService.approve(protocolDocument, approvalActionBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -206,7 +206,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertNotNull(protocolAction);
         assertEquals("105", protocolAction.getProtocolActionTypeCode());
 
-        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean();
+        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean(null);
         closeActionBean.setActionDate(new Date(System.currentTimeMillis()));
         closeActionBean.setComments("closing administratively");
         protocolGenericActionService.close(protocolDocument.getProtocol(), closeActionBean);
@@ -275,7 +275,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         assertNotNull(protocolAction);
         assertEquals(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolAction.getProtocolActionTypeCode());
 
-        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean();
+        ProtocolGenericActionBean closeActionBean = new ProtocolGenericActionBean(null);
         closeActionBean.setActionDate(new Date(System.currentTimeMillis()));
         closeActionBean.setComments("closing enrollment");
         protocolGenericActionService.closeEnrollment(protocolDocument.getProtocol(), closeActionBean);

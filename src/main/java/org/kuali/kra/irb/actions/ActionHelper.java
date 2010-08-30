@@ -31,7 +31,6 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -58,8 +57,6 @@ import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -183,7 +180,6 @@ public class ActionHelper implements Serializable {
     private transient TaskAuthorizationService taskAuthorizationService;
     private transient ProtocolAmendRenewService protocolAmendRenewService;
     private transient ProtocolVersionService protocolVersionService;
-    private transient CommitteeScheduleService committeeScheduleService;
     
     /*
      * Identifies the protocol "document" to print.
@@ -236,14 +232,13 @@ public class ActionHelper implements Serializable {
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
         assignToAgendaBean.init();
-        addReviewerCommentsToBean(assignToAgendaBean, this.form);
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
-        protocolGrantExemptionBean = new ProtocolGrantExemptionBean();
-        addReviewerCommentsToBean(protocolGrantExemptionBean, this.form);
-        irbAcknowledgementBean = new IrbAcknowledgementBean();
-        addReviewerCommentsToBean(irbAcknowledgementBean, this.form);
+        protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
+        protocolGrantExemptionBean.initComments();
+        irbAcknowledgementBean = new IrbAcknowledgementBean(this);
+        irbAcknowledgementBean.initComments();
         protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
         protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
@@ -256,9 +251,8 @@ public class ActionHelper implements Serializable {
         protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
-        committeeDecision = new CommitteeDecision();
-        committeeDecision.init(getProtocol());
-        addReviewerCommentsToBean(committeeDecision, this.form);
+        committeeDecision = new CommitteeDecision(this);
+        committeeDecision.init();
         protocolModifySubmissionAction = new ProtocolModifySubmissionAction(this.getProtocol().getProtocolSubmission());
         protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
     }
@@ -272,7 +266,8 @@ public class ActionHelper implements Serializable {
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
     private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
-        ProtocolGenericActionBean bean = new ProtocolGenericActionBean();
+        ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this);
+        bean.initComments();
         ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions, currentSubmission);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
@@ -280,12 +275,12 @@ public class ActionHelper implements Serializable {
                     protocolAction.getActionDate().getDay());
             bean.setActionDate(actionDate);
         }
-        addReviewerCommentsToBean(bean, this.form);
         return bean;
     }
     
     private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol, int beanType) throws Exception{
-        ProtocolApproveBean bean = new ProtocolApproveBean();
+        ProtocolApproveBean bean = new ProtocolApproveBean(this);
+        bean.initComments();
         ProtocolAction protocolAction = findProtocolAction(beanType, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
@@ -295,7 +290,6 @@ public class ActionHelper implements Serializable {
         }
         bean.setApprovalDate(buildApprovalDate(protocol));
         bean.setExpirationDate(buildExpirationDate(protocol, bean.getApprovalDate()));
-        addReviewerCommentsToBean(bean, this.form);
         return bean;
     }
     
@@ -389,28 +383,6 @@ public class ActionHelper implements Serializable {
             }
         }
         return null;
-    }
-    
-    /**
-     * 
-     * This method takes in a bean that implements ReviewerCommentsContainer and adds a
-     * reviewer comments object to it, pulled from the DB via services.
-     * @param commentContainer a bean that implements ReviewerCommentsContainer
-     * @param form ProtocolForm object, only to pull out the protocolID, passing in form so 
-     * this function can catch the NPE if the form doesn't have the protocolID yet.
-     */
-    protected void addReviewerCommentsToBean(ReviewerCommentsBean commentContainer, ProtocolForm form) {
-        try {
-            //List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesByProtocolSubmission(form.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionId());
-            List<CommitteeScheduleMinute> minutes = this.getCommitteeScheduleService().getMinutesBySchedule(form.getProtocolDocument().getProtocol().getProtocolSubmission().getScheduleIdFk());
-            ReviewerComments comments = commentContainer.getReviewComments();
-            comments.setComments(minutes);
-            commentContainer.setReviewComments(comments);
-            commentContainer.setProtocolId(form.getProtocolDocument().getProtocol().getProtocolId());
-        } catch (Exception e) {
-            //this will happen if the form isn't ready yet, like when the form is first opened, 
-            //this is OK
-        }
     }
     
     /**
@@ -554,7 +526,24 @@ public class ActionHelper implements Serializable {
         initSummaryDetails();
         
         initSubmissionDetails();
-
+    }
+    
+    public void prepareCommentsView() {
+        assignToAgendaBean.initComments();
+        protocolGrantExemptionBean.initComments();
+        irbAcknowledgementBean.initComments();
+        protocolExpediteApprovalBean.initComments();
+        protocolApproveBean.initComments();
+        protocolReopenBean.initComments();
+        protocolCloseEnrollmentBean.initComments();
+        protocolSuspendBean.initComments();
+        protocolSuspendByDmsbBean.initComments();
+        protocolCloseBean.initComments();
+        protocolExpireBean.initComments();
+        protocolTerminateBean.initComments();
+        protocolPermitDataAnalysisBean.initComments();
+        committeeDecision.initComments();
+        protocolDeferBean.initComments();
     }
     
     private ProtocolVersionService getProtocolVersionService() {
@@ -1130,13 +1119,6 @@ public class ActionHelper implements Serializable {
             this.parameterService = KraServiceLocator.getService(ParameterService.class);        
         }
         return this.parameterService;
-    }
-    
-    private CommitteeScheduleService getCommitteeScheduleService() {
-        if (this.committeeScheduleService == null) {
-            this.committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
-        }
-        return this.committeeScheduleService;
     }
 
     public ProtocolSubmission getSelectedSubmission() {

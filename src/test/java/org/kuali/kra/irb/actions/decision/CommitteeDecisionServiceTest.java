@@ -60,11 +60,11 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
 
     @Test
     public void testSetCommitteeDecision() throws Exception {
-        CommitteeDecision committeeDecision = new CommitteeDecision();
+        CommitteeDecision committeeDecision = new CommitteeDecision(null);
         committeeDecision.setAbstainCount(new Integer(0));
         committeeDecision.setMotion(MotionValuesFinder.APPROVE);
         committeeDecision.setNoCount(new Integer(0));
-        committeeDecision.setProtocolId(protocol.getProtocolId());
+        committeeDecision.getReviewComments().setProtocolId(protocol.getProtocolId());
         committeeDecision.setVotingComments("just some dumb comments");
         committeeDecision.setYesCount(new Integer(2));
         committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);

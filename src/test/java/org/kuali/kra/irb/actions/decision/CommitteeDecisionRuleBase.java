@@ -24,7 +24,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
     private CommitteeDecision committeeDecision;
     protected CommitteeDecision buildValidCommitteeDecision() {
-        committeeDecision = new CommitteeDecision();
+        committeeDecision = new CommitteeDecision(null);
         //committeeDecision.setAbstainCount(new Integer(0));
         committeeDecision.setMotion(MotionValuesFinder.APPROVE);
         committeeDecision.setNoCount(new Integer(0));

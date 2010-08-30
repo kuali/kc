@@ -40,7 +40,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     public void testProccessCommitteeDecisionRule0() throws Exception {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setProtocolId(document.getProtocol().getProtocolId());
+        decision.getReviewComments().setProtocolId(document.getProtocol().getProtocolId());
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
@@ -49,7 +49,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         //more no votes than yes votes .... valid disapprove
         CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.setProtocolId(document.getProtocol().getProtocolId());
+        decision.getReviewComments().setProtocolId(document.getProtocol().getProtocolId());
         decision.setNoCount(5);
         decision.setMotion(MotionValuesFinder.DISAPPROVE);
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
