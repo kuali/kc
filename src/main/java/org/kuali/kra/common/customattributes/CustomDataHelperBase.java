@@ -16,15 +16,23 @@
 package org.kuali.kra.common.customattributes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -42,8 +50,34 @@ public abstract class CustomDataHelperBase implements Serializable {
     /**
      * Prepare the tab for viewing.
      */
-    public void prepareView() {
-       initializePermissions();
+    public void prepareView(ProtocolDocument protocolDocument) {
+        initializePermissions();
+       
+        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolDocument.getCustomAttributeDocuments();
+        String documentNumber = protocolDocument.getDocumentNumber();
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+            primaryKeys.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+
+            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            if (customAttributeDocValue != null) {
+                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+                getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
+            }
+
+            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+
+            if (customAttributeDocumentList == null) {
+                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+            }
+            customAttributeDocumentList.add(customAttributeDocument);
+        }
+
+        setCustomAttributeGroups(customAttributeGroups);
     }
     
     /**
