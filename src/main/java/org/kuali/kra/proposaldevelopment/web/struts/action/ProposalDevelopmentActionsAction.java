@@ -134,12 +134,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload")) {
-            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
-            ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-            printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
-        }
+        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload"))
+            this.populateSponsorForms(form);
         return actionForward;
     }
 
@@ -920,11 +916,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
+        this.populateSponsorForms(form);
+        return forward;
+    }
+    
+    /**
+     * 
+     * This method is called to populate sponsor forms under Print
+     * @param form
+     * @throws Exception
+     */
+    public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
-        return forward;
     }
     
     /**
