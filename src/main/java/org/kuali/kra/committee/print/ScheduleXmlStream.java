@@ -502,7 +502,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             for (int i = 0; i < size; i++) {
                 CommitteeSchedule schedule = schedules.get(i);
                 if (schedule.getScheduleId().equals(scheduleDetailsBean.getScheduleId())) {
-                    if (nextFlag && i < size) {
+                    if (nextFlag && i < (size -1)) {
                         return schedules.get(i + 1);
                     }
                     else if (!nextFlag && i > 0) {
