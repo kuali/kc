@@ -76,7 +76,7 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         actionBean.setSubmissionTypeCode("");
         boolean result = rule.processModifySubmissionRule(document, actionBean);
         assertFalse(result);
-        assertEquals(3, GlobalVariables.getErrorMap().size());
+        assertEquals(2, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
@@ -85,7 +85,7 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         boolean result = rule.processModifySubmissionRule(document, actionBean);
         assertFalse(result);
-        assertEquals(1, GlobalVariables.getErrorMap().size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
@@ -103,7 +103,7 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
         boolean result = rule.processModifySubmissionRule(document, actionBean);
         assertFalse(result);
-        assertEquals(1, GlobalVariables.getErrorMap().size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
     }
     
     @Test
@@ -122,7 +122,7 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
         boolean result = rule.processModifySubmissionRule(document, actionBean);
         assertFalse(result);
-        assertEquals(1, GlobalVariables.getErrorMap().size());
+        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
     }
 
 }
