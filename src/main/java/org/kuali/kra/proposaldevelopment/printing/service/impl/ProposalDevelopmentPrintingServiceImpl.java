@@ -168,6 +168,10 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		} else {
 			resetSelectedFormList(sponsorFormTemplates);
 		}
+		Set set = new HashSet();
+		set.addAll(sponsorFormTemplates);
+		sponsorFormTemplates.clear();
+		sponsorFormTemplates.addAll(set);
 		Collections.sort(sponsorFormTemplates);
 	}
 
