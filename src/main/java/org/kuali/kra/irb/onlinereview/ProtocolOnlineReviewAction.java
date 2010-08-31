@@ -35,23 +35,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
-import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
-import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
-import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
-import org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalService;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
-import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
-import org.kuali.kra.irb.actions.request.ProtocolRequestService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
-import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.irb.onlinereview.event.RouteProtocolOnlineReviewEvent;
@@ -63,7 +48,6 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -170,6 +154,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                                                           onlineReviewHelper.getNewReviewOrganizationDocumentNumber(),
                                                           null,
                                                           true,
+                                                          onlineReviewHelper.getNewReviewDateRequested(),
+                                                          onlineReviewHelper.getNewReviewDateDue(),
                                                           GlobalVariables.getUserSession().getPrincipalId());
         
         protocolForm.getOnlineReviewsActionHelper().init(true);

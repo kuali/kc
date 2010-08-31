@@ -119,7 +119,7 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         
         for (ProtocolVoteAbstainee abstainee : protocolVoteAbstainees) {
             for (CommitteeMembership membership : committeeMemberships) {
-                if (abstainee.getPersonId().equals(membership.getPersonId())) {
+                if (abstainee.isProtocolReviewerFromCommitteeMembership(membership)) {
                     //this committee person is an abstainee
                     CommitteePerson person = new CommitteePerson();
                     person.setMembershipId(membership.getCommitteeMembershipId());
@@ -139,7 +139,7 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         
         for (ProtocolVoteRecused recusee : protocolVoteRecused) {
             for (CommitteeMembership membership : committeeMemberships) {
-                if (recusee.getPersonId().equals(membership.getPersonId())) {
+                if (recusee.isProtocolReviewerFromCommitteeMembership(membership)) {
                     //this committee person is an recusee
                     CommitteePerson person = new CommitteePerson();
                     person.setMembershipId(membership.getCommitteeMembershipId());
