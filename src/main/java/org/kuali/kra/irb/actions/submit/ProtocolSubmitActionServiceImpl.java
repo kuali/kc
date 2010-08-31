@@ -132,6 +132,13 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         this.protocolAssignReviewersService.assignReviewers(protocol, submitAction.getReviewers());
         
+        /**
+         * the following two lines are associated with KCIRB-905.  I want to committ this small change, but approval for this course
+         * needs to be approved by the SMEs.
+         */
+        //businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
+        //protocol.getProtocolDocument().getPessimisticLocks().clear();
+        
         documentService.saveDocument(protocol.getProtocolDocument());
         
         protocol.refresh();
