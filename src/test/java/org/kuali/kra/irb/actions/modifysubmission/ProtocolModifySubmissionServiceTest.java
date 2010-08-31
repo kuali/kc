@@ -73,12 +73,12 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         
         protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
         
-        Map fieldValue = new HashMap();
+        Map<String, Long> fieldValue = new HashMap<String, Long>();
         fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
         
         ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
         
-        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+        assertEquals(psFromDB.getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
     }
     
     @Test
@@ -95,12 +95,12 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         
         protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
         
-        Map fieldValue = new HashMap();
+        Map<String, Long> fieldValue = new HashMap<String, Long>();
         fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
         
         ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
         
-        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+        assertEquals(psFromDB.getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
     }
     
     @Test
@@ -117,12 +117,12 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         
         protocolModifySubmissionService.modifySubmisison(protocolDocument, actionBean);
         
-        Map fieldValue = new HashMap();
+        Map<String, Long> fieldValue = new HashMap<String, Long>();
         fieldValue.put("SUBMISSION_ID", protocolDocument.getProtocol().getProtocolSubmission().getSubmissionId());
         
         ProtocolSubmission psFromDB = (ProtocolSubmission)businessObjectService.findByPrimaryKey(ProtocolSubmission.class, fieldValue);
         
-        assertEquals(protocolDocument.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
+        assertEquals(psFromDB.getProtocolReviewTypeCode(), actionBean.getProtocolReviewTypeCode());
     }
     
     private ProtocolSubmission createSubmission(Protocol protocol, String statusCode) {
