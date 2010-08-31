@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -37,31 +38,27 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
      */
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
-        if (actionBean.getProtocolReviewTypeCode() == null || "".equals(actionBean.getProtocolReviewTypeCode())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED);
+        String errorParameters = null;
+        if (StringUtils.isBlank(actionBean.getProtocolReviewTypeCode())) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_NOT_SELECTED, errorParameters);
             valid = false;
         } else {
             if (ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(actionBean.getProtocolReviewTypeCode()) 
                     && !verifyExemptChecklist(actionBean)) {
-                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".exemptStudiesCheckList[0].checked", 
-                        KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXEMPT_CHECKBOX_REQ);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".exemptStudiesCheckList[0].checked", 
+                        KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXEMPT_CHECKBOX_REQ, errorParameters);
                 valid = false;
             } else if (ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(actionBean.getProtocolReviewTypeCode()) 
                     && !verifyExpediteChecklist(actionBean)) {
-                GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".expeditedReviewCheckList[0].checked", 
-                        KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXPEDITED_CHECKBOX_REQ);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".expeditedReviewCheckList[0].checked", 
+                        KeyConstants.ERROR_PROTOCOL_SUBMISSION_EXPEDITED_CHECKBOX_REQ, errorParameters);
                 valid = false;
             }
         }
-        if (actionBean.getSubmissionQualifierTypeCode() == null || "".equals(actionBean.getSubmissionQualifierTypeCode())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".submissionQualifierTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_QUALIFIER_NOT_SELECTED);
-            valid = false;
-        }
-        if (actionBean.getSubmissionTypeCode() == null  || "".equals(actionBean.getSubmissionTypeCode())) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".submissionTypeCode", 
-                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED);
+        if (StringUtils.isBlank(actionBean.getSubmissionTypeCode())) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".submissionTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED, errorParameters);
             valid = false;
         }
         return valid;
