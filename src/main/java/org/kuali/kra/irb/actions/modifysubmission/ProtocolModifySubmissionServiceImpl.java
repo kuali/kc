@@ -40,9 +40,9 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
 
     /**
      * 
-     * @see org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService#modifySubmisison(org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
+     * @see org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService#modifySubmisison(org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean)
      */
-    public void modifySubmisison(ProtocolDocument protocolDocument, ProtocolModifySubmissionAction bean) throws Exception {
+    public void modifySubmisison(ProtocolDocument protocolDocument, ProtocolModifySubmissionBean bean) throws Exception {
         ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
         submission.setSubmissionTypeCode(bean.getSubmissionTypeCode());
         submission.setSubmissionTypeQualifierCode(bean.getSubmissionQualifierTypeCode());
@@ -87,7 +87,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
         submission.setProtocolReviewTypeCode(newType.getReviewTypeCode());
     }
     
-    private void proccessExemptStudiesCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionAction bean) {
+    private void proccessExemptStudiesCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
         for (ExemptStudiesCheckListItem beanItem : bean.getExemptStudiesCheckList()) {
             if (beanItem.getChecked()) {
                 ProtocolExemptStudiesCheckListItem newItem = new ProtocolExemptStudiesCheckListItem();
@@ -104,7 +104,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
         }
     }
     
-    private void proccessExpeditedReviewCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionAction bean) {
+    private void proccessExpeditedReviewCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
         for (ExpeditedReviewCheckListItem beanItem : bean.getExpeditedReviewCheckList()) {
             if (beanItem.getChecked()) {
                 ProtocolExpeditedReviewCheckListItem newItem = new ProtocolExpeditedReviewCheckListItem();
