@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.modifysubmission;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.CheckListService;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
@@ -31,21 +30,14 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 /**
  * This class is really just a "form" for editing a protocol submission.
  */
-@SuppressWarnings({ "unchecked", "serial" })
-public class ProtocolModifySubmissionAction implements Serializable {
-
-    private ProtocolSubmission protocolSubmission;
+@SuppressWarnings({ "serial" })
+public class ProtocolModifySubmissionBean implements Serializable {
     
     private String submissionTypeCode = "";
     private String protocolReviewTypeCode = "";
     private String submissionQualifierTypeCode = "";
     private boolean billable;
-    
-    /*
-     * We use a TypedArrayList because we need it to grow.  When JavaScript is enabled,
-     * it will display the list of reviewers.  When the form is submitted, this list
-     * will automatically grow to accommodate all of the reviewers.
-     */
+
     private List<ExpeditedReviewCheckListItem> expeditedReviewCheckList;
     private List<ExemptStudiesCheckListItem> exemptStudiesCheckList;
     
@@ -54,11 +46,10 @@ public class ProtocolModifySubmissionAction implements Serializable {
     
     /**
      * 
-     * Constructs a ProtocolModifySubmissionAction.java.
+     * Constructs a ProtocolModifySubmissionBean.java.
      * @param protocolSubmission
      */
-    public ProtocolModifySubmissionAction(ProtocolSubmission protocolSubmission) {
-        this.protocolSubmission = protocolSubmission;
+    public ProtocolModifySubmissionBean(ProtocolSubmission protocolSubmission) {
         this.submissionTypeCode = protocolSubmission.getProtocolSubmissionType().getSubmissionTypeCode();
         this.submissionQualifierTypeCode = protocolSubmission.getSubmissionTypeQualifierCode();
         this.protocolReviewTypeCode = protocolSubmission.getProtocolReviewTypeCode();
@@ -84,14 +75,10 @@ public class ProtocolModifySubmissionAction implements Serializable {
     }
 
     /**
-     * Prepare the Submit for Review for rendering with JSP.
+     * Prepare the Modify Protocol Submission for rendering with JSP.
+     * Leaving this function in place in case it is needed later.
      */
     public void prepareView() {
-    }
-
-    
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
     }
 
     public String getSubmissionTypeCode() {

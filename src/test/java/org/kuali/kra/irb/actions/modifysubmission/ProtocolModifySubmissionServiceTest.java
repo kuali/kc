@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -28,18 +27,14 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kcb.service.impl.BusinessObjectServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
 
 public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
     
@@ -71,7 +66,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
-        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
+        ProtocolModifySubmissionBean actionBean = new ProtocolModifySubmissionBean(protocolDocument.getProtocol().getProtocolSubmission());
         actionBean.setBillable(true);
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
@@ -93,7 +88,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         submission.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
-        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
+        ProtocolModifySubmissionBean actionBean = new ProtocolModifySubmissionBean(protocolDocument.getProtocol().getProtocolSubmission());
         actionBean.setBillable(true);
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         actionBean.getExemptStudiesCheckList().get(0).setChecked(true);
@@ -115,7 +110,7 @@ public class ProtocolModifySubmissionServiceTest extends KcUnitTestBase {
         submission.setProtocolReviewTypeCode(ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         
-        ProtocolModifySubmissionAction actionBean = new ProtocolModifySubmissionAction(protocolDocument.getProtocol().getProtocolSubmission());
+        ProtocolModifySubmissionBean actionBean = new ProtocolModifySubmissionBean(protocolDocument.getProtocol().getProtocolSubmission());
         actionBean.setBillable(true);
         actionBean.setProtocolReviewTypeCode(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE);
         actionBean.getExemptStudiesCheckList().get(0).setChecked(true);

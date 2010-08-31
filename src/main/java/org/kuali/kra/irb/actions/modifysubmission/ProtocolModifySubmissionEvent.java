@@ -26,7 +26,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  */
 public class ProtocolModifySubmissionEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolModifySubmissionEvent.class);
-    private ProtocolModifySubmissionAction actionBean;
+    private ProtocolModifySubmissionBean actionBean;
     
     /**
      * 
@@ -34,7 +34,7 @@ public class ProtocolModifySubmissionEvent extends KraDocumentEventBase {
      * @param document
      * @param actionBean
      */
-    public ProtocolModifySubmissionEvent(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
+    public ProtocolModifySubmissionEvent(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         super("Modifying Submission " + getDocumentId(document), "", document);
         this.actionBean = actionBean;
         logEvent();
