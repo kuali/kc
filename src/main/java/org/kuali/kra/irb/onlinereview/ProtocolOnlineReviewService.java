@@ -20,8 +20,6 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -97,6 +95,8 @@ public interface ProtocolOnlineReviewService {
             String documentOrganizationDocumentNumber,
             String documentRouteAnnotation,
             boolean approveDocument,
+            java.sql.Date dateRequested,
+            java.sql.Date dateDue,
             String principalId) throws WorkflowException;
     
     /**
@@ -114,7 +114,7 @@ public interface ProtocolOnlineReviewService {
      * @return
      * @throws WorkflowException
      */
-    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, Long committeeMembershipId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, String principalId)
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, Long committeeMembershipId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, java.sql.Date dateRequested, java.sql.Date dateDue, String principalId)
     throws WorkflowException;
     
     

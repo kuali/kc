@@ -193,7 +193,7 @@ public class ProtocolSubmissionBuilder {
      */
     private ProtocolReviewer createProtocolReviewer(String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
         ProtocolReviewer protocolReviewer = new ProtocolReviewer();
-        protocolReviewer.setProtocolId(protocolSubmission.getProtocolId());
+        protocolReviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
         protocolReviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
         protocolReviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
         protocolReviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());

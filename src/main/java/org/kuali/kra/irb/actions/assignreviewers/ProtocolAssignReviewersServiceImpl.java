@@ -23,9 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -108,6 +106,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                                 "",
                                 "Online Review Requested by PI during protocol submission.",
                                 false,
+                                null,
+                                null,
                                 GlobalVariables.getUserSession().getPrincipalId());
                         
                     }

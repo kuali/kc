@@ -367,6 +367,7 @@
 		<!-- <field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />  -->
 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -382,6 +383,9 @@
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.meeting.ProtocolVoteRecused" table="PROTOCOL_VOTE_RECUSED">
@@ -390,6 +394,7 @@
 		<!-- <field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />  -->
 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="nonEmployeeFlag" column="NON_EMPLOYEE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -405,6 +410,10 @@
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="submissionIdFk"/>
 		</reference-descriptor>
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
+
 	</class-descriptor>
 	
 	

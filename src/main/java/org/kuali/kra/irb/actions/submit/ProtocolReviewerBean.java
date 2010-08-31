@@ -108,16 +108,16 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     }
     
     public boolean isProtocolReviewerBeanForReviewer( ProtocolReviewer reviewer ) {
-        boolean result = ( reviewer.getNonEmployeeFlag() && StringUtils.equals(this.getPersonId(), reviewer.getRolodexId().toString() ))
+        boolean result = ( reviewer.getNonEmployeeFlag() && reviewer.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), reviewer.getRolodexId().toString()))
                          ||
-                         ( !reviewer.getNonEmployeeFlag() && StringUtils.equals(reviewer.getPersonId(), this.getPersonId()));
+                         ( !reviewer.getNonEmployeeFlag() && reviewer.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), this.getPersonId()));
         return result;
     }   
     
     public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembership membership ) {
-        boolean result = ( membership.getPersonId()==null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
+        boolean result = ( membership.getPersonId()==null && membership.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
                          ||
-                         ( membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
+                         ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
         return result;
     }   
     
