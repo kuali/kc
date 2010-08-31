@@ -15,9 +15,7 @@
 --%>
 
 
-<%-- KC Modification Start --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%-- KC Modification End --%>
+<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 <%
 //need to change path of the included file 
 %>

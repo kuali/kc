@@ -29,7 +29,7 @@
 	<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
         <script type="text/javascript" src="${ConfigProperties.application.url}/${fn:trim(javascriptFile)}"></script>
 	</c:if>
-</c:forEach>
+</c:forEach> 
 
 <script type="text/javascript" >
 if (top.location != self.location) {
@@ -37,23 +37,11 @@ if (top.location != self.location) {
 }
 </script>
 
-<bean:parameter id="successfulSubmission" name="successfulSubmission" value="false" />
-<bean:parameter id="submissionType" name="submissionType" value="" />
-<bean:parameter id="refId" name="refId" value="" />
-<c:if test="${successfulSubmission}">
-    <script type="text/javascript">
-    window.onload = function() {
-        alert("${submissionType} ${refId} submitted successfully.");
-    }
-    </script>
-</c:if>
-
 </head>
 <body>
-<%-- KC Modification Start --%>
- <div id="header" title="Kuali Research Administration">
-    <h1 class="kra"></h1>Kuali Research Administration
-<%-- KC Modification End --%>
+
+<div id="header" title="<c:out value="${ConfigProperties.portal.title}"/>"> 
+    <h1 class="headerImage"></h1>
   </div>
   <div id="feedback">
   	<a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a>
