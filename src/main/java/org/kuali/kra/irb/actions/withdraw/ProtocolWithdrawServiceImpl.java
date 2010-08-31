@@ -153,10 +153,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         documentService.saveDocument(newProtocolDocument);
 
         //if there is an assign to agenda protocol action, remove it.
-        ProtocolAction assignToAgendaProtoclAction = this.protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
-        if (assignToAgendaProtoclAction != null) {
-            boolean didItWork = newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtoclAction);
-            businessObjectService.delete(assignToAgendaProtoclAction);
+        ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
+        if (assignToAgendaProtocolAction != null) {
+            newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
+            businessObjectService.delete(assignToAgendaProtocolAction);
         }        
         newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newProtocolDocument);
