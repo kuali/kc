@@ -53,6 +53,8 @@
 
 	<param name="portal.css.files">rice-portal/css/portal.css,css/kuali_overrides.css</param>
 	<param name="portal.javascript.files">kr/scripts/my_common.js</param>
+	
+	<param name="portal.title" override="false">Kuali Coeus</param>
 
 	<param name="kr.url">${rice.app.url}/kr</param>
 	<param name="ken.url">${rice.app.url}/ken</param>

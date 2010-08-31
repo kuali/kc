@@ -348,7 +348,7 @@
 		<dependency>
 		    <groupId>ojb</groupId>
 		    <artifactId>db-ojb</artifactId>
-		    <version>1.0.4-patch3</version>
+		    <version>1.0.4-patch4</version>
 		    <exclusions>
 		    	<exclusion>
 		    		<artifactId>xml-apis</artifactId>
@@ -928,6 +928,7 @@
 		          							<directory>src/main/webapp</directory>
 		          							<includes>
 		            							<include>index.jsp</include>
+		            							<include>portal.jsp</include>
 		            							<include>kcb/</include>
 		            							<include>ken/</include>
 		            							<include>kew/</include>
@@ -949,6 +950,7 @@
 		            							<include>WEB-INF/tags/rice-portal/maintenanceTab.tag</include>
 		            							<include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
 		            							<include>WEB-INF/tags/rice-portal/portalLink.tag</include>
+		            							<include>WEB-INF/tags/rice-portal/portalTop.tag</include>
 		          							</includes>
 		          							<excludes>
 												<exclude>**/.svn</exclude>
@@ -1102,7 +1104,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<useFile>false</useFile>
 					<testFailureIgnore>false</testFailureIgnore>
@@ -1183,7 +1185,7 @@
 		<jstl.version>1.1.2</jstl.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3-KC-04</rice.version>
+		<rice.version>1.0.3-KC-05</rice.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
@@ -1215,10 +1217,8 @@
 			WEB-INF/web.xml,
 			
 			acknowledgments.jsp,
-			portal.jsp,
 			WEB-INF/tags/rice-portal/portalBody.tag,
 			WEB-INF/tags/rice-portal/portalTabs.tag,
-			WEB-INF/tags/rice-portal/portalTop.tag,
     	</rice.web.excludes>
 	</properties>
 </project>
