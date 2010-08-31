@@ -210,35 +210,6 @@ public class ProtocolAction extends ProtocolAssociate {
         }
         return status;
     }
-    
-    /** {@inheritDoc} */
-    @Override 
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("protocolActionId", getProtocolActionId());
-        hashMap.put("actionId", this.getActionId());
-        hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
-        hashMap.put("protocolNumber", this.getProtocolNumber());
-        hashMap.put("sequenceNumber", this.getSequenceNumber());
-        hashMap.put("protocolId", getProtocolId());
-        hashMap.put("submissionIdFk", getSubmissionIdFk());
-        hashMap.put("comments", this.getComments());
-        hashMap.put("actualActionDate", this.getActualActionDate());
-        hashMap.put("actionDate", this.getActionDate());
-        hashMap.put("submissionStatus", this.getSubmissionStatusString());
-        return hashMap;
-    }
-    
-    public void resetPersistenceState() {
-        protocolActionId = null;
-        submissionIdFk = null;
-    }
-    
-    public void resetForeignKeys() {
-        if (protocolSubmission != null) {
-            submissionIdFk = protocolSubmission.getSubmissionId();
-        }
-    }
 
     public String getPrevSubmissionStatusCode() {
         return prevSubmissionStatusCode;
@@ -262,6 +233,75 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setPrevProtocolStatusCode(String prevProtocolStatusCode) {
         this.prevProtocolStatusCode = prevProtocolStatusCode;
+    }
+    
+    public void resetPersistenceState() {
+        protocolActionId = null;
+        submissionIdFk = null;
+    }
+    
+    public void resetForeignKeys() {
+        if (protocolSubmission != null) {
+            submissionIdFk = protocolSubmission.getSubmissionId();
+        }
+    }
+    
+    /** {@inheritDoc} */
+    @Override 
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("protocolActionId", getProtocolActionId());
+        hashMap.put("actionId", this.getActionId());
+        hashMap.put("protocolActionTypeCode", getProtocolActionTypeCode());
+        hashMap.put("protocolNumber", this.getProtocolNumber());
+        hashMap.put("sequenceNumber", this.getSequenceNumber());
+        hashMap.put("protocolId", getProtocolId());
+        hashMap.put("submissionIdFk", getSubmissionIdFk());
+        hashMap.put("comments", this.getComments());
+        hashMap.put("actualActionDate", this.getActualActionDate());
+        hashMap.put("actionDate", this.getActionDate());
+        hashMap.put("submissionStatus", this.getSubmissionStatusString());
+        return hashMap;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((protocolActionId == null) ? 0 : protocolActionId.hashCode());
+        result = prime * result + ((protocolActionTypeCode == null) ? 0 : protocolActionTypeCode.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtocolAction other = (ProtocolAction) obj;
+        if (actionId == null) {
+            if (other.actionId != null) {
+                return false;
+            }
+        } else if (!actionId.equals(other.actionId)) {
+            return false;
+        }
+        if (protocolActionTypeCode == null) {
+            if (other.protocolActionTypeCode != null) {
+                return false;
+            }
+        } else if (!protocolActionTypeCode.equals(other.protocolActionTypeCode)) {
+            return false;
+        }
+        return true;
     }
     
 }
