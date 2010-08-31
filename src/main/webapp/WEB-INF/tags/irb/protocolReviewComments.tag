@@ -29,6 +29,7 @@
                                         <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
                                         <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
+                                        <kul:htmlAttributeHeaderCell literalLabel="Final" scope = "col"/>
                                     </tr>
                                     <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
                                         <tr>
@@ -61,6 +62,13 @@
                                                       attributeEntry="${minutesAttributes.privateCommentFlag}"
                                                       readOnly="true" />
                                             </td>
+                                            
+                                            <td style="text-align:center; vertical-align:middle">
+                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].finalFlag" 
+                                                      attributeEntry="${minutesAttributes.finalFlag}"
+                                                      readOnly="true" />
+                                            </td>
+                                            
                                         </tr>
                                     </c:forEach>    
                                 </tbody>
