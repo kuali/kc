@@ -389,7 +389,7 @@ public interface Constants {
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE = "institutionalProposalActions";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE = "medusa";
     
-    public static final String INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE = "SEQ_PROPOSAL_NUMBER";
+    public static final String INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE = "SEQ_PROPOSAL_PROPOSAL_ID";
     
     public static final String COST_SHARE_COMMENT_TYPE_CODE = "9";
     public static final String FANDA_RATE_COMMENT_TYPE_CODE = "8";
