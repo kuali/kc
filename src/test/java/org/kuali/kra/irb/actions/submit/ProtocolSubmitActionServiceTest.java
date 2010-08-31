@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
@@ -214,6 +215,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
                               "",
                               "Online Review Requested by PI during protocol submission.",
                               false,
+                              null,
+                              null,
                               GlobalVariables.getUserSession().getPrincipalId());
                       submitAction.getReviewers().add( reviewer );
                 }
@@ -298,6 +301,16 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         reviewer.setFullName(prncpl.getPrincipalName());
         reviewers.add(reviewer);
         
+        //adding in a rolodex reviewer.
+        reviewer = new ProtocolReviewerBean();
+        Rolodex rolodex = rolodexService.getRolodex(253);
+        reviewer = new ProtocolReviewerBean();
+        reviewer.setNonEmployeeFlag(true);
+        reviewer.setChecked(true);
+        reviewer.setPersonId("253");
+        reviewer.setReviewerTypeCode("1");
+        reviewer.setFullName(rolodex.getFullName());
+        
         return reviewers;
     }
 
@@ -354,10 +367,11 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         return committeeDocument;
     }
 
-    private void addMember(String personId, String personName, String membershipTypeCode, String membershipRoleCode, Committee committee) {
+    private void addMember(String personId, Integer rolodexId, String personName, String membershipTypeCode, String membershipRoleCode, Committee committee) {
         CommitteeMembership member = new CommitteeMembership();
         member.setCommitteeIdFk(committee.getId());
         member.setPersonId(personId);
+        member.setRolodexId(rolodexId);
         member.setPaidMember(true);
         member.setPersonName(personName);
         member.setTermStartDate(new Date(System.currentTimeMillis() - 10000));
@@ -383,7 +397,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     private void addMembers(Committee committee) {
         //make each of the default reviewers a committee member.
         for( ProtocolReviewerBean reviewer : defaultReviewers ) {
-            addMember(reviewer.getPersonId(),reviewer.getFullName(),"1","1",committee);
+            addMember(reviewer.getNonEmployeeFlag()?null:reviewer.getPersonId(), reviewer.getNonEmployeeFlag()?new Integer(Integer.parseInt(reviewer.getPersonId())):null, reviewer.getFullName(),"1","1",committee);
         }
     }
 

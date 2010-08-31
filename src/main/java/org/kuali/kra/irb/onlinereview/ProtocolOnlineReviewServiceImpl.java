@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -81,12 +80,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                                                              String documentOrganizationDocumentNumber,
                                                              String documentRouteAnnotation,
                                                              boolean initialApproval,
+                                                             java.sql.Date dateRequested,
+                                                             java.sql.Date dateDue, 
                                                              String principalId ) throws WorkflowException {
         
         
         
         
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, committeeMembershipId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
+        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, committeeMembershipId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
         if (initialApproval) {
             documentService.approveDocument(reviewDocument, "", new ArrayList<String>());
         }
@@ -99,9 +100,11 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                                                                            String documentDescription,
                                                                            String documentExplanation,
                                                                            String documentOrganizationDocumentNumber,
+                                                                           java.sql.Date dateRequested,
+                                                                           java.sql.Date dateDue,
                                                                            String principalId ) throws WorkflowException {
 
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, committeeMembershipId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
+        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, committeeMembershipId, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
         reviewDocument.getProtocolOnlineReview().refresh();
         return reviewDocument;
     }
@@ -113,6 +116,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                                                                            String documentDescription,
                                                                            String documentExplanation,
                                                                            String documentOrganizationDocumentNumber,
+                                                                           java.sql.Date dateRequested,
+                                                                           java.sql.Date dateDue,
                                                                            String principalId) throws WorkflowException {
         
         if (LOG.isDebugEnabled()) {
@@ -135,7 +140,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         
         
         
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, membership, documentDescription, documentExplanation, documentOrganizationDocumentNumber, principalId);
+        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, membership, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
+        
         
         documentService.routeDocument(reviewDocument, "Review Requested by PI during protocol submission.", new ArrayList<String>());
         
@@ -166,6 +172,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                                                                                 String documentDescription,
                                                                                 String documentExplanation,
                                                                                 String documentOrganizationDocumentNumber,
+                                                                                java.sql.Date dateRequested,
+                                                                                java.sql.Date dateDue,
                                                                                 String principalId ) 
         throws WorkflowException {
         
@@ -188,7 +196,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         protocolReviewDocument.getProtocolOnlineReview().setProtocolSubmission(submission);
         protocolReviewDocument.getProtocolOnlineReview().setSubmissionIdFk(submission.getSubmissionId());
         protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
-        protocolReviewDocument.getProtocolOnlineReview().setDateRequested(new java.sql.Date((new java.util.Date()).getTime()));
+        protocolReviewDocument.getProtocolOnlineReview().setDateRequested(dateRequested == null?new java.sql.Date((new java.util.Date()).getTime()):dateRequested);
+        protocolReviewDocument.getProtocolOnlineReview().setDateDue(dateDue);
+        
         
         ProtocolReviewer reviewer = getOrCreateProtocolReviewerForMembershipProtocolAndSubmission(membership, protocol, submission);
         if (reviewer.getProtocolOnlineReviews().size() > 0) {
@@ -228,7 +238,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         keyMap.put("personId", membership.getPersonId()!=null?membership.getPersonId():membership.getRolodexId().toString());
         //keyMap.put("rolodexId", membership.getRolodexId());
         keyMap.put("nonEmployeeFlag",membership.getPersonId() == null);
-        keyMap.put("protocolId", protocolId);
+        keyMap.put("protocolIdFk", protocolId);
         keyMap.put("submissionIdFk", submissionId);
         ProtocolReviewer result;
         List<ProtocolReviewer> reviewers = (List<ProtocolReviewer>)businessObjectService.findMatching(ProtocolReviewer.class, keyMap);
@@ -239,7 +249,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             result = new ProtocolReviewer();
             result.setPersonId(membership.getPersonId());
             result.setRolodexId(membership.getRolodexId());
-            result.setProtocolId(protocolId);
+            result.setProtocolIdFk(protocolId);
             result.setSubmissionIdFk(submissionId);
             result.setProtocolNumber(protocol.getProtocolNumber());
             result.setProtocol(protocol);

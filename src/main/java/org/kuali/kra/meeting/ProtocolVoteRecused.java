@@ -38,8 +38,6 @@ public class ProtocolVoteRecused extends ProtocolMeetingVoter {
         this.protocolVoteRecusedId = protocolVoteRecusedId;
     }
 
-    
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {

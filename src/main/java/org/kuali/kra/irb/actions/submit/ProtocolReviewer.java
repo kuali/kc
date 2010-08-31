@@ -19,80 +19,32 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolReviewerBase;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 
 @SuppressWarnings("serial")
-public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewer extends ProtocolReviewerBase {
 
     private Long protocolReviewerId;
-    private Long protocolId;
-    private Long submissionIdFk;
     private String protocolNumber;
     private Integer sequenceNumber;
     private Integer submissionNumber;
-
-    private boolean nonEmployeeFlag;
     private String reviewerTypeCode;
-    
-    private Protocol protocol;
-    private ProtocolSubmission protocolSubmission;
     private ProtocolReviewerType protocolReviewerType;
-    
-//    private ProtocolPersonRolodex rolodex;
-//    private Integer rolodexId;
-    
-    private String personId;
-    private Integer rolodexId;
-    private Rolodex rolodex;
-    
-    private transient KcPersonService kcPersonService;
-    private transient KcPerson kcPerson;
-    private transient RolodexService rolodexService;
-    
     
     // transient property for submission detail display
     
     @SkipVersioning
     transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
-
-    public ProtocolReviewer() {
-        
-    }
-
+    
     public Long getProtocolReviewerId() {
         return protocolReviewerId;
     }
 
     public void setProtocolReviewerId(Long protocolReviewerId) {
         this.protocolReviewerId = protocolReviewerId;
-    }
-
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-
-    public Long getSubmissionIdFk() {
-        return submissionIdFk;
-    }
-
-    public void setSubmissionIdFk(Long submissionIdFk) {
-        this.submissionIdFk = submissionIdFk;
     }
 
     public String getProtocolNumber() {
@@ -119,44 +71,12 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
         this.submissionNumber = submissionNumber;
     }
 
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-    
     public void setReviewerTypeCode(String reviewerTypeCode) {
         this.reviewerTypeCode = reviewerTypeCode;
     }
 
     public String getReviewerTypeCode() {
         return reviewerTypeCode;
-    }
-    
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
-    public ProtocolSubmission getProtocolSubmission() {
-        return protocolSubmission;
-    }
-
-    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
-        this.protocolSubmission = protocolSubmission;
     }
 
     public ProtocolReviewerType getProtocolReviewerType() {
@@ -185,111 +105,24 @@ public class ProtocolReviewer extends KraPersistableBusinessObjectBase {
     public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
-
-    /**
-     * Gets the rolodexId attribute. 
-     * @return Returns the rolodexId.
-     */
-    public Integer getRolodexId() {
-        return rolodexId;
-    }
-
-    /**
-     * Sets the rolodexId attribute value.
-     * @param rolodexId The rolodexId to set.
-     */
-    public void setRolodexId(Integer rolodexId) {
-        this.rolodexId = rolodexId;
-    }
-    
-    public Rolodex getRolodex() {
-        return this.rolodex;
-    }
-
-    /**
-     * Sets the rolodex attribute value.
-     * @param rolodex The rolodexId to set.
-     */
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
-
     
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
+        LinkedHashMap map = super.toStringMapper();
         map.put("protocolReviewerId", getProtocolReviewerId());
-        map.put("protocolId", getProtocolId());
-        map.put("submissionIdFk", getSubmissionIdFk());
         map.put("protocolNumber", getProtocolNumber());
         map.put("sequenceNumber", getSequenceNumber());
         map.put("submissionNumber", getSubmissionNumber());
-        map.put("personId", getPersonId());
-        map.put("rolodexId", getRolodexId());
-        map.put("nonEmployeeFlag", getNonEmployeeFlag());
         map.put("reviewerTypeCode", getReviewerTypeCode());
         return map;
     }
-
-    
-    public String getFullName() {
-        if (nonEmployeeFlag) {
-            return getRolodex().getFullName();
-        } else {
-            return getPerson().getFullName();
-        }
-    }
-
     
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(protocolOnlineReviews);
         return managedLists;
-    }
-
-    public KcPerson getPerson() {
-        if (kcPerson == null) {
-            kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
-        }
-        return kcPerson;
-    }
-    
-    
-    protected KcPersonService getKcPersonService() {
-        if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        }
-        
-        return this.kcPersonService;
-    }
-    
-    protected RolodexService getRolodexService() {
-        if (this.rolodexService==null) {
-            this.rolodexService = KraServiceLocator.getService(RolodexService.class);
-        }
-        return this.rolodexService;
-    }
-
-    public boolean isProtocolReviewerFromCommitteeMembership( CommitteeMembership member ) {
-        boolean isMatched = false;
-        if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(),getPersonId())) {
-            isMatched = true;
-        } else if (getNonEmployeeFlag() && ObjectUtils.equals(member.getRolodexId(),getRolodexId()) ){
-            isMatched = true;
-        }
-        return isMatched;
-    }
-    
-    public boolean isPersonIdProtocolReviewer( String personId ) {
-        boolean result = false;
-        if ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId().toString(), personId ))
-            ||
-            ( !getNonEmployeeFlag() && StringUtils.equals( personId, this.personId ) )) {
-            result = true;
-        }
-        return result;
     }
     
 }

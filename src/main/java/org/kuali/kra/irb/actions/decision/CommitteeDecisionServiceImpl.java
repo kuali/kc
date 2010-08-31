@@ -201,10 +201,10 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         }
                         break;
                     }
@@ -215,7 +215,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
                     }
                 }
@@ -234,10 +234,10 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         }
                         break;
                     }
@@ -249,7 +249,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
             for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), submissionIdFk);
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(),submissionIdFk);
                         businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
                     }
                 }
@@ -258,20 +258,22 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
     
-    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Long submissionIdFk) {
+    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         voter.setProtocol(protocol);
         voter.setProtocolIdFk(protocol.getProtocolId());
         voter.setSubmissionIdFk(submissionIdFk);
-        //voter.setScheduleIdFk(scheduleIdFk);
+        voter.setRolodexId( rolodexId );
         voter.setPersonId(personId);
+        voter.setNonEmployeeFlag(personId==null);
         businessObjectService.save(voter);
     }
     
-    private Map<String, String> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Long submissionIdFk) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+    private Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
         //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
         fieldValues.put("PERSON_ID", personId);
+        fieldValues.put("ROLODEX_ID", rolodexId);
         fieldValues.put("SUBMISSION_ID_FK", submissionIdFk.toString());
         return fieldValues;
     }
@@ -321,7 +323,6 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         fieldValues.put("protocolIdFk", protocolId.toString());
         fieldValues.put("submissionIdFk", submissionIdFk.toString());
         return (List<? extends ProtocolMeetingVoter>) businessObjectService.findMatching(clazz, fieldValues);
-
     }
 }
 
