@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolModifySubmissionAction.attributes}" />
+<c:set var="attributes" value="${DataDictionary.ProtocolModifySubmissionBean.attributes}" />
 <c:set var="expeditedAttributes" value="${DataDictionary.ExpeditedReviewCheckListItem.attributes}" />
 <c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
 <%--<c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" /> --%>
@@ -23,7 +23,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canModifyProtocolSubmission}">
 
-<kul:innerTab tabTitle="Modify Submission Request" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolModifySubmissionAction*">
+<kul:innerTab tabTitle="Modify Submission Request" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolModifySubmissionBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
@@ -36,7 +36,7 @@
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.submissionTypeCode" attributeEntry="${attributes.submissionTypeCode}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.submissionTypeCode" attributeEntry="${attributes.submissionTypeCode}" />
                     </td>
                     <th width="20%"> 
                         <div align="right">
@@ -47,9 +47,9 @@
                     </th>
                     <td>
                         <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.protocolReviewTypeCode" 
+                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.protocolReviewTypeCode" 
                                                   attributeEntry="${attributes.protocolReviewTypeCode}" 
-                                                  onchange="updateCheckList('actionHelper.protocolModifySubmissionAction.protocolReviewTypeCode')" />
+                                                  onchange="updateCheckList('actionHelper.protocolModifySubmissionBean.protocolReviewTypeCode')" />
                         </nobr>
                     </td>
                 </tr>
@@ -64,7 +64,7 @@
                             </div>
                 		</th>
                 		<td colspan="3">
-                			<kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.billable" attributeEntry="${attributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}" />
+                			<kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.billable" attributeEntry="${attributes.billable}" disabled="${KualiForm.protocolHelper.billableReadOnly}" />
                 		</td>
                 	</tr>
                 </c:if>
@@ -76,14 +76,14 @@
                         </div>
                     </th>
                     <td colspan="3" width="100%">
-                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.submissionQualifierTypeCode" attributeEntry="${attributes.submissionQualifierTypeCode}" />
+                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.submissionQualifierTypeCode" attributeEntry="${attributes.submissionQualifierTypeCode}" />
                     </td>
                 </tr>
                 
                 
                    
                 <c:choose>
-	                <c:when test="${KualiForm.actionHelper.protocolModifySubmissionAction.protocolReviewTypeCode == '2'}">
+	                <c:when test="${KualiForm.actionHelper.protocolModifySubmissionBean.protocolReviewTypeCode == '2'}">
 	                	<tr id="expeditedReviewCheckList">
 	                </c:when>
 	                <c:otherwise>
@@ -99,15 +99,15 @@
                 	<td colspan="3" style="padding: 0">
                 	   	<table cellpadding="0" cellspacing="0" summary=""> 
 				            <tbody>
-			                	<c:forEach items="${KualiForm.actionHelper.protocolModifySubmissionAction.expeditedReviewCheckList}" var="item" varStatus="status">
+			                	<c:forEach items="${KualiForm.actionHelper.protocolModifySubmissionBean.expeditedReviewCheckList}" var="item" varStatus="status">
 			                		<tr>
                                         <td style="border-left: 0 none; border-right: 1 none; align: center; vertical-align:center">
-	                                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.expeditedReviewCheckList[${status.index}].checked"
+	                                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.expeditedReviewCheckList[${status.index}].checked"
 	                                                                  attributeEntry="${expeditedAttributes.checked}" />
 	                                       
                                         </td>
                                         <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
-                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolModifySubmissionAction.expeditedReviewCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
+                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolModifySubmissionBean.expeditedReviewCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
                                         </td>
                                     </tr>
 								</c:forEach>
@@ -117,7 +117,7 @@
                 </tr>
                 
                  <c:choose>
-	                <c:when test="${KualiForm.actionHelper.protocolModifySubmissionAction.protocolReviewTypeCode == '3'}">
+	                <c:when test="${KualiForm.actionHelper.protocolModifySubmissionBean.protocolReviewTypeCode == '3'}">
 	                	<tr id="exemptStudiesCheckList">
 	                </c:when>
 	                <c:otherwise>
@@ -133,15 +133,15 @@
                 	<td colspan="3" style="padding: 0">
                 	   	<table cellpadding="0" cellspacing="0" summary=""> 
 				            <tbody>
-			                	<c:forEach items="${KualiForm.actionHelper.protocolModifySubmissionAction.exemptStudiesCheckList}" var="item" varStatus="status">
+			                	<c:forEach items="${KualiForm.actionHelper.protocolModifySubmissionBean.exemptStudiesCheckList}" var="item" varStatus="status">
 			                		<tr>
                                         <td style="border-left: 0 none; border-right: 1 none; align: center; vertical-align:center">
-	                                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionAction.exemptStudiesCheckList[${status.index}].checked"
+	                                        <kul:htmlControlAttribute property="actionHelper.protocolModifySubmissionBean.exemptStudiesCheckList[${status.index}].checked"
 	                                                                  attributeEntry="${exemptAttributes.checked}" />
 	                                       
                                         </td>
                                         <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
-                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolModifySubmissionAction.exemptStudiesCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
+                                            <kra:truncateComment textAreaFieldName="actionHelper.protocolModifySubmissionBean.exemptStudiesCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
                                         </td>
                                     </tr>
 								</c:forEach>
@@ -162,7 +162,7 @@
     </div>
     
     <script>
-        updateCheckList('actionHelper.protocolModifySubmissionAction.protocolReviewTypeCode');
+        updateCheckList('actionHelper.protocolModifySubmissionBean.protocolReviewTypeCode');
     </script>
 </kul:innerTab>
 

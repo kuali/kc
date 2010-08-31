@@ -30,5 +30,5 @@ public interface ExecuteProtocolModifySubmissionRule extends BusinessRule {
      * @param actionBean
      * @return
      */
-    boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean);
+    boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean);
 }

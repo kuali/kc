@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -33,7 +31,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
-    ProtocolModifySubmissionAction actionBean;
+    ProtocolModifySubmissionBean actionBean;
     ProtocolSubmissionType type;
     ProtocolModifySubmissionRule rule;
     ProtocolSubmission submission;
@@ -50,7 +48,7 @@ public class ProtocolModifySubmissionRuleTest extends KcUnitTestBase {
         submission.setBillable(true);
         submission.setExemptStudiesCheckList(new ArrayList<ProtocolExemptStudiesCheckListItem>());
         submission.setExpeditedReviewCheckList(new ArrayList<ProtocolExpeditedReviewCheckListItem>());
-        actionBean = new ProtocolModifySubmissionAction(submission);
+        actionBean = new ProtocolModifySubmissionBean(submission);
         rule = new ProtocolModifySubmissionRule();
         document = ProtocolFactory.createProtocolDocument("123");
     }

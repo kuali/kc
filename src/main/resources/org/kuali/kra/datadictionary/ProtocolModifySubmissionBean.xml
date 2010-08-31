@@ -19,31 +19,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		
-	<bean id="ProtocolModifySubmissionAction" parent="ProtocolModifySubmissionAction-parentBean" />
-	<bean id="ProtocolModifySubmissionAction-parentBean" abstract="true" parent="ProtocolSubmitAction-parentBean">
-		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction" />
+	<bean id="ProtocolModifySubmissionBean" parent="ProtocolModifySubmissionBean-parentBean" />
+	<bean id="ProtocolModifySubmissionBean-parentBean" abstract="true" parent="ProtocolSubmitAction-parentBean">
+		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean" />
 		<property name="objectLabel" value="Protocol Modify Submission" />
-		<!-- 
-		<property name="inquiryDefinition" >
-			<ref bean="ProtocolSubmitAction-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition" >
-			<ref bean="ProtocolSubmitAction-lookupDefinition" />
-		</property> 
-		-->
 		<property name="titleAttribute" value="ProtocolSubmitAction-submissionTypeCode" />
 		<property name="attributes" >
 			<list>
 				<ref bean="ProtocolSubmitAction-submissionTypeCode" />
 				<ref bean="ProtocolSubmitAction-protocolReviewTypeCode" />
 				<ref bean="ProtocolSubmitAction-submissionQualifierTypeCode" />
-				<ref bean="ProtocolModifySubmissionAction-isBillable" />
+				<ref bean="ProtocolModifySubmissionBean-isBillable" />
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="ProtocolModifySubmissionAction-isBillable" parent="ProtocolModifySubmissionAction-isBillable-parentBean" />
-	<bean id="ProtocolModifySubmissionAction-isBillable-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+	<bean id="ProtocolModifySubmissionBean-isBillable" parent="ProtocolModifySubmissionBean-isBillable-parentBean" />
+	<bean id="ProtocolModifySubmissionBean-isBillable-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
 		<property name="name" value="billable" />
 		<property name="label" value="Billable" />
 		<property name="shortLabel" value="Is Billable" />

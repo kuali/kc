@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 
 /**
  * 
@@ -31,11 +29,6 @@ public class ModifyProtocolSubmissionAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
         return hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) 
-            && getProtocolActionService().isActionAllowed(ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON, protocol);
+            && canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON);
     }
-    
-    private ProtocolActionService getProtocolActionService() {
-        return KraServiceLocator.getService(ProtocolActionService.class);
-    }
-
 }
