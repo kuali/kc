@@ -58,17 +58,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
          */
         CustomDataAction.copyCustomDataToDocument(form);
 
-        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getDocument());
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getDocument();
-        
-        for (Map.Entry<String, String[]>customAttributeValue: protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
-            String customAttributeId = customAttributeValue.getKey().substring(2);
-            String value = customAttributeValue.getValue()[0];
-            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
-        }
-        
+        ((ProtocolForm)form).getCustomDataHelper().initializePermissions();
         
         return super.execute(mapping, form, request, response);
     }

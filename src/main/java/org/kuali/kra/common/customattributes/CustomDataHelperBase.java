@@ -83,7 +83,7 @@ public abstract class CustomDataHelperBase implements Serializable {
     /**
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
-    private void initializePermissions() {
+    public void initializePermissions() {
         modifyCustomData = canModifyCustomData();
     }
     
