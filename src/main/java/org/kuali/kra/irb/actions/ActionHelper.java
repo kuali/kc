@@ -51,7 +51,7 @@ import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
-import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -168,7 +168,7 @@ public class ActionHelper implements Serializable {
     private UndoLastActionBean undoLastActionBean;
     private CommitteeDecision committeeDecision;
     private IrbAcknowledgementBean irbAcknowledgementBean;
-    private ProtocolModifySubmissionAction protocolModifySubmissionAction;
+    private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
     
     private transient ParameterService parameterService;
@@ -248,7 +248,7 @@ public class ActionHelper implements Serializable {
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
-        protocolModifySubmissionAction = new ProtocolModifySubmissionAction(this.getProtocol().getProtocolSubmission());
+        protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
         protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
     }
     
@@ -863,8 +863,8 @@ public class ActionHelper implements Serializable {
         return committeeDecision;
     }
     
-    public ProtocolModifySubmissionAction getProtocolModifySubmissionAction() {
-        return this.protocolModifySubmissionAction;
+    public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
+        return this.protocolModifySubmissionBean;
     }
 
     public boolean getCanCreateAmendment() {

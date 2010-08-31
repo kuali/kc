@@ -33,9 +33,9 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
     
     /**
      * 
-     * @see org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction)
+     * @see org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule#processModifySubmissionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean)
      */
-    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
+    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
         if (actionBean.getProtocolReviewTypeCode() == null || "".equals(actionBean.getProtocolReviewTypeCode())) {
             GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode", 
@@ -67,7 +67,7 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
         return valid;
     }
     
-    private boolean verifyExemptChecklist(ProtocolModifySubmissionAction actionBean) {
+    private boolean verifyExemptChecklist(ProtocolModifySubmissionBean actionBean) {
         for (ExemptStudiesCheckListItem item : actionBean.getExemptStudiesCheckList()) {
             if (item.getChecked()) {
                 return true;
@@ -75,7 +75,7 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
         }
         return false;        
     }
-    private boolean verifyExpediteChecklist(ProtocolModifySubmissionAction actionBean) {
+    private boolean verifyExpediteChecklist(ProtocolModifySubmissionBean actionBean) {
         for (ExpeditedReviewCheckListItem item : actionBean.getExpeditedReviewCheckList()) {
             if (item.getChecked()) {
                 return true;

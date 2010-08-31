@@ -30,6 +30,6 @@ public interface ProtocolModifySubmissionService {
      * @param bean
      * @throws Exception
      */
-    void modifySubmisison(ProtocolDocument protocolDocument, ProtocolModifySubmissionAction bean) throws Exception;
+    void modifySubmisison(ProtocolDocument protocolDocument, ProtocolModifySubmissionBean bean) throws Exception;
 
 }

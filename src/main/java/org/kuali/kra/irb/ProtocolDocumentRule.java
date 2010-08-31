@@ -48,7 +48,7 @@ import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule;
 import org.kuali.kra.irb.actions.modifysubmission.ExecuteProtocolModifySubmissionRule;
-import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
+import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRule;
 import org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -358,7 +358,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         return new CommitteeDecisionRule().proccessCommitteeDecisionRule(document, actionBean);
     }
     
-    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionAction actionBean) {
+    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
     }
     
