@@ -21,14 +21,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -38,6 +34,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.ProtocolReviewerBase;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -57,7 +54,6 @@ import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionAction;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -68,7 +64,6 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
-import org.kuali.kra.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.service.KcPersonService;
@@ -1130,25 +1125,6 @@ public class ActionHelper implements Serializable {
         this.selectedSubmission = selectedSubmission;
 
     }
-    
-    /*
-     * retrieve reviewer's full name from member data
-     */
-//    private void setupReviewerName() {
-//        if (CollectionUtils.isNotEmpty(selectedSubmission.getProtocolReviewers())) {
-//            List<CommitteeMembership> members = getCommitteeService().getAvailableMembers(selectedSubmission.getCommitteeId(),
-//                    selectedSubmission.getCommitteeSchedule().getScheduleId());
-//            for (CommitteeMembership member : members) {
-//                for (ProtocolReviewer reviewer : selectedSubmission.getProtocolReviewers()) {
-//                    if (isReviewerMatchedMember(member, reviewer)) {
-//                        //reviewer.setFullName(member.getPersonName());
-//                        break;
-//                    }
-//                }
-//
-//            }
-//        }
-//    }    
   
     private CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
@@ -1192,45 +1168,12 @@ public class ActionHelper implements Serializable {
     }
     
     /*
-     * This is to set up the full name of Abstainer & Recused based on matched kcperson or rolodex.
-     */
-    private void setupVoterName() {
-        for (ProtocolVoteAbstainee abstainee : abstainees) {
-            abstainee.setFullName(getVoterName(abstainee));
-        }
-        for (ProtocolVoteRecused recuser : recusers) {
-            recuser.setFullName(getVoterName(recuser));
-        }
-    }
-
-    /*
      * Utility method to check if reviewer matched committee member
      */
-   private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewer reviewer) {
+   private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewerBase reviewer) {
        if( reviewer == null || member == null ) return false;
        return reviewer.isProtocolReviewerFromCommitteeMembership(member);
     }
-    /*
-     * Utility method to get voter name
-     */
-    private String getVoterName(ProtocolMeetingVoter voter) {
-        String voterName = "Person " + voter.getPersonId() + " not found";
-        if (!voter.getNonEmployeeFlag()) {
-            KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(voter.getPersonId());
-            if (kcPerson != null) {
-                voterName = kcPerson.getFullName();
-            }
-        } else {
-            Map primaryKeys = new HashMap();
-            primaryKeys.put("rolodexId", voter.getPersonId());
-            Rolodex rolodex = (Rolodex) getBusinessObjectService().findByPrimaryKey(Rolodex.class, primaryKeys);
-            if (rolodex != null) {
-                voterName = rolodex.getFullName();
-            }
-        }
-        return voterName;
-    }
-
 
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
@@ -1306,7 +1249,6 @@ public class ActionHelper implements Serializable {
                     selectedSubmission.getSubmissionId(), ProtocolVoteAbstainee.class));
             setRecusers((List<ProtocolVoteRecused>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
                     selectedSubmission.getSubmissionId(), ProtocolVoteRecused.class));
-            setupVoterName();
         } else {
             reviewComments = new ArrayList<CommitteeScheduleMinute>();
             abstainees = new ArrayList<ProtocolVoteAbstainee>();

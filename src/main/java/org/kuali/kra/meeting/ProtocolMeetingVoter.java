@@ -21,36 +21,19 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolReviewerBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
  * 
  * This class sets the base data points for an abstainer or a recuser.
  */
-public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectBase {
-    private Long protocolIdFk; 
-    private Long submissionIdFk;
-    private String personId; 
-    private boolean nonEmployeeFlag; 
-    private Integer rolodexId;
-    private Rolodex rolodex;
+public abstract class ProtocolMeetingVoter extends ProtocolReviewerBase {
+    
     private String comments; 
     private Protocol protocol;
     private ProtocolSubmission protocolSubmission;
     
-    private transient KcPerson person;
-    
-    
-    
-    
-    public Long getSubmissionIdFk() {
-        return submissionIdFk;
-    }
-
-    public void setSubmissionIdFk(Long submissionIdFk) {
-        this.submissionIdFk = submissionIdFk;
-    }
-
     public ProtocolSubmission getProtocolSubmission() {
         return protocolSubmission;
     }
@@ -58,26 +41,7 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-
-    // transient for display
-    private String fullName;
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    public boolean getNonEmployeeFlag() {
-        return nonEmployeeFlag;
-    }
-
-    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-        this.nonEmployeeFlag = nonEmployeeFlag;
-    }
-
+  
     public String getComments() {
         return comments;
     }
@@ -94,66 +58,14 @@ public abstract class ProtocolMeetingVoter extends KraPersistableBusinessObjectB
         this.protocol = protocol;
     }
 
-
     /** {@inheritDoc} */
     @Override 
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("protocolIdFk", this.getProtocolIdFk());
         hashMap.put("submissionIdFk", this.getSubmissionIdFk());
-        hashMap.put("personId", this.getPersonId());
-        hashMap.put("nonEmployeeFlag", this.getNonEmployeeFlag());
         hashMap.put("comments", this.getComments());
         return hashMap;
     }
 
-    public Long getProtocolIdFk() {
-        return protocolIdFk;
-    }
-
-    public void setProtocolIdFk(Long protocolIdFk) {
-        this.protocolIdFk = protocolIdFk;
-    }
-    
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    /**
-     * Gets the rolodexId attribute. 
-     * @return Returns the rolodexId.
-     */
-    public Integer getRolodexId() {
-        return rolodexId;
-    }
-
-    /**
-     * Sets the rolodexId attribute value.
-     * @param rolodexId The rolodexId to set.
-     */
-    public void setRolodexId(Integer rolodexId) {
-        this.rolodexId = rolodexId;
-    }
-
-    /**
-     * Gets the rolodex attribute. 
-     * @return Returns the rolodex.
-     */
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    /**
-     * Sets the rolodex attribute value.
-     * @param rolodex The rolodex to set.
-     */
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }    
-
-    
 }
