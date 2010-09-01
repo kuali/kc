@@ -537,6 +537,7 @@ public final class KeyConstants {
     //CommitteeMembership Messages
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED = "error.committee.membership.person.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_PERSON_DUPLICATE = "error.committee.membership.person.duplicate";
+    public static final String ERROR_COMMITTEE_MEMBERHSIP_PERSON_NO_NAME = "error.committee.membership.person.no.name";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_TERM_END_DATE_BEFORE_TERM_START_DATE = "error.committee.membership.termEndDate.before.termStartDate";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_NOT_SPECIFIED = "error.committee.membership.role.not.specified";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_START_DATE_NOT_SPECIFIED = "error.committee.membership.roleStartDate.not.specified";
@@ -547,7 +548,7 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_MISSING = "error.committee.membership.role.missing";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_ROLE_DUPLICATE = "error.committee.membership.role.duplicate";
     public static final String ERROR_COMMITTEE_MEMBERSHIP_EXPERTISE_MISSING = "error.committee.membership.expertise.missing";
-
+    
     
     public static final String SOFT_ERRORS_KEY = "SOFT_ERRORS_KEY";
 
