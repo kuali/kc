@@ -94,6 +94,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.rules.InvestigatorCreditTypeRuleTest.class,
     org.kuali.kra.document.InstituteRateMaintenanceDocumentTest.class,
     org.kuali.kra.infrastructure.RateDecimalFormatterTest.class,
+    org.kuali.kra.committee.bo.CommitteeScheduleTest.class,
     org.kuali.kra.committee.web.CommitteeScheduleWebRuleTest.class,
     org.kuali.kra.committee.bo.ScheduleStatusTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBeanTest.class,
