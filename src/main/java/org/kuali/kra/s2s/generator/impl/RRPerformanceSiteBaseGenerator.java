@@ -26,6 +26,10 @@ public abstract class RRPerformanceSiteBaseGenerator extends S2SBaseFormGenerato
 
     public static final String EMPTY_STRING = "";
     public static final int PERFORMANCE_SITES_ATTACHMENT = 40;
+    protected static final int PERFORMING_ORG_LOCATION_TYPE_CODE = 2;
+    protected static final int OTHER_ORG_LOCATION_TYPE_CODE = 3;
+    protected static final int PERFORMANCE_SITE_LOCATION_TYPE_CODE = 4;
+
 
     /**
      * 
