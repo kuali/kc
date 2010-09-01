@@ -16,6 +16,8 @@
 package org.kuali.kra.committee.rules;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,11 +30,11 @@ import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rules.SoftError;
 
 /**
  * Test the Committee Membership Add Rules
  */
-@Ignore
 public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
     private CommitteeMembershipRule rule;
     
@@ -53,7 +55,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * This is not allowed
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipWithNoId() throws Exception {
         CommitteeMembership newCommitteeMembership = new CommitteeMembership();
         
@@ -66,31 +67,29 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a committee membership with a person id.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipWithPersonId() throws Exception {
         CommitteeMembership newCommitteeMembership = new CommitteeMembership();
         newCommitteeMembership.setPersonId("jtester");
+        newCommitteeMembership.setRolodexId(123);
+        newCommitteeMembership.setPersonName("jtester");
+        boolean result =rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership));
+        assertTrue(result);
         
-        assertTrue(rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership)));
     }
     
-    /**
-     * Test adding a committee membership with a rolodex id.
-     */
     @Test
-    @Ignore
-    public void testAddCommitteeMembershipWithRolodexId() throws Exception {
+    public void testAddCommitteeMembershipWithPersonName() throws Exception {
         CommitteeMembership newCommitteeMembership = new CommitteeMembership();
-        newCommitteeMembership.setRolodexId(1746);
-       
-        assertTrue(rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership)));
+        newCommitteeMembership.setPersonId("jtester");
+        newCommitteeMembership.setRolodexId(123);        
+        assertFalse(rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership)));
+        assertError("committeeHelper.newCommitteeMembership.personName", KeyConstants.ERROR_COMMITTEE_MEMBERHSIP_PERSON_NO_NAME);
     }
     
     /**
      * Test adding a role without a missing role type.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithoutRole() throws Exception {
         CommitteeMembershipRole newCommitteeMembershipRole = new CommitteeMembershipRole();
         newCommitteeMembershipRole.setStartDate(Date.valueOf("2009-01-01"));
@@ -107,7 +106,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a role without a start date.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithoutStartDate() throws Exception {
         CommitteeMembershipRole newCommitteeMembershipRole = new CommitteeMembershipRole();
         newCommitteeMembershipRole.setMembershipRoleCode("1");
@@ -124,7 +122,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a role without a end date.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithoutEndDate() throws Exception {
         CommitteeMembershipRole newCommitteeMembershipRole = new CommitteeMembershipRole();
         newCommitteeMembershipRole.setMembershipRoleCode("1");
@@ -141,7 +138,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a role where the end date is before the start date.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithEndDateBeforeStartDate() throws Exception {
         CommitteeMembershipRole newCommitteeMembershipRole = new CommitteeMembershipRole();
         newCommitteeMembershipRole.setMembershipRoleCode("1");
@@ -159,7 +155,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a role where the start date is outside of the term of the committee membership.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithStartDateOutsideTerm() throws Exception {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setTermStartDate(Date.valueOf("2009-01-10"));
@@ -181,7 +176,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Test adding a role where the start date is outside of the term of the committee membership.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithEndDateOutsideTerm() throws Exception {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setTermStartDate(Date.valueOf("2009-01-10"));
@@ -204,7 +198,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * that has the same role type.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWhichOverlapsAnotherRole() throws Exception {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         CommitteeMembershipRole newCommitteeMembershipRole = new CommitteeMembershipRole();
@@ -228,7 +221,6 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
      * Overlapping dates.  The other of a different role type but with overlapping dates.
      */
     @Test
-    @Ignore
     public void testAddCommitteeMembershipRoleWithNoErrors() throws Exception {
         CommitteeMembership committeeMembership = new CommitteeMembership();
         committeeMembership.setTermStartDate(Date.valueOf("2009-01-01"));
