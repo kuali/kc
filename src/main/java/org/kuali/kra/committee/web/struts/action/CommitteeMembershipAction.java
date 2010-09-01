@@ -91,7 +91,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeMembership newCommitteeMembership = committeeForm.getCommitteeHelper().getNewCommitteeMembership();
-        
+        System.err.println("******************** GOT HERE ***************");
         // check any business rules
         boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
         if (rulePassed) {
