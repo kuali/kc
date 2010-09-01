@@ -934,7 +934,7 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 					.getEquipmentList()) {
 				EquipmentList equipmentList = EquipmentList.Factory
 						.newInstance();
-				equipmentList.setEquipmentItem(costInfo.getCategory());
+				equipmentList.setEquipmentItem(costInfo.getDescription());
 				if (costInfo.getCost() != null) {
 					equipmentList.setFundsRequested(costInfo.getCost()
 							.bigDecimalValue());
