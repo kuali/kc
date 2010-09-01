@@ -1071,7 +1071,7 @@ public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerat
                 totalFund.setTotalFedNonFedSummary(BigDecimal.ZERO);
                 for (CostInfo costInfo : periodInfo.getEquipment().get(0).getEquipmentList()) {
                     EquipmentList equipmentList = EquipmentList.Factory.newInstance();
-                    equipmentList.setEquipmentItem(costInfo.getCategory());
+                    equipmentList.setEquipmentItem(costInfo.getDescription());
 
                     TotalDataType fundsRequested = TotalDataType.Factory.newInstance();
                     fundsRequested.setFederal(costInfo.getCost().bigDecimalValue());
