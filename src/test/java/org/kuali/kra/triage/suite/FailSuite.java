@@ -80,7 +80,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.printing.xmlstream.CurrentProposalXmlStreamTest.class,
     org.kuali.kra.printing.xmlstream.PendingProposalXmlStreamTest.class,
     org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceTest.class,
-    org.kuali.kra.committee.bo.CommitteeScheduleTest.class,
     org.kuali.kra.infrastructure.KraHierarchyProviderWithMetaRuleTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalContactsProjectPersonnelWebTest.class,
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalCostShareWebTest.class,
