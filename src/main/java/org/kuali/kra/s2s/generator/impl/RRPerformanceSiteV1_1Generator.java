@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV11.RRPerformanceSiteDocument.RRPerformanceSite;
 import gov.grants.apply.forms.rrPerformanceSiteV11.SiteLocationDataType;
@@ -26,6 +27,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -53,33 +55,40 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         RRPerformanceSiteDocument rrPerformanceSiteDocument = RRPerformanceSiteDocument.Factory.newInstance();
         RRPerformanceSite rrPerformanceSite = RRPerformanceSite.Factory.newInstance();
         rrPerformanceSite.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        SiteLocationDataType siteLocation = SiteLocationDataType.Factory.newInstance();
-        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
-        }
+        
+        
+        List<ProposalSite> propsoalSites = pdDoc.getDevelopmentProposal().getProposalSites();
+        SiteLocationDataType siteLocation = null;
+        Organization organization = null;
         Rolodex rolodex = null;
-        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            rolodex = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
-        }
-        siteLocation.setAddress(globLibV20Generator.getAddressDataType(rolodex));
-        rrPerformanceSite.setPrimarySite(siteLocation);
-        int otherSiteCount = 0;
-        List<SiteLocationDataType> siteLocationDataTypeArray = new ArrayList<SiteLocationDataType>();
-        for (ProposalSite proposalSite: getProposalSitesFromProposal(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE)) {
-            SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
-            Rolodex rolodex2 = proposalSite.getRolodex();
-            if (rolodex2 != null) {
-                siteLocationOther.setOrganizationName(rolodex2.getOrganization());
-                siteLocationOther.setAddress(globLibV20Generator.getAddressDataType(rolodex2));
-                siteLocationDataTypeArray.add(siteLocationOther);
-                otherSiteCount++;
-                LOG.info("otherSiteCount:" + otherSiteCount);
+        
+        for (ProposalSite proposalSite : propsoalSites) {
+            switch(proposalSite.getLocationTypeCode()){
+                case(PERFORMING_ORG_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewPrimarySite();
+                    organization = proposalSite.getOrganization();
+                    if(organization!=null){
+                        rolodex = organization.getRolodex();
+                    }
+                    break;
+                case(OTHER_ORG_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewOtherSite();
+                    organization = proposalSite.getOrganization();
+                    if(organization!=null){
+                        rolodex = organization.getRolodex();
+                    }
+                    break;
+                case(PERFORMANCE_SITE_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewOtherSite();
+                    rolodex = proposalSite.getRolodex();
+                    break;
+            }
+            if(siteLocation!=null){
+                siteLocation.setAddress(globLibV20Generator.getAddressDataType(rolodex));
+                siteLocation.setOrganizationName(proposalSite.getLocationName());
             }
         }
-        if(!siteLocationDataTypeArray.isEmpty()){
-            rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray.toArray(new SiteLocationDataType[]{}));
-        }
-
+        
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
@@ -94,19 +103,6 @@ public class RRPerformanceSiteV1_1Generator extends RRPerformanceSiteBaseGenerat
         return rrPerformanceSiteDocument;
     }
 
-    /**
-     * This method...
-     * @return
-     */
-    private List<ProposalSite> getProposalSitesFromProposal(int locationTypeCode) {
-    	List<ProposalSite> proposalSiteList=new ArrayList<ProposalSite>();
-    	for(ProposalSite proposalSite:pdDoc.getDevelopmentProposal().getProposalSites()){
-    		if(proposalSite.getLocationTypeCode()== locationTypeCode){
-    			proposalSiteList.add(proposalSite);
-    		}
-    	}
-        return proposalSiteList;
-    }
 
     /**
      * This method creates {@link XmlObject} of type {@link RRPerformanceSiteDocument} by populating data from the given

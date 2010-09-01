@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.util.List;
+
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument;
 import gov.grants.apply.forms.rrPerformanceSiteV10.RRPerformanceSiteDocument.RRPerformanceSite;
 import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType;
@@ -22,9 +24,8 @@ import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -39,8 +40,6 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerator {
 
-    private static final Log LOG = LogFactory.getLog(RRPerformanceSiteV1_0Generator.class);
-
     /**
      * 
      * This method gets RRPerformanceSite informations like OrganizationName,Address,PerformanceSite Attachment based on the
@@ -50,15 +49,56 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
      */
     private RRPerformanceSiteDocument getRRPerformanceSite() {
         RRPerformanceSiteDocument rrPerformanceSiteDocument = RRPerformanceSiteDocument.Factory.newInstance();
-        RRPerformanceSite rrPerformanceSite = RRPerformanceSite.Factory.newInstance();
+        RRPerformanceSite rrPerformanceSite = rrPerformanceSiteDocument.addNewRRPerformanceSite();
         rrPerformanceSite.setFormVersion(S2SConstants.FORMVERSION_1_0);
-        SiteLocationDataType siteLocation = SiteLocationDataType.Factory.newInstance();
-        Address address = Address.Factory.newInstance();
-
-        if (pdDoc.getDevelopmentProposal().getPerformingOrganization() != null) {
-            siteLocation.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
+        
+        List<ProposalSite> propsoalSites = pdDoc.getDevelopmentProposal().getProposalSites();
+        SiteLocationDataType siteLocation = null;
+        Organization organization = null;
+        Rolodex rolodex = null;
+        
+        for (ProposalSite proposalSite : propsoalSites) {
+            switch(proposalSite.getLocationTypeCode()){
+                case(PERFORMING_ORG_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewPrimarySite();
+                    organization = proposalSite.getOrganization();
+                    rolodex = organization.getRolodex();
+                    break;
+                case(OTHER_ORG_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewOtherSite();
+                    organization = proposalSite.getOrganization();
+                    rolodex = organization.getRolodex();
+                    break;
+                case(PERFORMANCE_SITE_LOCATION_TYPE_CODE):
+                    siteLocation = rrPerformanceSite.addNewOtherSite();
+                    rolodex = proposalSite.getRolodex();
+                    break;
+            }
+            if(siteLocation!=null){
+                Address addressType = siteLocation.addNewAddress();
+                setAddress(addressType,rolodex);
+                siteLocation.setOrganizationName(proposalSite.getLocationName());
+            }
         }
-        Rolodex rolodex = pdDoc.getDevelopmentProposal().getPerformingOrganization().getRolodex();
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null
+                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
+            	AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
+            	if(attachedFileDataType != null){
+            		rrPerformanceSite.setAttachedFile(attachedFileDataType);
+            		break;
+            	}
+            }
+        }
+        return rrPerformanceSiteDocument;
+    }
+
+    /**
+     * This method is to set the rolodex details to AddressType
+     * @param address
+     * @param rolodex
+     */
+    private void setAddress(Address address, Rolodex rolodex) {
         if (rolodex != null) {
             address.setStreet1(rolodex.getAddressLine1());
             address.setStreet2(rolodex.getAddressLine2());
@@ -70,65 +110,10 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
                 CountryCodeType.Enum country = CountryCodeType.Enum.forString(rolodex.getCountryCode());
                 address.setCountry(country);
             }
-        }
-        else {
-            // Set default values for mandatory fields
+        }else {
             address.setStreet1("");
             address.setCity("");
         }
-        siteLocation.setAddress(address);
-        rrPerformanceSite.setPrimarySite(siteLocation);
-
-        int otherSiteCount = 0;
-        SiteLocationDataType[] siteLocationDataTypeArray = null;
-        if (pdDoc.getDevelopmentProposal().getOtherOrganizations() != null) {
-            siteLocationDataTypeArray = new SiteLocationDataType[pdDoc.getDevelopmentProposal().getOtherOrganizations().size()];
-            SiteLocationDataType siteLocationOther = SiteLocationDataType.Factory.newInstance();
-            for (ProposalSite proposalSite : pdDoc.getDevelopmentProposal().getOtherOrganizations()) {
-                Address addressOther = Address.Factory.newInstance();
-                if (proposalSite.getRolodex() != null) {
-                    rolodex = proposalSite.getRolodex();
-                    siteLocationOther.setOrganizationName(rolodex.getOrganization());
-                    addressOther.setStreet1(rolodex.getAddressLine1());
-                    if (rolodex.getAddressLine2() != null) {
-                        addressOther.setStreet2(rolodex.getAddressLine2());
-                    }
-                    addressOther.setCity(checkNull(rolodex.getCity()));
-                    if (rolodex.getCounty() != null) {
-                        addressOther.setCounty(rolodex.getCounty());
-                    }
-                    if (rolodex.getState() != null) {
-                        addressOther.setState(rolodex.getState());
-                    }
-                    if (rolodex.getPostalCode() != null) {
-                        addressOther.setZipCode(rolodex.getPostalCode());
-                    }
-                    if (rolodex.getCountryCode() != null) {
-                        CountryCodeType.Enum countryOther = CountryCodeType.Enum.forString(rolodex.getCountryCode());
-                        addressOther.setCountry(countryOther);
-                    }
-                    siteLocationOther.setAddress(addressOther);
-                    siteLocationOther.setOrganizationName(pdDoc.getDevelopmentProposal().getPerformingOrganization().getLocationName());
-                    siteLocationDataTypeArray[otherSiteCount] = siteLocationOther;
-                    otherSiteCount++;
-                    LOG.info("otherSiteCount:" + otherSiteCount);
-                }
-            }
-        }
-        rrPerformanceSite.setOtherSiteArray(siteLocationDataTypeArray);
-
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == PERFORMANCE_SITES_ATTACHMENT) {
-            	AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-            	if(attachedFileDataType != null){
-            		rrPerformanceSite.setAttachedFile(attachedFileDataType);
-            		break;
-            	}
-            }
-        }
-        rrPerformanceSiteDocument.setRRPerformanceSite(rrPerformanceSite);
-        return rrPerformanceSiteDocument;
     }
 
     /**
