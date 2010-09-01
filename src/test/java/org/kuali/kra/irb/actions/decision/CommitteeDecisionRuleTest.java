@@ -37,22 +37,58 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule0() throws Exception {
+    public void testProcessCommitteeDecisionRule0() throws Exception {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.getReviewComments().setProtocolId(document.getProtocol().getProtocolId());
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule1() throws Exception {
+    public void testProcessCommitteeDecisionRule1() throws Exception {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //more no votes than yes votes .... valid disapprove
-        CommitteeDecision decision = buildValidCommitteeDecision();
-        decision.getReviewComments().setProtocolId(document.getProtocol().getProtocolId());
         decision.setNoCount(5);
         decision.setMotion(MotionValuesFinder.DISAPPROVE);
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
+    }
+    
+    @Test
+    public void testProcessCommitteeDecisionRule2() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
+        //comment included ... valid SMR
+        decision.setMotion(MotionValuesFinder.SMR);
+        decision.getReviewComments().getComments().add(getBasicReviewComment());
+        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
+    }
+    
+    @Test
+    public void testProcessCommitteeDecisionRule3() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
+        //comment included ... valid SRR
+        decision.setMotion(MotionValuesFinder.SRR);
+        decision.getReviewComments().getComments().add(getBasicReviewComment());
+        assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
+    }
+    
+    @Test
+    public void testProcessCommitteeDecisionRule4() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
+        //no comment included ... invalid SMR
+        decision.setMotion(MotionValuesFinder.SMR);
+        assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
+    }
+    
+    @Test
+    public void testProcessCommitteeDecisionRule5() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
+        //no comment included ... invalid SRR
+        decision.setMotion(MotionValuesFinder.SRR);
+        assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
     /**
