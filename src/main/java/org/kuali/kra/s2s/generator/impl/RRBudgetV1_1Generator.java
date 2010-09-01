@@ -780,12 +780,10 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 			BudgetDecimal totalFund = BudgetDecimal.ZERO;
 			for (CostInfo costInfo : periodInfo.getEquipment().get(0)
 					.getEquipmentList()) {
-				EquipmentList equipmentList = EquipmentList.Factory
-						.newInstance();
-				equipmentList.setEquipmentItem(costInfo.getCategory());
+				EquipmentList equipmentList = EquipmentList.Factory.newInstance();
+				equipmentList.setEquipmentItem(costInfo.getDescription());
 				if (costInfo.getCost() != null) {
-					equipmentList.setFundsRequested(costInfo.getCost()
-							.bigDecimalValue());
+					equipmentList.setFundsRequested(costInfo.getCost().bigDecimalValue());
 				}
 				totalFund = totalFund.add(costInfo.getCost());
 				equipmentArrayList.add(equipmentList);
