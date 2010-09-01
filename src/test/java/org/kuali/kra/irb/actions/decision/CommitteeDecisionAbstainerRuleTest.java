@@ -16,11 +16,11 @@
 package org.kuali.kra.irb.actions.decision;
 
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.test.ProtocolFactory;
 
 public class CommitteeDecisionAbstainerRuleTest extends CommitteeDecisionRuleBase {
     
@@ -37,35 +37,39 @@ public class CommitteeDecisionAbstainerRuleTest extends CommitteeDecisionRuleBas
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule1() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
+    public void testProccessCommitteeDecisionRule1() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //add a new abstainer
         decision.setNewAbstainer(getBasicPerson());
-        assertTrue(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
+        assertTrue(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule2() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
+    public void testProccessCommitteeDecisionRule2() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //add a new abstainer that is already in the abstainer list
         decision.setNewAbstainer(getBasicAbstainer());
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule3() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
+    public void testProccessCommitteeDecisionRule3() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //add a new abstainer that is already in the recused list
         decision.setNewAbstainer(getBasicRescuser());
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
     }
     
     @Test
-    public void testProccessCommitteeDecisionRule4() {
-        CommitteeDecision decision = buildValidCommitteeDecision();
+    public void testProccessCommitteeDecisionRule4() throws Exception {
+        ProtocolDocument document = ProtocolFactory.createProtocolDocument();
+        CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //add a new abstainer that is not a valid person
         CommitteePerson person = new CommitteePerson();
         decision.setNewAbstainer(person);
-        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(null, decision));
+        assertFalse(rule.proccessCommitteeDecisionAbstainerRule(document, decision));
     }
 }

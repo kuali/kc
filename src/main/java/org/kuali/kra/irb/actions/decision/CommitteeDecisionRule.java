@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.util.Set;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.Constants;
@@ -25,13 +24,18 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
  * This class runs the rules needed for committee decision recording.
  */
 public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule {
+    
+    private static final String DOT = ".";
+    private static final String MOTION_FIELD = "motion";
+    private static final String YES_COUNT_FIELD = "yesCount";
+    private static final String NO_COUNT_FIELD = "noCount";
+    
     private CommitteeScheduleAttendanceService attendanceService;
     
     protected final CommitteeScheduleAttendanceService getAttendanceService() {
@@ -50,55 +54,67 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     }
 
     /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, 
+     *                                                                                                    org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
     public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
-        ProtocolSubmission submission = document.getProtocol().getProtocolSubmission();
-        boolean motionResults = proccessMotion(submission, committeeDecision);
-        return motionResults;
+        boolean isValid = true;
+
+        isValid &= processMotion(committeeDecision);
+        isValid &= processCounts(document.getProtocol().getProtocolSubmission(), committeeDecision);
+        
+        return isValid;
     }
     
-    private boolean proccessMotion(ProtocolSubmission submission, CommitteeDecision committeeDecision) {
+    private boolean processMotion(CommitteeDecision committeeDecision) {
         boolean retVal = true;
-        String motionToCompareFrom = committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim();
-        if (StringUtils.isBlank(motionToCompareFrom)) { 
-            retVal = false;
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".motion", 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
-        }
         
-        boolean proccessCountsValue = proccessCounts(submission, committeeDecision);
-        retVal = retVal && proccessCountsValue;
+        String motionToCompareFrom = getMotionToCompareFrom(committeeDecision);
+        
+        if (StringUtils.isBlank(motionToCompareFrom)) { 
+            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
+            retVal = false;
+        } else {
+            if ((MotionValuesFinder.SMR.equals(motionToCompareFrom) || MotionValuesFinder.SRR.equals(motionToCompareFrom)) 
+                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getComments())) {
+                reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
+                            KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
+                retVal = false;
+            }
+        }
         
         return retVal;
     }
     
-    private int getTotalVoteCount(CommitteeDecision committeeDecision) {
-        return committeeDecision != null? committeeDecision.getYesCount() + committeeDecision.getNoCount() + committeeDecision.getAbstainCount() + committeeDecision.getRecusedCount() : 0;
-    }
-    
-    private boolean proccessCounts(ProtocolSubmission submission, CommitteeDecision committeeDecision) {
+    private boolean processCounts(ProtocolSubmission submission, CommitteeDecision committeeDecision) {
         boolean retVal = true;
-        String motionToCompareFrom = committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim();
         
-        int membersPresent = getAttendanceService().getActualVotingMembersCount((submission.getCommittee() != null ? submission.getCommittee().getCommitteeId() : null), submission.getScheduleId());
+        String motionToCompareFrom = getMotionToCompareFrom(committeeDecision);
+        String committeeId = submission.getCommittee() != null ? submission.getCommittee().getCommitteeId() : null;
+        String scheduleId = submission.getScheduleId();
+        int membersPresent = getAttendanceService().getActualVotingMembersCount(committeeId, scheduleId);
         
-        if( (membersPresent < committeeDecision.getTotalVoteCount()) ){
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY, 
+        if (membersPresent < committeeDecision.getTotalVoteCount()) {
+            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
             retVal = false;
         }
         if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom) && committeeDecision.getYesCount() == null) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".yesCount", 
+            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + YES_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
             retVal = false;
         }
-       if(MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom) && committeeDecision.getNoCount() == null) {
-            GlobalVariables.getErrorMap().putError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + ".noCount", 
+        if (MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom) && committeeDecision.getNoCount() == null) {
+            reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + NO_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
             retVal = false;
         }
         return retVal;
     }
+    
+    private String getMotionToCompareFrom(CommitteeDecision committeeDecision) {
+        return committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim();
+    }
+    
 }
