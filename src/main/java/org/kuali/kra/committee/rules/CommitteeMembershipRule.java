@@ -59,6 +59,10 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
             isValid = false;
             reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERSHIP_PERSON_NOT_SPECIFIED);
         } 
+        if (StringUtils.isBlank(committeeMembership.getPersonName()) && isValid) {
+            isValid = false;
+            reportError(PROPERTY_NAME_PERSON_NAME, KeyConstants.ERROR_COMMITTEE_MEMBERHSIP_PERSON_NO_NAME);
+        }
         
         return isValid;
     }
