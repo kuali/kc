@@ -34,16 +34,14 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     
     private static final int ATTRIBUTE_COUNT = 14;
     
-    private static final Date date = new Date(new java.util.Date().getTime()); 
-    
+    private static final Date date = new Date(new java.util.Date().getTime());
+    private static final Timestamp timestamp = new Timestamp(new java.util.Date().getTime());
+        
     private static final String FIELD_ID = "id";
     private static final Long FIELD_ID_VALUE = 1L; 
 
     private static final String FIELD_SCHEDULEID = "scheduleId"; 
     private static final String FIELD_SCHEDULEID_VALUE = "1"; 
-
-    private static final String FIELD_COMMITTEEID = "committeeId";
-    private static final Long FIELD_COMMITTEEID_VALUE = 1L;
 
     private static final String FIELD_SCHEDULEDDATE = "scheduledDate";
     private static final Date FIELD_SCHEDULEDDATE_VALUE = date; 
@@ -64,10 +62,10 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     private static final Date FIELD_MEETINGDATE_VALUE = date;  
 
     private static final String FIELD_STARTTIME = "startTime";
-    private static final Date FIELD_STARTTIME_VALUE = date; 
+    private static final Timestamp FIELD_STARTTIME_VALUE = timestamp; 
     
     private static final String FIELD_ENDTIME = "endTime";
-    private static final Date FIELD_ENDTIME_VALUE = date; 
+    private static final Timestamp FIELD_ENDTIME_VALUE = timestamp; 
 
     private static final String FIELD_AGENDAPRODREVDATE = "agendaProdRevDate";
     private static final Date FIELD_AGENDAPRODREVDATE_VALUE = date;
@@ -99,7 +97,6 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(FIELD_ID, FIELD_ID_VALUE);
         map.put(FIELD_SCHEDULEID, FIELD_SCHEDULEID_VALUE);
-        map.put(FIELD_COMMITTEEID, FIELD_COMMITTEEID_VALUE);
         map.put(FIELD_SCHEDULEDDATE, FIELD_SCHEDULEDDATE_VALUE);
         map.put(FIELD_PLACE, FIELD_PLACE_VALUE);
         map.put(FIELD_TIME, FIELD_TIME_VALUE);
@@ -129,8 +126,9 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
     @Override
     protected void boPrerequisite(){
         super.boPrerequisite();
+        java.util.Date dt = new java.util.Date(0);
         Time12HrFmt time12HrFmt = new Time12HrFmt("10:30",MERIDIEM.AM);
-        java.util.Date dt = DateUtils.round(date, Calendar.DAY_OF_MONTH);
+        dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
         dt = DateUtils.addMinutes(dt, time12HrFmt.findMinutes());
         FIELD_TIME_VALUE = new java.sql.Timestamp(dt.getTime());
     }
