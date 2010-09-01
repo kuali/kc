@@ -19,20 +19,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
     private CommitteeDecision committeeDecision;
-    protected CommitteeDecision buildValidCommitteeDecision() {
+    protected CommitteeDecision buildValidCommitteeDecision(Protocol protocol) {
         committeeDecision = new CommitteeDecision(null);
         //committeeDecision.setAbstainCount(new Integer(0));
         committeeDecision.setMotion(MotionValuesFinder.APPROVE);
         committeeDecision.setNoCount(new Integer(0));
-        //committeeDecision.setProtocolId(protocol.getProtocolId());
         committeeDecision.setVotingComments("just some dumb comments");
         committeeDecision.setYesCount(new Integer(2));
         committeeDecision.getAbstainers().add(getBasicAbstainer());
         committeeDecision.getRecused().add(getBasicRescuser());
+        committeeDecision.getReviewComments().setProtocolId(protocol.getProtocolId());
         return committeeDecision;
     }
     
@@ -52,6 +55,13 @@ public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
         CommitteePerson person = new CommitteePerson();
         person.setMembershipId(new Long(3));
         return person;
+    }
+    
+    protected CommitteeScheduleMinute getBasicReviewComment() {
+        CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
+        committeeScheduleMinute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        committeeScheduleMinute.setMinuteEntry("More dumb comments");
+        return committeeScheduleMinute;
     }
     
     public class MockCommitteeScheduleAttendanceService implements CommitteeScheduleAttendanceService {
