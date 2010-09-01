@@ -191,7 +191,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             boolean isNonEmployee = protocolReviewer.getNonEmployeeFlag();
             if (isNonEmployee) {
                 ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
-                        protocolReviewer.getPersonId());
+                        protocolReviewer.getRolodexId());
                 getIrbPrintXmlUtilService().setPersonXml(rolodex, personType);
 
             }
