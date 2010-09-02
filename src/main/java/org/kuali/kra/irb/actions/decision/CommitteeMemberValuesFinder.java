@@ -49,7 +49,9 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
                 if (committee != null) {
                     List<CommitteeMembership> members = committee.getCommitteeMemberships();
                     for (CommitteeMembership member : members) {
-                        keyValues.add(new KeyLabelPair(member.getCommitteeMembershipId().toString(), member.getPersonName()));
+                        if (member.isActive()) {
+                            keyValues.add(new KeyLabelPair(member.getCommitteeMembershipId().toString(), member.getPersonName()));
+                        }
                     }
                 }
             }
