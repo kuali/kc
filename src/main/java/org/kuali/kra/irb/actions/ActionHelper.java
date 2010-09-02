@@ -1144,11 +1144,13 @@ public class ActionHelper implements Serializable {
         if (selectedSubmission != null && CollectionUtils.isNotEmpty(selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes())) {
             for (CommitteeScheduleMinute minute : selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes()) {
                 String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
-                String protocolNumber = minute.getProtocol().getProtocolNumber();
-                if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && selectedSubmission.getProtocol().getProtocolNumber().equals(protocolNumber)) {
-                    reviewComments.add(minute);
+                if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && minute.getProtocol() != null) {
+                    //Other Minute Type entries won't be associated with a Protocol
+                    String protocolNumber = minute.getProtocol().getProtocolNumber();
+                    if(selectedSubmission.getProtocol().getProtocolNumber().equals(protocolNumber)) {
+                        reviewComments.add(minute);
+                    }
                 }
-
             }
         }
     }
