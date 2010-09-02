@@ -20,6 +20,7 @@
       <list>
         <ref bean="ActivityType-activityTypeCode" />
         <ref bean="ActivityType-description" />
+        <ref bean="ActivityType-higherEducationFunctionCode" />
         <ref bean="ActivityType-versionNumber" />
       </list>
     </property>
@@ -46,15 +47,32 @@
     <property name="summary" value="Activity Type" />
     <property name="description" value="Activity Type" />
   </bean>
-  <bean id="ActivityType-description" parent="ActivityType-description-parentBean" />
 
+  <bean id="ActivityType-description" parent="ActivityType-description-parentBean" />
   <bean id="ActivityType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
   </bean>
-  <bean id="ActivityType-versionNumber" parent="ActivityType-versionNumber-parentBean" />
 
+  <bean id="ActivityType-versionNumber" parent="ActivityType-versionNumber-parentBean" />
   <bean id="ActivityType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
+  <bean id="ActivityType-higherEducationFunctionCode" parent="ActivityType-higherEducationFunctionCode-parentBean" />
+  <bean id="ActivityType-higherEducationFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+   <property name="name" value="higherEducationFunctionCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Higher education function code" />
+    <property name="shortLabel" value="Higher education function code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Higher education function code" />
+    <property name="description" value="Higher education function code" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -74,6 +92,8 @@
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="higherEducationFunctionCode" />
             </list>
           </property>
         </bean>
@@ -100,6 +120,8 @@
               p:attributeName="activityTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="higherEducationFunctionCode" />
       </list>
     </property>
     <property name="resultFields" >
@@ -109,6 +131,8 @@
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="higherEducationFunctionCode" />
       </list>
     </property>
   </bean>

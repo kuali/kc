@@ -156,7 +156,9 @@ public class AwardForm extends BudgetVersionFormBase
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
+    private String accountNumber;
     
+
     private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
     private AwardPrintChangeReport awardPrintChangeReport;
@@ -281,6 +283,15 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public AwardCommentBean getAwardCommentBean() {
         return awardCommentBean;
+    }
+    
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
     
     /**

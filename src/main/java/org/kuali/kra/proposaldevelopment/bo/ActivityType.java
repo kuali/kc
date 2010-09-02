@@ -23,8 +23,15 @@ public class ActivityType extends KraPersistableBusinessObjectBase {
 	
 	private String activityTypeCode;
 	private String description;
+	private String higherEducationFunctionCode;
 	
-	public String getActivityTypeCode() {
+	public String getHigherEducationFunctionCode() {
+        return higherEducationFunctionCode;
+    }
+    public void setHigherEducationFunctionCode(String higherEducationFunctionCode) {
+        this.higherEducationFunctionCode = higherEducationFunctionCode;
+    }
+    public String getActivityTypeCode() {
 		return activityTypeCode;
 	}
 	public void setActivityTypeCode(String activityTypeCode) {
@@ -42,6 +49,7 @@ public class ActivityType extends KraPersistableBusinessObjectBase {
 		LinkedHashMap propMap = new LinkedHashMap();
 		propMap.put("activityTypeCode", this.getActivityTypeCode());
 		propMap.put("description", this.getDescription());
+		propMap.put("higherEducationFunctionCode", this.getHigherEducationFunctionCode());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());
 		propMap.put("updateUser", this.getUpdateUser());
 		return propMap;
