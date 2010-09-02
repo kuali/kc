@@ -25,8 +25,19 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 	private String rateClassType;
 	private String rateClassTypeDescription;
 	private RateClassType rateClassTypeT;
+	private Integer icrTypeCode;
+	
+	
 
-	public String getRateClassCode() {
+	public Integer getIcrTypeCode() {
+        return icrTypeCode;
+    }
+
+    public void setIcrTypeCode(Integer icrTypeCode) {
+        this.icrTypeCode = icrTypeCode;
+    }
+
+    public String getRateClassCode() {
 		return rateClassCode;
 	}
 
@@ -57,6 +68,7 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 		hashMap.put("rateClassCode", getRateClassCode());
 		hashMap.put("description", getDescription());
 		hashMap.put("rateClassType", getRateClassType());
+		hashMap.put("icrTypeCode", getIcrTypeCode());
 		return hashMap;
 	}
 

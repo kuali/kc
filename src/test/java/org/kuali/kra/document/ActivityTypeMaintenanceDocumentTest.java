@@ -115,6 +115,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(activityTypeMaintenancePage, "document.documentHeader.documentDescription", "Activity Type - test");
         setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.activityTypeCode", ACTIVITY_TYPE_CODE_2);
         setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.description", "test new activity type");
+        setFieldValue(activityTypeMaintenancePage, "document.newMaintainableObject.higherEducationFunctionCode", "IPR");
         HtmlPage routedActivityTypeMaintenanceDocumentPage = clickOn(activityTypeMaintenancePage, "methodToCall.route", "Kuali :: Activity Type Maintenance Document");
         
         assertContains(routedActivityTypeMaintenanceDocumentPage, "Document was successfully submitted.");

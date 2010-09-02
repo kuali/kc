@@ -34,7 +34,7 @@
 <kra-a:awardPrint />
 <kul:adHocRecipients />
 <kul:routeLog /> 
-
+<kra-a:awardCreateAccount />
 <kul:panelFooter />
 
 <%--

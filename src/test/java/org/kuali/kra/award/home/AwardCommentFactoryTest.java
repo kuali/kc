@@ -27,7 +27,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
  * This class tests methods in Award.java class
  */
 public class AwardCommentFactoryTest extends KcUnitTestBase{ 
-    private static final int AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT = 48;
+    private static final int AWARD_COMMENT_FACTORY_ATTRIBUTES_COUNT = 50;
     
     private Award awardBo;
     private AwardCommentFactory awardCommentFactory;

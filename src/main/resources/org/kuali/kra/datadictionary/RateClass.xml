@@ -27,6 +27,7 @@
         <ref bean="RateClass-rateClassCode" />
         <ref bean="RateClass-description" />
         <ref bean="RateClass-rateClassType" />
+        <ref bean="RateClass-icrTypeCode" />
         <ref bean="RateClass-versionNumber" />
       </list>
     </property>
@@ -57,6 +58,25 @@
 
   <bean id="RateClass-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
   </bean>
+  <bean id="RateClass-icrTypeCode" parent="RateClass-icrTypeCode-parentBean" />
+
+  <bean id="RateClass-icrTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="icrTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="ICR type code" />
+    <property name="shortLabel" value="ICR type code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="ICR type code" />
+    <property name="description" value="ICR type code" />
+  </bean>
+  
   <bean id="RateClass-rateClassType" parent="RateClass-rateClassType-parentBean" />
 
   <bean id="RateClass-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
@@ -101,6 +121,8 @@
                     p:attributeName="rateClassType" />
               <bean parent="FieldDefinition"
                     p:attributeName="description" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="icrTypeCode" />
             </list>
           </property>
         </bean>
@@ -129,6 +151,8 @@
               p:attributeName="rateClassType" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="icrTypeCode" />
       </list>
     </property>
     <property name="resultFields" >
@@ -140,6 +164,8 @@
               p:attributeName="rateClassType" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="icrTypeCode" />
       </list>
     </property>
   </bean>
