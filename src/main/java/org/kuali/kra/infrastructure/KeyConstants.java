@@ -460,6 +460,24 @@ public final class KeyConstants {
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_NOT_ALLOWED = "error.invalid.award.payment.invoice.comment.comment.not.allowed";
     public static final String ERROR_PAYMENT_AND_INVOICE_COMMENT_REQUIRED = "error.invalid.award.payment.invoice.comment.required";
     
+    //Award account creation validation error messages
+    public static final String AWARD_NO_VALID_EFFECTIVE_DATE= "error.award.createAccount.invalid.effectiveDate";
+    public static final String AWARD_ID_NOT_SPECIFIED= "error.award.createAccount.invalid.awardId";
+    public static final String AWARD_END_DATE_NOT_SPECIFIED= "error.award.createAccount.invalid.endDate";
+    public static final String AWARD_ACTIVITY_TYPE_CODE= "error.award.createAccount.invalid.activityTypeCode";
+    public static final String AWARD_PAYMENT_BASIS_NOT_SPECIFIED = "error.award.createAccount.invalid.paymentBasis";
+    public static final String AWARD_PAYMENT_METHOD_NOT_SPECIFIED = "error.award.createAccount.invalid.paymentMethod";
+    public static final String CREATE_ACCOUNT_SERVICE_ERRORS = "error.award.createAccount.serviceErrors";
+    public static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
+    public static final String AWARD_PI_NOT_SPECIFIED = "error.award.createAccount.invalid.pi";
+    public static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
+    public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
+    public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
+    public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
+    public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
+    public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
+
+    
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
     public static final String INVALID_REPORT_FREQUENCY = "error.invalid.award.awardTemplate.reportTerm.reportFreqency";
@@ -795,6 +813,7 @@ public final class KeyConstants {
     public static final String PRINCIPALID_NOT_EXIST = "error.person.principalId.notExist";
     
     public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";
+   
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

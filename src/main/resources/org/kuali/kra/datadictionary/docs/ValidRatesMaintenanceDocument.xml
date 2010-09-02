@@ -54,6 +54,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="offCampusRate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="rateClassType" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="adjustmentKey" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="icrRateCode" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

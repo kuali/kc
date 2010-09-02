@@ -134,7 +134,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Date noticeDate;
     private String currentActionComments;
     private int indexOfLastAwardAmountInfo;
-    
+    private String financialAccountDocumentNumber;
+    private Date financialAccountCreationDate;
+   
+
     private Integer templateCode; 
     @AwardSyncable( scopes={AwardTemplateSyncScope.AWARD_PAGE} ) 
     private String primeSponsorCode; 
@@ -668,7 +671,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setAwardExecutionDate(Date awardExecutionDate) {
         this.awardExecutionDate = awardExecutionDate;
     }
-
+    
 
     /**
      *
@@ -1301,8 +1304,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         hashMap.put("awardTransactionTypeCode", this.getAwardTransactionTypeCode());
         hashMap.put("noticeDate", this.getNoticeDate());
         hashMap.put("currentActionComments", getCurrentActionComments());
+        hashMap.put("financialAccountDocumentNumber", getFinancialAccountDocumentNumber());
+        hashMap.put("financialAccountCreationDate", getFinancialAccountCreationDate());
         return hashMap;
     }    
+
+    public String getFinancialAccountDocumentNumber() {
+        return financialAccountDocumentNumber;
+    }
+
+    public void setFinancialAccountDocumentNumber(String financialAccountDocumentNumber) {
+        this.financialAccountDocumentNumber = financialAccountDocumentNumber;
+    }
+
+    public Date getFinancialAccountCreationDate() {
+        return financialAccountCreationDate;
+    }
+
+    public void setFinancialAccountCreationDate(Date financialAccountCreationDate) {
+        this.financialAccountCreationDate = financialAccountCreationDate;
+    }
 
     /**
      * This method...
@@ -2837,6 +2858,5 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getLookupOspAdministratorName() {
         return lookupOspAdministratorName;
     }
-
 
 }
