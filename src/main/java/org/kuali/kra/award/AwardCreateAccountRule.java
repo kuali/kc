@@ -23,13 +23,14 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
-/*
- * This class just checks if all the required fields for account creation
+
+/**
+ * This class checks if any of the required fields for account creation
  * are null.
  */
 public class AwardCreateAccountRule {
 
-    private static final String AWARD_EFFECTIVE_DATE_NOT_SPECIFIED= "error.award.createAccount.invalid.effectiveDate";
+    private static final String AWARD_EFFECTIVE_DATE_NOT_SPECIFIED = "error.award.createAccount.invalid.effectiveDate";
     private static final String AWARD_ID_NOT_SPECIFIED = "error.award.createAccount.invalid.awardId";
     private static final String AWARD_END_DATE_NOT_SPECIFIED = "error.award.createAccount.invalid.endDate";
     private static final String AWARD_ACTIVITY_TYPE_CODE = "error.award.createAccount.invalid.activityTypeCode";
@@ -41,6 +42,11 @@ public class AwardCreateAccountRule {
     private static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     
+    /**
+     * This method validates the data required to create an award account.
+     * @param award
+     * @return
+     */
     public boolean processAwardCreateAccountRules(Award award) {
         boolean rulePassed = true;
         rulePassed &= isValidEffectiveDate(award);
@@ -52,22 +58,29 @@ public class AwardCreateAccountRule {
         rulePassed &= isValidAddress(award);
         rulePassed &= isValidFandarate(award);
         rulePassed &= isValidAccountNumber(award);
-        //rulePassed &= isValidIndirectRateCode(award);
-        //rulePassed &= isValidPostalCode(award);
         
         return rulePassed;
     }
     
+    /**
+     * This method checks the account number
+     * @param award
+     * @return 
+     */
     private boolean isValidAccountNumber(Award award) {
-        if(award.getAccountNumber() == null) {
+        if (award.getAccountNumber() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED, 
                     KeyConstants.AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED);
             return false;
         }
         return true;
     }
-    /*
-     * check if the default address (PI address) is present
+    
+   
+    /**
+     * This method check if the default address (PI address) is present
+     * @param award
+     * @return isValid
      */
     private boolean isValidAddress(Award award) {
        
@@ -82,9 +95,9 @@ public class AwardCreateAccountRule {
             String cityName = principalInvestigator.getCity();
             String stateCode = principalInvestigator.getState();
             String postalCode = principalInvestigator.getPostalCode();
-            System.out.println("pi is " + principalInvestigator.getFullName() + "address is " + streetAddress);
-            if (streetAddress == null || cityName == null 
-                    || stateCode == null || postalCode == null) {
+           
+            if ("".equals(streetAddress) || "".equals(cityName) 
+                || "".equals(stateCode) || "".equals(postalCode)) {
                 GlobalVariables.getMessageMap().putError(AWARD_ADDRESS_NOT_COMPLETE, 
                                                      KeyConstants.AWARD_ADDRESS_NOT_COMPLETE);
                 isValid = false;
@@ -93,27 +106,21 @@ public class AwardCreateAccountRule {
         
         return isValid;
     }
-    
-    /*private boolean isValidIndirectRateCode(Award award) {
-        if(award.getAwardFandaRate()) {
-            
-        }
-        return false;
-    }*/
-
-
-    
-    /*
-     * Check if there are F and A rates provided. And that there is atleast one
+  
+ 
+    /**
+     * This method checks if there are F and A rates provided. And that there is at least one
      * for the current year.
+     * @param award
+     * @return isValid
      */
-    
     private boolean isValidFandarate(Award award) {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         boolean isValid = true;
         boolean currentYearRate = false;
         if (rates.size() == 0) {
-            GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
             isValid = false;
         } else {
             Calendar calendar = Calendar.getInstance();
@@ -126,7 +133,8 @@ public class AwardCreateAccountRule {
         }
         
         if (!currentYearRate) {
-            GlobalVariables.getMessageMap().putError(CURRENT_RATE_NOT_SPECIFIED, KeyConstants.CURRENT_RATE_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(CURRENT_RATE_NOT_SPECIFIED, 
+                                                    KeyConstants.CURRENT_RATE_NOT_SPECIFIED);
             isValid = false;
         }
         
@@ -135,7 +143,8 @@ public class AwardCreateAccountRule {
     
     private boolean isValidPaymentBasis(Award award) {
         if (award.getBasisOfPaymentCode() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_BASIS_NOT_SPECIFIED, KeyConstants.AWARD_PAYMENT_BASIS_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_BASIS_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_PAYMENT_BASIS_NOT_SPECIFIED);
             return false;
         }
         return true;
@@ -143,7 +152,8 @@ public class AwardCreateAccountRule {
     
     private boolean isValidPaymentMethod(Award award) {
         if (award.getMethodOfPaymentCode() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_METHOD_NOT_SPECIFIED, KeyConstants.AWARD_PAYMENT_METHOD_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(AWARD_PAYMENT_METHOD_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_PAYMENT_METHOD_NOT_SPECIFIED);
             return false;
         }
         return true;
@@ -151,31 +161,53 @@ public class AwardCreateAccountRule {
     
     private boolean isValidHigherEducationCode(Award award) {
         if (award.getActivityTypeCode() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_ACTIVITY_TYPE_CODE, KeyConstants.AWARD_ACTIVITY_TYPE_CODE);
+            GlobalVariables.getMessageMap().putError(AWARD_ACTIVITY_TYPE_CODE, 
+                                                    KeyConstants.AWARD_ACTIVITY_TYPE_CODE);
             return false;
         }
         return true;
     }
 
+    
+    /**
+     * This method checks if the effective date is valid.
+     * @param award
+     * @return
+     */
     public boolean isValidEffectiveDate(Award award) {
         if (award.getBeginDate() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, KeyConstants.AWARD_NO_VALID_EFFECTIVE_DATE);
+            GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_NO_VALID_EFFECTIVE_DATE);
             return false;
         }
         return true; 
     }
     
+    
+    /**
+     * This method checks the award id which is the expense guideline text.
+     * @param award
+     * @return
+     */
     public boolean isValidExpenseGuidelineText(Award award) { 
         if (award.getAwardId() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_ID_NOT_SPECIFIED, KeyConstants.AWARD_ID_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(AWARD_ID_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_ID_NOT_SPECIFIED);
             return false;
         }
         return true;
     }
     
+    
+    /**
+     * This method checks if the expiration date is valid.
+     * @param award
+     * @return
+     */
     public boolean isValidExpirationDate(Award award) {
         if (award.getProjectEndDate() == null) {
-            GlobalVariables.getMessageMap().putError(AWARD_END_DATE_NOT_SPECIFIED, KeyConstants.AWARD_END_DATE_NOT_SPECIFIED);
+            GlobalVariables.getMessageMap().putError(AWARD_END_DATE_NOT_SPECIFIED, 
+                                                    KeyConstants.AWARD_END_DATE_NOT_SPECIFIED);
             return false;
         }
         return true;
