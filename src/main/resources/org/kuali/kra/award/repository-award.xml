@@ -86,6 +86,8 @@
     	<field-descriptor name="awardTransactionTypeCode" column="TRANSACTION_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="noticeDate" column="NOTICE_DATE" jdbc-type="DATE" />
         <field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="financialAccountDocumentNumber" column="FIN_ACCOUNT_DOC_NBR" jdbc-type="VARCHAR" />
+    	<field-descriptor name="financialAccountCreationDate" column="FIN_ACCOUNT_CREATION_DATE" jdbc-type="DATE" />
     	
     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
@@ -458,6 +460,7 @@
 		<field-descriptor name="offCampusRate" column="OFF_CAMPUS_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="adjustmentKey" column="ADJUSTMENT_KEY" jdbc-type="VARCHAR" />
+		<field-descriptor name="icrRateCode" column="ICR_RATE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

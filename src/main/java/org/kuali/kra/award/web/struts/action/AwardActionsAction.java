@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardCreateAccountRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -40,25 +41,31 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailRule;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.external.award.*;
+import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 
 /**
  * 
@@ -70,10 +77,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String NEW_CHILD_SELECTED_AWARD_OPTION = "c";
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
     private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
+    private static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
+    private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
-
+    
+    
     @Override
     protected void validateLookupInquiryFullParameter(HttpServletRequest request, ActionForm form, String fullParameter) {
         if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
@@ -612,6 +622,50 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return request.getParameter("awardNumberInputTemp");
     }
 
+   
+    /**
+     * This method is used to create a financial document using the financial
+     * account creation web service. 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createAccount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = new ActionForward();
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
+        
+        // If user did not already enter an account number in the award main page, 
+        //get the account number from the create account
+        // tab.
+        if (award.getAccountNumber() != null) {
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            documentService.saveDocument(awardDocument);
+        }
+        
+        boolean rulePassed = new AwardCreateAccountRule().processAwardCreateAccountRules(award);
+        if (rulePassed) {
+            AccountCreationClient client = KraServiceLocator.getService("accountCreationClient");
+            /*
+             * If account hasn't already been created, create it or
+             * display an error
+             */
+            if (award.getFinancialAccountDocumentNumber() == null) {
+                client.createAwardAccount(award);
+            } else {
+                GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
+            }
+        }
+
+        forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+       
+        return forward; 
+    }
+    
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

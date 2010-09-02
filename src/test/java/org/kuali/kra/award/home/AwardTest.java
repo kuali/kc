@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AwardTest { 
     private static final double DELTA = 0.001;
 
-    private static final int AWARD_ATTRIBUTES_COUNT = 48;
+    private static final int AWARD_ATTRIBUTES_COUNT = 50;
     
     private Award awardBo;
     
