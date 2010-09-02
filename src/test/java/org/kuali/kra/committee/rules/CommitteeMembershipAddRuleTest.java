@@ -70,6 +70,20 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
     public void testAddCommitteeMembershipWithPersonId() throws Exception {
         CommitteeMembership newCommitteeMembership = new CommitteeMembership();
         newCommitteeMembership.setPersonId("jtester");
+        //newCommitteeMembership.setRolodexId(123);
+        newCommitteeMembership.setPersonName("jtester");
+        boolean result =rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership));
+        assertTrue(result);
+        
+    }
+    
+    /**
+     * Test adding a committee membership with a person id.
+     */
+    @Test
+    public void testAddCommitteeMembershipWithRolodexId() throws Exception {
+        CommitteeMembership newCommitteeMembership = new CommitteeMembership();
+        //newCommitteeMembership.setPersonId("jtester");
         newCommitteeMembership.setRolodexId(123);
         newCommitteeMembership.setPersonName("jtester");
         boolean result =rule.processAddCommitteeMembershipBusinessRules(getAddCommitteeMembershipEvent(newCommitteeMembership));
