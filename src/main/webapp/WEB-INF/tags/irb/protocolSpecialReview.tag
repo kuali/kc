@@ -18,6 +18,7 @@
 <c:set var="protocolSpecialReviewAttributes" value="${DataDictionary.ProtocolSpecialReview.attributes}" />
 <c:set var="protocolSpecialReviewExemptionAttributes" value="${DataDictionary.ProtocolSpecialReviewExemption.attributes}" />
 <c:set var="action" value="protocolSpecialReview" />
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 
 <div id="workarea">
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="document.protocolList[0].specialReview*,specialReviewHelper.newSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.protocol.specialReview*" useRiceAuditMode="false">
@@ -164,16 +165,25 @@
 	            <tr>
 	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolSpecialReviewAttributes.comments}" noColon="false" /></div></th>
 	            	<td colspan="6">
-	            		<nobr>
-	            			<kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" attributeEntry="${protocolSpecialReviewAttributes.comments}"/>
-	            		</nobr>
+		            	<nobr>
+	                        <c:choose>
+	                            <c:when test="${!readOnly}">
+	                                <kul:htmlControlAttribute property="document.protocol.specialReview[${status.index}].comments" 
+	                                                          attributeEntry="${protocolSpecialReviewAttributes.comments}"/>
+	                            </c:when>
+	                            <c:otherwise>
+			            		    <kra:truncateComment textAreaFieldName="document.protocol.specialReview[${status.index}].comments" action="${action}" 
+		                                                 textAreaLabel="${protocolSpecialReviewAttributes.comments.label}" textValue="${specialReview.comments}"  
+		                                                 displaySize="${commentDisplayLength}"/>
+	                            </c:otherwise>
+	                        </c:choose>
+	                    </nobr>
 	            	</td> 
 	            </tr>
-        	</c:forEach>        
-
-            
+        	</c:forEach>
         </table>
     </div> 
 </kul:tab>
 
-<kul:panelFooter /> 
+<kul:panelFooter />
+</div>
