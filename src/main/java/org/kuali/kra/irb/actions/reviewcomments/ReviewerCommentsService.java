@@ -16,12 +16,23 @@
 package org.kuali.kra.irb.actions.reviewcomments;
 
 
+import java.util.List;
+
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 public interface ReviewerCommentsService {
     
-    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
-    public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
+    /**
+     * Finds and returns the reviewer comments for a protocol number and a certain submission.
+     * @param protocolNumber The protocol number
+     * @param submissionNumber The number of the submission
+     * @return a list of reviewer comments
+     */
+    List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
+    
+    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
+    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
 
 }
