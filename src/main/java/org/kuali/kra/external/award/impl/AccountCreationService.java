@@ -31,14 +31,14 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
  
-@WebService(targetNamespace = "KC", name = "accountCreationService")
+@WebService(targetNamespace = "KFS", name = "accountCreationService")
 @XmlSeeAlso({ObjectFactory.class})
 public interface AccountCreationService {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "createAccount", targetNamespace = "KC", className = "kc.CreateAccount")
+    @RequestWrapper(localName = "createAccount", targetNamespace = "KFS", className = "CreateAccount")
     @WebMethod
-    @ResponseWrapper(localName = "createAccountResponse", targetNamespace = "KC", className = "kc.CreateAccountResponse")
+    @ResponseWrapper(localName = "createAccountResponse", targetNamespace = "KFS", className = "CreateAccountResponse")
     public AccountCreationStatusDTO createAccount(
         @WebParam(name = "accountParametersDTO", targetNamespace = "")
         AccountParametersDTO accountParametersDTO

@@ -77,7 +77,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
      */
     public void createAwardAccount(Award award) throws DatatypeConfigurationException, WorkflowException {
         
-        setAccountParemeters(award);
+        setAccountParameters(award);
         accountParameters = getAccountParameters();
         
         URL wsdlURL = AccountCreationServiceSOAP.WSDL_LOCATION;
@@ -96,11 +96,9 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
                 GlobalVariables.getMessageMap().putError(CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      KeyConstants.CREATE_ACCOUNT_SERVICE_ERRORS, 
                                                      completeErrorMessage);
-           
             } else {
                 /* if account created successfully, then update the award table with the document number and date*/
-                // remove this when service returns something useful
-                String financialAccountDocumentNumber = "testDocumentNumber";
+                String financialAccountDocumentNumber = createAccountResult.getAccountNumber();
                 if (financialAccountDocumentNumber == null) {
                     GlobalVariables.getMessageMap().putError(DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
                     LOG.warn("Document number returned from KFS account creation service is null.");
@@ -129,7 +127,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
      * @param award
      * @throws DatatypeConfigurationException
      */
-    private void setAccountParemeters(Award award) throws DatatypeConfigurationException {
+    private void setAccountParameters(Award award) throws DatatypeConfigurationException {
 
         accountParameters  = new AccountParametersDTO();
         
@@ -202,14 +200,12 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         if (accountName.length() > ACCOUNT_NAME_LENGTH) {
             accountName = accountName.substring(0, ACCOUNT_NAME_LENGTH - 1);
         }
-        System.out.println("account name is " + accountName);
         accountParameters.setAccountName(accountName);
     }
     
     private void setDefaultAddress(Award award) {
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
-        System.out.println("PI is " + principalInvestigator.getFullName());
         String streetAddress = principalInvestigator.getAddressLine1();
         if (principalInvestigator.getAddressLine2() != null) {
             streetAddress += principalInvestigator.getAddressLine2();
@@ -228,7 +224,6 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
     private void setAdminAddress(Award award) {
         List<AwardUnitContact> unitContacts = award.getAwardUnitContacts();
         for (AwardUnitContact contact : unitContacts) {
-            System.out.println("contact is " + contact.getUnitAdministratorType());
             contact.refreshReferenceObject("unitAdministratorType");
             // Send the address of the administrative contact
             if ("Administrative Contact".equals(contact.getUnitAdministratorType().getDescription())) {
@@ -291,7 +286,6 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         if (paymentMethod != null) {
             incomeGuidelineText += paymentMethod;
         }
-        System.out.println("income guideline text" + incomeGuidelineText);
         accountParameters.setIncomeGuidelineText(incomeGuidelineText);
     }
     
