@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
@@ -46,6 +53,33 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
      */
     public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
         this.committeeScheduleService = committeeScheduleService;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService#getReviewerComments(java.lang.String, int)
+     */
+    @SuppressWarnings("unchecked")
+    public List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber) {
+        ArrayList<CommitteeScheduleMinute> reviewerComments = new ArrayList<CommitteeScheduleMinute>();
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolNumber", protocolNumber);
+        fieldValues.put("submissionNumber", submissionNumber);
+        Collection<ProtocolSubmission> protocolSubmissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+        
+        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
+            if (protocolSubmission.getCommitteeScheduleMinutes() != null) {
+                for (CommitteeScheduleMinute minute : protocolSubmission.getCommitteeScheduleMinutes()) {
+                    String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
+                    if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode)) {
+                        reviewerComments.add(minute);
+                    }
+                }
+            }
+        }
+        
+        return reviewerComments;
     }
     
     /** {@inheritDoc} */

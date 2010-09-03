@@ -19,9 +19,12 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -54,9 +57,11 @@ import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
@@ -175,6 +180,7 @@ public class ActionHelper implements Serializable {
     private transient TaskAuthorizationService taskAuthorizationService;
     private transient ProtocolAmendRenewService protocolAmendRenewService;
     private transient ProtocolVersionService protocolVersionService;
+    private transient ProtocolSubmitActionService protocolSubmitActionService;
     
     /*
      * Identifies the protocol "document" to print.
@@ -193,7 +199,7 @@ public class ActionHelper implements Serializable {
     private List<CommitteeScheduleMinute> reviewComments;        
     private List<ProtocolVoteAbstainee> abstainees;        
     private List<ProtocolVoteRecused> recusers;        
-    private int currentSubmissionNumber = -1;
+    private int currentSubmissionNumber;
     private transient KcPersonService kcPersonService;
 
     /**
@@ -546,6 +552,13 @@ public class ActionHelper implements Serializable {
             this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
         }
         return this.protocolVersionService;
+    }
+    
+    private ProtocolSubmitActionService getProtocolSubmitActionService() {
+        if (protocolSubmitActionService == null) {
+            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        }
+        return protocolSubmitActionService;
     }
 
     private String getParameterValue(String parameterName) {
@@ -1116,14 +1129,23 @@ public class ActionHelper implements Serializable {
         return this.parameterService;
     }
 
+    /**
+     * Finds and returns the current selection based on the currentSubmissionNumber.
+     * 
+     * If the currentSubmissionNumber is invalid, it will return the current protocol's latest submission (which is always non-null); otherwise, it will get
+     * the submission from the protocol based on the currentSubmissionNumber.
+     * @return the currently selected submission
+     */
     public ProtocolSubmission getSelectedSubmission() {
-        return selectedSubmission;
+        ProtocolSubmission protocolSubmission = null;
         
-    }
-
-    public void setSelectedSubmission(ProtocolSubmission selectedSubmission) {
-        this.selectedSubmission = selectedSubmission;
-
+        if (currentSubmissionNumber <= 0) {
+            protocolSubmission = getProtocol().getProtocolSubmission();
+        } else if (currentSubmissionNumber > 0) {
+            protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
+        }
+        
+        return protocolSubmission;
     }
   
     private CommitteeService getCommitteeService() {
@@ -1135,24 +1157,8 @@ public class ActionHelper implements Serializable {
         return reviewComments;
     }
 
-
-    /*
-     * Retrieve review comments from committee schedule minutes
-     */
-    private void setReviewComments() {
-        reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        if (selectedSubmission != null && CollectionUtils.isNotEmpty(selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes())) {
-            for (CommitteeScheduleMinute minute : selectedSubmission.getCommitteeSchedule().getCommitteeScheduleMinutes()) {
-                String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
-                if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && minute.getProtocol() != null) {
-                    //Other Minute Type entries won't be associated with a Protocol
-                    String protocolNumber = minute.getProtocol().getProtocolNumber();
-                    if(selectedSubmission.getProtocol().getProtocolNumber().equals(protocolNumber)) {
-                        reviewComments.add(minute);
-                    }
-                }
-            }
-        }
+    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+        this.reviewComments = reviewComments;
     }
 
 
@@ -1163,6 +1169,10 @@ public class ActionHelper implements Serializable {
 
     public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
         this.abstainees = abstainees;
+    }
+    
+    private ReviewerCommentsService getReviewerCommentsService() {
+        return KraServiceLocator.getService(ReviewerCommentsService.class);
     }
     
     private CommitteeDecisionService getCommitteeDecisionService() {
@@ -1193,9 +1203,12 @@ public class ActionHelper implements Serializable {
         return currentSubmissionNumber;
     }
 
-
     public void setCurrentSubmissionNumber(int currentSubmissionNumber) {
         this.currentSubmissionNumber = currentSubmissionNumber;
+    }
+    
+    public int getTotalSubmissions() {
+        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol().getProtocolNumber());
     }
     
     /**
@@ -1233,28 +1246,13 @@ public class ActionHelper implements Serializable {
      * Sets up dates for the submission details subpanel.
      */
     public void initSubmissionDetails() {
-        if (currentSubmissionNumber == -1 && CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions())) {
-            currentSubmissionNumber = getProtocol().getProtocolSubmissions().size() - 1;
-        }    
-        if (currentSubmissionNumber > -1) {
-            setSelectedSubmission(getProtocol().getProtocolSubmissions().get(currentSubmissionNumber));
-        } else if (currentSubmissionNumber == -1) {
-            setSelectedSubmission(getProtocol().getProtocolSubmission());
-
+        if (currentSubmissionNumber <= 0) {
+            currentSubmissionNumber = getTotalSubmissions();
         }
-        selectedSubmission.refreshReferenceObject("committeeSchedule");
-        //setupReviewerName(); 
 
-        if (selectedSubmission.getCommitteeSchedule() != null) {
-            setReviewComments();
-            setAbstainees((List<ProtocolVoteAbstainee>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
-                    selectedSubmission.getSubmissionId(), ProtocolVoteAbstainee.class));
-            setRecusers((List<ProtocolVoteRecused>)getCommitteeDecisionService().getMeetingVoters(selectedSubmission.getProtocolId(),
-                    selectedSubmission.getSubmissionId(), ProtocolVoteRecused.class));
-        } else {
-            reviewComments = new ArrayList<CommitteeScheduleMinute>();
-            abstainees = new ArrayList<ProtocolVoteAbstainee>();
-        }
+        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
     }
 

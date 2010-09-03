@@ -19,7 +19,8 @@ import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.meeting.ProtocolMeetingVoter;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 
 /**
  * The Committee Decision Service processes committee decisions.
@@ -34,12 +35,18 @@ public interface CommitteeDecisionService {
     ProtocolDocument processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception;
     
     /**
-     * 
-     * This method is to retrieve abstainers or recusers for a protocol submission.
-     * @param protocolId
-     * @param submissionIdFk
-     * @param clazz
-     * @return
+     * Finds all of the abstainer votes for the given protocolNumber and submissionNumber.
+     * @param protocolNumber The human-readable protocol number
+     * @param submissionNumber The submission number
+     * @return the list of abstainee votes for the given protocolNumber
      */
-    List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long submissionIdFk, Class<? extends ProtocolMeetingVoter> clazz);
+    List<ProtocolVoteAbstainee> getAbstainers(String protocolNumber, int submissionNumber);
+    
+    /**
+     * Finds all of the recused votes for the given protocolNumber and submissionNumber.
+     * @param protocolNumber The human-readable protocol number
+     * @param submissionNumber The submission number
+     * @return the list of recused votes for the given protocolNumber
+     */
+    List<ProtocolVoteRecused> getRecusers(String protocolNumber, int submissionNumber);
 }

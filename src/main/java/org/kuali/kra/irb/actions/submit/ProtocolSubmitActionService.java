@@ -15,12 +15,38 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.util.List;
+
 import org.kuali.kra.irb.Protocol;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office.
  */
 public interface ProtocolSubmitActionService {
+    
+    /**
+     * Finds all submissions for the given protocolNumber and calculates how many total submissions it has overall.
+     * @param protocolNumber The human-readable protocol number
+     * @return the total number of submissions for the given protocolNumber
+     */
+    int getTotalSubmissions(String protocolNumber);
+    
+    /**
+     * Finds all submissions for the given protocolNumber.
+     * @param protocolNumber The human-readable protocol number
+     * @return the list of submissions for the given protocolNumber
+     */
+    List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber);
+    
+    /**
+     * Finds all submissions for the given protocolNumber and submissionNumber.
+     * 
+     * Note that there are multiple submissions for a given protocol since the submissions are copied when the protocol is versioned.
+     * @param protocolNumber The human-readable protocol number
+     * @param submissionNumber The submission number
+     * @return the list of submissions for the given protocolNumber
+     */
+    List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber);
 
     /**
      * Submit a protocol to the IRB office for review.
@@ -28,5 +54,5 @@ public interface ProtocolSubmitActionService {
      * @param submitAction the submission data
      * @throws Exception 
      */
-    public void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception;
+    void submitToIrbForReview(Protocol protocol, ProtocolSubmitAction submitAction) throws Exception;
 }
