@@ -62,7 +62,6 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -179,6 +178,8 @@ public class AwardForm extends BudgetVersionFormBase
     private List<List<BudgetDecimal>>  personnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     private List<List<BudgetDecimal>>  nonPersonnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
     private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
+    
+    private boolean viewFundingSource;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -1230,12 +1231,14 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     public boolean getDisplayEditButton() {
-        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, 
-                this.getDocument().getAward().getAwardNumber());
+        boolean displayEditButton = !isViewOnly();
+        
+        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getDocument().getAward().getAwardNumber());
         if (activeVersion != null) {
-            return activeVersion.getSequenceOwnerSequenceNumber().equals(this.getDocument().getAward().getSequenceNumber());
+            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getDocument().getAward().getSequenceNumber());
         }
-        return false;
+        
+        return displayEditButton;
     }
     
     protected VersionHistoryService getVersionHistoryService() {
@@ -1324,6 +1327,14 @@ public class AwardForm extends BudgetVersionFormBase
         //overriding and using covariant return to avoid casting
         //Document to AwardDocument everywhere
         return (AwardDocument) super.getDocument();
+    }
+    
+    public boolean getViewFundingSource() {
+        return viewFundingSource;
+    }
+    
+    public void setViewFundingSource(boolean viewFundingSource) {
+        this.viewFundingSource = viewFundingSource;
     }
 
 }

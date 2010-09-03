@@ -180,6 +180,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private List<String> proposalDataOverrideMethodToCalls;
     private boolean canCreateProposal;
     
+    private boolean viewFundingSource;
+    
     public ProposalDevelopmentForm() {
         super();
         initialize();
@@ -1655,6 +1657,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.canCreateProposal = canCreateProposal;
     }
 
+    public boolean getViewFundingSource() {
+        return viewFundingSource;
+    }
     
+    public void setViewFundingSource(boolean viewFundingSource) {
+        this.viewFundingSource = viewFundingSource;
+    }
     
 }
