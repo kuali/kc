@@ -36,7 +36,7 @@ import javax.xml.ws.Service;
 
 
 @WebServiceClient(name = "accountCreationServiceSOAP", 
-                         wsdlLocation = "https://test.kfs.kuali.org/kfs-cnv/remoting/accountCreationServiceSOAP?wsdl",
+                         wsdlLocation = "https://test.kfs.kuali.org/kfs-reg/remoting/accountCreationServiceSOAP?wsdl",
                          targetNamespace = "KFS") 
 
 public class AccountCreationServiceSOAP extends Service {
@@ -49,7 +49,7 @@ public class AccountCreationServiceSOAP extends Service {
     
     static {
         URL url = null;
-        String urlString = "https://test.kfs.kuali.org/kfs-cnv/remoting/accountCreationServiceSOAP?wsdl";
+        String urlString = "https://test.kfs.kuali.org/kfs-reg/remoting/accountCreationServiceSOAP?wsdl";
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
