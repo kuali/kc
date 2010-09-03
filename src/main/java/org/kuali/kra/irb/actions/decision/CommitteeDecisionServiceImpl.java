@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolMeetingVoter;
@@ -51,6 +53,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
 
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
+    private ProtocolSubmitActionService protocolSubmitActionService;
     private CommitteeService committeeService;
     private ProtocolVersionService protocolVersionService;
     private DocumentService documentService;
@@ -64,6 +67,11 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
+    
+    public void setProtocolSubmitActionService(ProtocolSubmitActionService protocolSubmitActionService) {
+        this.protocolSubmitActionService = protocolSubmitActionService;
+    }
+    
     public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
     }
@@ -314,15 +322,31 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
     
     /**
-     * 
-     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getMeetingVoters(java.lang.Long, java.lang.Long, java.lang.Class)
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getAbstainers(java.lang.String, int)
      */
-    @SuppressWarnings("unchecked")
-    public List<? extends ProtocolMeetingVoter> getMeetingVoters(Long protocolId, Long submissionIdFk, Class<? extends ProtocolMeetingVoter> clazz) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolIdFk", protocolId.toString());
-        fieldValues.put("submissionIdFk", submissionIdFk.toString());
-        return (List<? extends ProtocolMeetingVoter>) businessObjectService.findMatching(clazz, fieldValues);
+    public List<ProtocolVoteAbstainee> getAbstainers(String protocolNumber, int submissionNumber) {
+        List<ProtocolVoteAbstainee> protocolVoteAbstainers = new ArrayList<ProtocolVoteAbstainee>();
+        
+        for (ProtocolSubmission protocolSubmission : protocolSubmitActionService.getProtocolSubmissions(protocolNumber, submissionNumber)) {
+            protocolVoteAbstainers.addAll(protocolSubmission.getAbstainers());
+        }
+        
+        return protocolVoteAbstainers;
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getRecusers(java.lang.String, int)
+     */
+    public List<ProtocolVoteRecused> getRecusers(String protocolNumber, int submissionNumber) {
+        List<ProtocolVoteRecused> protocolVoteRecusers = new ArrayList<ProtocolVoteRecused>();
+        
+        for (ProtocolSubmission protocolSubmission : protocolSubmitActionService.getProtocolSubmissions(protocolNumber, submissionNumber)) {
+            protocolVoteRecusers.addAll(protocolSubmission.getRecusers());
+        }
+        
+        return protocolVoteRecusers;
+    }
+    
 }
-

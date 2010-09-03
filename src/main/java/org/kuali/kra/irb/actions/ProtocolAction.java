@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -46,7 +47,8 @@ public class ProtocolAction extends ProtocolAssociate {
     private String submissionTypeCode;
     private String prevProtocolStatusCode;
     
-    transient private ProtocolSubmission protocolSubmission;    
+    @SkipVersioning
+    private transient ProtocolSubmission protocolSubmission;    
     private ProtocolActionType protocolActionType;
     
     public ProtocolAction() { 
