@@ -34,6 +34,9 @@
  
 <kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.residualFunds,document.budget.totalCostLimit,budgetVersionOverview[*" auditCluster="budgetParametersOverviewWarnings" tabAuditKey="document.budget.totalCostLimit">
 	<div class="tab-container" align="center">
+	
+		<kra:softError softErrorKey="projectDatesChanged" />
+		
     	<h3>Budget Overview</h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
