@@ -442,7 +442,7 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.meeting.MeetingService#addCommitteeScheduleMinute(org.kuali.kra.meeting.MeetingHelper)
      */
     public void addCommitteeScheduleMinute(MeetingHelper meetingHelper) {
@@ -550,7 +550,6 @@ public class MeetingServiceImpl implements MeetingService {
                             meetingHelper.getCommitteeSchedule().getCommScheduleActItems()));
         }
         resetProtocolFields(meetingHelper);
-        resetActionItemFields(meetingHelper);
     }
     
     /*
