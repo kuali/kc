@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +28,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
-import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
-import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
@@ -49,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -142,6 +141,8 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
+        this.checkProjectStartEndDateWarning(budgetDocument);
+        
         Budget budget = budgetDocument.getBudget();
         Collection<BudgetRate> allPropRates = budgetService.getSavedProposalRates(budget);
         
@@ -163,6 +164,35 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return new ActionForward(forward, true);
     }
     
+    /**
+     * This method checks if the budget periods exceeds the project start/end dates
+     * 
+     */
+    public void checkProjectStartEndDateWarning(BudgetDocument budgetDocument) {
+        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        if(parentDocument==null){
+          return;
+        }
+     
+        Budget aBudget = budgetDocument.getBudget();
+        List<BudgetPeriod> aList = aBudget.getBudgetPeriods();
+        
+        if(parentDocument != null){
+            Date parentStartDate = parentDocument.getBudgetParent().getRequestedStartDateInitial();
+            Date parentEndDate = parentDocument.getBudgetParent().getRequestedEndDateInitial();
+            Boolean aFlag = false;
+            for(BudgetPeriod aBP : aList){
+                if(parentStartDate.after(aBP.getStartDate()) || parentEndDate.before(aBP.getEndDate())){
+                    aFlag = true;
+                    break;
+                }
+            }
+            if(aFlag){
+                ErrorReporter errorReporter = new ErrorReporter();
+                errorReporter.reportSoftError("projectDatesChanged", KeyConstants.PROJECT_START_END_DATE_CHANGED);
+            }
+        }
+    }
     
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
