@@ -126,6 +126,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
+    
+    private boolean validateCreateNewProtocolOnlineReview(ProtocolForm protocolForm) {
+        boolean valid = true;
+        
+        if (protocolForm.getOnlineReviewsActionHelper().getNewProtocolReviewCommitteeMembershipId()==null) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer", new String[0]);
+        }
+           return valid;        
+    }
+    
   
     
     /**
@@ -144,21 +155,22 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         OnlineReviewsActionHelper onlineReviewHelper = protocolForm.getOnlineReviewsActionHelper();
         
         Map<String,Object> keyMap = new HashMap<String,Object>();
+
+        if (validateCreateNewProtocolOnlineReview(protocolForm)) {
+            protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument( protocolForm.getProtocolDocument().getProtocol(),
+                    onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId(), 
+                    onlineReviewHelper.getNewReviewDocumentDescription(),
+                    onlineReviewHelper.getNewReviewExplanation(),
+                    onlineReviewHelper.getNewReviewOrganizationDocumentNumber(),
+                    null,
+                    true,
+                    onlineReviewHelper.getNewReviewDateRequested(),
+                    onlineReviewHelper.getNewReviewDateDue(),
+                    GlobalVariables.getUserSession().getPrincipalId());
+
+            protocolForm.getOnlineReviewsActionHelper().init(true);
+        }
         
-         
-        
-        protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument( protocolForm.getProtocolDocument().getProtocol(),
-                                                          onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId(), 
-                                                          onlineReviewHelper.getNewReviewDocumentDescription(),
-                                                          onlineReviewHelper.getNewReviewExplanation(),
-                                                          onlineReviewHelper.getNewReviewOrganizationDocumentNumber(),
-                                                          null,
-                                                          true,
-                                                          onlineReviewHelper.getNewReviewDateRequested(),
-                                                          onlineReviewHelper.getNewReviewDateDue(),
-                                                          GlobalVariables.getUserSession().getPrincipalId());
-        
-        protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
