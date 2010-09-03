@@ -16,8 +16,9 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="onlineReviewAttributes" value="${DataDictionary.ProtocolOnlineReview.attributes}" />
-<c:set var="readOnly" value = "false"/>
+<c:set var="newOnlineReviewAttributes" value="${DataDictionary.NewProtocolOnlineReviewBean.attributes}" />
 
+<c:set var="readOnly" value = "false"/>
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
@@ -33,7 +34,7 @@
 		    	<table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">
 			
 	             	<tr>
-	               	<th class="grid"><div align="right">*Reviewer:</div></th>
+	               	<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${newOnlineReviewAttributes.newProtocolReviewCommitteeMembershipId}" noColon="false" /></div></th>
 	               	<td nowrap class="grid">
 	               		<c:if test = "${canAssignNewReviewer && !readOnly}">
 						<html:select property="onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId" tabindex="0">
@@ -43,7 +44,11 @@
 									${member.personName}
 								</option>
 							</c:forEach>
-						</html:select>
+						</html:select> <kul:checkErrors keyMatch="onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId"/>
+										 <c:if test="${hasErrors}">
+	 										<kul:fieldShowErrorIcon />
+  										</c:if>
+										
 						</c:if>
 					</td>
 	               	<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateRequested}" noColon="false" /></div></th>

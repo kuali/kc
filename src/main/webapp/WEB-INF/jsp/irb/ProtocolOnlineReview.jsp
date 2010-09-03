@@ -44,7 +44,7 @@
 <c:choose>
 	<c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}">
 	<!--  IRB ADMIN VIEW  -->
-		<kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+		<kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.new*" >
 			<div class="tab-container" align=center>
 				<kra-irb-olr:newOnlineReview/>
 			</div>
