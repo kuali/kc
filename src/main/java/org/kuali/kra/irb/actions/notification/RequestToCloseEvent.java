@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.w3c.dom.Element;
 
 /**
@@ -50,28 +48,8 @@ public class RequestToCloseEvent extends NotificationEventBase {
         return "Protocol " + getProtocol().getProtocolNumber() + " Request To Close";
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getMessage()
-     */
-    public String getMessage() {
-        ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
-        String piName;
-        if (StringUtils.isNotBlank(pi.getPersonId())) {
-            piName = pi.getPerson().getFirstName() + " " + pi.getPerson().getLastName();
-        }
-        else {
-            piName = pi.getRolodex().getFirstName() + " " + pi.getRolodex().getLastName();
-        }
-        String messageBody = "The IRB protocol number " + getProtocol().getProtocolNumber() + ", Principal Investigator " + piName
-                + " is Request To Close";
-        return messageBody;
-
-    }
-
     public String getTemplatePath() {
-        // TODO Auto-generated method stub
-        return "/org/kuali/kra/irb/notification/stylesheet/RequestToCloseNotification.xsl";
+        return "RequestToCloseNotification.xsl";
     }
 
     /**

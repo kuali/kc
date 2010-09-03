@@ -33,8 +33,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
@@ -59,7 +58,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     private KcPersonService kcPersonService;
     private List<String> notificationTemplates;
     private KualiConfigurationService kualiConfigurationService;
-
+    private ProtocolXmlStream protocolXmlStream;
     /**
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#sendActionsNotification(org.kuali.kra.irb.Protocol,
@@ -79,7 +78,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
             Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
             sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
 
-            Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
+             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
             // message.setTextContent(getTransFormData(protocol, notificationEvent.getTemplatePath()));
             String messageBody = getTransFormData(protocol, notificationEvent.getTemplate());
             if (ProtocolActionType.NOTIFY_IRB.equals(notificationEvent.getActionTypeCode())) {
@@ -87,7 +86,9 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
                 String applicationUrl = kualiConfigurationService.getPropertyString(KNSConstants.APPLICATION_URL_KEY);
                 messageBody = messageBody.replace("submissionId=", "submissionId="+protocol.getProtocolSubmission().getSubmissionId());
                 messageBody = messageBody.replace("../", applicationUrl + "/");
-            }
+            } 
+            messageBody = messageBody.replace("$amp;", "&amp;");
+            
             message.setTextContent(messageBody);
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
@@ -106,47 +107,6 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
         notificationService.sendNotification(XML);
     }
 
-
-    /**
-     * 
-     * This method is to use it to generate protocol document xml for testing now. eventually, we should use the protocol xml data
-     * created for protocol report TODO : remove this once the protocol report xml data is available
-     * 
-     * @param protocol
-     * @return
-     * @throws Exception
-     */
-    private String generateProtocolDocumentXml(Protocol protocol) throws Exception {
-        InputStream is = this.getClass().getResourceAsStream("/org/kuali/kra/irb/protocoldata_template.xml");
-        Document notificationRequestDocument;
-
-        try {
-            notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
-            Element protocolNumber = (Element) notificationRequestDocument.getElementsByTagName("protocolNumber").item(0);
-            protocolNumber.setTextContent(protocol.getProtocolNumber());
-
-            Element documentNumber = (Element) notificationRequestDocument.getElementsByTagName("documentNumber").item(0);
-            documentNumber.setTextContent(protocol.getProtocolDocument().getDocumentNumber());
-            Element pi = (Element) notificationRequestDocument.getElementsByTagName("pi").item(0);
-            setPi(pi, protocol.getPrincipalInvestigator());
-            Element user = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            setUser(user);
-            Element reviewers = (Element) notificationRequestDocument.getElementsByTagName("protocolReviewers").item(0);
-            setReviewerNames(reviewers, protocol.getProtocolSubmission().getProtocolReviewers());
-            Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
-            title.setTextContent(protocol.getTitle());
-
-        }
-        finally {
-            if (is != null) {
-                is.close();
-            }
-        }
-
-        return Util.writeNode(notificationRequestDocument, true);
-        // Waiting for rice KEN bootstrap to be corrected
-        // notificationService.sendNotification(XML);
-    }
 
     /**
      * 
@@ -191,53 +151,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
         }
 
     }
-
-    /*
-     * add the pi node to protocol xml document
-     */
-    private void setPi(Element piNode, ProtocolPerson pi) {
-        try {
-            if (StringUtils.isNotBlank(pi.getPersonId())) {
-                XmlHelper.appendXml(piNode, "<firstName>" + pi.getPerson().getFirstName() + "</firstName>");
-                XmlHelper.appendXml(piNode, "<lastName>" + pi.getPerson().getLastName() + "</lastName>");
-            }
-            else {
-                XmlHelper.appendXml(piNode, "<firstName>" + pi.getRolodex().getFirstName() + "</firstName>");
-                XmlHelper.appendXml(piNode, "<lastName>" + pi.getRolodex().getLastName() + "</lastName>");
-            }
-        }
-        catch (Exception e) {
-
-        }
-    }
     
-    private void setUser(Element userNode) {
-        Person person = GlobalVariables.getUserSession().getPerson();
-        try {
-                XmlHelper.appendXml(userNode, "<firstName>" + person.getFirstName() + "</firstName>");
-                XmlHelper.appendXml(userNode, "<lastName>" + person.getLastName() + "</lastName>");
-        }  catch (Exception e) {
-
-        }
-    }
-
-    /*
-     * add reviewer to protocol xml document
-     */
-    private void setReviewerNames(Element reviewerNode, List<ProtocolReviewer> reviewers) {
-        int i = 0;
-        try {
-            for (ProtocolReviewer reviewer : reviewers) {
-                XmlHelper.appendXml(reviewerNode, "<reviewer>" + (i++) + "</reviewer>");
-                XmlHelper.appendXml(reviewerNode.getLastChild(), "<idx>" + (i++) + "</idx>");
-                XmlHelper.appendXml(reviewerNode.getLastChild(), "<fullName>" + reviewer.getFullName() + "</fullName>");
-            }
-        }
-        catch (Exception e) {
-
-        }
-    }
-
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
@@ -262,32 +176,37 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      */
     private String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
 
-        // JAXP reads data using the Source interface
-        // ClassLoader.getSystemResource("notifyIrb_notification.xml").getFile();
-
-        // StreamSource xsltSource = new StreamSource(this.getClass().getResourceAsStream(xlsPath));
-        String XML = generateProtocolDocumentXml(protocol);
-        // InputStream is = new ByteArrayInputStream(XML.getBytes("UTF-8"));
-        // InputStream
+        String XML = protocolXmlStream.generateXmlStreamForNotification(protocol);
+        XML = XML.replace("<Protocol xmlns=\"http://irb.mit.edu/irbnamespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Protocol xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+        XML = XML.replace("</Protocol>", getUserTag() + "</Protocol>");
         StreamSource xmlSource = new StreamSource(new ByteArrayInputStream(XML.getBytes("UTF-8")));
-        // StreamSource xmlSource = new
-        // StreamSource(this.getClass().getResourceAsStream("/org/kuali/kra/irb/notificationDummyProtocolData.xml"));
-
-        // the factory pattern supports different XSLT processors
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xsltSource);
-        // OutputStream os = new OutputStream();
         StringWriter writer = new StringWriter();
         Result result = new StreamResult(writer);
         transformer.transform(xmlSource, result);
-        // writer.toString();
         return writer.toString();
 
     }
 
+    /*
+     * 
+     */
+    private String getUserTag() {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        StringBuffer sb = new StringBuffer();
+        sb = sb.append("<user><firstName>").append(person.getFirstName()).append("</firstName>").append("<lastName>")
+           .append(person.getLastName()).append("</lastName></user>");
+        return sb.toString();
+    }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+
+    public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
+        this.protocolXmlStream = protocolXmlStream;
     }
 
 }
