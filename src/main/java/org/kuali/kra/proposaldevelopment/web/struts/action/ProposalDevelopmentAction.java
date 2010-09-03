@@ -281,7 +281,18 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         updateProposalDocument(proposalDevelopmentForm);
         
         doc.getDevelopmentProposal().updateProposalNumbers();
-    }    
+    }
+    
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        
+        if (proposalDevelopmentForm.getViewFundingSource()) {
+            return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
+        } else {
+            return super.close(mapping, form, request, response);
+        }
+    }
 
     /**
      * 
