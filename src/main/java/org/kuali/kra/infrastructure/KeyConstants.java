@@ -810,6 +810,15 @@ public final class KeyConstants {
     public static final String ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET = "error.protocol.correspondence.template.not.set";
     public static final String PERSON_TRAINING_EXISTS = "error.persontraining.exists";
     
+    public static final String ERROR_SUBMISSION_REVIEW_TYPE_EXISTS = "error.submreviewtype.exists";
+    public static final String ERROR_SUBMISSION_TYPE_NOT_EXISTS = "error.submtype.notexists";
+    public static final String ERROR_REVIEW_TYPE_NOT_EXISTS = "error.reviewtype.notexists";
+    public static final String ERROR_SUBMISSION_TYPE_QUALIFIER_EXISTS = "error.submtypequal.exists";
+    public static final String ERROR_TYPE_QUALIFIER_NOT_EXISTS = "error.typequal.notexists";
+    public static final String INVALID_SUBMISSION_REVIEW_TYPE = "invalid.submreviewtype";
+    public static final String INVALID_SUBMISSION_TYPE_QUALIFIER = "invalid.submtypequal";
+
+    
     public static final String PRINCIPALID_NOT_EXIST = "error.person.principalId.notExist";
     
     public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";

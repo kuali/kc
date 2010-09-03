@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.irb.actions.modifysubmission;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -22,7 +27,12 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.actions.submit.ValidProtoSubRevType;
+import org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
@@ -61,6 +71,12 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
                     KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_NOT_SELECTED, errorParameters);
             valid = false;
         }
+        if (StringUtils.isNotBlank(actionBean.getSubmissionTypeCode())) {
+            valid &= isValidSubmTypeQual(actionBean);
+            if (StringUtils.isNotBlank(actionBean.getProtocolReviewTypeCode())) {
+                valid &= isValidSubmReviewType(actionBean);
+            }
+        }
         return valid;
     }
     
@@ -79,6 +95,74 @@ public class ProtocolModifySubmissionRule extends ResearchDocumentRuleBase imple
             }
         }
         return false;        
+    }
+    
+    private boolean isValidSubmReviewType(ProtocolModifySubmissionBean submitAction) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
+                && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
+            List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) getBusinessObjectService()
+                    .findMatching(ValidProtoSubRevType.class, fieldValues);
+            if (!validProtoSubRevTypes.isEmpty()) {
+                List<String> reviewTypes = new ArrayList<String>();
+                for (ValidProtoSubRevType validProtoSubRevType : validProtoSubRevTypes) {
+                    reviewTypes.add(validProtoSubRevType.getProtocolReviewTypeCode());
+                }
+                if (!reviewTypes.contains(submitAction.getProtocolReviewTypeCode())) {
+                    GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode",
+                            KeyConstants.INVALID_SUBMISSION_REVIEW_TYPE,
+                            new String[] { ((ProtocolSubmissionType)getBo(ProtocolSubmissionType.class, "submissionTypeCode", submitAction.getSubmissionTypeCode())).getDescription(), 
+                            ((ProtocolReviewType)getBo(ProtocolReviewType.class, "reviewTypeCode", submitAction.getProtocolReviewTypeCode())).getDescription() });
+                    valid = false;
+                }
+
+            }
+        }
+        return valid;
+    }
+    
+    private boolean isValidSubmTypeQual(ProtocolModifySubmissionBean submitAction) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
+            List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService()
+                    .findMatching(ValidProtoSubTypeQual.class, fieldValues);
+            if (!validProtoSubTypeQuals.isEmpty()) {
+                List<String> typeQuals = new ArrayList<String>();
+                for (ValidProtoSubTypeQual validProtoSubTypeQual : validProtoSubTypeQuals) {
+                    typeQuals.add(validProtoSubTypeQual.getSubmissionTypeQualCode());
+                }
+                if (StringUtils.isBlank(submitAction.getSubmissionQualifierTypeCode()) || !typeQuals.contains(submitAction.getSubmissionQualifierTypeCode())) {
+                    String desc = "";
+                    ProtocolSubmissionQualifierType typeQual = (ProtocolSubmissionQualifierType)getBo(ProtocolSubmissionQualifierType.class, "submissionQualifierTypeCode", submitAction.getSubmissionQualifierTypeCode());
+                    if (typeQual != null) {
+                        desc = typeQual.getDescription();
+                    }
+                    GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_MODIFY_SUBMISSION_KEY + ".submissionQualifierTypeCode",
+                            KeyConstants.INVALID_SUBMISSION_TYPE_QUALIFIER,
+                            new String[] { ((ProtocolSubmissionType)getBo(ProtocolSubmissionType.class, "submissionTypeCode", submitAction.getSubmissionTypeCode())).getDescription(), 
+                            desc});
+                    valid = false;
+                }
+
+            }
+        }
+        return valid;
+    }
+
+    @SuppressWarnings("unchecked")
+    private BusinessObject getBo(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put(propertyName, keyField);
+        List<BusinessObject> results = (List<BusinessObject>) getBusinessObjectService().findMatching(boType, fieldValues);
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implements ExecuteProtocolSubmitActionRule {
 
     private static final String MANDATORY = "M";
-    private static final String REVIEW_TYPE_FYI = "7";
     private ParameterService parameterService;
 
     /**
@@ -47,6 +47,10 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
        
         boolean isValid = validateSubmissionType(document, submitAction);
         isValid &= validateProtocolReviewType(submitAction);
+        if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode()) &&
+                StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
+            isValid &= isValidSubmReviewType(submitAction);
+        }
         if (isMandatory()) {
             isValid &= validateCommittee(submitAction);
             isValid &= validateSchedule(submitAction);
@@ -108,7 +112,9 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionTypeCode", 
                              KeyConstants.ERROR_PROTOCOL_SUBMISSION_TYPE_INVALID, new String[] { submissionTypeCode });
-        } 
+        } else {
+            isValid = isValidSubmTypeQual(submitAction);
+        }
         return isValid;
     }
     
@@ -128,13 +134,6 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
             isValid = false;
             this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
                     KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_INVALID, new String[] { protocolReviewTypeCode });
-        } else if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
-                && ProtocolSubmissionType.NOTIFY_IRB.equals(submitAction.getSubmissionTypeCode())
-                && !REVIEW_TYPE_FYI.equals(submitAction.getProtocolReviewTypeCode())) {
-            // if submission type is "FYI", then review type must be FYI
-            this.reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
-                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI);
-
         }
         return isValid;
     }
@@ -220,6 +219,62 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         return isValid;
     }
     
+    private boolean isValidSubmReviewType(ProtocolSubmitAction submitAction) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
+                && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
+            List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) getBusinessObjectService()
+                    .findMatching(ValidProtoSubRevType.class, fieldValues);
+            if (!validProtoSubRevTypes.isEmpty()) {
+                List<String> reviewTypes = new ArrayList<String>();
+                for (ValidProtoSubRevType validProtoSubRevType : validProtoSubRevTypes) {
+                    reviewTypes.add(validProtoSubRevType.getProtocolReviewTypeCode());
+                }
+                if (!reviewTypes.contains(submitAction.getProtocolReviewTypeCode())) {
+                    GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
+                            KeyConstants.INVALID_SUBMISSION_REVIEW_TYPE,
+                            new String[] { ((ProtocolSubmissionType)getBo(ProtocolSubmissionType.class, "submissionTypeCode", submitAction.getSubmissionTypeCode())).getDescription(), 
+                            ((ProtocolReviewType)getBo(ProtocolReviewType.class, "reviewTypeCode", submitAction.getProtocolReviewTypeCode())).getDescription() });
+                    valid = false;
+                }
+
+            }
+        }
+        return valid;
+    }
+    
+    private boolean isValidSubmTypeQual(ProtocolSubmitAction submitAction) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
+            List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService()
+                    .findMatching(ValidProtoSubTypeQual.class, fieldValues);
+            if (!validProtoSubTypeQuals.isEmpty()) {
+                List<String> typeQuals = new ArrayList<String>();
+                for (ValidProtoSubTypeQual validProtoSubTypeQual : validProtoSubTypeQuals) {
+                    typeQuals.add(validProtoSubTypeQual.getSubmissionTypeQualCode());
+                }
+                if (StringUtils.isBlank(submitAction.getSubmissionQualifierTypeCode()) || !typeQuals.contains(submitAction.getSubmissionQualifierTypeCode())) {
+                    String desc = "";
+                    ProtocolSubmissionQualifierType typeQual = (ProtocolSubmissionQualifierType)getBo(ProtocolSubmissionQualifierType.class, "submissionQualifierTypeCode", submitAction.getSubmissionQualifierTypeCode());
+                    if (typeQual != null) {
+                        desc = typeQual.getDescription();
+                    }
+                    GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionQualifierTypeCode",
+                            KeyConstants.INVALID_SUBMISSION_TYPE_QUALIFIER,
+                            new String[] { ((ProtocolSubmissionType)getBo(ProtocolSubmissionType.class, "submissionTypeCode", submitAction.getSubmissionTypeCode())).getDescription(), 
+                            desc});
+                    valid = false;
+                }
+
+            }
+        }
+        return valid;
+    }
+
     private boolean isSubmissionTypeInvalid(String submissionTypeCode) {
         return !existsUnique(ProtocolSubmissionType.class, "submissionTypeCode", submissionTypeCode);
     }
@@ -252,6 +307,18 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         return false;
     }
     
+    @SuppressWarnings("unchecked")
+    private BusinessObject getBo(Class<? extends BusinessObject> boType, String propertyName, String keyField) {
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put(propertyName, keyField);
+        
+        List<BusinessObject> results = (List<BusinessObject>) getBusinessObjectService().findMatching(boType, fieldValues);
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
+    }
     /**
      * Is it mandatory for the submission to contain the committee and schedule?
      * @return true if mandatory; otherwise false
