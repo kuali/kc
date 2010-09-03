@@ -1164,4 +1164,36 @@
         </reference-descriptor>
     </class-descriptor>
     
+    
+    	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubRevType" table="VALID_PROTO_SUB_REV_TYPE">
+		<field-descriptor name="validProtoSubRevTypeId" column="VALID_PROTO_SUB_REV_TYPE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VALID_SUBM_REVW_TYPE_QUAL" autoincrement="true"/>
+		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolReviewTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual" table="VALID_PROTO_SUB_TYPE_QUAL">
+		<field-descriptor name="validProtoSubTypeQualId" column="VALID_PROTO_SUB_TYPE_QUAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VALID_SUBM_REVW_TYPE_QUAL" autoincrement="true"/>
+		<field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="submissionTypeQualCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="submissionType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="submissionTypeQualifier" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="submissionTypeQualCode"/>
+		</reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>
