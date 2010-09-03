@@ -60,7 +60,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
          * to the protocol action entry.
          */
         ProtocolSubmission submission = createProtocolSubmission(protocol, notifyIrbBean);
-        
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.NOTIFY_IRB);
         protocolAction.setComments(notifyIrbBean.getComment());
         protocol.getProtocolActions().add(protocolAction);
@@ -84,13 +83,18 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, ProtocolSubmissionType.NOTIFY_IRB);
         //submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FYI_TYPE_CODE);
+        //submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FYI_TYPE_CODE);
+        submissionBuilder.setProtocolReviewTypeCode(notifyIrbBean.getReviewTypeCode());
         submissionBuilder.setSubmissionTypeQualifierCode(notifyIrbBean.getSubmissionQualifierTypeCode());
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionBuilder.setCommittee(notifyIrbBean.getCommitteeId());
         submissionBuilder.setComments(notifyIrbBean.getComment());
         submissionBuilder.addAttachment(notifyIrbBean.getFile());
-        return submissionBuilder.create();
+        ProtocolSubmission submission = submissionBuilder.create();
+        // schedule id is set to null
+        submission.setScheduleId(null);
+        submission.setScheduleIdFk(null);
+        return submission;
     }
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
