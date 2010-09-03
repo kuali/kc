@@ -54,7 +54,6 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -65,7 +64,6 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -384,7 +382,18 @@ public class AwardAction extends BudgetParentActionBase {
 
         return forward;
     }
-    
+
+    @Override
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        
+        if (awardForm.getViewFundingSource()) {
+            return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
+        } else {
+            return super.close(mapping, form, request, response);
+        }
+    }
+
     /**
      * This method returns the award associated with the AwardDocument on the AwardForm
      * @return
