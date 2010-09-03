@@ -26,6 +26,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 
@@ -73,6 +74,10 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     @SkipVersioning
     transient private CommitteeSchedule committeeSchedule;
+    
+    @SkipVersioning
+    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;
+    
     private ProtocolReviewType protocolReviewType;
     
     @SkipVersioning
@@ -366,6 +371,14 @@ public class ProtocolSubmission extends ProtocolAssociate {
             refreshReferenceObject("committeeSchedule");
         }
         return committeeSchedule;
+    }
+    
+    public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+        return committeeScheduleMinutes;
+    }
+    
+    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
+        this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 
     /** {@inheritDoc} */

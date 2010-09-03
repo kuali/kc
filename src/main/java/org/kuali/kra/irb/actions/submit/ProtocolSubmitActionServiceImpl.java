@@ -16,6 +16,11 @@
 package org.kuali.kra.irb.actions.submit;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
@@ -32,6 +37,9 @@ import org.kuali.rice.kns.service.DocumentService;
  * Handles the processing of submitting a protocol to the IRB office for review.
  */
 public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionService {
+    
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SUBMISSION_NUMBER = "submissionNumber";
 
     private static final String AMENDMENT = "Amendment";
     private static final String RENEWAL = "Renewal";
@@ -77,6 +85,50 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     
     public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersServiceX) throws Exception {
         this.protocolAssignReviewersService = protocolAssignReviewersServiceX;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
+     */
+    public int getTotalSubmissions(String protocolNumber) {
+        int totalSubmissions = 0;
+        
+        for (ProtocolSubmission protocolSubmission : getProtocolSubmissions(protocolNumber)) {
+            int submissionNumber = protocolSubmission.getSubmissionNumber();
+            if (submissionNumber > totalSubmissions) {
+                totalSubmissions = submissionNumber;
+            }
+        }
+        
+        return totalSubmissions;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
+        Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+        
+        return new ArrayList<ProtocolSubmission>(submissions);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getProtocolSubmissions(java.lang.String, java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    public List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(PROTOCOL_NUMBER, protocolNumber);
+        fieldValues.put(SUBMISSION_NUMBER, submissionNumber);
+        Collection<ProtocolSubmission> submissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+        
+        return new ArrayList<ProtocolSubmission>(submissions);
     }
 
     /**

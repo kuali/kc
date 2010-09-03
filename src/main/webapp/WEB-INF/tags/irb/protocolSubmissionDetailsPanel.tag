@@ -18,11 +18,10 @@
 <c:set var="prevDisabled" value="false" />
 <c:set var="nextDisabled" value="false" />
 <c:set var="tabSubmissionDetails" value="submissionDetails" scope="request"/>
-<c:if test="${KualiForm.actionHelper.currentSubmissionNumber == 0}">
+<c:if test="${KualiForm.actionHelper.currentSubmissionNumber <= 1}">
     <c:set var="prevDisabled" value="true" />
 </c:if>
-
-<c:if test="${KualiForm.actionHelper.currentSubmissionNumber + 1 == fn:length(KualiForm.document.protocol.protocolSubmissions)}">
+<c:if test="${KualiForm.actionHelper.currentSubmissionNumber == KualiForm.actionHelper.totalSubmissions}">
     <c:set var="nextDisabled" value="true" />
 </c:if>
 
