@@ -683,7 +683,7 @@
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-       <!--  <property name="protocolXmlStream" ref="protocolXmlStream" /> -->
+        <property name="protocolXmlStream" ref="protocolXmlStream" />
         <property name="notificationTemplates">
 			<list>
 			    <value>/org/kuali/kra/irb/actions_notification.xml</value>

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.service;
 
-import static org.junit.Assert.assertEquals;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,12 +31,19 @@ import org.kuali.kra.committee.test.CommitteeTestHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.DateUtils;
 
-public class CommitteeBatchCorrespondenceServiceTest {
+/**
+ * 
+ * This class is for correspondence service test
+ * 'extends KcUnitTestBase' is needed for instantiating ProtocolDOcument
+ */
+public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
 
     private static final String PROTOCOL_NUMBER = "1";
     private static final int SEQUENCE_NUMBER = 0;
@@ -145,6 +150,8 @@ public class CommitteeBatchCorrespondenceServiceTest {
             public Integer getNextValue(String key) {
                 return 2;
             }
+            public void refreshNonUpdateableReferences() {
+            }
         };
         protocol1.setProtocolNumber(PROTOCOL_NUMBER);
         protocol1.setSequenceNumber(SEQUENCE_NUMBER);
@@ -154,6 +161,7 @@ public class CommitteeBatchCorrespondenceServiceTest {
         protocolAction1.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -2).getTime()));
         protocolAction1.setUpdateTimestamp(protocolAction1.getActionDate());
         protocol1.getProtocolActions().add(protocolAction1);
+        protocol1.setProtocolDocument(getProtocolDocument("1"));
         protocols.add(protocol1);
 
         Protocol protocol2 = new Protocol() {  //ProtocolTestUtil.getProtocol(this.context)
@@ -166,6 +174,8 @@ public class CommitteeBatchCorrespondenceServiceTest {
             public Integer getNextValue(String key) {
                 return 2;
             }
+            public void refreshNonUpdateableReferences() {
+            }
         };
         protocol2.setProtocolNumber(PROTOCOL_NUMBER);
         protocol2.setSequenceNumber(SEQUENCE_NUMBER);
@@ -175,9 +185,15 @@ public class CommitteeBatchCorrespondenceServiceTest {
         protocolAction2.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -16).getTime()));
         protocolAction2.setUpdateTimestamp(protocolAction2.getActionDate());
         protocol2.getProtocolActions().add(protocolAction2);
+        protocol2.setProtocolDocument(getProtocolDocument("2"));
         protocols.add(protocol2);
 
         return protocols;
     }
 
+    private ProtocolDocument getProtocolDocument(String documentNumber) {
+        ProtocolDocument document = new ProtocolDocument();
+        document.setDocumentNumber(documentNumber);
+        return document;
+    }
 }

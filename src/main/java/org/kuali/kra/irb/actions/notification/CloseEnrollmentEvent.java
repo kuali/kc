@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.w3c.dom.Element;
 
 /**
@@ -26,7 +24,6 @@ import org.w3c.dom.Element;
  * This class is for request to close enrollment notification event
  */
 public class CloseEnrollmentEvent extends NotificationEventBase {
-
 
     public CloseEnrollmentEvent() {
     }
@@ -48,31 +45,11 @@ public class CloseEnrollmentEvent extends NotificationEventBase {
      * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getTitle()
      */
     public String getTitle() {
-        return "Protocol " + getProtocol().getProtocolNumber() + " Close Enrollment";
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getMessage()
-     */
-    public String getMessage() {
-        ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
-        String piName;
-        if (StringUtils.isNotBlank(pi.getPersonId())) {
-            piName = pi.getPerson().getFirstName() + " " + pi.getPerson().getLastName();
-        }
-        else {
-            piName = pi.getRolodex().getFirstName() + " " + pi.getRolodex().getLastName();
-        }
-        String messageBody = "The IRB protocol number " + getProtocol().getProtocolNumber() + ", Principal Investigator " + piName
-                + " is Close Enrollment";
-        return messageBody;
-
+        return "Protocol " + getProtocol().getProtocolNumber() + " request to Close Enrollment";
     }
 
     public String getTemplatePath() {
-        // TODO Auto-generated method stub
-        return "/org/kuali/kra/irb/notification/stylesheet/CloseEnrollmentNotification.xsl";
+        return "CloseEnrollmentNotification.xsl";
     }
 
     /**
