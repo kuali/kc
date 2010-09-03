@@ -19,16 +19,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl.FundingSourceLookup;
 import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Validates the conditions necessary for looking up a funding source in the system.
  */
 public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<LookupProtocolFundingSourceEvent> {
 
-    private static MessageMap messageMap = GlobalVariables.getMessageMap();
+    private final ErrorReporter errorReporter = new ErrorReporter();
     
     /**
      * ${@inheritDoc}
@@ -38,7 +37,7 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
         boolean valid = true;
         
         if (event.getFundingSourceTypeCode() == null) {
-            messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
+            errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
             valid = false;            
         } else {
             valid &= isValidLookup(event.getFundingSourceTypeCode());
@@ -61,11 +60,10 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
                 && !typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
                 && !typeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) { 
             if (typeCode.equals(FundingSourceLookup.OTHER.getTypeCode())) {
-                String name = FundingSourceLookup.OTHER.getBOClass().getName();
-                messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL, name);
+                errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
                 isValid = false;
             } else { 
-                messageMap.putError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);            
+                errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
                 isValid = false;            
             }
         }   
