@@ -18,29 +18,29 @@ package org.kuali.kra.irb.protocol.funding;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.protocol.ProtocolProtocolAction;
 import org.kuali.kra.proposaldevelopment.bo.LookupableDevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.LookupableDevelopmentProposalService;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -505,7 +505,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     }
 
     /**
-     * ${@inheritDoc}
+     * {@inheritDoc}
      * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#getViewProtocolFundingSourceUrl(
      *      org.kuali.kra.irb.protocol.funding.ProtocolFundingSource, org.kuali.kra.irb.protocol.ProtocolProtocolAction)
      */
@@ -516,31 +516,62 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         if (fundingCode.equals(FundingSourceLookup.SPONSOR.getTypeCode())) {
             Sponsor sponsor = new Sponsor();
             sponsor.setSponsorCode(protocolFundingSource.getFundingSourceNumber());
-            HtmlData forward = getProtocolLookupableHelperService().getInquiryUrl(sponsor, FundingSourceLookup.SPONSOR.getNumber());
-            retUrl = Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX + ((HtmlData.AnchorHtmlData) forward).getHref());
+            retUrl = buildViewMaintenanceFundingSourceUrl(sponsor, FundingSourceLookup.SPONSOR.getNumber());
         } else  if (fundingCode.equals(FundingSourceLookup.UNIT.getTypeCode())) {
             Unit unit = new Unit();
             unit.setUnitNumber(protocolFundingSource.getFundingSourceNumber());
-            HtmlData forward = getProtocolLookupableHelperService().getInquiryUrl(unit, FundingSourceLookup.UNIT.getNumber());
-            retUrl = Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX + ((HtmlData.AnchorHtmlData) forward).getHref());
-        } else if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())) {        
-            String docNum = protocolFundingSource.getFundingDevelopmentProposal().getProposalDocument().getDocumentNumber();            
-            ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(docNum);
-            Long routeHeaderId = doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            retUrl = action.buildForwardUrl(routeHeaderId);
+            retUrl = buildViewMaintenanceFundingSourceUrl(unit, FundingSourceLookup.UNIT.getNumber());
+        } else if (fundingCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())) {
+            String documentNumber = protocolFundingSource.getFundingDevelopmentProposal().getProposalDocument().getDocumentNumber();
+            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
         } else if (fundingCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())) {
-            String docNum = protocolFundingSource.getFundingInstitutionalProposal().getInstitutionalProposalDocument().getDocumentNumber();            
-            InstitutionalProposalDocument doc = (InstitutionalProposalDocument) getDocumentService().getByDocumentHeaderId(docNum);
-            Long routeHeaderId = doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            retUrl = action.buildForwardUrl(routeHeaderId);
-        } else if (fundingCode.equals(FundingSourceLookup.AWARD.getTypeCode())) {        
-            String docNum = protocolFundingSource.getFundingAward().getAwardDocument().getDocumentNumber();            
-            AwardDocument doc = (AwardDocument) getDocumentService().getByDocumentHeaderId(docNum);
-            Long routeHeaderId = doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            retUrl = action.buildForwardUrl(routeHeaderId);
+            String documentNumber = protocolFundingSource.getFundingInstitutionalProposal().getInstitutionalProposalDocument().getDocumentNumber();
+            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
+        } else if (fundingCode.equals(FundingSourceLookup.AWARD.getTypeCode())) {
+            String documentNumber = protocolFundingSource.getFundingAward().getAwardDocument().getDocumentNumber();
+            retUrl = buildViewTransactionalFundingSourceUrl(documentNumber, action);
         }
         
         return retUrl;
+    }
+    
+    /**
+     * Builds a url to a view-only maintenance document for a funding source.
+     * 
+     * @param businessObject
+     * @param propertyName
+     * @return
+     */
+    private String buildViewMaintenanceFundingSourceUrl(BusinessObject businessObject, String propertyName) {
+        HtmlData forward = getProtocolLookupableHelperService().getInquiryUrl(businessObject, propertyName);
+        return Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX + ((HtmlData.AnchorHtmlData) forward).getHref());
+    }
+    
+    /**
+     * Builds a url to a view-only transactional document for a funding source.
+     * 
+     * @param document
+     * @param action
+     * @return
+     * @throws Exception
+     */
+    private String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
+        Document document = getDocumentService().getByDocumentHeaderId(documentNumber);
+        Long routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        
+        Properties parameters = new Properties();
+        parameters.put("viewDocument", Boolean.TRUE.toString());
+        parameters.put("viewFundingSource", Boolean.TRUE.toString());
+        
+        StringBuilder builder = new StringBuilder();
+        builder.append(action.buildForwardUrl(routeHeaderId));
+        for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
+            builder.append("&");
+            builder.append(parameter.getKey());
+            builder.append("=");
+            builder.append(parameter.getValue());
+        }
+        return builder.toString();
     }
 
     private boolean isLinkedWithDevProposal() {

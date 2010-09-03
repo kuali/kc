@@ -76,6 +76,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     
     private transient String[] selectedAwardFundingProposals;
     
+    private boolean viewFundingSource;
+    
     /**
      * 
      * Constructs a AwardForm.
@@ -406,7 +408,19 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
     
     public boolean getDisplayEditButton() {
-        return this.getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
+        boolean displayEditButton = !isViewOnly();
+        
+        displayEditButton &= getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
+        
+        return displayEditButton;
+    }
+    
+    public boolean getViewFundingSource() {
+        return viewFundingSource;
+    }
+    
+    public void setViewFundingSource(boolean viewFundingSource) {
+        this.viewFundingSource = viewFundingSource;
     }
     
 }
