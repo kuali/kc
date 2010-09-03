@@ -36,7 +36,7 @@ import javax.xml.ws.ResponseWrapper;
 public interface AccountCreationService {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "createAccount", targetNamespace = "KC", className = "kfs.CreateAccount")
+    @RequestWrapper(localName = "createAccount", targetNamespace = "KC", className = "kc.CreateAccount")
     @WebMethod
     @ResponseWrapper(localName = "createAccountResponse", targetNamespace = "KC", className = "kc.CreateAccountResponse")
     public AccountCreationStatusDTO createAccount(
