@@ -37,10 +37,20 @@
                     </td>
 	          		<th>
 	          		    <div align="right">
+	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.reviewTypeCode}"/>
+	          		    </div>
+	          		</th>
+	                <td align="left">
+                        <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.reviewTypeCode" attributeEntry="${attributes.reviewTypeCode}" />
+					</td>
+                </tr>
+                <tr>
+	          		<th>
+	          		    <div align="right">
 	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.fileName}"/>
 	          		    </div>
 	          		</th>
-	                <td align="left" valign="middle">
+	                <td align="left" valign="middle" colspan="3">
 	                	<html:file property="actionHelper.protocolNotifyIrbBean.file" />
 					</td>
                 </tr>

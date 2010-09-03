@@ -97,6 +97,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         notifyIrbBean.setCommitteeId("");
         notifyIrbBean.setFile(null);
         notifyIrbBean.setComment(REASON);
+        notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
     }
     
@@ -107,6 +108,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         notifyIrbBean.setCommitteeId("913");
         notifyIrbBean.setFile(new MockFormFile());
         notifyIrbBean.setComment(REASON);
+        notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
     }
     
