@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.w3c.dom.Element;
 
 /**
@@ -48,27 +46,8 @@ public class IrbAcknowledgementEvent extends NotificationEventBase {
         return "Protocol " + getProtocol().getProtocolNumber() + " IRB Acknowledgement";
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.notification.NotificationEventBase#getMessage()
-     */
-    public String getMessage() {
-        ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
-        String piName;
-        if (StringUtils.isNotBlank(pi.getPersonId())) {
-            piName = pi.getPerson().getFirstName() + " " + pi.getPerson().getLastName();
-        }
-        else {
-            piName = pi.getRolodex().getFirstName() + " " + pi.getRolodex().getLastName();
-        }
-        String messageBody = "The IRB protocol number " + getProtocol().getProtocolNumber() + ", Principal Investigator " + piName
-                + " is IRB Acknowledgement";
-        return messageBody;
-
-    }
-
     public String getTemplatePath() {
-        return "/org/kuali/kra/irb/notification/stylesheet/IrbAcknowledgementNotification.xsl";
+        return "IrbAcknowledgementNotification.xsl";
     }
 
     /**
