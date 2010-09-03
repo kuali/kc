@@ -813,7 +813,8 @@ public final class KeyConstants {
     public static final String PRINCIPALID_NOT_EXIST = "error.person.principalId.notExist";
     
     public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";
-   
+    
+    public static final String PROJECT_START_END_DATE_CHANGED = "error.project.start.end.date.changed";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
