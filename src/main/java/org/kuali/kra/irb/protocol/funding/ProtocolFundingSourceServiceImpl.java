@@ -218,28 +218,33 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource protocolFundingSource = null;
         FundingSourceType fundingSourceType = getFundingSourceTypeService().getFundingSourceType(typeCode);
         
-        switch (fundingEnumMap.get(Integer.valueOf(typeCode))) {
-            case SPONSOR:
-                protocolFundingSource = buildSponsorFundingSource(fundingSourceType, source, number);
-                break;
-            case UNIT:
-                protocolFundingSource = buildUnitFundingSource(fundingSourceType, source, number);
-                break;
-            case OTHER:
-                protocolFundingSource = buildOtherFundingSource(fundingSourceType, source, number, name);
-                break;
-            case PROPOSAL_DEVELOPMENT:
-                protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceType, source, number, name);
-                break;
-            case INSTITUTIONAL_PROPOSAL:
-                protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceType, source, number, name);
-                break;
-            case AWARD:
-                protocolFundingSource = buildAwardFundingSource(fundingSourceType, source, number, name);
-                break;
-            default:
-                break;
+        if (Integer.valueOf(typeCode) <= fundingEnumMap.size()) {
+            switch (fundingEnumMap.get(Integer.valueOf(typeCode))) {
+                case SPONSOR:
+                    protocolFundingSource = buildSponsorFundingSource(fundingSourceType, source, number);
+                    break;
+                case UNIT:
+                    protocolFundingSource = buildUnitFundingSource(fundingSourceType, source, number);
+                    break;
+                case OTHER:
+                    protocolFundingSource = buildOtherFundingSource(fundingSourceType, source, number, name);
+                    break;
+                case PROPOSAL_DEVELOPMENT:
+                    protocolFundingSource = buildProposalDevelopmentFundingSource(fundingSourceType, source, number, name);
+                    break;
+                case INSTITUTIONAL_PROPOSAL:
+                    protocolFundingSource = buildInstitutionalProposalFundingSource(fundingSourceType, source, number, name);
+                    break;
+                case AWARD:
+                    protocolFundingSource = buildAwardFundingSource(fundingSourceType, source, number, name);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            protocolFundingSource = buildOtherFundingSource(fundingSourceType, source, number, name);
         }
+        
         return protocolFundingSource;
     }
     
