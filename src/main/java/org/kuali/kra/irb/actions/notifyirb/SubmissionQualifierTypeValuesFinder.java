@@ -17,58 +17,68 @@ package org.kuali.kra.irb.actions.notifyirb;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
- * Finds the available set of Submission Qualifier Types for
- * a Notify IRB request.
+ * Finds the available set of Submission Qualifier Types for a Notify IRB request.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class SubmissionQualifierTypeValuesFinder extends IrbActionsKeyValuesBase {
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-       
+
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select"));
-        
-        Collection<ProtocolSubmissionQualifierType> submissionQualifierTypes = 
-                            this.getKeyValuesService().findAll(ProtocolSubmissionQualifierType.class);
-        for (ProtocolSubmissionQualifierType submissionQualifierType : submissionQualifierTypes) {
-            if (isAllowed(submissionQualifierType)) {
-                keyValues.add(new KeyLabelPair(submissionQualifierType.getSubmissionQualifierTypeCode(), 
-                                               submissionQualifierType.getDescription()));
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("submissionTypeCode", ProtocolSubmissionType.NOTIFY_IRB);
+        List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService().findMatching(
+                ValidProtoSubTypeQual.class, fieldValues);
+        if (validProtoSubTypeQuals.isEmpty()) {
+            keyValues.add(new KeyLabelPair("", "select"));
+            Collection<ProtocolSubmissionQualifierType> submissionQualifierTypes = this.getKeyValuesService().findAll(
+                    ProtocolSubmissionQualifierType.class);
+            for (ProtocolSubmissionQualifierType submissionQualifierType : submissionQualifierTypes) {
+                if (isAllowed(submissionQualifierType)) {
+                    keyValues.add(new KeyLabelPair(submissionQualifierType.getSubmissionQualifierTypeCode(),
+                        submissionQualifierType.getDescription()));
+                }
+            }
+        } else {
+            for (ValidProtoSubTypeQual typeQual : validProtoSubTypeQuals) {
+                keyValues.add(new KeyLabelPair(typeQual.getSubmissionTypeQualCode(), typeQual.getSubmissionTypeQualifier()
+                        .getDescription()));
             }
         }
-        
+
         return keyValues;
     }
 
     /**
-     * There are many submission qualifier types but only a few are available
-     * for a Notify IRB request.
+     * There are many submission qualifier types but only a few are available for a Notify IRB request.
+     * 
      * @param submissionQualifierType the submission qualifier type
      * @return true if applicable; otherwise false
      */
     private boolean isAllowed(ProtocolSubmissionQualifierType submissionQualifierType) {
-        String typeCodes[] = { ProtocolSubmissionQualifierType.AE_UADE,
-                               ProtocolSubmissionQualifierType.DSMB_REPORT,
-                               ProtocolSubmissionQualifierType.ANNUAL_REPORT,
-                               ProtocolSubmissionQualifierType.COMPLAINT,
-                               ProtocolSubmissionQualifierType.DEVIATION,
-                               ProtocolSubmissionQualifierType.COI_REPORT,
-                               ProtocolSubmissionQualifierType.REQUEST_FOR_ELIGIBILITY_EX,
-                               ProtocolSubmissionQualifierType.SELF_REPORT_NON_COMPLIANCE };
-        
+        String typeCodes[] = { ProtocolSubmissionQualifierType.AE_UADE, ProtocolSubmissionQualifierType.DSMB_REPORT,
+                ProtocolSubmissionQualifierType.ANNUAL_REPORT, ProtocolSubmissionQualifierType.COMPLAINT,
+                ProtocolSubmissionQualifierType.DEVIATION, ProtocolSubmissionQualifierType.COI_REPORT,
+                ProtocolSubmissionQualifierType.REQUEST_FOR_ELIGIBILITY_EX,
+                ProtocolSubmissionQualifierType.SELF_REPORT_NON_COMPLIANCE };
+
         for (String typeCode : typeCodes) {
             if (StringUtils.equals(typeCode, submissionQualifierType.getSubmissionQualifierTypeCode())) {
                 return true;

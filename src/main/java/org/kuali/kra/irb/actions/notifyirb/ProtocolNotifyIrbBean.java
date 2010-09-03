@@ -26,6 +26,7 @@ import org.apache.struts.upload.FormFile;
 public class ProtocolNotifyIrbBean implements Serializable{
     
     private String submissionQualifierTypeCode;
+    private String reviewTypeCode;
     private String committeeId;
     private String comment = "";
     private String fileName;
@@ -73,5 +74,13 @@ public class ProtocolNotifyIrbBean implements Serializable{
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getReviewTypeCode() {
+        return reviewTypeCode;
+    }
+
+    public void setReviewTypeCode(String reviewTypeCode) {
+        this.reviewTypeCode = reviewTypeCode;
     }
 }
