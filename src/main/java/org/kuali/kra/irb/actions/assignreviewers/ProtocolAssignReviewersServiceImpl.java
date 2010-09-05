@@ -56,14 +56,16 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
 
     /**
      * Find the submission.  It is the submission that is either currently pending or
-     * already submitted to a committee. 
+     * already submitted to a committee or the submission assigned to agenda 
      * @param protocol
      * @return
      */
     private ProtocolSubmission findSubmission(Protocol protocol) {
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                ||
+                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) {
                 return submission;
             }
         }

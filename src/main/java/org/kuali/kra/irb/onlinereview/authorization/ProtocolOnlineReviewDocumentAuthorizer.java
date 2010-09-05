@@ -23,14 +23,18 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
+    private transient KraWorkflowService kraWorkflowService;
+    
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
@@ -39,7 +43,8 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         
         if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {  
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW)) {
+        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW)
+                   && getKraWorkflowService().isUserApprovalRequested(protocolOnlineReviewDocument, GlobalVariables.getUserSession().getPrincipalId())) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
         } else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_PROTOCOL_ONLINEREVIEW)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -138,4 +143,13 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     protected boolean canApprove(Document document, Person user) {
        return super.canApprove(document, user);
     } 
+    
+    private KraWorkflowService getKraWorkflowService() {
+        if (kraWorkflowService==null) {
+            kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        }
+        return kraWorkflowService;
+    }
+
+    
 }
