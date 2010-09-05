@@ -25,11 +25,13 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -40,7 +42,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = -2294619582524055884L;
-
+    private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
+    
     private Long commScheduleMinutesId; 
     private Long scheduleIdFk; 
     private Integer entryNumber;
@@ -77,6 +80,8 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private transient String createUserFullName;
     @SkipVersioning
     private transient String updateUserFullName;
+    
+    private transient KcPersonService kcPersonService;
     
     
     
@@ -422,7 +427,11 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      * @return Returns the createUserFullName.
      */
     public String getCreateUserFullName() {
-        return createUserFullName;
+        if (createUserFullName == null && getCreateUser() != null) {
+            KcPerson person = getKcPersonService().getKcPersonByPersonId(getCreateUser());
+            createUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getCreateUser()):person.getFullName();
+        }
+        return updateUserFullName;
     }
 
     /**
@@ -438,6 +447,10 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      * @return Returns the updateUserFullName.
      */
     public String getUpdateUserFullName() {
+        if (updateUserFullName == null && getUpdateUser() != null) {
+            KcPerson person = getKcPersonService().getKcPersonByPersonId(getUpdateUser());
+            updateUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getUpdateUser()):person.getFullName();
+        }
         return updateUserFullName;
     }
 
@@ -449,4 +462,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         this.updateUserFullName = updateUserFullName;
     }
     
+    
+
+        
 }
