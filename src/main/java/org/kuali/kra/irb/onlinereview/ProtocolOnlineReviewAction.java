@@ -134,6 +134,15 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             valid = false;
             GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer", new String[0]);
         }
+        
+        if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
+            if (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().before(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) {
+                GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
+            }
+            
+        }
+        
+        
            return valid;        
     }
     
@@ -277,7 +286,11 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ReviewerComments reviewComments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
 
         //check to see if we are the reviewer and this is an approval to the irb admin.
-        if( getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), prDoc.getProtocolOnlineReview(), PermissionConstants.MAINTAIN_PROTOCOL_ONLINE_REVIEW)
+        
+        boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
+        boolean statusIsOk = false;
+        
+        if( validComments && prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId())
             && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
             
@@ -287,20 +300,24 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
                 String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
                 if(question == null){
-                    forward =  this.performQuestionWithInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                    forward =  this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
                  } 
                 else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
                     //nothing to do.
+                   
                 }
                 else
                 {
                     prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                    statusIsOk = true;
                     documentService.saveDocument(prDoc);
                 }
+            } else {
+                statusIsOk = true;
             }
         }
         
-        if (!applyRules(new RouteProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+        if (!validComments || !statusIsOk) {
             //nothing to do here.
         } else {
             reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
