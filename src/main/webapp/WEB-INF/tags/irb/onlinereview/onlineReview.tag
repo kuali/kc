@@ -27,7 +27,7 @@
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="documentOverviewReadOnly" value = "false"/>
+<c:set var="documentOverviewReadOnly" value = "${KualiForm.editingMode['viewOnly']}"/>
 
 <c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[documentNumber]}"/>
 <c:set var = "document" value = "${documentHelperMap['document']}"/>
@@ -35,7 +35,8 @@
 <c:set var = "reviewerPerson" value = "${document.protocolOnlineReview.protocolReviewer}"/>
 <c:set var = "kualiForm" value = "${documentHelperMap['kualiForm']}"/>
 
-<c:set var="readOnly" value="${not kualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
+
 
 <%--Keep in mind, KualiForm references the Protocol we are rendering in, kualiForm is a ProtocolOnlineReviewForm for the current protocol online review. --%>
 

@@ -28,6 +28,7 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -99,6 +100,8 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
                 minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
+                minute.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
+                minute.setUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
                 doUpdate = true;
             }
             if (doUpdate) {

@@ -611,6 +611,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         if( submission != null && submission.getCommitteeIdFk() != null && submission.getCommitteeSchedule() != null ) {
             result = true;
         }
+        
         return result;
     }
 
