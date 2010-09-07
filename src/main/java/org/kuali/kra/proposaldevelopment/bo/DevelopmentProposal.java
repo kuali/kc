@@ -26,7 +26,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
@@ -50,12 +49,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.YnqService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.authorization.PessimisticLock;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -134,7 +129,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<YnqGroupName> ynqGroupNames;
 //    private List<BudgetDocumentVersion> budgetDocumentVersions;
     private String creationStatusCode;
-    private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih;
     private Map<String, String> nihDescription;
     private boolean sponsorNihMultiplePi;
@@ -297,7 +291,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
-        s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
         proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
@@ -1744,14 +1737,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
         s2sAppSubmission = appSubmission;
-    }
-
-    public List<S2sSubmissionHistory> getS2sSubmissionHistory() {
-        return s2sSubmissionHistory;
-    }
-
-    public void setS2sSubmissionHistory(List<S2sSubmissionHistory> submissionHistory) {
-        s2sSubmissionHistory = submissionHistory;
     }
 
     public List<ProposalChangedData> getProposalChangedDataList() {
