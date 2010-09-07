@@ -55,23 +55,13 @@
 	</bean>
 	
 	<bean id="ProtocolNotifyIrbBean-reviewTypeCode" parent="ProtocolNotifyIrbBean-reviewTypeCode-parentBean" />
-	<bean id="ProtocolNotifyIrbBean-reviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="ProtocolNotifyIrbBean-reviewTypeCode-parentBean" abstract="true" parent="ProtocolSubmitAction-protocolReviewTypeCode" >
 		<property name="name" value="reviewTypeCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Submission Review Type" />
-		<property name="shortLabel" value="Submission Review Type" />
-		<property name="maxLength" value="3" />
-		<property name="required" value="true" />
-		<property name="validationPattern" >
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
 		<property name="control" >
 			<bean parent="SelectControlDefinition"
                   p:valuesFinderClass="org.kuali.kra.irb.actions.notifyirb.SubmissionReviewTypeValuesFinder"
                   p:includeKeyInLabel="false" />
 		</property>
-		<property name="summary" value="Protocol Review Type Code" />
-		<property name="description" value="Protocol Review Type Code" />
 	</bean>
 	
 	<bean id="ProtocolNotifyIrbBean-committeeId" parent="ProtocolNotifyIrbBean-committeeId-parentBean" />
