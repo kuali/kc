@@ -88,7 +88,7 @@ public class IrbAcknowledgementServiceImpl implements IrbAcknowledgementService 
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
                 submission.setSubmissionStatusCode(ProtocolSubmissionStatus.IRB_ACKNOWLEDGEMENT);
-                protocol.setNotifyIrbSubmissionId(null);
+              //  protocol.setNotifyIrbSubmissionId(null);
             }
         }
         
