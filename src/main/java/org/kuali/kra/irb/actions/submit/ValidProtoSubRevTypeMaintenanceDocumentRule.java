@@ -117,8 +117,8 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
                     GlobalVariables.getMessageMap().putError(
                             "document.newMaintainableObject.submissionTypeCode",
                             KeyConstants.ERROR_SUBMISSION_REVIEW_TYPE_EXISTS,
-                            new String[] { validProtoSubRevType.getSubmissionTypeCode(),
-                                    validProtoSubRevType.getProtocolReviewTypeCode() });
+                            new String[] { validProtoSubRevType.getSubmissionType().getDescription(),
+                                    validProtoSubRevType.getProtocolReviewType().getDescription() });
                     valid = false;
                 }
             }
