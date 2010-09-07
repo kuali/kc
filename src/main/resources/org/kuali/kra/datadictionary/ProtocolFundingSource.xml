@@ -151,11 +151,11 @@
 		<property name="name" value="fundingSource" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Funding Id" />
-		<property name="shortLabel" value="Funding Id" />
+		<property name="label" value="Funding Source Id" />
+		<property name="shortLabel" value="Funding Source Id" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control" >
             <bean parent="HiddenControlDefinition"/>
@@ -173,7 +173,7 @@
         <property name="shortLabel" value="Funding Number" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>
 	    <property name="control" >
             <bean parent="TextControlDefinition"
@@ -181,7 +181,7 @@
         </property>
         <property name="summary" value="Funding Source Number" />
         <property name="description" value="Funding Source Number" />
-  </bean>
+    </bean>
 
 	<bean id="ProtocolFundingSource-versionNumber" parent="ProtocolFundingSource-versionNumber-parentBean" />
 	<bean id="ProtocolFundingSource-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
