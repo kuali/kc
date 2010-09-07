@@ -116,8 +116,8 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
                     GlobalVariables.getMessageMap().putError(
                             "document.newMaintainableObject.submissionTypeCode",
                             KeyConstants.ERROR_SUBMISSION_TYPE_QUALIFIER_EXISTS,
-                            new String[] { validProtoSubTypeQual.getSubmissionTypeCode(),
-                                    validProtoSubTypeQual.getSubmissionTypeQualCode() });
+                            new String[] { validProtoSubTypeQual.getSubmissionType().getDescription(),
+                                    validProtoSubTypeQual.getSubmissionTypeQualifier().getDescription() });
                     valid = false;
                 }
             }

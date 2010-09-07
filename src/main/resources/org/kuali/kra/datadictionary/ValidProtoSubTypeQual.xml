@@ -35,6 +35,8 @@
                 <ref bean="ValidProtoSubTypeQual-validProtoSubTypeQualId" />
                 <ref bean="ValidProtoSubTypeQual-submissionTypeCode" />
                 <ref bean="ValidProtoSubTypeQual-submissionTypeQualCode" />
+                <ref bean="ValidProtoSubTypeQual-submissionType.description" />
+                <ref bean="ValidProtoSubTypeQual-submissionTypeQualifier.description" />
                 <ref bean="ValidProtoSubTypeQual-versionNumber" />
             </list>
         </property>
@@ -71,8 +73,12 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+			<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:keyAttribute="submissionTypeCode"
+            	p:labelAttribute="description" />
         </property>
         <property name="summary" value="Submission Type Code" />
         <property name="description" value="Submission Type Code" />
@@ -89,13 +95,33 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:keyAttribute="submissionQualifierTypeCode"
+            	p:labelAttribute="description" />
         </property>
         <property name="summary" value="Submission Type Qual Code" />
         <property name="description" value="Submission Type Qual Code" />
     </bean>
 
+ <bean id="ValidProtoSubTypeQual-submissionTypeQualifier.description" parent="ValidProtoSubTypeQual-submissionTypeQualifier.description-parentBean" />
+
+  <bean id="ValidProtoSubTypeQual-submissionTypeQualifier.description-parentBean" abstract="true" parent="ProtocolSubmissionQualifierType-description">
+    <property name="name" value="submissionTypeQualifier.description" />
+    <property name="label" value="Submission Qualifier Type" />
+    <property name="shortLabel" value="Submission Qualifier Type" />
+  </bean>
+
+  <bean id="ValidProtoSubTypeQual-submissionType.description" parent="ValidProtoSubTypeQual-submissionType.description-parentBean" />
+
+  <bean id="ValidProtoSubTypeQual-submissionType.description-parentBean" abstract="true" parent="ProtocolSubmissionType-description">
+    <property name="name" value="submissionType.description" />
+    <property name="label" value="Submission Type" />
+    <property name="shortLabel" value="Submission Type" />
+ </bean>
+ 
     <bean id="ValidProtoSubTypeQual-versionNumber" parent="ValidProtoSubTypeQual-versionNumber-parentBean" />
     <bean id="ValidProtoSubTypeQual-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -136,9 +162,9 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
+                <!-- <bean parent="FieldDefinition"
                     p:attributeName="validProtoSubTypeQualId" 
-                    p:forceInquiry="true" />
+                    p:forceInquiry="true" /> -->
                 <bean parent="FieldDefinition"
                     p:attributeName="submissionTypeCode" />
                 <bean parent="FieldDefinition"
@@ -151,9 +177,9 @@
                     p:attributeName="validProtoSubTypeQualId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeCode" />
+                    p:attributeName="submissionType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeQualCode" />
+                    p:attributeName="submissionTypeQualifier.description" />
             </list>
         </property>
     </bean>
