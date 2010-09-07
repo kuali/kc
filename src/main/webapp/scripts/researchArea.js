@@ -1145,7 +1145,7 @@ $("#paste0").click(
  */
 function deleteChild(childid) {
 
-	var childrenli = $("#" + childid).children('ul.eq(0)').children('li');
+	var childrenli = $("#" + childid).children('ul:eq(0)').children('li');
 	if (newNodes != ";"
 			&& newNodes.indexOf(";" + getResearchAreaCode($("#" + childid))
 					+ ";") > -1) {
