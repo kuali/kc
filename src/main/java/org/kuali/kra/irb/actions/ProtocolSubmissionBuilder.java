@@ -76,6 +76,8 @@ public class ProtocolSubmissionBuilder {
     private void setValuesFromOldSubmission(ProtocolSubmission newSubmission, ProtocolSubmission oldSubmission) {
         if (oldSubmission != null) {
             //old submission may not be found if in a unit test
+            //TODO : some of these, such as scheduleid/scheduleidfk, should not be copied over.
+            // need to investigate if this is good for app.
             protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
             protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
             protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
@@ -169,6 +171,11 @@ public class ProtocolSubmissionBuilder {
                 protocolSubmission.setScheduleIdFk(schedule.getId());
                 protocolSubmission.setCommitteeSchedule(schedule);
                 return true;
+            } else {
+                // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
+                protocolSubmission.setScheduleId(null);
+                protocolSubmission.setScheduleIdFk(null);
+                protocolSubmission.setCommitteeSchedule(null);
             }
         }
         return false;

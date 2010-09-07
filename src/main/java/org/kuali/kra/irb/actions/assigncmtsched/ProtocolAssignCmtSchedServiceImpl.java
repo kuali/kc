@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.irb.actions.assigncmtsched;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -22,6 +26,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -114,15 +119,39 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
                 submission.setScheduleId(null);
                 submission.setScheduleIdFk(null);
                 submission.setCommitteeSchedule(null);
+                updateDefaultSchedule(submission);
             }
             else {
                 submission.setScheduleId(schedule.getScheduleId());
                 submission.setScheduleIdFk(schedule.getId());
                 submission.setCommitteeSchedule(schedule);
+                updateDefaultSchedule(submission);
             }
         }
     }
     
+    /*
+     * update default schedule in minute when schedule is assigned.
+     * TODO : copied from protocolsubmitactionservice, so this can be shared
+     */
+    @SuppressWarnings("unchecked")
+    private void updateDefaultSchedule(ProtocolSubmission submission) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
+//        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
+        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
+        if (!minutes.isEmpty()) {
+            for (CommitteeScheduleMinute minute : minutes) {
+                if (submission.getScheduleIdFk() == null) {
+                    minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+                } else {
+                    minute.setScheduleIdFk(submission.getScheduleIdFk());
+                }
+            }
+            businessObjectService.save(minutes);
+        }
+    }
+
     /**
      * Set the committee that the submission will use.
      * @param committeeId

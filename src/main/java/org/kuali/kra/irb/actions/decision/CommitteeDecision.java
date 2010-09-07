@@ -69,7 +69,12 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
      */
     public void init() {
         Protocol protocol = getActionHelper().getProtocol();
-        ProtocolSubmission submission = getSubmission(protocol);
+        // getSubmission(protocol) is not necessary the most recent one.
+        // this may cause problem later if the most recent submission does not have schedule, then
+        // npe when try to getavailable member
+        // TODO : check with Jay
+        //ProtocolSubmission submission = getSubmission(protocol);
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
             this.noCount = submission.getNoVoteCount();
             this.yesCount = submission.getYesVoteCount();
