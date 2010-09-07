@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -30,6 +31,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -183,13 +185,28 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         }
         
         this.protocolAssignReviewersService.assignReviewers(protocol, submitAction.getReviewers());
-        
+        if (submission.getScheduleIdFk() != null) {
+            updateDefaultSchedule(submission);
+        }
         businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
         protocol.getProtocolDocument().getPessimisticLocks().clear();
-        
         documentService.saveDocument(protocol.getProtocolDocument());
         
         protocol.refresh();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void updateDefaultSchedule(ProtocolSubmission submission) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
+        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
+        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
+        if (!minutes.isEmpty()) {
+            for (CommitteeScheduleMinute minute : minutes) {
+                minute.setScheduleIdFk(submission.getScheduleIdFk());
+            }
+            businessObjectService.save(minutes);
+        }
     }
     
     /**

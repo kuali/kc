@@ -41,6 +41,7 @@ import org.kuali.kra.meeting.ScheduleAgenda;
 public class CommitteeSchedule extends CommitteeAssociate implements Comparable<CommitteeSchedule>{ 
     
     private static final long serialVersionUID = -360139608123017188L;
+    public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
     
     private Time12HrFmt viewTime;
     
