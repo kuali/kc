@@ -35,6 +35,8 @@
                 <ref bean="ValidProtoSubRevType-validProtoSubRevTypeId" />
                 <ref bean="ValidProtoSubRevType-submissionTypeCode" />
                 <ref bean="ValidProtoSubRevType-protocolReviewTypeCode" />
+                <ref bean="ValidProtoSubRevType-submissionType.description" />
+                <ref bean="ValidProtoSubRevType-protocolReviewType.description" />
                 <ref bean="ValidProtoSubRevType-versionNumber" />
             </list>
         </property>
@@ -71,8 +73,12 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+			<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolSubmissionType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:keyAttribute="submissionTypeCode"
+            	p:labelAttribute="description" />
         </property>
         <property name="summary" value="Submission Type Code" />
         <property name="description" value="Submission Type Code" />
@@ -89,12 +95,32 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+            <bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:keyAttribute="reviewTypeCode"
+            	p:labelAttribute="description" />
         </property>
         <property name="summary" value="Protocol Review Type Code" />
         <property name="description" value="Protocol Review Type Code" />
     </bean>
+
+  <bean id="ValidProtoSubRevType-submissionType.description" parent="ValidProtoSubRevType-submissionType.description-parentBean" />
+
+  <bean id="ValidProtoSubRevType-submissionType.description-parentBean" abstract="true" parent="ProtocolSubmissionType-description">
+    <property name="name" value="submissionType.description" />
+    <property name="label" value="Submission Type" />
+    <property name="shortLabel" value="Submission Type" />
+ </bean>
+
+  <bean id="ValidProtoSubRevType-protocolReviewType.description" parent="ValidProtoSubRevType-protocolReviewType.description-parentBean" />
+
+  <bean id="ValidProtoSubRevType-protocolReviewType.description-parentBean" abstract="true" parent="ProtocolReviewType-description">
+    <property name="name" value="protocolReviewType.description" />
+    <property name="label" value="Review Type" />
+    <property name="shortLabel" value="Review Type" />
+  </bean>
 
     <bean id="ValidProtoSubRevType-versionNumber" parent="ValidProtoSubRevType-versionNumber-parentBean" />
     <bean id="ValidProtoSubRevType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -136,9 +162,9 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
+                <!-- <bean parent="FieldDefinition"
                     p:attributeName="validProtoSubRevTypeId" 
-                    p:forceInquiry="true" />
+                    p:forceInquiry="true" /> -->
                 <bean parent="FieldDefinition"
                     p:attributeName="submissionTypeCode" />
                 <bean parent="FieldDefinition"
@@ -151,9 +177,9 @@
                     p:attributeName="validProtoSubRevTypeId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="submissionTypeCode" />
+                    p:attributeName="submissionType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="protocolReviewTypeCode" />
+                    p:attributeName="protocolReviewType.description" />
             </list>
         </property>
     </bean>
