@@ -59,13 +59,8 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
                 && !typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
                 && !typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
                 && !typeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) { 
-            if (typeCode.equals(FundingSourceLookup.OTHER.getTypeCode())) {
-                errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
-                isValid = false;
-            } else { 
-                errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
-                isValid = false;            
-            }
+            errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
+            isValid = false;
         }   
        
         return isValid;
