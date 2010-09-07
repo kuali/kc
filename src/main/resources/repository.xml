@@ -197,10 +197,6 @@
 			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
 
-		<collection-descriptor name="s2sSubmissionHistory" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sSubmissionHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
-
 		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>		
@@ -1852,29 +1848,7 @@
 		</reference-descriptor>
 		-->
 	</class-descriptor>
- <!-- sp rev enhancement -->	
- <!--  Resubmission enhancement --> 
-	<class-descriptor class="org.kuali.kra.s2s.bo.S2sSubmissionHistory" table="SUBMISSION_HISTORY">
- 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" sequence-name="SEQUENCE_SUBMISSION_HISTORY" primarykey="true" autoincrement="true"/>
- 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
- 		<field-descriptor name="proposalNumberOrig" column="PROPOSAL_NUMBER_ORIG" jdbc-type="VARCHAR" /> 		
- 		<field-descriptor name="originalProposalId" column="ORIGINAL_PROPOSAL_ID" jdbc-type="VARCHAR" />
- 		<field-descriptor name="submittedBy" column="SUBMITTED_BY" jdbc-type="VARCHAR"/>		
- 		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
- 		<field-descriptor name="s2sRevisionTypeCode" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" />
- 		<field-descriptor name="submissionTime" column="SUBMISSION_TIMESTAMP" jdbc-type="TIMESTAMP"/>
- 		<field-descriptor name="federalIdentifier" column="FEDERAL_IDENTIFIER" jdbc-type="VARCHAR" />		
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="s2sSubmissionType" class-ref="org.kuali.kra.s2s.bo.S2sSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="s2sSubmissionTypeCode"/> 
-		</reference-descriptor>				
-		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="s2sRevisionTypeCode"/> 
-		</reference-descriptor>
-	</class-descriptor>
+
 <!--  resubmission enhancement -->		
  
 	<class-descriptor class="org.kuali.kra.bo.SponsorForms" table="SPONSOR_FORMS">
