@@ -41,7 +41,7 @@
 </kul:tab>
     <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus }"  />   
-     <input type="hidden" id="readOnly" name="docStatus" value="${KualiForm.readOnly}"  />   
+     <input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
 
 <script type="text/javascript" src="scripts/questionnaireMaint.js"></script>
 

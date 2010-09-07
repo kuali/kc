@@ -14,6 +14,7 @@ var sqlidx = 0;
 var groupid = 0;
 var curgroup = 0;
 var cutNodeParentCode = 0;
+var newqn= new Array();
 $(document).ready(function() {
 	$.ajaxSettings.cache = false;
 	$("#example").treeview( {
@@ -64,8 +65,22 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 			$("#listcontent" + idx).slideToggle(300);
 		}
 		$("#listcontent" + idx).slideToggle(300);
-	});
+	});	
 	linktmp.appendTo(div62);
+	
+	// new version question message & link
+	if ($("#readOnly").attr("value") != 'true' && newqn[i] && !isNaN(newqn[i])) {
+	    var linkNewQ = $(';nbsp;nbsp<a style="margin-left:2px;"></a>').attr("id",
+			"newqn" + i).attr("name","newqn" + i).html("<font color=red> A newer version of this question available</font>");
+	    linkNewQ.click(function() {
+		    var idx = $(this).attr("id").substring(5);
+	        newQuestionWindow = window.open(extractUrlBase() +
+	    	                               "/kr/directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
+	    	                               "&questionRefId=" + newqn[idx] , 
+	    	                               "_blank", "width=640, height=600, scrollbars=yes");
+	    });
+	    linkNewQ.appendTo(div62);
+	}
 
 	div62.appendTo(question);
 
@@ -251,6 +266,7 @@ function getMaintTableHeader(description, vers) {
 			.toggle(
 			// TODO : really need this toggle. Mock's toggle did not show up
 			);
+	
 	thtmp.html(description + "(" + vers + ")");
 	imgtmp.prependTo(thtmp);
 	thtmp.appendTo(trtmp);
@@ -503,6 +519,8 @@ function pasteChild(parentid, startnode) {
     var qmaxlength= splitq[5];
 
 	i++;
+	// set new version question if any
+	newqn[i] = newqn[stidx];
 	var listitem = getQuestionNew(qdesc, qtypeid, qvers,qdispans,qansmax,qmaxlength, "true");
 	var ultag = $('<ul></ul>');
 	ultag.appendTo(listitem);
@@ -565,9 +583,9 @@ function pasteChild(parentid, startnode) {
 	$("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	}
 
-	if ($(startnode).children('ul.eq(0)').children('li').size() > 0) {
+	if ($(startnode).children('ul').children('li').size() > 0) {
 
-		$(startnode).children('ul.eq(0)').children('li').each(
+		$(startnode).children('ul').children('li').each(
 				function() {
 					if (isCopy == 'false'
 							|| (isCopy == 'true' && $(this).attr("id")
@@ -587,7 +605,7 @@ function deleteChild(parentNum, childid) {
 
 	var idx = $("#" + childid).attr("id").substring(8);
 	var qnum = $("#qnum" + idx).attr("value");
-	var childrenli = $("#" + childid).children('ul.eq(0)').children('li');
+	var childrenli = $("#" + childid).children('ul').children('li');
 	var splitq = $("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -625,7 +643,7 @@ $("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tm
 function getMaxCopyNodeIdx(startnode) {
 
 	var idx = $(startnode).attr("id").substring(8);
-	var childrenli = $(startnode).children('ul.eq(0)').children('li');
+	var childrenli = $(startnode).children('ul').children('li');
 	if (idx > maxCopyNodeIdx) {
 		maxCopyNodeIdx = idx;
 	}
@@ -837,14 +855,27 @@ function getAddQuestionRow(curidx) {
 			.attr("id", "tbl95" + curidx);
 	var trtmp = $('<tr></tr>');
 	var tdtmp = $('<td style="border:none; width:170px;"></td>');
+	
+	var newqtbl = $(
+	'<table style="border:none; width:100%;" cellpadding="0" cellspacing="0"></table>');
+	var newqtr = $('<tr></tr>');
+	var newqtd = $('<td style="border:none;"></td>');
+
 	$('<input type="radio" name = "radio" checked="checked" value="sibling" />')
 			.attr("class", "radioQn" + curidx).attr("name", "radioQn" + curidx)
-			.appendTo(tdtmp);
-	$('<span>as sibling&nbsp;&nbsp;&nbsp</span>').appendTo(tdtmp);
+			.appendTo(newqtd);
+	$('<span>as sibling&nbsp;&nbsp;&nbsp</span>').appendTo(newqtd);
+	newqtd.appendTo(newqtr);
+	
+	newqtd = $('<td style="border:none;"></td>');
 	$('<input type="radio" name = "radio" value="child" />').attr("class",
 			"radioQn" + curidx).attr("name", "radioQn" + curidx)
-			.appendTo(tdtmp);
-	$('<span>as child</span>').appendTo(tdtmp);
+			.appendTo(newqtd);
+	$('<span>as child</span>').appendTo(newqtd);
+	newqtd.appendTo(newqtr);
+	newqtr.appendTo(newqtbl);
+	newqtbl.appendTo(tdtmp);
+	
 	tdtmp.appendTo(trtmp);
 
 	tdtmp = $('<td style="border:none;"></td>')
@@ -1933,6 +1964,7 @@ function loadQuestion() {
                 ischild = 'true';
             }
             nodecount++;
+            newqn[i] = field[15];
             var listitem = getQuestionNew(field[3], field[4], field[9], field[10], field[11], field[12], ischild);
             var ultag = $('<ul></ul>');
             ultag.appendTo(listitem);
@@ -2125,4 +2157,12 @@ function getUsageHidden(name, value) {
 	return $('<input type="hidden" id = "usage" name = "usage" />').attr("id",
     		uprefix + (ucount-1)+"]."+name).attr("name", uprefix + (ucount-1)+"]."+name)
             .attr("value",value);	
+}
+
+function newVersionQuestionPop(questionRefId) {
+
+    newQuestionWindow = window.open(extractUrlBase() +
+    	                               "/" + name + "directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
+    	                               "&questionRefId=" + questionRefId , 
+    	                               "_blank", "width=640, height=600, scrollbars=yes");
 }
