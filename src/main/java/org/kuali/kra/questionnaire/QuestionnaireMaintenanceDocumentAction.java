@@ -221,10 +221,24 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 + PFP + desc + PFP + question.getQuestion().getQuestionTypeId() + PFP + question.getQuestionNumber() + PFP
                 + question.getCondition() + PFP + question.getConditionValue() + PFP + question.getParentQuestionNumber() + PFP
                 + question.getQuestion().getSequenceNumber() + PFP + getQeustionResponse(question.getQuestion()) + PFP
-                + question.getVersionNumber() + PFP + (question.getConditionFlag() ? "Y" : "N");
+                + question.getVersionNumber() + PFP + (question.getConditionFlag() ? "Y" : "N") + PFP + getVersionedQuestion(question);
 
     }
 
+    @SuppressWarnings("unchecked")
+    private String getVersionedQuestion(QuestionnaireQuestion qnQuestion) {
+        
+        String results = "N";
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("questionId", qnQuestion.getQuestion().getQuestionId().toString());
+        Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
+        if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {
+            results = question.getQuestionRefId().toString();
+        } 
+        return results;
+
+    }
+    
     /*
      * Create a concatenated usage properties string.
      */
