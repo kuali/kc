@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -99,7 +100,11 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
                 minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
                 minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
-                minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
+                if (protocol.getProtocolSubmission().getScheduleIdFk() != null) {
+                    minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
+                } else {
+                    minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+                }
                 minute.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
                 minute.setUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
                 doUpdate = true;
@@ -111,6 +116,24 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         }
     }
 
+    /*
+     * if this is IRB acknowledgement and loaded from protocol submission or notification.
+     */
+    private ProtocolSubmission getSubmission(Protocol protocol) {
+        ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
+        if (protocol.getNotifyIrbSubmissionId() != null) {
+            // not the current submission, then check programically
+            for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+                if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
+                    protocolSubmission = submission;
+                    break;
+                }
+            }
+        }
+        return protocolSubmission;
+    
+    }
+    
     public void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview) {
         //set the protocolOnlineReviewIdFk for each of the comments.
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
