@@ -71,7 +71,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	// new version question message & link
 	if ($("#readOnly").attr("value") != 'true' && newqn[i] && !isNaN(newqn[i])) {
 	    var linkNewQ = $(';nbsp;nbsp<a style="margin-left:2px;"></a>').attr("id",
-			"newqn" + i).attr("name","newqn" + i).html("<font color=red> A newer version of this question available</font>");
+			"newqn" + i).attr("name","newqn" + i).html("<font color=red> A newer version of this question is available</font>");
 	    linkNewQ.click(function() {
 		    var idx = $(this).attr("id").substring(5);
 	        newQuestionWindow = window.open(extractUrlBase() +
