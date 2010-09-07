@@ -98,10 +98,11 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
             } else {
                 //brand new review comment / minute entry, set some cool stuff
                 minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-                minute.setSubmissionIdFk(protocol.getProtocolSubmission().getSubmissionId());
-                minute.setProtocolIdFk(protocol.getProtocolSubmission().getProtocolId());
-                if (protocol.getProtocolSubmission().getScheduleIdFk() != null) {
-                    minute.setScheduleIdFk(protocol.getProtocolSubmission().getScheduleIdFk());
+                ProtocolSubmission protocolSubmission = getSubmission(protocol);
+                minute.setSubmissionIdFk(protocolSubmission.getSubmissionId());
+                minute.setProtocolIdFk(protocolSubmission.getProtocolId());
+                if (protocolSubmission.getScheduleIdFk() != null) {
+                    minute.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
                 } else {
                     minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
                 }
