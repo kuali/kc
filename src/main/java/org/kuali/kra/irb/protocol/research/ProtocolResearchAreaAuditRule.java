@@ -73,7 +73,7 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(ADDITIONAL_INFORMATION_AUDIT_ERRORS, 
-                    new AuditCluster(Constants.PROTOCOL_PROTOCOL_RESEARCH_AREA_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+                    new AuditCluster(Constants.PROTOCOL_PROTOCOL_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
     }
     
