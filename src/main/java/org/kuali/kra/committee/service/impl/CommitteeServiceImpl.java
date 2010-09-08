@@ -219,14 +219,17 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @return true if the member will be at the meeting; otherwise false
      */
     private boolean isMemberAvailable(CommitteeMembership member, Date scheduledDate) {
-        Calendar scheduleCalendar = getCalendar(scheduledDate);
-        List<CommitteeMembershipRole> roles = member.getMembershipRoles();
-        for (CommitteeMembershipRole role : roles) {
-            Calendar startCalendar = getCalendar(role.getStartDate());
-            Calendar endCalendar = getCalendar(role.getEndDate());
-            if (scheduleCalendar.compareTo(startCalendar) >= 0 &&
-                scheduleCalendar.compareTo(endCalendar) <= 0) {
-                return true;
+        java.sql.Date sqlDate = new java.sql.Date(scheduledDate.getTime());
+        if (member.isActive(sqlDate)) {
+            Calendar scheduleCalendar = getCalendar(scheduledDate);
+            List<CommitteeMembershipRole> roles = member.getMembershipRoles();
+            for (CommitteeMembershipRole role : roles) {
+                Calendar startCalendar = getCalendar(role.getStartDate());
+                Calendar endCalendar = getCalendar(role.getEndDate());
+                if (scheduleCalendar.compareTo(startCalendar) >= 0 &&
+                    scheduleCalendar.compareTo(endCalendar) <= 0) {
+                    return true;
+                }
             }
         }
         return false;
