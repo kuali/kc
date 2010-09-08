@@ -146,19 +146,15 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Reference Type Code" />
 		<property name="shortLabel" value="Type" />
-		<property name="maxLength" value="22" />
+		<property name="maxLength" value="3" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.protocol.reference.ProtocolReferenceType"
-                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
-            	p:includeBlankRow="false"
-                p:includeKeyInLabel="false"
-                p:keyAttribute="protocolReferenceTypeCode"
-                p:labelAttribute="description" />
-        </property>	
+       			<bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.irb.protocol.ProtocolReferenceTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+ </property>	
         <property name="required" value="true" />	 
 		<property name="summary" value="Protocol Reference Type Code" />
 		<property name="description" value="Protocol Reference Type Code" />

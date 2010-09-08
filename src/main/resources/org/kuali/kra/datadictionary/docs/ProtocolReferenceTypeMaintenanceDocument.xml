@@ -49,6 +49,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="protocolReferenceTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
