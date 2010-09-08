@@ -15,16 +15,4 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Medusa</title>
-
-</head>
-<body>
-<c:out value="I am in medusaViewAjax.jsp" />
-
 <kra-m:medusaNodeView node="${KualiForm.medusaBean.currentNode}"/>
-
-</body>
-</html>
