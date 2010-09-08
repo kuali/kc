@@ -65,6 +65,7 @@ import org.kuali.kra.irb.personnel.ProtocolUnitRule;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.irb.personnel.SaveProtocolPersonnelRule;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceAuditRule;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceRule;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationRule;
@@ -137,6 +138,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
+        retval &= new ProtocolFundingSourceAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= new ProtocolResearchAreaAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
