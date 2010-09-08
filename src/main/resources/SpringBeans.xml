@@ -2095,8 +2095,8 @@
     
     <bean id="medusaService" class="org.kuali.kra.medusa.service.MedusaServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="awardHierarchyUIService" ref="awardHierarchyUIService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
+        <property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
     
     <bean id="timeAndMoneyExistenceService" class="org.kuali.kra.service.impl.TimeAndMoneyExistenceServiceImpl">
