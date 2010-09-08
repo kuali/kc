@@ -487,6 +487,9 @@ public final class KeyConstants {
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
     
+    // IRB Protocol Funding Source Validation messages
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_REQUIRED = "error.protocol.fundingSource.required";
+    
     //IRB Protocol Search Screen Error Messages
     public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.protocol.search.invalid.date";
     
