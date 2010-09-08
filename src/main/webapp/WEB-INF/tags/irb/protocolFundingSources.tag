@@ -62,9 +62,10 @@
                                                                 'protocolHelper.newFundingSource.fundingSourceName', 
                                                                 'protocolHelper.newFundingSource.fundingSourceTitle');" />
 	
-                        
-	                       <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
-	                                                    fieldConversions="" anchor="${currentTabIndex}"/> 
+                           <div id="protocolHelper.newFundingSource.fundingSourceNumber.lookup.div" style="display: inline">
+		                       <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
+		                                                    fieldConversions="" anchor="${currentTabIndex}"/>
+		                   </div>
 	                   </div>
 	                </td>
 	             
@@ -73,31 +74,21 @@
 	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
                                                       attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
                             
-                            <div id="protocolHelper.newFundingSource.fundingSourceName.div">
-                                <c:if test="${!empty protocolHelper.newFundingSource.fundingSourceNumber} 
-                                             && ${empty protocolHelper.newFundingSource.fundingSourceName}">
-                                    <span style='color: red;'>not found</span><br>
-                                </c:if>
+                            <div id="protocolHelper.newFundingSource.fundingSourceName.error.div" style="display: none">
+                                <span style="color: red;">not found</span>
                             </div>
                         </div>
 	                </td>
 	                
 	                <td>
 		                <div align="center">
-		                   ${kfunc:registerEditableProperty(KualiForm, "protocolHelper.newFundingSource.fundingSourceTitle")}                                    
-	                       <input type="hidden" name="protocolHelper.newFundingSource.fundingSourceTitle" value=""/>
+		                	${kfunc:registerEditableProperty(KualiForm, "protocolHelper.newFundingSource.fundingSourceTitle")}                                    
+	                        <input type="hidden" name="protocolHelper.newFundingSource.fundingSourceTitle" value=""/>
+	                        <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}" />
 		                   
-		                   <div id="protocolHelper.newFundingSource.fundingSourceTitle.div">
-			                   <c:choose>
-			                      <c:when test="${!empty protocolHelper.newFundingSource.fundingSourceNumber} 
-			                                 && ${empty protocolHelper.newFundingSource.fundingSourceTitle}">
-			                          <span style='color: red;'>not found</span><br>
-			                      </c:when>
-			                      <c:otherwise>
-			                          <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}" />
-			                      </c:otherwise>
-			                   </c:choose>
-			               </div>
+		                   	<div id="protocolHelper.newFundingSource.fundingSourceTitle.error.div" style="display: none">
+			                	<span style="color: red;">not found</span><br>
+			               	</div>
 	                    </div>
 	                </td>
 	

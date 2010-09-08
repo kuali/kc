@@ -220,8 +220,7 @@
                                 p:allowWhitespace="true" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="21" />
+            <bean parent="HiddenControlDefinition"/>
         </property>
         <property name="summary" value="Funding Source Title" />
         <property name="description" value="Funding Source Title" />
