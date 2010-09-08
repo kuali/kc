@@ -29,6 +29,7 @@
 			<list>
 				<ref bean="ProtocolReferenceType-protocolReferenceTypeCode"/>
 				<ref bean="ProtocolReferenceType-description"/>
+				<ref bean="ProtocolReferenceType-active"/>
 				<ref bean="ProtocolReferenceType-versionNumber"/>
 			</list>
 		</property>
@@ -59,6 +60,16 @@
     	<property name="maxLength" value="300"/>
     </bean>
 
+  <bean id="ProtocolReferenceType-active" parent="ProtocolReferenceType-active-parentBean"/>
+
+  <bean abstract="true" id="ProtocolReferenceType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Is Active"/>
+    <property name="shortLabel" value="Is Active"/>
+    <property name="summary" value="Is Active"/>
+    <property name="description" value="Is Active"/>
+  </bean>
+
 	<bean id="ProtocolReferenceType-versionNumber" parent="ProtocolReferenceType-versionNumber-parentBean"/>
 	<bean abstract="true" id="ProtocolReferenceType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -76,6 +87,7 @@
 						<list>
 							<bean p:attributeName="protocolReferenceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
+                            <bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -97,12 +109,14 @@
 			<list>
 				<bean p:attributeName="protocolReferenceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+                <bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="protocolReferenceTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+                <bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
