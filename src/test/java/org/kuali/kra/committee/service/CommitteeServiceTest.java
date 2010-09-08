@@ -239,6 +239,7 @@ public class CommitteeServiceTest {
         CommitteeMembershipRole role1 = new CommitteeMembershipRole();
         role1.setStartDate(getDate(0));
         role1.setEndDate(getDate(40));
+        role1.setMembershipRoleCode(CommitteeMembershipRole.ALTERNATE_ROLE);
         member1.getMembershipRoles().add(role1);
         committee.getCommitteeMemberships().add(member1);
         
@@ -247,6 +248,7 @@ public class CommitteeServiceTest {
         CommitteeMembershipRole role2 = new CommitteeMembershipRole();
         role2.setStartDate(getDate(0));
         role2.setEndDate(getDate(5));
+        role2.setMembershipRoleCode(CommitteeMembershipRole.ALTERNATE_ROLE);
         member2.getMembershipRoles().add(role2);
         committee.getCommitteeMemberships().add(member2);
         
@@ -255,6 +257,7 @@ public class CommitteeServiceTest {
         CommitteeMembershipRole role3 = new CommitteeMembershipRole();
         role3.setStartDate(getDate(40));
         role3.setEndDate(getDate(45));
+        role3.setMembershipRoleCode(CommitteeMembershipRole.ALTERNATE_ROLE);
         member3.getMembershipRoles().add(role3);
         committee.getCommitteeMemberships().add(member3);
         
