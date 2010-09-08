@@ -106,8 +106,8 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 } else {
                     minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
                 }
-                minute.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
-                minute.setUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
+                minute.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+                minute.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
                 doUpdate = true;
             }
             if (doUpdate) {
