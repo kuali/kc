@@ -307,16 +307,25 @@ public class CommitteeMembership extends CommitteeAssociate {
     }
 
     /**
-     * This method determines if the current committee member is active.
+     * This method determines if the current committee member is active as of the current date.
      * @return true if member is active, false otherwise
      */
     public boolean isActive() {
-        boolean isActive = false;
-        
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+        return isActive(currentDate);
+    }
+    
+    /**
+     * 
+     * This method determines if the current committee member is active for the given date
+     * @param date
+     * @return true if member is active, false otherwise
+     */
+    public boolean isActive(Date date) {
+        boolean isActive = false;
         for (CommitteeMembershipRole role : membershipRoles) {
             if (role.getStartDate() != null && role.getEndDate() != null 
-                    && !currentDate.before(role.getStartDate()) && !currentDate.after(role.getEndDate())) {
+                    && !date.before(role.getStartDate()) && !date.after(role.getEndDate())) {
                 if (role.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
                     isActive = false;
                     break;
@@ -325,7 +334,6 @@ public class CommitteeMembership extends CommitteeAssociate {
                 }
             }
         }
-
         return isActive;
     }
 
