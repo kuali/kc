@@ -56,7 +56,7 @@
   
   function addDetails(context, data, textStatus, httpRequest) {
 	  var myDetails = getDetailsFromLink(context);
-	  myDetails.html($(data).parent().find('#medusaNewDetails').html()).slideDown(300);
+	  myDetails.html(data).slideDown(300);
 	  myDetails.addClass("medusaDetailsLoaded");
 	  var showOpen =$(context).attr('name').split('-')[2];
 	  if (showOpen == 0) {
