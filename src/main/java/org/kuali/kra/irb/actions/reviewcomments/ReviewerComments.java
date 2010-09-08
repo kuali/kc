@@ -73,8 +73,8 @@ public class ReviewerComments implements Serializable {
         newComment.setProtocolIdFk(protocol.getProtocolId());
         newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         newComment.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
-        newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
-        newComment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalId());
+        //newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
+        newComment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         comments.add(newComment);
         newComment = new CommitteeScheduleMinute();
     }
