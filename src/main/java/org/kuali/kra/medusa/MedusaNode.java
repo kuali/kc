@@ -19,17 +19,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kns.bo.BusinessObject;
+
 
 public class MedusaNode implements Serializable {
-    private Object bo;
+    private static final long serialVersionUID = 6899695450845010658L;
+    
+    private BusinessObject bo;
     private String type;
     private Object extraInfo;
     private List<MedusaNode> childNodes = new ArrayList<MedusaNode>();
     
-    public Object getBo() {
+    public BusinessObject getBo() {
         return bo;
     }
-    public void setBo(Object bo) {
+    public void setBo(BusinessObject bo) {
         this.bo = bo;
     }
     public String getType() {
@@ -49,5 +53,5 @@ public class MedusaNode implements Serializable {
     }
     public void setExtraInfo(Object extraInfo) {
         this.extraInfo = extraInfo;
-    }
+    }   
 }     

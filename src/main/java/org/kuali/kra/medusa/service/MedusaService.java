@@ -21,11 +21,43 @@ import java.util.List;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.medusa.MedusaNode;
 
-
+/**
+ * 
+ * Medusa Service provides the methods for displaying the tree-like view and summary of
+ * related documents.
+ */
 public interface MedusaService {
 
+    /**
+     * 
+     * Returns a list of MedusaNode objects that describe the top level of
+     * the tree-like structure of the Medusa object passed in using the Awards(if available)
+     * as the top level nodes.
+     * @param moduleName name of the module to be looked up (ie. award, IP, DP)
+     * @param moduleIdentifier the primary key of the object to be looked up in the specified module
+     * @return
+     */
     public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier);
+    
+    /**
+     * 
+     * Returns a list of MedusaNode objects that describe the top level of
+     * the tree-like structure of the Medusa object passed in using the Institutional Proposals(if available)
+     * as the top level nodes.
+     * @param moduleName name of the module to be looked up (ie. award, IP, DP)
+     * @param moduleIdentifier the primary key of the object to be looked up in the specified module
+     * @return
+     */
     public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier);
+    
+    /**
+     * 
+     * Returns a single MedusaNode that can be used to render the lazy-loaded summary for the
+     * BO contained in that node
+     * @param moduleName name of the module to be looked up (ie. award, IP, DP)
+     * @param moduleIdentifier the primary key of the object to be looked up in the specified module
+     * @return
+     */
     public MedusaNode getMedusaNode(String moduleName, Long moduleIdentifier);
     
  

@@ -19,3 +19,11 @@
   color: red; 
   cursor: pointer;
 }
+
+.treeview li {
+  list-style-type: none;
+}
+
+ul.treeview ul {
+  background-color: transparent;
+}
