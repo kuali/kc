@@ -39,6 +39,7 @@
                 <ref bean="Question-status" />
                 <ref bean="Question-categoryTypeCode" />
                 <ref bean="Question-questionTypeId" />
+                <ref bean="Question-questionType.questionTypeName" />
                 <ref bean="Question-lookupClass" />
                 <ref bean="Question-lookupReturn" />
                 <ref bean="Question-displayedAnswers" />
@@ -284,6 +285,12 @@
         <property name="summary" value="Answer Max Length" />
         <property name="description" value="Answer Max Length" />
     </bean>
+  <bean id="Question-questionType.questionTypeName" parent="Question-questionType.questionTypeName-parentBean" />
+  <bean id="Question-questionType.questionTypeName-parentBean" abstract="true" parent="QuestionType-questionTypeName">
+    <property name="name" value="questionType.questionTypeName" />
+    <property name="label" value="Question Type" />
+    <property name="shortLabel" value="Question Type" />
+  </bean>
 
     <bean id="Question-versionNumber" parent="Question-versionNumber-parentBean" />
     <bean id="Question-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -371,8 +378,10 @@
                                 p:attributeName="status" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="categoryTypeCode" />
+                            <!-- <bean parent="FieldDefinition"
+                                p:attributeName="questionTypeId" /> -->
                             <bean parent="FieldDefinition"
-                                p:attributeName="questionTypeId" />
+                                p:attributeName="questionType.questionTypeName" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="lookupClass" />
                             <bean parent="FieldDefinition"
