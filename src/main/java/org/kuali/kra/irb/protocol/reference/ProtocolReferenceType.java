@@ -22,7 +22,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProtocolReferenceType extends KraPersistableBusinessObjectBase { 
 	private Integer protocolReferenceTypeCode; 
 	private String description; 
-	
+    private boolean active;
+
 	public ProtocolReferenceType() { 
 
 	} 
@@ -50,5 +51,13 @@ public class ProtocolReferenceType extends KraPersistableBusinessObjectBase {
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 	
 }
