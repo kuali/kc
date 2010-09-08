@@ -95,4 +95,11 @@ public interface ProtocolFundingSourceService {
      * @return
      */
     boolean isViewable(int fundingTypeCode);
+    
+    /**
+     * This method is used to determine whether lookups should be performed based on type.
+     * @param fundingTypeCode
+     * @return
+     */
+    boolean isLookupable(String fundingTypeCode);
 }
