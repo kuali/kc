@@ -428,10 +428,10 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      */
     public String getCreateUserFullName() {
         if (createUserFullName == null && getCreateUser() != null) {
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(getCreateUser());
+            KcPerson person = getKcPersonService().getKcPersonByUserName(getCreateUser());
             createUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getCreateUser()):person.getFullName();
         }
-        return updateUserFullName;
+        return createUserFullName;
     }
 
     /**
@@ -448,7 +448,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      */
     public String getUpdateUserFullName() {
         if (updateUserFullName == null && getUpdateUser() != null) {
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(getUpdateUser());
+            KcPerson person = getKcPersonService().getKcPersonByUserName(getUpdateUser());
             updateUserFullName = person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING,getUpdateUser()):person.getFullName();
         }
         return updateUserFullName;
