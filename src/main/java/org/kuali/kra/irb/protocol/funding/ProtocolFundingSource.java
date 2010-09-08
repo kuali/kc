@@ -210,6 +210,10 @@ public class ProtocolFundingSource extends ProtocolAssociate {
         this.fundingSourceType = fundingSourceType;
     }
     
+    public boolean isFundingSourceLookupable() {
+        return getProtocolFundingSourceService().isLookupable(Integer.toString(this.fundingSourceTypeCode));
+    }
+    
     public boolean isViewableFundingSource() {
         return getProtocolFundingSourceService().isViewable(this.fundingSourceTypeCode);        
     }

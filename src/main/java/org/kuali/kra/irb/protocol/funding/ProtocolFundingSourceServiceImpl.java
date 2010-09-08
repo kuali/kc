@@ -626,11 +626,15 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return isEditable;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isViewable(int)
+     */
     public boolean isViewable(int fundingTypeCode) {
         boolean ret = false;
-        if ((fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode())) {
+        if (fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()) {
             ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode())) {
+        } else if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode()) {
             ret = true;
         } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode()) && isLinkedWithProposal()) {
             ret = true;
@@ -640,6 +644,32 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             ret = true;
         } 
         return ret;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isLookupable(int)
+     */
+    public boolean isLookupable(String fundingTypeCode) {
+        boolean isLookupable = false;
+        
+        if (Integer.valueOf(fundingTypeCode) <= fundingEnumMap.size()) {
+            switch (fundingEnumMap.get(Integer.valueOf(fundingTypeCode))) {
+                case SPONSOR:
+                case UNIT:
+                case PROPOSAL_DEVELOPMENT:
+                case INSTITUTIONAL_PROPOSAL:
+                case AWARD:
+                    isLookupable = true;
+                    break;
+                case OTHER:
+                default:
+                    isLookupable = false;
+                    break;
+            }
+        }
+
+        return isLookupable;
     }
 
     public FundingSourceTypeService getFundingSourceTypeService() {

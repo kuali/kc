@@ -38,16 +38,16 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceF
 				if ( data != null ) {
 					allowEdit = data;
 					if (allowEdit == true) {
-					   	changeObjectVisibility(fundingSourceNameFieldName, "block");
+					   	changeObjectVisibility( fundingSourceNameFieldName, "block" );
 					} else {
-					   	changeObjectVisibility(fundingSourceNameFieldName, "none");
+					   	changeObjectVisibility( fundingSourceNameFieldName, "none" );
 					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
-				setRecipientValue( fundingSourceTitleFieldName,  wrapError( "not found" ), true );
+				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
+				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
 			}
 		};
 		ProtocolFundingSourceService.updateSourceNameEditable(fundingSourceTypeCode, dwrReply);
@@ -65,35 +65,62 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
 	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
 
+	if (fundingSourceTypeCode != '') {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					isLookupable = data;
+					if ( isLookupable ) {
+						changeObjectVisibility( fundingSourceNumberFieldName + ".lookup.div", "inline" );
+					} else {
+						changeObjectVisibility( fundingSourceNumberFieldName + ".lookup.div", "none" );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
+				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );			
+			}
+		};
+		ProtocolFundingSourceService.isLookupable(fundingSourceTypeCode, dwrReply);
+	}
+	
 	clearRecipients( fundingSourceNameFieldName, "" );
 	clearRecipients( fundingSourceTitleFieldName, "" );
 	if (fundingSourceTypeCode != '' && fundingSourceNumber != '') {
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
-					if ( fundingSourceNameFieldName != null && fundingSourceNameFieldName != "" 
-						&& data.fundingSourceName != null && data.fundingSourceName != '' ) {
+					if ( data.fundingSourceName != null && data.fundingSourceName != '' ) {
 						setRecipientValue( fundingSourceNameFieldName, data.fundingSourceName );
+						changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
 					} else {
-						setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
+						if ( data.fundingSourceLookupable ){
+							changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
+						} else {
+							changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
+						}
 					}
-					if ( fundingSourceTitleFieldName != null && fundingSourceTitleFieldName != "" 
-						&& data.fundingSourceTitle != null && data.fundingSourceTitle != '' ) {
+					if ( data.fundingSourceTitle != null && data.fundingSourceTitle != '' ) {
 						setRecipientValue( fundingSourceTitleFieldName, data.fundingSourceTitle );
+						changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
+					} else {
+						if ( data.fundingSourceLookupable ){
+							changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
+						} else {
+							changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
+						}
 					}
 				} else {
-					if ( fundingSourceNameFieldName != null && fundingSourceNameFieldName != "" ) {
-						setRecipientValue( fundingNameFieldName,  wrapError( "not found" ), true );
-					}
-					if ( fundingSourceTitleFieldName != null && fundingSourceTitleFieldName != "" ) {
-						setRecipientValue( fundingTitleFieldName,  wrapError( "not found" ), true );
-					}
+					changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
+					changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
-				setRecipientValue( fundingSourceNameFieldName,  wrapError( "not found" ), true );
-				setRecipientValue( fundingSourceTitleFieldName,  wrapError( "not found" ), true );
+				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
+				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );			
 			}
 		};
 		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSource, fundingSourceNumber, fundingSourceName, dwrReply);
