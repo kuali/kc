@@ -80,7 +80,6 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_SUBJECTS = "modifyProtocolSubjects";
     public static final String MODIFY_PROTOCOL_AREAS_OF_RESEARCH = "modifyProtocolAreasOfResearch";
     public static final String MODIFY_PROTOCOL_ATTACHMENTS = "modifyProtocolAttachments";
-    public static final String MODIFY_PROTOCOL_NOTEPADS = "modifyProtocolNotepads";
     public static final String MODIFY_PROTOCOL_SPECIAL_REVIEW = "modifyProtocolSpecialReview";
     public static final String MODIFY_PROTOCOL_PERSONNEL = "modifyProtocolPersonnel";
     public static final String MODIFY_PROTOCOL_OTHERS = "modifyProtocolOthers";
