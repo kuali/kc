@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>CommitteeMembersTC</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">CommitteeMembersTC</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.committeeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>chew</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[0].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[0].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[0].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.committeeList[0].committeeMemberships[0].contactNotes']</td>
+	<td>Send e-mail</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.committeeList[0].committeeMemberships[0].trainingNotes']</td>
+	<td>Is trained</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[0].membershipRoleCode</td>
+	<td>label=Chair</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[0].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[0].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[0].line0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor5.memberIndex0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>woods</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[1].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[1].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[1].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[1].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[1].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[1].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[1].line1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor10.memberIndex1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>blood</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[2].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[2].line2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor15.memberIndex2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>cate</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[2].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[2].line2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor15.memberIndex2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>rabbit</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[2].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[2].line2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor15.memberIndex2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>majors</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[2].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[2].line2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor15.memberIndex2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:committeeHelper.newCommitteeMembership.personId,fullName:committeeHelper.newCommitteeMembership.personName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>lastName</td>
+	<td>tester</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembership</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termStartDate']</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeMemberships[2].membershipTypeCode']</td>
+	<td>label=Voting member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeMemberships[2].termEndDate']</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].membershipRoleCode</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].startDate</td>
+	<td>07/01/2010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>committeeHelper.newCommitteeMembershipRoles[2].endDate</td>
+	<td>07/01/2015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeMembershipRole.document.committeeList[0].committeeMemberships[2].line2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchor15.memberIndex2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
