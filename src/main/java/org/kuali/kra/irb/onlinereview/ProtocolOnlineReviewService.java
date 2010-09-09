@@ -20,6 +20,8 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -77,7 +79,7 @@ public interface ProtocolOnlineReviewService {
      * 
      * 
      * @param protocol The protocol for which the review is being requested.
-     * @param committeeMembershipId The id of the membership which will review the document.
+     * @param protocolReviewerBean The bean holding the information for the user who will review the document.
      * @param documentDescription The description to be used on the associated workflow document
      * @param documentExplanation The explanation to be used on the associated workflow document
      * @param documentOrganizationDocumentNumber the organization document number to be used on the associated workflow document
@@ -89,7 +91,7 @@ public interface ProtocolOnlineReviewService {
      */
    
     ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
-            Long committeeMembershipId, 
+            ProtocolReviewerBean protocolReviewerBean, 
             String documentDescription,
             String documentExplanation,
             String documentOrganizationDocumentNumber,
@@ -114,7 +116,7 @@ public interface ProtocolOnlineReviewService {
      * @return
      * @throws WorkflowException
      */
-    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, Long committeeMembershipId, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, java.sql.Date dateRequested, java.sql.Date dateDue, String principalId)
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, ProtocolReviewerBean protocolReviewerBean, String documentDescription, String documentExplanation, String documentOrganizationDocumentNumber, java.sql.Date dateRequested, java.sql.Date dateDue, String principalId)
     throws WorkflowException;
     
     
@@ -171,6 +173,13 @@ public interface ProtocolOnlineReviewService {
      */
     List<ProtocolOnlineReview> getOtherProtocolOnlineReviews(ProtocolOnlineReview review);
     
+    /**
+     * Returns the online reviewer for the protocol corresponding to the principal id, if one exists.
+     * @param principalId The principalId we are checking
+     * @param protocol The protocol.
+     * @return
+     */
+    ProtocolReviewer getOnlineReviewerOfProtocol(String principalId, Protocol protocol);
     
     /**
      * Returns true if the principal has an online review for the protocol and current submission.
