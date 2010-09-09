@@ -27,7 +27,7 @@ import org.kuali.kra.irb.ProtocolAssociate;
 /**
  * The Protocol Notepad class.
  */
-public class ProtocolNotepad extends ProtocolAssociate {
+public class ProtocolNotepad extends ProtocolAssociate implements Comparable<ProtocolNotepad> {
     
     private static final long serialVersionUID = -294125058992878907L;
     
@@ -36,7 +36,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
     private String comments;
     private boolean restrictedView;
     private String noteTopic;
-    private boolean changed;
+    private boolean editable;
 
     @SkipVersioning
     private transient String updateUserFullName;
@@ -46,6 +46,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
      */
     public ProtocolNotepad() {
         super();
+        this.editable = false;
     }
     
     /**
@@ -59,6 +60,7 @@ public class ProtocolNotepad extends ProtocolAssociate {
      */
     public ProtocolNotepad(final Protocol protocol) {
         super(protocol);
+        this.editable = false;
     }
     
     /**
@@ -259,28 +261,36 @@ public class ProtocolNotepad extends ProtocolAssociate {
             return o1.getEntryNumber().compareTo(o2.getEntryNumber());
         }     
     }
-    
+
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        if (updateTimestamp == null || getUpdateTimestamp() == null || isChanged()) {
+        if (updateTimestamp == null || getUpdateTimestamp() == null || isEditable()) {
             super.setUpdateTimestamp(updateTimestamp);
         }
     }
 
     @Override
     public void setUpdateUser(String updateUser) {
-        if (updateUser == null || getUpdateUser() == null || isChanged() ) {
+        if (updateUser == null || getUpdateUser() == null || isEditable() ) {
             super.setUpdateUser(updateUser);
         }
     }
-
-    public boolean isChanged() {
-        return changed;
+    
+    public boolean isEditable() {
+        return editable;
     }
 
 
-    public void setChanged(boolean changed) {
-        this.changed = changed;
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    /**
+     * Sort by updateTimestamp
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(ProtocolNotepad protocolNotepad) {
+        return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
     }
     
     

@@ -844,6 +844,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         if (this.notepads == null) {
             this.notepads = new ArrayList<ProtocolNotepad>();
         }
+        Collections.sort(notepads, Collections.reverseOrder());
         return this.notepads;
     }
     
