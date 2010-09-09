@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>CommitteeTC</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">CommitteeTC</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dly30/portal.do?channelTitle=Create%20Committee&amp;channelUrl=committeeCommittee.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=CommitteeDocument</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>KC IRB</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeId']</td>
+	<td>KC001-2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].committeeName']</td>
+	<td>KC IRB 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].homeUnitNumber']</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].committeeTypeCode']</td>
+	<td>label=IRB</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.committeeList[0].committeeDescription']</td>
+	<td>Test IRB Committee for Kuali Coeus</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.committeeList[0].scheduleDescription']</td>
+	<td>Meets Monthly</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].minimumMembersRequired']</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.committeeList[0].reviewTypeCode']</td>
+	<td>label=Full</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].maxProtocols']</td>
+	<td>22</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.committeeList[0].advancedSubmissionDaysRequired']</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;committeeResearchAreas;:).((%true%)).((~~)).anchorAreaofResearch</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>000001</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>selectedObjId-5D3A0F04450ED6C5E0404F8189D82652</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/table/tbody/tr/td[2]/p[3]/input[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
