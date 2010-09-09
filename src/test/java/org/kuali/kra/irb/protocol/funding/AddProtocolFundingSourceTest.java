@@ -37,8 +37,6 @@ import org.kuali.kra.rules.TemplateRuleTest;
 
 public class AddProtocolFundingSourceTest {
     
- //   ProtocolFundingSource fundingSrc = addProtocolFundingSourceEvent.getFundingSource();
-    
     private Mockery context = new JUnit4Mockery();
 
     private final String goodFundingSourceId = "000100";
@@ -101,7 +99,7 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_DUPLICATE));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_DUPLICATE));
                 }
             };
             theTest.checkRuleAssertions();            
@@ -121,7 +119,7 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND));
                 }
             };
             theTest.checkRuleAssertions();            
@@ -129,12 +127,12 @@ public class AddProtocolFundingSourceTest {
 
     
     @Test
-    public void testBlankIDFundingSource() { 
+    public void testBlankNumberFundingSource() { 
         TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule>  theTest = 
             new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
                 @Override
                 protected void prerequisite() {        
-                    fundingSource.setFundingSource("");
+                    fundingSource.setFundingSourceNumber("");
                     event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, doc, fundingSource, protocolFundingSources);
                     rule = new ProtocolFundingSourceRule();
                     rule.setBusinessObjectService(null);
@@ -143,7 +141,7 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND));
                 }
             };
             theTest.checkRuleAssertions();            
@@ -164,28 +162,7 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND));
-                }
-            };
-            theTest.checkRuleAssertions();            
-    }
-    
-    @Test
-    public void testNotFoundNameFundingSource() { 
-        TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule>  theTest = 
-            new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
-                @Override
-                protected void prerequisite() {        
-                    fundingSource.setFundingSourceName("not found");
-                    event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, doc, fundingSource, protocolFundingSources);
-                    rule = new ProtocolFundingSourceRule();
-                    rule.setBusinessObjectService(null);
-                    rule.setProtocolFundingSourceService(getProtocolFundingSourceService());
-                    expectedReturnValue = false;
-                }                
-                @Override
-                public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND));
                 }
             };
             theTest.checkRuleAssertions();            
@@ -206,14 +183,14 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND));
                 }
             };
             theTest.checkRuleAssertions();            
     }
     
     @Test
-    public void testInvalidIdTypeFundingSource() { 
+    public void testInvalidNumberTypeFundingSource() { 
         TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule>  theTest = 
             new  TemplateRuleTest<AddProtocolFundingSourceEvent, ProtocolFundingSourceRule> (){            
                 @Override
@@ -226,7 +203,7 @@ public class AddProtocolFundingSourceTest {
                 }                
                 @Override
                 public void checkRuleAssertions() {
-                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE));
+                    Assert.assertTrue(getErrorMap().containsMessageKey(KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE));
                 }
             };
             theTest.checkRuleAssertions();            

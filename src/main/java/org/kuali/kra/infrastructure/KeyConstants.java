@@ -598,14 +598,11 @@ public final class KeyConstants {
     public static final String AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE = "error.protocolAttachment.not.complete";
     
     // IRB Protocol Funding Sources Validation Messages
-    public static final String ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingType.notFound";
-    public static final String ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND = "error.protocolFundingSource.fundingId.notFound";
-    public static final String ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE = "error.protocolFundingSource.fundingId.invalidForType";
-    public static final String ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
-    public static final String ERROR_PROTOCOL_FUNDING_DUPLICATE = "error.protocolFundingSource.fundingSource.duplicate";
-    public static final String ERROR_PROTOCOL_FUNDING_NAME_INVALID = "error.protocolFundingSource.fundingSourceName.invalid";
-    //public static final String ERROR_PROTOCOL_FUNDING_TITLE_NOT_FOUND = "error.protocolFundingSource.fundingSourceTitle.notFound";
-    
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingSourceType.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE = "error.protocolFundingSource.fundingSourceNumber.invalidForType";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_DUPLICATE = "error.protocolFundingSource.fundingSource.duplicate";
     public static final String ERROR_FUNDING_LOOKUPTEMP_UNAVAIL = "error.protocolFundingSource.fundingSourceLookupTemp.invalid";
     public static final String ERROR_FUNDING_LOOKUP_UNAVAIL = "error.protocolFundingSource.fundingSourceLookup.invalid";
     public static final String ERROR_FUNDING_LOOKUP_NOT_FOUND = "error.protocolFundingSource.fundingSourceLookup.notFound";
