@@ -15,17 +15,12 @@
  */
 package org.kuali.kra.irb.actions.assignreviewers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -79,48 +74,27 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     public void assignReviewers(Protocol protocol, List<ProtocolReviewerBean> reviewerBeans)  {
         ProtocolSubmission submission = findSubmission(protocol);
         if (submission != null) {
-            List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
             for (ProtocolReviewerBean reviewerBean : reviewerBeans) {
-                boolean newReviewer = !protocolOnlineReviewService.isUserAnOnlineReviewerOfProtocol(reviewerBean.getPersonId(), protocol);
-                if (reviewerBean.getChecked() && newReviewer) {
-                    
-                    try {
-                        
-                        //lookup the CommitteeMembership
-                        Map<String,Object> fieldValues = new HashMap<String,Object>();
-                        
-                        if( reviewerBean.getNonEmployeeFlag() ) {
-                            fieldValues.put("rolodexId", reviewerBean.getPersonId());
-                        } else {
-                            fieldValues.put("personId", reviewerBean.getPersonId());
+                if (reviewerBean.getChecked()) {
+                    if (!protocolOnlineReviewService.isUserAnOnlineReviewerOfProtocol(reviewerBean.getPersonId(), protocol)) {
+                        try {
+                            protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, reviewerBean,
+                                    String.format("%s/Protocol# %s",protocol.getPrincipalInvestigator().getPerson().getLastName(),protocol.getProtocolNumber()),
+                                    "", 
+                                    "",
+                                    "Online Review Requested by PI during protocol submission.",
+                                    false,
+                                    null,
+                                    null,
+                                    GlobalVariables.getUserSession().getPrincipalId());
+                            
+                        } catch (WorkflowException e) {
+                            LOG.error(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
+                            throw new RuntimeException(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
                         }
-                        
-                        fieldValues.put("committeeIdFk", submission.getCommittee().getId());
-                        List<CommitteeMembership> memberships 
-                            = (List<CommitteeMembership>) businessObjectService.findMatching(CommitteeMembership.class, fieldValues);
-                        
-                        if( memberships.size() != 1 ) {
-                            throw new IllegalStateException( "Could not find a unique committee member for keys:"+fieldValues);
-                        }
-                        ProtocolOnlineReviewDocument pDocument = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, memberships.get(0).getCommitteeMembershipId(),
-                                String.format("%s/Protocol# %s",protocol.getPrincipalInvestigator().getPerson().getLastName(),protocol.getProtocolNumber()),
-                                "", 
-                                "",
-                                "Online Review Requested by PI during protocol submission.",
-                                false,
-                                null,
-                                null,
-                                GlobalVariables.getUserSession().getPrincipalId());
-                        
                     }
-                    catch (WorkflowException e) {
-                        LOG.error(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
-                        throw new RuntimeException(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
-                    }
-                 
                 }
             }
-            
         }
     }
     
