@@ -256,6 +256,10 @@
                     <property name="taskName" value="protocolGrantExemption" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.AddProtocolNotesAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="addProtocolNotes" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ViewRestrictedNotesProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewRestrictedNotes" />
                 </bean>

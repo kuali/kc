@@ -17,18 +17,16 @@ package org.kuali.kra.irb.noteattachment;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.CollectionUtil;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -37,8 +35,10 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ProtocolNotepadHelper {
     
+    private static final String NAMESPACE = "KC-UNT";
+
     private final TaskAuthorizationService authService;
-    private final BusinessObjectService boService;
+    private final KraAuthorizationService kraAuthorizationService;
     private final DateTimeService dateTimeService;
     private final ProtocolForm form;
     
@@ -55,8 +55,8 @@ public class ProtocolNotepadHelper {
      * @throws IllegalArgumentException if the form is null
      */
     public ProtocolNotepadHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(TaskAuthorizationService.class), 
-                   KraServiceLocator.getService(BusinessObjectService.class),
+        this(form, KraServiceLocator.getService(TaskAuthorizationService.class),
+                   KraServiceLocator.getService(KraAuthorizationService.class),
                    KraServiceLocator.getService(DateTimeService.class),
                    KraServiceLocator.getService(ProtocolNotepadService.class));
     }
@@ -65,11 +65,12 @@ public class ProtocolNotepadHelper {
      * Constructs a helper.
      * @param form the form
      * @param authService the authService
-     * @param boService the boService
+     * @param kraAuthorizationService the kraAuthorizationService
+     * @param protocolNotepadService the protocolNotepadService
      * @throws IllegalArgumentException if the form or authService or boService is null
      */
     ProtocolNotepadHelper(final ProtocolForm form,
-        final TaskAuthorizationService authService, final BusinessObjectService boService, final DateTimeService dateTimeService, final ProtocolNotepadService protocolNotepadService) {
+        final TaskAuthorizationService authService, final KraAuthorizationService kraAuthorizationService, final DateTimeService dateTimeService, final ProtocolNotepadService protocolNotepadService) {
         
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
@@ -79,21 +80,21 @@ public class ProtocolNotepadHelper {
             throw new IllegalArgumentException("the authService was null");
         }
         
-        if (boService == null) {
-            throw new IllegalArgumentException("the boService was null");
+        if (kraAuthorizationService == null) {
+            throw new IllegalArgumentException("the kraAuthorizationService was null");
         }
         
         if (protocolNotepadService == null) {
             throw new IllegalArgumentException("the protocolNotepadService was null.");
         }
         
-        if (dateTimeService==null) {
+        if (dateTimeService == null) {
             throw new IllegalArgumentException("the dateTimeService was null.");
         }
         
         this.form = form;
         this.authService = authService;
-        this.boService = boService;
+        this.kraAuthorizationService = kraAuthorizationService;
         this.protocolNotepadService = protocolNotepadService;
         this.dateTimeService = dateTimeService;
     }
@@ -110,7 +111,7 @@ public class ProtocolNotepadHelper {
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
     private void initializePermissions() {
-        this.modifyNotepads = this.canModifyProtocolNotepads();
+        this.modifyNotepads = this.canAddProtocolNotepads();
         this.viewRestricted = this.canViewRestrictedProtocolNotepads();
     }
     
@@ -118,8 +119,8 @@ public class ProtocolNotepadHelper {
      * Checks if Protocol Notepads can be modified.
      * @return true if can be modified false if cannot
      */
-    private boolean canModifyProtocolNotepads() {
-        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_NOTEPADS, this.getProtocol());
+    private boolean canAddProtocolNotepads() {
+        final ProtocolTask task = new ProtocolTask(TaskName.ADD_PROTOCOL_NOTES, this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
     
@@ -213,6 +214,10 @@ public class ProtocolNotepadHelper {
         this.viewRestricted = viewRestricted;
     }
     
+    public boolean isIrbAdmin() {
+        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+    }
+    
     /**
      * initializes a new attachment protocol setting the protocol id.
      */
@@ -244,9 +249,14 @@ public class ProtocolNotepadHelper {
         for(ProtocolNotepad note: this.getProtocol().getNotepads()) {
             updateUserFieldsIfNecessary(note); 
         }
-
     }
-    
+
+    void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
+        if (currentNote.isEditable()) {
+                updateUserFields(currentNote);
+        }
+    }
+
     /**
      * Update the User and Timestamp for the business object.
      * @param doc the business object
@@ -261,50 +271,16 @@ public class ProtocolNotepadHelper {
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         bo.setUpdateUser(updateUser);
     }
-    
-    /**
-     * Gets the selected notepad based on an index.  If the index is not valid this method will return null.
-     * @param selection the index
-     * @return the notepad or null
-     */
-    private ProtocolNotepad getSelectedNotepad(int selection) {
-        return CollectionUtil.getFromList(selection, getProtocol().getNotepads());
-    }
-    
-    void updateUserFieldsIfNecessary(ProtocolNotepad currentNote) {
-        if (currentNote != null) {
-            ProtocolNotepad persistedNote = (ProtocolNotepad) this.boService.findBySinglePrimaryKey(ProtocolNotepad.class, currentNote.getId());
-            if(persistedNote != null && !currentNote.equals(persistedNote)) {
-                currentNote.setChanged(true);
-                updateUserFields(currentNote);
-                currentNote.setChanged(false);
-            }
-        }
-    }
-    
-    /**
-     * Updates (saves) the selected notepad based on an index.  If the index is not valid this method will do nothing.
-     * @param selection the indexs
-     */
-    void updateNotepad(int selection) {
-        final ProtocolNotepad notepad = this.getSelectedNotepad(selection);
-        if (notepad != null) {
-            notepad.setRestrictedView(!notepad.getRestrictedView());  
-            updateUserFieldsIfNecessary(notepad);
-            this.boService.save(notepad);
-            notepad.setChanged(false);
-        }
-    }
-    
+
     /**
      * Adds the passed in notepad to the list on the protocol.
      * @param notepad the notepad to add.
      */
-    private void addNewNotepad(final ProtocolNotepad notepad) {
-        final List<ProtocolNotepad> notepads = this.getProtocol().getNotepads();
-        updateUserFields(this.getNewProtocolNotepad());
-        notepads.add(this.getNewProtocolNotepad());
-        this.getProtocol().setNotepads(notepads);        
+    private void addNewNotepad(ProtocolNotepad notepad) {
+        updateUserFields(notepad);
+        // set notepad to be editable
+        notepad.setEditable(true);
+        this.getProtocol().getNotepads().add(notepad);
     }
     
     /** gets the next entry number based on previously generated numbers. */
