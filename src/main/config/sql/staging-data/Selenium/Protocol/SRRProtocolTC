@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>SRRProtocolTC</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SRRProtocolTC</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-dly30/portal.do</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create Protocol</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Staged for Admin Corr - SRR</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.protocolList[0].protocolTypeCode']</td>
+	<td>label=Full Board</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userName</td>
+	<td>irbresearcher</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.protocolList[0].title']</td>
+	<td>This protocol is staged data for Administrative Correction testing with status of Substantive Revisions Required. Do not perform actions on this protocol that will change its status.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-AdditionalInformation-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.ResearchArea!!).((``)).(:;protocolResearchAreas;:).((%true%)).((~~)).anchorAdditionalInformation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>researchAreaCode</td>
+	<td>12.99</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>methodToCall.search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//input[@title='return valueResearch Area Code=12.99 ']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.prepareToReturnSelectedResults.(::;true;::)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.save.navigateTo.protocolActions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-RequestanAction-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:SubmitforReview-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.submissionTypeCode</td>
+	<td>label=Initial Protocol Application for Approval</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.protocolReviewTypeCode</td>
+	<td>label=Full</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.committeeId</td>
+	<td>value=KC001</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.scheduleId</td>
+	<td>value=1474</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[0].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[0].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<!-- tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[1].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[1].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[2].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[2].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[3].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[3].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[4].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[4].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=actionHelper.protocolSubmitAction.reviewer[5].checked</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.protocolSubmitAction.reviewer[5].reviewerTypeCode</td>
+	<td>label=primary</td>
+</tr -->
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.submitForReview.anchor:SubmitforReview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyConfirmation</td>
+	<td>submitted successfully.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Search Protocols</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>title</td>
+	<td>*Substantive Revisions Required*</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='methodToCall.search' and @value='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.headerTab.headerDispatch.reload.navigateTo.protocolActions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-RequestanAction-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:ModifySubmissionRequest-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:ModifySubmissionRequest-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:AssigntoAgenda-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>actionHelper.assignToAgendaBean.protocolAssigned</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.assignToAgenda.anchor48</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-:RecordCommitteeDecision-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>actionHelper.committeeDecision.motion</td>
+	<td>label=substantive revisions required</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>actionHelper.committeeDecision.yesCount</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>actionHelper.committeeDecision.noCount</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tab-36-imageToggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>actionHelper.committeeDecision.reviewComments.newComment.minuteEntry</td>
+	<td>Fix the title</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>actionHelper.committeeDecision.reviewComments.newComment.finalFlag</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addCommitteeDecisionReviewComment.anchor36</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.submitCommitteeDecision.anchor36</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
