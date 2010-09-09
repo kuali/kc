@@ -348,24 +348,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
     
     /**
-     * Method called when updating a protocol note.
-     * 
-     * @param mapping the action mapping
-     * @param form the form.
-     * @param request the request.
-     * @param response the response.
-     * @return an action forward.
-     * @throws Exception if there is a problem executing the request.
-     */
-    public ActionForward updateNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        final int selection = this.getSelectedLine(request);
-        ((ProtocolForm) form).getNotepadHelper().updateNotepad(selection);
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    /**
      * attachmentPersonnels is updated thru 'protocol'.  so use this to sync attachmentpersonnels under protocolperson
      * @see org.kuali.kra.irb.ProtocolAction#postSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -383,6 +365,10 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         for (ProtocolAttachmentProtocol attachment : ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
             // for some reason, change and save, this list is not updated under attachment.protocol.attachmentprotocols
             attachment.getProtocol().refreshReferenceObject("attachmentProtocols");
+        }
+        // don't allow edit of saved notes
+        for (ProtocolNotepad notepad : ((ProtocolForm) form).getProtocolDocument().getProtocol().getNotepads()) {
+            notepad.setEditable(false);
         }
     }
     
