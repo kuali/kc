@@ -194,23 +194,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         
         if (reviewers != null && committee != null) {
             for (ProtocolReviewerBean reviewer : reviewers) {
-                CommitteeMembership member = null;
                 if(reviewer.getChecked()) {
-                      
-                      //find the committee member this corresponds to
-                      for ( CommitteeMembership membership : committee.getCommitteeMemberships() ) {
-                          if (reviewer.isProtocolReviewerBeanForCommitteeMembership(membership)){
-                              member = membership;
-                              break;
-                          }
-                      }
-                      
-                      if(member==null) {
-                          throw new IllegalStateException( "Could not find membership record for reviewer!" + reviewer.toString() ); 
-                      }
-                      
-                      
-                      protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolDocument.getProtocol(), member.getCommitteeMembershipId(), String.format("%s/Protocol# %s","TEST PROTOCOL",protocolDocument.getProtocol().getProtocolNumber()),
+                      protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolDocument.getProtocol(), reviewer, String.format("%s/Protocol# %s","TEST PROTOCOL",protocolDocument.getProtocol().getProtocolNumber()),
                               "", 
                               "",
                               "Online Review Requested by PI during protocol submission.",
