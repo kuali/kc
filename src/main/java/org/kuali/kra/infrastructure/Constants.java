@@ -468,11 +468,11 @@ public interface Constants {
     public static final String PROPERTY_PROTOCOL_NUMBER = "protocolNumber";
     public static final String PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION = "IRB_COMM_SELECTION_DURING_SUBMISSION";
     
-    public static final String PROTO_FUNDING_SRC_TYPE_CODE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
-    public static final String PROTO_FUNDING_SRC_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
-    public static final String PROTO_FUNDING_SRC_NUMBER_FIELD = "protocolHelper.newFundingSource.fundingSourceNumber";
-    public static final String PROTO_FUNDING_SRC_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
-    public static final String PROTO_FUNDING_SRC_TITLE_FIELD = "protocolHelper.newFundingSource.fundingSourceTitle";
+    public static final String PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
+    public static final String PROTOCOL_FUNDING_SOURCE_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
+    public static final String PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD = "protocolHelper.newFundingSource.fundingSourceNumber";
+    public static final String PROTOCOL_FUNDING_SOURCE_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
+    public static final String PROTOCOL_FUNDING_SOURCE_TITLE_FIELD = "protocolHelper.newFundingSource.fundingSourceTitle";
     
     public static final Integer AFFILIATION_FACULTY_SUPERVISOR_TYPE = 5;
     public static final Integer AFFILIATION_STUDENT_INVESTIGATOR_TYPE = 4;

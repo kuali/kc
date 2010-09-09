@@ -64,7 +64,8 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 	var fundingSourceNumber = DWRUtil.getValue ( fundingSourceNumberFieldName );
 	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
 	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
-
+	
+	changeObjectVisibility( fundingSourceNumberFieldName + ".lookup.div", "inline" );
 	if (fundingSourceTypeCode != '') {
 		var dwrReply = {
 			callback:function(data) {
@@ -87,14 +88,15 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 	}
 	
 	clearRecipients( fundingSourceNameFieldName, "" );
+	changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
 	clearRecipients( fundingSourceTitleFieldName, "" );
+	changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
 	if (fundingSourceTypeCode != '' && fundingSourceNumber != '') {
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
 					if ( data.fundingSourceName != null && data.fundingSourceName != '' ) {
 						setRecipientValue( fundingSourceNameFieldName, data.fundingSourceName );
-						changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
 					} else {
 						if ( data.fundingSourceLookupable ){
 							changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
@@ -104,7 +106,6 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 					}
 					if ( data.fundingSourceTitle != null && data.fundingSourceTitle != '' ) {
 						setRecipientValue( fundingSourceTitleFieldName, data.fundingSourceTitle );
-						changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
 					} else {
 						if ( data.fundingSourceLookupable ){
 							changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );

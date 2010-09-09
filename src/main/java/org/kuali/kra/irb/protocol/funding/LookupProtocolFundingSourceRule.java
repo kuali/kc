@@ -37,7 +37,7 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
         boolean valid = true;
         
         if (event.getFundingSourceTypeCode() == null) {
-            errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
+            errorReporter.reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
             valid = false;            
         } else {
             valid &= isValidLookup(event.getFundingSourceTypeCode());
@@ -59,7 +59,7 @@ public class LookupProtocolFundingSourceRule extends ResearchDocumentRuleBase im
                 && !typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
                 && !typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
                 && !typeCode.equals(FundingSourceLookup.UNIT.getTypeCode())) { 
-            errorReporter.reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
+            errorReporter.reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
             isValid = false;
         }   
        
