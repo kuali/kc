@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>SMRProtocolTC</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SMRProtocolTC</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/kc-wkly30/portal.do</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create Protocol</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Kuali Portal Index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>Staged for Admin Corr - Pending/In Prog</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.protocolList[0].protocolTypeCode']</td>
+	<td>label=Full Board</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.performLookup.(!!org.kuali.kra.bo.KcPerson!!).(((personId:protocolHelper.personId,fullName:protocolHelper.principalInvestigatorName,unit.unitNumber:protocolHelper.lookupUnitNumber,unit.unitName:protocolHelper.lookupUnitName))).((``)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).(::::;;::::).anchor</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userName</td>
+	<td>irbresearcher</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=return value</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//textarea[@id='document.protocolList[0].title']</td>
+	<td>This protocol is staged data for Administrative Correction testing with status of Pending/In Prog. Do not perform actions on this protocol that will change its status.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
