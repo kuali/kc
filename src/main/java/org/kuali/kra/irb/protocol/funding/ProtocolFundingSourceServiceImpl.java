@@ -47,6 +47,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.NumberUtils;
 
 /**
  * This Service implementation provides the required logic for performing a multi-type lookup for funding sources. 
@@ -308,7 +309,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             String fundingSource = StringUtils.isNotBlank(source) ? source : sourceNumber;
             String fundingSourceName = sourceName;
             String fundingSourceTitle = Constants.EMPTY_STRING;
-            if (isLinkedWithDevProposal()) {
+            if (isDevelopmentProposalLinkEnabled()) {
                 LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(fundingSource);
                 if (devProposal != null) {
                     fundingSourceName = devProposal.getSponsorName();
@@ -333,7 +334,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             String fundingSourceNumber = sourceNumber;
             String fundingSourceName = sourceName;
             String fundingSourceTitle = Constants.EMPTY_STRING;
-            if (isLinkedWithProposal()) {
+            if (isInstitionalProposalLinkEnabled()) {
                 InstitutionalProposal instProposal = getInstitutionalProposal(source, sourceNumber);
                 if (instProposal != null) {
                     fundingSource = String.valueOf(instProposal.getProposalId());
@@ -373,7 +374,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             String fundingSourceNumber = sourceNumber;
             String fundingSourceName = sourceName;
             String fundingSourceTitle = Constants.EMPTY_STRING;
-            if (isLinkedWithAward()) {
+            if (isAwardLinkEnabled()) {
                 Award award  = getAward(source, sourceNumber);
                 if (award != null) {
                     fundingSource = String.valueOf(award.getAwardId());
@@ -418,13 +419,13 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             if (typeCode.equals(FundingSourceLookup.OTHER.getTypeCode())) {
                 valid = true;
             } else if (typeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())
-                    && !isLinkedWithDevProposal()) {
+                    && !isDevelopmentProposalLinkEnabled()) {
                 valid = true;
             } else if (typeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())
-                    && !isLinkedWithProposal()) {
+                    && !isInstitionalProposalLinkEnabled()) {
                 valid = true;
             } else if (typeCode.equals(FundingSourceLookup.AWARD.getTypeCode())
-                    && !isLinkedWithAward()) {
+                    && !isAwardLinkEnabled()) {
                 valid = true;
             } else {
                 String src = source.getFundingSource();
@@ -476,20 +477,20 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             // Not all funding sources have a key code and instead use a number
             if (StringUtils.isNotBlank(sourceLookup.getKeyCode())) {
                 fieldConversions.append(sourceLookup.getKeyCode() + Constants.COLON);
-                fieldConversions.append(Constants.PROTO_FUNDING_SRC_ID_FIELD + Constants.COMMA);
+                fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_ID_FIELD + Constants.COMMA);
             }
             
             fieldConversions.append(sourceLookup.getNumber() + Constants.COLON);
-            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NUMBER_FIELD + Constants.COMMA);
+            fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD + Constants.COMMA);
             
             fieldConversions.append(sourceLookup.getName() + Constants.COLON);
-            fieldConversions.append(Constants.PROTO_FUNDING_SRC_NAME_FIELD);
+            fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD);
             
             // Not all funding sources have a title
             if (StringUtils.isNotBlank(sourceLookup.getTitle())) {
                 fieldConversions.append(Constants.COMMA);
                 fieldConversions.append(sourceLookup.getTitle() + Constants.COLON);
-                fieldConversions.append(Constants.PROTO_FUNDING_SRC_TITLE_FIELD);
+                fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_TITLE_FIELD);
             }
         }
         return fieldConversions.toString();
@@ -579,48 +580,56 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return builder.toString();
     }
 
-    private boolean isLinkedWithDevProposal() {
-        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);     
+    private boolean isDevelopmentProposalLinkEnabled() {
+        return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);     
     }
     
-    private boolean isLinkedWithProposal() {
-        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);       
+    private boolean isInstitionalProposalLinkEnabled() {
+        return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);       
     }
     
-    private boolean isLinkedWithAward() {
-        return this.isLinkedWith(Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);          
+    private boolean isAwardLinkEnabled() {
+        return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);          
     }
     
     /**
-     * Gets if a protocol doc is linked to something based on a passed in parameter name
+     * Gets if a protocol doc can be linked to another transactional document in the system.
      * @param link the parameter name
-     * @return true if linked false if not
+     * @return true if link enabled, false otherwise
      */
-    private boolean isLinkedWith(String link) {
+    private boolean isLinkEnabled(String link) {
         assert link != null : "link is null";
         
-        if (!this.parameterService.parameterExists(ProtocolDocument.class, link)) {
-            return true;
+        boolean isLinkEnabled = false;
+        
+        if (!parameterService.parameterExists(ProtocolDocument.class, link)) {
+            isLinkEnabled = true;
+        } else {
+            isLinkEnabled = parameterService.getIndicatorParameter(ProtocolDocument.class, link);
         }
         
-        return this.parameterService.getIndicatorParameter(ProtocolDocument.class, link);  
+        return isLinkEnabled;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#updateSourceNameEditable(java.lang.String)
+     */
     public boolean updateSourceNameEditable(String fundingTypeCode) {
-        boolean isEditable = false;
-        if (StringUtils.isNotBlank(fundingTypeCode) && !fundingTypeCode.equalsIgnoreCase("select") ) {
-            Integer val =  Integer.valueOf(fundingTypeCode);
-            if (val.equals(FundingSourceLookup.OTHER.getTypeCode())) {        
-                isEditable = true;
-            } else if (val.equals(FundingSourceLookup.AWARD.getTypeCode())
-                       && !isLinkedWithAward()) {
-                isEditable = true;
-            } else if (val.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())
-                       && !isLinkedWithProposal()) {
-                isEditable = true;
-            }else if (val.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode()) 
-                      && !isLinkedWithDevProposal()) {
-                isEditable = true;
+        boolean isEditable = true;
+        
+        if (NumberUtils.isNumber(fundingTypeCode)) {
+            Integer typeCode =  Integer.valueOf(fundingTypeCode);
+            if (NumberUtils.equals(FundingSourceLookup.SPONSOR.getTypeCode(), typeCode)) {
+                isEditable = false;
+            } else if (NumberUtils.equals(FundingSourceLookup.UNIT.getTypeCode(), typeCode)) {
+                isEditable = false;
+            } else if (NumberUtils.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode(), typeCode) && isDevelopmentProposalLinkEnabled()) {
+                isEditable = false;
+            } else if (NumberUtils.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode(), typeCode) && isInstitionalProposalLinkEnabled()) {
+                isEditable = false;
+            } else if (NumberUtils.equals(FundingSourceLookup.AWARD.getTypeCode(), typeCode) && isAwardLinkEnabled()) {
+                isEditable = false;
             }
         }
         return isEditable;
@@ -636,11 +645,11 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             ret = true;
         } else if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode()) {
             ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode()) && isLinkedWithProposal()) {
+        } else if ((fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode()) && isInstitionalProposalLinkEnabled()) {
             ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode()) && isLinkedWithAward()) {
+        } else if ((fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode()) && isAwardLinkEnabled()) {
             ret = true;
-        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode()) && isLinkedWithDevProposal()) {
+        } else if ((fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode()) && isDevelopmentProposalLinkEnabled()) {
             ret = true;
         } 
         return ret;
@@ -652,8 +661,8 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      */
     public boolean isLookupable(String fundingTypeCode) {
         boolean isLookupable = false;
-        
-        if (Integer.valueOf(fundingTypeCode) <= fundingEnumMap.size()) {
+
+        if (NumberUtils.isNumber(fundingTypeCode) && Integer.valueOf(fundingTypeCode) <= fundingEnumMap.size()) {
             switch (fundingEnumMap.get(Integer.valueOf(fundingTypeCode))) {
                 case SPONSOR:
                 case UNIT:

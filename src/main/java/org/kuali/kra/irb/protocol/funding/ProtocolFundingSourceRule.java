@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -35,8 +35,7 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
     private ProtocolFundingSourceService protocolFundingSourceService;
         
     /**
-     * 
-     * This method will validate funding source based on type & check for duplicates
+     * This method will validate funding source based on type & check for duplicates.
      * @param addProtocolFundingSourceEvent
      * @return
      */
@@ -46,9 +45,9 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         ProtocolFundingSource fundingSrc = addProtocolFundingSourceEvent.getFundingSource();
         if (fundingSrc == null) {            
             isValid = false;
-            reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND);             
+            reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND);             
         } else {
-            isValid = checkFundingSource(fundingSrc);
+            isValid &= checkFundingSource(fundingSrc);
             isValid &= checkForDuplicates(addProtocolFundingSourceEvent);
         }
         
@@ -56,7 +55,7 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
     }
     
     /**
-     * This is the standard methodName to process rule from the BusinessRuleInterface
+     * This is the standard methodName to process rule from the BusinessRuleInterface.
      * 
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
@@ -64,30 +63,28 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         return processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
     }
     
-    private boolean checkFundingSource(ProtocolFundingSource fundingSrc) {
+    private boolean checkFundingSource(ProtocolFundingSource fundingSource) {
         boolean isValid = true;
-        String fundingId =  fundingSrc.getFundingSource();
-        String fundingName =  fundingSrc.getFundingSourceName();
+        FundingSourceType fundingSourceType = fundingSource.getFundingSourceType();
+        String fundingSourceNumber = fundingSource.getFundingSourceNumber();
+        String fundingSourceName =  fundingSource.getFundingSourceName();
 
-        if (fundingSrc.getFundingSourceType() != null && !getProtocolFundingSourceService().isValidIdForType(fundingSrc)) {
+        if (fundingSourceType == null || StringUtils.isBlank(fundingSourceType.getDescription())) {
             isValid = false;
-            reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_ID_INVALID_FOR_TYPE, 
-                    fundingSrc.getFundingSourceType().getDescription(), fundingId);         
+            reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND); 
         }
-        
-        if (StringUtils.isBlank(fundingId)) {
+        if (StringUtils.isBlank(fundingSourceNumber)) {
             isValid = false;
-            reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_ID_NOT_FOUND); 
-        }               
-        if ( fundingSrc.getFundingSourceType() ==null 
-             || StringUtils.isBlank(fundingSrc.getFundingSourceType().getDescription())) {
+            reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND); 
+        }      
+        if (fundingSourceType != null && !getProtocolFundingSourceService().isValidIdForType(fundingSource)) {
             isValid = false;
-            reportError(Constants.PROTO_FUNDING_SRC_TYPE_CODE_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_TYPE_NOT_FOUND); 
-        } 
-        if ( StringUtils.isBlank(fundingName) 
-                || fundingName.equalsIgnoreCase("not found")) {
+            reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE, 
+                    fundingSource.getFundingSourceType().getDescription(), fundingSourceNumber);      
+        }         
+        if (StringUtils.isBlank(fundingSourceName)) {
             isValid = false;
-            reportError(Constants.PROTO_FUNDING_SRC_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_NAME_NOT_FOUND);         
+            reportError(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND);         
         }
 
         return isValid;
@@ -95,29 +92,28 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
     
     private boolean checkForDuplicates(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
         boolean isValid = true;
+        
         ProtocolFundingSource fundingSrc = addProtocolFundingSourceEvent.getFundingSource();
         List<ProtocolFundingSource> fundingSources = addProtocolFundingSourceEvent.getProtocolFundingSources();
         for (ProtocolFundingSource theFundingSource : fundingSources) {
             if (fundingSrc.equals(theFundingSource)) {
-                reportError(Constants.PROTO_FUNDING_SRC_ID_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_DUPLICATE); 
                 isValid = false;
+                reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_DUPLICATE); 
             }
         }
-        
         
         return isValid;
     }
 
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (protocolFundingSourceService == null) {
-            protocolFundingSourceService =  getService(ProtocolFundingSourceService.class);
+            protocolFundingSourceService =  KraServiceLocator.getService(ProtocolFundingSourceService.class);
         }
         return protocolFundingSourceService;
     }
 
     /**
-     * 
-     * This method is for mocks in JUnit
+     * This method is for mocks in JUnit.
      * @param protocolFundingSourceService
      */
     public void setProtocolFundingSourceService(ProtocolFundingSourceService protocolFundingSourceService) {
