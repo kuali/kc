@@ -220,6 +220,10 @@
       <action path="/awardCommentViewHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardNotesAndAttachmentsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />
      </action>
+     
+     <action path="/awardHierarchyFullView" name="AwardForm" input="/WEB-INF/jsp/award/AwardHierarchyFullView.jsp" type="org.kuali.kra.award.web.struts.action.AwardActionsAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/AwardHierarchyFullView.jsp" />
+     </action>
       
       <action path="/timeAndMoney*" name="TimeAndMoneyForm" input="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoney{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />          

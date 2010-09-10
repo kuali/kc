@@ -85,6 +85,57 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     
     
     @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        AwardForm awardForm = (AwardForm)form;
+        String command = request.getParameter("command");
+        String awardDocumentNumber = request.getParameter("awardDocumentNumber");
+        String awardNumber = request.getParameter("awardNumber");
+        if (StringUtils.isNotBlank(command) && "redirectAwardHierarchyFullViewForPopup".equals(command)) {
+            forward = redirectAwardHierarchyFullViewForPopup(mapping, form, request, response, awardDocumentNumber, awardNumber);
+        }
+        return forward;
+    }
+    
+    /**
+     * 
+     * This method is for the 'open window' button. It will be forwarded AwardHierarchyFullView.jsp
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward openWindow(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String documentNumber = request.getParameter("awardDocumentNumber");
+        String awardNumber = request.getParameter("awardNumber");
+        Award award = getActiveAwardVersion(awardNumber);
+        AwardForm awardForm = (AwardForm)form;
+        awardForm.setCurrentAwardNumber(awardNumber);
+        awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        AwardDocument awardDocument = (AwardDocument)documentService.getByDocumentHeaderId(documentNumber);
+        awardDocument.setAward(award);
+        awardForm.setDocument(awardDocument);
+        super.populateAwardHierarchy(awardForm);
+        return mapping.findForward("basic");
+    }  
+    
+    private ActionForward redirectAwardHierarchyFullViewForPopup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String awardDocumentNumber, String awardNumber) throws Exception {
+        //super.populateAwardHierarchy(form);
+        AwardForm awardForm = (AwardForm)form;
+        response.sendRedirect("awardHierarchyFullView.do?methodToCall=openWindow&awardDocumentNumber=" + awardDocumentNumber + "&awardNumber=" + awardNumber);
+      
+        return null;
+    }
+    
+    
+    @Override
     protected void validateLookupInquiryFullParameter(HttpServletRequest request, ActionForm form, String fullParameter) {
         if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
             return;

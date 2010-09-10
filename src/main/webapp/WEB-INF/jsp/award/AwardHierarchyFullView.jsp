@@ -1,35 +1,41 @@
 <%--
- Copyright 2005-2010 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.osedu.org/licenses/ECL-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
---%>
+Copyright 2005-2010 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+
+<kul:documentPage
+    showDocumentInfo="true"
+    htmlFormAction="awardActions"
+    documentTypeName="AwardDocument"
+    renderMultipart="false"
+    showTabButtons="false"
+    auditCount="0"
+    headerTabActive="actions">
 
 <c:set var="awardHierarchyAttributes" value="${DataDictionary.AwardHierarchy.attributes}" />
 <c:set var="action" value="awardHierarchy" />
-<c:set var="awardDocumentNumber" value="${KualiForm.document.documentNumber}"/>
-<c:set var="awardNumber" value="${KualiForm.document.awardList[0].awardNumber}"/>
-
 <input type="hidden" property="viewOnly" id="viewOnly" name="viewOnly" value="${readOnly}" />
 <input type="hidden" id = "canCreateAward" name="canCreateAward" value="${KualiForm.canCreateAward}" />
 
-<kul:tab tabTitle="Hierarchy Actions" defaultOpen="${param.command eq 'displayDocSearchView' ? true : false}" tabErrorKey="awardHierarchyTempObject*" auditCluster="awardHierarchyAuditErrors" tabAuditKey="document.awardHierarchyAuditRules*" useRiceAuditMode="true">
-	<div class="tab-container" align="right">
+<kul:tabTop tabTitle="Award Hierarchy" defaultOpen="true">
+
+   <div class="tab-container" align="right">
     	<h3> 
     		<span class="subhead-left">Hierarchy Actions</span>  
     		<span class="subhead-right">
-    			<a href="${pageContext.request.contextPath}/awardHierarchyFullView.do?command=redirectAwardHierarchyFullViewForPopup&awardDocumentNumber=${awardDocumentNumber}&awardNumber=${awardNumber}" target="_blank" >
-    			<img align="top" width="80" height="15" alt="Open Window" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-openwindow.gif" styleClass="tinybutton" />
     			<kul:help businessObjectClassName="org.kuali.kra.award.awardhierarchy.AwardHierarchy" altText="help"/>
 			</span>
         </h3>        
@@ -38,13 +44,14 @@
 	<tbody><tr>
 		<td style="border: medium none ; border-collapse: collapse; background-color: rgb(234, 233, 234);">
 		<span style="display: inline;" id="treecontrol">
+		${fn:length(KualiForm.awardHierarchyNodes)} Nodes: 
 		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
 		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>
 		</span>
 		</td>
 	</tr>
 	</tbody></table>	     
-    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 285px; overflow-y: scroll; overflow-x: scroll; overflow: scroll; position: relative;" >     
+    <div style = "background:#e4e4e4; margin: 2px 0pt 0pt; clear: left; height: 725px; overflow-y: scroll; overflow-x: scroll; overflow: scroll; position: relative;" >     
   		<ul id="awardhierarchy" class="filetree stripeli treeview"  >
         <%-- <li><span class="folder">00000</span>
         </li> --%>
@@ -78,5 +85,22 @@
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].createNewChildRadio" name="awardHierarchyTempObject[${i}].createNewChildRadio" value="${KualiForm.awardHierarchyTempObjects[i].createNewChildRadio}">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].copyAwardRadio" name="awardHierarchyTempObject[${i}].copyAwardRadio" value="${KualiForm.awardHierarchyTempObjects[i].copyAwardRadio}">
 	</c:forEach>
-            
-</kul:tab>
+
+</kul:tabTop>
+<kul:panelFooter />
+
+</kul:documentPage>
+
+	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
+		
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/AwardHierarchyUIService.js"></script>	
+
+	<script src="scripts/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+
+	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+	<script type="text/javascript" src="scripts/awardHierarchy.js"></script>
