@@ -41,8 +41,8 @@
 	<bean id="ProtocolNotifyIrbBean-submissionQualifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="submissionQualifierTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Submission Type" />
-		<property name="shortLabel" value="Submission Type" />
+		<property name="label" value="Submission Type Qualifier" />
+		<property name="shortLabel" value="Submission Type Qualifier" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="false" />
 		<property name="control" >
