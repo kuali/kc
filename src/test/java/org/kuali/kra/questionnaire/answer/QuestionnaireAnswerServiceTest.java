@@ -55,10 +55,14 @@ public class QuestionnaireAnswerServiceTest {
         
         final Map <String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
-        
+        final Map <String, String> fieldValues1 = new HashMap<String, String>();
+        fieldValues1.put("questionnaireId", "1");
+
         final Questionnaire questionnairenew = getQuestionnaire(1, 1, 2L); 
         questionnairenew.getQuestionnaireQuestions().add(createChildQuestionnaireQuestion(4,1,"1","N"));
         final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
+        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+        questionnaires.add(questionnairenew);
         QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire New");
         questionnaireUsage.setQuestionnaire(questionnairenew);
         usages.add(questionnaireUsage);
@@ -76,7 +80,9 @@ public class QuestionnaireAnswerServiceTest {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues); will(returnValue(usages));
-        }});
+            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
+                    fieldValues1, "sequenceNumber", false); will(returnValue(questionnaires));
+       }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         
         AnswerHeader answerHeader = questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), questionnaire);
@@ -176,12 +182,23 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", "0912000001");
         fieldValues.put("moduleSubItemKey", "0");
-        
-        final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
-        AnswerHeader answerHeaderOld = createAnswerHeaderForVersioning(1L, "0912000001", "0");
-        headers.add(answerHeaderOld);
+        final Map <String, String> fieldValues1 = new HashMap<String, String>();
+        fieldValues1.put("questionnaireId", "1");
+        final Map <String, String> fieldValues2 = new HashMap<String, String>();
+        fieldValues2.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+
         final Questionnaire questionnaire = getQuestionnaire(1, 0, 1L); 
-        
+       final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+        AnswerHeader answerHeaderOld = createAnswerHeaderForVersioning(1L, "0912000001", "0");
+        answerHeaderOld.setQuestionnaire(questionnaire);
+        headers.add(answerHeaderOld);
+        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+        questionnaires.add(questionnaire);
+        final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
+        QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire New");
+        questionnaireUsage.setQuestionnaire(questionnaire);
+        usages.add(questionnaireUsage);
+
         final Protocol protocol = new Protocol(){
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -194,6 +211,9 @@ public class QuestionnaireAnswerServiceTest {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
+            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues2); will(returnValue(usages));
+           one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
+                    fieldValues1, "sequenceNumber", false); will(returnValue(questionnaires));
         }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         
@@ -317,12 +337,18 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleItemKey", "0912000001");
         fieldValues.put("moduleSubItemKey", "0");
-        
+        final Map <String, String> fieldValues2 = new HashMap<String, String>();
+        fieldValues2.put("questionnaireId", "1");
+        final Map <String, String> fieldValues3 = new HashMap<String, String>();
+        fieldValues3.put("questionnaireId", "2");
+
         final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         AnswerHeader answerHeader = createAnswerHeaderForVersioning(1L, "0912000001", "0");
         headers.add(answerHeader);
         final Questionnaire questionnaire = getQuestionnaire(1, 0, 1L); 
         answerHeader.setQuestionnaire(questionnaire);
+        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+        questionnaires.add(questionnaire);
         final Protocol protocol = new Protocol(){
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -345,6 +371,8 @@ public class QuestionnaireAnswerServiceTest {
         final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
         QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire 1");
         questionnaireUsage.setQuestionnaire(questionnairenew);
+        final Collection<Questionnaire> questionnaires1 = new ArrayList<Questionnaire>();
+        questionnaires1.add(questionnairenew);
         List<QuestionnaireUsage> workUsages = new ArrayList<QuestionnaireUsage>();
         workUsages.add(questionnaireUsage);
         questionnairenew.setQuestionnaireUsages(workUsages);
@@ -359,7 +387,11 @@ public class QuestionnaireAnswerServiceTest {
         //context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
             one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1); will(returnValue(usages));
-        }});
+            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
+                    fieldValues2, "sequenceNumber", false); will(returnValue(questionnaires));
+            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
+                            fieldValues3, "sequenceNumber", false); will(returnValue(questionnaires1));
+       }});
 
         
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);

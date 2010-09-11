@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.util.collection.CollectionsUtil;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
@@ -62,14 +63,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         // use this sort, to list the higher version before lower version
         if (CollectionUtils.isNotEmpty(questionnaireUsages)) {
             Collections.sort((List<QuestionnaireUsage>) questionnaireUsages);
-          //  Collections.reverse((List<QuestionnaireUsage>) questionnaireUsages);
+            // Collections.reverse((List<QuestionnaireUsage>) questionnaireUsages);
         }
 
         // the higher version will have higher questionnaireidfk
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-                usages.add(questionnaireUsage);
+                if (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                    usages.add(questionnaireUsage);
+                }
             }
         }
         return usages;
@@ -88,7 +91,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk())) {
                     answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()).setNewerVersionPublished(true);
                 }
-            } else {
+            }
+            else {
                 answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
             }
         }
@@ -117,20 +121,20 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * 
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#versioningQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
-    public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean, Integer newSequenceNumber) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
-        fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
-        fieldValues.put(MODULE_SUB_ITEM_KEY, moduleQuestionnaireBean.getModuleSubItemKey());
+    public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean,
+            Integer newSequenceNumber) {
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
-        for (AnswerHeader answerHeader : (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues)) {
-            AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
-            copiedAnswerHeader.setModuleSubItemKey(newSequenceNumber.toString());
-            copiedAnswerHeader.setAnswerHeaderId(null);
-            for (Answer answer : copiedAnswerHeader.getAnswers()) {
-                answer.setId(null);
+        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
+            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
+                copiedAnswerHeader.setModuleSubItemKey(newSequenceNumber.toString());
+                copiedAnswerHeader.setAnswerHeaderId(null);
+                for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                    answer.setId(null);
+                }
+                newAnswerHeaders.add(copiedAnswerHeader);
             }
-            newAnswerHeaders.add(copiedAnswerHeader);
         }
         return newAnswerHeaders;
     }
@@ -141,12 +145,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
-        fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
-        fieldValues.put(MODULE_SUB_ITEM_KEY, moduleQuestionnaireBean.getModuleSubItemKey());
         Map<Integer, AnswerHeader> answerHeaderMap = new HashMap<Integer, AnswerHeader>();
-        for (AnswerHeader answerHeader : (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues)) {
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
             setupChildAnswerIndicator(answerHeader.getAnswers());
             answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
         }
@@ -157,6 +157,49 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return answerHeaders;
 
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#removedQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     */
+    public void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
+            if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+                answerHeaders.add(answerHeader);
+            }
+        }
+        answerHeaders.size(); // remove this line and uncomment next line
+        businessObjectService.delete(answerHeaders);
+        //deleteAnswers(answerHeaders);
+     }
+
+    
+    private List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
+        fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
+        fieldValues.put(MODULE_SUB_ITEM_KEY, moduleQuestionnaireBean.getModuleSubItemKey());
+        return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+    }
+    
+    private List<Integer> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+        List<Integer> questionnaireIds = new ArrayList<Integer>();
+        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode())) {
+            questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
+        }
+        return questionnaireIds;
+
+    }
+
+    private boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId().toString());
+        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
+                fieldValues, "sequenceNumber", false);
+        return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
     }
 
     /**
@@ -179,7 +222,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         break;
                     }
                 }
-            } else if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
+            }
+            else if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                     && StringUtils.isNotBlank(oldAnswer.getAnswer())) {
                 copyChildAnswer(oldAnswer, oldParentAnswers, newAnswerHeader, newParentAnswers);
             }
@@ -213,8 +257,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /*
-     * if maxanswer > 1. Then make sure non-blank answers are moved to top of the answer array.
-     * This is for coeus equivalency
+     * if maxanswer > 1. Then make sure non-blank answers are moved to top of the answer array. This is for coeus equivalency
      */
     private void moveAnswer(List<Answer> answers, int index) {
         int i = 0;
@@ -380,17 +423,21 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
                 answer.setMatchedChild(YES);
-            } else {
+            }
+            else {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
                 if (StringUtils.isBlank(answer.getQuestionnaireQuestion().getCondition())) {
                     answer.setMatchedChild(YES);
-                } else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
+                }
+                else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
-                } else if (isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
+                }
+                else if (isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
                         .getQuestionnaireQuestion().getParentQuestionNumber()), answer.getQuestionnaireQuestion()
                         .getConditionValue())) {
                     answer.setMatchedChild(YES);
-                } else {
+                }
+                else {
                     answer.setMatchedChild(NO);
                 }
             }
@@ -452,21 +499,23 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /*
-     * Following are supported condition : var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
-     *  'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
-     *   'Greater than or equals number', 'Greater than number', 'Before date',
-     *   'After date' ];
+     * Following are supported condition : var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with
+     * text', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number', 'Greater
+     * than or equals number', 'Greater than number', 'Before date', 'After date' ];
      */
 
     private boolean isAnswerMatched(String condition, String parentAnswer, String conditionValue) {
         boolean valid = false;
         if (ConditionType.CONTAINS_TEXT.getCondition().equals(condition)) {
             valid = StringUtils.containsIgnoreCase(parentAnswer, conditionValue);
-        } else if (ConditionType.BEGINS_WITH_TEXT.getCondition().equals(condition)) {
+        }
+        else if (ConditionType.BEGINS_WITH_TEXT.getCondition().equals(condition)) {
             valid = (StringUtils.startsWithIgnoreCase(parentAnswer, conditionValue));
-        } else if (ConditionType.ENDS_WITH_TEXT.getCondition().equals(condition)) {
+        }
+        else if (ConditionType.ENDS_WITH_TEXT.getCondition().equals(condition)) {
             valid = (StringUtils.endsWithIgnoreCase(parentAnswer, conditionValue));
-        } else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
+        }
+        else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
             valid = parentAnswer.equalsIgnoreCase(conditionValue);
         }
         else if (Integer.parseInt(condition) >= 5 && Integer.parseInt(condition) <= 10) {
@@ -482,14 +531,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                             .parseInt(parentAnswer) >= Integer.parseInt(conditionValue)))
                     || (ConditionType.GREATER_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) > Integer
                             .parseInt(conditionValue)));
-        } else if (Integer.parseInt(condition) >= 11) {
+        }
+        else if (Integer.parseInt(condition) >= 11) {
             final DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             try {
                 Date date1 = new Date(dateFormat.parse(parentAnswer).getTime());
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
                 valid = (ConditionType.BEFORE_DATE.getCondition().equals(condition) && (date1.before(date2)))
                         || (ConditionType.AFTER_DATE.getCondition().equals(condition) && (date1.after(date2)));
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
 
             }
 
@@ -498,12 +549,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /*
-     * enum for conditions.  
+     * enum for conditions.
      */
     private enum ConditionType {
-        CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), 
-        LESS_THAN_OR_EQUALS_NUMBER("6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), 
-        GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE("11"), AFTER_DATE("12");
+        CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), LESS_THAN_OR_EQUALS_NUMBER(
+                "6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE(
+                "11"), AFTER_DATE("12");
 
         String condition;
 
