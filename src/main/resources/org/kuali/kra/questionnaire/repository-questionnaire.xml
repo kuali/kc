@@ -102,7 +102,7 @@
 		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionnaireRefIdFk"/>
 		</reference-descriptor>
-		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="answerHeaderIdFk"/>
 		</collection-descriptor>
 	</class-descriptor>
