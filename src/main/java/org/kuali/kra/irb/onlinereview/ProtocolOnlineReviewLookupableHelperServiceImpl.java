@@ -16,28 +16,27 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.drools.core.util.StringUtils;
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDao;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewDao;
 import org.kuali.kra.irb.onlinereview.dao.ProtocolOnlineReviewLookupConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
@@ -72,7 +71,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
 
     @Override
     protected String getHtmlAction() {
-        return "protocolOnlineReviewRedirectAction.do";
+        return "protocolOnlineReviewRedirect.do";
     }
 
     @Override
@@ -181,4 +180,17 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
    }
   
    
+   protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
+       Properties parameters = new Properties();
+       parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
+       parameters.put(KNSConstants.PARAMETER_COMMAND, "displayDocSearchView");
+       parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+       parameters.put("docId", ((ProtocolOnlineReview)businessObject).getProtocolOnlineReviewDocument().getDocumentNumber());
+       String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+       
+       AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
+               KNSConstants.DOC_HANDLER_METHOD, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+       htmlDataList.add(anchorHtmlData);
+   }
+
 }
