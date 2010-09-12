@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,9 +169,18 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        
        super.setBackLocationDocFormKey(fieldValues);
        results = (List<ProtocolOnlineReview>)super.getSearchResults(fieldValues);
-       return results;
+       return filterResults(results);
    }
 
+   private List<ProtocolOnlineReview> filterResults(List<ProtocolOnlineReview> results) {
+       List<ProtocolOnlineReview> onlineReviews = new ArrayList<ProtocolOnlineReview>();
+       for (ProtocolOnlineReview review : results) {
+           if (review.getProtocolOnlineReviewDocument() != null) {
+               onlineReviews.add(review);
+           }
+       }
+       return onlineReviews;
+   }
    /**
     * Sets the kcPersonService attribute value.
     * @param kcPersonService The kcPersonService to set.
