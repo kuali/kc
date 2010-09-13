@@ -45,7 +45,6 @@ public class ProtocolTypeValuesFinder extends KeyValuesBase {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(ProtocolType.class,"description",true);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(0, new KeyLabelPair(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         for (Iterator iter = protocolTypes.iterator(); iter.hasNext();) {
             ProtocolType protocolType = (ProtocolType) iter.next();
             keyValues.add(new KeyLabelPair(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));                            
