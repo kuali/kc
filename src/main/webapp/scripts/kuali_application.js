@@ -1543,9 +1543,9 @@ function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 			if ( data != null ) {
 				//clear all current options
 			    $(transactionId).html("");
-				$(data).each(function(item) {
-					$(transactionId).append("<option value='"+$(data)[item]+"'>"+$(data)[item]+"</option>");
-				});
+			    for (key in data) {
+					$(transactionId).append("<option value='"+key+"'>"+data[key]+"</option>");
+				}
 			}
 		},
 		errorHandler:function( errorMessage ) {
