@@ -481,9 +481,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.SEQUENCE_NUMBER
                 .getAwardPrintParameter(), awardForm
                 .getAwardPrintChangeReport().getAwardVersion());
-        reportParameters.put(AwardPrintParameters.TRANSACTION_ID
+        reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm
-                .getAwardPrintChangeReport().getTransactionId());
+                .getAwardPrintChangeReport().getAmountInfoIndex());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
@@ -542,13 +542,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printTransactionDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        if (awardForm.getAwardTimeAndMoneyTransactionReport().getTransactionId() == null) {
-            GlobalVariables.getErrorMap().putError("awardTimeAndMoneyTransactionReport.transactionId",
+        if (awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex() == null) {
+            GlobalVariables.getErrorMap().putError("awardTimeAndMoneyTransactionReport.amountInfoIndex",
                     "error.award.print.transactionId.required");
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        reportParameters.put(AwardPrintParameters.TRANSACTION_ID
-                .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getTransactionId());
+        reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
+                .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(

@@ -17,13 +17,17 @@ package org.kuali.kra.award.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 import java.util.Collections;
@@ -37,8 +41,8 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
      * @see org.kuali.kra.award.lookup.AwardTransactionLookupService#getApplicableTransactionIds(java.lang.String, java.lang.Integer)
      */
     @SuppressWarnings("unchecked")
-    public List<Long> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
-        TreeSet<Long> transactionIds = new TreeSet<Long>();
+    public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
+        List<Long> transactionIds = new ArrayList<Long>();
         Map<String, String> awardValues = new HashMap<String, String>();
         awardValues.put("awardNumber", awardNumber);
         Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
@@ -58,10 +62,40 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                 }
             }
         }
+        Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
         transactionIds.removeAll(excludedTransactionIds);
-        List<Long> retVal = new ArrayList<Long>(transactionIds);
-        Collections.reverse(retVal);
-        return retVal;
+        Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
+            public int compare(Integer o1, Integer o2) {
+                //sort in descending order instead of ascending
+                return o1.compareTo(o2) * -1;
+            }
+        });
+        for (Long id : transactionIds) {
+            if (id != null) {
+                retval.put(getAwardAmountInfoIndex(currentAward, id), id.toString());
+            }
+        }
+        if (sequenceNumber == 1) {
+            retval.put(0, "Initial");
+        }
+        return retval;
+    }
+    
+    private int getAwardAmountInfoIndex(Award award, Long transactionId) {
+        for (int i = 0; i < award.getAwardAmountInfos().size(); i++) {
+            if (ObjectUtils.equals(award.getAwardAmountInfos().get(i).getTransactionId(), transactionId)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+    
+    private Award getAwardVersion(String awardNumber, int sequenceNumber) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("awardNumber", awardNumber);
+        values.put("sequenceNumber", sequenceNumber);
+        Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
+        return awards.iterator().next();
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
