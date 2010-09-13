@@ -90,7 +90,7 @@ public interface QuestionnaireAnswerService {
      * @param moduleQuestionnaireBean
      * @return
      */
-    void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
+//    void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
 
 
 }

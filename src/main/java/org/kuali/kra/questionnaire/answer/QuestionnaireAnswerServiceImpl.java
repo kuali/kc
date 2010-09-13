@@ -163,18 +163,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * 
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#removedQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
-    public void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
-        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
-            if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
-                answerHeaders.add(answerHeader);
-            }
-        }
-        answerHeaders.size(); // remove this line and uncomment next line
-        businessObjectService.delete(answerHeaders);
-        //deleteAnswers(answerHeaders);
-     }
+//    public void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+//        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+//        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
+//        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
+//            if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+//                answerHeaders.add(answerHeader);
+//            }
+//        }
+//        answerHeaders.size(); // remove this line and uncomment next line
+//        businessObjectService.delete(answerHeaders);
+//        //deleteAnswers(answerHeaders);
+//     }
 
     
     private List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
