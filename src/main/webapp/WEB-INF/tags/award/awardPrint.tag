@@ -159,16 +159,16 @@
 						<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" useShortLabel="true" />
 						   <kul:htmlControlAttribute property="awardPrintChangeReport.awardVersion" 
 									attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" readOnly="false"
-									onchange="loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');"/>
+									onchange="loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.amountInfoIndex'), '${award.awardNumber}');"/>
 					</span>
 					<span style="float:left; width:33.3%; text-align:center; padding:5px;">
-						<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.transactionId}" useShortLabel="true" />
-						   <kul:htmlControlAttribute property="awardPrintChangeReport.transactionId" 
-									attributeEntry="${awardTransactionSelectorAttributes.transactionId}" readOnly="false"/>
+						<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.amountInfoIndex}" useShortLabel="true" />
+						   <kul:htmlControlAttribute property="awardPrintChangeReport.amountInfoIndex" 
+									attributeEntry="${awardTransactionSelectorAttributes.amountInfoIndex}" readOnly="false"/>
 					</span>
 					<script>
 					  $(document).ready(function() {
-					 	loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');
+					 	loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.amountInfoIndex'), '${award.awardNumber}');
 					  });
 					</script>
 
@@ -214,16 +214,16 @@
 					<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" useShortLabel="true" />
 					   <kul:htmlControlAttribute property="awardTimeAndMoneyTransactionReport.awardVersion" 
 								attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" readOnly="false"
-								onchange="loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.transactionId'), '${award.awardNumber}');"/>
+								onchange="loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.amountInfoIndex'), '${award.awardNumber}');"/>
 				</span>
 				<span style="float:left; width:33.3%; text-align:center; padding:5px;">
-					<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.transactionId}" useShortLabel="true" />
-					   <kul:htmlControlAttribute property="awardTimeAndMoneyTransactionReport.transactionId" 
-								attributeEntry="${awardTransactionSelectorAttributes.transactionId}" readOnly="false"/>
+					<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.amountInfoIndex}" useShortLabel="true" />
+					   <kul:htmlControlAttribute property="awardTimeAndMoneyTransactionReport.amountInfoIndex" 
+								attributeEntry="${awardTransactionSelectorAttributes.amountInfoIndex}" readOnly="false"/>
 				</span>
 				<script>
 				  $(document).ready(function() {
-				 	loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.transactionId'), '${award.awardNumber}');
+				 	loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.amountInfoIndex'), '${award.awardNumber}');
 				  });
 				</script>
 		      												

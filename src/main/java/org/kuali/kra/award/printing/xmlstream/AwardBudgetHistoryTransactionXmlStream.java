@@ -66,8 +66,8 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;
-		Long transactionId = (Long) reportParameters
-				.get(AwardPrintParameters.TRANSACTION_ID
+		int transactionId = (Integer) reportParameters
+				.get(AwardPrintParameters.TRANSACTION_ID_INDEX
 						.getAwardPrintParameter());
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
@@ -81,27 +81,14 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	}
 
 	/*
-	 * This method will get the transaction id from input report parameters
-	 */
-	private Long getTransactionId(Map<String, Object> reportParameters) {
-		Long transactionId = null;
-		if (reportParameters.get(TRANSACTION_ID) != null) {
-			transactionId = Long.valueOf(String.valueOf(reportParameters
-					.get(TRANSACTION_ID)));
-		}
-
-		return transactionId;
-	}
-
-	/*
 	 * This method will set the values to Award type xml object attributes. It
 	 * will set the following values like award amount info , Transaction info .
 	 * 
 	 */
-	private AwardType getAwardType(Award award, Long transactionId) {
+	private AwardType getAwardType(Award award, int transactionIdx) {
 		AwardType awardType = AwardType.Factory.newInstance();
 		awardType.setAwardAmountInfo(getAwardAmountInfo(award,
-				transactionId));
+				transactionIdx));
 		awardType.setAwardTransactionInfo(getAwardTransactiontInfo(award));
 		return awardType;
 	}
@@ -111,26 +98,18 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	 * attributes.
 	 */
 	private AwardAmountInfo getAwardAmountInfo(Award award,
-			Long transactionId) {
+			int transactionIdx) {
 
 		AmountInfoType amountInfoType = null;
 		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
 				
-		org.kuali.kra.award.home.AwardAmountInfo amountInfo = null;
-		for (org.kuali.kra.award.home.AwardAmountInfo curAmountInfo : award
-				.getAwardAmountInfos()) {
-			if (ObjectUtils.equals(transactionId, curAmountInfo.getTransactionId())) {
-			    amountInfo = curAmountInfo;
-			    break;
-			}
-		}
-
+		org.kuali.kra.award.home.AwardAmountInfo amountInfo = award.getAwardAmountInfos().get(transactionIdx);
 		if (amountInfo != null) {
     		amountInfoType = setAwardAmountInfo(award, amountInfo,
-    				transactionId);
+    				amountInfo.getTransactionId());
     		org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = getPrevAwardAmountInfo(
-    				award, transactionId, award.getAwardNumber());
+    				award, amountInfo.getTransactionId(), award.getAwardNumber());
     		setAwardAmountInfoModifiedValues(amountInfoType,
     				amountInfo, prevAwardAmount);
     		amountInfoTypes.add(amountInfoType);
@@ -194,58 +173,22 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	 */
 	private org.kuali.kra.award.home.AwardAmountInfo getPrevAwardAmountInfo(
 			Award award, Long transactionId, String awardNumber) {
-		int prevTransactionId = 0;
-		List<AwardAmountTransaction> awardAmountTransactions = getAwardAmountTransactions(awardNumber);
-		boolean transactionIdFound = false;
-		for (AwardAmountTransaction timeAndMoneyActionSummary : awardAmountTransactions) {
-			if (transactionId != null && transactionId.equals(timeAndMoneyActionSummary
-					.getAwardAmountTransactionId())) {
-				transactionIdFound = true;
-			}
-			if (transactionIdFound) {
-				prevTransactionId = timeAndMoneyActionSummary
-						.getAwardAmountTransactionId().intValue();
-				break;
-			}
-		}
-		org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = getPrevAwardAmountInfo(
-				award, prevTransactionId);
-		return prevAwardAmount;
-	}
-
-	/*
-	 * This method will get the previous awardAmountInfo for transaction id
-	 */
-	private org.kuali.kra.award.home.AwardAmountInfo getPrevAwardAmountInfo(
-			Award award, int transactionId) {
-		org.kuali.kra.award.home.AwardAmountInfo awardAmountInfo = null;
-		for (org.kuali.kra.award.home.AwardAmountInfo awardAmount : award
-				.getAwardAmountInfos()) {
-			if (awardAmount.getTransactionId() == null) {
-				// FIXME TransactionId comes null for first item. This could be
-				// due to some bug. As a workaround until bug is fixed, the list
-				// item with empty transaction Id will be skipped
-				continue;
-			}
-			if (transactionId == awardAmount.getTransactionId()) {
-				awardAmountInfo = awardAmount;
-				break;
-			}
-		}
-		return awardAmountInfo;
-	}
-
-	/*
-	 * This method will return the award amount transaction list from
-	 * timeAndMoney document,which matches award number given.
-	 */
-	private List<AwardAmountTransaction> getAwardAmountTransactions(
-			String awardNumber) {
-		Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
-		timeAndMoneyMap.put(AWARD_NUMBER_PARAMETER, awardNumber);
-		List<AwardAmountTransaction> awardAmountTransactions = (List<AwardAmountTransaction>) businessObjectService
-				.findMatching(AwardAmountTransaction.class, timeAndMoneyMap);
-		return awardAmountTransactions;
+	    //if transactionId is null the current item is the first one and therefore there
+	    //is no previous transactions to find
+	    if (transactionId != null) {
+    	    org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = award.getAwardAmountInfos().get(0);
+    	    for (org.kuali.kra.award.home.AwardAmountInfo curInfo : award.getAwardAmountInfos()) {
+    	        if (ObjectUtils.equals(curInfo.getTransactionId(), transactionId)) {
+    	            break;
+    	        }
+    	        if (curInfo.getTransactionId() != null) {
+    	            prevAwardAmount = curInfo;
+    	        }
+    	    }
+    		return prevAwardAmount;
+	    } else {
+	        return null;
+	    }
 	}
 
 	/*

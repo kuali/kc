@@ -42,7 +42,7 @@ public enum AwardPrintParameters {
 		SIGNATURE_REQUIRED("signatureRequired"), 
 		SEQUENCE_NUMBER("sequenceNumber"), 
 		TRANSACTION_ID("transactionId"), 
-		HIGHEST_TRANSACTION_ID_INDEX("highestTransactionIdIndex");
+		TRANSACTION_ID_INDEX("transactionIdIndex");
 		
 	private final String awardPrintParameter;
 

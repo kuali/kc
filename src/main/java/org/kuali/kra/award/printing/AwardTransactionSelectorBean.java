@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class AwardTransactionSelectorBean extends BusinessObjectBase {
-    
+
     private Integer awardVersion;
-    private Long transactionId;
+    private Integer amountInfoIndex;
     private Boolean requireSignature;
 
     @Override
@@ -43,20 +43,20 @@ public class AwardTransactionSelectorBean extends BusinessObjectBase {
         this.awardVersion = awardVersion;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public Boolean getRequireSignature() {
         return requireSignature;
     }
 
     public void setRequireSignature(Boolean requireSignature) {
         this.requireSignature = requireSignature;
+    }
+
+    public Integer getAmountInfoIndex() {
+        return amountInfoIndex;
+    }
+
+    public void setAmountInfoIndex(Integer amountInfoIndex) {
+        this.amountInfoIndex = amountInfoIndex;
     }
     
 

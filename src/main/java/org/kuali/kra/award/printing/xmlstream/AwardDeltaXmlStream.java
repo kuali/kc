@@ -41,6 +41,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
+import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -114,11 +115,13 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 						.get(SEQUENCE_NUMBER);
 				award = getAwardForSeqenceNumber(awardNumber, sequenceNumber);
 			}
-			if (reportParameters.get(TRANSACTION_ID) != null) {
-				transactionId = ((Long) reportParameters.get(TRANSACTION_ID)).intValue();
+			if (reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX
+	                .getAwardPrintParameter()) != null) {
+				int transactionIdx = (Integer) reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX
+		                .getAwardPrintParameter());
 				if (award != null) {
-					awardAmountInfo = getPrevAwardAmountInfo(award,
-							transactionId);
+					awardAmountInfo = award.getAwardAmountInfos().get(transactionIdx); 
+					transactionId = awardAmountInfo.getTransactionId().intValue();
 				}
 			}
 			boolean sequenceNumberFound = false;
