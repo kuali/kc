@@ -374,6 +374,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
     
     public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+        refreshReferenceObject("committeeScheduleMinutes");
         return committeeScheduleMinutes;
     }
     
