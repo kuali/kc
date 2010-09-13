@@ -42,10 +42,10 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     private Long protocolFundingSourceId;
     private Integer fundingSourceTypeCode;
     private String fundingSource;
-    private transient String fundingSourceNumber;
+    private String fundingSourceNumber;
     private FundingSourceType fundingSourceType;
     private String fundingSourceName;
-    private transient String fundingSourceTitle;
+    private String fundingSourceTitle;
     
     private Unit fundingUnit;
     private Sponsor fundingSponsor;
