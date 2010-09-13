@@ -88,7 +88,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                     <table class="tab" cellpadding="0" cellspacing="0" summary="">
                                         <tbody>
                                             <tr>
-                                               <th style="text-align:left;width:10%">File Name</th>
+                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
                                                <th style="text-align:left">Description</th>
                                             </tr>
            		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="actionStatus">
