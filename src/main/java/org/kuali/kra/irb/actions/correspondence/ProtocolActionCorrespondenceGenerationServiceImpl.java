@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
@@ -75,6 +76,14 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         //What is Final flag used for? ANSWER: the final flag is used by the IRB admin to denote correspondences 
         //that are ready to be sent/published to the PI etc.
         protocolCorrespondence.setFinalFlag(false);
+        
+        if(lastAction.getProtocolCorrespondences() == null) {
+            List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
+            correspondences.add(protocolCorrespondence);
+            lastAction.setProtocolCorrespondences(correspondences);
+        } else {
+            lastAction.getProtocolCorrespondences().add(protocolCorrespondence);
+        }
         
         getBusinessObjectService().save(protocolCorrespondence);
         

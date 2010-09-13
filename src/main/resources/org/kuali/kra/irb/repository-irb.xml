@@ -709,6 +709,18 @@
         <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolActionTypeCode"/>
         </reference-descriptor>
+        <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" 
+        	auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="actionIdFk" />
+        </collection-descriptor>
+        <!-- 
+        <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="actionIdFk" />
+        </collection-descriptor>
+        <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="false" auto-delete="false">
+            <inverse-foreignkey field-ref="actionIdFk" /> 
+            <inverse-foreignkey field-ref="actionIdFk" />
+        </collection-descriptor> -->
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.actions.submit.ProtocolSubmission" table="PROTOCOL_SUBMISSION">
@@ -802,7 +814,7 @@
             <foreignkey field-ref="protoCorrespTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="protocolAction" class-ref="org.kuali.kra.irb.actions.ProtocolAction" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="actionIdFk"/>
+            <foreignkey field-ref="actionId"/>
         </reference-descriptor>
     </class-descriptor> 
     
