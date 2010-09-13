@@ -98,6 +98,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private static final CharSequence AMENDMENT_LETTER = "A";
     private static final CharSequence RENEWAL_LETTER = "R";
+    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -199,7 +200,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         protocolStatus = new ProtocolStatus();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); 
-        protocolPersons = new ArrayList<ProtocolPerson>(); 
+        protocolPersons = new ArrayList<ProtocolPerson>();
+        // set the default protocol type
+        protocolTypeCode = DEFAULT_PROTOCOL_TYPE_CODE;
 //        initializeProtocolLocation();
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         specialReviews = new ArrayList<ProtocolSpecialReview>();
