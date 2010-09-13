@@ -21,6 +21,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 
+/**
+ * 
+ * This class manages the attributes needed to maintain and protocol correspondence.
+ */
 public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase { 
 
     private static final long serialVersionUID = 8032222937155468412L;
@@ -38,6 +42,10 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private ProtocolCorrespondenceType protocolCorrespondenceType;
     private ProtocolAction protocolAction;
     
+    /**
+     * 
+     * Constructs a ProtocolCorrespondence.java.
+     */
     public ProtocolCorrespondence() {
 
     } 
