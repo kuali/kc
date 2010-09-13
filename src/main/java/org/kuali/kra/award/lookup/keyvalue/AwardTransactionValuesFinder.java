@@ -17,12 +17,14 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.lookup.AwardTransactionLookupService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -34,9 +36,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AwardTransactionValuesFinder extends KeyValuesBase {
     
     private AwardTransactionLookupService transactionLookupService;
+    private BusinessObjectService businessObjectService;
     
     public AwardTransactionValuesFinder() {
         transactionLookupService = KraServiceLocator.getService(AwardTransactionLookupService.class);
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**
@@ -55,15 +59,16 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
         if (usableSequence == null) {
             usableSequence = form.getAwardDocument().getAward().getSequenceNumber();
         }
-        List<Long> transactionIds = transactionLookupService.getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(), 
+        Map<Integer, String> transactionValues = transactionLookupService.getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(), 
                 usableSequence);
-        for (Long id : transactionIds) {
-            if (id != null) {
-                keyValues.add(new KeyLabelPair(id.toString(), id.toString()));
-            }
+        
+        for (Map.Entry<Integer, String> entry : transactionValues.entrySet()) {
+            keyValues.add(new KeyLabelPair(entry.getKey(), entry.getValue()));
         }
+
         return keyValues;
     }
+    
     
     /**
      * Get the Award Document for the current session.  The
@@ -73,10 +78,6 @@ public class AwardTransactionValuesFinder extends KeyValuesBase {
      */
     private AwardForm getAwardForm() {
         return (AwardForm) GlobalVariables.getKualiForm();
-    }
-
-    private AwardTransactionLookupService getTransactionLookupService() {
-        return transactionLookupService;
     }
 
     public void setTransactionLookupService(AwardTransactionLookupService transactionLookupService) {

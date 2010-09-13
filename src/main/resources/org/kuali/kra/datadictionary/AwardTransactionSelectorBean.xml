@@ -13,7 +13,7 @@
     <property name="attributes" >
       <list>
 		<ref bean="AwardTransactionSelectorBean-awardVersion" />
-		<ref bean="AwardTransactionSelectorBean-transactionId" />
+		<ref bean="AwardTransactionSelectorBean-amountInfoIndex" />
         <ref bean="AwardTransactionSelectorBean-requireSignature" />
       </list>
     </property>
@@ -36,9 +36,9 @@
     <property name="description" value="Award Version" />
   </bean>    
   
-  <bean id="AwardTransactionSelectorBean-transactionId" parent="AwardTransactionSelectorBean-transactionId-parentBean" />
-  <bean id="AwardTransactionSelectorBean-transactionId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionId" />
+  <bean id="AwardTransactionSelectorBean-amountInfoIndex" parent="AwardTransactionSelectorBean-amountInfoIndex-parentBean" />
+  <bean id="AwardTransactionSelectorBean-amountInfoIndex-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="amountInfoIndex" />
     <property name="label" value="Transaction" />
     <property name="shortLabel" value="Transaction" />
     <property name="maxLength" value="10" />

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.lookup;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AwardTransactionLookupService {
 
@@ -27,6 +28,6 @@ public interface AwardTransactionLookupService {
      * @param sequenceNumber
      * @return
      */
-    public List<Long> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber);
+    public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber);
     
 }
