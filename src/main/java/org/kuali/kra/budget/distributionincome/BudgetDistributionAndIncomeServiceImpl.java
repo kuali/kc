@@ -97,9 +97,11 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         for (BudgetRate budgetRate : budget.getBudgetRates()) {
             if (budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode)
                     && findOnCampusRate == budgetRate.getOnOffCampusFlag()) {
-                if (appliedRate == null || Integer.valueOf(appliedRate.getFiscalYear()) < Integer.valueOf(budgetRate.getFiscalYear())) {
+                if (appliedRate == null || Integer.valueOf(appliedRate.getFiscalYear()) < Integer.valueOf(budgetRate.getFiscalYear()) 
+                        && Integer.valueOf(budgetRate.getFiscalYear()) <= Integer.valueOf(fiscalYear)) {
                     appliedRate = budgetRate;
-                } else if (appliedRate.getFiscalYear().equals(budgetRate.getFiscalYear())) {
+                } else if (appliedRate.getFiscalYear().equals(budgetRate.getFiscalYear())
+                        && Integer.valueOf(budgetRate.getFiscalYear()) <= Integer.valueOf(fiscalYear)) {
                     appliedRate = budgetRate;
                     break;
                 }
