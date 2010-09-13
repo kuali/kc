@@ -72,23 +72,6 @@ public class ProtocolRequiredFieldsWebTest extends ProtocolWebTestBase {
      * @throws Exception
      */
     @Test
-    public  void testRequiredFieldsNegativeTypeCode() throws Exception {
-        //Click to create new protocol link
-        HtmlPage portalPage = getPortalPage();
-        HtmlPage page = clickOn(portalPage, "Create Protocol", "Kuali Portal Index");
-        page = getInnerPages(page).get(0);       
-        setProtocolRequiredFields(page);
-        setFieldValue(page, ProtocolRequiredFields.PROTOCOL_TYPE_CODE.getCode(), "");        
-        HtmlPage resultPage = savePage(page);
-        assertContains(resultPage,ERRORS_FOUND_ON_PAGE);   
-        assertContains(resultPage,"Protocol Type (Protocol Type) is a required field");                         
-    }    
-    
-    /**
-     * This method asserts the form's additional field value persistence. 
-     * @throws Exception
-     */
-    @Test
     public  void testRequiredFieldsNegativeTitle() throws Exception {
         //Click to create new protocol link
         HtmlPage portalPage = getPortalPage();
