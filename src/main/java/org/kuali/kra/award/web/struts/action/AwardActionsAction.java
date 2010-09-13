@@ -542,8 +542,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printTransactionDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
-                .getAwardPrintParameter(), awardForm.getIndexOfAwardAmountInfoForDisplay());
+        if (awardForm.getAwardTimeAndMoneyTransactionReport().getTransactionId() == null) {
+            GlobalVariables.getErrorMap().putError("awardTimeAndMoneyTransactionReport.transactionId",
+                    "error.award.print.transactionId.required");
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        reportParameters.put(AwardPrintParameters.TRANSACTION_ID
+                .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getTransactionId());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(

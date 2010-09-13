@@ -4,25 +4,25 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AwardPrintChangeReport" parent="AwardPrintChangeReport-parentBean" />
+  <bean id="AwardTransactionSelectorBean" parent="AwardTransactionSelectorBean-parentBean" />
 
-  <bean id="AwardPrintChangeReport-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.award.printing.AwardPrintChangeReport" />
+  <bean id="AwardTransactionSelectorBean-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.printing.AwardTransactionSelectorBean" />
     <property name="objectLabel" value="Award Print Change Report" />
-    <property name="titleAttribute" value="AwardPrintChangeReport" />
+    <property name="titleAttribute" value="AwardTransactionSelectorBean" />
     <property name="attributes" >
       <list>
-		<ref bean="AwardPrintChangeReport-awardVersion" />
-		<ref bean="AwardPrintChangeReport-transactionId" />
-        <ref bean="AwardPrintChangeReport-requireSignature" />
+		<ref bean="AwardTransactionSelectorBean-awardVersion" />
+		<ref bean="AwardTransactionSelectorBean-transactionId" />
+        <ref bean="AwardTransactionSelectorBean-requireSignature" />
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AwardPrintChangeReport-awardVersion" parent="AwardPrintChangeReport-awardVersion-parentBean" />
-  <bean id="AwardPrintChangeReport-awardVersion-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardTransactionSelectorBean-awardVersion" parent="AwardTransactionSelectorBean-awardVersion-parentBean" />
+  <bean id="AwardTransactionSelectorBean-awardVersion-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="awardVersion" />
     <property name="label" value="Award Version" />
     <property name="shortLabel" value="Award Version" />
@@ -36,8 +36,8 @@
     <property name="description" value="Award Version" />
   </bean>    
   
-  <bean id="AwardPrintChangeReport-transactionId" parent="AwardPrintChangeReport-transactionId-parentBean" />
-  <bean id="AwardPrintChangeReport-transactionId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardTransactionSelectorBean-transactionId" parent="AwardTransactionSelectorBean-transactionId-parentBean" />
+  <bean id="AwardTransactionSelectorBean-transactionId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionId" />
     <property name="label" value="Transaction" />
     <property name="shortLabel" value="Transaction" />
@@ -53,8 +53,8 @@
 
 
   
-  <bean id="AwardPrintChangeReport-requireSignature" parent="AwardPrintChangeReport-requireSignature-parentBean" />
-  <bean id="AwardPrintChangeReport-requireSignature-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="AwardTransactionSelectorBean-requireSignature" parent="AwardTransactionSelectorBean-requireSignature-parentBean" />
+  <bean id="AwardTransactionSelectorBean-requireSignature-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="requireSignature" />
     <property name="label" value="Signature Required" />
     <property name="shortLabel" value="Signature Required" />
