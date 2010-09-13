@@ -859,19 +859,20 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
             BudgetDocumentVersion finalBudgetVersion = src.getFinalBudgetVersion();
             if (finalBudgetVersion != null) {
-                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
+                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1,
+                        StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
             for (BudgetDocumentVersion budgetDocumentVersion: src.getBudgetDocumentVersions()) {
-                
-                copyAndFinalizeBudgetVersion(budgetDocumentVersion.getDocumentNumber(), dest, i++);
+                copyAndFinalizeBudgetVersion(budgetDocumentVersion.getDocumentNumber(), dest, i++,
+                        StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));
             }
         }
         
     }
     
-    private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
+    private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
         List<BudgetSubAwards> budgetSubAwards = budgetDocument.getBudget().getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAward : budgetSubAwards) {
@@ -954,6 +955,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         budget.setBudgetProjectIncomes(srcProjectIncomeList);
         budgetSummaryService.calculateBudget(budgetDocument.getBudget());
+        if (resetRates) {
+            budgetDocument.getBudget().getBudgetRates().clear();
+            budgetDocument.getBudget().getBudgetLaRates().clear();
+        }
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         budgetDocument.getParentDocument().refreshReferenceObject("budgetDocumentVersions");
