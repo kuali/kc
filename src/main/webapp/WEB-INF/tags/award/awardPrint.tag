@@ -16,9 +16,7 @@
 <%-- member of AwardActions.jsp --%>
 <script src="scripts/jquery/jquery.js"></script>
 <script language="javascript" src="scripts/kuali_application.js"></script>
-<script src="dwr/interface/AwardTransactionLookupService.js"/>
-<script>
-</script>
+<script language="javascript" src="dwr/interface/AwardTransactionLookupService.js"></script>
 <style type="text/css">
 .multi-col-list dl {
  	clear:both;
@@ -46,11 +44,11 @@
 
 <c:set var="awardPrintAttributes" value="${DataDictionary.AwardPrint.attributes}" />
 <c:set var="awardPrintNoticeAttributes" value="${DataDictionary.AwardPrintNotice.attributes}" />
-<c:set var="awardPrintChangeAttributes" value="${DataDictionary.AwardPrintChangeReport.attributes}" />
+<c:set var="awardTransactionSelectorAttributes" value="${DataDictionary.AwardTransactionSelectorBean.attributes}" />
 <c:set var="award" value="${KualiForm.document.award}" />
  
 <%-- kra:section permission="viewAward" --%>
-<kul:tab defaultOpen="false" tabTitle="Print" tabErrorKey="" >
+<kul:tab defaultOpen="false" tabTitle="Print" tabErrorKey="awardTimeAndMoneyTransactionReport.*" >
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Print</span>
@@ -157,25 +155,28 @@
 			</tr><tr> 
 				<th scope="row" style="width:150px; text-align: left;">Award Modification</th>
 				 <td style="padding: 5px;">
-				   <span style="float:left; width:33.3%; padding: 5px;">
-					<kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.awardVersion}" useShortLabel="true" />
-      			    <kul:htmlControlAttribute property="awardPrintChangeReport.awardVersion" 
-      							attributeEntry="${awardPrintChangeAttributes.awardVersion}" readOnly="false"
-      							onchange="loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');"/>
-      			   </span><span style="float:left; width:33.3%; text-align:center; padding:5px;">
-					<kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.transactionId}" useShortLabel="true" />
-      			    <kul:htmlControlAttribute property="awardPrintChangeReport.transactionId" 
-      							attributeEntry="${awardPrintChangeAttributes.transactionId}" readOnly="false"/>
-                   </span><span style="float: right;">
-      			    <kul:htmlAttributeLabel attributeEntry="${awardPrintChangeAttributes.requireSignature}" useShortLabel="true" />
-      			    <kul:htmlControlAttribute property="awardPrintChangeReport.requireSignature" 
-      							attributeEntry="${awardPrintChangeAttributes.requireSignature}" readOnly="false"/>
-      			   </span>
-   				   <script>
-   				     $(document).ready(function() {
-   				    	loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');
-   				     });
-   				   </script>		      												
+					<span style="float:left; width:33.3%; padding: 5px;">
+						<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" useShortLabel="true" />
+						   <kul:htmlControlAttribute property="awardPrintChangeReport.awardVersion" 
+									attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" readOnly="false"
+									onchange="loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');"/>
+					</span>
+					<span style="float:left; width:33.3%; text-align:center; padding:5px;">
+						<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.transactionId}" useShortLabel="true" />
+						   <kul:htmlControlAttribute property="awardPrintChangeReport.transactionId" 
+									attributeEntry="${awardTransactionSelectorAttributes.transactionId}" readOnly="false"/>
+					</span>
+					<script>
+					  $(document).ready(function() {
+					 	loadApplicableTransactionIds(jq('awardPrintChangeReport.awardVersion'), jq('awardPrintChangeReport.transactionId'), '${award.awardNumber}');
+					  });
+					</script>
+
+					<span style="float: right;">
+					   <kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.requireSignature}" useShortLabel="true" />
+					   <kul:htmlControlAttribute property="awardPrintChangeReport.requireSignature" 
+								attributeEntry="${awardTransactionSelectorAttributes.requireSignature}" readOnly="false"/>
+					</span>									
 				</td>
 				</td>
 				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printChangeReport"
@@ -191,13 +192,6 @@
 			</tr>
 			<!--<tr>
 			 <th colspan="2" style="text-align: left;">
-			  Award Hierarchy Modification
-			 </th>
-			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printHierarchyModification"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Hierarchy Modification" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
-			</tr><tr>
-			 <th colspan="2" style="text-align: left;">
 			  Budget
 			 </th>
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printBudget"
@@ -212,9 +206,28 @@
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Time &amp; Money History" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 
 			</tr><tr>
-			 <th colspan="2" style="text-align: left;">
-			  Transaction Detail
+			 <th style="text-align: left;">
+			  Time & Money Transaction Detail
 			 </th>
+			 <td style="padding: 5px;">
+				<span style="float:left; width:33.3%; padding: 5px;">
+					<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" useShortLabel="true" />
+					   <kul:htmlControlAttribute property="awardTimeAndMoneyTransactionReport.awardVersion" 
+								attributeEntry="${awardTransactionSelectorAttributes.awardVersion}" readOnly="false"
+								onchange="loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.transactionId'), '${award.awardNumber}');"/>
+				</span>
+				<span style="float:left; width:33.3%; text-align:center; padding:5px;">
+					<kul:htmlAttributeLabel attributeEntry="${awardTransactionSelectorAttributes.transactionId}" useShortLabel="true" />
+					   <kul:htmlControlAttribute property="awardTimeAndMoneyTransactionReport.transactionId" 
+								attributeEntry="${awardTransactionSelectorAttributes.transactionId}" readOnly="false"/>
+				</span>
+				<script>
+				  $(document).ready(function() {
+				 	loadApplicableTransactionIds(jq('awardTimeAndMoneyTransactionReport.awardVersion'), jq('awardTimeAndMoneyTransactionReport.transactionId'), '${award.awardNumber}');
+				  });
+				</script>
+		      												
+			</td>			 
 			 <td class="infoline" style="text-align:center;"><html:image property="methodToCall.printTransactionDetail"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Transaction Detail" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>			 

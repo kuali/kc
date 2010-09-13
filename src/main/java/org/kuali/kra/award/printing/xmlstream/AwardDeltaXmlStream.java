@@ -115,7 +115,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 				award = getAwardForSeqenceNumber(awardNumber, sequenceNumber);
 			}
 			if (reportParameters.get(TRANSACTION_ID) != null) {
-				transactionId = ((Integer) reportParameters.get(TRANSACTION_ID)).intValue();
+				transactionId = ((Long) reportParameters.get(TRANSACTION_ID)).intValue();
 				if (award != null) {
 					awardAmountInfo = getPrevAwardAmountInfo(award,
 							transactionId);

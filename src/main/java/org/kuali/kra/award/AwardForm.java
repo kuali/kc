@@ -56,7 +56,7 @@ import org.kuali.kra.award.paymentreports.paymentschedule.PaymentScheduleBean;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBean;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelBean;
 import org.kuali.kra.award.permissions.PermissionsHelper;
-import org.kuali.kra.award.printing.AwardPrintChangeReport;
+import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
@@ -161,7 +161,8 @@ public class AwardForm extends BudgetVersionFormBase
 
     private AwardHierarchyBean awardHierarchyBean;
     private AwardPrintNotice awardPrintNotice;
-    private AwardPrintChangeReport awardPrintChangeReport;
+    private AwardTransactionSelectorBean awardPrintChangeReport;
+    private AwardTransactionSelectorBean awardTimeAndMoneyTransactionReport;
     private List<AwardComment> awardCommentHistoryByType;
     
     private Map< AwardTemplateSyncScope, Boolean > syncRequiresConfirmationMap;
@@ -232,7 +233,7 @@ public class AwardForm extends BudgetVersionFormBase
         awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
         fundingProposalBean = new AwardFundingProposalBean(this);
         awardPrintNotice = new AwardPrintNotice();
-        awardPrintChangeReport = new AwardPrintChangeReport();
+        awardPrintChangeReport = new AwardTransactionSelectorBean();
         order = new ArrayList<String>();
         
         awardHierarchyBean = new AwardHierarchyBean(this);
@@ -930,11 +931,11 @@ public class AwardForm extends BudgetVersionFormBase
         this.awardPrintNotice = awardPrintNotice;
     }
 
-    public AwardPrintChangeReport getAwardPrintChangeReport() {
+    public AwardTransactionSelectorBean getAwardPrintChangeReport() {
         return awardPrintChangeReport;
     }
 
-    public void setAwardPrintChangeReport(AwardPrintChangeReport awardPrintChangeReport) {
+    public void setAwardPrintChangeReport(AwardTransactionSelectorBean awardPrintChangeReport) {
         this.awardPrintChangeReport = awardPrintChangeReport;
     }
     
@@ -1336,6 +1337,14 @@ public class AwardForm extends BudgetVersionFormBase
     
     public void setViewFundingSource(boolean viewFundingSource) {
         this.viewFundingSource = viewFundingSource;
+    }
+
+    public void setAwardTimeAndMoneyTransactionReport(AwardTransactionSelectorBean awardTimeAndMoneyTransactionReport) {
+        this.awardTimeAndMoneyTransactionReport = awardTimeAndMoneyTransactionReport;
+    }
+
+    public AwardTransactionSelectorBean getAwardTimeAndMoneyTransactionReport() {
+        return awardTimeAndMoneyTransactionReport;
     }
 
 }

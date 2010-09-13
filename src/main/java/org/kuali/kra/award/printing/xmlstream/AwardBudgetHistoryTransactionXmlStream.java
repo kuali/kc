@@ -27,6 +27,7 @@ import noNamespace.AwardType;
 import noNamespace.AwardNoticeDocument.AwardNotice;
 import noNamespace.AwardType.AwardAmountInfo;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -65,13 +66,13 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;
-		int highestTransactionIdIndex = (Integer) reportParameters
-				.get(AwardPrintParameters.HIGHEST_TRANSACTION_ID_INDEX
+		Long transactionId = (Long) reportParameters
+				.get(AwardPrintParameters.TRANSACTION_ID
 						.getAwardPrintParameter());
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
-		awardNotice.setAward(getAwardType(award, highestTransactionIdIndex));
+		awardNotice.setAward(getAwardType(award, transactionId));
 		awardNotice.setSchoolInfo(getSchoolInfoType());
 		awardNoticeDocument.setAwardNotice(awardNotice);
 		budgetHierarchyMap.put(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
@@ -97,10 +98,10 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	 * will set the following values like award amount info , Transaction info .
 	 * 
 	 */
-	private AwardType getAwardType(Award award, int highestTransactionIdIndex) {
+	private AwardType getAwardType(Award award, Long transactionId) {
 		AwardType awardType = AwardType.Factory.newInstance();
 		awardType.setAwardAmountInfo(getAwardAmountInfo(award,
-				highestTransactionIdIndex));
+				transactionId));
 		awardType.setAwardTransactionInfo(getAwardTransactiontInfo(award));
 		return awardType;
 	}
@@ -110,47 +111,33 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	 * attributes.
 	 */
 	private AwardAmountInfo getAwardAmountInfo(Award award,
-			int highestTransactionIdIndex) {
+			Long transactionId) {
 
 		AmountInfoType amountInfoType = null;
 		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
-		
-		org.kuali.kra.award.home.AwardAmountInfo highestAwardAmountInfo = null;
-		// highestAwardAmountInfo = award
-		// .getAwardAmountInfos().get(highestTransactionIdIndex);
-		// FIXME TransactionId comes null for first item. This could be
-		// due to some bug. As a workaround until bug is fixed, the list
-		// item with empty transaction Id will be skipped and below code will
-		// fetch latest award amount transaction
-		int index = 0;
-		long highestTransactionId = 0;
-		highestTransactionIdIndex = 0;
-		for (org.kuali.kra.award.home.AwardAmountInfo AmountInfo : award
+				
+		org.kuali.kra.award.home.AwardAmountInfo amountInfo = null;
+		for (org.kuali.kra.award.home.AwardAmountInfo curAmountInfo : award
 				.getAwardAmountInfos()) {
-			if (AmountInfo.getTransactionId() != null
-					&& AmountInfo.getTransactionId() > highestTransactionId) {
-				highestTransactionId = AmountInfo.getTransactionId();
-				highestTransactionIdIndex = index;
+			if (ObjectUtils.equals(transactionId, curAmountInfo.getTransactionId())) {
+			    amountInfo = curAmountInfo;
+			    break;
 			}
-			index++;
 		}
-		// Once the bug is fixed, above code may be deleted.
 
-		highestAwardAmountInfo = award.getAwardAmountInfos().get(
-				highestTransactionIdIndex);
-
-		Long transactionId = highestAwardAmountInfo.getTransactionId();
-		amountInfoType = setAwardAmountInfo(award, highestAwardAmountInfo,
-				transactionId);
-		org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = getPrevAwardAmountInfo(
-				award, transactionId, award.getAwardNumber());
-		setAwardAmountInfoModifiedValues(amountInfoType,
-				highestAwardAmountInfo, prevAwardAmount);
-		amountInfoTypes.add(amountInfoType);
-
-		awardAmountInfo.setAmountInfoArray(amountInfoTypes
-				.toArray(new AmountInfoType[0]));
+		if (amountInfo != null) {
+    		amountInfoType = setAwardAmountInfo(award, amountInfo,
+    				transactionId);
+    		org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = getPrevAwardAmountInfo(
+    				award, transactionId, award.getAwardNumber());
+    		setAwardAmountInfoModifiedValues(amountInfoType,
+    				amountInfo, prevAwardAmount);
+    		amountInfoTypes.add(amountInfoType);
+    
+    		awardAmountInfo.setAmountInfoArray(amountInfoTypes
+    				.toArray(new AmountInfoType[0]));
+		}
 		return awardAmountInfo;
 	}
 
