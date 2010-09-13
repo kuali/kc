@@ -18,13 +18,19 @@ package org.kuali.kra.irb.actions;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 
+/**
+ * 
+ * This class manages all the attributes needed to maintain a protocol action.
+ */
 public class ProtocolAction extends ProtocolAssociate { 
 
     private static final long serialVersionUID = -2148599171919464303L;
@@ -50,6 +56,8 @@ public class ProtocolAction extends ProtocolAssociate {
     @SkipVersioning
     private transient ProtocolSubmission protocolSubmission;    
     private ProtocolActionType protocolActionType;
+    
+    private List<ProtocolCorrespondence> protocolCorrespondences;
     
     public ProtocolAction() { 
 
@@ -89,13 +97,17 @@ public class ProtocolAction extends ProtocolAssociate {
     public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
-
+    
+    /**
+     * 
+     * This method sets the protocol action type code.
+     * @param protocolActionTypeCode
+     */
     public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
         if (StringUtils.isBlank(protocolActionTypeCode)) {
             protocolActionType = null;
-        }
-        else {
+        } else {
             this.refreshReferenceObject("protocolActionType");
         }
     }
@@ -111,13 +123,17 @@ public class ProtocolAction extends ProtocolAssociate {
     public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
-
+    
+    /**
+     * 
+     * This method set the subision id.
+     * @param submissionIdFk
+     */
     public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
         if (submissionIdFk == null) {
             protocolSubmission = null;
-        }
-        else {
+        } else {
             this.refreshReferenceObject("protocolSubmission");
         }
     }
@@ -149,7 +165,12 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
-
+    
+    /**
+     * 
+     * This method refreshes the protocol submission if it doesn't exist, and the returns the protcool submisison.
+     * @return
+     */
     public ProtocolSubmission getProtocolSubmission() {
         if (submissionIdFk != null && protocolSubmission == null) {
             refreshReferenceObject("protocolSubmission");
@@ -165,6 +186,11 @@ public class ProtocolAction extends ProtocolAssociate {
         return protocolActionType;
     }
     
+    /**
+     * 
+     * This method returns an empty string of the action date is null, otherwise it returns a formated date.
+     * @return
+     */
     public String getActualActionDateString() {
         if (getActualActionDate() == null) {
             return "";
@@ -172,6 +198,11 @@ public class ProtocolAction extends ProtocolAssociate {
         return getDateFormat().format(getActualActionDate());
     }
     
+    /**
+     * 
+     * This method returns an empty string of the action date is null, otherwise it returns a formated date.
+     * @return
+     */
     public String getActionDateString() {
         if (getActionDate() == null) {
             return "";
@@ -190,23 +221,25 @@ public class ProtocolAction extends ProtocolAssociate {
         return dateFormat;
     }
     
+    /**
+     * 
+     * This method calculates and returns the submission status as a string.
+     * @return
+     */
     public String getSubmissionStatusString() {
         String status = "";
         if (protocolSubmission == null) {
             status = "";
-        }
-        else {
+        } else {
             if (protocolSubmission.getSubmissionStatus() == null && submissionIdFk != null) {
                 protocolSubmission.refreshReferenceObject("submissionStatus");
             }
             
             if (protocolSubmission.getSubmissionStatus() == null) {
                 status = "";
-            }
-            else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
+            } else if (protocolSubmission.getSubmissionStatus().getDescription() == null) {
                 status = "";
-            }
-            else {
+            } else {
                 status = protocolSubmission.getSubmissionStatus().getDescription();
             }
         }
@@ -237,11 +270,19 @@ public class ProtocolAction extends ProtocolAssociate {
         this.prevProtocolStatusCode = prevProtocolStatusCode;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
     }
     
+    /**
+     * 
+     * This resets the foreign keys if there is no protocol submission.
+     */
     public void resetForeignKeys() {
         if (protocolSubmission != null) {
             submissionIdFk = protocolSubmission.getSubmissionId();
@@ -306,4 +347,11 @@ public class ProtocolAction extends ProtocolAssociate {
         return true;
     }
     
+    public List<ProtocolCorrespondence> getProtocolCorrespondences() {
+        return protocolCorrespondences;
+    }
+
+    public void setProtocolCorrespondences(List<ProtocolCorrespondence> protocolCorrespondences) {
+        this.protocolCorrespondences = protocolCorrespondences;
+    }    
 }

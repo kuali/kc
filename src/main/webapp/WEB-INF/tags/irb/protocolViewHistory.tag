@@ -78,13 +78,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                         </td>
             		</tr>
             		
-            		<c:if test="${protocolAction.submissionNumber != null && fn:length(protocolAction.protocol.attachmentProtocols) > 0}">
-            		    <tr>
-            		        <td class="infoline">&nbsp;</td>
+            		<c:if test="${fn:length(protocolAction.protocolCorrespondences) > 0}">
+            			<tr>
+            				<td class="infoline">&nbsp;</td>
             		        <td colspan="4">
-            		        <kul:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocol.attachmentProtocols)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
-    
-                                <div class="innerTab-container" align="left">
+            		        	<kul:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+            		        		<div class="innerTab-container" align="left">
                                 
                                     <table class="tab" cellpadding="0" cellspacing="0" summary="">
                                         <tbody>
@@ -92,33 +91,39 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                                <th style="text-align:left;width:10%">File Name</th>
                                                <th style="text-align:left">Description</th>
                                             </tr>
-            		                            <c:forEach items="${protocolAction.protocol.attachmentProtocols}" var="attachment" varStatus="status">
-            		    	                        <tr>
-            		    	                            <td>${attachment.file.name}</td>
-            		    	                            <td>
-            		    	                                <c:choose>
-            		                                            <c:when test="${fn:length(attachment.description) > 0}">
-                                                                    <kra:truncateComment textAreaFieldName="document.protocolList[0].attachmentProtocols[${status.index}].description" 
-                                                                                         action="protocolProtocolActions" 
-                                                                                         textAreaLabel="Attachment Description" 
-                                                                                         textValue="${attachment.description}" 
-                                                                                         displaySize="250"/>
-                                                               </c:when>
-                                                               <c:otherwise>
-                                                                   &nbsp;
-                                                               </c:otherwise>
-                                                           </c:choose>
-                                                       </td>
-            		    	                        </tr>
-            		                            </c:forEach>
+           		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="actionStatus">
+           		    	                        <tr>
+           		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
+           		    	                            <%--Leaving this here in case there is a need to display additional information. --%>
+           		    	                            <%--
+           		    	                            <td>
+           		    	                                <c:choose>
+           		                                            <c:when test="${fn:length(correspondence.protocolCorrespondenceType.description) > 0}">
+                                                                   
+                                                                   <kra:truncateComment textAreaFieldName="document.protocolList[0].protocolActions[${status.index}].protocolCorrespondences[${actionStatus.index}].protocolCorrespondenceType.description" 
+                                                                                        action="protocolProtocolActions" 
+                                                                                        textAreaLabel="Attachment Description" 
+                                                                                        textValue="${correspondence.protocolCorrespondenceType.description}" 
+                                                                                        displaySize="250"/>
+                                                              </c:when>
+                                                              <c:otherwise>
+                                                                  &nbsp;
+                                                              </c:otherwise>
+                                                          </c:choose>
+                                                      </td>
+                                                       --%>
+           		    	                        </tr>
+           		                            </c:forEach>
             		                    </tbody>
             		                </table>
             		            </div>
-            		        </kul:innerTab>
-            		        </td>
-            		    </tr>
+            		        	</kul:innerTab>
+            		        </td>            		        
+            			</tr>
             		</c:if>
+            		
             	</c:forEach>
+            	
             	<tr>
             	    <td class="infoline" colspan="5">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
