@@ -84,7 +84,9 @@ public class BudgetParametersAction extends BudgetAction {
         updateTotalCost(budget);
         getBudgetSummaryService().setupOldStartEndDate(budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
+            budget.setRateClassTypesReloaded(true);
             getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            budget.setRateSynced(true);
             budgetForm.setSyncBudgetRate("");
             // jira-1848 : force to calc budget after sync
             getBudgetSummaryService().calculateBudget(budget);
