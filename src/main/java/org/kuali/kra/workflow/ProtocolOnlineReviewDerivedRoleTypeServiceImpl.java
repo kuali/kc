@@ -54,7 +54,7 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		Long submissionId = Long.parseLong(qualification.get("submissionId"));
 		String reviewId = qualification.get("protocolOnlineReviewId");
 
-		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getOnlineReviewersForProtocolSubmission(submissionId)) {
+		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getProtocolReviews(submissionId)) {
 		    if( !pReview.getProtocolReviewer().getNonEmployeeFlag() && 
 		            (StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") ) ) {
 		        pReview.refresh();
@@ -71,7 +71,7 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 	        validateRequiredAttributesAgainstReceived(qualification);
 	        //a principal has the role if they have an online review for the protocol.
 	        String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
-	        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviewService().getProtocolReviewsForCurrentSubmission(protocolNumber);
+	        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviewService().getProtocolReviews(protocolNumber);
 	        for( ProtocolOnlineReview review : reviews ) {
 	            if( !review.getProtocolReviewer().getNonEmployeeFlag() && StringUtils.equals( review.getProtocolReviewer().getPersonId(), principalId ) ) {
 	                return  true;

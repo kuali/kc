@@ -83,7 +83,6 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
     private static final String RESEARCH_AREA_CODE_5 = "01.0201";
 
     private BusinessObjectService businessObjectService;
-    private ProtocolAssignReviewersService protocolAssignReviewersService;
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
     private CommitteeMembershipService committeeMembershipService;
     private CommitteeDocument committeeDocument;
@@ -93,7 +92,6 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolAssignReviewersService = KraServiceLocator.getService(ProtocolAssignReviewersService.class);
         protocolAssignCmtSchedService = KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
         committeeMembershipService = KraServiceLocator.getService(CommitteeMembershipService.class);
         committeeDocument = createCommittee("666");
@@ -103,31 +101,6 @@ public class ProtocolAssignReviewersServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         super.tearDown();
-    }
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testNoSubmission() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocolDocument.getProtocol());
-        assertNull(submission);
-    }
-    
-    /**
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testSubmission() throws Exception {
-        ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        ProtocolSubmission submission2 = protocolAssignReviewersService.getCurrentSubmission(protocolDocument.getProtocol());
-        submission2.setSubmissionId(submission.getSubmissionId());
-        assertEquals(submission, submission2);
     }
     
     /**

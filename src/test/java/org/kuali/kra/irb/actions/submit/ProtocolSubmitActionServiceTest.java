@@ -40,7 +40,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -71,7 +70,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
     
     private ProtocolSubmitActionService protocolSubmitActionService;
     private BusinessObjectService businessObjectService;   
-    private ProtocolOnlineReviewService protocolOnlineReviewService;
     private PersonService personService;
     private RolodexService rolodexService;
     private DocumentService documentService;
@@ -87,7 +85,6 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         GlobalVariables.setAuditErrorMap(new HashMap());
         protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        protocolOnlineReviewService = KraServiceLocator.getService(ProtocolOnlineReviewService.class);
         personService = KraServiceLocator.getService(PersonService.class);
         rolodexService = KraServiceLocator.getService(RolodexService.class);
         documentService = KraServiceLocator.getService("kraDocumentService");
@@ -187,27 +184,8 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
             if (committee==null)
                 committee =  createCommittee(committeeId).getCommittee();
         }
-        
-        //protocolSubmitActionService.setDocumentService(documentService);
-        
+
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-        
-        if (reviewers != null && committee != null) {
-            for (ProtocolReviewerBean reviewer : reviewers) {
-                if(reviewer.getChecked()) {
-                      protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolDocument.getProtocol(), reviewer, String.format("%s/Protocol# %s","TEST PROTOCOL",protocolDocument.getProtocol().getProtocolNumber()),
-                              "", 
-                              "",
-                              "Online Review Requested by PI during protocol submission.",
-                              false,
-                              null,
-                              null,
-                              GlobalVariables.getUserSession().getPrincipalId());
-                      submitAction.getReviewers().add( reviewer );
-                }
-            }
-        }
-              
         
         ProtocolSubmission protocolSubmission = findSubmission(protocolDocument.getProtocol().getProtocolId());
         assertNotNull(protocolSubmission);
