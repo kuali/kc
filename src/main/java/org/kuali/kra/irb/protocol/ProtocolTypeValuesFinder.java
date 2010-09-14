@@ -20,9 +20,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
-import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -47,7 +47,11 @@ public class ProtocolTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         for (Iterator iter = protocolTypes.iterator(); iter.hasNext();) {
             ProtocolType protocolType = (ProtocolType) iter.next();
-            keyValues.add(new KeyLabelPair(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));                            
+            if (StringUtils.equals(protocolType.getDescription(), "Standard")) {
+                keyValues.add(0, new KeyLabelPair(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));
+            } else {
+                keyValues.add(new KeyLabelPair(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));
+            }
         }
         return keyValues;
     }
