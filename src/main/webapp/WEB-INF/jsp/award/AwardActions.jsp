@@ -34,7 +34,9 @@
 <kra-a:awardPrint />
 <kul:adHocRecipients />
 <kul:routeLog /> 
+<kra:section permission="createAwardAccount">
 <kra-a:awardCreateAccount />
+</kra:section>
 <kul:panelFooter />
 
 <%--

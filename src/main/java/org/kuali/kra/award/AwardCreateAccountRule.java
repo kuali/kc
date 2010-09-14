@@ -18,6 +18,7 @@ package org.kuali.kra.award;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
@@ -45,7 +46,7 @@ public class AwardCreateAccountRule {
     /**
      * This method validates the data required to create an award account.
      * @param award
-     * @return
+     * @return 
      */
     public boolean processAwardCreateAccountRules(Award award) {
         boolean rulePassed = true;
@@ -95,11 +96,10 @@ public class AwardCreateAccountRule {
             String cityName = principalInvestigator.getCity();
             String stateCode = principalInvestigator.getState();
             String postalCode = principalInvestigator.getPostalCode();
-           
-            if ("".equals(streetAddress) || "".equals(cityName) 
-                || "".equals(stateCode) || "".equals(postalCode)) {
+            if (StringUtils.isBlank(streetAddress) || StringUtils.isBlank(cityName)
+                || StringUtils.isBlank(stateCode) || StringUtils.isBlank(postalCode))  {
                 GlobalVariables.getMessageMap().putError(AWARD_ADDRESS_NOT_COMPLETE, 
-                                                     KeyConstants.AWARD_ADDRESS_NOT_COMPLETE);
+                        KeyConstants.AWARD_ADDRESS_NOT_COMPLETE);
                 isValid = false;
             }
         }

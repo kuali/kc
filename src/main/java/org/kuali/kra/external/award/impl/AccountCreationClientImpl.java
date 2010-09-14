@@ -127,7 +127,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
      * @param award
      * @throws DatatypeConfigurationException
      */
-    private void setAccountParameters(Award award) throws DatatypeConfigurationException {
+    protected void setAccountParameters(Award award) throws DatatypeConfigurationException {
 
         accountParameters  = new AccountParametersDTO();
         
@@ -176,7 +176,6 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         // get the current FandaRate
         AwardFandaRate currentFandaRate = getCurrentFandaRate(award);
         
-        System.out.println("rate is " + currentFandaRate.getFiscalYear() + "rate is " + currentFandaRate.getApplicableFandaRate());
         //campus on/off indicator
         accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
         //indirect cost rate
@@ -186,7 +185,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         
     }
    
-    private void setName(Award award) {
+    /**
+     * This method sets the name.
+     * @param award
+     */
+    protected void setName(Award award) {
         
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
@@ -203,7 +206,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         accountParameters.setAccountName(accountName);
     }
     
-    private void setDefaultAddress(Award award) {
+    /**
+     * This method sets the default address.
+     * @param award
+     */
+    protected void setDefaultAddress(Award award) {
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
         String streetAddress = principalInvestigator.getAddressLine1();
@@ -221,7 +228,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
     }
     
-    private void setAdminAddress(Award award) {
+    /**
+     * This method sets the admin address.
+     * @param award
+     */
+    protected void setAdminAddress(Award award) {
         List<AwardUnitContact> unitContacts = award.getAwardUnitContacts();
         for (AwardUnitContact contact : unitContacts) {
             contact.refreshReferenceObject("unitAdministratorType");
@@ -247,7 +258,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         }
     }
     
-    private void setPaymentAddress(Award award) {
+    /**
+     * This method sets the payment address.
+     * @param award
+     */
+    protected void setPaymentAddress(Award award) {
       //payment contact address
         List<AwardReportTerm> items = award.getAwardReportTermItems();
         for (AwardReportTerm item : items) {
@@ -272,7 +287,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         }
     }
     
-    private void setIncomeGuidelineText(Award award) {
+    /**
+     * This method sets the income guideline text.
+     * @param award
+     */
+    protected void setIncomeGuidelineText(Award award) {
         //income guideline text
         award.refreshReferenceObject("awardBasisOfPayment");        
         String paymentBasis = award.getAwardBasisOfPayment().getDescription();
@@ -296,7 +315,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
      * @param award
      * @return currentFandaRate
      */
-    public AwardFandaRate getCurrentFandaRate(Award award) {
+    protected AwardFandaRate getCurrentFandaRate(Award award) {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
@@ -320,7 +339,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         return currentFandaRate;
     }
     
-    public AccountParametersDTO getAccountParameters() {
+    protected AccountParametersDTO getAccountParameters() {
         return accountParameters;
     }
 
