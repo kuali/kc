@@ -729,4 +729,14 @@
          <property name="committeeXmlStream" ref="committeeXmlStream" />
         </bean>
  
+ 	<bean id="protocolApproverRoleTypeService"
+			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="protocolApproverRoleTypeService"
+	      p:localServiceName="protocolApproverRoleTypeService" />
+	  </property>
+	</bean>
 </beans>

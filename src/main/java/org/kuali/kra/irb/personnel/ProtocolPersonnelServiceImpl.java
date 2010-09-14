@@ -454,6 +454,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                 }
             }
         }

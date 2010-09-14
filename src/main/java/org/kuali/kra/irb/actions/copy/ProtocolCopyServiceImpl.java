@@ -298,6 +298,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
     private void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
+        kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, destDoc.getProtocol());
    
         List<Role> roles = systemAuthorizationService.getRoles(RoleConstants.PROTOCOL_ROLE_TYPE);
         for (Role role : roles) {

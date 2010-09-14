@@ -220,6 +220,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol()); 
         
         // Add the users defined in the access control list for the protocol's lead unit
         
