@@ -48,7 +48,7 @@
 										<c:out value="${KualiForm.document.award.accountNumber}" />	
 									</c:when>
 									<c:otherwise>	
-										<kul:htmlControlAttribute property="document.award.accountNumber" attributeEntry="${awardCreateAccountAttributes.accountNumber}" />	
+										<kul:htmlControlAttribute property="document.award.accountNumber" attributeEntry="${awardCreateAccountAttributes.accountNumber}" readOnly="false"/>	
 									</c:otherwise>
 								</c:choose>				
 								</div>
