@@ -31,6 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -721,11 +722,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode205ReviewTypeCode2() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
 
-        ProtocolReviewer pr = new ProtocolReviewer();
-        List<ProtocolReviewer> list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);
-
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
 
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
 
@@ -740,10 +742,12 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode208ReviewTypeCode6() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
 
-        ProtocolReviewer pr = new ProtocolReviewer();
-        List<ProtocolReviewer> list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
 
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("6");
 
