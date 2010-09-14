@@ -156,7 +156,6 @@ public class AwardForm extends BudgetVersionFormBase
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
-    private String accountNumber;
     
 
     private AwardHierarchyBean awardHierarchyBean;
@@ -287,16 +286,7 @@ public class AwardForm extends BudgetVersionFormBase
     public AwardCommentBean getAwardCommentBean() {
         return awardCommentBean;
     }
-    
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-    
+   
     /**
      * 
      * This method initializes either the document or the form based on the command value.

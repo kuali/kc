@@ -18,6 +18,7 @@ package org.kuali.kra.award.document.authorization;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
@@ -91,6 +93,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(Constants.CAN_CREATE_AWARD_KEY);
             }
+            
+            if (canCreateAwardAccount(document, user)) {
+                editModes.add("createAwardAccount");
+            }
         }
         
         return editModes;
@@ -103,6 +109,42 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return canCreateAward(user.getPrincipalId());
     }
   
+    /**
+     * This method decides if a user has permissions to create a financial account.
+     * @param document
+     * @param user
+     * @return hasPermission
+     */
+    public boolean canCreateAwardAccount(Document document, Person user) {
+        AwardDocument awardDocument = (AwardDocument) document;
+        Award award = awardDocument.getAward();
+        boolean hasPermission = false;
+        
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+        if (status.equalsIgnoreCase("processed") || status.equalsIgnoreCase("final")) {
+            String awardAccountParameter = getParameterService().getParameterValue("KC-AWARD", "D", "AWARD_CREATE_ACCOUNT");
+            if (awardAccountParameter.equalsIgnoreCase("ON")) {
+                List<AwardUnitContact> contacts = award.getAwardUnitContacts();
+                String ospAdmin = "";
+                for (AwardUnitContact contact : contacts) {
+                    // Finding the OSP admin
+                    if (contact.getUnitAdministratorTypeCode().equals("2")) {
+                        ospAdmin = contact.getPerson().getIdentifier();
+                    }
+                }
+                // only the OSP admin can create a financial account
+                if (user.getPrincipalId().equals(ospAdmin)) {
+                    hasPermission = true;
+                } else {
+                    // if the financial account has been created, anyone can view it
+                    if (award.getFinancialAccountDocumentNumber() != null) {
+                        hasPermission = true;
+                    }
+                }
+            }
+        }
+        return hasPermission;
+    }
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
