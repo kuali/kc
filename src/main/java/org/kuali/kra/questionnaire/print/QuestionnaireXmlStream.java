@@ -313,7 +313,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = developmentProposal.getProposalNumber();
         }
-        return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemKey);
+        return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemKey, false);
                 
     }
 
