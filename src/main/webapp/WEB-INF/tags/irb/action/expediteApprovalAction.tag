@@ -21,7 +21,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canExpediteApproval}">
 
-<kul:innerTab tabTitle="Expedite Approval" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpediteApprovalBean*">
+<kul:innerTab tabTitle="Expedited Approval" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolExpediteApprovalBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
