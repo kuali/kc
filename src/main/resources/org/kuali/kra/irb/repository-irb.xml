@@ -114,9 +114,6 @@
         <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
-		<collection-descriptor name="protocolOnlineReviews" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.actions.ProtocolStatus" table="PROTOCOL_STATUS">
@@ -776,9 +773,6 @@
         <collection-descriptor name="expeditedReviewCheckList" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor> 
-        <collection-descriptor name="protocolReviewers" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="submissionIdFk" />
-        </collection-descriptor>
         <collection-descriptor name="protocolOnlineReviews" element-class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor>

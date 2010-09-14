@@ -40,6 +40,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -237,17 +238,19 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
     }
 
     private List<ProtocolSubmission> getProtocolSubmissions(boolean isSameReviewer) {
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();    
+        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();
         ProtocolReviewer reviewer = new ProtocolReviewer();
         if (isSameReviewer) {
             reviewer.setPersonId("100");
         } else {
             reviewer.setPersonId("101");
         }
-        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-        reviewers.add(reviewer);
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
         ProtocolSubmission submission = new ProtocolSubmission();
-        submission.setProtocolReviewers(reviewers);
+        submission.setProtocolOnlineReviews(reviews);
         submissions.add(submission);
         return submissions;
     }

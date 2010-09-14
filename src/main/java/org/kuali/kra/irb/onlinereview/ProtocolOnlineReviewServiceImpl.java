@@ -206,9 +206,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         docHeader.setOrganizationDocumentNumber(documentOrganizationDocumentNumber);
         docHeader.setExplanation(documentExplanation);
         
-        protocol.getProtocolOnlineReviews().add(protocolReviewDocument.getProtocolOnlineReview());
         documentService.saveDocument(protocolReviewDocument);
-        businessObjectService.save(protocolReviewDocument.getProtocolOnlineReview());
         return protocolReviewDocument;
     }
     
@@ -594,7 +592,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         
         ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
         if (submission != null) {
-            for (ProtocolOnlineReview protocolOnlineReview : getProtocolOnlineReviews(protocol.getProtocolId(), submission.getSubmissionId())) {
+            for (ProtocolOnlineReview protocolOnlineReview : submission.getProtocolOnlineReviews()) {
                 if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(principalId)) {
                     protocolReviewer = protocolOnlineReview.getProtocolReviewer();
                     break;
@@ -613,7 +611,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         boolean result = false;
         ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
         if (submission != null) {
-            List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews(protocol.getProtocolId(), submission.getSubmissionId());
+            List<ProtocolOnlineReview> reviews = submission.getProtocolOnlineReviews();
             for (ProtocolOnlineReview review : reviews) {
                 if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId)) {
                     result = true;

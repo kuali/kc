@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -199,10 +200,12 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.isActionAllowed("305", protocol));
         assertTrue(protocolActionService.isActionAllowed("306", protocol));
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null        
-        ProtocolReviewer pr = new ProtocolReviewer();
-        List<ProtocolReviewer> list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);               
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);              
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");        
         protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
         assertTrue(protocolActionService.isActionAllowed("205", protocol));
@@ -228,10 +231,11 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.isActionAllowed("210", protocol));
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null
         
-        pr = new ProtocolReviewer();
-        list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);
+        reviews = new ArrayList<ProtocolOnlineReview>();
+        review = new ProtocolOnlineReview();
+        reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
         
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("6");
         
@@ -318,10 +322,12 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.isActionAllowed("305", protocol));
         assertTrue(protocolActionService.isActionAllowed("306", protocol));
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null        
-        ProtocolReviewer pr = new ProtocolReviewer();
-        List<ProtocolReviewer> list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);               
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);             
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");        
         protocol.getProtocolSubmission().setSubmissionStatusCode("100");      
         assertTrue(protocolActionService.isActionAllowed("205", protocol));
@@ -347,10 +353,11 @@ public class ProtocolAuthzServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.isActionAllowed("210", protocol));
         protocol.getProtocolSubmission().setSubmissionNumber(1); //Not null
         
-        pr = new ProtocolReviewer();
-        list = new ArrayList<ProtocolReviewer>();
-        list.add(pr);
-        protocol.getProtocolSubmission().setProtocolReviewers(list);
+        reviews = new ArrayList<ProtocolOnlineReview>();
+        review = new ProtocolOnlineReview();
+        reviewer = new ProtocolReviewer();
+        review.setProtocolReviewer(reviewer);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
         
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("6");
         
