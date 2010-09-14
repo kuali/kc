@@ -21,20 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -49,18 +48,16 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
 
-    static Log LOG = LogFactory.getLog(ProtocolOnlineReviewServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewServiceImpl.class);
     
     private BusinessObjectService businessObjectService;
-    DocumentService documentService;
+    private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
-    ProtocolAssignReviewersService protocolAssignReviewersService;
+    private ProtocolAssignReviewersService protocolAssignReviewersService;
     private IdentityManagementService identityManagementService;
     private CommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
     private ProtocolFinderDao protocolFinderDao;
-    
-    private static final String DEFAULT_DOCUMENT_ROUTE_ANNOTATION = null;
     
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -68,91 +65,58 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     @SuppressWarnings("unchecked")
     private PersonService personService;
     
-    
-    
-    
     /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createAndRouteProtocolOnlineReviewDocument(org.kuali.kra.irb.Protocol, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createAndRouteProtocolOnlineReviewDocument(
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission, org.kuali.kra.irb.actions.submit.ProtocolReviewerBean, java.lang.String, java.lang.String, 
+     *      java.lang.String, java.lang.String, boolean, java.sql.Date, java.sql.Date, java.lang.String)
      */
-    public ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(Protocol protocol, 
-                                                             ProtocolReviewerBean protocolReviewerBean,
-                                                             String documentDescription,
-                                                             String documentExplanation,
-                                                             String documentOrganizationDocumentNumber,
-                                                             String documentRouteAnnotation,
-                                                             boolean initialApproval,
-                                                             java.sql.Date dateRequested,
-                                                             java.sql.Date dateDue, 
-                                                             String principalId ) throws WorkflowException {
+    public ProtocolOnlineReviewDocument createAndRouteProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission, 
+                                                                                   ProtocolReviewer protocolReviewer,
+                                                                                   String documentDescription,
+                                                                                   String documentExplanation,
+                                                                                   String documentOrganizationDocumentNumber,
+                                                                                   String documentRouteAnnotation,
+                                                                                   boolean initialApproval,
+                                                                                   Date dateRequested,
+                                                                                   Date dateDue, 
+                                                                                   String principalId) {
         
+        ProtocolOnlineReviewDocument document = null;
         
-        
-        
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, protocolReviewerBean, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
-        if (initialApproval) {
-            documentService.approveDocument(reviewDocument, "", new ArrayList<String>());
-        }
-        return reviewDocument;
-    }
-    
+        try {
+            if (LOG.isDebugEnabled()) {
+                String protocolNumber = protocolSubmission.getProtocolNumber();
+                Integer submissionNumber = protocolSubmission.getSubmissionNumber();
+                LOG.debug(String.format("Assigning online reviewer [%s] to protocol [%s].", protocolReviewer, protocolNumber));
+                LOG.debug(String.format("Current submission for protocol %s is %s.", protocolNumber, submissionNumber));
+            }
 
-    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(Protocol protocol, 
-                                                                           ProtocolReviewerBean protocolReviewerBean,
-                                                                           String documentDescription,
-                                                                           String documentExplanation,
-                                                                           String documentOrganizationDocumentNumber,
-                                                                           java.sql.Date dateRequested,
-                                                                           java.sql.Date dateDue,
-                                                                           String principalId ) throws WorkflowException {
-
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, protocolReviewerBean, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
-        reviewDocument.getProtocolOnlineReview().refresh();
-        return reviewDocument;
-    }
-    
-    
-    
-    protected ProtocolOnlineReviewDocument createNewProtocolOnlineReviewDocument(Protocol protocol,
-                                                                           ProtocolReviewerBean protocolReviewerBean,
-                                                                           String documentDescription,
-                                                                           String documentExplanation,
-                                                                           String documentOrganizationDocumentNumber,
-                                                                           java.sql.Date dateRequested,
-                                                                           java.sql.Date dateDue,
-                                                                           String principalId) throws WorkflowException {
-        
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Assigning online reviewer [%s] to protocol [%s].", protocolReviewerBean, protocol.getProtocolNumber()));
-        }
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
-        
-        if (submission == null) { 
-            throw new IllegalStateException(String.format("Cannot assign online reviewers, there is no current submission for the protocol %s.", protocol.getProtocolNumber()));
+            document = createProtocolOnlineReviewDocument(protocolSubmission, protocolReviewer, documentDescription, documentExplanation, 
+                    documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
+            
+            documentService.routeDocument(document, "Review Requested by PI during protocol submission.", new ArrayList<String>());
+            
+            if (initialApproval) {
+                documentService.approveDocument(document, "", new ArrayList<String>());
+            }
+        } catch (WorkflowException e) {
+            String errorString = String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", 
+                    protocolReviewer.getPersonId(), protocolSubmission.getProtocolNumber());
+            LOG.error(errorString, e);
+            throw new RuntimeException(errorString, e);
         }
         
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Current submission for protocol %s is %s.", protocol.getProtocolNumber(), submission.getSubmissionNumber()));
-        }
-
-        ProtocolOnlineReviewDocument reviewDocument = createNewProtocolOnlineReviewDocument(protocol, submission, protocolReviewerBean, documentDescription, documentExplanation, documentOrganizationDocumentNumber, dateRequested, dateDue, principalId);
-        
-        
-        documentService.routeDocument(reviewDocument, "Review Requested by PI during protocol submission.", new ArrayList<String>());
-        
-        return reviewDocument;
-    }
-    
-    
-    public void submitOnlineReviwToWorkflow(ProtocolOnlineReviewDocument protocolReviewDocument) {
-        //TODO: complete method or remove from interface.
+        return document;
     }
     
     /**
-     * Create a new ProtocolReviewDocument.  Handles creating the workflow document, and the underlying ProtocolReview BO linking the protocol, submission, and reviewer.
+     * Creates a new ProtocolReviewDocument.  
      * 
-     * @param protocol The protocol 
-     * @param submission The submission the review is for.
-     * @param reviewer The reviewer being assigned.
+     * Handles creating the workflow document, and the underlying ProtocolReview BO linking the protocol, submission, and reviewer.
+     * 
+     * @param protocolSubmission The protocol submission
+     * @param protocolReviewerBean The bean that holds
      * @param documentDescription the description for the created document
      * @param documentExplanation the explanation for the created document
      * @param documentOrganizationNumber the organizationNumber for the created document
@@ -160,17 +124,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @return
      * @throws WorkflowException
      */
-    ProtocolOnlineReviewDocument createNewProtocolOnlineReviewDocument( Protocol protocol, 
-                                                                                ProtocolSubmission submission, 
-                                                                                ProtocolReviewerBean protocolReviewerBean, 
-                                                                                String documentDescription,
-                                                                                String documentExplanation,
-                                                                                String documentOrganizationDocumentNumber,
-                                                                                java.sql.Date dateRequested,
-                                                                                java.sql.Date dateDue,
-                                                                                String principalId ) 
-        throws WorkflowException {
-        
+    private ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission, 
+                                                                            ProtocolReviewer protocolReviewer, 
+                                                                            String documentDescription,
+                                                                            String documentExplanation,
+                                                                            String documentOrganizationDocumentNumber,
+                                                                            Date dateRequested,
+                                                                            Date dateDue,
+                                                                            String principalId) throws WorkflowException {
         
         ProtocolOnlineReviewDocument protocolReviewDocument;
         
@@ -184,23 +145,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         protocolReviewDocument.setDocumentNumber(docHeader.getDocumentNumber());
         protocolReviewDocument.setDocumentHeader(docHeader);
         
-        protocolReviewDocument.getProtocolOnlineReview().setProtocol(protocol);
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolId(protocol.getProtocolId());
+        protocolReviewDocument.getProtocolOnlineReview().setProtocol(protocolSubmission.getProtocol());
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolId(protocolSubmission.getProtocolId());
         
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolSubmission(submission);
-        protocolReviewDocument.getProtocolOnlineReview().setSubmissionIdFk(submission.getSubmissionId());
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolSubmission(protocolSubmission);
+        protocolReviewDocument.getProtocolOnlineReview().setSubmissionIdFk(protocolSubmission.getSubmissionId());
         protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
-        protocolReviewDocument.getProtocolOnlineReview().setDateRequested(dateRequested == null?new java.sql.Date((new java.util.Date()).getTime()):dateRequested);
+        protocolReviewDocument.getProtocolOnlineReview().setDateRequested(dateRequested == null ? new Date((new java.util.Date()).getTime()) : dateRequested);
         protocolReviewDocument.getProtocolOnlineReview().setDateDue(dateDue);
         
-        
-        ProtocolReviewer reviewer = getOrCreateProtocolReviewerForMembershipProtocolAndSubmission(protocolReviewerBean, protocol, submission);
-        if (reviewer.getProtocolOnlineReviews().size() > 0) {
-            throw new IllegalStateException(String.format( "Reviewer %s already has an assigned OnlineReview for (protocolId=%s,submissionId=%s)",protocol.getProtocolId(),submission.getSubmissionId()));
-        }
-        
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolReviewerId(reviewer.getProtocolReviewerId());
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolReviewer(reviewer);
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolReviewerId(protocolReviewer.getProtocolReviewerId());
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolReviewer(protocolReviewer);
         
         docHeader.setDocumentDescription(documentDescription);
         docHeader.setOrganizationDocumentNumber(documentOrganizationDocumentNumber);
@@ -210,80 +165,43 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return protocolReviewDocument;
     }
     
-    
-    
     /**
-     * Gets the online review for the protocol,submission, and person - or it will create a new one and return it.
-     * @param membership the committee membership that will do the review.
-     * @param protocol
-     * @param submission
-     * @return
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createProtocolReviewer(java.lang.String, boolean, java.lang.String, 
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
      */
-    @SuppressWarnings("unchecked")
-    private ProtocolReviewer getOrCreateProtocolReviewerForMembershipProtocolAndSubmission(ProtocolReviewerBean protocolReviewerBean, Protocol protocol, ProtocolSubmission submission) {
-        
-        Long protocolId = protocol.getProtocolId();
-        Long submissionId = submission.getSubmissionId();
-       
-        Map<String,Object> keyMap = new HashMap<String,Object>();
-        
-        if (!protocolReviewerBean.getNonEmployeeFlag()) {
-            keyMap.put("personId", protocolReviewerBean.getPersonId());
+    public ProtocolReviewer createProtocolReviewer(String principalId, 
+                                                   boolean nonEmployeeFlag, 
+                                                   String reviewerTypeCode, 
+                                                   ProtocolSubmission protocolSubmission) {
+        ProtocolReviewer reviewer = new ProtocolReviewer();
+        reviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
+        reviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
+        reviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
+        reviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
+        reviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
+        if (!nonEmployeeFlag) {
+            reviewer.setPersonId(principalId);
         } else {
-            keyMap.put("rolodexId", protocolReviewerBean.getPersonId());
+            reviewer.setRolodexId(Integer.parseInt(principalId));
         }
-        keyMap.put("protocolIdFk", protocolId);
-        keyMap.put("submissionIdFk", submissionId);
-        ProtocolReviewer result;
-        List<ProtocolReviewer> reviewers = (List<ProtocolReviewer>) businessObjectService.findMatching(ProtocolReviewer.class, keyMap);
+        reviewer.setNonEmployeeFlag(nonEmployeeFlag);
+        reviewer.setReviewerTypeCode(reviewerTypeCode);
         
-        if (reviewers.size() == 1) {
-            result =  reviewers.get(0);
-        } else if (reviewers.size() == 0) {
-            result = new ProtocolReviewer();
-            if (!protocolReviewerBean.getNonEmployeeFlag()) {
-                result.setPersonId(protocolReviewerBean.getPersonId());
-            } else {
-                result.setRolodexId(Integer.parseInt(protocolReviewerBean.getPersonId()));
-            }
-            result.setProtocolIdFk(protocolId);
-            result.setSubmissionIdFk(submissionId);
-            result.setProtocolNumber(protocol.getProtocolNumber());
-            result.setProtocol(protocol);
-            result.setSubmissionNumber(submission.getSubmissionNumber());
-            result.setSequenceNumber(1);
-            result.setNonEmployeeFlag(protocolReviewerBean.getNonEmployeeFlag());
-            result.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
-            businessObjectService.save(result);
-            result.refresh();
-        } else {
-            throw new IllegalStateException(
-                    String.format("More than 1 ProtocolReview record for (personId=%s,protocolId=%s,submissionId=%s), do not know what to do.",
-                    (protocolReviewerBean.getNonEmployeeFlag() ? "rolodexId:" : "personId=") + protocolReviewerBean.getPersonId(),
-                    protocolId, submissionId));
-        }
-        return result;
+        businessObjectService.save(reviewer);
+        
+        return reviewer;
     }
+
     
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewDocumentsForCurrentSubmission(org.kuali.kra.irb.Protocol)
      */
     public List<ProtocolOnlineReviewDocument> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol) {
-       
         List<ProtocolOnlineReviewDocument> onlineReviewDocuments = new ArrayList<ProtocolOnlineReviewDocument>();
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
         
-        List<ProtocolOnlineReview> reviews = findProtocolOnlineReviews(protocol.getProtocolId(), 
-                                                                       submission.getSubmissionId(),
-                                                                       null, 
-                                                                       null, 
-                                                                       null, 
-                                                                       false, 
-                                                                       null, 
-                                                                       false, 
-                                                                       null, 
-                                                                       false); 
-                                                                       
+        List<ProtocolOnlineReview> reviews = findProtocolOnlineReviews(protocol.getProtocolId(), submission.getSubmissionId());
         
         for (ProtocolOnlineReview review : reviews) {
             review.refresh();
@@ -305,13 +223,13 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
         List<CommitteeMembership> results = new ArrayList<CommitteeMembership>();
         
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (LOG.isDebugEnabled()) { 
             LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s", protocol.getProtocolNumber(), 
                     submission.getSubmissionNumber()));
         }
         
-        List<ProtocolOnlineReview> currentReviews = this.getProtocolReviewsForCurrentSubmission(protocol);
+        List<ProtocolOnlineReview> currentReviews = submission.getProtocolOnlineReviews();
         
         List<CommitteeMembership> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
         //TODO: Make this better.
@@ -330,31 +248,97 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return results;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewsForCurrentSubmission(java.lang.String)
+     */
+    public List<ProtocolOnlineReview> getProtocolReviews(String protocolNumber) {
+        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber); 
+        return protocol.getProtocolSubmission().getProtocolOnlineReviews();
+    }
     
     /**
-     * This method...
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviews(java.lang.Long)
+     */
+    public List<ProtocolOnlineReview> getProtocolReviews(Long submissionId) {
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        
+        ProtocolSubmission submission = getBusinessObjectService().findBySinglePrimaryKey(ProtocolSubmission.class, submissionId);
+        if (submission != null) {
+            reviews.addAll(submission.getProtocolOnlineReviews());
+        }
+        
+        return reviews;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewer(java.lang.String, 
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
+     */
+    public ProtocolReviewer getProtocolReviewer(String principalId, ProtocolSubmission protocolSubmission) {
+        ProtocolReviewer protocolReviewer = null;
+
+        if (protocolSubmission != null) {
+            for (ProtocolOnlineReview protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
+                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(principalId)) {
+                    protocolReviewer = protocolOnlineReview.getProtocolReviewer();
+                    break;
+                }
+            }
+        }
+        
+        return protocolReviewer;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isUserAnOnlineReviewerOfProtocol(java.lang.String, org.kuali.kra.irb.Protocol)
+     */
+    public boolean isProtocolReviewer(String personId, ProtocolSubmission protocolSubmission) {
+        boolean isReviewer = false;
+
+        if (protocolSubmission != null) {
+            for (ProtocolOnlineReview review : protocolSubmission.getProtocolOnlineReviews()) {
+                if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId)) {
+                    isReviewer = true;
+                    break;
+                }
+            }
+        }
+        return isReviewer;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.irb.Protocol)
+     */
+    public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
+        boolean isReviewable = false;
+        
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        if (submission != null) {
+            isReviewable = StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) 
+                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA);
+        }
+        
+        return isReviewable;
+    }
+
+    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
+        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
+    }
+    
+    /**
+     * Finds and returns all protocol online reviews for the protocolId and submissionId.
      * @param protocolId
      * @param submissionIdFk
-     * @param protocolReviewerId
-     * @param protocolOnlineReviewStatusCode
-     * @param protocolOnlineReviewDeterminationRecommendationCode
-     * @param protocolOnlineReviewDeterminationRecommendationCodeEnable
-     * @param dateDue
-     * @param dateDueEnable
-     * @param dateRequested
-     * @param dateRequestedEnable
      * @return
      */
     private List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
-                                                                 Long submissionIdFk,
-                                                                 Long protocolReviewerId,
-                                                                 String protocolOnlineReviewStatusCode,
-                                                                 String protocolOnlineReviewDeterminationRecommendationCode,
-                                                                 boolean protocolOnlineReviewDeterminationRecommendationCodeEnable,
-                                                                 Date dateDue,
-                                                                 boolean dateDueEnable,
-                                                                 Date dateRequested,
-                                                                 boolean dateRequestedEnable) {
+                                                                 Long submissionIdFk) {
         
         Map<String,Object> hashMap = new HashMap<String,Object>();
         if (protocolId != null) { 
@@ -363,38 +347,13 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         if (submissionIdFk != null) { 
             hashMap.put("submissionIdFk", submissionIdFk);
         }
-        if (protocolReviewerId != null) { 
-            hashMap.put("protocolReviewerId", protocolReviewerId);
-        }
-        if (protocolOnlineReviewStatusCode != null) { 
-            hashMap.put("protocolOnlineReviewStatusCode", protocolOnlineReviewStatusCode);
-        }
-        if (protocolOnlineReviewDeterminationRecommendationCodeEnable) { 
-            hashMap.put("protocolOnlineReviewDeterminationRecommendationCode", protocolOnlineReviewDeterminationRecommendationCode);
-        }
-        if (dateRequestedEnable) {
-            hashMap.put("dateRequested", dateDue);
-        }
-        if (dateDueEnable) { 
-            hashMap.put("dateDue", dateDue);
-        }
+        
         @SuppressWarnings("unchecked")
-        List<ProtocolOnlineReview> results = (List<ProtocolOnlineReview>) getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false );
+        List<ProtocolOnlineReview> results 
+            = (List<ProtocolOnlineReview>) getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false);
        
         return results;
         
-    }
-    
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getOnlineReviewersForProtocolSubmission(java.lang.Long)
-     */
-    public List<ProtocolOnlineReview> getOnlineReviewersForProtocolSubmission(Long submissionId) {
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
-        ProtocolSubmission submission = getBusinessObjectService().findBySinglePrimaryKey(ProtocolSubmission.class, submissionId);
-        if (submission != null) {
-            reviews = submission.getProtocolOnlineReviews();
-        }
-        return reviews;
     }
     
     /*
@@ -526,130 +485,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.kraDocumentRejectionService = kraDocumentRejectionService;
     }
 
-       
-    /**
-     * Get a protocol by the document number.
-     * @param documentNumber
-     * @return
-     */
-    public Protocol getProtocolByDocumentNumber(String documentNumber)  {
-        try {
-            return ((ProtocolDocument) documentService.getByDocumentHeaderId(documentNumber)).getProtocol();
-        } catch (WorkflowException e) {
-           LOG.error(String.format( "Workflow exception thrown while attempting to load ProtocolDocument %s:%s", documentNumber, e.getMessage()));
-           throw new RuntimeException(String.format( "Could not load ProtocolDocument %s", e), e);
-        }
-    }
-    
-    /**
-     * Get a protocol by the protocol number.
-     * @param protocolNumber
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public Protocol getProtocolByProtocolNumber(String protocolNumber) {
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
-        fieldMap.put(Constants.PROPERTY_PROTOCOL_NUMBER,protocolNumber);
-        return ((List<Protocol>)businessObjectService.findMatching(Protocol.class, fieldMap)).get(0);
-    }
-    
-    
-    /**
-     * Get all of the ProtocolOnlineReview BOs for the protocol and submission.
-     * @param protocolId
-     * @param submissionId
-     * @return
-     */
-    public List<ProtocolOnlineReview> getProtocolOnlineReviews(Long protocolId, Long submissionId) {
-        
-        List<ProtocolOnlineReview> reviews = findProtocolOnlineReviews(protocolId, 
-                submissionId,
-                null, 
-                null, 
-                null, 
-                false, 
-                null, 
-                false, 
-                null, 
-                false); 
-        
-        return reviews;
-    }
-
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewsForCurrentSubmission(java.lang.String)
-     */
-    public List<ProtocolOnlineReview> getProtocolReviewsForCurrentSubmission(Protocol protocol) {
-        return getProtocolOnlineReviews(protocol.getProtocolId() ,protocolAssignReviewersService.getCurrentSubmission(protocol).getSubmissionId());
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getOnlineReviewerOfProtocol(java.lang.String, org.kuali.kra.irb.Protocol)
-     */
-    public ProtocolReviewer getOnlineReviewerOfProtocol(String principalId, Protocol protocol) {
-        ProtocolReviewer protocolReviewer = null;
-        
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
-        if (submission != null) {
-            for (ProtocolOnlineReview protocolOnlineReview : submission.getProtocolOnlineReviews()) {
-                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(principalId)) {
-                    protocolReviewer = protocolOnlineReview.getProtocolReviewer();
-                    break;
-                }
-            }
-        }
-        
-        return protocolReviewer;
-    }
-
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isUserAnOnlineReviewerOfProtocol(java.lang.String, org.kuali.kra.irb.Protocol)
-     */
-    public boolean isUserAnOnlineReviewerOfProtocol(String personId, Protocol protocol) {
-        
-        boolean result = false;
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
-        if (submission != null) {
-            List<ProtocolOnlineReview> reviews = submission.getProtocolOnlineReviews();
-            for (ProtocolOnlineReview review : reviews) {
-                if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId)) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.irb.Protocol)
-     */
-    public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
-        boolean result = false;
-        ProtocolSubmission submission = protocolAssignReviewersService.getCurrentSubmission(protocol);
-        if( submission != null && submission.getCommitteeIdFk() != null && submission.getCommitteeSchedule() != null ) {
-            result = true;
-        }
-        
-        return result;
-    }
-
-    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
-        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
-    }
-
-    public List<ProtocolOnlineReview> getOtherProtocolOnlineReviews(ProtocolOnlineReview review) {
-       List<ProtocolOnlineReview> reviews = this.getProtocolOnlineReviews(review.getProtocolId(), review.getSubmissionIdFk());
-       reviews.remove(review);
-       return reviews;
-    }
-
-    public List<ProtocolOnlineReview> getProtocolReviewsForCurrentSubmission(String protocolNumber) {
-        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber); 
-        return getProtocolReviewsForCurrentSubmission(protocol);
-    }
-
     /**
      * Sets the protocolFinderDao attribute value.
      * @param protocolFinderDao The protocolFinderDao to set.
@@ -658,6 +493,4 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.protocolFinderDao = protocolFinderDao;
     }
 
-
-  
 }

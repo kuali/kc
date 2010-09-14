@@ -35,7 +35,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -96,10 +95,10 @@ public class OnlineReviewsActionHelper implements Serializable {
         init(false);
     }
     
-    public void init( boolean force ) {
-        if( (!initComplete || force )  ) {
-            ProtocolSubmission currentSubmission = KraServiceLocator.getService(ProtocolAssignReviewersService.class).getCurrentSubmission(form.getProtocolDocument().getProtocol());
-            if( currentSubmission != null ) {
+    public void init(boolean force) {
+        if (!initComplete || force) {
+            ProtocolSubmission currentSubmission = form.getProtocolDocument().getProtocol().getProtocolSubmission();
+            if (currentSubmission != null) {
                 ProtocolDocument protocolDocument = form.getProtocolDocument();
                 ProtocolPerson principalInvestigator = protocolDocument.getProtocol().getPrincipalInvestigator();
                 
