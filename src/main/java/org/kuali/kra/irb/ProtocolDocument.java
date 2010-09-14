@@ -298,16 +298,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
         try {
             getDocumentService().saveDocument(newProtocolDocument);
+            // blanket approve to make the new protocol document 'final'
+            newProtocolDocument.getDocumentHeader().getWorkflowDocument().blanketApprove(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
         
         this.getProtocol().setActive(false);
         
-        /*
-         * TODO: We have to route the new protocol document here so
-         * that it goes to the final state.
-         */
         finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
     }
