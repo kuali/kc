@@ -548,6 +548,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     "error.award.print.transactionId.required");
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
+        reportParameters.put(AwardPrintParameters.SEQUENCE_NUMBER
+                .getAwardPrintParameter(), awardForm
+                .getAwardTimeAndMoneyTransactionReport().getAwardVersion());
         reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex());
         AwardPrintingService awardPrintService = KraServiceLocator

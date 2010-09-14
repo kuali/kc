@@ -17,6 +17,7 @@ package org.kuali.kra.award.printing.xmlstream;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +67,11 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;
+		Integer sequenceNumber = (Integer) reportParameters.get(AwardPrintParameters.SEQUENCE_NUMBER.getAwardPrintParameter());
 		int transactionId = (Integer) reportParameters
 				.get(AwardPrintParameters.TRANSACTION_ID_INDEX
 						.getAwardPrintParameter());
+		award = getAwardVersion(award.getAwardNumber(), sequenceNumber);
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
@@ -78,6 +81,22 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 		budgetHierarchyMap.put(AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION
 				.getAwardPrintType(), awardNoticeDocument);
 		return budgetHierarchyMap;
+	}
+	
+	/**
+	 * 
+	 * Load Award BO using awardNumber and sequenceNumber
+	 * @param awardNumber
+	 * @param sequenceNumber
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+    private Award getAwardVersion(String awardNumber, Integer sequenceNumber) {
+	    Map<String, Object> fieldValues = new HashMap<String, Object>();
+	    fieldValues.put("awardNumber", awardNumber);
+	    fieldValues.put("sequenceNumber", sequenceNumber);
+	    Collection<Award> awards = businessObjectService.findMatching(Award.class, fieldValues);
+	    return awards.iterator().next();
 	}
 
 	/*
