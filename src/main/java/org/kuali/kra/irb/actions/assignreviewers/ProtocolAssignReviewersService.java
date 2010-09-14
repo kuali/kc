@@ -17,7 +17,6 @@ package org.kuali.kra.irb.actions.assignreviewers;
 
 import java.util.List;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
@@ -25,18 +24,12 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
  * Responsible for assigning reviewers to a protocol.
  */
 public interface ProtocolAssignReviewersService {
-
-    /**
-     * Get the current submission which may be pending or already submitted to the IRB committee.
-     * @param protocol
-     * @return the submission or null if there is none
-     */
-    public ProtocolSubmission getCurrentSubmission(Protocol protocol);
     
     /**
      * Assigns the reviewers to the protocol.
-     * @param protocol the protocol
+     * @param protocolSubmission the protocol submission
      * @param reviewerBeans the list of reviewers
      */
-    public void assignReviewers(Protocol protocol, List<ProtocolReviewerBean> reviewerBeans);
+    void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> reviewerBeans);
+    
 }

@@ -29,7 +29,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -144,33 +143,27 @@ public class ProtocolSubmissionBuilder {
     /**
      * Set the committee that the submission will use.
      * @param committeeId
-     * @return
      */
-    public boolean setCommittee(String committeeId) {
+    public void setCommittee(String committeeId) {
         Committee committee = getCommitteeService().getCommitteeById(committeeId);
         if (committee != null) {
             protocolSubmission.setCommitteeId(committee.getCommitteeId());
             protocolSubmission.setCommitteeIdFk(committee.getId());
             protocolSubmission.setCommittee(committee);
-            return true;
         }
-        return false;
     }
     
     /**
      * Set the schedule that the committee will use.
-     * @param committeeId
      * @param scheduleId
-     * @return
      */
-    public boolean setSchedule(String committeeId, String scheduleId) {
-        if (setCommittee(committeeId)) {
+    public void setSchedule(String scheduleId) {
+        if (protocolSubmission.getCommittee() != null) {
             CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(protocolSubmission.getCommittee(), scheduleId);
             if (schedule != null) {
                 protocolSubmission.setScheduleId(schedule.getScheduleId());
                 protocolSubmission.setScheduleIdFk(schedule.getId());
                 protocolSubmission.setCommitteeSchedule(schedule);
-                return true;
             } else {
                 // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
                 protocolSubmission.setScheduleId(null);
@@ -178,41 +171,6 @@ public class ProtocolSubmissionBuilder {
                 protocolSubmission.setCommitteeSchedule(null);
             }
         }
-        return false;
-    }
-    
-    /**
-     * Add a reviewer to the submission.
-     * @param personId
-     * @param reviewerTypeCode
-     * @param nonEmployeeFlag
-     */
-    public void addReviewer(String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
-        protocolSubmission.getProtocolReviewers().add(createProtocolReviewer(personId, reviewerTypeCode, nonEmployeeFlag));
-    }
-    
-    /**
-     * Create a protocol reviewer.
-     * @param personId
-     * @param reviewerTypeCode
-     * @param nonEmployeeFlag
-     * @return
-     */
-    private ProtocolReviewer createProtocolReviewer(String personId, String reviewerTypeCode, boolean nonEmployeeFlag) {
-        ProtocolReviewer protocolReviewer = new ProtocolReviewer();
-        protocolReviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
-        protocolReviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        protocolReviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
-        protocolReviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
-        protocolReviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-        if (nonEmployeeFlag) {
-            protocolReviewer.setRolodexId(Integer.parseInt(personId));
-        } else {
-            protocolReviewer.setPersonId(personId);
-        }
-        protocolReviewer.setReviewerTypeCode(reviewerTypeCode);
-        protocolReviewer.setNonEmployeeFlag(nonEmployeeFlag);
-        return protocolReviewer;
     }
     
     /**
