@@ -15,6 +15,60 @@
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="additionalInformationAuditErrors" tabAuditKey="document.protocolList[0].newDescription*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+	
+		<%--Area of Research --%>
+    	<h3>
+    		<span class="subhead-left">Area of Research</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchAreas" altText="help"/></span>
+        </h3>
+       
+        <table id="researchAreaTableId" cellpadding=0 cellspacing="0"  summary="">
+             <tr>
+              	<th><div align="left">&nbsp;</div></th>  
+				<th><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></th>
+              	<c:if test="${!readOnly}">
+              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+              	</c:if>
+             </tr>
+             
+             <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">        
+	            <tr>
+	              <th width="10%" class="infoline">add:</th>
+	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
+	              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+	              		lookedUpCollectionName="protocolResearchAreas"
+	              		anchor="${tabKey}"/>
+				  </td>
+	
+	              <td width="20%" class="infoline"><div align="center">
+	              &nbsp;
+	              </div>
+	              </td>
+	              </tr>
+	        </kra:permission>
+
+            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
+              <tr>
+                <td class="infoline"><div align="center">
+                	<b>${ctr+1}</b>
+                </div></td>
+                <td>
+                	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
+                </td>
+                <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
+	                <td><div align="center">
+						<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>   
+	                </div></td>
+	            </kra:permission>   
+              </tr>
+            </logic:iterate>
+            
+        </table>
+        <%--End of Area of Research --%> 
+        
+        <br/>
+	
     	<h3>
     		<span class="subhead-left">Additional Information</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.ProtocolType" altText="help"/></span>
@@ -190,59 +244,6 @@
 	        				
         </table>       
         
-        <%--End of Other Identifiers --%>
-		<br>
-		
-		<%--Area of Research --%>
-    	<h3>
-    		<span class="subhead-left">Area of Research</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchAreas" altText="help"/></span>
-        </h3>
-       
-        <table id="researchAreaTableId" cellpadding=0 cellspacing="0"  summary="">
-             <tr>
-              	<th><div align="left">&nbsp;</div></th>  
-				<th><kul:htmlAttributeLabel attributeEntry="${researchAreasAttributes.description}" noColon="true" /></th>
-              	<c:if test="${!readOnly}">
-              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-              	</c:if>
-             </tr>
-             
-             <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">        
-	            <tr>
-	              <th width="10%" class="infoline">add:</th>
-	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
-	              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
-	              		lookedUpCollectionName="protocolResearchAreas"
-	              		anchor="${tabKey}"/>
-				  </td>
-	
-	              <td width="20%" class="infoline"><div align="center">
-	              &nbsp;
-	              </div>
-	              </td>
-	              </tr>
-	        </kra:permission>
-
-            <logic:iterate name="KualiForm" id="protocolResearchAreas" property="document.protocolList[0].protocolResearchAreas" indexId="ctr" >
-              <tr>
-                <td class="infoline"><div align="center">
-                	<b>${ctr+1}</b>
-                </div></td>
-                <td>
-                	${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.researchAreaCode}:${KualiForm.document.protocolList[0].protocolResearchAreas[ctr].researchAreas.description}
-                </td>
-                <kra:permission value="${KualiForm.protocolHelper.modifyAreasOfResearch}">
-	                <td><div align="center">
-						<html:image property="methodToCall.deleteProtocolResearchArea.line${ctr}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>   
-	                </div></td>
-	            </kra:permission>   
-              </tr>
-            </logic:iterate>
-            
-        </table>
-        <%--End of Area of Research --%> 
-                           
+        <%--End of Other Identifiers --%>                           
     </div>
 </kul:tab>
