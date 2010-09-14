@@ -232,7 +232,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
                 for (ValidProtoSubRevType validProtoSubRevType : validProtoSubRevTypes) {
                     reviewTypes.add(validProtoSubRevType.getProtocolReviewTypeCode());
                 }
-                if (!reviewTypes.contains(submitAction.getProtocolReviewTypeCode())) {
+                if (!reviewTypes.contains(submitAction.getProtocolReviewTypeCode()) && !isReviewTypeInvalid(submitAction.getProtocolReviewTypeCode())) {
                     GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
                             KeyConstants.INVALID_SUBMISSION_REVIEW_TYPE,
                             new String[] { ((ProtocolSubmissionType)getBo(ProtocolSubmissionType.class, "submissionTypeCode", submitAction.getSubmissionTypeCode())).getDescription(), 
