@@ -17,10 +17,14 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -31,6 +35,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -77,7 +82,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private String protocolWorkflowType;
 	
     /**
-     * Constructs a ProtocolDocument object
+     * Constructs a ProtocolDocument object.
      */
 	public ProtocolDocument() { 
         super();
@@ -89,8 +94,18 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         initializeProtocolLocation();
 	} 
 	
+	/**
+	 * 
+	 * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+	 */
     public void initialize() {
         super.initialize();
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("RESEARCH_AREA_CODE", "000001");
+        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
+        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
+        selectedBOs.add(ra);
+        KraServiceLocator.getService(ProtocolResearchAreaService.class).addProtocolResearchArea(this.getProtocol(), selectedBOs);
     }
 
     

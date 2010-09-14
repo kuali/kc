@@ -275,7 +275,8 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
         
         page = multiLookup(page, "protocolResearchAreas", "researchAreaCode", "01.0101");
         HtmlTable table = getTable(page, "researchAreaTableId");
-        assertEquals(3, table.getRowCount());
+        //note, the expected value use to be 3, but it is 4 now because there is a default value of 'all areas' added now.
+        assertEquals(4, table.getRowCount());
         assertContains(page, "Agricultural Business and Management");
         
         return page;
