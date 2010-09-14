@@ -82,6 +82,7 @@ public class ProtocolFactory {
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
+        kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
         
         documentService.saveDocument(protocolDocument);
         return protocolDocument;

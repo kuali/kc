@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -32,10 +33,15 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.VersioningService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 
 /**
@@ -69,6 +75,29 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         this.versioningService = versioningService;
     }
     
+    private ProtocolDocument getNewProtocolDocument() throws Exception {
+        // create a new ProtocolDocument
+        ProtocolDocument newDoc = null;
+        
+        // manually assembling a new ProtocolDocument here because the DocumentService will deny initiator permission without context
+        // we circumvent the initiator step altogether. 
+        try {
+            KualiWorkflowDocument workflowDocument = KraServiceLocator.getService(WorkflowDocumentService.class).createWorkflowDocument("ProtocolDocument", GlobalVariables.getUserSession().getPerson());
+            GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
+            DocumentHeader documentHeader = new DocumentHeader();
+            documentHeader.setWorkflowDocument(workflowDocument);
+            documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
+            newDoc = new ProtocolDocument();
+            newDoc.setDocumentHeader(documentHeader);
+            newDoc.setDocumentNumber(documentHeader.getDocumentNumber());
+        }
+        catch (WorkflowException x) {
+            throw new RuntimeException("Error creating new document: " + x);
+        }
+        
+        return newDoc;
+    }
+    
     /**
      * @see org.kuali.kra.irb.ProtocolVersionService#versionProtocolDocument(org.kuali.kra.irb.ProtocolDocument)
      */
@@ -77,7 +106,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         materializeCollections(protocolDocument.getProtocol());
         Protocol newProtocol = versioningService.createNewVersion(protocolDocument.getProtocol());
       
-        ProtocolDocument newProtocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
+        ProtocolDocument newProtocolDocument = getNewProtocolDocument();
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
       
         copyCustomDataAttributeValues(protocolDocument, newProtocolDocument);
