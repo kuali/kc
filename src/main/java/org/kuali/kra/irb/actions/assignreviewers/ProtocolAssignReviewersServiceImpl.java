@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -78,7 +79,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                 if (reviewerBean.getChecked()) {
                     if (!protocolOnlineReviewService.isUserAnOnlineReviewerOfProtocol(reviewerBean.getPersonId(), protocol)) {
                         try {
-                            protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, reviewerBean,
+                            ProtocolOnlineReviewDocument protocolReviewDocument = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocol, reviewerBean,
                                     String.format("%s/Protocol# %s",protocol.getPrincipalInvestigator().getPerson().getLastName(),protocol.getProtocolNumber()),
                                     "", 
                                     "",
@@ -87,14 +88,19 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                                     null,
                                     null,
                                     GlobalVariables.getUserSession().getPrincipalId());
-                            
+                            submission.getProtocolOnlineReviews().add(protocolReviewDocument.getProtocolOnlineReview());
                         } catch (WorkflowException e) {
                             LOG.error(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
                             throw new RuntimeException(String.format("WorkflowException creating new ProtocolOnlineReviewDocument for reviewer %s, protocol %s", reviewerBean.getPersonId(), protocol.getProtocolNumber()),e);
                         }
+                    } else {
+                        ProtocolReviewer reviewer = protocolOnlineReviewService.getOnlineReviewerOfProtocol(reviewerBean.getPersonId(), protocol);
+                        reviewer.setReviewerTypeCode(reviewerBean.getReviewerTypeCode());
+                        businessObjectService.save(reviewer);
                     }
                 }
             }
+            businessObjectService.save(submission);
         }
     }
     
