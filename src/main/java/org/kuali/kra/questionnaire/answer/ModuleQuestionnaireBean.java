@@ -24,19 +24,22 @@ public class ModuleQuestionnaireBean {
     private String moduleItemCode;
     private String moduleItemKey;
     private String moduleSubItemKey;
+    private boolean finalDoc;
 
     public ModuleQuestionnaireBean() {
         super();
     }
 
     public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
-        this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString());
+          this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString(),protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+        
     }
 
-    public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemKey) {
+    public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemKey, boolean finalDoc) {
         this.moduleItemCode = moduleItemCode;
         this.moduleItemKey = moduleItemKey;
         this.moduleSubItemKey = moduleSubItemKey;
+        this.finalDoc = finalDoc;
     }
 
     public String getModuleItemCode() {
@@ -61,6 +64,14 @@ public class ModuleQuestionnaireBean {
 
     public void setModuleSubItemKey(String moduleSubItemKey) {
         this.moduleSubItemKey = moduleSubItemKey;
+    }
+
+    public boolean isFinalDoc() {
+        return finalDoc;
+    }
+
+    public void setFinalDoc(boolean finalDoc) {
+        this.finalDoc = finalDoc;
     }
 
 }
