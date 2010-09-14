@@ -62,10 +62,10 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
-    @SkipVersioning
-    transient private List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
     
-    private List<ProtocolReviewer> protocolReviewers = new ArrayList<ProtocolReviewer>();
+    @SkipVersioning
+    private transient List<ProtocolOnlineReview> protocolOnlineReviews;
+    
     private ProtocolSubmissionType protocolSubmissionType;
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
     
@@ -285,19 +285,14 @@ public class ProtocolSubmission extends ProtocolAssociate {
         return expeditedReviewCheckList;
     }
 
-    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
-        this.protocolReviewers = protocolReviewers;
-    }
-
-    public List<ProtocolReviewer> getProtocolReviewers() {
-        return protocolReviewers;
-    }
-
     /**
      * Gets the protocolReviews attribute. 
      * @return Returns the protocolReviews.
      */
     public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
+        if (protocolOnlineReviews == null) {
+            refreshReferenceObject("protocolOnlineReviews");
+        }
         return protocolOnlineReviews;
     }
 
@@ -315,6 +310,19 @@ public class ProtocolSubmission extends ProtocolAssociate {
 
     public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
+    }
+    
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+        
+        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews();
+        if (reviews != null) {
+            for (ProtocolOnlineReview review : reviews) {
+                reviewers.add(review.getProtocolReviewer());
+            }
+        }
+        
+        return reviewers;
     }
     
     /**
@@ -424,7 +432,6 @@ public class ProtocolSubmission extends ProtocolAssociate {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(protocolReviewers);
         managedLists.add(protocolOnlineReviews);
         return managedLists;
     }

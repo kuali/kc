@@ -40,6 +40,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -241,13 +242,15 @@ public class CommitteeMembershipServiceTest {
      * utility to set up protocolsubmission with reviewer.
      */
     private List<ProtocolSubmission> getProtocolSubmissions() {
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();    
+        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        ProtocolOnlineReview review = new ProtocolOnlineReview();  
         ProtocolReviewer reviewer = new ProtocolReviewer();
         reviewer.setPersonId("100");
-        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-        reviewers.add(reviewer);
+        review.setProtocolReviewer(reviewer);
+        reviews.add(review);
         ProtocolSubmission submission = new ProtocolSubmission();
-        submission.setProtocolReviewers(reviewers);
+        submission.setProtocolOnlineReviews(reviews);
         submissions.add(submission);
         return submissions;
     }

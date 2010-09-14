@@ -28,7 +28,6 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
-import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -166,8 +165,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private List<ProtocolAction> protocolActions;
     private List<ProtocolSubmission> protocolSubmissions;
-    @SkipVersioning
-    transient private List<ProtocolOnlineReview> protocolOnlineReviews;
   
     private ProtocolSubmission protocolSubmission;
     
@@ -208,7 +205,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         specialReviews = new ArrayList<ProtocolSpecialReview>();
         setProtocolActions(new ArrayList<ProtocolAction>());
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>());
-        setProtocolOnlineReviews( new ArrayList<ProtocolOnlineReview>() );
         protocolAmendRenewals = new ArrayList<ProtocolAmendRenewal>();
         // set statuscode default
         setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
@@ -418,21 +414,18 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     
     /**
-     * Gets the protocolOnlineReviews attribute. 
-     * @return Returns the protocolOnlineReviews.
+     * Collects and returns all online reviews for all submissions for this protocol.
+     * @return all online reviews for this protocol
      */
     public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
-        return protocolOnlineReviews;
-    }
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
 
-    /**
-     * Sets the protocolOnlineReviews attribute value.
-     * @param protocolOnlineReviews The protocolOnlineReviews to set.
-     */
-    public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
-        this.protocolOnlineReviews = protocolOnlineReviews;
+        for (ProtocolSubmission submission : getProtocolSubmissions()) {
+            reviews.addAll(submission.getProtocolOnlineReviews());
+        }
+        
+        return reviews;
     }
-
 
     @Override 
     protected LinkedHashMap<String,Object> toStringMapper() {
@@ -587,7 +580,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         managedLists.add(getProtocolParticipants());
         managedLists.add(getProtocolUnits());
         managedLists.add(getAttachmentProtocols());
-        managedLists.add(getProtocolOnlineReviews());
         //the attachment personnels must get added to the managed list
         //BEFORE the ProtocolPersons otherwise deleting a ProtocolPerson
         //may cause a DB constraint violation.
