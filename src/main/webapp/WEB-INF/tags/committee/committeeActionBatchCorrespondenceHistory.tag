@@ -40,7 +40,7 @@
     <tr>
         <th>
             <div align="right">
-                Batch Type:
+                *Batch Type:
             </div>
         </th> 
         <td>

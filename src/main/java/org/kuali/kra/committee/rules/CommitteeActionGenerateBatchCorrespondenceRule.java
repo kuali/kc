@@ -95,10 +95,7 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
         for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(committeeId, 
                     batchCorrespondenceDetail.getProtoCorrespTypeCode()) == null) {
-                Map<String, String> primaryKeys = new HashMap<String, String>();
-                primaryKeys.put(PROTO_CORRESP_TYPE_CODE, batchCorrespondenceDetail.getProtoCorrespTypeCode());
-                missingTemplates.add(((ProtocolCorrespondenceType) getBusinessObjectService()
-                            .findByPrimaryKey(ProtocolCorrespondenceType.class, primaryKeys)).getDescription());    
+                missingTemplates.add(getProtocolCorrespondenceDescription(batchCorrespondenceDetail.getProtoCorrespTypeCode()));
             }
             
         }
@@ -106,10 +103,7 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
         if (!StringUtils.isBlank(batchCorrespondence.getFinalActionCorrespType())) {
             if (getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(committeeId, 
                     batchCorrespondence.getFinalActionCorrespType()) == null) {
-                Map<String, String> primaryKeys = new HashMap<String, String>();
-                primaryKeys.put(PROTO_CORRESP_TYPE_CODE, batchCorrespondence.getFinalActionCorrespType());
-                missingTemplates.add(((ProtocolCorrespondenceType) getBusinessObjectService()
-                            .findByPrimaryKey(ProtocolCorrespondenceType.class, primaryKeys)).getDescription());
+                missingTemplates.add(getProtocolCorrespondenceDescription(batchCorrespondence.getFinalActionCorrespType()));
             }
         }
 
@@ -141,4 +135,17 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
         return protocolCorrespondenceTemplateService;
     }
     
+    /**
+     * 
+     * This method gets the name of the template
+     * @param protocolCorrespondenceTypeCode
+     * @return name of the template
+     */
+    private String getProtocolCorrespondenceDescription(String protocolCorrespondenceTypeCode) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceTypeCode);
+        return ((ProtocolCorrespondenceType) getBusinessObjectService()
+                    .findByPrimaryKey(ProtocolCorrespondenceType.class, primaryKeys)).getDescription();    
+
+}
 }
