@@ -23,12 +23,12 @@ import org.kuali.rice.kns.document.Document;
 
 public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionGenerateBatchCorrespondenceRule> {
 
-    public static final String MSG = "generate batch correspondence";
+    private static final String MSG = "generate batch correspondence";
     
-    String batchCorrespondenceTypeCode;
-    Date startDate;
-    Date endDate;
-    String committeeId;
+    private String batchCorrespondenceTypeCode;
+    private Date startDate;
+    private Date endDate;
+    private String committeeId;
     
     public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
             Date startDate, Date endDate, String committeeId) {
