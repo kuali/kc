@@ -79,6 +79,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
     private static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
     private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
+    private static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
@@ -694,29 +695,25 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
-        
-        // If user did not already enter an account number in the award main page, 
-        //get the account number from the create account
-        // tab.
-        if (award.getAccountNumber() != null) {
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-            documentService.saveDocument(awardDocument);
-        }
-        
-        boolean rulePassed = new AwardCreateAccountRule().processAwardCreateAccountRules(award);
-        if (rulePassed) {
-            AccountCreationClient client = KraServiceLocator.getService("accountCreationClient");
-            /*
-             * If account hasn't already been created, create it or
-             * display an error
-             */
-            if (award.getFinancialAccountDocumentNumber() == null) {
-                client.createAwardAccount(award);
-            } else {
-                GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
+        // if the user has permissions to create a financial account
+        if (awardForm.getEditingMode().get("createAwardAccount").equals("true")) {
+            boolean rulePassed = new AwardCreateAccountRule().processAwardCreateAccountRules(award);
+            if (rulePassed) {
+                AccountCreationClient client = KraServiceLocator.getService("accountCreationClient");
+                /*
+                 * If account hasn't already been created, create it or
+                 * display an error
+                 */
+                if (award.getFinancialAccountDocumentNumber() == null) {
+                    client.createAwardAccount(award);
+                } else {
+                    GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
+                }
             }
         }
-
+        else {
+            GlobalVariables.getMessageMap().putError(NO_PERMISSION_TO_CREATE_ACCOUNT, KeyConstants.NO_PERMISSION_TO_CREATE_ACCOUNT);
+        }
         forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
        
         return forward; 
