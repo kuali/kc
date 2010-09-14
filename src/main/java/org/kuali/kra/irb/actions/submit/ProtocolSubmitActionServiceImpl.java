@@ -85,8 +85,12 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         this.businessObjectService = businessObjectService;
     }
     
-    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersServiceX) throws Exception {
-        this.protocolAssignReviewersService = protocolAssignReviewersServiceX;
+    /**
+     * Set the Protocol Assign Reviewers Service.
+     * @param protocolAssignReviewersService
+     */
+    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
+        this.protocolAssignReviewersService = protocolAssignReviewersService;
     }
     
     /**
@@ -161,6 +165,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
         
+        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
+        
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(SUBMIT_TO_IRB);
         //For the purpose of audit trail
@@ -184,7 +190,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber());
         }
         
-        this.protocolAssignReviewersService.assignReviewers(protocol, submitAction.getReviewers());
         if (submission.getScheduleIdFk() != null) {
             updateDefaultSchedule(submission);
         }
@@ -238,7 +243,8 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         submissionBuilder.setSubmissionTypeQualifierCode(submitAction.getSubmissionQualifierTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
         setSubmissionStatus(submissionBuilder, submitAction);
-        addCommitteeData(submissionBuilder, submitAction);
+        setCommittee(submissionBuilder, submitAction);
+        setSchedule(submissionBuilder, submitAction);
         addCheckLists(submissionBuilder, submitAction);
         return submissionBuilder.create();
     }
@@ -256,32 +262,23 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         }
     }
-
+    
     /**
-     * Add committee data, including schedule and reviewers, to the submission.
-     * @param submission the submission
+     * Set committee for the submission.
+     * @param submissionBuilder the submission builder
      * @param submitAction the submission data
      */
-    private void addCommitteeData(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
-        if (submissionBuilder.setSchedule(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
-            addProtocolReviewers(submissionBuilder, submitAction);
-        }
+    private void setCommittee(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+        submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
     }
     
     /**
-     * Add the Protocol Reviewers to the Submission.
-     * @param submission the submission
+     * Set schedule for the submission.
+     * @param submissionBuilder the submission builder
      * @param submitAction the submission data
      */
-    private void addProtocolReviewers(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
-        for (ProtocolReviewerBean reviewer : submitAction.getReviewers()) {
-            if (reviewer.getChecked()) {
-                String pId = reviewer.getPersonId();
-                submissionBuilder.addReviewer(pId,
-                                              reviewer.getReviewerTypeCode(),
-                                              reviewer.getNonEmployeeFlag());
-            }
-        }
+    private void setSchedule(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+        submissionBuilder.setSchedule(submitAction.getNewScheduleId());
     }
     
     /**

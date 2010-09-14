@@ -21,6 +21,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewerType extends KraPersistableBusinessObjectBase {
+    
+    public static final String PRIMARY = "1";
+    public static final String SECONDARY = "2";
 
     private String reviewerTypeCode;
     private String description;

@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentHelper;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepadHelper;
@@ -150,8 +151,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         boolean onlineReviewTabEnabled = false;
 
-        if( getProtocolDocument() != null && getProtocolDocument().getProtocol() != null ) {
-            boolean isUserOnlineReviewer = onlineReviewService.isUserAnOnlineReviewerOfProtocol(GlobalVariables.getUserSession().getPrincipalId(), getProtocolDocument().getProtocol());
+        if(getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
+            ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
+            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, submission);
             boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
             boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
             onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);

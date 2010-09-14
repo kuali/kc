@@ -56,7 +56,7 @@ public class ProtocolAssignReviewersBean implements Serializable{
      * and schedule.
      */
     public void prepareView() {
-        ProtocolSubmission submission = getProtocolAssignReviewersService().getCurrentSubmission(getProtocol());
+        ProtocolSubmission submission = getProtocol().getProtocolSubmission();
         if (submission != null) {
             String committeeId = submission.getCommitteeId();
             String scheduleId = submission.getScheduleId();

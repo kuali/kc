@@ -94,6 +94,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
 import org.kuali.kra.irb.actions.risklevel.ProtocolUpdateRiskLevelEvent;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
@@ -1125,7 +1126,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (isAuthorized(task)) {
             ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
             if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                getProtocolAssignReviewersService().assignReviewers(protocolForm.getProtocolDocument().getProtocol(), actionBean.getReviewers());
+                ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                List<ProtocolReviewerBean> beans = actionBean.getReviewers();
+                getProtocolAssignReviewersService().assignReviewers(submission, beans);
             }
         }
 
