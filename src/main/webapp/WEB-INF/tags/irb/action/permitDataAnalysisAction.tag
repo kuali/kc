@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canPermitDataAnalysis}">
 
-<kul:innerTab tabTitle="Permit Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolPermitDataAnalysisBean*">
+<kul:innerTab tabTitle="Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolPermitDataAnalysisBean*">
    
     <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
