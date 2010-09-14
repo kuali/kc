@@ -42,7 +42,7 @@
     <tr>
         <th>
             <div align="right">
-                Batch Type:
+                *Batch Type:
             </div>
         </th> 
         <td>
@@ -55,7 +55,7 @@
         
         <th>
             <div align="right">
-                Protocol Expiration / Committee Action:
+                *Protocol Expiration / Committee Action:
             </div>
         </th> 
         <td>

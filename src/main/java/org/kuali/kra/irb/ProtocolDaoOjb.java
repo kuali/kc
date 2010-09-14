@@ -131,7 +131,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         }
  
         for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (entry.getKey().startsWith(LEAD_UNIT) && StringUtils.isNotBlank(entry.getValue())){                
+            if (entry.getKey().startsWith(LEAD_UNIT) && StringUtils.isNotBlank(entry.getValue())) {                
                 crit.addExists(getUnitReportQuery(entry));
             }
         }
@@ -151,7 +151,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             
             //this assumes the all owners have the same protocol number.  If this is not the case then there is
             //a programming error somewhere.
-            crit.addEqualTo("protocolNumber", attachment.getProtocolNumber());
+            crit.addEqualTo(PROTOCOL_NUMBER, attachment.getProtocolNumber());
             crit.addEqualTo("typeCode", attachment.getTypeCode());
             crit.addEqualTo("documentId", attachment.getDocumentId());
             
@@ -173,16 +173,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      */
     @SuppressWarnings("unchecked")
     public List<Protocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
-        Criteria subCritMaxSequenceNumber = new Criteria();
-        subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
-        subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
-        
-        Criteria subCritMaxSubmissionNumber = new Criteria();
-        subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
-        subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
-
         Criteria crit = new Criteria();
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
         if (startDate != null) {
@@ -193,8 +183,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         }
         crit.addIn(PROTOCOL_STATUS_CODE, ACTIVE_PROTOCOL_STATUS_CODES);
         crit.addEqualTo(SUBMISSION_STATUS_CODE, APPROVED_SUBMISSION_STATUS_CODE);
-        crit.addEqualTo(SEQUENCE_NUMBER, subQueryMaxSequenceNumber);
-        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, subQueryMaxProtocolSubmission);
+        crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
         logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
@@ -205,16 +195,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      */
     @SuppressWarnings("unchecked")
     public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
-        Criteria subCritMaxSequenceNumber = new Criteria();
-        subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
-        subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
-        
-        Criteria subCritMaxSubmissionNumber = new Criteria();
-        subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
-        subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
-
         Criteria subCritProtocolAction = new Criteria();
         subCritProtocolAction.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
         subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
@@ -231,14 +211,30 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         Criteria crit = new Criteria();
         crit.addIn(PROTOCOL_STATUS_CODE, REVISION_REQUESTED_PROTOCOL_STATUS_CODES);
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
-        crit.addEqualTo(SEQUENCE_NUMBER, subQueryMaxSequenceNumber);
-        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, subQueryMaxProtocolSubmission);
+        crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
         crit.addExists(subQueryProtocolAction);
         Query q = QueryFactory.newQuery(Protocol.class, crit, true);
         logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    private ReportQueryByCriteria getSubQueryMaxSequenceNumber() {
+        Criteria subCritMaxSequenceNumber = new Criteria();
+        subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
+        subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
+        return subQueryMaxSequenceNumber;
+    }
+    
+    private ReportQueryByCriteria getsubQueryMaxProtocolSubmission() {
+        Criteria subCritMaxSubmissionNumber = new Criteria();
+        subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
+        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
+        subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
+        return subQueryMaxProtocolSubmission;
+    }
+    
     /**
      * This method calculates the next day (i.e. adds one day to the date).
      * 
@@ -270,7 +266,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      */
     private <T extends ProtocolAttachmentBase & TypedAttachment> boolean validAttachmentForVersionLookup(T attachment) {
         return attachment != null && attachment.getProtocolNumber() != null && attachment.getSequenceNumber() != null
-        && attachment.getProtocolId() != null && attachment.getTypeCode() != null && attachment.getDocumentId() != null;
+            && attachment.getProtocolId() != null && attachment.getTypeCode() != null && attachment.getDocumentId() != null;
     }
 
     /*
@@ -334,12 +330,12 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
         String nameValue = critField.getFieldValue().replace('*', '%');
         // need to use upper case
-        String propertyName = getDbPlatform().getUpperCaseFunction() + "("+critField.getCritFieldName()+")";
+        String propertyName = getDbPlatform().getUpperCaseFunction() + "(" + critField.getCritFieldName() + ")";
         crit.addLike(propertyName, nameValue.toUpperCase());
 
-        if (isProtocolPersonField (key)) {
+        if (isProtocolPersonField(key)) {
             addPersonRoleId(key, crit);
-        } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)){
+        } else if (key.equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
             crit.addLike(ProtocolLookupConstants.Property.PROTOCOL_ORGANIZATION_TYPE_CODE, ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_CODE);
         }
         return QueryFactory.newReportQuery(critField.getClazz(), crit);
@@ -349,11 +345,11 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * This is for personid & principalinvestigatorid.  
      */
     private void addPersonRoleId(String key, Criteria crit) {
-                if (key.equals(ProtocolLookupConstants.Property.KEY_PERSON)) {
-                    crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, personRole);
-                } else {
-                    crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, investigatorRole);                    
-                }
+        if (key.equals(ProtocolLookupConstants.Property.KEY_PERSON)) {
+            crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, personRole);
+        } else {
+            crit.addIn(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ROLE_ID, investigatorRole);                    
+        }
     }
     
     /*
@@ -365,7 +361,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 if (collectionFieldNames.contains(entry.getKey())) {
                     collectionFieldValues.put(entry.getKey(), getCriteriaEnum(entry));
-                } else if (!entry.getKey().startsWith(LEAD_UNIT)){                
+                } else if (!entry.getKey().startsWith(LEAD_UNIT)) {                
                     baseLookupFieldValues.put(entry.getKey(), entry.getValue());
                 }
             }
@@ -375,7 +371,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     /*
      * This is to get the proper enum CritField based on parameters.
      */
-    private CritField getCriteriaEnum(Entry <String, String>entry) {
+    private CritField getCriteriaEnum(Entry<String, String> entry) {
         
         String searchKeyName = entry.getKey();
         CritField critField = Enum.valueOf(CritField.class, searchMap.get(searchKeyName));
@@ -384,7 +380,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     }
 
         
-    private boolean isProtocolPersonField (String fieldName) {
+    private boolean isProtocolPersonField(String fieldName) {
         return fieldName.equals(ProtocolLookupConstants.Property.KEY_PERSON) || fieldName.equals(ProtocolLookupConstants.Property.INVESTIGATOR);    
     }
     
@@ -408,7 +404,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
             
         }
         subCrit.addLike(propertyName, nameValue.toUpperCase());
-        subCrit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID);
+        subCrit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID, Criteria.PARENT_QUERY_PREFIX 
+                + ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID);
         crit.addExists(QueryFactory.newReportQuery(ProtocolUnit.class, subCrit));
 
         return QueryFactory.newReportQuery(ProtocolPerson.class, crit);
@@ -498,7 +495,7 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     /*
      * extract method for casesensitive in method getCollectionCriteriaFromMap
      */
-    private boolean isCaseSensitive (PersistableBusinessObject persistBo, String  propertyName) {
+    private boolean isCaseSensitive(PersistableBusinessObject persistBo, String  propertyName) {
         
         boolean caseInsensitive = false;
         if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
@@ -536,8 +533,8 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         Criteria crit = new Criteria();
         
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
-        crit.addEqualTo("sequenceNumber", getMaxSequenceNumberQuery());
-        crit.addIn("protocolStatusCode", Arrays.asList(new String[]{"100", "101", "102", "103", "104", "105", "106"}));
+        crit.addEqualTo(SEQUENCE_NUMBER, getMaxSequenceNumberQuery());
+        crit.addIn(PROTOCOL_STATUS_CODE, Arrays.asList(new String[]{"100", "101", "102", "103", "104", "105", "106"}));
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Protocol.class, crit);
         

@@ -31,7 +31,6 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -49,6 +48,10 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
 
+/**
+ * 
+ * This class generates the batch correspondence of committees.
+ */
 public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCorrespondenceService {
 
     private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceServiceImpl.class);
@@ -63,6 +66,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private ProtocolDao protocolDao;
     private ProtocolGenericActionService protocolGenericActionService;
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
+    private CommitteePrintingService committeePrintingService;
     private int finalActionCounter;
 
     /**
@@ -154,10 +158,11 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    private ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+    private ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
+            BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
         
-        double diff = DateUtils.getDifferenceInDays( new Timestamp(System.currentTimeMillis()), new Timestamp(protocol.getExpirationDate().getTime()));
+        double diff = DateUtils.getDifferenceInDays(new Timestamp(System.currentTimeMillis()), new Timestamp(protocol.getExpirationDate().getTime()));
         
         for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (batchCorrespondenceDetail.getDaysToEvent() >= diff) { 
@@ -183,7 +188,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    private ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+    private ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
+            BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
 
         double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
@@ -305,7 +311,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         protocolCorrespondence.setActionId(protocolAction.getActionId());
         protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
         
-        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
+        AbstractPrint printable = committeePrintingService.getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
         printable.setPrintableBusinessObject(protocol);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(COMMITTEE_ID, committeeId);
@@ -314,7 +320,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
-        protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
+        protocolCorrespondence.setCorrespondence(committeePrintingService.print(printableArtifactList).getContent());
 
         protocolCorrespondence.setFinalFlag(false);
         
@@ -337,10 +343,6 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         return (BatchCorrespondence) businessObjectService.findByPrimaryKey(BatchCorrespondence.class, fieldValues);
     }
     
-    private CommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommitteePrintingService.class);
-    }
-
     /**
      * Populated by Spring Beans.
      * @param businessObjectService
@@ -373,4 +375,11 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
     }
 
+    /**
+     * Populated by Spring Beans.
+     * @param committeePrintingService
+     */
+    public void setCommitteePrintingService(CommitteePrintingService committeePrintingService) {
+        this.committeePrintingService = committeePrintingService;
+    }
 }

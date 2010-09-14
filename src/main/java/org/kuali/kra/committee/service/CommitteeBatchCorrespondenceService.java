@@ -19,6 +19,10 @@ import java.sql.Date;
 
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 
+/**
+ * 
+ * This class generates the batch correspondence of committees.
+ */
 public interface CommitteeBatchCorrespondenceService {
     
     /**
