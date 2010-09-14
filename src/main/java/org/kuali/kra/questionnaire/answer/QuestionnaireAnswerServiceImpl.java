@@ -51,7 +51,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
-    private List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule) {
+    private List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, boolean finalDoc) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, coeusModule);
 
@@ -70,7 +70,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-                if (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                if (finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
                     usages.add(questionnaireUsage);
                 }
             }
@@ -82,9 +82,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * set up answer headers for the initial load of module questionnaire answers
      */
     private List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean,
-            Map<Integer, AnswerHeader> answerHeaderMap) {
+            Map<Integer, AnswerHeader> answerHeaderMap, boolean finalDoc) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode())) {
+        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(), finalDoc)) {
             if (answerHeaderMap.containsKey(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireUsage.getQuestionnaire().getQuestionnaireId()));
                 if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(
@@ -106,7 +106,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
-        List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode());
+        List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(), moduleQuestionnaireBean.isFinalDoc());
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
@@ -151,31 +151,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
         }
 
-        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
+        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap, moduleQuestionnaireBean.isFinalDoc());
         for (AnswerHeader answerHeader : answerHeaders) {
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
         }
         return answerHeaders;
 
     }
-
-    /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#removedQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
-     */
-//    public void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-//        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-//        List<Integer> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
-//        for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
-//            if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
-//                answerHeaders.add(answerHeader);
-//            }
-//        }
-//        answerHeaders.size(); // remove this line and uncomment next line
-//        businessObjectService.delete(answerHeaders);
-//        //deleteAnswers(answerHeaders);
-//     }
-
     
     private List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -187,7 +169,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     
     private List<Integer> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<Integer> questionnaireIds = new ArrayList<Integer>();
-        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode())) {
+        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(), moduleQuestionnaireBean.isFinalDoc())) {
             questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
         }
         return questionnaireIds;

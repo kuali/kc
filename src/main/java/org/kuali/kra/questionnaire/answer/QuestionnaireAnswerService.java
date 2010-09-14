@@ -84,13 +84,4 @@ public interface QuestionnaireAnswerService {
      */
     void setupChildAnswerIndicator(List<Answer> answers);
 
-    /**
-     * 
-     * This method is to remove questionnaire answer for a questionnaire that is no longer associate with this module.
-     * @param moduleQuestionnaireBean
-     * @return
-     */
-//    void removedQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
-
-
 }

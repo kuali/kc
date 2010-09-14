@@ -283,6 +283,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         final ProtocolDocument newProtocolDocument;
         try {
+            // workflowdocument is null, so need to use documentservice to retrieve it
+            currentProtocol.setProtocolDocument((ProtocolDocument)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
             newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
         } catch (Exception e) {
             throw new ProtocolMergeException(e);
