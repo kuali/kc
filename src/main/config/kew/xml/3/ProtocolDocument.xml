@@ -26,6 +26,14 @@
                     <name>LOOK_FUTURE</name>
                     <value>true</value>
                 </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>                
 			</policies>
 			<routePaths>
 				<routePath>
@@ -38,7 +46,8 @@
 					<activationType>S</activationType>
 				</start>
                 <role name="IRBReview">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<qualifierResolver>ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
+					<!-- <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> --> 
                     <activationType>S</activationType>
 					<ruleTemplate>IRBReview</ruleTemplate>
 	            </role>                     
@@ -49,6 +58,20 @@
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 	
+		<ruleAttribute>
+			<name>ProtocolApprover-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>ProtocolApprover-XPathQualifierResolver</label>
+			<description>To limit the Approval Request to be routed to ProtocolApprovers for this protocol only</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<qualifier name="protocol">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/protocolNumber[1]</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute>
+		
 	    <ruleAttribute>
 			<serviceNamespace>KC</serviceNamespace>
             <name>ProtocolWorkflowTypeAttribute</name>
