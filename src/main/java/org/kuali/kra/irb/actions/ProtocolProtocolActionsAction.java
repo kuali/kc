@@ -116,6 +116,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -1357,20 +1358,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             if (applyRules(new ProtocolApproveEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
                     .getProtocolApproveBean()))) {
                 ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
                 getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
-    
+                if (protocolForm.getProtocolDocument().getProtocol().isAmendment() || protocolForm.getProtocolDocument().getProtocol().isRenewal()) {
+                    forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
+                    
+                }
                 getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
                         protocolForm.getProtocolDocument().getProtocol());
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
