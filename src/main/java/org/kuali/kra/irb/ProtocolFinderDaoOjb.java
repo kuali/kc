@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
@@ -29,6 +32,7 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String MAX_SEQUENCE_NUMBER = "max(" + SEQUENCE_NUMBER + ")";
+    private static final String SUBMISSION_NUMBER = "submissionNumber"; 
 
     /**
      * @see org.kuali.kra.irb.ProtocolFinderDao#findCurrentProtocolByNumber(java.lang.String)
@@ -47,4 +51,15 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
 
         return (Protocol) getPersistenceBrokerTemplate().getObjectByQuery(q);
     }
+    
+    public List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber) {
+        
+        Criteria crit = new Criteria();
+        crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
+        crit.addEqualTo(SUBMISSION_NUMBER, submissionNumber);
+        Query q = QueryFactory.newQuery(ProtocolSubmission.class, crit);
+
+        return (List<ProtocolSubmission>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+
 }

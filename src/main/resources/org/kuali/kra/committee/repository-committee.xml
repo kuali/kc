@@ -277,6 +277,9 @@
 		<reference-descriptor name="commScheduleActItem" class-ref="org.kuali.kra.meeting.CommScheduleActItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="commScheduleActItemsIdFk"/>
         </reference-descriptor>
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="scheduleIdFk"/>
+        </reference-descriptor>
 		<reference-descriptor name="protocolReviewer" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolReviewerIdFk"/>
 		</reference-descriptor>

@@ -26,10 +26,10 @@ public interface ProtocolSubmitActionService {
     
     /**
      * Finds all submissions for the given protocolNumber and calculates how many total submissions it has overall.
-     * @param protocolNumber The human-readable protocol number
+     * @param protocol protocol
      * @return the total number of submissions for the given protocolNumber
      */
-    int getTotalSubmissions(String protocolNumber);
+    int getTotalSubmissions(Protocol protocol);
     
     /**
      * Finds all submissions for the given protocolNumber.

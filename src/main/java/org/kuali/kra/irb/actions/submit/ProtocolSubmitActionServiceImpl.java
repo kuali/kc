@@ -97,12 +97,12 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
      */
-    public int getTotalSubmissions(String protocolNumber) {
+    public int getTotalSubmissions(Protocol protocol) {
         int totalSubmissions = 0;
         
-        for (ProtocolSubmission protocolSubmission : getProtocolSubmissions(protocolNumber)) {
+        for (ProtocolSubmission protocolSubmission : getProtocolSubmissions(protocol.getProtocolNumber())) {
             int submissionNumber = protocolSubmission.getSubmissionNumber();
-            if (submissionNumber > totalSubmissions) {
+            if (submissionNumber > totalSubmissions && protocolSubmission.getSequenceNumber() <= protocol.getSequenceNumber()) {
                 totalSubmissions = submissionNumber;
             }
         }
