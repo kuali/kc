@@ -49,7 +49,7 @@
                                             </div>
                                         </th>
                                         <td>
-                                            <kul:htmlControlAttribute property="actionHelper.selectedSubmission.abstainerCount" attributeEntry="${attributes.abstainCount}" readOnly="true" />
+                                            ${fn:length(KualiForm.actionHelper.abstainees)}
                                         </td>
                                         <th> 
                                             <div align="right">
@@ -57,7 +57,7 @@
                                             </div>
                                         </th>
                                         <td>
-                                            <kul:htmlControlAttribute property="actionHelper.selectedSubmission.recusedCount" attributeEntry="${attributes.recusedCount}" readOnly="true" />
+                                            ${fn:length(KualiForm.actionHelper.recusers)}
                                         </td>
                                         <th> 
                                             <div align="right">

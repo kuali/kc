@@ -25,6 +25,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -59,7 +60,8 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     private DocumentService documentService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    
+    private ProtocolFinderDao protocolFinderDao;
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -327,8 +329,8 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
      */
     public List<ProtocolVoteAbstainee> getAbstainers(String protocolNumber, int submissionNumber) {
         List<ProtocolVoteAbstainee> protocolVoteAbstainers = new ArrayList<ProtocolVoteAbstainee>();
-        
-        for (ProtocolSubmission protocolSubmission : protocolSubmitActionService.getProtocolSubmissions(protocolNumber, submissionNumber)) {
+
+        for (ProtocolSubmission protocolSubmission : protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber)) {
             protocolVoteAbstainers.addAll(protocolSubmission.getAbstainers());
         }
         
@@ -342,11 +344,15 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     public List<ProtocolVoteRecused> getRecusers(String protocolNumber, int submissionNumber) {
         List<ProtocolVoteRecused> protocolVoteRecusers = new ArrayList<ProtocolVoteRecused>();
         
-        for (ProtocolSubmission protocolSubmission : protocolSubmitActionService.getProtocolSubmissions(protocolNumber, submissionNumber)) {
+        for (ProtocolSubmission protocolSubmission : protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber)) {
             protocolVoteRecusers.addAll(protocolSubmission.getRecusers());
         }
         
         return protocolVoteRecusers;
+    }
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
     }
     
 }

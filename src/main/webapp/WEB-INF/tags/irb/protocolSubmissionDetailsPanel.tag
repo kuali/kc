@@ -18,13 +18,8 @@
 <c:set var="prevDisabled" value="false" />
 <c:set var="nextDisabled" value="false" />
 <c:set var="tabSubmissionDetails" value="submissionDetails" scope="request"/>
-<c:if test="${KualiForm.actionHelper.currentSubmissionNumber <= 1}">
-    <c:set var="prevDisabled" value="true" />
-</c:if>
-<c:if test="${KualiForm.actionHelper.currentSubmissionNumber == KualiForm.actionHelper.totalSubmissions}">
-    <c:set var="nextDisabled" value="true" />
-</c:if>
-
+    <c:set var="prevDisabled" value="${KualiForm.actionHelper.prevDisabled}" />
+    <c:set var="nextDisabled" value="${KualiForm.actionHelper.nextDisabled}" />
 <kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="Submission Details">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
