@@ -337,22 +337,21 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @param submissionIdFk
      * @return
      */
+    @SuppressWarnings("unchecked")
     private List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
                                                                  Long submissionIdFk) {
         
-        Map<String,Object> hashMap = new HashMap<String,Object>();
-        if (protocolId != null) { 
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        
+        if (protocolId != null && submissionIdFk != null) {
+            Map<String,Object> hashMap = new HashMap<String,Object>();
             hashMap.put("protocolId", protocolId);
-        }
-        if (submissionIdFk != null) { 
             hashMap.put("submissionIdFk", submissionIdFk);
+        
+            reviews.addAll(getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false));
         }
         
-        @SuppressWarnings("unchecked")
-        List<ProtocolOnlineReview> results 
-            = (List<ProtocolOnlineReview>) getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false);
-       
-        return results;
+        return reviews;
         
     }
     
