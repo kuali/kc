@@ -83,6 +83,8 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionEvent;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService;
+import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
+import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
@@ -981,6 +983,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             }
         }
 
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolReviewNotRequiredBean actionBean = protocolForm.getActionHelper().getProtocolReviewNotRequiredBean();
+        if (applyRules(new ProtocolReviewNotRequiredEvent(protocolForm.getProtocolDocument(), actionBean))) {
+            
+        }
+        
+        System.err.println("****************************** Got to protocolReviewNotRequired");
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
