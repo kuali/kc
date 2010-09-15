@@ -55,6 +55,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
+import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
@@ -142,6 +143,7 @@ public class ActionHelper implements Serializable {
     private boolean canModifyProtocolSubmission = false;
     private boolean canIrbAcknowledgement = false;
     private boolean canDefer = false;
+    private boolean canReviewNotRequired = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -175,6 +177,7 @@ public class ActionHelper implements Serializable {
     private IrbAcknowledgementBean irbAcknowledgementBean;
     private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
+    private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
@@ -256,6 +259,7 @@ public class ActionHelper implements Serializable {
         committeeDecision.init();
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
         protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
     }
     
     
@@ -524,6 +528,8 @@ public class ActionHelper implements Serializable {
         canDefer = hasDeferPermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         
+        canReviewNotRequired = hasReviewNotRequiredPermission();
+        
         initSummaryDetails();
         
         initSubmissionDetails();
@@ -722,6 +728,12 @@ public class ActionHelper implements Serializable {
     private boolean hasCanModifySubmissionPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasReviewNotRequiredPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
+        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        return false;
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -1007,6 +1019,10 @@ public class ActionHelper implements Serializable {
     public boolean getCanDefer() {
         return canDefer;
     }
+    
+    public boolean getCanReviewNotRequired() {
+        return this.canReviewNotRequired;
+    }
 
     public void setPrintTag(String printTag) {
         this.printTag = printTag;
@@ -1277,5 +1293,9 @@ public class ActionHelper implements Serializable {
 
     public ProtocolGenericActionBean getProtocolDeferBean() {
         return protocolDeferBean;
+    }
+    
+    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
+        return this.protocolReviewNotRequiredBean;
     }
 }
