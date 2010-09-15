@@ -16,12 +16,12 @@
 package org.kuali.kra.meeting;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -30,77 +30,97 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEvent> {
 
+    private static final String ATTENDANCE_ENTRY_TYPE = "2";
     private static final String PROTOCOL_ENTRY_TYPE = "3";
     private static final String COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE = "4";
 
+    private static final String NEW_COMM_SCHD_MINUTE_ATTENDANCE = "meetingHelper.newCommitteeScheduleMinute.generateAttendance";
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
     private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
     private static final String NEW_COMM_SCHD_MINUTE_ACT_ITEMS = "meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk";
-    
-    private ErrorReporter errorReporter;
 
     /**
-     * 
-     * This method is to validate new committee schedule minute. Make sure entry type of 'protocol' selection is ok.
-     * if entry type is Protocol then 'protocol' is selected. and if protocol contingency code is entered, then
-     * verify this code does exist.
+     * Validates a new committee schedule minute, based on its minute entry type.
      * @param event
      * @return
      */
     public boolean processRules(MeetingAddMinuteEvent event) {
         boolean isValid = true;
-        errorReporter = new ErrorReporter();
         
-        isValid &= validateProtocol(event);
-        isValid &= validateActionItem(event);
+        CommitteeScheduleMinute minute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
+
+        if (ATTENDANCE_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+            List<CommitteeScheduleAttendance> attendances = event.getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleAttendances();
+            isValid &= validateAttendance(minute, attendances);
+        } else if (PROTOCOL_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+            isValid &= validateProtocol(minute);
+        } else if (COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+            List<CommScheduleActItem> items = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems();
+            isValid &= validateActionItem(minute, items);
+        }
+
+        return isValid;
+    }
+    
+    /**
+     * Runs the validation rules a minute of type Attendance
+     * @param committeeScheduleMinute
+     * @param attendances
+     * @return
+     */
+    private boolean validateAttendance(CommitteeScheduleMinute committeeScheduleMinute, List<CommitteeScheduleAttendance> attendances) {
+        boolean isValid = true;
+        
+        if (committeeScheduleMinute.isGenerateAttendance() && attendances.isEmpty()) {
+            reportError(NEW_COMM_SCHD_MINUTE_ATTENDANCE, KeyConstants.ERROR_EMPTY_ATTENDANCE);
+            isValid = false;
+        }
         
         return isValid;
     }
     
-    /*
-     * Runs the validation rules for any existing protocols.
+    /**
+     * Runs the validation rules a minute of type Protocol
+     * @param committeeScheduleMinute
+     * @return
      */
-    private boolean validateProtocol(MeetingAddMinuteEvent event) {
+    private boolean validateProtocol(CommitteeScheduleMinute committeeScheduleMinute) {
         boolean isValid = true;
-        CommitteeScheduleMinute committeeScheduleMinute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
-
-        if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-                && committeeScheduleMinute.getMinuteEntryTypeCode().equals(PROTOCOL_ENTRY_TYPE)) {
-            if (committeeScheduleMinute.getProtocolIdFk() == null) {
-                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
+        
+        if (committeeScheduleMinute.getProtocolIdFk() == null) {
+            reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
+            isValid = false;
+        }
+        if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("protocolContingencyCode", committeeScheduleMinute.getProtocolContingencyCode());
+            if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class, fieldValues) == null) {
+                reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
                 isValid = false;
             }
-            if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
-                Map<String, String> fieldValues = new HashMap<String, String>();
-                fieldValues.put("protocolContingencyCode", committeeScheduleMinute.getProtocolContingencyCode());
-                if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class, fieldValues) == null) {
-                    errorReporter.reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY,
-                            KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
-                    isValid = false;
-                }
-            }
         }
+        
         return isValid;
     }
     
-    /*
-     * Runs the validation rules for any existing action items.
+    /**
+     * Runs the validation rules a minute of type Action Item (Other Business)
+     * @param committeeScheduleMinute
+     * @param commScheduleActItems
+     * @return
      */
-    private boolean validateActionItem(MeetingAddMinuteEvent event) {
+    private boolean validateActionItem(CommitteeScheduleMinute committeeScheduleMinute, List<CommScheduleActItem> commScheduleActItems) {
         boolean isValid = true;
-        CommitteeScheduleMinute committeeScheduleMinute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
-
-        if (StringUtils.isNotBlank(committeeScheduleMinute.getMinuteEntryTypeCode())
-            && committeeScheduleMinute.getMinuteEntryTypeCode().equals(COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE)) {
-            if (event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().isEmpty()) {
-                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
-                isValid = false;
-            }
-            if (committeeScheduleMinute.getCommScheduleActItemsIdFk() == null) {
-                errorReporter.reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
-                isValid = false;
-            }
+        
+        if (commScheduleActItems.isEmpty()) {
+            reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
+            isValid = false;
         }
+        if (committeeScheduleMinute.getCommScheduleActItemsIdFk() == null) {
+            reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
+            isValid = false;
+        }
+        
         return isValid;
     }
 
