@@ -2334,21 +2334,26 @@ function showHideDiv(minuteEntryTypeCode) {
 function generateAttendance(genAtt, noMember, noOther) {
     var comment="";
     if (genAtt.checked) {
-        for (var i = 0; i < noMember; i++) {
-            if (comment != "") {
-                comment = comment +"\n";
-	        }    
-            comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value 
-            if (document.getElementById('alternatePerson['+i+']')) {
-                comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value
-            } 
-        }
-        for (var i = 0; i < noOther; i++) {
-		    if (comment != "") {
-			    comment = comment +"\n";
-		    }    
-	    	comment = comment + document.getElementById('meetingHelper.otherPresentBeans['+i+'].attendance.personName').value  + " Guest";
-	    }
+    	if (noMember > 0 || noOther > 0) {
+	        for (var i = 0; i < noMember; i++) {
+	            if (comment != "") {
+	                comment = comment +"\n";
+		        }    
+	            comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value 
+	            if (document.getElementById('alternatePerson['+i+']')) {
+	                comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value
+	            } 
+	        }
+	        for (var i = 0; i < noOther; i++) {
+			    if (comment != "") {
+				    comment = comment +"\n";
+			    }    
+		    	comment = comment + document.getElementById('meetingHelper.otherPresentBeans['+i+'].attendance.personName').value  + " Guest";
+		    }
+    	} else {
+    		genAtt.checked = false;
+    		alert("Attendance information not saved for this schedule.  Please input attendance information and save schedule details before generating attendance");
+    	}
 
         document.getElementById('meetingHelper.newCommitteeScheduleMinute.minuteEntry').value = comment;
     }
