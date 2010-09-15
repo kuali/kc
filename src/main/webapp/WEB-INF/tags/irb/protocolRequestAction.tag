@@ -54,6 +54,7 @@
             <kra-irb-action:closeAction />
             <kra-irb-action:expireAction />
             <kra-irb-action:terminateAction />
+            <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
 		</c:if>
 	</div>
