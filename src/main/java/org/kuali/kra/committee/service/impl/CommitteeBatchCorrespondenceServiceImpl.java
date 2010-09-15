@@ -31,6 +31,7 @@ import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -66,7 +67,6 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private ProtocolDao protocolDao;
     private ProtocolGenericActionService protocolGenericActionService;
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
-    private CommitteePrintingService committeePrintingService;
     private int finalActionCounter;
 
     /**
@@ -311,7 +311,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         protocolCorrespondence.setActionId(protocolAction.getActionId());
         protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
         
-        AbstractPrint printable = committeePrintingService.getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
+        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
         printable.setPrintableBusinessObject(protocol);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(COMMITTEE_ID, committeeId);
@@ -320,7 +320,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         printable.setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
-        protocolCorrespondence.setCorrespondence(committeePrintingService.print(printableArtifactList).getContent());
+        protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
 
         protocolCorrespondence.setFinalFlag(false);
         
@@ -343,6 +343,10 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         return (BatchCorrespondence) businessObjectService.findByPrimaryKey(BatchCorrespondence.class, fieldValues);
     }
     
+    private CommitteePrintingService getCommitteePrintingService() {
+        return KraServiceLocator.getService(CommitteePrintingService.class);
+    }
+
     /**
      * Populated by Spring Beans.
      * @param businessObjectService
@@ -375,11 +379,4 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
     }
 
-    /**
-     * Populated by Spring Beans.
-     * @param committeePrintingService
-     */
-    public void setCommitteePrintingService(CommitteePrintingService committeePrintingService) {
-        this.committeePrintingService = committeePrintingService;
-    }
 }
