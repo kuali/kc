@@ -1241,8 +1241,24 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
                 mergeOthers(amendment);
             }
         }
+        mergeProtocolSubmission(amendment);
     }
 
+    @SuppressWarnings("unchecked")
+    private void mergeProtocolSubmission(Protocol amendment) {
+        List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) deepCopy(amendment.getProtocolSubmissions());  
+        for (ProtocolSubmission submission : submissions) {
+            submission.setProtocolNumber(this.getProtocolNumber());
+            submission.setSubmissionId(null);
+            submission.setSequenceNumber(sequenceNumber);
+            submission.setProtocolId(this.getProtocolId());
+          //  submission.setSubmissionNumber(this.getProtocolSubmissions().size() + 1);
+            this.getProtocolSubmissions().add(submission);
+            //how about meting data
+            // online review data
+        }
+    }
+    
     private void mergeGeneralInfo(Protocol amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
         this.title = amendment.getTitle();

@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.List;
+
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+
 /**
  * The ProtocolFinderDao is used to find protocols.
  */
@@ -27,4 +31,6 @@ public interface ProtocolFinderDao {
      * @return the protocol or null if not found
      */
     Protocol findCurrentProtocolByNumber(String protocolNumber);
+    
+    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
 }

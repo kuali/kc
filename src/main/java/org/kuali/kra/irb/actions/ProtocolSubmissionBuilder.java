@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -57,7 +58,7 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setProtocolId(protocol.getProtocolId());
         protocolSubmission.setProtocolNumber(protocol.getProtocolNumber());
         protocolSubmission.setSequenceNumber(protocol.getSequenceNumber());
-        protocolSubmission.setSubmissionNumber(protocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY));
+        protocolSubmission.setSubmissionNumber(getNextSubmissionNumber(protocol));
         
         protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
@@ -70,6 +71,25 @@ public class ProtocolSubmissionBuilder {
          * this will need to be changed in future development
          */
         protocolSubmission.setSubmissionStatusCode("100");
+    }
+    
+    private Integer getNextSubmissionNumber(Protocol protocol) {
+        Integer nextSubmissionNumber;
+        if (protocol.isAmendment() || protocol.isRenewal()) {
+            String origProtocolNumber = protocol.getProtocolNumber();
+            String protocolNumber = origProtocolNumber.substring(0, 10);
+            Protocol origProtocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            nextSubmissionNumber = origProtocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);            
+            getBusinessObjectService().save(origProtocol.getProtocolDocument().getDocumentNextvalues());
+            
+        } else {
+            nextSubmissionNumber = protocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);
+        }
+        return nextSubmissionNumber;
+    }
+    
+    private ProtocolFinderDao getProtocolFinderDao() {
+        return KraServiceLocator.getService(ProtocolFinderDao.class);    
     }
     
     private void setValuesFromOldSubmission(ProtocolSubmission newSubmission, ProtocolSubmission oldSubmission) {
