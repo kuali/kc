@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -40,7 +40,9 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     private BusinessObjectService businessObjectService;
     
     private CommitteeScheduleService committeeScheduleService;
-    
+    private CommitteeService committeeService;
+    private ProtocolFinderDao protocolFinderDao;
+   
     /**
      * Set the Business Object Service.
      * @param businessObjectService BusinessObjectService
@@ -65,16 +67,18 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     public List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinute> reviewerComments = new ArrayList<CommitteeScheduleMinute>();
         
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolNumber", protocolNumber);
-        fieldValues.put("submissionNumber", submissionNumber);
-        Collection<ProtocolSubmission> protocolSubmissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("protocolNumber", protocolNumber);
+//        fieldValues.put("submissionNumber", submissionNumber);
+//        Collection<ProtocolSubmission> protocolSubmissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
+        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
         
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
             if (protocolSubmission.getCommitteeScheduleMinutes() != null) {
                 for (CommitteeScheduleMinute minute : protocolSubmission.getCommitteeScheduleMinutes()) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
-                    if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode)) {
+                    // need to check current minute entry; otherwise may have minutes from previous version comittee
+                    if (MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) && isCurrentMinuteEntry(minute)) {
                         reviewerComments.add(minute);
                     }
                 }
@@ -82,6 +86,15 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         }
         
         return reviewerComments;
+    }
+    
+    /*
+     * when version committee, the minutes also versioned.  This is to get the current one.
+     */
+    private boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
+        minute.refreshReferenceObject("committeeSchedule");
+        Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId()) ;
+        return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
     }
     
     /** {@inheritDoc} */
@@ -142,5 +155,14 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
            minute.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
         }
         persistReviewerComments(reviewComments, protocol );
+    }
+
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
+    }
+
+    public void setCommitteeService(CommitteeService committeeService) {
+        this.committeeService = committeeService;
     }
 }

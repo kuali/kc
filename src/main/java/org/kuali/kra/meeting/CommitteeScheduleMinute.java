@@ -23,10 +23,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -59,6 +59,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private ProtocolContingency protocolContingency;
     private MinuteEntryType minuteEntryType;
     private CommScheduleActItem commScheduleActItem;
+    private CommitteeSchedule committeeSchedule;
     private ProtocolReviewer protocolReviewer;
     private String createUser;
     private Timestamp createTimestamp;
@@ -460,6 +461,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      */
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
+    }
+
+    public CommitteeSchedule getCommitteeSchedule() {
+        return committeeSchedule;
+    }
+
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+        this.committeeSchedule = committeeSchedule;
     }
     
     

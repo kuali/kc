@@ -19,12 +19,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -69,7 +66,6 @@ import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.service.KcPersonService;
@@ -178,7 +174,8 @@ public class ActionHelper implements Serializable {
     private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
-    
+    private boolean prevDisabled;
+    private boolean nextDisabled;
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
     private transient ProtocolAmendRenewService protocolAmendRenewService;
@@ -1158,7 +1155,14 @@ public class ActionHelper implements Serializable {
         if (currentSubmissionNumber <= 0) {
             protocolSubmission = getProtocol().getProtocolSubmission();
         } else if (currentSubmissionNumber > 0) {
-            protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
+            // For amendment/renewal, the submission number are not starting at 1
+            //protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
+            for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+                if (submission.getSubmissionNumber().intValue() == currentSubmissionNumber) {
+                    protocolSubmission = submission;
+                    break;
+                }
+            }
         }
         
         return protocolSubmission;
@@ -1224,7 +1228,7 @@ public class ActionHelper implements Serializable {
     }
     
     public int getTotalSubmissions() {
-        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol().getProtocolNumber());
+        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
     }
     
     /**
@@ -1266,12 +1270,41 @@ public class ActionHelper implements Serializable {
             currentSubmissionNumber = getTotalSubmissions();
         }
 
-        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        if (CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions()) && getProtocol().getProtocolSubmissions().size() > 1) {
+            setPrevNextFlag();
+        } else {
+            setPrevDisabled(true);
+            setNextDisabled(true);
+        }
+        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
+                currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
     }
 
+
+    private void setPrevNextFlag() {
+        int maxSubmissionNumber = 0;
+        int minSubmissionNumber = 0;
+        setPrevDisabled(false);
+        setNextDisabled(false);
+
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            if (submission.getSubmissionNumber() > maxSubmissionNumber) {
+                maxSubmissionNumber = submission.getSubmissionNumber();
+            }
+            if (submission.getSubmissionNumber() < minSubmissionNumber || minSubmissionNumber == 0) {
+                minSubmissionNumber = submission.getSubmissionNumber();
+            }
+        }
+        if (currentSubmissionNumber == minSubmissionNumber) {
+            setPrevDisabled(true);
+        }
+        if (currentSubmissionNumber == maxSubmissionNumber) {
+            setNextDisabled(true);
+        }
+    }
 
     public List<ProtocolVoteRecused> getRecusers() {
         return recusers;
@@ -1294,8 +1327,28 @@ public class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolDeferBean() {
         return protocolDeferBean;
     }
+
     
     public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
         return this.protocolReviewNotRequiredBean;
+    }
+
+    public boolean isPrevDisabled() {
+        return prevDisabled;
+    }
+
+
+    public void setPrevDisabled(boolean prevDisabled) {
+        this.prevDisabled = prevDisabled;
+    }
+
+
+    public boolean isNextDisabled() {
+        return nextDisabled;
+    }
+
+
+    public void setNextDisabled(boolean nextDisabled) {
+        this.nextDisabled = nextDisabled;
     }
 }
