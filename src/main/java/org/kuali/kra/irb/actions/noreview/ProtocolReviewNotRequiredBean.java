@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.irb.actions.noreview;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * This class manages the HTML Elements needed for the review not required pangel.
  */
-public class ProtocolReviewNotRequiredBean {
+public class ProtocolReviewNotRequiredBean implements Serializable {
+    
+    private static final long serialVersionUID = 2893460587032699149L;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());
