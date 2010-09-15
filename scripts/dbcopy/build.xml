@@ -96,46 +96,42 @@
 	<target name="mysql-embedded" depends="mysql-embedded-client, mysql-embedded-server" description="updates the embedded client and server databases"/>
 	
 	<target name="mysql-embedded-client" depends="mysql-init" description="updates the embedded client database">
-        <exec executable="${mysql.location}" dir="mysql">
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_client.sql">
             <arg value="-b"/>
         	<arg value="-n"/>
         	<arg value="-f"/>
         	<arg value="-u${emb.client.username}"/>
         	<arg value="-p${emb.client.password}"/>
-        	<arg line="-e&quot;source mysql_client.sql&quot;"/>
         </exec>
     </target>
 	
 	<target name="mysql-embedded-server" depends="mysql-init" description="updates the embedded server database">
-        <exec executable="${mysql.location}" dir="mysql">
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_server.sql">
             <arg value="-b"/>
         	<arg value="-n"/>
         	<arg value="-f"/>
         	<arg value="-u${emb.server.username}"/>
         	<arg value="-p${emb.server.password}"/>
-        	<arg line="-e&quot;source mysql_server.sql&quot;"/>
         </exec>
     </target>
 	
 	<target name="mysql-bundled" depends="mysql-init" description="updates the bundled database">
-        <exec executable="${mysql.location}" dir="mysql">
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_bundled.sql">
             <arg value="-b"/>
         	<arg value="-n"/>
         	<arg value="-f"/>
         	<arg value="-u${bun.username}"/>
         	<arg value="-p${bun.password}"/>
-        	<arg line="-e&quot;source mysql_bundled.sql&quot;"/>
         </exec>
     </target>
 	
 	<target name="mysql-test" depends="mysql-init" description="updates the unit test database">
-        <exec executable="${mysql.location}" dir="mysql">
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_test.sql">
             <arg value="-b"/>
         	<arg value="-n"/>
         	<arg value="-f"/>
         	<arg value="-u${tst.username}"/>
         	<arg value="-p${tst.password}"/>
-        	<arg line="-e&quot;source mysql_test.sql&quot;"/>
         </exec>
 	</target>
 	
