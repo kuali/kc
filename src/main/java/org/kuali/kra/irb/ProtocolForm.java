@@ -156,7 +156,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, submission);
             boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
-            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
+            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-PROTOCOL", "IRB Administrator"); 
             onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
         }
         

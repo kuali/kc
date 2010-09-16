@@ -69,7 +69,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     private static final String COMM_SCHEDULE_MINUTES_FIELD = "COMM_SCHEDULE_MINUTES_ID";
     private static final String ENTRY_NUMBER_FIELD = "ENTRY_NUMBER";
     private static final String SUBMISSION_ID_FIELD = "SUBMISSION_ID_FK";
-    
+    private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
     private BusinessObjectService businessObjectService;
 
     private ScheduleService scheduleService;
@@ -326,7 +326,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      */
     public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(COMM_SCHEDULE_MINUTES_FIELD, committeeScheduleId);
+        fieldValues.put(COMM_SCHEDULE_MINUTES_ID_PROPERTY, committeeScheduleId);
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
         if(minutes.size() == 1){
             return minutes.get(0);
