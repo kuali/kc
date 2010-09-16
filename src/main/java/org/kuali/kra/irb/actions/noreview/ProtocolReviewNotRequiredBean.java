@@ -23,7 +23,10 @@ import java.sql.Date;
  */
 public class ProtocolReviewNotRequiredBean implements Serializable {
     
-    private static final long serialVersionUID = 2893460587032699149L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4332595416119188156L;
     
     private String comments = "";
     private Date actionDate = new Date(System.currentTimeMillis());

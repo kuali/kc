@@ -432,6 +432,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRuleTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceTest.class,
     org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredRuleTest.class,
+    org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredServiceTest.class,
     org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRuleTest.class,
     org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceTest.class
 })
