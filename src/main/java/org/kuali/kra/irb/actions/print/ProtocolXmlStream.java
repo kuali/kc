@@ -64,8 +64,9 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
 
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
     private KcPersonService kcPersonService;
-    private CommitteeXmlStream committeeXmlStream;
     private ScheduleXmlStream scheduleXmlStream;
+    private CommitteeXmlStream committeeXmlStream;
+
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
@@ -236,15 +237,14 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         }
         if (submissionInfoBean.getCommitteeId() != null) {
             Committee committee = submissionInfoBean.getCommittee();
-
-            committeeXmlStream.setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
-            committeeXmlStream.setCommitteeMembers(committee, submission);
+            getCommitteeXmlStream().setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
+            getCommitteeXmlStream().setCommitteeMembers(committee, submission);
         }
 
         if (submissionInfoBean.getScheduleId() != null) {
-            scheduleXmlStream.setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
+            getScheduleXmlStream().setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
             NextSchedule nextSchedule = submission.addNewNextSchedule();
-            scheduleXmlStream.setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
+            getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
         }
     }
 
@@ -394,7 +394,6 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());
-        protocolMaster.setDocumentNumber(protocol.getProtocolDocument().getDocumentNumber());
 
         if (protocol.getSubmissionDate() != null) {
             protocolMaster.setApplicationDate(getDateTimeService().getCalendar(protocol.getSubmissionDate()));
@@ -467,12 +466,36 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         this.kcPersonService = kcPersonService;
     }
 
-    public void setCommitteeXmlStream(CommitteeXmlStream committeeXmlStream) {
-        this.committeeXmlStream = committeeXmlStream;
-    }
-
+    /**
+     * Sets the scheduleXmlStream attribute value.
+     * @param scheduleXmlStream The scheduleXmlStream to set.
+     */
     public void setScheduleXmlStream(ScheduleXmlStream scheduleXmlStream) {
         this.scheduleXmlStream = scheduleXmlStream;
+    }
+
+    /**
+     * Gets the scheduleXmlStream attribute. 
+     * @return Returns the scheduleXmlStream.
+     */
+    public ScheduleXmlStream getScheduleXmlStream() {
+        return scheduleXmlStream;
+    }
+
+    /**
+     * Sets the committeeXmlStream attribute value.
+     * @param committeeXmlStream The committeeXmlStream to set.
+     */
+    public void setCommitteeXmlStream(CommitteeXmlStream comitteeXmlStream) {
+        this.committeeXmlStream = comitteeXmlStream;
+    }
+
+    /**
+     * Gets the committeeXmlStream attribute. 
+     * @return Returns the committeeXmlStream.
+     */
+    public CommitteeXmlStream getCommitteeXmlStream() {
+        return committeeXmlStream;
     }
 
 }

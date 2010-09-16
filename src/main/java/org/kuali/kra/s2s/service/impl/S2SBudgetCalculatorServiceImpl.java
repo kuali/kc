@@ -617,7 +617,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 			bpData.setCostSharingAmount(budgetPeriod.getCostSharingAmount());
 			bpData.setTotalDirectCostSharing(totalDirectCostSharing);
 			bpData.setTotalIndirectCostSharing(totalCalculatedCostSharing);
-			bpData.setCognizantFedAgency(getCognizantFedAgency(pdDoc));
+			bpData.setCognizantFedAgency(s2SUtilService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
 			bpData.setIndirectCosts(getInDirectCosts(budget, budgetPeriod));
 			bpData.setEquipment(getEquipment(budgetPeriod));
@@ -1000,43 +1000,6 @@ public class S2SBudgetCalculatorServiceImpl implements
 
 		otherPersonnelInfo.setCompensation(compensationInfo);
 		return otherPersonnelInfo;
-	}
-
-	/**
-	 * 
-	 * This method gets the Federal Agency for the given
-	 * {@link ProposalDevelopmentDocument}
-	 * 
-	 * @param pdDoc
-	 *            Proposal Development Document.
-	 * @return {@link String} Federal Agency
-	 */
-	private String getCognizantFedAgency(ProposalDevelopmentDocument pdDoc) {
-		StringBuilder fedAgency = new StringBuilder();
-		if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null
-				&& pdDoc.getDevelopmentProposal().getApplicantOrganization()
-						.getRolodex() != null) {
-			Rolodex rolodex = pdDoc.getDevelopmentProposal()
-					.getApplicantOrganization().getRolodex();
-			fedAgency.append(rolodex.getOrganization());
-			fedAgency.append(", ");
-			fedAgency.append(rolodex.getFirstName());
-			fedAgency.append(" ");
-			fedAgency.append(rolodex.getLastName());
-			fedAgency.append(" ");
-			if (rolodex.getPhoneNumber() != null) {
-				if (rolodex.getPhoneNumber().length() < 180) {
-					fedAgency.append(rolodex.getPhoneNumber());
-				} else {
-					fedAgency
-							.append(rolodex.getPhoneNumber().substring(0, 180));
-				}
-			}
-		}
-		if (fedAgency.toString().length() == 0) {
-			fedAgency.append(S2SConstants.VALUE_UNKNOWN);
-		}
-		return fedAgency.toString();
 	}
 
 	/**
