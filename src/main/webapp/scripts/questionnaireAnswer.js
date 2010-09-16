@@ -48,7 +48,7 @@
     /*
      * go thru each question. if display flag is 'N', then hide this question/
      */
-    $('table[@id^=table-parent-]').each(
+    $('table[id^=table-parent-]').each(
 			function() {
 			    if ($(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
 				    $(this).hide();
@@ -78,7 +78,7 @@
             var headerIdx = $(qn).attr("id").substring($(qn).attr("id").indexOf("-",7)+1);
             var responseDiv = $(answer).parents('div[class^=Qresponsediv]');
             var prefix = "table-parent-"+headerIdx+"-"+idx;
-           $("table[@id^="+prefix+"-]").each(                           
+           $("table[id^="+prefix+"-]").each(                           
         			function() {
                         var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
                         var qidx = $(this).attr("id").substring(prefix.length+1);
@@ -117,7 +117,7 @@
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[@id^="+prefix+"-]").each(                           
+        $("table[id^="+prefix+"-]").each(                           
     			function() {
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
                     if (isNaN(conditionDiv.children('input:eq(1)').attr("value"))) {
@@ -138,7 +138,7 @@
     	var prefix = "table-parent-"+parentIndicator;
     	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
     	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $("table[@id^="+prefix+"-]").each(                           
+        $("table[id^="+prefix+"-]").each(                           
     			function() {
               		$(this).hide();
                     var conditionDiv = $("#"+$(this).attr("id")+" .condition:nth(0)");
