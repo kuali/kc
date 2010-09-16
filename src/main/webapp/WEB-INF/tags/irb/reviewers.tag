@@ -30,33 +30,33 @@
                                        <th width="40%">Reviewer</th>
                                        <th width="10%">Type</th>
                                     </tr>
-                                    <c:forEach items="${KualiForm.actionHelper.selectedSubmission.protocolReviewers}" var="reviewer" varStatus="status">
+                                    <c:forEach items="${KualiForm.actionHelper.protocolReviewers}" var="reviewer" varStatus="status">
                                         <c:if test="${status.index % 2 == 0}"  >
                                             <tr>
                                                 <td align="left" valign="middle" >
                                                     <div align="left">
-                                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.protocolReviewers[${status.index}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
+                                                        <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
                                                     </div>
                                                 </td>
 
                                                 <td align="left" valign="middle" >
                                                     <div align="left">
-                                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.protocolReviewers[${status.index}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
-                                                            readOnlyAlternateDisplay="${KualiForm.actionHelper.selectedSubmission.protocolReviewers[status.index].protocolReviewerType.description}" readOnly="true"/>
+                                                        <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
+                                                            readOnlyAlternateDisplay="${KualiForm.actionHelper.protocolReviewers[status.index].protocolReviewerType.description}" readOnly="true"/>
                                                     </div>
                                                 </td>
 
-                                                <c:if test="${fn:length(KualiForm.actionHelper.selectedSubmission.protocolReviewers) >  status.index+1}">       
+                                                <c:if test="${fn:length(KualiForm.actionHelper.protocolReviewers) >  status.index+1}">       
                                                     <td align="left" valign="middle">
                                                         <div align="left">
-                                                            <kul:htmlControlAttribute property="actionHelper.selectedSubmission.protocolReviewers[${status.index+1}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
+                                                            <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
                                                         </div>
                                                     </td>
 
                                                     <td align="left" valign="middle">
                                                         <div align="left">
-                                                            <kul:htmlControlAttribute property="actionHelper.selectedSubmission.protocolReviewers[${status.index+1}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
-                                                            readOnlyAlternateDisplay="${KualiForm.actionHelper.selectedSubmission.protocolReviewers[status.index+1].protocolReviewerType.description}" readOnly="true"/>
+                                                            <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
+                                                            readOnlyAlternateDisplay="${KualiForm.actionHelper.protocolReviewers[status.index+1].protocolReviewerType.description}" readOnly="true"/>
                                                         </div>
                                                     </td>
 
