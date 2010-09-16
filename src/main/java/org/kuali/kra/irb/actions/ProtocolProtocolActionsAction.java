@@ -886,7 +886,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        actionHelper.setCurrentSubmissionNumber(actionHelper.getCurrentSubmissionNumber() - 1);
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -906,7 +906,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        actionHelper.setCurrentSubmissionNumber(actionHelper.getCurrentSubmissionNumber() + 1);
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(MAPPING_BASIC);
     }

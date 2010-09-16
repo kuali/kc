@@ -19,6 +19,7 @@ package org.kuali.kra.irb.actions.reviewcomments;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
@@ -34,5 +35,6 @@ public interface ReviewerCommentsService {
     
     void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
     void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
+    List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
 
 }
