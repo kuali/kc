@@ -65,14 +65,9 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService#getReviewerComments(java.lang.String, int)
      */
-    @SuppressWarnings("unchecked")
     public List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinute> reviewerComments = new ArrayList<CommitteeScheduleMinute>();
         
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("protocolNumber", protocolNumber);
-//        fieldValues.put("submissionNumber", submissionNumber);
-//        Collection<ProtocolSubmission> protocolSubmissions = businessObjectService.findMatching(ProtocolSubmission.class, fieldValues);
         List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
         
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
@@ -90,6 +85,10 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         return reviewerComments;
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService#getProtocolReviewers(java.lang.String, int)
+     */
     public List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber) {
         List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
 

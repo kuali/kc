@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,7 +33,6 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.ProtocolReviewerBase;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -71,7 +69,6 @@ import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1222,24 +1219,12 @@ public class ActionHelper implements Serializable {
         return KraServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
-    /*
-     * Utility method to check if reviewer matched committee member
-     */
-   private boolean isReviewerMatchedMember(CommitteeMembership member, ProtocolReviewerBase reviewer) {
-       if( reviewer == null || member == null ) return false;
-       return reviewer.isProtocolReviewerFromCommitteeMembership(member);
-    }
-
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
         
         return this.kcPersonService;
-    }
-
-    private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);    
     }
     
     public int getCurrentSubmissionNumber() {
@@ -1308,6 +1293,12 @@ public class ActionHelper implements Serializable {
 
     }
     
+    /**
+     * 
+     * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
+     * If multiple amendment/renewal are submitted, but approved not according to submission order.  Then we may have gaping submission number.
+     * @return
+     */
     public int getPrevSubmissionNumber() {
         List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
         Integer submissionNumber = currentSubmissionNumber - 1;
@@ -1323,6 +1314,11 @@ public class ActionHelper implements Serializable {
 
     }
     
+    /**
+     * 
+     * This method is to get next submissionnumber
+     * @return
+     */
     public int getNextSubmissionNumber() {
         List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
         int maxSubmissionNumber = 0;
@@ -1345,6 +1341,9 @@ public class ActionHelper implements Serializable {
 
     }
 
+    /*
+     * this returns a list of submission numbers for a protocol.
+     */
     private List<Integer> getAvailableSubmissionNumbers() {
         List<Integer> submissionNumbers = new ArrayList<Integer>();
         for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
@@ -1354,6 +1353,9 @@ public class ActionHelper implements Serializable {
     }
 
 
+    /*
+     * utility method to set whether to display next or previous button on submission panel.
+     */
     private void setPrevNextFlag() {
         int maxSubmissionNumber = 0;
         int minSubmissionNumber = 0;
