@@ -310,6 +310,9 @@
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolDeferAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolDefer" />
+                </bean>
+                <bean class="org.kuali.kra.irb.auth.ProtocolReviewNotRequiredAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolReviewNotRequired" />
                 </bean>    
             </list>
         </property>
@@ -593,6 +596,11 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+    </bean>
+    
+    <bean id="protocolReviewNotRequiredService" class="org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolModifySubmissionService" class="org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceImpl">
