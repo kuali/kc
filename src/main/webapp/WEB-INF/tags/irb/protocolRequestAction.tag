@@ -33,6 +33,7 @@
             <kra-irb-action:recordCommitteeDecisionAction />
             <kra-irb-action:deferAction />
             <kra-irb-action:expediteApprovalAction />
+            <kra-irb-action:responseApprovalAction />
             <kra-irb-action:notifyIrbAction />
             <kra-irb-action:irbAcknowledgement />
             <kra-irb-action:createAmendmentAction />

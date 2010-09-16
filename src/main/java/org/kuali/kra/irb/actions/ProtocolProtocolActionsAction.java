@@ -91,6 +91,9 @@ import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestEvent;
 import org.kuali.kra.irb.actions.request.ProtocolRequestService;
+import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalEvent;
+import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRule;
+import org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.risklevel.ProtocolAddRiskLevelEvent;
@@ -1371,6 +1374,105 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpediteApprovalBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    
+    /**
+     * Approves a protocol for a Response Review Type.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward approveResponse(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
+        
+        if (applyRules(new ProtocolResponseApprovalEvent<ProtocolResponseApprovalRule>(document, actionBean))) {
+            getProtocolResponseApprovalService().approveResponse(document.getProtocol(), actionBean);
+            getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), document.getProtocol());
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Adds a Review Comment to a protocol in a Response Approval action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
+        
+        actionBean.getReviewComments().setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        
+        return addReviewComment(mapping, actionBean.getReviewComments(), protocolForm.getProtocolDocument());
+    }
+    
+    /**
+     * Deletes a Review Comment to a protocol in a Response Approval action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
+        
+        return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    /**
+     * Moves a Review Comment up one in a protocol in a Response Approval action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward moveUpResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
+        
+        return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
+    }
+    
+    /**
+     * Moves a Review Comment down one in a protocol in a Response Approval action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward moveDownResponseApprovalReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
+        
+        return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }    
     
     @Override
@@ -1887,6 +1989,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * Adds a Risk Level to a protocol in an Response Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward addResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        
+        addRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), actionHelper.getProtocol(), 
+                Constants.PROTOCOL_EXPEDITED_APPROVAL_ENTER_RISK_LEVEL_KEY);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /*
      * Applies add rules to all risk levels from both types of approval actions
      */
@@ -1942,6 +2066,29 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * Updates a persisted Risk Level in a protocol for a Response Approval action, 
+     * moving the persisted risk level to Inactive status and adding a new Active status risk level.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward updateResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+
+        updateRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), protocolForm.getProtocolDocument(), 
+                actionHelper.getProtocol(), getSelectedLine(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /*
      * Applies update rules to all risk levels from both types of approval actions
      */
@@ -1989,6 +2136,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         
         deleteRiskLevel(actionHelper.getProtocolExpediteApprovalBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
+    /**
+     * Deletes a Risk Level from a protocol in a Response Approval action.
+     * 
+     * @param mapping Struts action mapping
+     * @param form Form associated with this action
+     * @param request Raw HTTP Request
+     * @param response Raw HTTP Response
+     * @return The mapping for the next page
+     * @throws Exception
+     */
+    public ActionForward deleteResponseApprovalRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        
+        deleteRiskLevel(actionHelper.getProtocolResponseApprovalBean().getProtocolRiskLevelBean(), actionHelper.getProtocol(), getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -2307,6 +2476,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ProtocolExpediteApprovalService getProtocolExpediteApprovalService() {
         return KraServiceLocator.getService(ProtocolExpediteApprovalService.class);
+    }
+    
+    private ProtocolResponseApprovalService getProtocolResponseApprovalService() {
+        return KraServiceLocator.getService(ProtocolResponseApprovalService.class);
     }
     
     private ProtocolApproveService getProtocolApproveService() {
