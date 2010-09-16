@@ -21,16 +21,16 @@ import org.kuali.kra.budget.BudgetDecimal;
 
 public class CompensationInfo {
 
-    private BudgetDecimal calendarMonths;
-    private BudgetDecimal academicMonths;
-    private BudgetDecimal summerMonths;
-    private BudgetDecimal requestedSalary;
-    private BudgetDecimal fringe;
-    private BudgetDecimal fundsRequested;
-    private BudgetDecimal baseSalary;
-    private BudgetDecimal costSharingAmount;
-    private BudgetDecimal fringeCostSharing;
-    private BudgetDecimal nonFundsRequested;
+    private BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
+    private BudgetDecimal academicMonths = BudgetDecimal.ZERO;
+    private BudgetDecimal summerMonths = BudgetDecimal.ZERO;
+    private BudgetDecimal requestedSalary = BudgetDecimal.ZERO;
+    private BudgetDecimal fringe = BudgetDecimal.ZERO;
+    private BudgetDecimal fundsRequested = BudgetDecimal.ZERO;
+    private BudgetDecimal baseSalary = BudgetDecimal.ZERO;
+    private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+    private BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
+    private BudgetDecimal nonFundsRequested = BudgetDecimal.ZERO;
 
 
     public CompensationInfo() {

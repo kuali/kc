@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
@@ -279,6 +280,15 @@ public interface S2SUtilService {
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc);
     
     public BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
-
+    /**
+     * 
+     * This method gets the Federal Agency for the given
+     * {@link DevelopmentProposal}
+     * 
+     * @param pdDoc
+     *            Proposal Development Document.
+     * @return {@link String} Federal Agency
+     */
+    public String getCognizantFedAgency(DevelopmentProposal developmentProposal);
 
 }

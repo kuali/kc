@@ -485,6 +485,13 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
+        <xs:element name="DocumentNumber">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:maxLength value="20" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
         <xs:element name="SequenceNumber" type="xs:integer" />
         <xs:element name="ProtocolTypeCode" type="xs:integer" />
         <xs:element name="ProtocolTypeDesc">
