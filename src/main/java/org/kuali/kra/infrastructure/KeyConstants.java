@@ -710,6 +710,7 @@ public final class KeyConstants {
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
    
     // Questionnaire
+    public static final String ERROR_QUESTION_STATUS_IN_USE = "error.question.status.in.use";
     public static final String ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED = "error.question.response.type.not.specified";
     public static final String ERROR_QUESTION_RESPONSE_TYPE_INVALID = "error.question.response.type.invalid";
     public static final String ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES = "error.question.displayed.answers.invalid.boxes";

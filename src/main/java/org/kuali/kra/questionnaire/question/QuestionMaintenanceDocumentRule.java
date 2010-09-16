@@ -110,9 +110,28 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument maintenanceDocument) {
         boolean isValid = true;
 
+        isValid &= validateQuestionUsage(maintenanceDocument);
         isValid &= validateQuestionResponseType(maintenanceDocument);
 
         return isValid;
+    }
+
+    /**
+     * This method validates the question status.  The status can not be inactive when a questionnaire is
+     * using the question.
+     * @param maintenanceDocument - the maintenance document of the question to be validated
+     * @return true if all validation has passed, false otherwise
+     */
+    private boolean validateQuestionUsage(MaintenanceDocument maintenanceDocument) {
+        Question question = (Question) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+
+        if (!question.getStatus().equals("A") && getQuestionService().isQuestionUsed(question.getQuestionId())) {
+            GlobalVariables.getErrorMap().putError(Constants.QUESTION_DOCUMENT_FIELD_STATUS,
+                    KeyConstants.ERROR_QUESTION_STATUS_IN_USE);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -378,6 +397,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     
     private CustomAttributeService getCustomAttributeService() {
         return KraServiceLocator.getService(CustomAttributeService.class);
+    }
+    
+    private QuestionService getQuestionService() {
+        return KraServiceLocator.getService(QuestionService.class);
     }
 
 }

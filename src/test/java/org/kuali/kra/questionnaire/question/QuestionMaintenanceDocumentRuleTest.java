@@ -64,6 +64,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidYesNoQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_YES_NO);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -78,6 +79,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidYesNoNaQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -92,6 +94,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidNumberQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_NUMBER);
+        question.setStatus("A");
         question.setDisplayedAnswers(1);
         question.setAnswerMaxLength(10);
         question.setMaxAnswers(1);
@@ -109,6 +112,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testNumberMissingData() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_NUMBER);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -127,6 +131,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidDateQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_DATE);
+        question.setStatus("A");
         question.setDisplayedAnswers(1);
         question.setMaxAnswers(1);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
@@ -143,6 +148,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testDateMissingData() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_DATE);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -160,6 +166,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidTextQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_TEXT);
+        question.setStatus("A");
         question.setDisplayedAnswers(1);
         question.setAnswerMaxLength(10);
         question.setMaxAnswers(1);
@@ -177,6 +184,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testTextMissingData() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_TEXT);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -195,6 +203,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testValidLookupQuestion() throws Exception {
         Question question = new Question();
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
+        question.setStatus("A");
         question.setLookupClass("org.kuali.kra.proposaldevelopment.bo.AbstractType");
         question.setLookupReturn("abstractTypeCode");
         question.setMaxAnswers(1);
@@ -213,6 +222,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         Question question = new Question();
         question.setQuestionId(1);
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -231,6 +241,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testInvalidLookupReturn() throws Exception {
         Question question = new Question();
         question.setQuestionId(1);
+        question.setStatus("A");
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
         question.setLookupClass("org.kuali.kra.proposaldevelopment.bo.AbstractType");
         question.setLookupReturn("eomProcessFlag");
@@ -251,6 +262,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testMissingQuestionResponseType() throws Exception {
         Question question = new Question();
         question.setQuestionId(1);
+        question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 
@@ -266,6 +278,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     @Test
     public void testInvalidQuestionResponseType() throws Exception {
         Question question = new Question();
+        question.setStatus("A");
         question.setQuestionId(1);
         question.setQuestionTypeId(999);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
