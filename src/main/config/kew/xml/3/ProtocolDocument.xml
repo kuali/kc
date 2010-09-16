@@ -69,6 +69,9 @@
 				<qualifier name="protocol">
 					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/protocolNumber[1]</xPathExpression>
 				</qualifier>
+				<qualifier name="unitNumber">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
+				</qualifier>
 			</resolverConfig>
 		</ruleAttribute>
 		
