@@ -35,7 +35,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -142,13 +141,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
             if (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().before(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) {
+                valid=false;
                 GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
             }
-            
         }
         
+        if( StringUtils.isEmpty(protocolForm.getOnlineReviewsActionHelper().getNewReviewerTypeCode())) {
+            valid=false;
+            GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewerTypeCode", "error.protocol.onlinereview.create.protocolReviewerTypeCode", new String[0]);
+        }
         
-           return valid;        
+        return valid;        
     }
     
   
@@ -296,11 +299,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc,reviewComments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
         boolean statusIsOk = false;
         
-        if( validComments && prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId())
-            && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
+        if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
-            
-            if(!StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
+            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId()) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
                 Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -315,8 +316,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 else
                 {
                     prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
-                    statusIsOk = true;
+                    getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
                     documentService.saveDocument(prDoc);
+                    statusIsOk = true;
                 }
             } else {
                 statusIsOk = true;

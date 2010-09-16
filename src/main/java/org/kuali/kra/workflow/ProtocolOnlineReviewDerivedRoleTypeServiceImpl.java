@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -94,6 +93,13 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    @Override
+    public List<String> getQualifiersForExactMatch() {
+        ArrayList<String> quals = new ArrayList<String>();
+        quals.add("protocol");
+        quals.add("protocolOnlineReview");
+        return quals;
     }
     
 }

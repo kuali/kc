@@ -66,6 +66,7 @@ public interface PermissionConstants {
     public static final String MODIFY_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";
     public static final String VIEW_PROTOCOL_ONLINE_REVIEW = "View Protocol Online Review";
     public static final String MAINTAIN_PROTOCOL_ONLINE_REVIEW = "Maintain Protocol Online Review";
+    public static final String MAINTAIN_PROTOCOL_ONLINE_REVIEW_COMMENTS = "Maintain Protocol Online Review Comments";
     public static final String ADD_PROTOCOL_ONLINE_REVIEW_COMMENT = "Add Protocol Online Review Comment";
     
     

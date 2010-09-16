@@ -63,7 +63,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
             }
             
             if( canExecuteProtocolTask(userId,protocolDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
-                editModes.add("maintainProtocolOnlineReviews");
+                editModes.add(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS);
             }
         }
         
