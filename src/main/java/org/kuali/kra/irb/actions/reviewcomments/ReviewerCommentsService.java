@@ -35,6 +35,14 @@ public interface ReviewerCommentsService {
     
     void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
     void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
+
+    /**
+     * 
+     * This method is to get a list or protocol reviewers for this submission.
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return
+     */
     List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
 
 }
