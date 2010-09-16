@@ -268,6 +268,10 @@
                     <property name="taskName" value="protocolExpediteApproval" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.ResponseApprovalAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolResponseApproval" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ApproveProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApprove" />
                 </bean>
@@ -544,6 +548,12 @@
     </bean>
     
     <bean id="protocolExpediteApprovalService" class="org.kuali.kra.irb.actions.expediteapproval.ProtocolExpediteApprovalServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+    </bean>
+    
+    <bean id="protocolResponseApprovalService" class="org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
