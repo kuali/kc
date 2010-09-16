@@ -56,6 +56,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
@@ -199,6 +200,7 @@ public class ActionHelper implements Serializable {
     private List<CommitteeScheduleMinute> reviewComments;        
     private List<ProtocolVoteAbstainee> abstainees;        
     private List<ProtocolVoteRecused> recusers;        
+    private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
     private transient KcPersonService kcPersonService;
 
@@ -1278,9 +1280,56 @@ public class ActionHelper implements Serializable {
         }
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(),
                 currentSubmissionNumber));
+        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
+                currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
+    }
+    
+    public int getPrevSubmissionNumber() {
+        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
+        Integer submissionNumber = currentSubmissionNumber - 1;
+        if (!submissionNumbers.contains(submissionNumber)) {
+            for (int i = currentSubmissionNumber - 1; i > 0; i--) {
+                if (submissionNumbers.contains(i)) {
+                    submissionNumber = i;
+                    break;
+                }
+            }
+        }
+        return submissionNumber;
+
+    }
+    
+    public int getNextSubmissionNumber() {
+        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
+        int maxSubmissionNumber = 0;
+
+        for (Integer submissionNumber : submissionNumbers) {
+            if (submissionNumber > maxSubmissionNumber) {
+                maxSubmissionNumber = submissionNumber;
+            }
+        }
+        Integer submissionNumber = currentSubmissionNumber + 1;
+        if (!submissionNumbers.contains(submissionNumber)) {
+            for (int i = currentSubmissionNumber + 1; i <= maxSubmissionNumber; i++) {
+                if (submissionNumbers.contains(i)) {
+                    submissionNumber = i;
+                    break;
+                }
+            }
+        }
+        return submissionNumber;
+
+    }
+
+    private List<Integer> getAvailableSubmissionNumbers() {
+        List<Integer> submissionNumbers = new ArrayList<Integer>();
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            submissionNumbers.add(submission.getSubmissionNumber());
+        }
+        return submissionNumbers;
     }
 
 
@@ -1350,5 +1399,15 @@ public class ActionHelper implements Serializable {
 
     public void setNextDisabled(boolean nextDisabled) {
         this.nextDisabled = nextDisabled;
+    }
+
+
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        return protocolReviewers;
+    }
+
+
+    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
+        this.protocolReviewers = protocolReviewers;
     }
 }

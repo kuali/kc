@@ -18,12 +18,14 @@ package org.kuali.kra.irb.actions.reviewcomments;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -88,13 +90,32 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         return reviewerComments;
     }
     
+    public List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber) {
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+
+        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
+
+        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
+            if (CollectionUtils.isNotEmpty(protocolSubmission.getProtocolReviewers())) {
+                reviewers.addAll(protocolSubmission.getProtocolReviewers());
+            }
+        }
+
+        return reviewers;
+    }
+
     /*
      * when version committee, the minutes also versioned.  This is to get the current one.
      */
     private boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
         minute.refreshReferenceObject("committeeSchedule");
-        Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId()) ;
-        return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
+        if (minute.getCommitteeSchedule() != null) {
+            Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
+            return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
+        } else {
+            // if scheduleid is 999999999
+            return true;
+        }
     }
     
     /** {@inheritDoc} */
