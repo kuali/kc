@@ -32,5 +32,12 @@ public interface ProtocolFinderDao {
      */
     Protocol findCurrentProtocolByNumber(String protocolNumber);
     
+    /**
+     * 
+     * This method all protocol submission belong to this protocolNumber.  also include amendment and renewal of this protocol.
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return
+     */
     List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
 }
