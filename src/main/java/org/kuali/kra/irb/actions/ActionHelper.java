@@ -745,7 +745,7 @@ public class ActionHelper implements Serializable {
     private boolean hasReviewNotRequiredPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
         boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        return false;
+        return retVal;
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
