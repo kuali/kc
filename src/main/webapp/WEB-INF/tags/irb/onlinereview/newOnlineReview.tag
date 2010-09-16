@@ -1,5 +1,4 @@
-<%--
- Copyright 2005-2010 The Kuali Foundation
+<%-- Copyright 2005-2010 The Kuali Foundation
 
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,11 +15,11 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="onlineReviewAttributes" value="${DataDictionary.ProtocolOnlineReview.attributes}" />
+<c:set var="protocolReviewerAttributes" value="${DataDictionary.ProtocolReviewer.attributes}" />
 <c:set var="newOnlineReviewAttributes" value="${DataDictionary.NewProtocolOnlineReviewBean.attributes}" />
 
 <c:set var="readOnly" value = "false"/>
-<c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
-<c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
+<c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" /><c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 
 <c:set var = "availableCommitteeMembers" value = "${KualiForm.onlineReviewsActionHelper.availableCommitteeMembersForCurrentSubmission}"/>
@@ -57,8 +56,8 @@
 	               	</td>
 	             	</tr>
 	             	<tr>
-	             		<th class="grid">&nbsp;</th>
-	             		<td class = "grid">&nbsp;</td>
+	             		<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" noColon="false" /></div></th>
+	             		<td class = "grid"><kul:htmlControlAttribute property="onlineReviewsActionHelper.newReviewerTypeCode" attributeEntry="${newOnlineReviewAttributes.newReviewerTypeCode}" readOnly="false"/>
 	             
 	               	<th class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.dateDue}" noColon="false" /></div></th>
 	               	<td class="grid" >

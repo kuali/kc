@@ -486,7 +486,9 @@ public class OnlineReviewsActionHelper implements Serializable {
                  * user already has the lock.  So, we try to get the lock using FULL_ENTRY.  If the
                  * edit mode is downgraded to VIEW_ONLY, we flag the document as such.
                  */
-                if (requiresLock(document) && documentAuthorizer.canEdit(document, user)) {
+                //disabling for right now.
+                if(false) {
+                // if (requiresLock(document) && documentAuthorizer.canEdit(document, user)) {
                     editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                             
                     Map<String, String> editMode = convertSetToMap(editModes);

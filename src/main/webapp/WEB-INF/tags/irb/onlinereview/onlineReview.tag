@@ -200,7 +200,7 @@
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${renderIndex}]"
-       										  reviewIndex = "${renderIndex}"></kra-irb-olr:onlineReviewComments>
+       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewComments>
 		
 
 			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
