@@ -233,15 +233,20 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     /**
      * Checks for a valid save on close, setting up the required variables, before proceeding with save.
      * 
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.apache.struts.action.ActionMapping, 
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         ProtocolForm protocolForm = (ProtocolForm) form;
 
         if (isValidSave(protocolForm)) {
-            super.saveOnClose(form);
+            forward = super.saveOnClose(mapping, form, request, response);
         }
+        
+        return forward;
     }
 
     /** {@inheritDoc} */

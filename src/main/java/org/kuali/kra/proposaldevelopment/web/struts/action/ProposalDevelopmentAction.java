@@ -269,18 +269,21 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.apache.struts.action.ActionMapping, 
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        super.saveOnClose(form);
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);
+        
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
        
         updateProposalDocument(proposalDevelopmentForm);
         
         doc.getDevelopmentProposal().updateProposalNumbers();
+        
+        return forward;
     }
     
     @Override
