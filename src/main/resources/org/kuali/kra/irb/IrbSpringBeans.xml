@@ -667,9 +667,11 @@
             <property name="kcPersonService">
                 <ref bean="kcPersonService" />
             </property>
-            <property name="committeeXmlStream" ref="committeeXmlStream" />
             <property name="scheduleXmlStream">
                 <ref bean="scheduleXmlStream" />
+            </property>
+            <property name="committeeXmlStream">
+                <ref bean="committeeXmlStream" />
             </property>
         </bean>
         <bean id="correspondenceXmlStream"

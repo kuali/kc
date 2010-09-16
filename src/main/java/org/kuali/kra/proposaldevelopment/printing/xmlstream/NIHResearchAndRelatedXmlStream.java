@@ -28,7 +28,9 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.KeyPersonType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFOtherPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.NSFSeniorPersonnelType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.OrgAssurancesType;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.SalarySubtotals;
+import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.IndirectCostRateDetails.NoDHHSAgreement;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProgramDirectorPrincipalInvestigatorDocument.ProgramDirectorPrincipalInvestigator;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ProjectDescriptionDocument.ProjectDescription;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ResearchAndRelatedProjectDocument;
@@ -599,18 +601,66 @@ public class NIHResearchAndRelatedXmlStream extends
 			BudgetPeriod budgetPeriod = budget.getBudgetPeriod(0);
 			budgetSummaryType.setInitialBudgetTotals(getBudgetTotals(budgetPeriod.getTotalCost(), budgetPeriod.getCostSharingAmount()));
 			budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
+	        budgetSummaryType.setBudgetIndirectCostsTotal(budget.getTotalIndirectCost().bigDecimalValue());
 			budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(developmentProposal,budget.getBudgetPeriods()));
 			budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentProposal.getProposalNumber()));
-//            setAllNSFSeniorPersonnels(developmentProposal,budget, budgetSummaryType.addNewNSFSeniorPersonnel());
+            setAllNSFSeniorPersonnels(developmentProposal,budget,budgetSummaryType);
+
 		}
 		return budgetSummaryType;
 	}
 
-	private void setAllNSFSeniorPersonnels(DevelopmentProposal developmentProposal, Budget budget,NSFSeniorPersonnelType nsfSeniorPersonnel) {
-	    List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-	    for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            setNSFSeniorPersonnels(developmentProposal, budgetPeriod, nsfSeniorPersonnel);
+	private void setAllNSFSeniorPersonnels(DevelopmentProposal developmentProposal, Budget budget, BudgetSummaryType budgetSummaryType) {
+        List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budget, "01", "NSF_PRINTING");
+        int rowNumber = 0;
+        BudgetDecimal totalFringe = BudgetDecimal.ZERO;
+        BudgetDecimal totalSalary = BudgetDecimal.ZERO;
+        
+        for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
+            NSFSeniorPersonnelType nsfSeniorPersonnel = budgetSummaryType.addNewNSFSeniorPersonnel();
+            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnel,++rowNumber);
+            totalFringe = totalFringe.add(keyPersonInfo.getFringe());
+            totalSalary = totalSalary.add(keyPersonInfo.getRequestedSalary());
         }
+        budgetSummaryType.setTotalFringe(totalFringe.bigDecimalValue());
+        budgetSummaryType.setTotalSalariesAndWages(totalSalary.bigDecimalValue());
+        budgetSummaryType.setTotalSalariesWagesAndFringe(totalSalary.add(totalFringe).bigDecimalValue());
+        budgetSummaryType.setIndirectCostRateDetails(getIndirectCostDetails(developmentProposal));
+    }
+
+    private IndirectCostRateDetails getIndirectCostDetails(DevelopmentProposal developmentProposal) {
+        IndirectCostRateDetails indirectCost = IndirectCostRateDetails.Factory.newInstance();
+        String dhhsAgreementFlag = getParameterService().getParameterValue(ProposalDevelopmentDocument.class, "DHHS_AGREEMENT");
+        Organization orgBean = developmentProposal.getApplicantOrganization().getOrganization();
+        try {
+            if (dhhsAgreementFlag.equals("0")) {
+                // agreement is not with DHHS
+                NoDHHSAgreement noAgreement = NoDHHSAgreement.Factory.newInstance();
+                noAgreement.setAgencyName(getS2SUtilService().getCognizantFedAgency(developmentProposal));
+                if (orgBean.getIndirectCostRateAgreement() == null) {
+                    noAgreement
+                            .setAgreementDate(getDateTimeService().getCalendar(getDateTimeService().convertToDate("1900-01-01")));
+                }
+                else
+                    noAgreement.setAgreementDate(getDateTimeService().getCalendar(
+                            getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
+                indirectCost.setNoDHHSAgreement(noAgreement);
+            }else {
+                // agreement is with DHHS
+                // check agreement date . If there is no date, assume that negotiations are in process,
+                // and take the agency with whom negotiations are being conducted from the rolodex entry of the
+                // cognizant auditor
+                if (orgBean.getIndirectCostRateAgreement() != null) {
+                    indirectCost.setDHHSAgreementDate(getDateTimeService().getCalendar(
+                            getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
+                }else {
+                    indirectCost.setDHHSAgreementNegotiationOffice(getS2SUtilService().getCognizantFedAgency(developmentProposal));
+                }
+            }
+        }catch (ParseException e) {
+            LOG.error(e);
+        }
+        return indirectCost;
     }
 
     private int setNSFSeniorPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
@@ -695,12 +745,12 @@ public class NIHResearchAndRelatedXmlStream extends
                     amount = amount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
-        }
+        } 
 	    if(amount.isGreaterThan(BudgetDecimal.ZERO)){
 	        OtherDirectCosts otherDirectCost = budgetPeriodType.addNewOtherDirectCosts();
 	        otherDirectCost.setCost(amount.bigDecimalValue());
 	        otherDirectCost.setDescription("LA M&S and Utilities");
-	        otherDirectCost.setType(getOtherDirectType("Other Direct Costs"));
+	        otherDirectCost.setType("Other Direct Costs");
 	    }
     }
 

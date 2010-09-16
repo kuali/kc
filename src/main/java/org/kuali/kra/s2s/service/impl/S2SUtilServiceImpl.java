@@ -956,6 +956,43 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return monthCount;
     }
     /**
+     * 
+     * This method gets the Federal Agency for the given
+     * {@link ProposalDevelopmentDocument}
+     * 
+     * @param developmentProposal
+     *            Proposal Development Document.
+     * @return {@link String} Federal Agency
+     */
+    public String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+        StringBuilder fedAgency = new StringBuilder();
+        if (developmentProposal.getApplicantOrganization() != null
+                && developmentProposal.getApplicantOrganization()
+                        .getRolodex() != null) {
+            Rolodex rolodex = developmentProposal.getApplicantOrganization().getRolodex();
+            fedAgency.append(rolodex.getOrganization());
+            fedAgency.append(", ");
+            fedAgency.append(rolodex.getFirstName());
+            fedAgency.append(" ");
+            fedAgency.append(rolodex.getLastName());
+            fedAgency.append(" ");
+            if (rolodex.getPhoneNumber() != null) {
+                if (rolodex.getPhoneNumber().length() < 180) {
+                    fedAgency.append(rolodex.getPhoneNumber());
+                } else {
+                    fedAgency
+                            .append(rolodex.getPhoneNumber().substring(0, 180));
+                }
+            }
+        }
+        if (fedAgency.toString().length() == 0) {
+            fedAgency.append(S2SConstants.VALUE_UNKNOWN);
+        }
+        return fedAgency.toString();
+    }
+
+    
+    /**
      * Gets the sponsorService attribute. 
      * @return Returns the sponsorService.
      */
