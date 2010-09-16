@@ -585,39 +585,55 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
 
         // only want to prompt them to save if they already can save
-        if (docForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_SAVE)) {
+        if (canSave(docForm)) {
             Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
 
             // logic for close question
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, KNSConstants.MAPPING_CLOSE, "");
-            }
-            else {
+                forward = performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
+                        kualiConfiguration.getPropertyString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KNSConstants.CONFIRMATION_QUESTION, 
+                        KNSConstants.MAPPING_CLOSE, "");
+            } else {
+                // otherwise attempt to save and close
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    saveOnClose(docForm);
+                    forward = saveOnClose(mapping, form, request, response);
+                } else {
+                    forward = super.close(mapping, docForm, request, response);
                 }
             }
+        } else {
+            forward = returnToSender(request, mapping, docForm);
         }
 
-        return super.close(mapping, form, request, response);
+        return forward;
     }
 
     /**
      * Subclass can override this method in order to perform
      * any operations when the document is saved on a close action.
+     * @param mapping
      * @param form
-     * @throws Exception 
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
      */
-    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        if (isInitialSave(getDocumentStatus(form.getDocument()))) {
-            initialDocumentSave(form); 
-        } 
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
+        
+        if (isInitialSave(getDocumentStatus(documentForm.getDocument()))) {
+            initialDocumentSave(documentForm); 
+        }
+        
+        return super.close(mapping, form, request, response);
     }
 
     /**

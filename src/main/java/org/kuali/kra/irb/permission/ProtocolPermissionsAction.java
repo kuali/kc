@@ -59,12 +59,15 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
     }
     
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#saveOnClose(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     * @see org.kuali.kra.irb.ProtocolAction#saveOnClose(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        super.saveOnClose(form);
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);
+
         permissionsActionHelper.save((ProtocolForm) form);
+        
+        return forward;
     }
     
     /**

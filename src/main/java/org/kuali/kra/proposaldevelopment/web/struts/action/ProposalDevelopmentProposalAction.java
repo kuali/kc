@@ -91,8 +91,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
     
     @Override
-    public void saveOnClose(KualiDocumentFormBase form) throws Exception {
-        super.saveOnClose(form);
+    public ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);
+        
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
         
@@ -102,6 +103,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeProposalSiteNumbers(
                 doc);
         
+        return forward;
     }
 
     @Override
