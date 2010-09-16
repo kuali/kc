@@ -431,7 +431,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementWebTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionRuleTest.class,
     org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServiceTest.class,
-    org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredRuleTest.class
+    org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredRuleTest.class,
+    org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRuleTest.class,
+    org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

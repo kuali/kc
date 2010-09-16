@@ -518,6 +518,7 @@ public interface Constants {
     public static final String PROTOCOL_ASSIGN_REVIEWERS_PROPERTY_KEY = "actionHelper.protocolAssignReviewersBean";
     public static final String PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY = "actionHelper.protocolAdminCorrectionBean";
     public static final String PROTOCOL_APPROVE_ACTION_PROPERTY_KEY = "actionHelper.protocolApproveBean";
+    public static final String PROTOCOL_RESPONSE_APPROVE_ACTION_PROPERTY_KEY = "actionHelper.protocolResponseApprovalBean";
     public static final String PROTOCOL_UNDO_LASTACTION_PROPERTY_KEY = "actionHelper.undoLastActionBean";
     public static final String PROTOCOL_RECORD_COMMITTEE_KEY = "actionHelper.committeeDecision";
     public static final String PROTOCOL_MODIFY_SUBMISSION_KEY = "actionHelper.protocolModifySubmissionBean";

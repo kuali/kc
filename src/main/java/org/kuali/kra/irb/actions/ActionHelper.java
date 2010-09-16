@@ -88,6 +88,7 @@ public class ActionHelper implements Serializable {
      * These private integers will be used in a switch statement when building ProtocolGenericActionBean to pull existing data
      */
     private static final int EXPEDITE_APPROVAL_BEAN_TYPE = 1;
+    private static final int RESPONSE_APPROVAL_BEAN_TYPE = 11;
     private static final int APPROVE_BEAN_TYPE = 10;
     private static final int REOPEN_BEAN_TYPE = 2;
     private static final int CLOSE_ENROLLMENT_BEAN_TYPE = 3;
@@ -124,6 +125,7 @@ public class ActionHelper implements Serializable {
     private boolean canAssignReviewers = false;
     private boolean canGrantExemption = false;
     private boolean canExpediteApproval = false;
+    private boolean canApproveResponse = false;
     private boolean canApprove = false;
     private boolean canReopen = false;
     private boolean canCloseEnrollment = false;
@@ -160,6 +162,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolApproveBean;
     private ProtocolApproveBean protocolExpediteApprovalBean;
+    private ProtocolApproveBean protocolResponseApprovalBean;
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
@@ -243,6 +246,7 @@ public class ActionHelper implements Serializable {
         irbAcknowledgementBean = new IrbAcknowledgementBean(this);
         irbAcknowledgementBean.initComments();
         protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
+        protocolResponseApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), RESPONSE_APPROVAL_BEAN_TYPE);
         protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
         protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
@@ -348,6 +352,9 @@ public class ActionHelper implements Serializable {
         switch(beanType) {
             case EXPEDITE_APPROVAL_BEAN_TYPE:
                 actionTypeCode = ProtocolActionType.EXPEDITE_APPROVAL;
+                break;
+            case RESPONSE_APPROVAL_BEAN_TYPE:
+                actionTypeCode = ProtocolActionType.RESPONSE_APPROVAL;
                 break;
             case APPROVE_BEAN_TYPE:
                 actionTypeCode =  ProtocolActionType.APPROVED;
@@ -510,6 +517,7 @@ public class ActionHelper implements Serializable {
         canAssignReviewers = hasAssignReviewersPermission();
         canGrantExemption = hasGrantExemptionPermission();
         canExpediteApproval = hasExpediteApprovalPermission();
+        canApproveResponse = hasResponseApprovalPermission();
         canApprove = hasApprovePermission();
         canReopen = hasReopenPermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
@@ -539,6 +547,7 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean.initComments();
         irbAcknowledgementBean.initComments();
         protocolExpediteApprovalBean.initComments();
+        protocolResponseApprovalBean.initComments();
         protocolApproveBean.initComments();
         protocolReopenBean.initComments();
         protocolCloseEnrollmentBean.initComments();
@@ -651,6 +660,10 @@ public class ActionHelper implements Serializable {
     
     private boolean hasExpediteApprovalPermission() {
         return hasPermission(TaskName.EXPEDITE_APPROVAL);
+    }
+    
+    private boolean hasResponseApprovalPermission() {
+        return hasPermission(TaskName.RESPONSE_APPROVAL);
     }
     
     private boolean hasApprovePermission() {
@@ -838,6 +851,10 @@ public class ActionHelper implements Serializable {
     public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
     }
+    
+    public ProtocolApproveBean getProtocolResponseApprovalBean() {
+        return protocolResponseApprovalBean;
+    }
 
     public ProtocolApproveBean getProtocolApproveBean() {
         return protocolApproveBean;
@@ -953,6 +970,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanExpediteApproval() {
         return canExpediteApproval;
+    }
+    
+    public boolean getCanApproveResponse() {
+        return canApproveResponse;
     }
     
     public boolean getCanApprove() {
