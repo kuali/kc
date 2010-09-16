@@ -55,6 +55,7 @@ public class ProtocolResponseApprovalServiceTest extends KcUnitTestBase {
     private static final String COMMITTEE_ID = "668";
     private static final String SCHEDULE_ID = "1";
     private static final String RESPONSE_REVIEW_TYPE = "6";
+    private static final String ANNUAL_SCHEDULED_BY_IRB_SUBMISSION_QUALIFIER = "2";
     
     private static final String VALID_SUBMISSION_TYPE = "100";
     
@@ -89,6 +90,7 @@ public class ProtocolResponseApprovalServiceTest extends KcUnitTestBase {
         addComments(protocolDocument.getProtocol(), responseApprovalBean);
         
         ProtocolSubmitAction submitAction = createSubmitAction(COMMITTEE_ID, SCHEDULE_ID, RESPONSE_REVIEW_TYPE);
+        submitAction.setSubmissionQualifierTypeCode(ANNUAL_SCHEDULED_BY_IRB_SUBMISSION_QUALIFIER);
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         
         responseApprovalBean.getReviewComments().setProtocolId(protocolDocument.getProtocol().getProtocolId());
