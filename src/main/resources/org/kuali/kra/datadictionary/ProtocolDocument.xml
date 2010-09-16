@@ -135,13 +135,14 @@
 			  <bean parent="WorkflowProperty" p:path="protocolList.protocolType.protocolTypeCode"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.protocolType.description"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.title"/>
+			  <bean parent="WorkflowProperty" p:path="protocolList.leadUnitNumber"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.leadUnit.unitNumber"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.personId"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.protocolPersonRoleId" />
 			  <bean parent="WorkflowProperty" p:path="protocolList.protocolPersons.protocolUnits"/>
             </list>
           </property>
-        </bean>
+        </bean> 
       </list>
     </property>
   </bean>
