@@ -180,6 +180,7 @@ public class KeyPersonInfo extends CompensationInfo{
     }
 
 
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
         hashMap.put("sortId", getSortId());
@@ -206,5 +207,47 @@ public class KeyPersonInfo extends CompensationInfo{
      */
     public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (nonMITPersonFlag ? 1231 : 1237);
+        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
+        result = prime * result + ((rolodexId == null) ? 0 : rolodexId.hashCode());
+        return result;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        KeyPersonInfo other = (KeyPersonInfo) obj;
+        if (nonMITPersonFlag != other.nonMITPersonFlag)
+            return false;
+        if (personId == null) {
+            if (other.personId != null)
+                return false;
+        }
+        else if (!personId.equals(other.personId))
+            return false;
+        if (rolodexId == null) {
+            if (other.rolodexId != null)
+                return false;
+        }
+        else if (!rolodexId.equals(other.rolodexId))
+            return false;
+        return true;
     }
 }

@@ -530,7 +530,7 @@
 	<xs:element name="OtherDirectCosts">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="Type" type="rar:OtherDirectType"/>
+				<xs:element name="Type" type="xs:string"/>
 				<xs:element name="Description" type="xs:token" minOccurs="0"/>
 				<xs:element name="Cost" type="common:CurrencyType"/>
 				<xs:element name="Total" type="common:CurrencyType" minOccurs="0"/>
