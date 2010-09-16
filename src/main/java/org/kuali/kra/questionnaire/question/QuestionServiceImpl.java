@@ -18,9 +18,11 @@ package org.kuali.kra.questionnaire.question;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -32,6 +34,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     private static final String QUESTION_REF_ID = "questionRefId";
     private static final String QUESTION_ID = "questionId";
+    private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionId";
+    private static final String QUESTIONNAIRE_ID = "questionnaireId";
 
     private BusinessObjectService businessObjectService;
 
@@ -78,5 +82,42 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
         return question;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.Integer)
+     */
+    @SuppressWarnings("unchecked")
+    public boolean isQuestionUsed(Integer questionId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(QUESTION_QUESTION_ID, questionId);
+        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatching(Questionnaire.class,
+                fieldValues);
+        for (Questionnaire questionnaire : questionnaires) {
+            if (isActiveQuestionnaire(questionnaire)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method determines if the questionnaire is the active (most recent version) of the questionnaire.
+     * @param questionnaire
+     * @return true if this is the active questionnaire, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    private boolean isActiveQuestionnaire(Questionnaire questionnaire) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireId());
+        Collection<Questionnaire> questionnaires = businessObjectService.findMatching(Questionnaire.class, fieldValues);
+        if (questionnaires.size() > 0) {
+            Questionnaire maxQuestionnaire = (Questionnaire) Collections.max(questionnaires);
+            if (maxQuestionnaire.getQuestionnaireRefId().equals(questionnaire.getQuestionnaireRefId())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
