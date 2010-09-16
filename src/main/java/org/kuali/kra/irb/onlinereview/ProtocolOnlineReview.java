@@ -350,7 +350,7 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
 
 
     public String getNamespace() {
-        return "KC-UNT";
+        return "KC-PROTOCOL";
     }
 
 

@@ -336,6 +336,9 @@
                 <bean class="org.kuali.kra.irb.onlinereview.authorization.RejectProtocolOnlineReviewAuthorizer" parent="parentProtocolOnlineReviewAuthorizer">
                     <property name="taskName" value="rejectProtocolOnlineReview" />
                 </bean>
+                <bean class="org.kuali.kra.irb.onlinereview.authorization.MaintainProtocolOnlineReviewsAuthorizer" parent = "parentProtocolOnlineReviewAuthorizer">
+                	<property name="taskName" value = "maintainProtocolOnlineReviews"/>
+                </bean>
 			</list>
 		</property>
 	</bean>

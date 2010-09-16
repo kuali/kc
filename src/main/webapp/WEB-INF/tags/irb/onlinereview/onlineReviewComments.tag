@@ -24,6 +24,7 @@
 <%@ attribute name="actionName" required="true" %>
 <%@ attribute name="allowReadOnly" required="true" %>
 <%@ attribute name="reviewIndex" required = "true" %>
+<%@ attribute name="readOnly" required = "true" %>
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
@@ -44,7 +45,7 @@
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
                         
-                                        
+               <c:if test = "${!readOnly}">                        
                 <tr>    
                 	<th class="infoline">add</th>
 
@@ -59,8 +60,10 @@
                                                   attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
                             </c:otherwise>
                         </c:choose> 
-                        <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
-                                    fieldConversions="protocolContingencyCode:${property}.newComment.protocolContingencyCode" />
+                    		<c:if test = "${!readOnly}">
+                        		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
+                                    fieldConversions="protocolContingencyCode:${property}.newComment.protocolContingencyCode"  />
+                       		</c:if>
                     </td>
                                             
                     <td align="left" valign="middle">
@@ -76,24 +79,41 @@
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
-                        <kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
-                                                  attributeEntry="${minutesAttributes.privateCommentFlag}" />
+                        <c:choose>
+                        <c:when test = "${!readOnly}">
+                        	<kul:htmlControlAttribute property="${property}.newComment.privateCommentFlag" 
+                                                  attributeEntry="${minutesAttributes.privateCommentFlag}" readOnly = "${readOnly}"/>
+                      	</c:when>
+                      	<c:otherwise>
+                      		&nbsp;
+                      	</c:otherwise>
+                      	</c:choose>
                     </td>
 					
 					<td valign="middle" style="text-align:center">
-				        <kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
-                                                  attributeEntry="${minutesAttributes.finalFlag}" />
+				        <c:choose>
+				        	<c:when test = "${!readOnly}">
+				        		<kul:htmlControlAttribute property="${property}.newComment.finalFlag" 
+                                                  attributeEntry="${minutesAttributes.finalFlag}" readOnly = "${readOnly}"/>
+                        	</c:when>
+                        	<c:otherwise>
+                        		&nbsp;
+                        	</c:otherwise>
+                        </c:choose>
                     </td>
                     
                     <td>&nbsp;</td>
 					<td>&nbsp;</td>
                     <td>
                         <div align="center">
-                            <html:image property="methodToCall.add${actionName}ReviewComment.${documentNumber}.anchor${tabKey}"
+                            <c:if test = "${!readOnly}">
+                            	<html:image property="methodToCall.add${actionName}ReviewComment.${documentNumber}.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                            </c:if>
                         </div>
                     </td>
                 </tr>
+                </c:if>
                 <c:set var="displayCount" value="0"/>
                                                    
                 <c:forEach var="comment" items="${bean.comments}" varStatus="status">
@@ -104,8 +124,6 @@
                         			style="display:none"
                         		</c:when>
                         	</c:choose>>
-                    	<c:set var="readOnly" value="${allowReadOnly && comment.persisted }" />
-                    	<c:set var="readOnly" value = "false"/>
                         <th>
                         	<c:choose>
                         		<c:when test="${doHide == false }">
@@ -144,15 +162,19 @@
                         </c:choose>
                                                 
                         <td style="text-align:center; vertical-align:middle">
-                            <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
+                            
+                            	<kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
                                                       attributeEntry="${minutesAttributes.privateCommentFlag}"
                                                       readOnly="${readOnly}" />
+                            
                         </td>
                                                 
                         <td style="text-align:center; vertical-align:middle">
-                            <kul:htmlControlAttribute property="${property}.comments[${status.index}].finalFlag" 
+                            
+                            	<kul:htmlControlAttribute property="${property}.comments[${status.index}].finalFlag" 
                                                       attributeEntry="${minutesAttributes.finalFlag}"
                                                       readOnly="${readOnly}" />
+                            
                         </td>
                         
                         <td style="text-align:center; vertical-align:middle">
@@ -174,16 +196,15 @@
                         <td>
                             <div align="center">&nbsp;
                             	<nobr>
-                            	 	<html:image property="methodToCall.moveUp${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
-                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
-                                	<html:image property="methodToCall.moveDown${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
-                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
-	                            	<c:choose>
-	                            		<c:when test="${!readOnly}">
-			                                <html:image property="methodToCall.delete${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+                            		<c:if test = "${!readOnly}">
+                            	 		<html:image property="methodToCall.moveUp${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
+                                		<html:image property="methodToCall.moveDown${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
+                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton"/>
+	                            		<html:image property="methodToCall.delete${actionName}ReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
 			                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-		                                </c:when>
-	                                </c:choose>
+		                                
+	                                </c:if>
                                 </nobr>
                             </div>
                         </td>
