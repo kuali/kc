@@ -52,6 +52,7 @@ import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
 import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
 
 /**
  * 
@@ -449,4 +450,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(this.getProtocol());
     }
  
+    @Override
+    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
+        this.getProtocol().getLeadUnitNumber();
+        return super.wrapDocumentWithMetadataForXmlSerialization();
+    }
 }
