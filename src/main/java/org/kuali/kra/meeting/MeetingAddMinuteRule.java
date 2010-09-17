@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * 
@@ -34,10 +35,12 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
     private static final String PROTOCOL_ENTRY_TYPE = "3";
     private static final String COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE = "4";
 
-    private static final String NEW_COMM_SCHD_MINUTE_ATTENDANCE = "meetingHelper.newCommitteeScheduleMinute.generateAttendance";
-    private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL = "meetingHelper.newCommitteeScheduleMinute.protocolIdFk";
-    private static final String NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY = "meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode";
-    private static final String NEW_COMM_SCHD_MINUTE_ACT_ITEMS = "meetingHelper.newCommitteeScheduleMinute.commScheduleActItemsIdFk";
+    private static final String NEW_COMM_SCHD_MINUTE = "meetingHelper.newCommitteeScheduleMinute";
+    private static final String DOT = ".";
+    private static final String GENERATE_ATTENDANCE_FIELD = "generateAttendance";
+    private static final String PROTOCOL_ID_FK_FIELD = "protocolIdFk";
+    private static final String PROTOCOL_CONTINGENCY_CODE_FIELD = "protocolContingencyCode";
+    private static final String COMM_SCHD_MINUTE_ACT_ITEMS_ID_FK_FIELD = "commScheduleActItemsIdFk";
 
     /**
      * Validates a new committee schedule minute, based on its minute entry type.
@@ -48,6 +51,8 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         boolean isValid = true;
         
         CommitteeScheduleMinute minute = event.getMeetingHelper().getNewCommitteeScheduleMinute();
+        
+        isValid &= validateFields(minute);
 
         if (ATTENDANCE_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
             List<CommitteeScheduleAttendance> attendances = event.getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleAttendances();
@@ -62,6 +67,17 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         return isValid;
     }
     
+    private boolean validateFields(CommitteeScheduleMinute committeeScheduleMinute) {
+        boolean isValid = true;
+        
+        GlobalVariables.getMessageMap().addToErrorPath(NEW_COMM_SCHD_MINUTE);
+        getDictionaryValidationService().validateBusinessObject(committeeScheduleMinute);
+        GlobalVariables.getMessageMap().removeFromErrorPath(NEW_COMM_SCHD_MINUTE);
+        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
+        
+        return isValid;
+    }
+    
     /**
      * Runs the validation rules a minute of type Attendance
      * @param committeeScheduleMinute
@@ -72,7 +88,7 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         boolean isValid = true;
         
         if (committeeScheduleMinute.isGenerateAttendance() && attendances.isEmpty()) {
-            reportError(NEW_COMM_SCHD_MINUTE_ATTENDANCE, KeyConstants.ERROR_EMPTY_ATTENDANCE);
+            reportError(NEW_COMM_SCHD_MINUTE + DOT + GENERATE_ATTENDANCE_FIELD, KeyConstants.ERROR_EMPTY_ATTENDANCE);
             isValid = false;
         }
         
@@ -88,14 +104,14 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         boolean isValid = true;
         
         if (committeeScheduleMinute.getProtocolIdFk() == null) {
-            reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL, KeyConstants.ERROR_EMPTY_PROTOCOL);
+            reportError(NEW_COMM_SCHD_MINUTE + DOT + PROTOCOL_ID_FK_FIELD, KeyConstants.ERROR_EMPTY_PROTOCOL);
             isValid = false;
         }
         if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("protocolContingencyCode", committeeScheduleMinute.getProtocolContingencyCode());
+            fieldValues.put(PROTOCOL_CONTINGENCY_CODE_FIELD, committeeScheduleMinute.getProtocolContingencyCode());
             if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class, fieldValues) == null) {
-                reportError(NEW_COMM_SCHD_MINUTE_PROTOCOL_CONTINGENCY, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
+                reportError(NEW_COMM_SCHD_MINUTE + DOT + PROTOCOL_CONTINGENCY_CODE_FIELD, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
                 isValid = false;
             }
         }
@@ -113,11 +129,11 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         boolean isValid = true;
         
         if (commScheduleActItems.isEmpty()) {
-            reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
+            reportError(NEW_COMM_SCHD_MINUTE + DOT + COMM_SCHD_MINUTE_ACT_ITEMS_ID_FK_FIELD, KeyConstants.ERROR_EMPTY_ACTION_ITEMS);
             isValid = false;
         }
         if (committeeScheduleMinute.getCommScheduleActItemsIdFk() == null) {
-            reportError(NEW_COMM_SCHD_MINUTE_ACT_ITEMS, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
+            reportError(NEW_COMM_SCHD_MINUTE + DOT + COMM_SCHD_MINUTE_ACT_ITEMS_ID_FK_FIELD, KeyConstants.ERROR_EMPTY_ACTION_ITEMS_DESCRIPTION);
             isValid = false;
         }
         
