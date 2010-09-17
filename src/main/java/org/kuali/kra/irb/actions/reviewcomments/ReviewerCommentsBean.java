@@ -15,24 +15,25 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.
  */
-public class ReviewerCommentsBean {
+@SuppressWarnings("serial")
+public class ReviewerCommentsBean implements Serializable {
     
     private ActionHelper actionHelper;
     
     private ReviewerComments reviewComments = new ReviewerComments();
     
-    private CommitteeScheduleService committeeScheduleService;
+    private transient CommitteeScheduleService committeeScheduleService;
     
     /**
      * Constructs a ReviewerCommentsBean.
