@@ -86,7 +86,7 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
         Protocol protocol = getActionHelper().getProtocol();
         if (protocol != null && protocol.getProtocolNumber() != null) {
             String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(protocol);
-            if (committeeId != null) {
+            if (assignedCommitteeId != null) {
                 this.committeeId = assignedCommitteeId;
                 this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(protocol);
                 this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(protocol));
