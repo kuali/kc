@@ -2247,6 +2247,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
             
+            protocolForm.getActionHelper().getProtocolApproveBean().initComments();
+            
             if (!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
                 protocolForm.setDocId(newDocument.getDocumentNumber());
                 loadDocument(protocolForm);
