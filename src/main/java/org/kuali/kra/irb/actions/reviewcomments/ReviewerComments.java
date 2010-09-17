@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -35,14 +36,28 @@ public class ReviewerComments implements Serializable {
     
     private static final long serialVersionUID = 1234567890;
     
-    private CommitteeScheduleMinute newComment = new CommitteeScheduleMinute();
+    private CommitteeScheduleMinute newComment;
+    private List<CommitteeScheduleMinute> comments;
+    private List<CommitteeScheduleMinute> commentsToDelete;
     
-    private List<CommitteeScheduleMinute> comments = new ArrayList<CommitteeScheduleMinute>();
-    private List<CommitteeScheduleMinute> commentsToDelete = new ArrayList<CommitteeScheduleMinute>();
     private Long protocolId;
+    
+    /**
+     * Constructs a ReviewerComments bean.
+     */
+    public ReviewerComments() {
+        newComment = new CommitteeScheduleMinute();
+        newComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        comments = new ArrayList<CommitteeScheduleMinute>();
+        commentsToDelete = new ArrayList<CommitteeScheduleMinute>();
+    }
     
     public List<CommitteeScheduleMinute> getComments() {
         return comments;
+    }
+    
+    public void setComments(List<CommitteeScheduleMinute> comments) {
+        this.comments = comments;
     }
     
     public List<CommitteeScheduleMinute> getCommentsToDelete() {
@@ -57,10 +72,6 @@ public class ReviewerComments implements Serializable {
         commentsToDelete = new ArrayList<CommitteeScheduleMinute>();
     }
 
-    public void setComments(List<CommitteeScheduleMinute> comments) {
-        this.comments = comments;
-    }
-
     public CommitteeScheduleMinute getNewComment() {
         return newComment;
     }
@@ -72,11 +83,12 @@ public class ReviewerComments implements Serializable {
         newComment.setProtocol(protocol);
         newComment.setProtocolIdFk(protocol.getProtocolId());
         newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        newComment.setCreateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        newComment.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         //newComment.setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
         newComment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         comments.add(newComment);
         newComment = new CommitteeScheduleMinute();
+        newComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
     }
     
     /**
