@@ -20,7 +20,7 @@
 
 <kra:permission value="${KualiForm.actionHelper.canAssignToAgenda}">
 
-<kul:innerTab tabTitle="Assign to Agenda" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAssignToAgendaAction*">
+<kul:innerTab tabTitle="Assign to Agenda" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.assignToAgendaBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>

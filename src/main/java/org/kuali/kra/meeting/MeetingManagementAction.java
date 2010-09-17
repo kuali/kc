@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.util.MessageResources;
 import org.apache.struts.validator.Resources;
+import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
@@ -32,7 +32,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class MeetingManagementAction extends MeetingAction {
-    private static final String NEW_SCHEDULE_MINUTE_ERROR_PATH = "meetingHelper.newCommitteeScheduleMinute";
     private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
     
     private static final String DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION="deleteCommitteeScheduleMinute";
@@ -155,18 +154,16 @@ public class MeetingManagementAction extends MeetingAction {
      */
     public ActionForward addCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
+        
         MeetingForm meetingForm = (MeetingForm) form;
-        CommitteeScheduleMinute newCommitteeScheduleMinute = meetingForm.getMeetingHelper().getNewCommitteeScheduleMinute();
-        validateBusinessObject(newCommitteeScheduleMinute, NEW_SCHEDULE_MINUTE_ERROR_PATH);
-        boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        valid &= applyRules(new MeetingAddMinuteEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
-            meetingHelper, ErrorType.HARDERROR));
-        if (valid) {
+        CommitteeDocument document 
+            = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
+        if (applyRules(new MeetingAddMinuteEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addCommitteeScheduleMinute(meetingHelper);
         }
-        return mapping.findForward("basic");
+    
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

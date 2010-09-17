@@ -130,7 +130,6 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
                 doUpdate = !minute.equals(existing);
             } else {
                 //brand new review comment / minute entry, set some cool stuff
-                minute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
                 ProtocolSubmission protocolSubmission = getSubmission(protocol);
                 minute.setSubmissionIdFk(protocolSubmission.getSubmissionId());
                 minute.setProtocolIdFk(protocolSubmission.getProtocolId());
