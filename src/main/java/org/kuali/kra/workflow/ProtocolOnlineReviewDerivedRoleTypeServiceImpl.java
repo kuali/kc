@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -50,15 +51,18 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends KimDerivedRo
 		validateRequiredAttributesAgainstReceived(qualification);
 		
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-		Long submissionId = Long.parseLong(qualification.get("submissionId"));
-		String reviewId = qualification.get("protocolOnlineReviewId");
+		String qualificationSubmissionId = qualification.get("submissionId");
+		String qualificationReviewId = qualification.get("protocolOnlineReviewId");
 
-		for( ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getProtocolReviews(submissionId)) {
-		    if( !pReview.getProtocolReviewer().getNonEmployeeFlag() && 
-		            (StringUtils.equals(reviewId,pReview.getProtocolOnlineReviewId()+"") ) ) {
-		        pReview.refresh();
-		        members.add( new RoleMembershipInfo(null, null, pReview.getProtocolReviewer().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
-		    }
+		if (NumberUtils.isNumber(qualificationSubmissionId) && NumberUtils.isNumber(qualificationReviewId)) {
+    		Long submissionId = Long.parseLong(qualificationSubmissionId);
+    		Long reviewId = Long.parseLong(qualificationReviewId);
+		    for (ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getProtocolReviews(submissionId)) {
+    		    if (!pReview.getProtocolReviewer().getNonEmployeeFlag() && reviewId.equals(pReview.getProtocolOnlineReviewId())) {
+    		        pReview.refresh();
+    		        members.add(new RoleMembershipInfo(null, null, pReview.getProtocolReviewer().getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+    		    }
+    		}
 		}
 		    
 		return members;
