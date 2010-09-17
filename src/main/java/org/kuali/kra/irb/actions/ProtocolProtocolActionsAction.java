@@ -2239,13 +2239,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
+            
             ProtocolDocument newDocument = getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), 
                                                                protocolForm.getActionHelper().getCommitteeDecision());
+            
             getReviewerCommentsService().persistReviewerComments(
                     protocolForm.getActionHelper().getCommitteeDecision().getReviewComments(), 
                     protocolForm.getProtocolDocument().getProtocol());
             
-            if(!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
+            if (!StringUtils.equals(protocolForm.getProtocolDocument().getDocumentNumber(), newDocument.getDocumentNumber())) {
                 protocolForm.setDocId(newDocument.getDocumentNumber());
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
