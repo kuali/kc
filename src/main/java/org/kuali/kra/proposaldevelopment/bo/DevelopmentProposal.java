@@ -113,7 +113,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Integer nextProposalPersonNumber;
     private String budgetStatus;
     private String budgetStatusDescription;
-    private Integer postSubmissionStatusCode;
     private List<Narrative> narratives;
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> instituteAttachments;
@@ -1786,16 +1785,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public ProposalState getProposalState() {
         return proposalState;
-    }
-
-    @Deprecated
-    public Integer getPostSubmissionStatusCode() {
-        return postSubmissionStatusCode;
-    }
-
-    @Deprecated
-    public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
-        this.postSubmissionStatusCode = postSubmissionStatusCode;
     }
 
     public ProposalDevelopmentDocument getProposalDocument() {
