@@ -1,10 +1,5 @@
 insert into EPS_PROPOSAL_DOCUMENT (document_number, obj_id, update_timestamp, update_user, ver_nbr) values(1, '99dacd61-2290-4160-8c70-6bf68717ec67', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
 
-insert into EPS_PROP_POST_SUB_STATUS (definition, description, obj_id, status_code, update_timestamp, update_user, ver_nbr) values ('defin', 'description', 'beaaf3bc-f671-4f36-a6cd-aee5d0d0b7b2', 1, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
-
-insert into EPS_PROPOSAL (document_number, post_sub_status_code, obj_id, proposal_number, is_hierarchy, update_user, update_timestamp, ver_nbr, submit_flag) values ((select document_number from EPS_PROPOSAL_DOCUMENT where document_number = 1), (select status_code from EPS_PROP_POST_SUB_STATUS where description = 'description'), '6861f734-6691-4e3c-af4d-c128580ca988', 1, 'Y', 'jhulslander', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 1, 'N');
-
-
 insert into BUDGET (budget_id, comments, cost_sharing_amount, document_number, end_date, final_version_flag, oh_rate_class_code, oh_rate_type_code, proposal_number, residual_funds, start_date,  total_cost, total_cost_limit, total_direct_cost, total_indirect_cost, underrecovery_amount, update_timestamp, update_user, ur_rate_class_code, version_number,OBJ_ID) values (1, 'this is a comment', 500.23, (select document_number from EPS_PROPOSAL_DOCUMENT where document_number = 1), to_date('2050-12-31 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'N', 'clc', 'rtc', ( select proposal_number from EPS_PROPOSAL where proposal_number = 1 ), 50, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 50000, 250, 120, 59, 19, to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 'urc', 1,'b7a4a8e3-f373-462c-be79-43a0fdbbe861');
 
 insert into APPOINTMENT_TYPE (appointment_type_code, description, duration, obj_id, update_timestamp, update_user, ver_nbr) values ('tst', 'testing is fun', 36, '6b3497a4-d6e3-45f3-8e0d-ee824bd094cd', to_date('2010-01-28 12:00:00','YYYY-MM-DD HH24:MI:SS'), 'jhulslander', 1);
