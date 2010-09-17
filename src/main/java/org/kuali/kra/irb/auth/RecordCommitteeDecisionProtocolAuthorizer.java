@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
@@ -29,6 +30,23 @@ public class RecordCommitteeDecisionProtocolAuthorizer extends ProtocolAuthorize
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                 canExecuteAction(task.getProtocol(), ProtocolActionType.RECORD_COMMITTEE_DECISION) && 
-               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) &&
+               canRecordCommitteeDecision(task.getProtocol().getLastProtocolAction());
+    }
+    
+    /**
+     * 
+     * record committee decision doesn't change the protocol status, after one record committee decision as approve, then
+     * the approve screen comes up, this function prevents the record committee decision from remianing open after the action
+     * has been done.
+     * @param lastAction
+     * @return
+     */
+    private boolean canRecordCommitteeDecision(ProtocolAction lastAction) {
+        if(lastAction != null && !ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
+            return true;
+        }
+                
+        return false;
     }
 }
