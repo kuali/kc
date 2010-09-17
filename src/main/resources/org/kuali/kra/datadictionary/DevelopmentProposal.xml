@@ -69,7 +69,6 @@
 				<ref bean="DevelopmentProposal-mailDescription" />
 				<ref bean="DevelopmentProposal-proposalStateTypeCode" />
 				<ref bean="DevelopmentProposal-proposalState.description" />
-				<ref bean="DevelopmentProposal-postSubmissionStatusCode" />
 				<ref bean="DevelopmentProposal-versionNumber" />
 				<ref bean="DevelopmentProposal-hierarchyBudgetType" />
 				<ref bean="DevelopmentProposal-hierarchyStatus" />
@@ -726,28 +725,6 @@
 		<property name="summary" value="Proposal State" />
 		<property name="description"
 			value="The Proposal State for this Proposal Development Document" />
-	</bean>
-
-	<bean id="DevelopmentProposal-postSubmissionStatusCode" parent="DevelopmentProposal-postSubmissionStatusCode-parentBean" />
-	<bean id="DevelopmentProposal-postSubmissionStatusCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="postSubmissionStatusCode" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Post Submission Status Code" />
-		<property name="shortLabel" value="Post Sub Stat Code" />
-		<property name="maxLength" value="1" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PostSubmissionStatus"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-				p:includeKeyInLabel="false" p:keyAttribute="postSubmissionStatusCode"
-				p:labelAttribute="description" />
-		</property>
-		<property name="summary" value="Post Submission Status Code" />
-		<property name="description" value="Post Submission Status Code" />
 	</bean>
 
 	<bean id="DevelopmentProposal-versionNumber" parent="DevelopmentProposal-versionNumber-parentBean" />
