@@ -5,6 +5,14 @@
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 
+<c:choose>
+    <c:when test="${KualiForm.protocolHelper.fundingNumberLookupable}">
+        <c:set var="lookupStyle" value="display: inline" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="lookupStyle" value="display: none" />
+    </c:otherwise>
+</c:choose>
 
 <kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -62,7 +70,7 @@
                                                                 'protocolHelper.newFundingSource.fundingSourceName', 
                                                                 'protocolHelper.newFundingSource.fundingSourceTitle');" />
 	
-                           <div id="protocolHelper.newFundingSource.fundingSourceNumber.lookup.div" style="display: inline">
+                           <div id="protocolHelper.newFundingSource.fundingSourceNumber.lookup.div" style="${lookupStyle}">
 		                       <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
 		                                                    fieldConversions="" anchor="${currentTabIndex}"/>
 		                   </div>
