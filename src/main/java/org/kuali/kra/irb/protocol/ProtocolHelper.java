@@ -83,6 +83,7 @@ public class ProtocolHelper implements Serializable {
     private transient ParameterService parameterService;
     private transient KcPersonService personService;
     private transient RolodexService rolodexService;
+    private transient ProtocolFundingSourceService protocolFundingSourceService;
     
     /**
      * Looks up and returns the ParameterService.
@@ -100,6 +101,13 @@ public class ProtocolHelper implements Serializable {
             this.rolodexService = KraServiceLocator.getService(RolodexService.class);        
         }
         return this.rolodexService;
+    }
+    
+    protected ProtocolFundingSourceService getProtocolFundingSourceService() {
+        if (this.protocolFundingSourceService == null) {
+            this.protocolFundingSourceService = KraServiceLocator.getService(ProtocolFundingSourceService.class); 
+        }
+        return this.protocolFundingSourceService;
     }
 
     public boolean isEditProtocolFundingSourceName() {
@@ -280,12 +288,6 @@ public class ProtocolHelper implements Serializable {
         }
     }
     
-    public ProtocolFundingSourceService getProtocolFundingSourceService() {
-        ProtocolFundingSourceService theService = 
-            (ProtocolFundingSourceService) KraServiceLocator.getService("protocolFundingSourceService");
-        return theService;
-    }
-
     public String getPrincipalInvestigatorId() {
         return principalInvestigatorId;
     }
@@ -585,5 +587,13 @@ public class ProtocolHelper implements Serializable {
 
     public boolean getModifyAreasOfResearch() {
         return modifyAreasOfResearch;
+    }
+    
+    public boolean isFundingNumberLookupable() {
+        if (newFundingSource != null && newFundingSource.getFundingSourceTypeCode() != null) {
+            return getProtocolFundingSourceService().isLookupable(newFundingSource.getFundingSourceTypeCode().toString());
+        } else {
+            return false;
+        }
     }
 }
