@@ -52,7 +52,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationId", ORG_ID_NEW_1);
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
 
-        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
+        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 12);
                 
         HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
         
@@ -89,7 +89,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
         setFieldValue(organizationMaintenancePage, "document.documentHeader.documentDescription", "Organization Maint Doc - edit test");
 
-        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
+        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 12);
                 
         HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
         
@@ -127,7 +127,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationName", "test organization");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.contactAddressId", "1741");
         
-        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage);
+        organizationMaintenancePage = setupOrganizationCollections(organizationMaintenancePage, 11);
                 
         HtmlPage routedOrganizationPage = clickOn(organizationMaintenancePage, "methodToCall.route", "Kuali :: Organization Maintenance Document");
         
@@ -161,9 +161,10 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
 
-    private HtmlPage setupOrganizationCollections(HtmlPage organizationMaintenancePage) throws Exception {
-        // set up ynq answer        
-        for (int i = 0; i <= 11; i++) {
+    private HtmlPage setupOrganizationCollections(HtmlPage organizationMaintenancePage, int size) throws Exception {
+        // set up ynq answer       
+        // for this org '000425', it has 13 questions, so edit/copy is <=12 and new is only <= 11
+        for (int i = 0; i <= size; i++) {
             setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].answer", i%2==0?"Y":"N");
             setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].explanation", "test");
             setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].reviewDate", "01/01/2008");
