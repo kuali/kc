@@ -182,6 +182,11 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         
         // set up idc
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.idcNumber", "1");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.applicableIndirectcostRate", "1.0");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.endDate", "01/01/2008");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.startDate", "01/01/2008");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.requestedDate", "01/01/2008");
+        setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationIdcs.idcRateTypeCode", "1");
         organizationMaintenancePage = clickOn(organizationMaintenancePage, getImageTagName(organizationMaintenancePage,"methodToCall.addLine.organizationIdcs.(!!org.kuali.kra.bo.OrganizationIndirectcost!!)."), "Kuali :: Organization Maintenance Document");
 
         return organizationMaintenancePage;
