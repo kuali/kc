@@ -233,6 +233,7 @@
 		<property name="label" value="Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="4000" />
+		<property name="required" value="true" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" 
 			      p:allowWhitespace="true" />
