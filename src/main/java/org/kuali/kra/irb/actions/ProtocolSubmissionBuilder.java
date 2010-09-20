@@ -186,11 +186,18 @@ public class ProtocolSubmissionBuilder {
                 protocolSubmission.setCommitteeSchedule(schedule);
             } else {
                 // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
-                protocolSubmission.setScheduleId(null);
-                protocolSubmission.setScheduleIdFk(null);
-                protocolSubmission.setCommitteeSchedule(null);
+                clearCommScheduleDataFromPreviousSubmission();
             }
+        } else {
+            // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
+            clearCommScheduleDataFromPreviousSubmission();
         }
+    }
+    
+    private void clearCommScheduleDataFromPreviousSubmission() {
+        protocolSubmission.setScheduleId(null);
+        protocolSubmission.setScheduleIdFk(null);
+        protocolSubmission.setCommitteeSchedule(null); 
     }
     
     /**
