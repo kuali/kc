@@ -788,6 +788,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode210ReviewTypeCode5() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("5");
+        protocol.setProtocolStatusCode("101");
 
         protocol.getProtocolSubmission().setSubmissionStatusCode("100");
         assertTrue(protocolActionService.canPerformAction("210", protocol));
