@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.RolePersons;
@@ -43,6 +44,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -455,4 +457,22 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         this.getProtocol().getLeadUnitNumber();
         return super.wrapDocumentWithMetadataForXmlSerialization();
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentNumber() + "-" + activeLockRegion; 
+        }
+
+        return null;
+    }
+
 }
