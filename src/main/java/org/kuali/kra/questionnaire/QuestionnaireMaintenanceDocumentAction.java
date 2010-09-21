@@ -248,7 +248,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             result = result + questionnaireUsage.getQuestionnaireUsageId() + PFP + questionnaireUsage.getModuleItemCode() + PFP
                     + questionnaireUsage.getQuestionnaireLabel() + PFP + questionnaireUsage.getQuestionnaireSequenceNumber() + PFP
                     + questionnaireUsage.getModuleSubItemCode() + PFP + questionnaireUsage.getRuleId() + PFP
-                    + questionnaireUsage.getVersionNumber() + PUP;
+                    + questionnaireUsage.getVersionNumber()  + PFP + (questionnaireUsage.isMandatory() ? "Y" : "N") + PUP;
         }
         if (StringUtils.isNotBlank(result)) {
             result = result.substring(0, result.length() - 3);

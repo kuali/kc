@@ -1678,6 +1678,14 @@ $("#addUsage")
 								"value"));
 				modulecode.prependTo(tdtmp);
 				tdtmp.appendTo(trtmp);
+				var radioChecked = $("#newQuestionnaireUsage\\.mandatory").attr('checked');
+                var mandatoryValue = "No";
+				if (radioChecked) {
+	                mandatoryValue = "Yes";
+				}
+				tdtmp = $('<td align="left" valign="middle">').html(mandatoryValue);
+				tdtmp.appendTo(trtmp);
+
 				tdtmp = $('<td align="left" valign="middle">').html(
 						$("#newQuestionnaireUsage\\.questionnaireLabel").attr(
 								"value"));
@@ -1715,6 +1723,9 @@ $("#addUsage")
 		        getUsageHidden("questionnaireUsageId", "").appendTo(hidtd);
 		        getUsageHidden("moduleItemCode", $("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
 		        getUsageHidden("moduleSubItemCode", "0").appendTo(hidtd);
+                
+		        getUsageMandatoryHiddenTag($("#newQuestionnaireUsage\\.mandatory").attr("checked")).appendTo(hidtd);
+		        //getUsageHidden("mandatory", $("#newQuestionnaireUsage\\.mandatory").attr("value")).appendTo(hidtd);
 		        getUsageHidden("questionnaireLabel", $("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")).appendTo(hidtd);
 		        getUsageHidden("questionnaireSequenceNumber", qnversion).appendTo(hidtd);
 		        getUsageHidden("ruleId", "0").appendTo(hidtd);
@@ -1751,6 +1762,7 @@ function shiftUsage(uidx) {
 		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireUsageId").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireUsageId").attr("value"));
 		$("#"+juprefix+ (k-1)+"\\]\\.moduleItemCode").attr("value",$("#"+juprefix+k+"\\]\\.moduleItemCode").attr("value"));
 		$("#"+juprefix+ (k-1)+"\\]\\.moduleSubItemCode").attr("value",$("#"+juprefix+k+"\\]\\.moduleSubItemCode").attr("value"));
+		$("#"+juprefix+ (k-1)+"\\]\\.mandatory").attr("checked",$("#"+juprefix+k+"\\]\\.mandatory").attr("checked"));
 		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireLabel").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireLabel").attr("value"));
 		$("#"+juprefix+ (k-1)+"\\]\\.questionnaireSequenceNumber").attr("value",$("#"+juprefix+k+"\\]\\.questionnaireSequenceNumber").attr("value"));
 		$("#"+juprefix+ (k-1)+"\\]\\.ruleId").attr("value",$("#"+juprefix+k+"\\]\\.ruleId").attr("value"));
@@ -1914,7 +1926,7 @@ function isDuplicateUsage(moduleitemcode, vers) {
 	var k =0;
 	$("#usage-table").children('tbody:eq(0)').children('tr').each(
 	  function() {
-        if (k++ > 0 && $(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && $(this).children('td:eq(2)').html() == vers) {
+        if (k++ > 0 && $(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && $(this).children('td:eq(3)').html() == vers) {
         	isduplicate = true;
         }   
 	});
@@ -2092,6 +2104,12 @@ function loadUsages(usages) {
         var modulecode = $('<input type="hidden"/>').attr("value", field[1]);
         modulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
+        var mandatoryValue = "No";
+        if (field[7] == 'Y') {
+            mandatoryValue = "Yes";
+        }
+        tdtmp = $('<td align="left" valign="middle">').html(mandatoryValue);
+        tdtmp.appendTo(trtmp);
         tdtmp = $('<td align="left" valign="middle">').html(field[2]);
         tdtmp.appendTo(trtmp);
         // TODO : questionnaire version# will be loaded later
@@ -2136,6 +2154,12 @@ function loadUsages(usages) {
         getUsageHidden("questionnaireUsageId", field[0]).appendTo(hidtd);
         getUsageHidden("moduleItemCode", field[1]).appendTo(hidtd);
         getUsageHidden("moduleSubItemCode", field[4]).appendTo(hidtd);
+        var isChecked = false;
+        if (field[7] == 'Y') {
+        	isChecked = true;
+        }
+        getUsageMandatoryHiddenTag(isChecked).appendTo(hidtd);
+        //getUsageHidden("mandatory", field[7]).appendTo(hidtd);
         getUsageHidden("questionnaireLabel", field[2]).appendTo(hidtd);
         getUsageHidden("questionnaireSequenceNumber", field[3]).appendTo(hidtd);
         getUsageHidden("ruleId", field[5]).appendTo(hidtd);
@@ -2152,6 +2176,19 @@ function loadUsages(usages) {
 
 
 } // end loadusages
+
+function getUsageMandatoryHiddenTag(isChecked) {
+    var mandatorytag = $('<input type="checkbox" title="Mandatory" class="" style="" onblur="" onchange="" onclick="" >');
+    $(mandatorytag).attr("id",uprefix + (ucount-1) +"].mandatory");
+    $(mandatorytag).attr("name",uprefix + (ucount-1) +"].mandatory");
+    if (isChecked) {
+    	$(mandatorytag).attr("checked", true);
+    } else {
+    	$(mandatorytag).attr("checked", false);
+    }
+    $("#document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages["+ (ucount-1) +"]\\.mandatory").hide();
+    return mandatorytag;
+}
 
 function getUsageHidden(name, value) {
 	return $('<input type="hidden" id = "usage" name = "usage" />').attr("id",

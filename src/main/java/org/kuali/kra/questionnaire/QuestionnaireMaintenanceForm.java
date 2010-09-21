@@ -81,6 +81,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         if (this.getDocument() != null) {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
+            qn.setIsFinal(false);
             qn.setQuestionnaireUsages(new TypedArrayList(QuestionnaireUsage.class));
         }
         questionNumber = 1;
