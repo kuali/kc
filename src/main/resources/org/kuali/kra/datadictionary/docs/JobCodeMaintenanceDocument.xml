@@ -31,8 +31,8 @@
   <bean id="JobCodeMaintenanceDocument-EditJobCode" parent="JobCodeMaintenanceDocument-EditJobCode-parentBean"/>
 
   <bean id="JobCodeMaintenanceDocument-EditJobCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit JobCode"/>
-    <property name="title" value="Edit JobCode"/>
+    <property name="id" value="Edit Job Code"/>
+    <property name="title" value="Edit Job Code"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="jobCode" p:required="true"/>
