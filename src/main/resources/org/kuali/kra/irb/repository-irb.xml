@@ -736,6 +736,7 @@
         <field-descriptor name="protocolReviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="submissionDate" column="SUBMISSION_DATE" jdbc-type="TIMESTAMP" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="committeeDecisionMotionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE"  jdbc-type="VARCHAR" />
         <field-descriptor name="yesVoteCount" column="YES_VOTE_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="noVoteCount" column="NO_VOTE_COUNT" jdbc-type="INTEGER" />
         <field-descriptor name="abstainerCount" column="ABSTAINER_COUNT" jdbc-type="INTEGER" />
@@ -766,6 +767,9 @@
         </reference-descriptor>
         <reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionStatusCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.kra.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="committeeDecisionMotionTypeCode" />
         </reference-descriptor>
         <collection-descriptor name="exemptStudiesCheckList" element-class-ref="org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />

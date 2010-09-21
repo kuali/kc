@@ -100,6 +100,9 @@ public interface TaskName {
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
     public static final String RESPONSE_APPROVAL = "protocolResponseApproval";
     public static final String APPROVE_PROTOCOL = "protocolApprove";
+    public static final String DISAPPROVE_PROTOCOL = "protocolDisapprove";
+    public static final String RETURN_FOR_SMR = "protocolReturnForSMR";
+    public static final String RETURN_FOR_SRR = "protocolReturnForSRR";
     public static final String REOPEN_PROTOCOL = "protocolReopen";
     public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     public static final String SUSPEND_PROTOCOL = "protocolSuspend";

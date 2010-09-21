@@ -31,11 +31,11 @@
                 <tr>
                     <th> 
                         <div align="right">
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.motion}" />
+                            <kul:htmlAttributeLabel attributeEntry="${attributes.motionTypeCode}" />
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.motion" attributeEntry="${attributes.motion}" />
+                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.motionTypeCode" attributeEntry="${attributes.motionTypeCode}" />
                     </td>
                     
                     <th> 

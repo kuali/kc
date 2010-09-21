@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.decision;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolFactory;
 
@@ -49,7 +50,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //more no votes than yes votes .... valid disapprove
         decision.setNoCount(5);
-        decision.setMotion(MotionValuesFinder.DISAPPROVE);
+        decision.setMotionTypeCode(CommitteeDecisionMotionType.DISAPPROVE);
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
@@ -58,7 +59,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //comment included ... valid SMR
-        decision.setMotion(MotionValuesFinder.SMR);
+        decision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
         decision.getReviewComments().getComments().add(getBasicReviewComment());
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
@@ -68,7 +69,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //comment included ... valid SRR
-        decision.setMotion(MotionValuesFinder.SRR);
+        decision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
         decision.getReviewComments().getComments().add(getBasicReviewComment());
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
@@ -78,7 +79,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //no comment included ... invalid SMR
-        decision.setMotion(MotionValuesFinder.SMR);
+        decision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
         assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
@@ -87,7 +88,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         ProtocolDocument document = ProtocolFactory.createProtocolDocument();
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //no comment included ... invalid SRR
-        decision.setMotion(MotionValuesFinder.SRR);
+        decision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
         assertFalse(rule.proccessCommitteeDecisionRule(document, decision));
     }
     

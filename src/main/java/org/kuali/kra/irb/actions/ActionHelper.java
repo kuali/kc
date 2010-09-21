@@ -82,23 +82,6 @@ public class ActionHelper implements Serializable {
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     
     /**
-     * These private integers will be used in a switch statement when building ProtocolGenericActionBean to pull existing data
-     */
-    private static final int EXPEDITE_APPROVAL_BEAN_TYPE = 1;
-    private static final int APPROVE_BEAN_TYPE = 10;
-    private static final int REOPEN_BEAN_TYPE = 2;
-    private static final int CLOSE_ENROLLMENT_BEAN_TYPE = 3;
-    private static final int SUSPEND_BEAN_TYPE = 4;
-    private static final int SUSPEND_BY_DSMB_BEAN_TYPE = 5;
-    private static final int CLOSE_BEAN_TYPE = 6;
-    private static final int EXPIRE_BEAN_TYPE = 7;
-    private static final int TERMINATE_BEAN_TYPE = 8;
-    private static final int PERMIT_DATA_ANALYSIS_BEAN_TYPE = 9;
-    private static final int DEFER_BEAN_TYPE = 13;
-    private static final int RESPONSE_APPROVAL_BEAN_TYPE = 11;
-    private static final int MANAGE_REVIEW_COMMENTS_BEAN_TYPE = 12;
-    
-    /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
      */
@@ -125,6 +108,9 @@ public class ActionHelper implements Serializable {
     private boolean canExpediteApproval = false;
     private boolean canApproveResponse = false;
     private boolean canApprove = false;
+    private boolean canDisapprove = false;
+    private boolean canReturnForSMR = false;
+    private boolean canReturnForSRR = false;
     private boolean canReopen = false;
     private boolean canCloseEnrollment = false;
     private boolean canSuspend = false;
@@ -162,6 +148,9 @@ public class ActionHelper implements Serializable {
     private ProtocolApproveBean protocolApproveBean;
     private ProtocolApproveBean protocolExpediteApprovalBean;
     private ProtocolApproveBean protocolResponseApprovalBean;
+    private ProtocolGenericActionBean protocolDisapproveBean;
+    private ProtocolGenericActionBean protocolSMRBean;
+    private ProtocolGenericActionBean protocolSRRBean;
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
@@ -246,25 +235,28 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean.initComments();
         irbAcknowledgementBean = new IrbAcknowledgementBean(this);
         irbAcknowledgementBean.initComments();
-        protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
-        protocolResponseApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), RESPONSE_APPROVAL_BEAN_TYPE);
-        protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
-        protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(SUSPEND_BY_DSMB_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolCloseBean = buildProtocolGenericActionBean(CLOSE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolExpireBean = buildProtocolGenericActionBean(EXPIRE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, form.getProtocolDocument().getProtocol());
+        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, form.getProtocolDocument().getProtocol());
+        protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, form.getProtocolDocument().getProtocol());
+        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, protocolActions, currentSubmission);
+        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, protocolActions, currentSubmission);
+        protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, protocolActions, currentSubmission);
+        protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, protocolActions, currentSubmission);
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, protocolActions, currentSubmission);
+        protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, protocolActions, currentSubmission);
+        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, protocolActions, currentSubmission);
+        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, protocolActions, currentSubmission);
+        protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, protocolActions, currentSubmission);
+        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, protocolActions, currentSubmission);
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, protocolActions, currentSubmission);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
-        protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, protocolActions, currentSubmission);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
-        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(MANAGE_REVIEW_COMMENTS_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, protocolActions, currentSubmission);
     }
     
     
@@ -275,10 +267,10 @@ public class ActionHelper implements Serializable {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this);
         bean.initComments();
-        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions, currentSubmission);
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocolActions, currentSubmission);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -288,10 +280,10 @@ public class ActionHelper implements Serializable {
         return bean;
     }
     
-    private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol, int beanType) throws Exception{
+    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, Protocol protocol) throws Exception{
         ProtocolApproveBean bean = new ProtocolApproveBean(this);
         bean.initComments();
-        ProtocolAction protocolAction = findProtocolAction(beanType, protocol.getProtocolActions(), protocol.getProtocolSubmission());
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -349,55 +341,12 @@ public class ActionHelper implements Serializable {
         return expirationDate;
     }
 
-    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
-        String actionTypeCode;
-        switch(beanType) {
-            case EXPEDITE_APPROVAL_BEAN_TYPE:
-                actionTypeCode = ProtocolActionType.EXPEDITE_APPROVAL;
-                break;
-            case RESPONSE_APPROVAL_BEAN_TYPE:
-                actionTypeCode = ProtocolActionType.RESPONSE_APPROVAL;
-                break;
-            case APPROVE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.APPROVED;
-                break;
-            case REOPEN_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.REOPEN_ENROLLMENT;
-                break;
-            case CLOSE_ENROLLMENT_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.CLOSED_FOR_ENROLLMENT;
-                break;
-            case SUSPEND_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.SUSPENDED;
-                break;
-            case SUSPEND_BY_DSMB_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.SUSPENDED_BY_DSMB;
-                break;
-            case CLOSE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED;
-                break;
-            case EXPIRE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.EXPIRED;
-                break;
-            case TERMINATE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.TERMINATED;
-                break;
-            case PERMIT_DATA_ANALYSIS_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.DATA_ANALYSIS_ONLY;
-                break;
-            case MANAGE_REVIEW_COMMENTS_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.MANAGE_REVIEW_COMMENTS;
-                break;                
-            case DEFER_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.DEFERRED;
-                break;  
-            default:
-                //should never get here
-                throw new Exception("Invalid bean type provided");
-        }
+    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) 
+        throws Exception {
+
         for (ProtocolAction pa : protocolActions) {
             if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
-                    && ( pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
+                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
                 return pa;
             }
         }
@@ -527,6 +476,9 @@ public class ActionHelper implements Serializable {
         canExpediteApproval = hasExpediteApprovalPermission();
         canApproveResponse = hasResponseApprovalPermission();
         canApprove = hasApprovePermission();
+        canDisapprove = hasDisapprovePermission();
+        canReturnForSMR = hasReturnForSMRPermission();
+        canReturnForSRR = hasReturnForSRRPermission();
         canReopen = hasReopenPermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
         canSuspend = hasSuspendPermission();
@@ -557,6 +509,9 @@ public class ActionHelper implements Serializable {
         protocolExpediteApprovalBean.initComments();
         protocolResponseApprovalBean.initComments();
         protocolApproveBean.initComments();
+        protocolDisapproveBean.initComments();
+        protocolSMRBean.initComments();
+        protocolSRRBean.initComments();
         protocolReopenBean.initComments();
         protocolCloseEnrollmentBean.initComments();
         protocolSuspendBean.initComments();
@@ -567,6 +522,7 @@ public class ActionHelper implements Serializable {
         protocolPermitDataAnalysisBean.initComments();
         committeeDecision.initComments();
         protocolDeferBean.initComments();
+        protocolManageReviewCommentsBean.initComments();
     }
     
     private ProtocolVersionService getProtocolVersionService() {
@@ -676,6 +632,18 @@ public class ActionHelper implements Serializable {
     
     private boolean hasApprovePermission() {
         return hasPermission(TaskName.APPROVE_PROTOCOL);
+    }
+    
+    private boolean hasDisapprovePermission() {
+        return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
+    }
+    
+    private boolean hasReturnForSMRPermission() {
+        return hasPermission(TaskName.RETURN_FOR_SMR);
+    }
+    
+    private boolean hasReturnForSRRPermission() {
+        return hasPermission(TaskName.RETURN_FOR_SRR);
     }
     
     private boolean hasReopenPermission() {
@@ -858,7 +826,6 @@ public class ActionHelper implements Serializable {
     public IrbAcknowledgementBean getIrbAcknowledgementBean() {
         return irbAcknowledgementBean;
     }
-    
 
     public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
@@ -870,6 +837,18 @@ public class ActionHelper implements Serializable {
 
     public ProtocolApproveBean getProtocolApproveBean() {
         return protocolApproveBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolDisapproveBean() {
+        return protocolDisapproveBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSMRBean() {
+        return protocolSMRBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSRRBean() {
+        return protocolSRRBean;
     }
     
     public ProtocolGenericActionBean getProtocolReopenBean() {
@@ -994,6 +973,18 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanApprove() {
         return canApprove;
+    }
+    
+    public boolean getCanDisapprove() {
+        return canDisapprove;
+    }
+    
+    public boolean getCanReturnForSMR() {
+        return canReturnForSMR;
+    }
+    
+    public boolean getCanReturnForSRR() {
+        return canReturnForSRR;
     }
     
     public boolean getCanReopen() {
