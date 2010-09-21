@@ -1117,6 +1117,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             ProtocolForm protocolForm = (ProtocolForm) form;
             ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
             getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+            protocolForm.getActionHelper().getAssignToAgendaBean().init();
         }
 
         return mapping.findForward(MAPPING_BASIC);

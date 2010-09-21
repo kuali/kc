@@ -236,7 +236,7 @@ end
 rule "IRB review not required Protocol Case # 1880"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "210", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "5")
+	protocolAction : ProtocolActionMapping(actionTypeCode == "210", submissionNumber != null, protocolStatusCode == "101", protocolReviewTypeCode == "5")
 then	
 	setAction(protocolAction, true);
 end
