@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -49,7 +50,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
     private String submissionStatusCode;
     private String protocolReviewTypeCode;
     private Timestamp submissionDate; 
-    private String comments; 
+    private String comments;
+    private String committeeDecisionMotionTypeCode;
     private Integer yesVoteCount; 
     private Integer noVoteCount; 
     //these two are here just for persistence to work, fields get recorded to the db, but in code, they are always calculated.
@@ -68,6 +70,8 @@ public class ProtocolSubmission extends ProtocolAssociate {
     
     private ProtocolSubmissionType protocolSubmissionType;
     private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
+    
+    private CommitteeDecisionMotionType committeeDecisionMotionType;
     
     private List<ProtocolVoteAbstainee> abstainers = new ArrayList<ProtocolVoteAbstainee>();
     private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
@@ -231,6 +235,14 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public void setComments(String comments) {
         this.comments = comments;
     }
+    
+    public String getCommitteeDecisionMotionTypeCode() {
+        return committeeDecisionMotionTypeCode;
+    }
+    
+    public void setCommitteeDecisionMotionTypeCode(String committeeDecisionMotionTypeCode) {
+        this.committeeDecisionMotionTypeCode = committeeDecisionMotionTypeCode;
+    }
 
     public Integer getYesVoteCount() {
         return yesVoteCount;
@@ -364,6 +376,14 @@ public class ProtocolSubmission extends ProtocolAssociate {
     public ProtocolSubmissionQualifierType getProtocolSubmissionQualifierType() {
         return protocolSubmissionQualifierType;
     }
+    
+    public void setCommitteeDecisionMotionType(CommitteeDecisionMotionType committeeDecisionMotionType) {
+        this.committeeDecisionMotionType = committeeDecisionMotionType;
+    }
+    
+    public CommitteeDecisionMotionType getCommitteeDecisionMotionType() {
+        return committeeDecisionMotionType;
+    }
 
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
@@ -408,6 +428,7 @@ public class ProtocolSubmission extends ProtocolAssociate {
         hashMap.put("submissionStatusCode", getSubmissionStatusCode());
         hashMap.put("protocolReviewTypeCode", getProtocolReviewTypeCode());
         hashMap.put("submissionDate", this.getSubmissionDate());
+        hashMap.put("committeeDecisionMotionTypeCode", this.getCommitteeDecisionMotionTypeCode());
         hashMap.put("comments", this.getComments());
         hashMap.put("yesVoteCount", this.getYesVoteCount());
         hashMap.put("noVoteCount", this.getNoVoteCount());

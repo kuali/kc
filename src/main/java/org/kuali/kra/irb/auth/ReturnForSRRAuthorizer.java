@@ -22,9 +22,9 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
- * Is the user allowed to approve protocols?
+ * Is the user allowed to return protocols for substantive revisions?
  */
-public class ApproveProtocolAuthorizer extends ProtocolAuthorizer {
+public class ReturnForSRRAuthorizer extends ProtocolAuthorizer {
 
     /**
      * {@inheritDoc}
@@ -41,8 +41,8 @@ public class ApproveProtocolAuthorizer extends ProtocolAuthorizer {
         boolean canPerform = false;
         
         if (lastAction != null && lastSubmission != null) {
-            canPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode()) 
-                      && CommitteeDecisionMotionType.APPROVE.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
+            canPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
+                      && CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
         }
         
         return canPerform;

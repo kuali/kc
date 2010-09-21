@@ -15,41 +15,49 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
+import java.sql.Timestamp;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-/*
-@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";"),
-        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_STATUS.sql", delimiter = ";")
-}))*/
+
 public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     
-    CommitteeDecisionService committeeDecisionService;
-    //BusinessObjectService businessObjectService;
-    Protocol protocol;
+    private static final Long PROTOCOL_ID = 1234L;
+    private static final String PROTOCOL_NUMBER = "123456";
+    private static final String COMMITTEE_ID = "1285093659990";
+    private static final String SCHEDULE_ID = "10014";
+    
+    private static final Integer YES_COUNT = 2;
+    private static final Integer NO_COUNT = 0;
+    private static final Integer ABSTAIN_COUNT = 0;
+    private static final Integer RECUSED_COUNT = 0;
+    private static final String VOTING_COMMENTS = "just some dumb comments";
+    
+    private CommitteeDecisionService committeeDecisionService;
+    private Protocol protocol;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        //committeeDecisionService = KraServiceLocator.getService(CommitteeDecisionService.class);
         committeeDecisionService = KraServiceLocator.getService("protocolCommitteeDecisionService");
-        protocol = ProtocolFactory.createProtocolDocument("123456").getProtocol();
-        protocol.setProtocolId(new Long(1234));
+        protocol = ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER).getProtocol();
+        protocol.setProtocolId(PROTOCOL_ID);
+        
+        ProtocolSubmission submission = createSubmission(protocol);
+        protocol.getProtocolSubmissions().add(submission);
     }
 
     @After
@@ -59,15 +67,119 @@ public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     }
 
     @Test
-    public void testSetCommitteeDecision() throws Exception {
+    public void testProcessApproveCommitteeDecision() throws Exception {
         CommitteeDecision committeeDecision = new CommitteeDecision(null);
-        committeeDecision.setAbstainCount(new Integer(0));
-        committeeDecision.setMotion(MotionValuesFinder.APPROVE);
-        committeeDecision.setNoCount(new Integer(0));
-        committeeDecision.getReviewComments().setProtocolId(protocol.getProtocolId());
-        committeeDecision.setVotingComments("just some dumb comments");
-        committeeDecision.setYesCount(new Integer(2));
+        committeeDecision.setMotionTypeCode(CommitteeDecisionMotionType.APPROVE);
+        committeeDecision.setYesCount(YES_COUNT);
+        committeeDecision.setNoCount(NO_COUNT);
+        committeeDecision.setAbstainCount(ABSTAIN_COUNT);
+        committeeDecision.setRecusedCount(RECUSED_COUNT);
+        committeeDecision.getReviewComments().setProtocolId(PROTOCOL_ID);
+        committeeDecision.setVotingComments(VOTING_COMMENTS);
         committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);
+        
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.RECORD_COMMITTEE_DECISION, lastAction.getProtocolActionTypeCode());
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(CommitteeDecisionMotionType.APPROVE, submission.getCommitteeDecisionMotionTypeCode());
+        assertEquals(YES_COUNT, submission.getYesVoteCount());
+        assertEquals(NO_COUNT, submission.getNoVoteCount());
+        assertEquals(ABSTAIN_COUNT, submission.getAbstainerCount());
+        assertEquals(RECUSED_COUNT, submission.getRecusedCount());
+        assertEquals(VOTING_COMMENTS, submission.getVotingComments());
+    }
+    
+    @Test
+    public void testProcessDisapproveCommitteeDecision() throws Exception {
+        CommitteeDecision committeeDecision = new CommitteeDecision(null);
+        committeeDecision.setMotionTypeCode(CommitteeDecisionMotionType.DISAPPROVE);
+        committeeDecision.setYesCount(YES_COUNT);
+        committeeDecision.setNoCount(NO_COUNT);
+        committeeDecision.setAbstainCount(ABSTAIN_COUNT);
+        committeeDecision.setRecusedCount(RECUSED_COUNT);
+        committeeDecision.getReviewComments().setProtocolId(PROTOCOL_ID);
+        committeeDecision.setVotingComments(VOTING_COMMENTS);
+        committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);
+        
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.RECORD_COMMITTEE_DECISION, lastAction.getProtocolActionTypeCode());
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(CommitteeDecisionMotionType.DISAPPROVE, submission.getCommitteeDecisionMotionTypeCode());
+        assertEquals(YES_COUNT, submission.getYesVoteCount());
+        assertEquals(NO_COUNT, submission.getNoVoteCount());
+        assertEquals(ABSTAIN_COUNT, submission.getAbstainerCount());
+        assertEquals(RECUSED_COUNT, submission.getRecusedCount());
+        assertEquals(VOTING_COMMENTS, submission.getVotingComments());
+    }
+    
+    @Test
+    public void testProcessSMRCommitteeDecision() throws Exception {
+        CommitteeDecision committeeDecision = new CommitteeDecision(null);
+        committeeDecision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
+        committeeDecision.setYesCount(YES_COUNT);
+        committeeDecision.setNoCount(NO_COUNT);
+        committeeDecision.setAbstainCount(ABSTAIN_COUNT);
+        committeeDecision.setRecusedCount(RECUSED_COUNT);
+        committeeDecision.getReviewComments().setProtocolId(PROTOCOL_ID);
+        committeeDecision.setVotingComments(VOTING_COMMENTS);
+        committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);
+        
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.RECORD_COMMITTEE_DECISION, lastAction.getProtocolActionTypeCode());
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS, submission.getCommitteeDecisionMotionTypeCode());
+        assertEquals(YES_COUNT, submission.getYesVoteCount());
+        assertEquals(NO_COUNT, submission.getNoVoteCount());
+        assertEquals(ABSTAIN_COUNT, submission.getAbstainerCount());
+        assertEquals(RECUSED_COUNT, submission.getRecusedCount());
+        assertEquals(VOTING_COMMENTS, submission.getVotingComments());
+    }
+    
+    @Test
+    public void testProcessSRRCommitteeDecision() throws Exception {
+        CommitteeDecision committeeDecision = new CommitteeDecision(null);
+        committeeDecision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+        committeeDecision.setYesCount(YES_COUNT);
+        committeeDecision.setNoCount(NO_COUNT);
+        committeeDecision.setAbstainCount(ABSTAIN_COUNT);
+        committeeDecision.setRecusedCount(RECUSED_COUNT);
+        committeeDecision.getReviewComments().setProtocolId(PROTOCOL_ID);
+        committeeDecision.setVotingComments(VOTING_COMMENTS);
+        committeeDecisionService.processCommitteeDecision(protocol, committeeDecision);
+        
+        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        assertNotNull(lastAction);
+        assertEquals(ProtocolActionType.RECORD_COMMITTEE_DECISION, lastAction.getProtocolActionTypeCode());
+        ProtocolSubmission submission = protocol.getProtocolSubmission();
+        assertNotNull(submission);
+        assertEquals(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED, submission.getCommitteeDecisionMotionTypeCode());
+        assertEquals(YES_COUNT, submission.getYesVoteCount());
+        assertEquals(NO_COUNT, submission.getNoVoteCount());
+        assertEquals(ABSTAIN_COUNT, submission.getAbstainerCount());
+        assertEquals(RECUSED_COUNT, submission.getRecusedCount());
+        assertEquals(VOTING_COMMENTS, submission.getVotingComments());
+    }
+    
+    private ProtocolSubmission createSubmission(Protocol protocol) {
+        ProtocolSubmission submission = new ProtocolSubmission();
+        submission.setProtocol(protocol);
+        submission.setProtocolId(protocol.getProtocolId());
+        submission.setProtocolNumber(protocol.getProtocolNumber());
+        submission.setSubmissionNumber(1);
+        submission.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
+        submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        submission.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
+        submission.setCommitteeId(COMMITTEE_ID);
+        submission.setScheduleId(SCHEDULE_ID);
+        
+        return submission;
     }
 
 }

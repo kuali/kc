@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -41,12 +42,14 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 @SuppressWarnings("serial")
 public class CommitteeDecision extends ReviewerCommentsBean implements Serializable {
 
-    private String motion;
+    private String motionTypeCode;
     private Integer noCount;
     private Integer yesCount;
     private Integer abstainCount;
     private Integer recusedCount;
     private String votingComments;
+    
+    private CommitteeDecisionMotionType motionType;
     
     private CommitteePerson newAbstainer = new CommitteePerson();
     private CommitteePerson newRecused = new CommitteePerson();
@@ -76,11 +79,13 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         //ProtocolSubmission submission = getSubmission(protocol);
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
+            this.motionTypeCode = submission.getCommitteeDecisionMotionTypeCode();
             this.noCount = submission.getNoVoteCount();
             this.yesCount = submission.getYesVoteCount();
             this.abstainCount = submission.getAbstainerCount();
             this.recusedCount = submission.getRecusedCount();
             this.votingComments = submission.getVotingComments();
+            this.setMotionType(submission.getCommitteeDecisionMotionType());
             
             //not sure if I really need to deal with protocol actions    
             //ES: Please remove condition before checking in.
@@ -165,12 +170,12 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
         return null;
     }
 
-    public String getMotion() {
-        return motion;
+    public String getMotionTypeCode() {
+        return motionTypeCode;
     }
 
-    public void setMotion(String motion) {
-        this.motion = motion;
+    public void setMotionTypeCode(String commDecisionMotionTypeCode) {
+        this.motionTypeCode = commDecisionMotionTypeCode;
     }
 
     public Integer getNoCount() {
@@ -204,6 +209,14 @@ public class CommitteeDecision extends ReviewerCommentsBean implements Serializa
 
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
+    }
+    
+    public CommitteeDecisionMotionType getMotionType() {
+        return motionType;
+    }
+
+    public void setMotionType(CommitteeDecisionMotionType motionType) {
+        this.motionType = motionType;
     }
 
     public List<CommitteePerson> getAbstainers() {

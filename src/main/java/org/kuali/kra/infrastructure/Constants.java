@@ -493,6 +493,7 @@ public interface Constants {
     public static final String PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseEnrollmentBean.reviewComments";
     public static final String PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.committeeDecision.reviewComments";
     public static final String PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDeferBean.reviewComments";
+    public static final String PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDisapproveBean.reviewComments";
     public static final String PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpediteApprovalBean.reviewComments";
     public static final String PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpireBean.reviewComments";
     public static final String PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolGrantExemptionBean.reviewComments";
@@ -500,6 +501,8 @@ public interface Constants {
     public static final String PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolPermitDataAnalysisBean.reviewComments";
     public static final String PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolReopenBean.reviewComments";
     public static final String PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolResponseApprovalBean.reviewComments";
+    public static final String PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSMRBean.reviewComments";
+    public static final String PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSRRBean.reviewComments";
     public static final String PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendBean.reviewComments";
     public static final String PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendByDmsbBean.reviewComments";
     public static final String PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolTerminateBean.reviewComments";

@@ -17,21 +17,21 @@ package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * 
@@ -43,6 +43,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private BusinessObjectService businessObjectService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolActionService protocolActionService;
+    private ProtocolVersionService protocolVersionService;
+    private DocumentService documentService;
     private RoleService kimRoleManagementService;
     
     /**
@@ -59,6 +61,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
     /**
@@ -124,6 +134,26 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
     }
     
+    /**{@inheritDoc}**/
+    public void disapprove(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.DISAPPROVED, ProtocolStatus.DISAPPROVED);
+        performDisapprove(protocol);
+    }
+//    
+    /**{@inheritDoc}**/
+    public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
+        
+        return performVersioning(protocol);
+    }
+    
+    /**{@inheritDoc}**/
+    public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
+        
+        return performVersioning(protocol);
+    }
+    
     /**
      * 
      * This method performs the Generic action persistence.  A state change, action date, and a comment, that's it
@@ -149,4 +179,30 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
+    
+    private void performDisapprove(Protocol protocol) throws Exception {
+        if (protocol.getProtocolDocument() != null) {
+            KualiWorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            if (currentWorkflowDocument != null) {
+                currentWorkflowDocument.disapprove("Disapproving Protocol Document after Committee Decision");
+            }
+        }    
+    }
+    
+    private ProtocolDocument performVersioning(Protocol protocol) throws Exception {
+        ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+        newDocument.getProtocol().setApprovalDate(null);
+        newDocument.getProtocol().setLastApprovalDate(null);
+        newDocument.getProtocol().setExpirationDate(null);
+       
+        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        documentService.saveDocument(newDocument);
+        newDocument.getProtocol().setProtocolSubmission(null);
+        
+        documentService.cancelDocument(protocol.getProtocolDocument(), 
+                "Canceling the Original Protocol Workflow Document since a new Document is created for revisions.");
+        
+        return newDocument;
+    }
+    
 }
