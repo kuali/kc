@@ -314,6 +314,9 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolReviewNotRequiredAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReviewNotRequired" />
                 </bean>    
+                <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageReviewComments" />
+                </bean>                
             </list>
         </property>
     </bean>
@@ -739,6 +742,7 @@
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
 		<property name="identityManagementService" ref = "identityManagementService"/>
 		<property name="protocolGenericActionService" ref = "protocolGenericActionService"/>
+		<property name="protocolActionsNotificationService" ref = "protocolActionsNotificationService"/>
     </bean>
     
     <bean id="committeeScheduleAttendanceService" class="org.kuali.kra.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">

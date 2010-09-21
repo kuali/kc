@@ -487,6 +487,7 @@ public interface Constants {
     
     // Review Comments
     public static final String PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolApproveBean.reviewComments";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY = "actionHelper.protocolManageReviewCommentsBean.reviewComments";
     public static final String PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.assignToAgendaBean.reviewComments";
     public static final String PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseBean.reviewComments";
     public static final String PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseEnrollmentBean.reviewComments";
