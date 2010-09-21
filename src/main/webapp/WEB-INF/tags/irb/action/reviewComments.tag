@@ -21,10 +21,16 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>
 <%@ attribute name="allowReadOnly" required="true" %>
+<%@ attribute name="tabCustomTitle" required="false" %>
+<%@ attribute name="methodToCall" required="false" %>
+
+<c:if test="${empty tabCustomTitle}">
+	<c:set var="tabCustomTitle" value="Review Comments" />
+</c:if>
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+<kul:innerTab tabTitle="${tabCustomTitle}" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -160,6 +166,18 @@
                         </td>
                     </tr>
                 </c:forEach>
+                
+                <c:if test="${not empty methodToCall}">
+	                <tr>
+	                	<td colspan="6">
+	                		<div align="center">
+								<html:image property="methodToCall.${methodToCall}.anchor${tabKey}"
+								            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' 
+								            styleClass="tinybutton"/>
+							</div>
+						</td>
+	                </tr>
+                </c:if>
 
             </tbody>
         </table>

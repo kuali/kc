@@ -25,6 +25,9 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
+import org.kuali.kra.irb.actions.notification.DeferEvent;
+import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
+import org.kuali.kra.irb.actions.notification.WithdrawEvent;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
@@ -46,6 +49,8 @@ public class ProtocolDeferServiceImpl implements ProtocolDeferService {
     private IdentityManagementService identityManagementService;
     
     private ProtocolGenericActionService protocolGenericActionService;
+    private ProtocolActionsNotificationService protocolActionsNotificationService;
+    
     /**
      * Set the document service.
      * @param documentService
@@ -78,12 +83,19 @@ public class ProtocolDeferServiceImpl implements ProtocolDeferService {
         this.protocolGenericActionService = protocolGenericActionService;
     }
 
+    public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
+        this.protocolActionsNotificationService = protocolActionsNotificationService;
+    }
+
     /**
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean deferBean) throws Exception {
+        ProtocolDocument oldDocument = protocol.getProtocolDocument();
         protocolGenericActionService.defer(protocol, deferBean);
+        protocolActionsNotificationService.sendActionsNotification(protocol, new DeferEvent(protocol));
         
+        protocol.setProtocolDocument(oldDocument);
         cancelWorkflow(protocol);
         //need to cancel any outstanding review documents
         for (ProtocolOnlineReview review : protocol.getProtocolOnlineReviews()) {

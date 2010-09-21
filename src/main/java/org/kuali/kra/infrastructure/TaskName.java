@@ -116,6 +116,7 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
     public static final String DEFER_PROTOCOL = "protocolDefer";
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS = "protocolManageReviewComments";
     
     /*
      * Protocol - Online Review Tasks

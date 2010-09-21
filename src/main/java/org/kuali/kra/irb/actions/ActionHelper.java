@@ -85,7 +85,6 @@ public class ActionHelper implements Serializable {
      * These private integers will be used in a switch statement when building ProtocolGenericActionBean to pull existing data
      */
     private static final int EXPEDITE_APPROVAL_BEAN_TYPE = 1;
-    private static final int RESPONSE_APPROVAL_BEAN_TYPE = 11;
     private static final int APPROVE_BEAN_TYPE = 10;
     private static final int REOPEN_BEAN_TYPE = 2;
     private static final int CLOSE_ENROLLMENT_BEAN_TYPE = 3;
@@ -95,7 +94,9 @@ public class ActionHelper implements Serializable {
     private static final int EXPIRE_BEAN_TYPE = 7;
     private static final int TERMINATE_BEAN_TYPE = 8;
     private static final int PERMIT_DATA_ANALYSIS_BEAN_TYPE = 9;
-    private static final int DEFER_BEAN_TYPE = 10;
+    private static final int DEFER_BEAN_TYPE = 13;
+    private static final int RESPONSE_APPROVAL_BEAN_TYPE = 11;
+    private static final int MANAGE_REVIEW_COMMENTS_BEAN_TYPE = 12;
     
     /**
      * Each Helper must contain a reference to its document form
@@ -140,6 +141,7 @@ public class ActionHelper implements Serializable {
     private boolean canIrbAcknowledgement = false;
     private boolean canDefer = false;
     private boolean canReviewNotRequired = false;
+    private boolean canManageReviewComments = false;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -175,6 +177,8 @@ public class ActionHelper implements Serializable {
     private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
+    private ProtocolGenericActionBean protocolManageReviewCommentsBean;
+    
     private boolean prevDisabled;
     private boolean nextDisabled;
     private transient ParameterService parameterService;
@@ -260,6 +264,7 @@ public class ActionHelper implements Serializable {
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
         protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
+        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(MANAGE_REVIEW_COMMENTS_BEAN_TYPE, protocolActions, currentSubmission);
     }
     
     
@@ -380,6 +385,12 @@ public class ActionHelper implements Serializable {
             case PERMIT_DATA_ANALYSIS_BEAN_TYPE:
                 actionTypeCode =  ProtocolActionType.DATA_ANALYSIS_ONLY;
                 break;
+            case MANAGE_REVIEW_COMMENTS_BEAN_TYPE:
+                actionTypeCode =  ProtocolActionType.MANAGE_REVIEW_COMMENTS;
+                break;                
+            case DEFER_BEAN_TYPE:
+                actionTypeCode =  ProtocolActionType.DEFERRED;
+                break;  
             default:
                 //should never get here
                 throw new Exception("Invalid bean type provided");
@@ -531,8 +542,8 @@ public class ActionHelper implements Serializable {
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
         canDefer = hasDeferPermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
-        
         canReviewNotRequired = hasReviewNotRequiredPermission();
+        canManageReviewComments = hasManageReviewCommentsPermission();
         
         initSummaryDetails();
         
@@ -717,6 +728,10 @@ public class ActionHelper implements Serializable {
     
     private boolean hasDeferPermission() {
         return hasPermission(TaskName.DEFER_PROTOCOL);
+    }
+    
+    private boolean hasManageReviewCommentsPermission() {
+        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
     }
     
     private boolean hasPermission(String taskName) {
@@ -904,6 +919,10 @@ public class ActionHelper implements Serializable {
     public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
         return this.protocolModifySubmissionBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolManageReviewCommentsBean() {
+        return protocolManageReviewCommentsBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
@@ -1039,6 +1058,10 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanReviewNotRequired() {
         return this.canReviewNotRequired;
+    }
+
+    public boolean getCanManageReviewComments() {  
+        return canManageReviewComments;
     }
 
     public void setPrintTag(String printTag) {
