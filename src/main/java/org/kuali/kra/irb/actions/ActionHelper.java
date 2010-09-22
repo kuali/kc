@@ -86,7 +86,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ActionHelper implements Serializable {
 
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
-    
+    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
+    static {
+        final List<String> codes = new ArrayList<String>();     
+        codes.add(ProtocolActionType.NOTIFY_IRB);
+        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
+        codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+        codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
+        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
+        codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
+        ACTION_TYPE_SUBMISSION_DOC = codes;
+    }
+
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -201,6 +212,7 @@ public class ActionHelper implements Serializable {
     private List<ProtocolVoteRecused> recusers;        
     private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
+    private String renewalSummary;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
     /**
@@ -1115,7 +1127,9 @@ public class ActionHelper implements Serializable {
         List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
         for (ProtocolAction protocolAction : protocolActions) {
             if (inDateRange(protocolAction)) {
-                getSubmissionDocs(protocolAction);
+                if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
+                    getSubmissionDocs(protocolAction);
+                }
                 filteredProtocolActions.add(protocolAction);
             }
         }
@@ -1492,5 +1506,15 @@ public class ActionHelper implements Serializable {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+
+    public String getRenewalSummary() {
+        return renewalSummary;
+    }
+
+
+    public void setRenewalSummary(String renewalSummary) {
+        this.renewalSummary = renewalSummary;
     }
 }
