@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,7 +33,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-
+@Ignore
 public class CommitteeDecisionServiceTest extends KcUnitTestBase {
     
     private static final Long PROTOCOL_ID = 1234L;
