@@ -231,7 +231,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
         submitAction.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
         submitAction.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        submitAction.setSubmissionQualifierTypeCode(Constants.EMPTY_STRING);
+        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
         submitAction.setCommitteeId(COMMITTEE_ID);
         submitAction.setScheduleId(SCHEDULE_ID);
         return submitAction;
