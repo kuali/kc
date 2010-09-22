@@ -58,6 +58,9 @@ public class ProtocolAction extends ProtocolAssociate {
     private ProtocolActionType protocolActionType;
     
     private List<ProtocolCorrespondence> protocolCorrespondences;
+    @SkipVersioning
+    private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;    
+
     
     public ProtocolAction() { 
 
@@ -344,5 +347,13 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setProtocolCorrespondences(List<ProtocolCorrespondence> protocolCorrespondences) {
         this.protocolCorrespondences = protocolCorrespondences;
+    }
+
+    public List<ProtocolSubmissionDoc> getProtocolSubmissionDocs() {
+        return protocolSubmissionDocs;
+    }
+
+    public void setProtocolSubmissionDocs(List<ProtocolSubmissionDoc> protocolSubmissionDocs) {
+        this.protocolSubmissionDocs = protocolSubmissionDocs;
     }    
 }

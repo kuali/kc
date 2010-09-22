@@ -21,13 +21,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -51,6 +54,7 @@ import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
@@ -67,8 +71,10 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -196,7 +202,7 @@ public class ActionHelper implements Serializable {
     private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
     private transient KcPersonService kcPersonService;
-
+    private transient BusinessObjectService businessObjectService;
     /**
      * @throws Exception 
      * Constructs an ActionHelper.
@@ -1109,6 +1115,7 @@ public class ActionHelper implements Serializable {
         List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
         for (ProtocolAction protocolAction : protocolActions) {
             if (inDateRange(protocolAction)) {
+                getSubmissionDocs(protocolAction);
                 filteredProtocolActions.add(protocolAction);
             }
         }
@@ -1119,6 +1126,20 @@ public class ActionHelper implements Serializable {
         });
      
         return filteredProtocolActions;
+    }
+
+    private void getSubmissionDocs(ProtocolAction protocolAction) {
+        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
+        fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
+        protocolAction.setProtocolSubmissionDocs((List<ProtocolSubmissionDoc>)getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true));
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 
     /**
@@ -1392,6 +1413,26 @@ public class ActionHelper implements Serializable {
         }
     }
 
+    public void addNotifyIrbAttachment() {
+        getProtocolNotifyIrbBean().getActionAttachments().add(
+                getProtocolNotifyIrbBean().getNewActionAttachment());
+        getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
+    }
+
+    public boolean validFile(final ProtocolActionAttachment attachment) {
+        
+        boolean valid = true;
+        
+        //this got much more complex using anon keys
+        if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
+            valid = false;
+            new ErrorReporter().reportError("actionHelper.protocolNotifyIrbBean.newActionAttachment.file",
+                KeyConstants.ERROR_ATTACHMENT_REQUIRED);
+        }
+        
+        return valid;
+    }
+
     public List<ProtocolVoteRecused> getRecusers() {
         return recusers;
     }
@@ -1446,5 +1487,10 @@ public class ActionHelper implements Serializable {
 
     public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
         this.protocolReviewers = protocolReviewers;
+    }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

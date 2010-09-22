@@ -86,6 +86,7 @@ import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionServic
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
@@ -111,7 +112,9 @@ import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.summary.AttachmentSummary;
@@ -133,7 +136,9 @@ import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
 
     private static final Log LOG = LogFactory.getLog(ProtocolProtocolActionsAction.class);
-
+    private static final String CONFIRM_NO_DELETE = "";
+    private static final String CONFIRM_DELETE_NOTIFY_IRB_ATT = "confirmDeleteNotifyIrbAttachment";
+    
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
@@ -3003,4 +3008,191 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
+    
+    /**
+     * 
+     * This method is to add a file to notify irb 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        if (((ProtocolForm) form).getActionHelper().validFile(((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment())) {
+            ((ProtocolForm) form).getActionHelper().addNotifyIrbAttachment();
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * This method view a file added to notify irb panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return this.viewAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+    }
+
+    /*
+     * utility to view file 
+     */
+    private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+
+        int selection = this.getSelectedLine(request);
+        ProtocolActionAttachment attachment = form.getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().get(
+                selection);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
+                getValidHeaderString(attachment.getFile().getContentType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    /**
+     * 
+     * This method to delete a file added in norify irb panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+    }
+
+    /*
+     * confirmation question for delete norify irb file
+     */
+    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+
+        int selection = this.getSelectedLine(request);
+        ProtocolActionAttachment attachment = form.getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().get(
+                selection);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                CONFIRM_DELETE_NOTIFY_IRB_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
+                        .getFile().getFileName());
+
+        return confirm(confirm, CONFIRM_DELETE_NOTIFY_IRB_ATT, CONFIRM_NO_DELETE);
+    }
+
+
+    /**
+     * 
+     * method when confirm to delete notify irb file
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        int selection = this.getSelectedLine(request);
+        ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().remove(selection);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * This method is to view the submission doc displayed in history panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewSubmissionDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String[] lines = StringUtils.split(getSelectedActionAttachment(request), ";");
+        int actionIdx = Integer.parseInt(lines[0]);
+        int attachmentIdx = Integer.parseInt(lines[1]);
+        ProtocolSubmissionDoc attachment = ((ProtocolForm)form).getActionHelper().getFilteredProtocolActions().get(actionIdx).
+        getProtocolSubmissionDocs().get(attachmentIdx);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + lines);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()),
+                getValidHeaderString(""), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method is to view correspondences in history panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String[] lines = StringUtils.split(getSelectedActionAttachment(request), ";");
+        int actionIdx = Integer.parseInt(lines[0]);
+        int attachmentIdx = Integer.parseInt(lines[1]);
+        ProtocolCorrespondence attachment = ((ProtocolForm)form).getActionHelper().getFilteredProtocolActions().get(actionIdx).
+        getProtocolCorrespondences().get(attachmentIdx);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + lines);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getCorrespondence(), getValidHeaderString(""),
+                getValidHeaderString(""), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /*
+     * utility to get "actionidx;atachmentidx"
+     */
+    private String getSelectedActionAttachment(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String lineNumber = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
+        }
+
+        return lineNumber;
+    }
+
+
 }

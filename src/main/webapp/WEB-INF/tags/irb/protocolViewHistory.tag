@@ -2,6 +2,7 @@
 
 <c:set var="dateRangeFilterAttributes" value="${DataDictionary.DateRangeFilter.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
+<c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
 
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false">
 
@@ -82,36 +83,26 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             			<tr>
             				<td class="infoline">&nbsp;</td>
             		        <td colspan="4">
-            		        	<kul:innerTab tabTitle="Attachments" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+            		        	<kul:innerTab tabTitle="Correspondences" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
             		        		<div class="innerTab-container" align="left">
                                 
                                     <table class="tab" cellpadding="0" cellspacing="0" summary="">
                                         <tbody>
                                             <tr>
                                                <%--<th style="text-align:left;width:10%">File Name</th> --%>
-                                               <th style="text-align:left">Description</th>
+                                               <th style="text-align:center">Description</th>
+                                               <th style="text-align:center">Actions</th>
                                             </tr>
            		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="actionStatus">
            		    	                        <tr>
            		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
-           		    	                            <%--Leaving this here in case there is a need to display additional information. --%>
-           		    	                            <%--
-           		    	                            <td>
-           		    	                                <c:choose>
-           		                                            <c:when test="${fn:length(correspondence.protocolCorrespondenceType.description) > 0}">
-                                                                   
-                                                                   <kra:truncateComment textAreaFieldName="document.protocolList[0].protocolActions[${status.index}].protocolCorrespondences[${actionStatus.index}].protocolCorrespondenceType.description" 
-                                                                                        action="protocolProtocolActions" 
-                                                                                        textAreaLabel="Attachment Description" 
-                                                                                        textValue="${correspondence.protocolCorrespondenceType.description}" 
-                                                                                        displaySize="250"/>
-                                                              </c:when>
-                                                              <c:otherwise>
-                                                                  &nbsp;
-                                                              </c:otherwise>
-                                                          </c:choose>
-                                                      </td>
-                                                       --%>
+           		 					                <td align="center" valign="middle">
+						                               <div align="center">
+							                              <html:image property="methodToCall.viewActionCorrespondence.line${status.index};${actionStatus.index}.anchor${currentTabIndex}"
+								                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+								                              alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
+						                               </div>
+					                                 </td>
            		    	                        </tr>
            		                            </c:forEach>
             		                    </tbody>
@@ -121,6 +112,46 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             		        </td>            		        
             			</tr>
             		</c:if>
+
+
+            		<c:if test="${fn:length(protocolAction.protocolSubmissionDocs) > 0}">
+            			<tr>
+            				<td class="infoline">&nbsp;</td>
+            		        <td colspan="4">
+            		        	<kul:innerTab tabTitle="Actions Attachments" tabItemCount="${fn:length(protocolAction.protocolSubmissionDocs)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+            		        		<div class="innerTab-container" align="left">
+                                
+                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
+                                        <tbody>
+                                            <tr>
+                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
+                                               <th style="text-align:center">File Name</th>
+                                               <th style="text-align:center">Description</th>
+                                               <th style="text-align:center">Actions</th>
+                                            </tr>
+           		                            <c:forEach items="${protocolAction.protocolSubmissionDocs}" var="submissionDoc" varStatus="attachmentStatus">
+           		    	                        <tr>
+           		    	                            <td><div align="left">${submissionDoc.fileName}</div></td>
+           		    	                            <td><div align="left">
+           		    	                              <kul:htmlControlAttribute property="actionHelper.filteredProtocolActions[${status.index}].protocolSubmissionDocs[${attachmentStatus.index}].description" attributeEntry="${submissionDocAttributes.description}" readOnly="true"/>
+           		    	                              </div></td>
+           		 					                <td align="center" valign="middle">
+						                              <div align="center">
+							                            <html:image property="methodToCall.viewSubmissionDoc.line${status.index};${attachmentStatus.index}.anchor${currentTabIndex}"
+								                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+								                           alt="View Action Attachment" onclick="excludeSubmitRestriction = true;"/>
+						                               </div>
+					                               </td>
+           		    	                        </tr>
+           		                            </c:forEach>
+            		                    </tbody>
+            		                </table>
+            		            </div>
+            		        	</kul:innerTab>
+            		        </td>            		        
+            			</tr>
+            		</c:if>
+
             		
             	</c:forEach>
             	
