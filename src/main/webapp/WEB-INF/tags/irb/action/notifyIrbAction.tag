@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.ProtocolNotifyIrbBean.attributes}" />
+<c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
                                     
 <kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
@@ -24,6 +25,9 @@
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
+                    <tr>
+                    <td class="subhead" colspan="4">Details</td>
+                    </tr>
                 <tr>
                     <th width="15%"> 
                         <div align="right">
@@ -42,16 +46,6 @@
 	          		</th>
 	                <td align="left">
                         <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.reviewTypeCode" attributeEntry="${attributes.reviewTypeCode}" />
-					</td>
-                </tr>
-                <tr>
-	          		<th>
-	          		    <div align="right">
-	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.fileName}"/>
-	          		    </div>
-	          		</th>
-	                <td align="left" valign="middle" colspan="3">
-	                	<html:file property="actionHelper.protocolNotifyIrbBean.file" />
 					</td>
                 </tr>
                 <tr>
@@ -84,6 +78,100 @@
                         </nobr>
                     </td>
                 </tr>
+                </table>
+                
+                <table cellpadding="0" cellspacing="0" summary="">
+                    <tr>
+                        <td class="subhead" colspan="4">Attachments</td>
+                    </tr>
+                    <tr>
+         	            <th>
+         	    	       &nbsp;
+         	            </th>
+         		        <th>
+         			        <div align="center">
+         				        Attachment
+         			        </div>
+         		        </th>
+         		        <th>
+         			        <div align="center">
+         				        Description
+         			        </div>
+         		        </th>
+         		        <th>
+         			        <div align="center">
+         				        Actions
+         			        </div>
+         		        </th>
+                    </tr>
+                    <tr>
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>
+					    <td align="left" valign="middle" class="infoline">
+	              		    <div align="center">
+	              		        <c:set var="property" value="actionHelper.protocolNotifyIrbBean.newActionAttachment.file" />
+	              		
+	              		    <%-- attachment file error handling logic start--%>
+	               				<kul:checkErrors keyMatch="${property}" auditMatch="${property}"/>
+	               				<%-- highlighting does not work in firefox but does in ie... --%>
+	               			<%-- attachment file error handling logic start--%>
+	              		
+	              			    <html:file property="${property}"/>
+	               			    <c:if test="${hasErrors}">
+                    	 		    <kul:fieldShowErrorIcon />
+                                </c:if>
+	           			    </div>
+					    </td>
+					    <td align="left" valign="middle" class="infoline">
+						    <div align="left">
+                                <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.newActionAttachment.description" attributeEntry="${submissionDocAttributes.description}" />
+						    </div>
+					    </td>
+					    <td align="center" valign="middle" class="infoline">
+						    <div align="center">
+							    <html:image property="methodToCall.addNotifyIrbAttachment.anchor${tabKey}"
+							    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+						    </div>
+					    </td>
+				    </tr>
+                    
+ 			        <c:forEach var="actionAttachment" items="${KualiForm.actionHelper.protocolNotifyIrbBean.actionAttachments}" varStatus="itrStatus">
+				        <tr>
+	         		        <td>
+	         			        <div align="center">
+	                		        ${itrStatus.index + 1}
+		            	        </div>
+	         		        </td>
+	       			        <td align="left" valign="middle">
+	           			        <div align="center" id="attachmentFileName${itrStatus.index}">
+	              			        ${actionAttachment.file.fileName}
+	           			        </div>
+					        </td>
+	       			        <td align="left" valign="middle">
+	           			        <div align="left" >
+                                   <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.actionAttachments[${itrStatus.index}].description" attributeEntry="${submissionDocAttributes.description}" />
+	           			        </div>
+					        </td>
+					        <td align="center" valign="middle">
+						        <div align="center">
+							        <html:image property="methodToCall.viewNotifyIrbAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+								        alt="View Notify Irb Attachment" onclick="excludeSubmitRestriction = true;"/>
+								    <html:image property="methodToCall.deleteNotifyIrbAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+									alt="Delete Notify Irb Attachment"/>
+						        </div>
+					        </td>
+	         	        </tr>
+			        </c:forEach>
+                    
+                </table>
+                
+                
+                
+            <table cellpadding="0" cellspacing="0" summary="">
+                
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">

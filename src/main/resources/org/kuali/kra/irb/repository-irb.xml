@@ -1063,6 +1063,7 @@
         <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="document" column="DOCUMENT" jdbc-type="BLOB" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

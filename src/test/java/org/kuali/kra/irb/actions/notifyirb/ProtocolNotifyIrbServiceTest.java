@@ -95,7 +95,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
         notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
         notifyIrbBean.setCommitteeId("");
-        notifyIrbBean.setFile(null);
+//        notifyIrbBean.setFile(null);
         notifyIrbBean.setComment(REASON);
         notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
@@ -106,7 +106,10 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
         notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
         notifyIrbBean.setCommitteeId("913");
-        notifyIrbBean.setFile(new MockFormFile());
+        ProtocolActionAttachment attachment = new ProtocolActionAttachment();
+        attachment.setFile(new MockFormFile());
+        notifyIrbBean.getActionAttachments().add(attachment);
+        //notifyIrbBean.setFile(new MockFormFile());
         notifyIrbBean.setComment(REASON);
         notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
@@ -190,12 +193,12 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
      */
     private void verifySubmissionDoc(ProtocolSubmission protocolSubmission, ProtocolNotifyIrbBean requestBean) {
         ProtocolSubmissionDoc doc = findSubmissionDoc(protocolSubmission);
-        if (requestBean.getFile() == null) {
+        if (requestBean.getActionAttachments().isEmpty()) {
             assertNull(doc);
         }
         else {
-            assertEquals(requestBean.getFile().getFileName(), doc.getFileName());
-            assertEquals(requestBean.getFile().getFileSize(), doc.getDocument().length);
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileName(), doc.getFileName());
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileSize(), doc.getDocument().length);
         }
     }
     

@@ -28,9 +28,11 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -46,6 +48,7 @@ public class ProtocolSubmissionBuilder {
     
     private ProtocolSubmission protocolSubmission;
     private List<FormFile> attachments = new ArrayList<FormFile>();
+    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     /**
      * Constructs a ProtocolSubmissionBuilder.
@@ -124,7 +127,11 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
-        saveAttachments();
+        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
+            saveNotifyIrbAttachments();
+        } else {
+            saveAttachments();
+        }
         return protocolSubmission;
     }
     
@@ -263,19 +270,28 @@ public class ProtocolSubmissionBuilder {
      */
     private void saveAttachments() {
         for (FormFile file : attachments) {
-            saveAttachment(file);
+            saveAttachment(file, "");
         }
     }
     
+    /*
+     * save notify irb attachments.
+     */
+    private void saveNotifyIrbAttachments() {
+        for (ProtocolActionAttachment attachment : actionAttachments) {
+            saveAttachment(attachment.getFile(), attachment.getDescription());
+        }
+        
+    }
     /**
      * Save an attachment file to the database.
      * @param file
      */
-    private void saveAttachment(FormFile file) {
+    private void saveAttachment(FormFile file, String description) {
         try {
             byte[] data = file.getFileData();
             if (data.length > 0) {
-                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), data);
+                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), data, description);
                 getBusinessObjectService().save(submissionDoc);
             }
         }
@@ -294,7 +310,7 @@ public class ProtocolSubmissionBuilder {
      * @param document
      * @return
      */
-    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document) {
+    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document, String description) {
         ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());
@@ -306,6 +322,7 @@ public class ProtocolSubmissionBuilder {
         submissionDoc.setDocumentId(submission.getProtocol().getNextValue(NEXT_SUBMISSION_DOCUMENT_ID_KEY));
         submissionDoc.setFileName(fileName);
         submissionDoc.setDocument(document);
+        submissionDoc.setDescription(description);
         return submissionDoc;
     }
     
@@ -315,5 +332,13 @@ public class ProtocolSubmissionBuilder {
     
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    public List<ProtocolActionAttachment> getActionAttachments() {
+        return actionAttachments;
+    }
+
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+        this.actionAttachments = actionAttachments;
     }
 }

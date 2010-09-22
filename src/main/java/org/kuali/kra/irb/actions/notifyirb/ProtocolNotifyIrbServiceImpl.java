@@ -24,7 +24,6 @@ import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.notification.NotifyIrbEvent;
 import org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -89,7 +88,10 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionBuilder.setCommittee(notifyIrbBean.getCommitteeId());
         submissionBuilder.setComments(notifyIrbBean.getComment());
-        submissionBuilder.addAttachment(notifyIrbBean.getFile());
+//        for (ProtocolActionAttachment attachment : notifyIrbBean.getActionAttachments()) {
+//            submissionBuilder.addAttachment(attachment.getFile());
+//        }
+        submissionBuilder.setActionAttachments(notifyIrbBean.getActionAttachments());
         ProtocolSubmission submission = submissionBuilder.create();
         // schedule id is set to null
         submission.setScheduleId(null);
