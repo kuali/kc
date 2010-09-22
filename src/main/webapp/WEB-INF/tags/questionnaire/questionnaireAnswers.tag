@@ -20,8 +20,8 @@
 
 <kul:tab tabTitle="${tabTitle}"
 					 tabErrorKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}]*"
-					 auditCluster="requiredFieldsAuditErrors" 
-					 tabAuditKey="" 
+					 auditCluster="mandatoryQuestionnaireAuditErrors" 
+					 tabAuditKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[0].answer" 
 					 useRiceAuditMode="true"
 			         tabDescription=""
 			         defaultOpen="${showQuestions}" 
