@@ -49,4 +49,105 @@
     
     <!-- Questionnaire Task Authorizers -->
 
+
+
+		
+    <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="questionnaireLookupableHelperService" />
+		</property>
+        <property name="questionnaireAuthorizationService">
+            <ref bean="questionnaireAuthorizationService" />
+        </property>
+	</bean>
+
+	<bean id="questionnaireService" class="org.kuali.kra.questionnaire.QuestionnaireServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="unitAuthorizationService">
+            <ref bean="unitAuthorizationService" />
+        </property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+
+	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
+ 	    scope="prototype" parent="lookupableHelperService">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="questionnaireAuthorizationService">
+            <ref bean="questionnaireAuthorizationService" />
+        </property>
+  	</bean>
+	
+	<bean id="questionLookupable" class="org.kuali.kra.questionnaire.question.QuestionLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+        	<ref bean="questionLookupableHelperService" />
+        </property>
+        <property name="questionAuthorizationService">
+            <ref bean="questionAuthorizationService" />
+        </property>
+    </bean>
+    
+    <bean id="questionLookupableHelperService" class="org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceImpl" 
+         scope="prototype" parent="lookupableHelperService">
+        <property name="questionAuthorizationService">
+            <ref bean="questionAuthorizationService" />
+        </property>
+    </bean>
+    
+    <bean id="questionService" class="org.kuali.kra.questionnaire.question.QuestionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    <bean id="questionnaireAnswerService" class="org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+	    <bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+    <bean id="questionAuthorizationService" class="org.kuali.kra.questionnaire.question.QuestionAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+	
+		<!--  questionnaire print -->
+      <bean id="questionnaireXmlStream"
+            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream">
+            <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+            </property>
+            <property name="dateTimeService">
+                <ref bean="dateTimeService" />
+            </property>
+            <property name="documentService">
+                <ref bean="documentService" />
+            </property>
+            <property name="questionnaireService">
+                <ref bean="questionnaireService" />
+            </property>
+            <property name="questionService">
+                <ref bean="questionService" />
+            </property>
+            <property name="questionnaireAnswerService">
+                <ref bean="questionnaireAnswerService" />
+            </property>
+    </bean>
+    <bean id="questionnairePrint"
+           class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
+           <property name="xmlStream" ref="questionnaireXmlStream" />
+    </bean>
+
+	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+            <property name="questionnairePrint" ref="questionnairePrint" />
+	</bean>
+	
+	
 </beans>

@@ -21,6 +21,7 @@ public interface Constants {
     public static final String COLON=":";
     public static final String COMMA=",";
     
+    public static final String BOOTSTRAP_SPRING_FILE = "kc.bootstrap.spring.file";
     
     public static final String KRA_SESSION_KEY = "kra.session";
     public static final String APP_CONTEXT_KEY = "app.context.name";
