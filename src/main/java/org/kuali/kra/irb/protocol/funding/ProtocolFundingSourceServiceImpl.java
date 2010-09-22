@@ -244,7 +244,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotEmpty(source) ? source : sourceNumber;
+            String fundingSource = StringUtils.isNotEmpty(sourceNumber) ? sourceNumber : source;
             String fundingSourceName = getSponsorService().getSponsorName(fundingSource);
             String fundingSourceTitle = Constants.EMPTY_STRING;
             protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle); 
@@ -261,7 +261,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotBlank(source) ? source : sourceNumber;
+            String fundingSource = StringUtils.isNotBlank(sourceNumber) ? sourceNumber : source;
             String fundingSourceName = getUnitService().getUnitName(fundingSource);
             String fundingSourceTitle = Constants.EMPTY_STRING;
             protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle); 
@@ -277,7 +277,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
-            String fundingSource = StringUtils.isNotEmpty(source) ? source : sourceNumber;
+            String fundingSource = StringUtils.isNotEmpty(sourceNumber) ? sourceNumber: source;
             String fundingSourceName = sourceName;
             String fundingSourceTitle = Constants.EMPTY_STRING;
             protocolFundingSource = new ProtocolFundingSource(fundingSource, fundingSource, fundingSourceType, fundingSourceName, fundingSourceTitle);
@@ -294,7 +294,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         ProtocolFundingSource protocolFundingSource = null;
 
         if (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber)) {
-            String fundingSource = StringUtils.isNotBlank(source) ? source : sourceNumber;
+            String fundingSource = StringUtils.isNotBlank(sourceNumber) ? sourceNumber : source;
             String fundingSourceName = sourceName;
             String fundingSourceTitle = Constants.EMPTY_STRING;
             LookupableDevelopmentProposal devProposal = getLookupableDevelopmentProposalService().getLookupableDevelopmentProposal(fundingSource);
@@ -421,7 +421,6 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return valid;
     }
 
-    
     /** {@inheritDoc} */
     public Entry<String, String>  getLookupParameters(Integer fundingSourceTypeCode) {        
         HashMap<String, String> boAndFields = new HashMap<String, String>();
@@ -435,7 +434,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
             sourceLookup = FundingSourceLookup.AWARD;
         } else if (fundingSourceTypeCode.equals(FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode())) {
             sourceLookup = FundingSourceLookup.PROPOSAL_DEVELOPMENT;
-        }  else if (fundingSourceTypeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())) {
+        } else if (fundingSourceTypeCode.equals(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode())) {
             sourceLookup = FundingSourceLookup.INSTITUTIONAL_PROPOSAL;
         } else {
             throw new IllegalArgumentException(
@@ -639,14 +638,18 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * @see org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService#isLookupable(int)
      */
     public boolean isLookupable(String typeCode) {
-        int fundingTypeCode = Integer.valueOf(typeCode);
-        if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode() 
-                || fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()
-                || (fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode() && isAwardLinkEnabled())
-                || (fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode() && isDevelopmentProposalLinkEnabled())
-                || (fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode() && isInstitionalProposalLinkEnabled())) {
-            return true;
-        } else {
+        try {
+            int fundingTypeCode = Integer.valueOf(typeCode);
+            if (fundingTypeCode == FundingSourceLookup.SPONSOR.getTypeCode() 
+                    || fundingTypeCode == FundingSourceLookup.UNIT.getTypeCode()
+                    || (fundingTypeCode == FundingSourceLookup.AWARD.getTypeCode() && isAwardLinkEnabled())
+                    || (fundingTypeCode == FundingSourceLookup.PROPOSAL_DEVELOPMENT.getTypeCode() && isDevelopmentProposalLinkEnabled())
+                    || (fundingTypeCode == FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode() && isInstitionalProposalLinkEnabled())) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NumberFormatException e) {
             return false;
         }
     }
