@@ -81,6 +81,7 @@ import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -145,6 +146,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         retval &= new ProtocolResearchAreaAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
+        retval &= new ProtocolQuestionnaireAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         return retval;
     }
 

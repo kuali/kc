@@ -147,11 +147,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<Integer, AnswerHeader> answerHeaderMap = new HashMap<Integer, AnswerHeader>();
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
-            setupChildAnswerIndicator(answerHeader.getAnswers());
-            answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
+            if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
+                    || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk() < answerHeader
+                            .getQuestionnaireRefIdFk()) {
+                setupChildAnswerIndicator(answerHeader.getAnswers());
+                answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
+            }
         }
 
-        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap, moduleQuestionnaireBean.isFinalDoc());
+        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap, moduleQuestionnaireBean
+                .isFinalDoc());
         for (AnswerHeader answerHeader : answerHeaders) {
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
         }

@@ -638,4 +638,11 @@ public interface Constants {
     public char SPACE_SEPARATOR = 32;
     
     public static String CAN_CREATE_AWARD_KEY = "canCreateAward";
+    
+    // Protocol questionnaire page audit rules
+    public static final String PROTOCOL_QUESTIONNAIRE_PAGE = "questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_PANEL_NAME = "Questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR = "Questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[0].answers[0].answer";
+
 }

@@ -821,7 +821,8 @@ public final class KeyConstants {
     public static final String ERROR_TYPE_QUALIFIER_NOT_EXISTS = "error.typequal.notexists";
     public static final String INVALID_SUBMISSION_REVIEW_TYPE = "invalid.submreviewtype";
     public static final String INVALID_SUBMISSION_TYPE_QUALIFIER = "invalid.submtypequal";
-
+    public static final String ERROR_MANDATORY_QUESTIONNAIRE = "error.mandatory.questionnaire";
+    
     
     public static final String PRINCIPALID_NOT_EXIST = "error.person.principalId.notExist";
     
