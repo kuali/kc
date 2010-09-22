@@ -427,7 +427,7 @@ public abstract class PermissionsHelperBase implements Serializable {
             public int compare(Object o1, Object o2) {
                 User user1 = (User) o1;
                 User user2 = (User) o2;
-                return user1.getPerson().getFullName().compareTo(user2.getPerson().getFullName());
+                return user1.getPerson().getLastName().compareTo(user2.getPerson().getLastName());
             }
         });
     }
