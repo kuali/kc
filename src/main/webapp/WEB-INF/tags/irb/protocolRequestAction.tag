@@ -21,7 +21,7 @@
 		<h3> 
 			<span class="subhead-left">Available Actions</span>
 		</h3>
-		<c:if test="${KualiForm.document.protocol.active}">
+		<c:if test="${KualiForm.document.protocol.active and showActions}">
             <kra-irb-action:submitAction />
             <kra-irb-action:withdrawAction />
             <kra-irb-action:modifySubmissionAction />

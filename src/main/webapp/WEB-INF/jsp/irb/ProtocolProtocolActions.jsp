@@ -22,7 +22,7 @@
 </script>
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-
+<c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
 <style type="text/css">
    .compare { color: #666666 }
    .compare td, .compare th { color:#666666; }
@@ -40,13 +40,16 @@
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolRequestAction />
+<c:if test="${showActions}" >
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+</c:if>
 <kra-irb:protocolPrint/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
 <kul:routeLog /> 
+<c:if test="${showActions}" >
 <kul:adHocRecipients />
-
+</c:if>
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="true"
