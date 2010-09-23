@@ -434,7 +434,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredRuleTest.class,
     org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredServiceTest.class,
     org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalRuleTest.class,
-    org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceTest.class
+    org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceTest.class,
+    org.kuali.kra.irb.actions.amendrenew.ProtocolCreateRenewalRuleTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

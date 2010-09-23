@@ -105,7 +105,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     /**
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.irb.ProtocolDocument)
      */
-    public String createRenewal(ProtocolDocument protocolDocument) throws Exception {
+    public String createRenewal(ProtocolDocument protocolDocument, String renewalSummary) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
         renewProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
         renewProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
@@ -118,7 +118,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
                                                                           renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
-        ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, null);
+        ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, renewalSummary);
         renewProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         protocolActionService.updateProtocolStatus(protocolAction, protocolDocument.getProtocol());
         documentService.saveDocument(protocolDocument);

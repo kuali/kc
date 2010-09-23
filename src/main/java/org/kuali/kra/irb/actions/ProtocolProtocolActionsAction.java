@@ -50,6 +50,7 @@ import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementService;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
+import org.kuali.kra.irb.actions.amendrenew.CreateRenewalEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
@@ -610,7 +611,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument());
+            if (!applyRules(new CreateRenewalEvent(protocolForm.getProtocolDocument(),
+                    Constants.PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY, protocolForm.getActionHelper().getRenewalSummary()))) {
+                    return mapping.findForward(MAPPING_BASIC);
+                }
+            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(),((ProtocolForm) form).getActionHelper().getRenewalSummary());
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
 
