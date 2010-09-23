@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -515,5 +516,11 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         //this.loopReviewerFullName = loopReviewerFullName;
     }
        
-    
+    /*
+     * Returns if the review is active or not.
+     * If the review has a status code of 'X' we return false;
+     */
+    public boolean isActive() {
+        return !StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD,getProtocolOnlineReviewStatusCode());
+    }
 }

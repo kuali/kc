@@ -127,6 +127,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -144,6 +145,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
+    private static final String CONIFRM_REMOVE_REVIEWER_KEY="confirmRemoveReviewer";
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
@@ -1157,19 +1159,54 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward assignReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, protocolForm.getProtocolDocument().getProtocol());
+        String callerString = String.format("assignReviewers");
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        
         if (isAuthorized(task)) {
             ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
             if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
-                List<ProtocolReviewerBean> beans = actionBean.getReviewers();
-                getProtocolAssignReviewersService().assignReviewers(submission, beans);
+                boolean processRequest = true;
+                
+                if (GlobalVariables.getMessageMap().hasWarnings()) {
+                    if (question == null) {
+                        // ask question if not already asked
+                        forward = performQuestionWithoutInput(mapping, form, request, response, 
+                                                                CONIFRM_REMOVE_REVIEWER_KEY, 
+                                                                getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
+                                                                KNSConstants.CONFIRMATION_QUESTION, 
+                                                                callerString, 
+                                                                "");
+                        processRequest = false;
+                    }
+                    else {
+                        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                        if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                            // if no button clicked just reload the doc
+                            processRequest = false;
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("User declined to confirm the request, not processing.");
+                            }
+                        }
+                    }
+                
+                }
+                
+                if (processRequest) {
+                    ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                    List<ProtocolReviewerBean> beans = actionBean.getReviewers();
+                    getProtocolAssignReviewersService().assignReviewers(submission, beans);
+                    //clear the warnings before rendering the page.
+                    GlobalVariables.getMessageMap().getWarningMessages().clear();
+                } else {
+                    
+                }
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**

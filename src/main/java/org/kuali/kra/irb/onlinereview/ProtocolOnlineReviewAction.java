@@ -301,7 +301,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
         if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
-            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId()) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
+            if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId(),false) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
                 Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);

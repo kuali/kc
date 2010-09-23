@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.assignreviewers;
 import java.sql.Date;
 import java.util.List;
 
+import org.eclipse.jetty.util.log.Log;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -34,7 +35,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAssignReviewersServiceImpl.class);
+    
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
@@ -44,15 +46,24 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (bean.getChecked()) {
-                    if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), protocolSubmission)) {
+                    if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         createReviewer(protocolSubmission, bean);
                     } else {
                         updateReviewer(protocolSubmission, bean);
+                    }
+                } else {
+                    //need to check if this person is currently a reviewer...
+                    if (protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
+                        removeReviewer(protocolSubmission,bean,"REVIEW REMOVED FROM ASSIGN REVIEWERS ACTION.");
                     }
                 }
             }
             businessObjectService.save(protocolSubmission);
         }
+    }
+    
+    private void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+        protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
     private void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
@@ -78,7 +89,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     }
     
     private void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
-        ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolSubmission);
+        ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
         businessObjectService.save(reviewer);
     }

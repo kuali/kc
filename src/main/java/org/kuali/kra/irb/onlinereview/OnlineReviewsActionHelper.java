@@ -386,11 +386,11 @@ public class OnlineReviewsActionHelper implements Serializable {
         return comments;
     }
 
-    public int getDocumentIndexByReviewer(String personId) {
+    public int getDocumentIndexByReviewer(String personId, boolean nonEmployeeFlag) {
         int idx = 0;
         for (ProtocolOnlineReviewDocument reviewDocument : protocolOnlineReviewDocuments ) {
             ProtocolReviewer reviewer = reviewDocument.getProtocolOnlineReview().getProtocolReviewer();
-            if (reviewer.isPersonIdProtocolReviewer(personId)) 
+            if (reviewer.isPersonIdProtocolReviewer(personId,nonEmployeeFlag)) 
             {
                 break;
             }
@@ -399,25 +399,25 @@ public class OnlineReviewsActionHelper implements Serializable {
         return idx;
     }
     
-    public String getDocumentNumberByReviewer(String personId) {
-        int idx = getDocumentIndexByReviewer(personId);
+    public String getDocumentNumberByReviewer(String personId,boolean nonEmployeeFlag) {
+        int idx = getDocumentIndexByReviewer(personId,nonEmployeeFlag);
         return protocolOnlineReviewDocuments.get(idx).getDocumentNumber();
     }
     
-    public ProtocolOnlineReviewDocument getDocumentByReviewer(String personId) {
-        return getDocumentFromHelperMap(getDocumentNumberByReviewer(personId));
+    public ProtocolOnlineReviewDocument getDocumentByReviewer(String personId,boolean nonEmployeeFlag) {
+        return getDocumentFromHelperMap(getDocumentNumberByReviewer(personId,nonEmployeeFlag));
     }
     
     public String getDocumentNumberForCurrentUser() {
-        return getDocumentNumberByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentNumberByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     public ProtocolOnlineReviewDocument getDocumentForCurrentUser() {
-        return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     public int getDocumentIndexForCurrentUser() {
-        return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     private KcPersonService getKcPersonService() {

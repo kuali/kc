@@ -528,6 +528,10 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI = "error.protocol.reviewTypeCode.mustbe.fyi";
     public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocol.reviewerTypeCode.notFoundButReviewerChecked";
     public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocol.reviewerTypeCode.selectedButReviewerUnchecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_FINAL = "warning.protocol.reviewer.removeReview.cannotRemoveFinalReview";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_EXISTING_COMMENTS = "warning.protocol.reviewer.removeReview.cannotRemoveReviewWithComments";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_FINAL_REVIEW = "warning.protocol.reviewer.removeReview.cannotRemoveFinalReview";
+    public static final String MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS="message.protocol.reviewer.removeReview.removeReviewWithComments";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocol.reviewerTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED = "error.protocol.reviewerTypeCode.used";
     public static final String ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM = "error.protocol.checkList.one";

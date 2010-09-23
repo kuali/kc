@@ -82,11 +82,13 @@ public class ProtocolAssignReviewersBean implements Serializable{
                     }
                     
                     for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-                        for (ProtocolReviewerBean reviewerBean : reviewers) {
-                            if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
-                                reviewerBean.setChecked(true);
-                                reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
-                                break;
+                        if(review.isActive()) {
+                            for (ProtocolReviewerBean reviewerBean : reviewers) {
+                                if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
+                                    reviewerBean.setChecked(true);
+                                    reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
+                                    break;
+                                }
                             }
                         }
                     }
