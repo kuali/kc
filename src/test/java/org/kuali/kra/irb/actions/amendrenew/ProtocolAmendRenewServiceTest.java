@@ -107,14 +107,14 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     @Test
     public void testRenewal() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        String docNbr = protocolAmendRenewService.createRenewal(protocolDocument);
+        String docNbr = protocolAmendRenewService.createRenewal(protocolDocument, SUMMARY);
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
         verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
-        verifyAmendmentRenewal(amendmentDocument.getProtocol(), null, 0);
+        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 0);
     }
     
     @Test
