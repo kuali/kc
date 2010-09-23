@@ -60,7 +60,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //comment included ... valid SMR
         decision.setMotionTypeCode(CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS);
-        decision.getReviewComments().getComments().add(getBasicReviewComment());
+        decision.getReviewComments().getComments().add(getBasicReviewComment(document.getProtocol().getProtocolId()));
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     
@@ -70,7 +70,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
         CommitteeDecision decision = buildValidCommitteeDecision(document.getProtocol());
         //comment included ... valid SRR
         decision.setMotionTypeCode(CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        decision.getReviewComments().getComments().add(getBasicReviewComment());
+        decision.getReviewComments().getComments().add(getBasicReviewComment(document.getProtocol().getProtocolId()));
         assertTrue(rule.proccessCommitteeDecisionRule(document, decision));
     }
     

@@ -58,8 +58,9 @@ public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
         return person;
     }
     
-    protected CommitteeScheduleMinute getBasicReviewComment() {
+    protected CommitteeScheduleMinute getBasicReviewComment(Long protocolId) {
         CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
+        committeeScheduleMinute.setProtocolIdFk(protocolId);
         committeeScheduleMinute.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         committeeScheduleMinute.setMinuteEntry("More dumb comments");
         return committeeScheduleMinute;
