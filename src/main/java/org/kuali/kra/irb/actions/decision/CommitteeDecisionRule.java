@@ -33,7 +33,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule {
     
     private static final String DOT = ".";
-    private static final String MOTION_FIELD = "motion";
+    private static final String MOTION_FIELD = "motionTypeCode";
     private static final String YES_COUNT_FIELD = "yesCount";
     private static final String NO_COUNT_FIELD = "noCount";
     
@@ -77,7 +77,7 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         } else {
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(committeeDecision.getMotionTypeCode()) 
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(committeeDecision.getMotionTypeCode())) 
-                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getComments())) {
+                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getCommentsForCurrentProtocol())) {
                 reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
                             KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
                 retVal = false;
