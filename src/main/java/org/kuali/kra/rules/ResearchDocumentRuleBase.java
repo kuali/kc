@@ -69,6 +69,15 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     }
     
     /**
+     * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
+     * to keep api compatibility.
+     * @see ErrorReporter#reportError(String, String, String...)
+     */
+    protected void reportWarning(String propertyName, String errorKey, String... errorParams) {
+        this.errorReporter.reportWarning(propertyName, errorKey, errorParams);
+    }
+    
+    /**
      * Delegates to {@link ErrorReporter#reportAuditError(AuditError, String, String, String) ErrorReporter#reportAuditError(AuditError, String, String, String)}
      * to keep api compatibility.
      * @see ErrorReporter#reportAuditError(AuditError, String, String, String)

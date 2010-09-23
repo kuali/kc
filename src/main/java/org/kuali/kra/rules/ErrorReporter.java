@@ -147,4 +147,19 @@ public class ErrorReporter {
         GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softErrorMap);
         return softErrorMap;
     }
+    
+    /**
+     * Wrapper around global errorMap.put call, to allow better logging.
+     * 
+     * @param propertyName
+     * @param errorKey
+     * @param errorParams
+     */
+    public void reportWarning(String propertyName, String errorKey, String... errorParams) {
+        GlobalVariables.getMessageMap().putWarning(propertyName, errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("rule warning at ", ExceptionUtils.describeStackLevels(1, 2)));
+        }
+    }
+    
 }
