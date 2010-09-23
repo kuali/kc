@@ -20,9 +20,13 @@ import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.rules.ErrorReporter;
+
+
 
 /**
  * Protocol Online Review service provides all necessary functionality to manage the online reviews.
@@ -101,19 +105,30 @@ public interface ProtocolOnlineReviewService {
     
     /**
      * Returns the online reviewer for the protocol submission corresponding to the principal id, if one exists.
-     * @param principalId The principalId we are checking
+     * @param personId The id of the person
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id.
      * @param protocolSubmission The protocol submission
      * @return
      */
-    ProtocolReviewer getProtocolReviewer(String principalId, ProtocolSubmission protocolSubmission);
+    ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Returns true if the principal has an online review for the protocol submission.
-     * @param principalId The principalId we are checking
+     * @param personId The personId (Rolodex or principal) we are checking
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id..
      * @param protocolSubmission The protocolSubmission
      * @return
      */
-    boolean isProtocolReviewer(String principalId, ProtocolSubmission protocolSubmission);
+    boolean isProtocolReviewer(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
+    
+    /**
+     * Returns the ProtocolOnlineReviewDocument associated with the 
+     * @param personId The personId (Rolodex or principal) we are checking
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id.
+     * @param protocolSubmission The protocolSubmission
+     * @return
+     */
+    ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Determine if the protocol is in a state that can be reviewed.  Right now checks to see if there is an active submission.
@@ -129,5 +144,17 @@ public interface ProtocolOnlineReviewService {
      * @param review
      */
     void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
+    
+    /**
+     * Sets the status to Cancelled/Removed.  If the review document is enroute, then we do a superuser disapprove on it.  If it is in saved or initiated
+     * state, then a super user cancel is performed on it. Those two actions will cause all review comments to be deleted.  If the document is in final state
+     * we simply delete all of the review comments.
+     * 
+     * @param personId
+     * @param nonEmployeeFlag
+     * @param submission
+     * @param annotation
+     */
+    public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
     
 }
