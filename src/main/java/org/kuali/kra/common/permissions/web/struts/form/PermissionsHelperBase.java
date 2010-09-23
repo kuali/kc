@@ -36,10 +36,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
@@ -372,6 +372,12 @@ public abstract class PermissionsHelperBase implements Serializable {
         return null;
     }
     
+    private void addUsersToRole(AssignedRole role, List<User> users) {
+        for(User user : users) {
+            role.add(user.getPerson().getFullName());
+        }
+    }
+    
     /**
      * Get the list of assigned roles.  This is used by the Assigned Roles
      * panel on the Permissions tab web page.  Each role has a sorted list
@@ -384,11 +390,14 @@ public abstract class PermissionsHelperBase implements Serializable {
         for (Role role : roles) {
             if (!isUnassignedRoleName(role.getName())) {
                 AssignedRole assignedRole = new AssignedRole(role);
+                List<User> users = new ArrayList<User>();
                 for (UserState userState : userStates) {
                     if (userState.isRoleAssigned(role.getName())) {
-                        assignedRole.add(userState.getPerson().getFullName());
+                        users.add(new User(userState.getPerson()));
                     }
                 }
+                sortUsers(users);
+                addUsersToRole(assignedRole, users);
                 assignedRoles.add(assignedRole);
             }
         }
@@ -419,7 +428,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     }
     
     /*
-     * Sort the list of users by their Full Name.
+     * Sort the list of users by their Last Name.
      */
     @SuppressWarnings("unchecked")
     private void sortUsers(List<User> users) {
