@@ -48,7 +48,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public abstract class PermissionsHelperBase implements Serializable {
     
-    private transient KcPersonService kcPersonService;
+    private transient KcPersonService kcPersonService; 
     
     /*
      * The form data for a new user.  See the Users panel
@@ -393,11 +393,12 @@ public abstract class PermissionsHelperBase implements Serializable {
                 List<User> users = new ArrayList<User>();
                 for (UserState userState : userStates) {
                     if (userState.isRoleAssigned(role.getName())) {
-                        users.add(new User(userState.getPerson()));
+                        //users.add(new User(userState.getPerson()));
+                        assignedRole.add(userState.getPerson().getFullName());
                     }
                 }
-                sortUsers(users);
-                addUsersToRole(assignedRole, users);
+                //sortUsers(users);
+                //addUsersToRole(assignedRole, users);
                 assignedRoles.add(assignedRole);
             }
         }
