@@ -99,7 +99,7 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     protected static final String DEFAULT_MAX_PROTOCOLS = "10";
     protected static final String DEFAULT_HOME_UNIT_NUMBER = "000001";
     protected static final String DEFAULT_MIN_MEMBERS_REQUIRED = "3";
-    protected static final String DEFAULT_NAME = "Committee Test";
+    protected static final String DEFAULT_NAME = "Committee Test ";
     protected static final String DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED = "1";
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
     protected static final String DEFAULT_DESCRIPTION = "xxx";
@@ -188,19 +188,22 @@ public abstract class CommitteeWebTestBase extends ProtocolWebTestBase {
     /**
      * Sets the Committee's required fields to legal default values.
      * @param page the Committee web page.
+     * @return committeeId
      */
-    protected void setDefaultRequiredFields(HtmlPage page) {
+    protected String setDefaultRequiredFields(HtmlPage page) {
+        String committeeId = getNextCommitteeID();
         setRequiredFields(page, DEFAULT_DOCUMENT_DESCRIPTION,
                                 DEFAULT_TYPE_CODE,
                                 DEFAULT_MAX_PROTOCOLS,
                                 DEFAULT_HOME_UNIT_NUMBER,
                                 DEFAULT_REVIEW_TYPE_CODE,
-                                DEFAULT_NAME,
+                                DEFAULT_NAME + committeeId,
                                 DEFAULT_MIN_MEMBERS_REQUIRED,
                                 DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED,
-                                getNextCommitteeID(),
+                                committeeId,
                                 DEFAULT_DESCRIPTION,
                                 DEFAULT_SCHEDULE_DESCRIPTION);
+        return committeeId;
     }
     
     /**

@@ -151,7 +151,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         } else if (propertyName.equals(PI_NAME)) {
             inquiryUrl = getPrincipalInvestigatorNameInquiryUrl(award);            
         } else if(propertyName.equals(OSP_ADMIN_NAME)) {
-            inquiryUrl = getOspAdminNameInquiryUrl(award);
+//            inquiryUrl = getOspAdminNameInquiryUrl(award);
         }
         return inquiryUrl;
     }

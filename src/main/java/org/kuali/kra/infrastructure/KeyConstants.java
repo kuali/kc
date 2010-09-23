@@ -555,6 +555,7 @@ public final class KeyConstants {
     
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
+    public static final String ERROR_COMMITTEE_DUPLICATE_NAME = "error.committee.duplicateName";
     public static final String ERROR_COMMITTEE_INVALID_ID = "error.committee.invalidId";
     
     //CommitteeMembership Messages

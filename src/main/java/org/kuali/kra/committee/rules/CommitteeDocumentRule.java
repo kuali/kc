@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.committee.rule.event.AddCommitteeMembershipEvent;
@@ -42,6 +43,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -112,6 +114,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         
         valid &= validateCommitteeId((CommitteeDocument) document);
         valid &= validateUniqueCommitteeId((CommitteeDocument) document);
+        valid &= validateUniqueCommitteeName((CommitteeDocument) document);
         valid &= validateHomeUnit((CommitteeDocument) document);
         
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
@@ -260,6 +263,29 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         }
         PersistableBusinessObject businessObject = (PersistableBusinessObject) KNSServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         return businessObject;
+    }
+
+    /**
+     * Verify that we are not saving a committee with a duplicate Committee Name.
+     * In other words, each committee must have a unique Committee Name.
+     * @param document Committee Document
+     * @return true if valid; otherwise false
+     */
+    private boolean validateUniqueCommitteeName(CommitteeDocument document) {
+        Committee committee = document.getCommittee();
+        CommitteeIdValuesFinder committeeIdValuesFinder = new CommitteeIdValuesFinder();
+        List<KeyLabelPair> committeeIdNamePairList = committeeIdValuesFinder.getKeyValues();
+        for (KeyLabelPair committeeIdNamePair : committeeIdNamePairList) {
+            if (StringUtils.equalsIgnoreCase(committeeIdNamePair.getLabel(), committee.getCommitteeName()) 
+                    && StringUtils.isNotBlank((String) committeeIdNamePair.getKey()) 
+                    && !StringUtils.equalsIgnoreCase((String) committeeIdNamePair.getKey(), committee.getCommitteeId())) {
+                reportError(Constants.COMMITTEE_PROPERTY_KEY + "List[0].committeeName",
+                        KeyConstants.ERROR_COMMITTEE_DUPLICATE_NAME);            
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
