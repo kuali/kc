@@ -27,10 +27,13 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -173,7 +176,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        businessObjectService.save(protocol.getProtocolDocument());
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);
@@ -184,12 +187,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         if (protocol.getProtocolDocument() != null) {
             KualiWorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
             if (currentWorkflowDocument != null) {
-                currentWorkflowDocument.disapprove("Disapproving Protocol Document after Committee Decision");
+                currentWorkflowDocument.disapprove("Protocol document disapproved after committee decision");
             }
         }    
     }
     
     private ProtocolDocument performVersioning(Protocol protocol) throws Exception {
+        documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
+        
         ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newDocument.getProtocol().setApprovalDate(null);
         newDocument.getProtocol().setLastApprovalDate(null);
@@ -198,9 +203,6 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         newDocument.getProtocol().refreshReferenceObject("protocolStatus");
         documentService.saveDocument(newDocument);
         newDocument.getProtocol().setProtocolSubmission(null);
-        
-        documentService.cancelDocument(protocol.getProtocolDocument(), 
-                "Canceling the Original Protocol Workflow Document since a new Document is created for revisions.");
         
         return newDocument;
     }
