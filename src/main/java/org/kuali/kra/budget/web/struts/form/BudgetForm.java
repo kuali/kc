@@ -43,6 +43,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -113,6 +114,25 @@ public class BudgetForm extends BudgetVersionFormBase {
     
     private String newGroupName;
     
+    private List<HierarchyProposalSummary> hierarchyProposalSummaries;
+    
+    /**
+     * Sets the hierarchyProposalSummaries attribute value.
+     * @param hierarchyProposalSummaries The hierarchyProposalSummaries to set.
+     */
+    public void setHierarchyProposalSummaries(List<HierarchyProposalSummary> hierarchyProposalSummaries) {
+        this.hierarchyProposalSummaries = hierarchyProposalSummaries;
+    }
+
+    /**
+     * Gets the hierarchyProposalSummaries attribute. 
+     * @return Returns the hierarchyProposalSummaries.
+     */
+    public List<HierarchyProposalSummary> getHierarchyProposalSummaries() {
+        return hierarchyProposalSummaries;
+    }
+
+    
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -180,6 +200,8 @@ public class BudgetForm extends BudgetVersionFormBase {
         newSubAward = new BudgetSubAwards();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
+
+        setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -855,17 +877,24 @@ public class BudgetForm extends BudgetVersionFormBase {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         BudgetParentDocument parentDocument = getDocument().getParentDocument();
         boolean hideRatesTab = false;
+        boolean hideHierarchyTab = true;
+        if(parentDocument.getClass() == ProposalDevelopmentDocument.class){
+            hideHierarchyTab = !((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isInHierarchy();
+        }
+        
         if (parentDocument instanceof ProposalDevelopmentDocument) {
             if (((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isParent()) {
                 hideRatesTab = true;
             }
         }
-        if (hideRatesTab) {
+        if (hideRatesTab || hideHierarchyTab) {
             List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
             for (HeaderNavigation tab : tabs) {
-                if(!tab.getHeaderTabNavigateTo().equals("rates")) {
-                    newTabs.add(tab);
-                }
+                if((tab.getHeaderTabNavigateTo().equals("rates") && hideRatesTab) || (tab.getHeaderTabNavigateTo().equals("hierarchy") && hideHierarchyTab)){
+                    //do not add the tab is it's rates or hierarchy tab and needs to be hided
+                }else{
+                    newTabs.add(tab); 
+                 }
             }
             tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         }
