@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.assignreviewers;
 import java.sql.Date;
 import java.util.List;
 
-import org.eclipse.jetty.util.log.Log;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
