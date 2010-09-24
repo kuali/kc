@@ -27,7 +27,6 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
@@ -53,7 +52,6 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private DocumentService documentService;
     private ProtocolCopyService protocolCopyService;
     private KraLookupDao kraLookupDao;
-    private ProtocolActionService protocolActionService;
     
     /**
      * Set the Document Service.
@@ -77,10 +75,6 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public void setKraLookupDao(KraLookupDao kraLookupDao) {
         this.kraLookupDao = kraLookupDao;
-    }
-    
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-        this.protocolActionService = protocolActionService;
     }
     
     /**
@@ -120,7 +114,6 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, renewalSummary);
         renewProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
-        protocolActionService.updateProtocolStatus(protocolAction, protocolDocument.getProtocol());
         documentService.saveDocument(protocolDocument);
         documentService.saveDocument(renewProtocolDocument);
         
