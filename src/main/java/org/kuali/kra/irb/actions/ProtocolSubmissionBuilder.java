@@ -127,11 +127,11 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
-        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
-            saveNotifyIrbAttachments();
-        } else {
+//        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
             saveAttachments();
-        }
+//        } else {
+//            saveAttachments();
+//        }
         return protocolSubmission;
     }
     
@@ -259,25 +259,25 @@ public class ProtocolSubmissionBuilder {
      * Add an attachment to the submission.
      * @param file
      */
-    public void addAttachment(FormFile file) {
-        if (file != null) {
-            attachments.add(file);
-        }
-    }
+//    public void addAttachment(FormFile file) {
+//        if (file != null) {
+//            attachments.add(file);
+//        }
+//    }
     
     /**
      * Save the attachments to the database.
      */
-    private void saveAttachments() {
-        for (FormFile file : attachments) {
-            saveAttachment(file, "");
-        }
-    }
+//    private void saveAttachments() {
+//        for (FormFile file : attachments) {
+//            saveAttachment(file, "");
+//        }
+//    }
     
     /*
      * save notify irb attachments.
      */
-    private void saveNotifyIrbAttachments() {
+    private void saveAttachments() {
         for (ProtocolActionAttachment attachment : actionAttachments) {
             saveAttachment(attachment.getFile(), attachment.getDescription());
         }

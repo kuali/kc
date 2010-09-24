@@ -39,6 +39,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -114,8 +115,9 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     @Test
     public void testRequestWithNoCommitteeNoFile() throws WorkflowException {
         ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        closeRequest.setFile(null);
+                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        
+        //closeRequest.setFile(null);
         closeRequest.setReason(REASON);
         runTest("", null, closeRequest);
     }
@@ -129,8 +131,10 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     @Test
     public void testRequest() throws WorkflowException {
         ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        closeRequest.setFile(new MockFormFile());
+                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        ProtocolActionAttachment attachment = new ProtocolActionAttachment();
+        attachment.setFile(new MockFormFile());
+        closeRequest.getActionAttachments().add(attachment);
         closeRequest.setCommitteeId("925");
         closeRequest.setReason(REASON);
         runTest("925", null, closeRequest);
@@ -239,12 +243,12 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
      */
     private void verifySubmissionDoc(ProtocolSubmission protocolSubmission, ProtocolRequestBean requestBean) {
         ProtocolSubmissionDoc doc = findSubmissionDoc(protocolSubmission);
-        if (requestBean.getFile() == null) {
+        if (requestBean.getActionAttachments().isEmpty()) {
             assertNull(doc);
         }
         else {
-            assertEquals(requestBean.getFile().getFileName(), doc.getFileName());
-            assertEquals(requestBean.getFile().getFileSize(), doc.getDocument().length);
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileName(), doc.getFileName());
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileSize(), doc.getDocument().length);
         }
     }
     

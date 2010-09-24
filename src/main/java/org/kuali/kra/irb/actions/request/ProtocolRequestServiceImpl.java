@@ -101,7 +101,8 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
-        submissionBuilder.addAttachment(requestBean.getFile());
+       // submissionBuilder.addAttachment(requestBean.getFile());
+        submissionBuilder.setActionAttachments(requestBean.getActionAttachments());
         return submissionBuilder.create();
     }
     

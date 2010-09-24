@@ -93,7 +93,8 @@ public class ActionHelper implements Serializable {
         codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
         codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
         codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
-        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
+        codes.add(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT);
+        codes.add(ProtocolActionType.REQUEST_FOR_TERMINATION);
         codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
         ACTION_TYPE_SUBMISSION_DOC = codes;
     }
@@ -215,6 +216,7 @@ public class ActionHelper implements Serializable {
     private String renewalSummary;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
+    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
     /**
      * @throws Exception 
      * Constructs an ActionHelper.
@@ -229,17 +231,7 @@ public class ActionHelper implements Serializable {
         
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
-        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                           ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, 
-                                                             ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, 
-                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
-        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, 
-                                                                      ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
-        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
-                                                                  ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
-        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION, ProtocolSubmissionType.REQUEST_FOR_TERMINATION);
+        initRequestBeanAndMap();
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
@@ -277,6 +269,27 @@ public class ActionHelper implements Serializable {
         protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, protocolActions, currentSubmission);
     }
     
+    private void initRequestBeanAndMap() {
+        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
+            ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
+            ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
+        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
+            ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
+        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT,
+            ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
+        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
+            ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
+        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION,
+            ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE, protocolCloseRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, protocolDataAnalysisRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_SUSPENSION, protocolSuspendRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_TERMINATION, protocolTerminateRequestBean);
+
+    }
     
     /**
      *     
@@ -1433,14 +1446,20 @@ public class ActionHelper implements Serializable {
         getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
     }
 
-    public boolean validFile(final ProtocolActionAttachment attachment) {
+    public void addRequestAttachment(String actionTypeCode) {
+        getActionTypeRequestBeanMap(actionTypeCode).getActionAttachments().add(
+                getActionTypeRequestBeanMap(actionTypeCode).getNewActionAttachment());
+        getActionTypeRequestBeanMap(actionTypeCode).setNewActionAttachment(new ProtocolActionAttachment());
+    }
+
+    public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
         
         boolean valid = true;
         
         //this got much more complex using anon keys
         if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
             valid = false;
-            new ErrorReporter().reportError("actionHelper.protocolNotifyIrbBean.newActionAttachment.file",
+            new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
                 KeyConstants.ERROR_ATTACHMENT_REQUIRED);
         }
         
@@ -1517,4 +1536,9 @@ public class ActionHelper implements Serializable {
     public void setRenewalSummary(String renewalSummary) {
         this.renewalSummary = renewalSummary;
     }
+
+    public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
+        return actionTypeRequestBeanMap.get(actionTypeCode);
+    }
+
 }
