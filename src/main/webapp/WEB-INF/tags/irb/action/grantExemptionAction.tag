@@ -77,7 +77,7 @@
                                                        property="actionHelper.protocolGrantExemptionBean.reviewComments"
                                                        action="${action}" 
                                                        actionName="GrantExemption"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

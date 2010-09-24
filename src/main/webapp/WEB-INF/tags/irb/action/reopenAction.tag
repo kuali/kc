@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolReopenBean.reviewComments"
                                                        action="${action}"
                                                        actionName="Reopen"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

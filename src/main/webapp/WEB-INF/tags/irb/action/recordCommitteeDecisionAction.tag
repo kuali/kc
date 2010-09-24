@@ -212,7 +212,7 @@
                                                        property="actionHelper.committeeDecision.reviewComments"
                                                        action="${action}"
                                                        actionName="CommitteeDecision"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

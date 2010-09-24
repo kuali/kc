@@ -107,7 +107,7 @@
                                                        property="actionHelper.assignToAgendaBean.reviewComments"
                                                        action="${action}"
                                                        actionName="AssignToAgenda" 
-                                                       allowReadOnly="${true}"/>
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
                    </td>
                 </tr>
 	            

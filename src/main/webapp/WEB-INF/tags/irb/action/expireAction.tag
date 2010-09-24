@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolExpireBean.reviewComments"
                                                        action="${action}"
                                                        actionName="Expire"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

@@ -107,7 +107,7 @@
                                                        property="actionHelper.protocolResponseApprovalBean.reviewComments"
                                                        action="${action}"
                                                        actionName="ResponseApproval"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

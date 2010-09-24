@@ -62,7 +62,7 @@
                                                        property="actionHelper.irbAcknowledgementBean.reviewComments"
                                                        action="${action}" 
                                                        actionName="IrbAcknowledgement"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

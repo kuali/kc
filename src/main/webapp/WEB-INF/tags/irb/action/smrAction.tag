@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolSMRBean.reviewComments"
                                                        action="${action}"
                                                        actionName="SMR"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
