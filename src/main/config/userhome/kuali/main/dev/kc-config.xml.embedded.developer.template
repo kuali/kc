@@ -1,4 +1,5 @@
 <config>
+	
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
 	<param name="datasource.username">KCDEV</param>
@@ -26,4 +27,6 @@
 	<param name="keystore.file">${user.home}/kuali/main/${environment}/rice_embedded/rice.keystore</param>
 	<param name="keystore.alias">rice</param>
 	<param name="keystore.password">r1c3pw</param>
+	
+	<param name="rice.portal.links.showRiceServerConfig">true</param>
 </config>
