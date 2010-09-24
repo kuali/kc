@@ -74,6 +74,11 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private transient KcPerson lookupReviewerPerson;
     //private transient String lookupReviewerFullName;
     
+    
+    public ProtocolOnlineReview() {
+        this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinute>();
+    }
+    
     /**
      * Gets the protocolReviewId attribute. 
      * @return Returns the protocolReviewId.

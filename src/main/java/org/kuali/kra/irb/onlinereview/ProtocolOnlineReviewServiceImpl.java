@@ -407,9 +407,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         if (submissionsProtocolOnlineReview == null) {
             throw new IllegalStateException("Could not match OnlineReview document being removed to a protocolOnlineReview in the submission.");
         }
-
-        
-        
         
         if (LOG.isDebugEnabled()) {
             LOG.debug(String.format("Processing request to remove online review for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
@@ -421,7 +418,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             }
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-            submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
+            if (submissionsProtocolOnlineReview.getCommitteeScheduleMinutes()!=null) {
+                submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
+            }
             submissionsProtocolOnlineReview.setProtocolSubmission(null);
             submissionsProtocolOnlineReview.setSubmissionIdFk(null);
             submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
@@ -431,7 +430,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             getBusinessObjectService().save(submissionsProtocolOnlineReview);
         
         } else {
-            
+            LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }
     }
     
