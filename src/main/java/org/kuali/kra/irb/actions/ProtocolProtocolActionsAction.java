@@ -130,6 +130,7 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -139,7 +140,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private static final Log LOG = LogFactory.getLog(ProtocolProtocolActionsAction.class);
     private static final String CONFIRM_NO_DELETE = "";
-    private static final String CONFIRM_DELETE_NOTIFY_IRB_ATT = "confirmDeleteNotifyIrbAttachment";
+    private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
     
     private static final String PROTOCOL_TAB = "protocol";
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
@@ -3063,7 +3064,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward addNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        if (((ProtocolForm) form).getActionHelper().validFile(((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment())) {
+        if (((ProtocolForm) form).getActionHelper().validFile(((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment(), "protocolNotifyIrbBean")) {
             ((ProtocolForm) form).getActionHelper().addNotifyIrbAttachment();
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -3081,14 +3082,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward viewNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return this.viewAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+        return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
     }
 
     /*
      * utility to view file 
      */
     private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response) throws Exception {
 
         int selection = this.getSelectedLine(request);
         ProtocolActionAttachment attachment = form.getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().get(
@@ -3118,18 +3119,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward deleteNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments());
     }
 
     /*
-     * confirmation question for delete norify irb file
+     * confirmation question for delete norify irb file or request attachment file
      */
     private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, List<ProtocolActionAttachment> attachments) throws Exception {
 
         int selection = this.getSelectedLine(request);
-        ProtocolActionAttachment attachment = form.getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().get(
-                selection);
+        ProtocolActionAttachment attachment = attachments.get(selection);
 
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -3138,16 +3138,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
-                CONFIRM_DELETE_NOTIFY_IRB_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
+                CONFIRM_DELETE_ACTION_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
                         .getFile().getFileName());
 
-        return confirm(confirm, CONFIRM_DELETE_NOTIFY_IRB_ATT, CONFIRM_NO_DELETE);
+        return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_DELETE);
     }
 
 
     /**
      * 
-     * method when confirm to delete notify irb file
+     * method when confirm to delete notify irb file or request action attachment
      * @param mapping
      * @param form
      * @param request
@@ -3155,10 +3155,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward confirmDeleteNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         int selection = this.getSelectedLine(request);
-        ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().remove(selection);
+        String actionTypeCode = getRequestActionType(request);
+
+        if (StringUtils.isBlank(actionTypeCode)) {
+            ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().remove(selection);
+        } else {
+            ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode).getActionAttachments().remove(selection);
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -3236,5 +3242,85 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return lineNumber;
     }
 
+    
+    /**
+     * 
+     * This method is to add attachment for several request actions.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String actionTypeCode = getRequestActionType(request);
+        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
+        if (((ProtocolForm) form).getActionHelper().validFile(requestBean.getNewActionAttachment(), requestBean.getBeanName())) {
+            ((ProtocolForm) form).getActionHelper().addRequestAttachment(actionTypeCode);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * utility method to get the actiontypecode from the request methodtocall param
+     */
+    private String getRequestActionType(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String actionTypeCode = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
+        }
+
+        return actionTypeCode;
+    }
+
+    /**
+     * 
+     * This method view the selected attachment from the request action panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        String actionTypeCode = getRequestActionType(request);
+        int selection = this.getSelectedLine(request);
+        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
+        ProtocolActionAttachment attachment = requestBean.getActionAttachments().get(selection);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
+                getValidHeaderString(attachment.getFile().getContentType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    /**
+     * 
+     * This method is to delete the selected request action attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String actionTypeCode = getRequestActionType(request);
+        ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
+        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, requestBean.getActionAttachments());
+    }
 
 }
