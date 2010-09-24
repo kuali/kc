@@ -372,12 +372,6 @@ public abstract class PermissionsHelperBase implements Serializable {
         return null;
     }
     
-    private void addUsersToRole(AssignedRole role, List<User> users) {
-        for(User user : users) {
-            role.add(user.getPerson().getFullName());
-        }
-    }
-    
     /**
      * Get the list of assigned roles.  This is used by the Assigned Roles
      * panel on the Permissions tab web page.  Each role has a sorted list
@@ -390,15 +384,11 @@ public abstract class PermissionsHelperBase implements Serializable {
         for (Role role : roles) {
             if (!isUnassignedRoleName(role.getName())) {
                 AssignedRole assignedRole = new AssignedRole(role);
-                List<User> users = new ArrayList<User>();
                 for (UserState userState : userStates) {
                     if (userState.isRoleAssigned(role.getName())) {
-                        //users.add(new User(userState.getPerson()));
-                        assignedRole.add(userState.getPerson().getFullName());
+                        assignedRole.add(new User(userState.getPerson()));
                     }
                 }
-                //sortUsers(users);
-                //addUsersToRole(assignedRole, users);
                 assignedRoles.add(assignedRole);
             }
         }
