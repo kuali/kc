@@ -528,7 +528,6 @@
         <property name="protocolCopyService" ref="protocolCopyService" />
         <property name="documentService" ref="documentService" />
         <property name="kraLookupDao" ref="kraLookupDao" />
-        <property name="protocolActionService" ref="protocolActionService" />
     </bean>
     
     <bean id="protocolNumberService" class="org.kuali.kra.irb.protocol.ProtocolNumberServiceImpl">

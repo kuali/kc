@@ -30,7 +30,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -61,8 +60,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     private ProtocolAmendRenewServiceImpl protocolAmendRenewService;
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;   
-    private ProtocolActionService protocolActionService;
+    private DocumentService documentService;
     
     @Before
     public void setUp() throws Exception {
@@ -75,9 +73,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         protocolAmendRenewService.setDocumentService(documentService);
         protocolAmendRenewService.setProtocolCopyService(copyService);
         protocolAmendRenewService.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
-        
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolAmendRenewService.setProtocolActionService(protocolActionService);
     }
 
     @After
