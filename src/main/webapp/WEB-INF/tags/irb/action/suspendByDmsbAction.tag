@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolSuspendByDmsbBean.reviewComments"
                                                        action="${action}"
                                                        actionName="SuspendByDmsb"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 

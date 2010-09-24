@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolTerminateBean.reviewComments"
                                                        action="${action}"
                                                        actionName="Terminate" 
-                                                       allowReadOnly="${true}"/>
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
                    </td>
                 </tr>
                 

@@ -62,7 +62,7 @@
                                                        property="actionHelper.protocolDeferBean.reviewComments"
                                                        action="${action}"
                                                        actionName="Defer"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
