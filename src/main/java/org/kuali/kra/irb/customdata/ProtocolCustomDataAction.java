@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
@@ -105,4 +106,28 @@ public class ProtocolCustomDataAction extends ProtocolAction {
         GlobalVariables.getMessageList().add(errorMessage);
 
     }
+    
+    /**
+     * Clears the lookup value for the customAttributeId given in the parameter methodToCall.clearLookupValue.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CustomDataHelper customDataHelper = protocolForm.getCustomDataHelper();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
+        String customAttributeId = request.getParameter("methodToCall.clearLookupValue");
+        
+        customDataHelper.clearCustomAttributeValue(customAttributeId);
+        if (customAttributeDocuments.containsKey(customAttributeId)) {
+            customAttributeDocuments.get(customAttributeId).getCustomAttribute().setValue(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }
