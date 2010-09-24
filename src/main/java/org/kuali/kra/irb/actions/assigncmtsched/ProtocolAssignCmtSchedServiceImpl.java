@@ -93,13 +93,17 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * @return
      */
     private ProtocolSubmission findSubmission(Protocol protocol) {
+        // need to loop thru to find the last submission.
+        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
+        ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
+                protocolSubmission = submission;
             }
         }
-        return null;
+        return protocolSubmission;
+
     }
     
     /**

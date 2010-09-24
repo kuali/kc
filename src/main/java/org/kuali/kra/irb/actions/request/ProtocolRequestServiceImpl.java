@@ -63,6 +63,9 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
          */
+        // if doing request following 'Approve' immediately, it may get OLE issue, which is caused by saving documentheader
+        // refresh ProtodolDocument to keep it uptodate
+        protocol.refreshReferenceObject("protocolDocument");
         String prevSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
 
         ProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
@@ -81,7 +84,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         protocol.getProtocolActions().add(protocolAction);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        
         businessObjectService.save(protocol.getProtocolDocument());
         try {
             sendRequestNotification(protocol, requestBean);

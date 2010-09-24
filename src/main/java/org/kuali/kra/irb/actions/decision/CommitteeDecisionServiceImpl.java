@@ -187,13 +187,17 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
     }
 
     private ProtocolSubmission getSubmission(Protocol protocol) {
+        // There are 'findCommission' in other classes.  Consider to create a utility static method for this
+        // need to loop thru to find the last submission.
+        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
+        ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
                     || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
+                protocolSubmission = submission;
             }
         }
-        return null;
+        return protocolSubmission;
     }
     
     private void addReviewerComments(ProtocolSubmission submission, ReviewerComments reviewComments) {
