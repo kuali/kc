@@ -100,8 +100,10 @@ public class ProtocolSubmissionBuilder {
             //old submission may not be found if in a unit test
             //TODO : some of these, such as scheduleid/scheduleidfk, should not be copied over.
             // need to investigate if this is good for app.
-            protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
-            protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
+            // comment scheduleid&scheduleidfk.  this will cause confusing if selected a different committee (or no committee)
+            // then this schedule will not match the selected committee
+            //protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
+            //protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
             protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
             protocolSubmission.setComments(oldSubmission.getComments());
             protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
@@ -177,7 +179,8 @@ public class ProtocolSubmissionBuilder {
             protocolSubmission.setCommitteeId(committee.getCommitteeId());
             protocolSubmission.setCommitteeIdFk(committee.getId());
             protocolSubmission.setCommittee(committee);
-        }
+        }    
+        
     }
     
     /**
