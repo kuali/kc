@@ -40,9 +40,13 @@ public class CorrespondenceXmlStream extends PrintBaseXmlStream {
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
-        CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
-        String scheduleId = committeeSchedule.getScheduleId();
-        Integer submissionNumber = protocolSubmission.getSubmissionNumber();
+        String scheduleId=null;
+        Integer submissionNumber = null;
+        if(protocolSubmission!=null){
+            CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
+            scheduleId = committeeSchedule!=null?committeeSchedule.getScheduleId():null;
+            submissionNumber = protocolSubmission.getSubmissionNumber();
+        }
         CorrespondenceDocument correspondenceDocument = CorrespondenceDocument.Factory.newInstance();
         correspondenceDocument.setCorrespondence(getCorrespondence(protocol, scheduleId, submissionNumber));
         Map<String,XmlObject> correspondenceStreamMap = new HashMap<String, XmlObject>();
