@@ -3183,8 +3183,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        this.streamToResponse(attachment.getCorrespondence(), attachment.getProtocolCorrespondenceType().getDescription(), 
-                "pdf", response);        
+        this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf", 
+                Constants.PDF_REPORT_CONTENT_TYPE, response);        
 
         return RESPONSE_ALREADY_HANDLED;
     }
