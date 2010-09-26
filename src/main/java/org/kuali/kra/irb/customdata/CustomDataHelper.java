@@ -86,9 +86,6 @@ public class CustomDataHelper extends CustomDataHelperBase {
         fieldValues.put("DOCUMENT_TYPE_CODE", "PROT");
         fieldValues.put("ACTIVE_FLAG", "Y");
         Collection<CustomAttributeDocument> documents = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
-        for(CustomAttributeDocument doc : documents) {
-            System.err.println("               doc.getDocumentTypeName():" + doc.getDocumentTypeName());
-        }
         return documents.size() > 0;
     }
     
