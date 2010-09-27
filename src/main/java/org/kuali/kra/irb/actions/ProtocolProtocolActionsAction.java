@@ -822,7 +822,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
         
         if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getDocument(), startDate, endDate))) {
-            protocolForm.getActionHelper().prepareFilterDatesView(startDate, endDate);
+            protocolForm.getActionHelper().initFilterDatesView();
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -838,7 +838,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward resetHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().resetFilterDatesView();
+        protocolForm.getActionHelper().setFilteredHistoryStartDate(null);
+        protocolForm.getActionHelper().setFilteredHistoryEndDate(null);
+        protocolForm.getActionHelper().initFilterDatesView();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

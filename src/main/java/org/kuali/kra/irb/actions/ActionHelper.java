@@ -530,8 +530,8 @@ public class ActionHelper implements Serializable {
         canManageReviewComments = hasManageReviewCommentsPermission();
         
         initSummaryDetails();
-        
         initSubmissionDetails();
+        initFilterDatesView();
     }
     
     public void prepareCommentsView() {
@@ -1143,26 +1143,23 @@ public class ActionHelper implements Serializable {
      * @param startDate
      * @param endDate
      */
-    public void prepareFilterDatesView(Date startDate, Date endDate) {
-        java.util.Date dayBeforeStartDate = DateUtils.addDays(startDate, -1);
-        java.util.Date dayAfterEndDate = DateUtils.addDays(endDate, 1);
+    public void initFilterDatesView() {
+        java.util.Date dayBeforeStartDate = null;
+        java.util.Date dayAfterEndDate = null;
+        
+        if (filteredHistoryStartDate != null && filteredHistoryEndDate != null) {
+            dayBeforeStartDate = DateUtils.addDays(filteredHistoryStartDate, -1);
+            dayAfterEndDate = DateUtils.addDays(filteredHistoryStartDate, 1);
+        }
         
         for (ProtocolAction protocolAction : getSortedProtocolActions()) {            
             Timestamp actionDate = protocolAction.getActionDate();
-            boolean isInDateRange = actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate);
-            protocolAction.setIsInFilterView(isInDateRange);
+            if (dayBeforeStartDate != null && dayAfterEndDate != null) {
+                protocolAction.setIsInFilterView(actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate));
+            } else {
+                protocolAction.setIsInFilterView(true);
+            }
         }
-    }
-    
-    /**
-     * Resets all protocol actions for being unfiltered by setting their isInFilterView attribute.
-     */
-    public void resetFilterDatesView() {
-        for (ProtocolAction protocolAction : getSortedProtocolActions()) {
-            protocolAction.setIsInFilterView(true);
-        }
-        setFilteredHistoryStartDate(null);
-        setFilteredHistoryEndDate(null);
     }
     
     /**
