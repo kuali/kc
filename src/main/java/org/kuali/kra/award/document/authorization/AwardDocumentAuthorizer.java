@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -41,6 +42,7 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -271,11 +273,32 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     protected boolean canBlanketApprove(Document document, Person user) {
-        return !isFinal(document) && isAuthorizedByTemplate(
+        if (!isFinal(document) && isAuthorizedByTemplate(
                 document,
                 KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE,
                 KimConstants.PermissionTemplateNames.BLANKET_APPROVE_DOCUMENT,
-                user.getPrincipalId()) && super.canBlanketApprove(document, user) && super.canBlanketApprove(document, user);
+                user.getPrincipalId()) && super.canBlanketApprove(document, user)) {
+            // check system parameter - if Y, use default workflow behavior: allow a user with the permission
+            // to perform the blanket approve action at any time
+            try {
+                if ( getParameterService().getIndicatorParameter(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND) ) {
+                    return canEdit(document);
+                }
+            } catch ( IllegalArgumentException ex ) {
+                // do nothing, the parameter does not exist and defaults to "N"
+            }
+            // otherwise, limit the display of the blanket approve button to only the initiator of the document
+            // (prior to routing)
+            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            if ( canRoute(document) && StringUtils.equals( workflowDocument.getInitiatorPrincipalId(), GlobalVariables.getUserSession().getPrincipalId() ) ) {
+                return true;
+            }
+            // or to a user with an approval action request
+            if ( workflowDocument.isApprovalRequested() ) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
