@@ -26,7 +26,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="hierarchy"
   	extraTopButtons="${KualiForm.extraTopButtons}"
-  	showTabButtons="true">
+  	showTabButtons="false">
 
 <div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Proposal Hierarchy" /></div>
 	
