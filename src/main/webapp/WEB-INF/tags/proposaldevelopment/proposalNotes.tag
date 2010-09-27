@@ -191,8 +191,7 @@
                               universalId=""
                               userNameFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.name"
                               userName="${note.adHocRouteRecipient.name}"
-                              readOnly="false" 
-                              renderOtherFields="true"
+                              readOnly="false"
                               fieldConversions="principalName:${propPrefix}boNote[${status.index}].adHocRouteRecipient.id,name:${propPrefix}boNote[${status.index}].adHocRouteRecipient.name" 
                               lookupParameters="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id:principalName" />
                             </c:if>
