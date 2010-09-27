@@ -247,6 +247,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         List<ProtocolVoteRecused> protocolVoteRecusers = new ArrayList<ProtocolVoteRecused>();
         
         for (ProtocolSubmission protocolSubmission : protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber)) {
+            protocolSubmission.refreshReferenceObject("recusers");
             protocolVoteRecusers.addAll(protocolSubmission.getRecusers());
         }
         
