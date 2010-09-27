@@ -77,8 +77,8 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
-        generateCorrespondenceDocumentAndAttach(protocol); 
         documentService.saveDocument(protocol.getProtocolDocument());
+        generateCorrespondenceDocumentAndAttach(protocol); 
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
