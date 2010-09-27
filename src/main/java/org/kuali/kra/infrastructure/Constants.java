@@ -555,6 +555,10 @@ public interface Constants {
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     
+    //Protocol History View
+    public static final String PROTOCOL_HISTORY_DATE_RANGE_FILTER_START_DATE_KEY = "actionHelper.filteredHistoryStartDate";
+    public static final String PROTOCOL_HISTORY_DATE_RANGE_FILTER_END_DATE_KEY = "actionHelper.filteredHistoryEndDate";
+    
     //Protocol Attachment Notification
     public static final Integer PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS = 250;
     

@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.rice.kns.util.KNSConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
+import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionEvent;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionService;
@@ -116,7 +118,6 @@ import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.summary.AttachmentSummary;
@@ -131,7 +132,6 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -785,8 +785,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
-     * When the "filter" button is pressed in the History sub-panel, we only need to redraw the page. The results will changed based
-     * upon the contents of the Data Range Filter.
+     * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
      * 
      * @param mapping
      * @param form
@@ -795,9 +794,31 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward filterHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        return mapping.findForward(MAPPING_BASIC);
+    public ActionForward filterHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Date startDate = protocolForm.getActionHelper().getFilteredHistoryStartDate();
+        Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
+        
+        if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getDocument(), startDate, endDate))) {
+            protocolForm.getActionHelper().prepareFilterDatesView(startDate, endDate);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Shows all of the actions in the History sub-panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward resetHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getActionHelper().resetFilterDatesView();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -3141,20 +3162,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward viewSubmissionDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String[] lines = StringUtils.split(getSelectedActionAttachment(request), ";");
-        int actionIdx = Integer.parseInt(lines[0]);
-        int attachmentIdx = Integer.parseInt(lines[1]);
-        ProtocolSubmissionDoc attachment = ((ProtocolForm)form).getActionHelper().getFilteredProtocolActions().get(actionIdx).
-        getProtocolSubmissionDocs().get(attachmentIdx);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolSubmissionDoc attachment = protocolAction.getProtocolSubmissionDocs().get(attachmentIndex);
 
         if (attachment == null) {
-            LOG.info(NOT_FOUND_SELECTION + lines);
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolSubmissionDoc: " + attachmentIndex);
             // may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()),
-                getValidHeaderString(""), response);
+        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()), getValidHeaderString(""), response);
 
         return RESPONSE_ALREADY_HANDLED;
     }
@@ -3169,22 +3189,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        String[] lines = StringUtils.split(getSelectedActionAttachment(request), ";");
-        int actionIdx = Integer.parseInt(lines[0]);
-        int attachmentIdx = Integer.parseInt(lines[1]);
-        ProtocolCorrespondence attachment = ((ProtocolForm)form).getActionHelper().getFilteredProtocolActions().get(actionIdx).
-        getProtocolCorrespondences().get(attachmentIdx);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolCorrespondence attachment = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
 
         if (attachment == null) {
-            LOG.info(NOT_FOUND_SELECTION + lines);
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
             // may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
         this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf", 
-                Constants.PDF_REPORT_CONTENT_TYPE, response);        
+                Constants.PDF_REPORT_CONTENT_TYPE, response);
 
         return RESPONSE_ALREADY_HANDLED;
     }
@@ -3192,14 +3213,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /*
      * utility to get "actionidx;atachmentidx"
      */
-    private String getSelectedActionAttachment(HttpServletRequest request) {
+    private int getSelectedAttachment(HttpServletRequest request) {
+        int selectedAttachment = -1;
         String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String lineNumber = "";
         if (StringUtils.isNotBlank(parameterName)) {
-            lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
+            String attachmentNumber = StringUtils.substringBetween(parameterName, ".attachment", ".");
+            selectedAttachment = Integer.parseInt(attachmentNumber);
         }
 
-        return lineNumber;
+        return selectedAttachment;
     }
     
     /**
