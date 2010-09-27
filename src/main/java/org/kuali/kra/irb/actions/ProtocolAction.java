@@ -59,8 +59,9 @@ public class ProtocolAction extends ProtocolAssociate {
     
     private List<ProtocolCorrespondence> protocolCorrespondences;
     @SkipVersioning
-    private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;    
-
+    private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
+    
+    private transient boolean isInFilterView = true;
     
     public ProtocolAction() { 
 
@@ -355,5 +356,13 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setProtocolSubmissionDocs(List<ProtocolSubmissionDoc> protocolSubmissionDocs) {
         this.protocolSubmissionDocs = protocolSubmissionDocs;
-    }    
+    }
+    
+    public boolean getIsInFilterView() {
+        return isInFilterView;
+    }
+    
+    public void setIsInFilterView(boolean isInFilterView) {
+        this.isInFilterView = isInFilterView;
+    }
 }

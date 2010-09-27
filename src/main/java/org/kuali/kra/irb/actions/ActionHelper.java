@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -51,7 +52,6 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
-import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
@@ -204,7 +204,8 @@ public class ActionHelper implements Serializable {
     private int currentSequenceNumber = -1;
     
     private String selectedHistoryItem;
-    private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
+    private Date filteredHistoryStartDate;
+    private Date filteredHistoryEndDate;
     
     // additional properties for Submission Details
     private ProtocolSubmission selectedSubmission;
@@ -1109,13 +1110,21 @@ public class ActionHelper implements Serializable {
     public String getSelectedHistoryItem() {
         return selectedHistoryItem;
     }
-
-    public void setHistoryDateRangeFilter(DateRangeFilter historyDateRangeFilter) {
-        this.historyDateRangeFilter = historyDateRangeFilter;
+    
+    public Date getFilteredHistoryStartDate() {
+        return filteredHistoryStartDate;
     }
-
-    public DateRangeFilter getHistoryDateRangeFilter() {
-        return historyDateRangeFilter;
+    
+    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
+        this.filteredHistoryStartDate = filteredHistoryStartDate;
+    }
+    
+    public Date getFilteredHistoryEndDate() {
+        return filteredHistoryEndDate;
+    }
+    
+    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
+        this.filteredHistoryEndDate = filteredHistoryEndDate;
     }
     
     public ProtocolAction getLastPerformedAction() {
@@ -1130,66 +1139,60 @@ public class ActionHelper implements Serializable {
     }
     
     /**
-     * Get the filtered list of protocol actions sorted by the Actual Action Date.
-     * The list is filtered based upon the current Date Range Filter.  Protocol actions
-     * that don't fall with the given range are not returned.
-     * @return the filtered list of protocol actions
+     * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
+     * @param startDate
+     * @param endDate
      */
-    public List<ProtocolAction> getFilteredProtocolActions() {
-        List<ProtocolAction> filteredProtocolActions = new ArrayList<ProtocolAction>();
-        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
-        for (ProtocolAction protocolAction : protocolActions) {
-            if (inDateRange(protocolAction)) {
-                if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
-                    getSubmissionDocs(protocolAction);
-                }
-                filteredProtocolActions.add(protocolAction);
-            }
+    public void prepareFilterDatesView(Date startDate, Date endDate) {
+        java.util.Date dayBeforeStartDate = DateUtils.addDays(startDate, -1);
+        java.util.Date dayAfterEndDate = DateUtils.addDays(endDate, 1);
+        
+        for (ProtocolAction protocolAction : getSortedProtocolActions()) {            
+            Timestamp actionDate = protocolAction.getActionDate();
+            boolean isInDateRange = actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate);
+            protocolAction.setIsInFilterView(isInDateRange);
         }
-        Collections.sort(filteredProtocolActions, new Comparator<ProtocolAction>() {
+    }
+    
+    /**
+     * Resets all protocol actions for being unfiltered by setting their isInFilterView attribute.
+     */
+    public void resetFilterDatesView() {
+        for (ProtocolAction protocolAction : getSortedProtocolActions()) {
+            protocolAction.setIsInFilterView(true);
+        }
+        setFilteredHistoryStartDate(null);
+        setFilteredHistoryEndDate(null);
+    }
+    
+    /**
+     * Prepares, sorts, and returns a list of protocol actions.
+     * @return
+     */
+    public List<ProtocolAction> getSortedProtocolActions() {
+        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
+        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
+            if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
+                protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
+            }
+            protocolActions.add(protocolAction);
+        }
+        
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
         });
      
-        return filteredProtocolActions;
+        return protocolActions;
     }
-
-    private void getSubmissionDocs(ProtocolAction protocolAction) {
-        Map <String, Object> fieldValues = new HashMap<String, Object>();
+    
+    @SuppressWarnings("unchecked")
+    private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
         fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
-        protocolAction.setProtocolSubmissionDocs((List<ProtocolSubmissionDoc>)getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true));
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-
-    /**
-     * Is the given Protocol Action within the range of the Date Range Filter?
-     * @param protocolAction the protocol action
-     * @return true if in the range; otherwise false
-     */
-    private boolean inDateRange(ProtocolAction protocolAction) {
-        Date beginningOn = historyDateRangeFilter.getBeginningOn();
-        if (beginningOn != null) {
-            Timestamp startTimestamp = new Timestamp(beginningOn.getTime());
-            if (protocolAction.getActionDate().before(startTimestamp)) {
-                return false;
-            }
-        }
-        Date endingOn = historyDateRangeFilter.getEndingOn();
-        if (endingOn != null) {
-            Timestamp endTimestamp = new Timestamp(endingOn.getTime() + ONE_DAY - 1);
-            if (protocolAction.getActionDate().after(endTimestamp)) {
-                return false;
-            }
-        }
-        return true;
+        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
     }
     
     public ProtocolAction getSelectedProtocolAction() {
@@ -1271,6 +1274,13 @@ public class ActionHelper implements Serializable {
 
     public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
         this.abstainees = abstainees;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
     
     private ReviewerCommentsService getReviewerCommentsService() {
