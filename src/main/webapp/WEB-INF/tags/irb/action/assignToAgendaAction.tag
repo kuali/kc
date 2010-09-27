@@ -21,9 +21,9 @@
 <kra:permission value="${KualiForm.actionHelper.canAssignToAgenda}">
 
 <kul:innerTab tabTitle="Assign to Agenda" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.assignToAgendaBean*">
-    <div class="innerTab-container" align="left">
+      <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
-            <tbody>
+          <tbody>
 	            <tr>
 	            	<th> 
 	                    <div align="right">
