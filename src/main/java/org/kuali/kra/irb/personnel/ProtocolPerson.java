@@ -146,7 +146,7 @@ public class ProtocolPerson extends ProtocolAssociate {
     }
 
     public KcPerson getPerson() {
-        if (kcPerson == null) {
+        if (kcPerson == null && this.personId!=null) {
             kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
         }
         return kcPerson;
@@ -433,4 +433,15 @@ public class ProtocolPerson extends ProtocolAssociate {
             return false;
         }
     }
+    
+    public String getLastName() {
+        if (this.personId!=null) {
+            return getPerson().getLastName();
+        } else if (getRolodex()!=null) {
+            return getRolodex().getLastName();
+        } else {
+            return null;
+        }
+    }
+    
 }

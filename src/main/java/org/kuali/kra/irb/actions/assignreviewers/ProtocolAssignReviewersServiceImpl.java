@@ -24,6 +24,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -70,10 +71,9 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
         String reviewerTypeCode = protocolReviewerBean.getReviewerTypeCode();
         ProtocolReviewer reviewer = protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
-        
-        String piLastName = protocolSubmission.getProtocol().getPrincipalInvestigator().getPerson().getLastName();
-        String protocolNumber = protocolSubmission.getProtocolNumber();
-        String description = String.format("%s/Protocol# %s", piLastName, protocolNumber);
+        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
+        String protocolNumber = protocolSubmission.getProtocol().getProtocolNumber();
+        String description = String.format("%s/Protocol# %s", protocolPerson.getLastName(), protocolNumber);
         String explanation = Constants.EMPTY_STRING;
         String organizationDocumentNumber = Constants.EMPTY_STRING;
         String routeAnnotation = "Online Review Requested by PI during protocol submission.";
