@@ -1,0 +1,79 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.irb.actions.print;
+
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+
+public class ProtocolActionPrintEvent<T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+
+    private Boolean summaryReport;
+    private Boolean fullReport;
+    private Boolean historyReport;
+    private Boolean reviewCommentsReport;
+
+    public ProtocolActionPrintEvent(ProtocolDocument document, Boolean summaryReport, Boolean fullReport,Boolean historyReport ,Boolean reviewCommentsReport) {
+        super("Protocol Print", "", document);
+        this.summaryReport = summaryReport;
+        this.fullReport = fullReport;
+        this.historyReport = historyReport;
+        this.reviewCommentsReport = reviewCommentsReport;
+    }
+    
+    public ProtocolDocument getProtocolDocument() {
+        return (ProtocolDocument) getDocument();
+    }
+    
+
+    @Override
+    public BusinessRuleInterface getRule() {
+        return new ProtocolActionPrintRule();
+    }
+
+    public Boolean getSummaryReport() {
+        return summaryReport;
+    }
+
+    public void setSummaryReport(Boolean summaryReport) {
+        this.summaryReport = summaryReport;
+    }
+
+    public Boolean getFullReport() {
+        return fullReport;
+    }
+
+    public void setFullReport(Boolean fullReport) {
+        this.fullReport = fullReport;
+    }
+
+    public Boolean getHistoryReport() {
+        return historyReport;
+    }
+
+    public void setHistoryReport(Boolean historyReport) {
+        this.historyReport = historyReport;
+    }
+
+    public Boolean getReviewCommentsReport() {
+        return reviewCommentsReport;
+    }
+
+    public void setReviewCommentsReport(Boolean reviewCommentsReport) {
+        this.reviewCommentsReport = reviewCommentsReport;
+    }
+
+}

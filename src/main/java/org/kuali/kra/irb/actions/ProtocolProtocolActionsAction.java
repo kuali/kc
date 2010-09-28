@@ -91,6 +91,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
+import org.kuali.kra.irb.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.irb.actions.print.ProtocolPrintType;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
@@ -124,9 +125,11 @@ import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -755,9 +758,30 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
     }
 
+
     /**
-     * Print one of the various protocol "documents".
      * 
+     * This method is to view protocol attachment at protocol actions/print
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int selected = getSelectedLine(request);
+        ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocols().get(selected);
+        return printAttachmentProtocol(mapping, response, attachment);
+
+    }
+  
+    /**
+     * 
+     * This method is to print protocol reports
      * @param mapping
      * @param form
      * @param request
@@ -769,27 +793,54 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
-        if (StringUtils.isBlank(protocolForm.getActionHelper().getPrintTag())) {
-            // validation error
-        } else if (protocolForm.getActionHelper().getPrintTag().startsWith("attachment:")) {
-            // attachment
-            int index = Integer.parseInt(protocolForm.getActionHelper().getPrintTag().substring(protocolForm.getActionHelper().getPrintTag().indexOf(":")+1));
-            ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocols().get(index);
-            forward = printAttachmentProtocol(mapping, response, attachment);
-        } else {
-            // print protocol
-            ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(protocolForm.getActionHelper().getPrintTag()));
-            List<Printable> printableArtifactList = getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), printType);
-            AttachmentDataSource dataStream = getProtocolPrintingService().print(printableArtifactList);
-            if(dataStream.getContent()!=null){
-                dataStream.setFileName(printType.getTemplate().substring(0, printType.getTemplate().indexOf(".")));
-                streamToResponse(dataStream, response);
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        StringBuffer fileName = new StringBuffer().append("Protocol-");
+        if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
+            actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
+
+            AttachmentDataSource dataStream = getProtocolPrintingService().print(getPrintReportArtifacts(protocolForm, fileName));
+            if (dataStream.getContent() != null) {
+                dataStream.setFileName(fileName.toString());
+                PrintingUtils.streamToResponse(dataStream, response);
                 forward = null;
             }
         }
+
+
         return forward;
     }
-
+    
+    /*
+     * set up all artifacts and filename
+     */
+    private List<Printable> getPrintReportArtifacts(ActionForm form, StringBuffer fileName) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Boolean printSummary = protocolForm.getActionHelper().getSummaryReport();
+        Boolean printFull = protocolForm.getActionHelper().getFullReport();
+        Boolean printHistory = protocolForm.getActionHelper().getHistoryReport();
+        Boolean printReviewComments = protocolForm.getActionHelper().getReviewCommentsReport();
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        if (printSummary) {
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "summary", fileName));
+            protocolForm.getActionHelper().setSummaryReport(false);
+        }
+        if (printFull) {
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "full", fileName));
+            protocolForm.getActionHelper().setFullReport(false);
+        }
+        if (printHistory) {
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "history", fileName));
+            protocolForm.getActionHelper().setHistoryReport(false);
+        }
+        if (printReviewComments) {
+            printableArtifactList
+                    .add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "comments", fileName));
+            protocolForm.getActionHelper().setReviewCommentsReport(false);
+        }
+        fileName.append("report.pdf");
+        return printableArtifactList;
+    }
+    
     /*
      * This is to view attachment if attachment is seleccted in print panel.
      */
@@ -2905,13 +2956,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private List<Printable> getPrintableArtifacts(Protocol protocol, ProtocolPrintType protocolPrintType) {
+    private Printable getPrintableArtifacts(Protocol protocol, String reportType, StringBuffer fileName) {
+        ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(reportType));
 
-        Printable printable = getProtocolPrintingService().getProtocolPrintable(protocolPrintType);
+        Printable printable = getProtocolPrintingService().getProtocolPrintable(printType);
         ((AbstractPrint) printable).setPrintableBusinessObject(protocol);
-        List<Printable> printableArtifactList = new ArrayList<Printable>();
-        printableArtifactList.add(printable);
-        return printableArtifactList;
+        fileName.append(reportType).append("-");
+        return printable;
     }
 
     private ProtocolPrintingService getProtocolPrintingService() {
