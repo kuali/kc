@@ -71,8 +71,24 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((ProtocolForm) form).getAttachmentsHelper().processSave();
         ((ProtocolForm) form).getNotepadHelper().processSave();
+        ((ProtocolForm) form).getAttachmentsHelper().fixReloadedAttachments(request.getParameterMap());
+        /*
+        Enumeration paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String name = paramNames.nextElement().toString();
+            //refreshButtonClicked${itrStatus.index}
+            String fieldNameStarter = "protocolRefreshButtonClicked";
+            if (name.indexOf(fieldNameStarter) > -1){
+                //we have a refresh button checker field
+                String fieldValue = request.getParameterValues(name)[0];
+                if("T".equals(fieldValue)) {
+                    //a refresh button has been clicked, now we just need to update the appropriate attachment status code
+                    int numericVal = Integer.valueOf(name.substring(fieldNameStarter.length()));
+                    ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("2");
+                }
+            }
+        }*/
     }
-    
     /**
      * Method called when adding an attachment protocol.
      * 
