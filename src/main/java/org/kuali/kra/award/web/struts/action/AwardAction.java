@@ -623,7 +623,7 @@ public class AwardAction extends BudgetParentActionBase {
         Award award = getAward(form);
         AwardForm awardForm = (AwardForm) form;
         
-        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        award.initCentralAdminContacts();
 
         if (sponsorService.isSponsorNihMultiplePi(award)) {
             award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));

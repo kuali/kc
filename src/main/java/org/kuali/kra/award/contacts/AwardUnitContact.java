@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.KcPerson;
@@ -186,13 +187,10 @@ public class AwardUnitContact extends AwardContact {
      * @return
      */
     public boolean isOspAdministrator() {
-        boolean ospAdmin;
-        if(getUnitContactType() == UnitContactType.ADMINISTRATOR && roleCode != null && getContactRole() == null) {
-            ospAdmin = OSP_ADMINISTRATOR.equals(refreshContactRole().getRoleDescription());
-        } else {
-            ospAdmin = false;
+        if (getUnitAdministratorType() != null && StringUtils.equals(getUnitAdministratorType().getDescription(), OSP_ADMINISTRATOR)) {
+            return true;
         }
-        return ospAdmin;
+        return false;
     }
     
     public void setUnitContactType(UnitContactType contactType) {
