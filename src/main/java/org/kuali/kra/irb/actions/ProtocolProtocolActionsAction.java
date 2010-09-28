@@ -350,7 +350,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-        protocolForm.getActionHelper().getAssignToAgendaBean().init();
         
         super.route(mapping, protocolForm, request, response);
         
@@ -1126,7 +1125,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             CONFIRM_ASSIGN_CMT_SCHED_KEY, "");
                 }
                 getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                protocolForm.getActionHelper().getAssignToAgendaBean().init();
                 
                 recordProtocolActionSuccess("Assign to Committee and Schedule");
             }
@@ -1180,7 +1178,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             ProtocolForm protocolForm = (ProtocolForm) form;
             ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
             getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            protocolForm.getActionHelper().getAssignToAgendaBean().init();
             
             recordProtocolActionSuccess("Assign to Committee and Schedule");
         }
