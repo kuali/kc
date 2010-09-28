@@ -18,8 +18,11 @@
 <c:set var="prevDisabled" value="false" />
 <c:set var="nextDisabled" value="false" />
 <c:set var="tabSubmissionDetails" value="submissionDetails" scope="request"/>
-    <c:set var="prevDisabled" value="${KualiForm.actionHelper.prevDisabled}" />
-    <c:set var="nextDisabled" value="${KualiForm.actionHelper.nextDisabled}" />
+<c:set var="prevDisabled" value="${KualiForm.actionHelper.prevDisabled}" />
+<c:set var="nextDisabled" value="${KualiForm.actionHelper.nextDisabled}" />
+
+<kra:permission value="${fn:length(KualiForm.protocolDocument.protocol.protocolSubmissions) > 0}">
+
 <kul:innerTab parentTab="Summary, History, & Print" defaultOpen="false" tabTitle="Submission Details">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -57,3 +60,4 @@
     			
 </kul:innerTab>
 
+</kra:permission>
