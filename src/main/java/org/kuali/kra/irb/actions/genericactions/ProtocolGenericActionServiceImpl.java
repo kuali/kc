@@ -27,36 +27,23 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * 
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
  * state change.
  */
 public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionService {
     private static final String NAMESPACE = "KC-PROTOCOL";
-    private BusinessObjectService businessObjectService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolActionService protocolActionService;
     private ProtocolVersionService protocolVersionService;
     private DocumentService documentService;
     private RoleService kimRoleManagementService;
-    
-    /**
-     * Set the business object service.
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
@@ -176,12 +163,16 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol.getProtocolDocument());
-        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
+        documentService.saveDocument(protocol.getProtocolDocument());
+        generateCorrespondenceDocumentAndAttach(protocol);
+    }
+    
+    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.EXPEDITE_APPROVAL);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-    }
+    }    
     
     private void performDisapprove(Protocol protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {

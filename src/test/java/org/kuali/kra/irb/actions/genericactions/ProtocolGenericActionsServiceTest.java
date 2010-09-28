@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -45,7 +44,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     private ProtocolSubmitActionService submitActionService;
     private DocumentService documentService;
     private ProtocolGenericActionService genericActionService;
-    private ProtocolGenericActionServiceImpl genericActionServiceImpl;
     
     private static final String BASIC_COMMENT = "some dummy comments here";
     private static final Date BASIC_ACTION_DATE = new Date(System.currentTimeMillis());
@@ -62,7 +60,6 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         submitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
         genericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
-        genericActionServiceImpl = (ProtocolGenericActionServiceImpl)KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
 
     @Override
@@ -70,15 +67,8 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         businessObjectService = null;
         genericActionService = null;
-        genericActionServiceImpl = null;
         GlobalVariables.setUserSession(null);
         super.tearDown();
-    }
-
-    @Test
-    public void testSetBusinessObjectService() {
-        genericActionServiceImpl.setBusinessObjectService(businessObjectService);
-        assertTrue(true);
     }
 
     @Test
