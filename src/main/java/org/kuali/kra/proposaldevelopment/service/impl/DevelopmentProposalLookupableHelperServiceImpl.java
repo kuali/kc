@@ -59,7 +59,9 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
             AnchorHtmlData viewLink = getViewLink(document);
             htmlDataList.add(viewLink);
             
+            htmlDataList.add(getCustomLink(document, "actions", "copy", !canModifyProposal));
         }
+        
         if (canModifyProposal) {
             htmlDataList.add(getMedusaLink(document, false));
         } else if (canViewProposal) {
