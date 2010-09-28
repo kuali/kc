@@ -475,7 +475,17 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         this.committeeSchedule = committeeSchedule;
     }
     
-    
+    /**
+     * Returns whether the current user can view this comment.
+     * 
+     * This is true either if the comment is not private or if the comment is private and the user is the comment creator 
+     * (commentIsPrivate => currentUserIsCreateUser).
+     * @return whether the current user can view this comment
+     */
+    public boolean getCanView() {
+        boolean isCurrentUserCreateUser = StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), createUser);
+        return !getPrivateCommentFlag() || isCurrentUserCreateUser;
+    }
 
         
 }
