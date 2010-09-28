@@ -354,15 +354,19 @@
 						<tr>
 			         		<td colspan="4" class="infoline">
 								<div align="center">
+									<input type="hidden" id="protocolRefreshButtonClicked${itrStatus.index}" name="protocolRefreshButtonClicked${itrStatus.index}" value="F"/>
 									<html:image property="methodToCall.viewAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
 									<kra:permission value="${KualiForm.attachmentsHelper.modifyAttachments}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
+											id="replaceButton${itrStatus.index}"
 											alt="Replace Protocol Attachment"
 											onclick="document.getElementById('attachmentProtocolFile${itrStatus.index}').style.display = 'block';
 											document.getElementById('attachmentProtocolFileName${itrStatus.index}').style.display = 'none';
+											document.getElementById('replaceButton${itrStatus.index}').style.display = 'none';
+											document.getElementById('protocolRefreshButtonClicked${itrStatus.index}').value = 'T';
 											return false;"/>
 									    <c:if test="${modify}">
 										    <html:image property="methodToCall.deleteAttachmentProtocol.line${itrStatus.index}.anchor${currentTabIndex}"

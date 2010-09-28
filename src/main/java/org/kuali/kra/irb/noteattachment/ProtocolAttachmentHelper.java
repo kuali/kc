@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -226,6 +226,28 @@ public class ProtocolAttachmentHelper {
         
         if (this.versioningUtil.versioningRequired()) {
             this.versioningUtil.versionExstingAttachments();
+        }
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param parameterMap
+     */
+    public void fixReloadedAttachments(Map parameterMap) {
+        Iterator keys = parameterMap.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            String fieldNameStarter = "protocolRefreshButtonClicked";
+            if (key.indexOf(fieldNameStarter) > -1) {
+                //we have a refresh button checker field
+                String fieldValue = ((String[]) parameterMap.get(key))[0];
+                if ("T".equals(fieldValue)) {
+                    //a refresh button has been clicked, now we just need to update the appropriate attachment status code
+                    int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
+                    this.getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("2");
+                }
+            }
         }
     }
     
