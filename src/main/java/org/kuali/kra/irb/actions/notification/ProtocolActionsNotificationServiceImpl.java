@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.service.KcPersonService;
@@ -40,6 +41,7 @@ import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -59,6 +61,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     private List<String> notificationTemplates;
     private KualiConfigurationService kualiConfigurationService;
     private ProtocolXmlStream protocolXmlStream;
+    private DocumentService documentService;
     /**
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#sendActionsNotification(org.kuali.kra.irb.Protocol,
@@ -137,9 +140,14 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addInitiatorToRecipients(org.w3c.dom.Element, org.kuali.kra.irb.Protocol)
      */
     public void addInitiatorToRecipients(Element recipients, Protocol protocol) {
-        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(protocol.getProtocolDocument().getDocumentHeader()
-                .getWorkflowDocument().getInitiatorPrincipalId());
         try {
+            if (protocol.getProtocolDocument().getDocumentHeader() == null) {
+                ProtocolDocument retrievedDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
+                        .getProtocolDocument().getDocumentNumber());
+                protocol.setProtocolDocument(retrievedDocument);
+            }
+            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(protocol.getProtocolDocument().getDocumentHeader()
+                    .getWorkflowDocument().getInitiatorPrincipalId());
             if (StringUtils.isNotBlank(kcPersons.getUserName())
                     && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName().equals(
                             protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
@@ -207,6 +215,11 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
+    }
+
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

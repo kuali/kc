@@ -354,6 +354,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public ProtocolSubmissionStatus getSubmissionStatus() {
+        if (StringUtils.isNotBlank(submissionStatusCode) && submissionStatus == null) {
+            this.refreshReferenceObject("submissionStatus");
+        }
         return submissionStatus;
     }
 
@@ -366,6 +369,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public ProtocolSubmissionType getProtocolSubmissionType() {
+        if (StringUtils.isNotBlank(submissionTypeCode) && protocolSubmissionType == null) {
+            this.refreshReferenceObject("protocolSubmissionType");
+        }
         return protocolSubmissionType;
     }
 
