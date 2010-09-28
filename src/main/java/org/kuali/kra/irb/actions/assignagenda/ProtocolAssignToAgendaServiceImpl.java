@@ -92,9 +92,9 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     /** {@inheritDoc} */
     public boolean isAssignedToAgenda(Protocol protocol) {
-        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-        // if there is a protocol action return true, otherwise return false
-        return pa != null;
+        String protocolSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        
+        return ProtocolSubmissionStatus.IN_AGENDA.equals(protocolSubmissionStatusCode);
     }
 
     /** {@inheritDoc} */

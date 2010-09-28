@@ -79,25 +79,6 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
         this.protocolAssigned = protocolAssigned;
     }
 
-    /**
-     * This method initializes the values of the bean.
-     */
-    public void init() {
-        Protocol protocol = getActionHelper().getProtocol();
-        if (protocol != null && protocol.getProtocolNumber() != null) {
-            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(protocol);
-            if (assignedCommitteeId != null) {
-                this.committeeId = assignedCommitteeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(protocol);
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(protocol));
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(protocol);
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(protocol);
-            }
-        }
-        initComments();
-    }
-
-
     private ProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
         if (this.agendaService == null){
             this.agendaService = KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
@@ -129,6 +110,19 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      * Prepare the Assign to Committee and Schedule for rendering with JSP.
      */
     public void prepareView() {
+        Protocol protocol = getActionHelper().getProtocol();
+        if (protocol != null && protocol.getProtocolNumber() != null) {
+            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(protocol);
+            if (assignedCommitteeId != null) {
+                this.committeeId = assignedCommitteeId;
+                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(protocol);
+                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(protocol));
+                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(protocol);
+                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(protocol);
+            }
+        }
+        initComments();
+        
         /*
          * The Assign to Agenda has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
          * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates

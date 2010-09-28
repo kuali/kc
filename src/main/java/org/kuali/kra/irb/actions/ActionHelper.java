@@ -238,7 +238,6 @@ public class ActionHelper implements Serializable {
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
-        assignToAgendaBean.init();
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
@@ -486,6 +485,7 @@ public class ActionHelper implements Serializable {
     public void prepareView() {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
+        assignToAgendaBean.prepareView();
         assignCmtSchedBean.prepareView();
         protocolAssignReviewersBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
