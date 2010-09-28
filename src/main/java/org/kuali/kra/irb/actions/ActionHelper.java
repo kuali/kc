@@ -198,7 +198,11 @@ public class ActionHelper implements Serializable {
      * Identifies the protocol "document" to print.
      */
     private String printTag;
-    
+    private Boolean summaryReport;
+    private Boolean fullReport;
+    private Boolean historyReport;
+    private Boolean reviewCommentsReport;
+
     private ProtocolSummary protocolSummary;
     private ProtocolSummary prevProtocolSummary;
     private int currentSequenceNumber = -1;
@@ -1546,6 +1550,38 @@ public class ActionHelper implements Serializable {
 
     public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
         return actionTypeRequestBeanMap.get(actionTypeCode);
+    }
+
+    public Boolean getSummaryReport() {
+        return summaryReport;
+    }
+
+    public void setSummaryReport(Boolean summaryReport) {
+        this.summaryReport = summaryReport;
+    }
+
+    public Boolean getFullReport() {
+        return fullReport;
+    }
+
+    public void setFullReport(Boolean fullReport) {
+        this.fullReport = fullReport;
+    }
+
+    public Boolean getHistoryReport() {
+        return historyReport;
+    }
+
+    public void setHistoryReport(Boolean historyReport) {
+        this.historyReport = historyReport;
+    }
+
+    public Boolean getReviewCommentsReport() {
+        return reviewCommentsReport;
+    }
+
+    public void setReviewCommentsReport(Boolean reviewCommentsReport) {
+        this.reviewCommentsReport = reviewCommentsReport;
     }
 
 }
