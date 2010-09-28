@@ -151,7 +151,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         } else if (propertyName.equals(PI_NAME)) {
             inquiryUrl = getPrincipalInvestigatorNameInquiryUrl(award);            
         } else if(propertyName.equals(OSP_ADMIN_NAME)) {
-//            inquiryUrl = getOspAdminNameInquiryUrl(award);
+            inquiryUrl = getOspAdminNameInquiryUrl(award);
         }
         return inquiryUrl;
     }
@@ -183,8 +183,12 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     
     private HtmlData getOspAdminNameInquiryUrl(Award award) {
         KcPerson ospAdministrator = award.getOspAdministrator();
-        final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(ospAdministrator.getPersonId());
-        return super.getInquiryUrl(inqBo, PERSON_ID);
+        if (ospAdministrator != null) {
+            final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(ospAdministrator.getPersonId());
+            return super.getInquiryUrl(inqBo, PERSON_ID);
+        } else {
+            return null;
+        }
     }
 
     private HtmlData getPrincipalInvestigatorNameInquiryUrl(Award award) {

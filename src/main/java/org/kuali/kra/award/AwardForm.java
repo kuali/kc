@@ -32,7 +32,6 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.commitments.CostShareFormHelper;
-import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
@@ -123,7 +122,6 @@ public class AwardForm extends BudgetVersionFormBase
     private ApprovedEquipmentBean approvedEquipmentBean;
     private AwardProjectPersonnelBean projectPersonnelBean;
     private AwardUnitContactsBean unitContactsBean;
-    private AwardCentralAdminContactsBean centralAdminContactsBean;
     private AwardSponsorContactsBean sponsorContactsBean;
     private CostShareFormHelper costShareFormHelper;
     private SponsorTermFormHelper sponsorTermFormHelper;
@@ -208,7 +206,6 @@ public class AwardForm extends BudgetVersionFormBase
         newSpecialReview = new AwardSpecialReview();
         awardCommentHistoryByType = new ArrayList<AwardComment>();
         costShareFormHelper = new CostShareFormHelper(this);
-        centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
         approvedSubawardFormHelper = new ApprovedSubawardFormHelper(this);
         approvedEquipmentBean = new ApprovedEquipmentBean(this);
@@ -265,14 +262,7 @@ public class AwardForm extends BudgetVersionFormBase
     public ApprovedForeignTravelBean getApprovedForeignTravelBean() {
         return approvedForeignTravelBean;
     }
-    
-    /**
-     * @return
-     */
-    public AwardCentralAdminContactsBean getCentralAdminContactsBean() {
-        return centralAdminContactsBean;
-    }
-    
+
     /**
      * @return
      */

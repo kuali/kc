@@ -55,6 +55,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -68,6 +69,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.service.Sponsorable;
+import org.kuali.kra.service.UnitService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -87,7 +89,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private static final String YES_FLAG = "Y";
     private static final int TOTAL_STATIC_REPORTS = 4;
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
-
+    private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
+    
     private static final long serialVersionUID = 3797220122448310165L;
     private Long awardId;
     private AwardDocument awardDocument;
@@ -213,6 +216,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
+    
+    private transient List<AwardUnitContact> centralAdminContacts;
 
     /**
      * 
@@ -993,7 +998,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @return
      */
     public KcPerson getOspAdministrator() {
-        for(AwardUnitContact contact: getAwardUnitContacts()) {
+        for(AwardUnitContact contact: getCentralAdminContacts()) {
             if(contact.isOspAdministrator()) {
                 ospAdministrator = contact.getPerson();
                 break;
@@ -2857,6 +2862,41 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     public String getLookupOspAdministratorName() {
         return lookupOspAdministratorName;
+    }
+
+    /**
+     * 
+     * Returns a list of central admin contacts based on the lead unit of this award.
+     * @return
+     */
+    public List<AwardUnitContact> getCentralAdminContacts() {
+        if (centralAdminContacts == null) {
+            initCentralAdminContacts();
+        }
+        return centralAdminContacts;
+    }
+
+    /**
+     * Builds the list of central admin contacts based on the lead unit of this
+     * award. Build here instead of on a form bean as ospAdministrator
+     * must be accessible during Award lookup.
+     * 
+     */
+    public void initCentralAdminContacts() {
+        centralAdminContacts = new ArrayList<AwardUnitContact>();
+        List<UnitAdministrator> unitAdministrators = 
+            KraServiceLocator.getService(UnitService.class).retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
+        for(UnitAdministrator unitAdministrator : unitAdministrators) {
+            if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
+                AwardUnitContact newAwardUnitContact = new AwardUnitContact();
+                newAwardUnitContact.setAward(this);
+                newAwardUnitContact.setPerson(person);
+                newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
+                newAwardUnitContact.setFullName(person.getFullName());
+                centralAdminContacts.add(newAwardUnitContact);
+            }
+        }
     }
 
 }
