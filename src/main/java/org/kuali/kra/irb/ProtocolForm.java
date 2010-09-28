@@ -441,7 +441,18 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
     
     public KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService( KraAuthorizationService.class);
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+    
+    /**
+     * 
+     * This method returns true if the risk level panel should be displayed.
+     * @return
+     */
+    public boolean getDisplayRiskLevelPanel() {
+        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
+            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
+        
     }
 
 }
