@@ -610,7 +610,6 @@
     </bean>
     
     <bean id="protocolGenericActionService" class="org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolActionService" ref="protocolActionService" />
