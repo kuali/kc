@@ -366,7 +366,7 @@
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
      </action>    
      
-     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" attribute="KualiForm">
+     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
