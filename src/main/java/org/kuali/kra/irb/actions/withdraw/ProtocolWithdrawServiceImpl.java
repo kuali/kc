@@ -106,62 +106,72 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
+        boolean isVersion = ProtocolStatus.IN_PROGRESS.equals(protocol.getProtocolStatusCode())
+              || ProtocolStatus.SUBMITTED_TO_IRB.equals(protocol.getProtocolStatusCode());
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        
+
         ProtocolSubmission submission = getSubmission(protocol);
         if (submission != null) {
             submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
             submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
         }
         businessObjectService.save(protocol.getProtocolDocument());
-        
-        /*
-         * Cancelling the workflow document is how we withdraw it.
-         */
-        cancelWorkflow(protocol);
-               
-        //need to cancel any outstanding review documents
-        for (ProtocolOnlineReview review : protocol.getProtocolOnlineReviews()) {
-            cancelWorkflow(review);
-        }
-        
-        //sendWithdrawNotification(protocol);
+        // sendWithdrawNotification(protocol);
         protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
 
-        /*
-         * Create a new protocol document for the user to edit so they can re-submit at 
-         * a later time.
-         */
-        ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-        newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.WITHDRAWN);
-        // to force it to retrieve from list.
-        newProtocolDocument.getProtocol().setProtocolSubmission(null);
-        //update some info
-        newProtocolDocument.getProtocol().setApprovalDate(null);
-        newProtocolDocument.getProtocol().setLastApprovalDate(null);
-        newProtocolDocument.getProtocol().setExpirationDate(null);
+        if (isVersion) {
+            /*
+             * Cancelling the workflow document is how we withdraw it.
+             */
+            cancelWorkflow(protocol);
 
-        // COEUS does not set these values to null for 'withdraw action
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleId(null);
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleIdFk(null);
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommittee(null);
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeId(null);
-//        newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
-        
-        newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
-        documentService.saveDocument(newProtocolDocument);
+            // need to cancel any outstanding review documents
+            for (ProtocolOnlineReview review : protocol.getProtocolOnlineReviews()) {
+                cancelWorkflow(review);
+            }
 
-        //if there is an assign to agenda protocol action, remove it.
-        ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
-        if (assignToAgendaProtocolAction != null) {
-            newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
-            businessObjectService.delete(assignToAgendaProtocolAction);
-        }        
-        newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
-        documentService.saveDocument(newProtocolDocument);
-        generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
-        return newProtocolDocument;
+
+            /*
+             * Create a new protocol document for the user to edit so they can re-submit at a later time.
+             */
+            ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+            newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.WITHDRAWN);
+            // to force it to retrieve from list.
+            newProtocolDocument.getProtocol().setProtocolSubmission(null);
+            // update some info
+            newProtocolDocument.getProtocol().setApprovalDate(null);
+            newProtocolDocument.getProtocol().setLastApprovalDate(null);
+            newProtocolDocument.getProtocol().setExpirationDate(null);
+
+            // COEUS does not set these values to null for 'withdraw action
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleId(null);
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeSchedule(null);
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setScheduleIdFk(null);
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setCommittee(null);
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeId(null);
+            // newProtocolDocument.getProtocol().getProtocolSubmission().setCommitteeIdFk(null);
+
+            newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+            documentService.saveDocument(newProtocolDocument);
+
+            // if there is an assign to agenda protocol action, remove it.
+            ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService
+                    .getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
+            if (assignToAgendaProtocolAction != null) {
+                newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
+                businessObjectService.delete(assignToAgendaProtocolAction);
+            }
+            newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+            documentService.saveDocument(newProtocolDocument);
+            generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
+            return newProtocolDocument;
+        }
+// This is withdraw submission not protocol.  the withdraw correspondence is for 'protocol' now.
+// it's not suitable for withdraw protocol submission.        
+        else {
+            generateCorrespondenceDocumentAndAttach(protocol, withdrawBean);
+        }
+        return protocol.getProtocolDocument();
     }
     
     /**

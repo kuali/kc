@@ -286,7 +286,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "104")
 then	
-	setNewProtocolSubmission(protocolAction, "108", "1", "102");
+	//setNewProtocolSubmission(protocolAction, "108", "1", "102");
 end
 
 rule "fn_request_for_suspension: submissionTypeCode = 110, reviewCode = 1, submissionStatusCode = 102**/" 
@@ -294,7 +294,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "106")
 then	
-	setNewProtocolSubmission(protocolAction, "110", "1", "102");
+	//setNewProtocolSubmission(protocolAction, "110", "1", "102");
 end
 
 rule "fn_request_to_close: submissionTypeCode = 109, reviewCode = 1, submissionStatusCode = 102**/" 
@@ -302,7 +302,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "105")
 then	
-	setNewProtocolSubmission(protocolAction, "109", "1", "102");
+	//setNewProtocolSubmission(protocolAction, "109", "1", "102");
 end
 
 rule "fn_request_to_close_enrollment: submissionTypeCode = 111, reviewCode = 1, submissionStatusCode = 102" 
@@ -310,7 +310,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "108")
 then	
-	setNewProtocolSubmission(protocolAction, "111", "1", "102");
+	//setNewProtocolSubmission(protocolAction, "111", "1", "102");
 end
 
 rule "fn_assign_to_schedule: Updates all the Submission with the given Committee Id & Schedule Id" 
@@ -356,7 +356,8 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "114")
 then	
-	setNewProtocolSubmission(protocolAction, "113", "1", "102");
+    // submission created in requestservice
+	//setNewProtocolSubmission(protocolAction, "113", "1", "102");
 end
 
 rule "fn_request_to_reopen_enroll: submissionTypeCode = 114, reviewCode = 1, submissionStatusCode = 102" 
@@ -364,7 +365,7 @@ salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "115")
 then	
-	setNewProtocolSubmission(protocolAction, "114", "1", "102");
+	//setNewProtocolSubmission(protocolAction, "114", "1", "102");
 end
 
 rule "fn_notify_irb: submissionTypeCode = 112, reviewCode = 7, submissionStatusCode = 102" 

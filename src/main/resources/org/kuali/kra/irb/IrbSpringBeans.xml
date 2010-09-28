@@ -738,6 +738,7 @@
         <property name="notificationService" ref="notificationService" />
         <property name="kimRoleManagementService" ref="roleManagementService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="documentService" ref="documentService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
         <property name="protocolXmlStream" ref="protocolXmlStream" />
         <property name="notificationTemplates">
