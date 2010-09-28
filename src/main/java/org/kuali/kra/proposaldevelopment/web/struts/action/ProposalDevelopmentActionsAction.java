@@ -769,7 +769,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
             ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
             if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_POST_SUBMISSION);
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
             } else {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(
                         proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
