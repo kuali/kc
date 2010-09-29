@@ -21,6 +21,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -43,6 +46,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolSubmissionBuilder {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolSubmissionBuilder.class);
     private static final String NEXT_SUBMISSION_NUMBER_KEY = "submissionNumber";
     private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
@@ -88,6 +92,8 @@ public class ProtocolSubmissionBuilder {
         } else {
             nextSubmissionNumber = protocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);
         }
+        LOG.info("nextsubmissionnumber " + protocol.getProtocolId() + " " 
+                + (CollectionUtils.isEmpty(protocol.getProtocolSubmissions()) ? 0 : protocol.getProtocolSubmissions().size()) + "-" + nextSubmissionNumber);
         return nextSubmissionNumber;
     }
     

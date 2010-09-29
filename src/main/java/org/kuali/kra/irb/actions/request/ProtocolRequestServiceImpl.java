@@ -59,6 +59,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
      * @see org.kuali.kra.irb.actions.request.ProtocolRequestService#submitRequest(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.request.ProtocolRequestBean)
      */
     public void submitRequest(Protocol protocol, ProtocolRequestBean requestBean) {
+        LOG.info("submitRequest "+ requestBean.getProtocolActionTypeCode() + " " +protocol.getProtocolDocument().getDocumentNumber());
         /*
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
