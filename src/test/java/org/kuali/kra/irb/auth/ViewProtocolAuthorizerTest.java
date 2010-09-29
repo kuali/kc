@@ -15,75 +15,36 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.auth.ViewProtocolAuthorizer;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * Test the View Protocol Authorizer.
  */
-@Ignore
-@RunWith(JMock.class)
-public class ViewProtocolAuthorizerTest {
-
-    private static final String USERNAME = "quickstart";
-    
-    private Mockery context = new JUnit4Mockery();
+public class ViewProtocolAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Test
-    public void testViewPermission() {
-//from trunk
-//        ViewProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
-//        
-//        final Protocol protocol = new Protocol(){
-//            @Override
-//            public void refreshReferenceObject(String referenceObjectName) {}
-//            
-//        };
-//        final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
-//        context.checking(new Expectations() {{
-//            one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.VIEW_PROTOCOL); will(returnValue(true));
-//        }});
-//        authorizer.setKraAuthorizationService(protocolAuthorizationService);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.VIEW_PROTOCOL, protocol);
-//        assertEquals(true, authorizer.isAuthorized(USERNAME, task));
-
+    public void testHasPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, true, true, true);
     }
     
     @Test
-    public void testNotViewPermission() {
-//from trunk
-//        ViewProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
-//        
-//        final Protocol protocol = new Protocol(){
-//            @Override
-//            public void refreshReferenceObject(String referenceObjectName) {}
-//            
-//        };
-//        
-//        final KraAuthorizationService protocolAuthorizationService = context.mock(KraAuthorizationService.class);
-//        context.checking(new Expectations() {{
-//            one(protocolAuthorizationService).hasPermission(USERNAME, protocol, PermissionConstants.VIEW_PROTOCOL); will(returnValue(false));
-//        }});
-//        authorizer.setKraAuthorizationService(protocolAuthorizationService);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.VIEW_PROTOCOL, protocol);
-//        assertEquals(false, authorizer.isAuthorized(USERNAME, task));
-
+    public void testNoPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, false, true, false);
     }
+    
+    @Override
+    protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
+        ProtocolAuthorizer authorizer = new ViewProtocolAuthorizer();
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.VIEW_PROTOCOL, hasPermission));
+        return authorizer;
+    }
+    
+    @Override
+    protected String getTaskName() {
+        return TaskName.VIEW_PROTOCOL;
+    }
+    
 }
