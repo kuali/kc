@@ -97,7 +97,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward =  super.refresh(mapping, form, request, response);
-        if (request.getParameter("refreshCaller").toString().equals("kualiLookupable")) {
+        if (request.getParameter("refreshCaller") !=null && request.getParameter("refreshCaller").toString().equals("kualiLookupable")) {
             // Lookup field 'onchange' is not working if it is return a value from 'lookup', so do it on server side
             for (Object obj : request.getParameterMap().keySet()) {
                 if (StringUtils.indexOf((String) obj, "questionnaireHelper.answerHeaders[") == 0) {
