@@ -213,37 +213,11 @@ import org.junit.runners.Suite.SuiteClasses;
      // DOn't know why, need to figure out!!
      //
     org.kuali.kra.budget.web.BudgetTotalsWebTest.class,
-    org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
     org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalPermissionsAuthorizerTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentAlternateRoutingTest.class,
     org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingWebTest.class,
     org.kuali.kra.award.web.struts.action.AwardTimeAndMoneyActionTest.class,
-    org.kuali.kra.irb.auth.CreateAmendmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.CreateRenewalAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolFundingSourceAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolGeneralInfoAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolModuleAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolOrganizationsAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolOthersAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolPersonnelAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolReferencesAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizerTest.class,
-    org.kuali.kra.irb.auth.NotifyIrbAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolAuthorizationServiceImplTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
     org.kuali.kra.proposaldevelopment.web.DocSearchWebTest.class,
     
     // Moved from To Fix suite
@@ -293,16 +267,6 @@ import org.junit.runners.Suite.SuiteClasses;
     
     // This test was in the pass suite, would run perfectly then fail all of a sudden
     org.kuali.kra.award.AwardSubawardAuditRuleTest.class,
-
-    // These are tests that were initially in pass suite, but the tests were commented out,
-    //  so moving to fail suite until we find out why
-    org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestCloseAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestCloseEnrollmentAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolAmendRenewDeleteAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolRequestDataAnalysisAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
 
     //Added to trunk since branch, don't pass after merge
     org.kuali.kra.institutionalproposal.htmlunitwebtest.InstitutionalProposalInstitutionalProposalWebTest.class,
