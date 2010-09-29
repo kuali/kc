@@ -155,6 +155,11 @@ public class AwardAction extends BudgetParentActionBase {
         handlePlaceHolderDocument(request, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
         setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
+        if (!(request.getParameter("docOpenedFromAwardSearch") == null)) {
+               if (request.getParameter("docOpenedFromAwardSearch").equals("true")) {
+                   awardDocument.setDocOpenedFromAwardSearch(true);
+               }
+        }
         return forward;
     }
 

@@ -1213,8 +1213,12 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     public boolean getDisplayEditButton() {
-        boolean displayEditButton = !isViewOnly();
-        
+        boolean displayEditButton;
+        if (getDocument().isDocOpenedFromAwardSearch()) {
+            displayEditButton = true;
+        }else {
+            displayEditButton = !isViewOnly();
+        }
         VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getDocument().getAward().getAwardNumber());
         if (activeVersion != null) {
             displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getDocument().getAward().getSequenceNumber());
