@@ -164,11 +164,11 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
-        generateCorrespondenceDocumentAndAttach(protocol);
+        createCorrespondenceAndAttach(protocol, protocolActionType);
     }
     
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
-        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.EXPEDITE_APPROVAL);
+    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
