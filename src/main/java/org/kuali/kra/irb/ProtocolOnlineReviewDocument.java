@@ -165,10 +165,6 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
             KraServiceLocator.getService(ReviewerCommentsService.class).persistReviewerComments(reviewerComments, getProtocolOnlineReview().getProtocol());
             getProtocolOnlineReview().getCommitteeScheduleMinutes().clear();
             getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-            getProtocolOnlineReview().setProtocol(null);
-            getProtocolOnlineReview().setProtocolId(null);
-            getProtocolOnlineReview().setSubmissionIdFk(null);
-            getProtocolOnlineReview().setProtocolSubmission(null);
             getBusinessObjectService().save(getProtocolOnlineReview());
         }
     }

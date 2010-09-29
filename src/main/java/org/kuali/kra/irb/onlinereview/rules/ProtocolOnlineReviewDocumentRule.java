@@ -40,7 +40,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          {
 
     private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
-    private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
+    private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
     private static final String REVIEWER_APPROVAL_NODE_NAME="OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
@@ -73,6 +73,8 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
         
+        ProtocolOnlineReview protocolOnlineReview = event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
+        
         int index = 0;
         
         for (CommitteeScheduleMinute minute : event.getMinutes()) {
@@ -87,10 +89,12 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
         
-        if (StringUtils.isEmpty(event.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
-            GlobalVariables.getErrorMap().putError(String.format("protocolOnlineReviewStatusCode" ,index),  
-                    KeyConstants.ERROR_ONLINE_REVIEW_ALL_COMMENTS_NOT_FINAL);
+        if (StringUtils.isEmpty(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
+            GlobalVariables.getErrorMap().putError("protocolOnlineReviewStatusCode",  
+                    KeyConstants.ERROR_ONLINE_REVIEW_STATUS_REQUIRED);
+            valid = false;
         }
+        
         
         return valid;
         
