@@ -161,6 +161,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
      * @return
      */
     protected AnchorHtmlData getOpenLink(Document document) {
+        AwardDocument awardDocument = (AwardDocument) document;
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
@@ -168,11 +169,13 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
         parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "true");
+        parameters.put("docOpenedFromAwardSearch", "true");
         parameters.put("docId", document.getDocumentNumber());
         String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
+    
     
     private void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
         AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
