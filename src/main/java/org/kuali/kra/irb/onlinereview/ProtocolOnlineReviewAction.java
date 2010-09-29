@@ -73,12 +73,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
     //Protocol Online Review Action Forwards
   
-    /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
+    
+    //Used for redirecting to/from the ProtocolOnlineReviewRedirect action.
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
-    
-    /** {@inheritDoc} */
-    
-  
+    private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER="protocolOnlineReviewDocumentNumber";
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
@@ -331,9 +329,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             reviewerCommentsService.persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
             documentService.saveDocument(prDoc);
             documentService.approveDocument(prDoc, "", null);
+            protocolForm.getOnlineReviewsActionHelper().init(true);
         }
         
-        return forward;
+        return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
 
@@ -357,6 +356,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
         documentService.blanketApproveDocument(prDoc, "", null);
+        protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -385,6 +385,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             getBusinessObjectService().save(reviewer);
             getReviewerCommentsService().persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
             documentService.saveDocument(prDoc);
+            protocolForm.getOnlineReviewsActionHelper().init(true);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
         
@@ -425,8 +426,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         else
         {
             getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
+            protocolForm.getOnlineReviewsActionHelper().init(true);
         }
-        return forward;
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }  
         
         
@@ -444,6 +446,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
      */
     public ActionForward disapproveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+         
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "disapproveOnlineReview");
@@ -457,19 +460,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String disapprovalNoteText = "";
         String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
-
+        
         // start in logic for confirming the disapproval
         if (question == null) {
             // ask question if not already asked
             return performQuestionWithInput(mapping, form, request, response, KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
-        }
-        else {
+        } else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((KNSConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
-                return mapping.findForward(RiceConstants.MAPPING_BASIC);
-            }
-            else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            } else {
                 // have to check length on value entered
                 String introNoteMessage = getKualiConfigurationService().getPropertyString(RiceKeyConstants.MESSAGE_DISAPPROVAL_NOTE_TEXT_INTRO) + KNSConstants.BLANK_SPACE;
 
@@ -489,23 +490,35 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                         reason = "";
                     }
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
-                }
+                } 
                 
                 if (WebUtils.containsSensitiveDataPatternMatch(disapprovalNoteText)) {
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
                             KNSConstants.DOCUMENT_DISAPPROVE_QUESTION, getKualiConfigurationService().getPropertyString(RiceKeyConstants.QUESTION_DISAPPROVE_DOCUMENT), 
                             KNSConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
                             KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                } 
+                
+                KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
+                doProcessingAfterPost( kualiDocumentFormBase, request );
+                getDocumentService().disapproveDocument(kualiDocumentFormBase.getDocument(), disapprovalNoteText);
+                GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
+                kualiDocumentFormBase.setAnnotation("");
+                protocolForm.getOnlineReviewsActionHelper().init(true);
+                
+                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                    //redirect to the actual online review document page.
+                    //response.sendRedirect(String.format("protocolOnlineReviewRedirect.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER,prDoc.getDocumentNumber()));
+                    return super.returnToSender(request, mapping, protocolForm);
                 }
+                
+                
             }
         }
-
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get("form");
-        doProcessingAfterPost( kualiDocumentFormBase, request );
-        getDocumentService().disapproveDocument(kualiDocumentFormBase.getDocument(), disapprovalNoteText);
-        GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
-        kualiDocumentFormBase.setAnnotation("");
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
+       
+  
     }
     
     /**
@@ -522,10 +535,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "cancelOnlineReview");
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ReviewerCommentsService reviewerCommentsService = KraServiceLocator.getService(ReviewerCommentsService.class);
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
             .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
@@ -534,7 +544,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         // logic for cancel question
         if (question == null) {
             // ask question if not already asked
-            forward =  this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KNSConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyString("document.question.cancel.text"), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
         }
         else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
@@ -546,9 +556,17 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
             doProcessingAfterPost( kualiDocumentFormBase, request );
             getDocumentService().cancelDocument(prDoc, kualiDocumentFormBase.getAnnotation());
+            protocolForm.getOnlineReviewsActionHelper().init(true);
+            
+            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                //redirect to the actual online review document page.
+                return super.returnToSender(request, mapping, protocolForm);
+                //response.sendRedirect(String.format("protocolOnlineReviewRedirect.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER,prDoc.getDocumentNumber()));
+            }
+            
          
         }
-        return forward;
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     
@@ -577,6 +595,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
             documentService.saveDocument(prDoc);
         }
+        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -602,7 +621,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         comments.moveUp(onlineReviewCommentIndex, onlineReviewCommentIndex);
         reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
         documentService.saveDocument(prDoc);
-         
+        //protocolForm.getOnlineReviewsActionHelper().init(true); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
@@ -629,6 +648,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         comments.moveDown(onlineReviewCommentIndex, onlineReviewCommentIndex);
         reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
         documentService.saveDocument(prDoc);
+        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
@@ -652,6 +672,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
         comments.deleteComment(onlineReviewCommentIndex);
         reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     
