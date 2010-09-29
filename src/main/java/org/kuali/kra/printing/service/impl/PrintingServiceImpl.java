@@ -37,6 +37,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fop.apps.FOPException;
@@ -73,8 +74,7 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class PrintingServiceImpl implements PrintingService {
 
-	private static final Log LOG = LogFactory
-			.getLog(PrintingServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
 
@@ -254,8 +254,9 @@ public class PrintingServiceImpl implements PrintingService {
         }
     }
 
-    private String getReportName() {
-		return new java.util.Date().toString();
+    public String getReportName() {
+        String dateString = getDateTimeService().getCurrentDate().toString();
+        return StringUtils.deleteWhitespace(dateString);
 	}
 
 	/**

@@ -198,11 +198,14 @@ public class ActionHelper implements Serializable {
      * Identifies the protocol "document" to print.
      */
     private String printTag;
+    
+    private ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+
     private Boolean summaryReport;
     private Boolean fullReport;
     private Boolean historyReport;
     private Boolean reviewCommentsReport;
-
+    
     private ProtocolSummary protocolSummary;
     private ProtocolSummary prevProtocolSummary;
     private int currentSequenceNumber = -1;
@@ -271,6 +274,8 @@ public class ActionHelper implements Serializable {
         protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, protocolActions, currentSubmission);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
         protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, protocolActions, currentSubmission);
+        
+        protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
     }
     
     private void initRequestBeanAndMap() {
@@ -1548,6 +1553,25 @@ public class ActionHelper implements Serializable {
         this.renewalSummary = renewalSummary;
     }
 
+
+    /**
+     * Sets the protocolSummaryPrintOptions attribute value.
+     * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
+     */
+    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
+        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
+    }
+
+
+    /**
+     * Gets the protocolSummaryPrintOptions attribute. 
+     * @return Returns the protocolSummaryPrintOptions.
+     */
+    public ProtocolSummaryPrintOptions getProtocolSummaryPrintOptions() {
+        return protocolSummaryPrintOptions;
+    }
+    
+
     public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
         return actionTypeRequestBeanMap.get(actionTypeCode);
     }
@@ -1584,4 +1608,5 @@ public class ActionHelper implements Serializable {
         this.reviewCommentsReport = reviewCommentsReport;
     }
 
+    
 }

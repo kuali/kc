@@ -699,6 +699,9 @@
                 <ref bean="committeeXmlStream" />
             </property>
         </bean>
+        <bean id="protocolSummaryXmlStream"
+            class="org.kuali.kra.irb.actions.print.ProtocolSummaryXmlStream" parent="printBaseXmlStream">
+        </bean>
         <bean id="correspondenceXmlStream"
             class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream">
             <property name="protocolXmlStream">
@@ -719,7 +722,7 @@
 
         <bean id="protocolFullProtocolPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolFullProtocolPrint" scope="prototype">
-            <property name="xmlStream" ref="protocolXmlStream" />
+            <property name="xmlStream" ref="protocolSummaryXmlStream" />
         </bean>
         <bean id="protocolHistoryPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolHistoryPrint" scope="prototype">
@@ -731,7 +734,7 @@
         </bean>
         <bean id="protocolSummaryViewPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolSummaryViewPrint" scope="prototype">
-            <property name="xmlStream" ref="protocolXmlStream" />
+            <property name="xmlStream" ref="protocolSummaryXmlStream" />
         </bean>
 
     <bean id="protocolActionsNotificationService" class="org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationServiceImpl">
