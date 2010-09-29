@@ -94,7 +94,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.submit.ProtocolAuthzServiceTest.class,
     org.kuali.kra.irb.web.ProtocolAmendRenewWebTest.class,
     org.kuali.kra.irb.web.ProtocolCopyWebTest.class,
-    org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class,
     // Ecma error
     org.kuali.kra.irb.web.ProtocolHistoryWebTest.class,
     // org.apache.ojb.broker.PersistenceBrokerSQLException: 
