@@ -1,0 +1,5 @@
+# mappings and xsd copies put in place to avoid issue with some xsd files not being available = KCINFR-113
+http\://schemas.xmlsoap.org/wsdl/=META-INF/xsd/schemas.xmlsoap.org/wsdl/2003-02-11.xsd
+http\://schemas.xmlsoap.org/wsdl/2003-02-11.xsd=META-INF/xsd/schemas.xmlsoap.org/wsdl/2003-02-11.xsd
+http\://schemas.xmlsoap.org/wsdl/soap/=META-INF/xsd/schemas.xmlsoap.org/wsdl/soap/2003-02-11.xsd
+http\://schemas.xmlsoap.org/wsdl/soap/2003-02-11.xsd=META-INF/xsd/schemas.xmlsoap.org/wsdl/soap/2003-02-11.xsd
