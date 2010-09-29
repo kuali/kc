@@ -458,7 +458,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.auth.ProtocolRequestReOpenEnrollmentAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolRequestSuspensionAuthorizerTest.class,
     org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizerTest.class,
-    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class
+    org.kuali.kra.irb.auth.ViewProtocolAuthorizerTest.class,
+    org.kuali.kra.irb.web.ProtocolCustomDataWebTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
