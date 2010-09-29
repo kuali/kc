@@ -110,7 +110,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             ProtocolMasterData protocolMaster = ProtocolMasterData.Factory.newInstance();
 
             Protocol protocol = protocolSubmission.getProtocol();
-            protocol.refreshNonUpdateableReferences();
+//            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
             protocolMaster.setProtocolTitle(protocol.getTitle());

@@ -793,13 +793,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         ActionHelper actionHelper = protocolForm.getActionHelper();
         StringBuffer fileName = new StringBuffer().append("Protocol-");
         if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
             actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
-
-            AttachmentDataSource dataStream = getProtocolPrintingService().print(getPrintReportArtifacts(protocolForm, fileName));
+            ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+            String reportName = protocol.getProtocolNumber()+"-"+printType.getReportName();
+            AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName,getPrintReportArtifacts(protocolForm, fileName));
             if (dataStream.getContent() != null) {
                 dataStream.setFileName(fileName.toString());
                 PrintingUtils.streamToResponse(dataStream, response);
@@ -810,7 +812,33 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         return forward;
     }
-    
+    private Map<Class,Object> getReportOptions(ProtocolForm protocolForm, ProtocolPrintType printType) {
+        Map<Class,Object> reportParameters = new HashMap<Class, Object>();
+        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolSummaryPrintOptions();
+        if(printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)){
+            summaryOptions.setActions(true);
+            summaryOptions.setAmendmentRenewalHistory(true);
+            summaryOptions.setAmmendmentRenewalSummary(true);
+            summaryOptions.setAreaOfResearch(true);
+            summaryOptions.setAttachments(true);
+            summaryOptions.setCorrespondents(true);
+            summaryOptions.setDocuments(true);
+            summaryOptions.setFundingSource(true);
+            summaryOptions.setInvestigator(true);
+            summaryOptions.setNotes(true);
+            summaryOptions.setOrganizaition(true);
+            summaryOptions.setProtocolDetails(true);
+            summaryOptions.setReferences(true);
+            summaryOptions.setRiskLevel(true);
+            summaryOptions.setRoles(true);
+            summaryOptions.setSpecialReview(true);
+            summaryOptions.setStudyPersonnels(true);
+            summaryOptions.setSubjects(true);
+        }
+        reportParameters.put(ProtocolSummaryPrintOptions.class, summaryOptions);
+        return reportParameters;
+    }
+
     /*
      * set up all artifacts and filename
      */
@@ -822,20 +850,24 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Boolean printReviewComments = protocolForm.getActionHelper().getReviewCommentsReport();
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         if (printSummary) {
-            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "summary", fileName));
+            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "summary", fileName,reportParameters));
             protocolForm.getActionHelper().setSummaryReport(false);
         }
         if (printFull) {
-            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "full", fileName));
+            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "full", fileName,reportParameters));
             protocolForm.getActionHelper().setFullReport(false);
         }
         if (printHistory) {
-            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "history", fileName));
+            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "history", fileName,reportParameters));
             protocolForm.getActionHelper().setHistoryReport(false);
         }
         if (printReviewComments) {
+            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
             printableArtifactList
-                    .add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "comments", fileName));
+                    .add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "comments", fileName,reportParameters));
             protocolForm.getActionHelper().setReviewCommentsReport(false);
         }
         fileName.append("report.pdf");
@@ -2957,11 +2989,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private Printable getPrintableArtifacts(Protocol protocol, String reportType, StringBuffer fileName) {
+    private Printable getPrintableArtifacts(Protocol protocol, String reportType, StringBuffer fileName,Map reportParameters) {
         ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(reportType));
 
-        Printable printable = getProtocolPrintingService().getProtocolPrintable(printType);
-        ((AbstractPrint) printable).setPrintableBusinessObject(protocol);
+        AbstractPrint printable = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(printType);
+        printable.setPrintableBusinessObject(protocol);
+        printable.setReportParameters(reportParameters);
         fileName.append(reportType).append("-");
         return printable;
     }

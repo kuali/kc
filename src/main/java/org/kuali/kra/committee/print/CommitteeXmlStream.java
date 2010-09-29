@@ -185,7 +185,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
     }
 
     public void setCommitteeMasterData(org.kuali.kra.committee.bo.Committee committee,CommitteeMasterData committeeMasterData){
-      committee.refreshNonUpdateableReferences();
+//      committee.refreshNonUpdateableReferences();
       committeeMasterData.setCommitteeId(committee.getCommitteeId()) ;
       committeeMasterData.setCommitteeName(committee.getCommitteeName()) ;
       committeeMasterData.setHomeUnitNumber(committee.getHomeUnitNumber()) ;
