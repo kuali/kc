@@ -239,20 +239,20 @@ public class ProtocolAttachmentHelper {
         while (keys.hasNext()) {
             String key = keys.next().toString();
             String fieldNameStarter = "protocolRefreshButtonClicked";
-            if (key.indexOf(fieldNameStarter) > -1) {
-                //we have a refresh button checker field
-                String fieldValue = ((String[]) parameterMap.get(key))[0];
-                if ("T".equals(fieldValue)) {
-                    //a refresh button has been clicked, now we just need to update the appropriate attachment status code
-                    try {
+            try{
+                if (key.indexOf(fieldNameStarter) > -1) {
+                    //we have a refresh button checker field
+                    String fieldValue = ((String[]) parameterMap.get(key))[0];
+                    if ("T".equals(fieldValue)) {
+                        //a refresh button has been clicked, now we just need to update the appropriate attachment status code
                         int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
                         this.getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("2");
-                    } catch (Exception e) {
-                        //we could get an exception from the getting of the integer, or from the collection not having the integer in it's index/
-                        //do nothing.
-                        e.printStackTrace();
                     }
                 }
+            } catch (Exception e) {
+              //we could get an exception from the getting of the integer, or from the collection not having the integer in it's index/
+              //do nothing.
+              e.printStackTrace();
             }
         }
     }
