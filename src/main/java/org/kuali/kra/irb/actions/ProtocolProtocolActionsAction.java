@@ -569,7 +569,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
                 protocolForm.getActionHelper().getProtocolNotifyIrbBean());
-        
+        LOG.info("notifyIrbProtocol "+ protocolForm.getProtocolDocument().getDocumentNumber());
+
         recordProtocolActionSuccess("Notify IRB");
         
         return mapping.findForward(MAPPING_BASIC);
@@ -3164,6 +3165,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward addNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         if (((ProtocolForm) form).getActionHelper().validFile(((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment(), "protocolNotifyIrbBean")) {
+            LOG.info("addNotifyIrbAttachment " +((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment().getFile().getFileName()
+                    + ((ProtocolForm) form).getProtocolDocument().getDocumentNumber());
             ((ProtocolForm) form).getActionHelper().addNotifyIrbAttachment();
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -3389,6 +3392,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         String actionTypeCode = getRequestActionType(request);
         ProtocolRequestBean requestBean = ((ProtocolForm) form).getActionHelper().getActionTypeRequestBeanMap(actionTypeCode);
         if (((ProtocolForm) form).getActionHelper().validFile(requestBean.getNewActionAttachment(), requestBean.getBeanName())) {
+            // add this log to trace if there is any further issue
+            LOG.info("addRequestAttachment "+ actionTypeCode + " " +requestBean.getNewActionAttachment().getFile().getFileName()
+                      + ((ProtocolForm) form).getProtocolDocument().getDocumentNumber());
             ((ProtocolForm) form).getActionHelper().addRequestAttachment(actionTypeCode);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
