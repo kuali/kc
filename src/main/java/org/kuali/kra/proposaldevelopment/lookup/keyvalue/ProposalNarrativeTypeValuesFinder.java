@@ -23,10 +23,14 @@ import java.util.Map;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.ValidNarrForms;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentHierarchyAction;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -107,14 +111,94 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     
     @SuppressWarnings("unchecked")
     protected Collection<NarrativeType> loadAllNarrativeTypes() {
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        
-        String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+        ProposalDevelopmentDocument document = getDocumentFromForm();
+        DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
+        List<NarrativeType> validS2SFormNarratives = new ArrayList<NarrativeType>();
+        if(isS2sCandidate(developmentProposal)){
+            populateValidFormNarratives(developmentProposal,validS2SFormNarratives);
+            populateGenericValidNarrativeTypes(validS2SFormNarratives);
+            populateValidNarrativeTypeFromParentProposal(developmentProposal,validS2SFormNarratives);
+        }else{
+            String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+            Map<String,String> queryMap = new HashMap<String,String>();
+            queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
+            queryMap.put("systemGenerated", "N");
+            //return boService.findMatchingOrderBy(getBusinessObjectClass(), queryMap, "narrativeTypeCode", true);
+            validS2SFormNarratives = (List)getBusinessObjectService().findMatching(getBusinessObjectClass(), queryMap);
+        }
+        return validS2SFormNarratives;
+    }
+
+    private boolean isS2sCandidate(DevelopmentProposal developmentProposal) {
+        return !developmentProposal.getS2sOppForms().isEmpty();
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private BusinessObjectService getBusinessObjectService() {
+        return KNSServiceLocator.getBusinessObjectService();
+    }
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        Map<String, String> pk = new HashMap<String, String>();
+        pk.put("proposalNumber", proposalNumber);
+        return (DevelopmentProposal) (getBusinessObjectService().findByPrimaryKey(DevelopmentProposal.class, pk));
+    }
+    private List<NarrativeType> populateValidFormNarratives(DevelopmentProposal developmentProposal, List<NarrativeType> validaNarrativeTypes) {
+        List<S2sOppForms> s2sOpportunityForms = developmentProposal.getS2sOppForms();
+        for (S2sOppForms oppForms : s2sOpportunityForms) {
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put("formName", oppForms.getFormName());
+            List<ValidNarrForms>  validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
+            for (ValidNarrForms validNarrForms : validNarrativeForms) {
+                if(isProposalGroup(validNarrForms)){
+                    validaNarrativeTypes.add(validNarrForms.getNarrativeType());
+                }
+            }
+        }
+        return validaNarrativeTypes;
+    }
+    String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+    /**
+     * This method...
+     * @param validNarrForms
+     * @param proposalNarrativeTypeGroup
+     * @return
+     */
+    private boolean isProposalGroup(ValidNarrForms validNarrForms) {
+        return proposalNarrativeTypeGroup.equals(validNarrForms.getNarrativeType().getNarrativeTypeGroup());
+    }
+
+    /**
+     * This method...
+     * @param developmentProposal
+     * @param validS2SFormNarratives 
+     */
+    private void populateValidNarrativeTypeFromParentProposal(DevelopmentProposal developmentProposal, List<NarrativeType> validaNarrativeTypes) {
+        if(developmentProposal.isInHierarchy()){
+            String hierarchyProposalNumber = developmentProposal.getHierarchyParentProposalNumber();
+            DevelopmentProposal parentProposal = getDevelopmentProposal(hierarchyProposalNumber);
+            populateValidFormNarratives(parentProposal, validaNarrativeTypes);
+        }
+    }
+
+    /**
+     * This method...
+     * @param developmentProposal 
+     * @param validaNarrativeTypes
+     * @return
+     */
+    private Map<String, String> populateGenericValidNarrativeTypes(List<NarrativeType> validaNarrativeTypes) {
         Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
-        queryMap.put("systemGenerated", "N");
-        //return boService.findMatchingOrderBy(getBusinessObjectClass(), queryMap, "narrativeTypeCode", true);
-        return boService.findMatching(getBusinessObjectClass(), queryMap);
+        queryMap.put("formName", "ALL");
+        List<ValidNarrForms> validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
+        for (ValidNarrForms validNarrForms : validNarrativeForms) {
+            if(isProposalGroup(validNarrForms)){
+                validaNarrativeTypes.add(validNarrForms.getNarrativeType());
+            }
+        }
+        return queryMap;
     }
 
     protected ProposalDevelopmentDocument getDocumentFromForm() {
