@@ -22,7 +22,7 @@
 <kra:permission value="${KualiForm.actionHelper.canMakeAdminCorrection}">
 
 <kul:innerTab tabTitle="Make Administrative Correction" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAdminCorrectionBean.*">
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
     	<c:if test="${KualiForm.actionHelper.protocolAdminCorrectionBean.amendmentRenewalOutstanding}">
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tbody>
@@ -136,7 +136,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

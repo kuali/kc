@@ -26,7 +26,6 @@
 
 <kul:innerTab tabTitle="Enter Risk Level" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean.protocolRiskLevelBean.*,document.protocol.protocolRiskLevels*">
    
-    <div style="padding-left: 56px" >
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             
 	        <%-- Header --%>
@@ -132,7 +131,6 @@
 			    </tr>
 			</c:forEach>
         </table>       
-    </div>
     
 </kul:innerTab>
 
