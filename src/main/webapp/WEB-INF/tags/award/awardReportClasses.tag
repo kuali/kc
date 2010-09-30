@@ -14,6 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<script src="scripts/jquery/jquery.js"></script>
+<script>
+  //have jquery give up $ so dwr code used within this tag can have it
+  $.noConflict();
+</script>
 <%@ attribute name="index" description="Index" required="true" %>
 <%@ attribute name="reportClassKey" description="Report Class Key" required="true" %>
 <%@ attribute name="reportClassLabel" description="Report Class Key" required="true" %>
@@ -29,6 +34,32 @@
 <c:set target="${paramMap1}" property="reportClassCode" value="${reportClassKey}" />
 <c:set target="${paramMap2}" property="reportClassCode" value="${reportClassKey}" />
 
+<script>
+jQuery().ready(function() {
+	jQuery("select[name$='frequencyBaseCode']").each(function(i) {updateBaseDateDisplay(jQuery(this))});
+});
+function updateBaseDateDisplay(selectBox) {
+	var defaultBaseDate = "MM/DD/YYYY";
+	var baseDate = defaultBaseDate;
+	if (jQuery(selectBox).val() == 1) {
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.awardExecutionDate}' pattern='MM/dd/yyyy' />";
+	} else if (jQuery(selectBox).val() == 2) {
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.beginDate}' pattern='MM/dd/yyyy' />";
+	} else if (jQuery(selectBox).val() == 3) {
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.lastAwardAmountInfo.obligationExpirationDate}' pattern='MM/dd/yyyy' />";
+	} else if (jQuery(selectBox).val() == 4) {
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.lastAwardAmountInfo.finalExpirationDate}' pattern='MM/dd/yyyy' />";
+	} else if (jQuery(selectBox).val() == 5) {
+		baseDate = "<fmt:formatDate value='${KualiForm.document.award.lastAwardAmountInfo.currentFundEffectiveDate}' pattern='MM/dd/yyyy' />";
+	} else if (jQuery(selectBox).val() == 6) {
+		baseDate = "As Required";
+	}
+	if (baseDate.length < 1) {
+		baseDate = "Unavailable";
+	}
+	jQuery(selectBox).parent().find("div.baseDateDisplay span").html(baseDate);
+}
+</script>
 
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="tabItemCount" value="0"  />
@@ -118,13 +149,13 @@
                     <kul:fieldShowErrorIcon />
                 </c:if>
 	            <html:image property="methodToCall.refreshPulldownOptions" styleClass="tinybutton" 
-	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>
+	            	src='${ConfigProperties.kra.externalizable.images.url}arrow_refresh.png'/>	            	
             </div>
 			</td>
             <td nowrap width="5%" valign="middle" class="infoline">
             <c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode}" />
             <div align="center">
-                <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" tabindex="0" >                
+                <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" tabindex="0" onchange="updateBaseDateDisplay(this);">                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyBaseCode == option.key}">
@@ -141,6 +172,7 @@
                 <c:if test="${hasErrors}">
                     <kul:fieldShowErrorIcon />
                 </c:if>
+				<div class="baseDateDisplay fineprint">Base Date: <span>MM/DD/YYYY</span></div>                
             </div>
 			</td>
             <td nowrap width="5%" valign="middle" class="infoline">
@@ -227,7 +259,7 @@
 				<c:if test="${hasErrors==true}" >
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                 
-                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" disabled="${readOnly}">                
+                <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" disabled="${readOnly}" onchange="updateBaseDateDisplay(this);">                
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyBaseCode == option.key}">
@@ -241,6 +273,7 @@
 	            </c:forEach>
 	            </html:select>
 	            <c:set var="textStyle" value=""/>
+	            <div class="baseDateDisplay fineprint">Base Date: <span>MM/DD/YYYY</span></div>
 			</div>
 			</td>
 	        <td nowrap width="13%" valign="middle">
