@@ -300,7 +300,7 @@ public class ProtocolSubmissionBuilder {
         try {
             byte[] data = file.getFileData();
             if (data.length > 0) {
-                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), data, description);
+                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), file.getContentType(), data, description);
                 getBusinessObjectService().save(submissionDoc);
             }
         }
@@ -319,7 +319,7 @@ public class ProtocolSubmissionBuilder {
      * @param document
      * @return
      */
-    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document, String description) {
+    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
         ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());
@@ -332,6 +332,7 @@ public class ProtocolSubmissionBuilder {
         submissionDoc.setFileName(fileName);
         submissionDoc.setDocument(document);
         submissionDoc.setDescription(description);
+        submissionDoc.setContentType(contentType);
         return submissionDoc;
     }
     

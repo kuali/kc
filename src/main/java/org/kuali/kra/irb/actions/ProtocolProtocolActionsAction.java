@@ -3328,7 +3328,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()), getValidHeaderString(""), response);
+        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()), getValidHeaderString(attachment.getContentType()), response);
 
         return RESPONSE_ALREADY_HANDLED;
     }

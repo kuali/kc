@@ -35,6 +35,7 @@ public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
     private byte[] document;
     private Protocol protocol;
     private String description;
+    private String contentType;
     private ProtocolSubmission protocolSubmission;    
     
     public ProtocolSubmissionDoc() {
@@ -151,5 +152,13 @@ public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }
