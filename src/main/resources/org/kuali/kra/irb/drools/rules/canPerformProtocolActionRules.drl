@@ -121,6 +121,13 @@ then
 	setAction(protocolAction, true);
 end
 
+rule "Manage Review Comments"
+when
+	protocolAction : ProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "102", "104", "105", "106", "304", "103"))
+then	
+	setAction(protocolAction, true);
+end
+
 rule "Suspend Protocol 1"
 salience 100
 when
