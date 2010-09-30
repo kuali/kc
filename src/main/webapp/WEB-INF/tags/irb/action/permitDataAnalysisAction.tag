@@ -22,7 +22,7 @@
 
 <kul:innerTab tabTitle="Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolPermitDataAnalysisBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
@@ -76,7 +76,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

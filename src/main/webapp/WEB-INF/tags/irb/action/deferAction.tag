@@ -21,9 +21,8 @@
 <kra:permission value="${KualiForm.actionHelper.canDefer}">
 
 <kul:innerTab tabTitle="Defer Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDeferBean*">
-   
-    <div style="padding-left: 56px" >
-        <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
+   <kra-irb-action:padLeft>
+        <table cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
                 <tr>
@@ -76,8 +75,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
-    
+   </kra-irb-action:padLeft>
 </kul:innerTab>
 
 </kra:permission>

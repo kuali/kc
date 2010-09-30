@@ -21,7 +21,7 @@
 <kra:permission value="${KualiForm.actionHelper.canUndoLastAction}">
 
 <kul:innerTab tabTitle="Undo Last Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.undoLastActionBean.*">
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
                 <tr>
@@ -46,7 +46,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 
