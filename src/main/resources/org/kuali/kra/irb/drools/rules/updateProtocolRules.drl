@@ -29,6 +29,7 @@ function void setNewProtocolSubmission(ProtocolActionUpdateMapping protocolActio
 	ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
 	submissionType.setSubmissionTypeCode(submissionTypeCode);
 	protocolSubmission.setProtocolSubmissionType(submissionType);
+	protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
 	
 	ProtocolReviewType protocolReviewType = new ProtocolReviewType();
 	protocolReviewType.setReviewTypeCode(reviewCode); 
@@ -394,6 +395,7 @@ when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode != "111")
 then	
 	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "202");
 end
 
@@ -413,6 +415,7 @@ when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode != "115")
 then	
 	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "211");
 	setProtocolStatusCode(protocolAction, "200");
 end
 
