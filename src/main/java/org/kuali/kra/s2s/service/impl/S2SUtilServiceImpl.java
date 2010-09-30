@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
+
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -1022,5 +1025,15 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
+    }
+
+    /**
+     * Implementation should return one of the enums defined in PHS398CareerDevelopmentAwardSup11V11 form schema.
+     * For now, it returns US RESIDENT as default
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * 
+     */
+    public Enum getCitizenship(ProposalPerson proposalPerson) {
+        return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
     }
 }

@@ -88,22 +88,21 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 
 	private Enum getCitizenshipDataType() {
 		String citizenSource = "1";
-		String piCitizenShipValue = s2sUtilService
-				.getParameterValue(PI_CUSTOM_DATA);
+		String piCitizenShipValue = s2sUtilService.getParameterValue(PI_CUSTOM_DATA);
 		if (piCitizenShipValue != null) {
 			citizenSource = piCitizenShipValue;
 		}
-		if (citizenSource.equals("0")) {
-			for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-					.getProposalPersons()) {
-				if (proposalPerson.isInvestigator()) {
-					// TODO fetch warehouse person
-				}
-			}
-		} else {
-			// TODO fetch warehouse person
-		}
-		return CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
+		Enum citizenship = CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S;
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            if (proposalPerson.isInvestigator()) {
+                if (citizenSource.equals("0")) {
+                    citizenship = s2sUtilService.getCitizenship(proposalPerson);
+                } else {
+                    // TODO fetch warehouse person
+                }
+            }
+        }
+		return citizenship;
 	}
 
 	private ApplicationType getApplicationType() {

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.service;
 
+import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
+
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -290,5 +292,13 @@ public interface S2SUtilService {
      * @return {@link String} Federal Agency
      */
     public String getCognizantFedAgency(DevelopmentProposal developmentProposal);
+
+    /**
+     * 
+     * This method is used to get the citizenship from either warehouse or from person custom element
+     * @param proposalPerson
+     * @return
+     */
+    public Enum getCitizenship(ProposalPerson proposalPerson);
 
 }
