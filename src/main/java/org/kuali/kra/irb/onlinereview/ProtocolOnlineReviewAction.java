@@ -231,7 +231,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     protected int getOnlineReviewActionIndexNumber(String parameterName, String actionMethodToCall) {
         int result = -1;
-        String idxStr = null;
         if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
@@ -240,11 +239,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                             ,parameterName,actionMethodToCall)
                     );
         }
-        //idxStr = StringUtils.substringBetween(parameterName, "."+actionMethodToCall+".", ".anchor" );
         String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
-        
         result = Integer.parseInt(idxNmbr);
-        
         return result;
     }
     
@@ -282,7 +278,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-        ActionForward forward =  mapping.findForward(Constants.MAPPING_BASIC);
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "approveOnlineReview");
@@ -302,14 +297,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             if (prDoc.getProtocolOnlineReview().getProtocolReviewer().isPersonIdProtocolReviewer(GlobalVariables.getUserSession().getPrincipalId(),false) && !StringUtils.equals(prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(),ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
                 Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-                String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
                 String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
                 if(question == null){
-                    forward =  this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
                  } 
                 else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
                     //nothing to do.
-                   
                 }
                 else
                 {
