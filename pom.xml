@@ -1183,7 +1183,7 @@
 	</ciManagement>
 
 	<properties>
-		<cxf.version>2.2.9</cxf.version>
+		<cxf.version>2.2.10</cxf.version>
 		<drools.version>5.1.1</drools.version>
 		<jetty.version>7.1.6.v20100715</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
