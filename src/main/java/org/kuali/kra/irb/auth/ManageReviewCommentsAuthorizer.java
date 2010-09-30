@@ -17,6 +17,8 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -27,8 +29,10 @@ public class ManageReviewCommentsAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) 
-                && hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        boolean isWorklowed = kraWorkflowService.isInWorkflow(protocol.getProtocolDocument());
+        boolean hasPermission = hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        boolean canExecute = canExecuteAction(protocol, ProtocolActionType.MANAGE_REVIEW_COMMENTS);
+        return isWorklowed && hasPermission && canExecute;
     }
 
 }
