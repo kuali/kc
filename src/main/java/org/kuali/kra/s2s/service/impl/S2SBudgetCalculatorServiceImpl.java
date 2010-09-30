@@ -2173,10 +2173,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 			ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson)
 			throws S2SException {
 		BudgetDecimal salary = BudgetDecimal.ZERO;
-
-		Budget budgetDoc = getFinalBudgetVersion(pdDoc).getBudget();
-		if (budgetDoc != null) {
-			for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+		BudgetDocument budgetDoc = getFinalBudgetVersion(pdDoc);
+		Budget budget = budgetDoc==null?null:budgetDoc.getBudget();
+		if (budget != null) {
+			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 				for (BudgetLineItem lineItem : budgetPeriod
 						.getBudgetLineItems()) {
 					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem
