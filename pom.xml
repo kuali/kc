@@ -942,6 +942,8 @@
 		            							<include>ksb/</include>
 		            							<include>rice-portal/</include>
 		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
+		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
+		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
 		            							<include>WEB-INF/tags/kew/</include>
 		            							<include>WEB-INF/tags/kim/</include>
 		            							<include>WEB-INF/tags/kr/</include>
