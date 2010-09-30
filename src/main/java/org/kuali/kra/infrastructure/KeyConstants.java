@@ -673,6 +673,7 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_LEADUNIT = "error.proposalLog.invalidLeadUnit";
     public static final String ERROR_UNAUTHORIZED_LEAD_UNIT = "error.proposalLog.unauthorizedLeadUnit";
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
+    public static final String ERROR_INVALID_PI = "error.proposalLog.invalidPi";
     public static final String ERROR_MISSING_SPONSOR_CODE = "error.proposalLog.noSponsorCode";
     
     // Institutional Proposal Actions
