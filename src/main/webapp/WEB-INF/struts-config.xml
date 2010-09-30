@@ -9,8 +9,9 @@
     <form-beans >
 <!-- Rice content Start -->
     	<!-- Begin required KNS forms -->
-        <form-bean name="BackdoorForm" type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
+        <form-bean name="BackdoorForm" type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
         <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+        <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
     	<!-- End required KNS forms -->
 <!-- Rice content End -->
 
@@ -78,10 +79,13 @@
         </action>
 
         <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
-        input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kew.web.backdoor.BackdoorAction">
+        input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
             <forward name="basic" path="/portal.jsp" />
             <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="logout" path="/logout.do" />
         </action>
+        
+        <action path="/logout" name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
 
         <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
