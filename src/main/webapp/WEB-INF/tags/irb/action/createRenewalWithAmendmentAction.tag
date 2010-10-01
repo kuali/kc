@@ -59,7 +59,7 @@
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.addModifyAttachments" 
 	            					                              attributeEntry="${attributes.generalInfo}" 
 	            					                              disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.addModifyAttachmentsEnabled}" />
-	            					    Add/Modify Attachments
+	            					    Add/Modify Notes & Attachments
 	            					</td>
 	            				</tr>
 	            				<tr>
