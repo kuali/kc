@@ -853,7 +853,7 @@
 	</dependencies>
 
 	<profiles>
-	
+
 		<!-- 
 			This profile handles unpacking and cleaning of the rice web content and is on by default but can be
 			turned off by toggling the activeByDefault flag.  This is useful to test changes to rice files locally.
