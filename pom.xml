@@ -1212,7 +1212,7 @@
     	<!-- defaults to dev unless overriden -->
     	<build.environment>dev</build.environment>
     	<default.context.path>/kc-${build.environment}</default.context.path>
-    	
+
     	<rice.web.excludes>
 			META-INF/,
           	WEB-INF/classes/,
