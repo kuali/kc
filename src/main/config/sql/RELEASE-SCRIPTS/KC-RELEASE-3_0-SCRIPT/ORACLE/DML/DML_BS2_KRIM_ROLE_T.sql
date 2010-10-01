@@ -6,4 +6,8 @@ VALUES( KRIM_ROLE_ID_S.NEXTVAL, SYS_GUID(), 1, 'IRB Online Reviewer', 'KC-PROTOC
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT) 
 VALUES (KRIM_ROLE_ID_S.NEXTVAL, SYS_GUID(), 1, 'Protocol Unassigned', 'KC-PROTOCOL', 'Protocol Unassigned - no permissions', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC-SYS' AND NM = 'Unit'), 'Y', sysdate);
 
+INSERT INTO KRIM_ROLE_T (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR) 
+VALUES (KRIM_ROLE_ID_S.NEXTVAL, 'ProtocolApprover', 'KC-PROTOCOL', 'This role exists primarily to grant implicit Cancel permission to Protocol Aggregators and Admins', 
+(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC_SYS' AND NM = 'IRBApprover-Nested'), 'Y', SYSDATE, SYS_GUID(), 1);
+
 COMMIT;
