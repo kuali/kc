@@ -81,11 +81,9 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         if (ObjectUtils.isNull(unit)) {
             LOG.warn("Cannot get parent units for unit " + unitNumber + ": unit does not exist");
         } else {
-            Unit parentUnit = unit.getParentUnit();
-            parentUnits.add(parentUnit.getUnitNumber());
-            while (parentUnit != null) {
-                parentUnits.add(parentUnit.getParentUnitNumber());
-                parentUnit = parentUnit.getParentUnit();
+            while (ObjectUtils.isNotNull(unit.getParentUnit())) {
+                parentUnits.add(unit.getParentUnitNumber());
+                unit = unit.getParentUnit();
             }
         }
         return parentUnits;
