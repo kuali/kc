@@ -115,12 +115,15 @@
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<defaultOptions>
 							    <noAddressBinding>true</noAddressBinding>
+							    <extraargs>
+							    	<extraarg>-verbose</extraarg>
+							    </extraargs>
 							</defaultOptions>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
-						  <includes>
+						    <includes>
 						      <include>ApplicantIntegrationServices-V1_1.wsdl</include>
-						  </includes>
+						    </includes>
 						</configuration>
 						<goals>
 							<goal>wsdl2java</goal>
