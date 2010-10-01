@@ -62,9 +62,6 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocolDocument);
         generateCorrespondenceDocumentAndAttach(protocol); 
-        
-        protocolDocument.getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
-
     }
     
     /**

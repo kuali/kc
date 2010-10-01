@@ -37,7 +37,8 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="IRBReview" />
+					<start name="Initiated" nextNode="DepartmentReview" />
+					<requests name="DepartmentReview" nextNode="IRBReview" />
 					<requests name="IRBReview" />
 				</routePath>
 			</routePaths>
@@ -45,9 +46,14 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
+				<role name="DepartmentReview">
+					<qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+                    <activationType>P</activationType>
+					<finalApproval>false</finalApproval>
+	            </role>				
                 <role name="IRBReview">
 					<qualifierResolver>ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
-					<!-- <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> --> 
                     <activationType>S</activationType>
 					<ruleTemplate>IRBReview</ruleTemplate>
 	            </role>                     
@@ -97,6 +103,46 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
+        
+        <ruleAttribute>
+			<name>UnitRouting-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>UnitRouting-XPathQualifierResolver</label>
+			<description>UnitRouting-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<qualifier name="unitNumber">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute>
+		
+        <ruleAttribute>
+			<name>ProtocolUnitApprovalAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>ProtocolUnitApprovalAttribute</label>
+			<description>UnitApprovalAttribute</description>
+			<type>RuleXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<routingConfig>
+				<fieldDef name="leadUnitNumber" title="Lead Unit"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+						  	wf:xstreamsafe('//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]')= wf:ruledata('leadUnitNumber')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+        
     </ruleAttributes>
     
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
@@ -121,6 +167,17 @@
             </attributes>
         </ruleTemplate>
         
+		<ruleTemplate allowOverwrite="true">
+			<name>UnitApproval</name>
+			<description>Unit Approval Routing Rule</description>
+			<attributes>
+				<attribute>
+					<name>ProtocolUnitApprovalAttribute</name>
+					<required>false</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+
 	</ruleTemplates>
 	
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
@@ -162,5 +219,24 @@
               </ruleExtension>            
             </ruleExtensions>
         </rule>
+        
+        <rule>
+			<documentType>ProtocolDocument</documentType>
+			<ruleTemplate>UnitApproval</ruleTemplate>
+			<description>Unit Approval Routing Rule for BL-IIDC</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>ProtocolUnitApprovalAttribute</attribute>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>leadUnitNumber</key>
+							<value>IN-CARD</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+		</rule>
+		
     </rules>
 </data>

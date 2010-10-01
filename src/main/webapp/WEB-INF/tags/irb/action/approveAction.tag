@@ -113,7 +113,7 @@
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.approve.anchor${tabKey}"
+                            <html:image property="methodToCall.approveAction.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>

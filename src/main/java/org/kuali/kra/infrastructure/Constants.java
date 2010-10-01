@@ -562,6 +562,9 @@ public interface Constants {
     //Protocol Attachment Notification
     public static final Integer PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS = 250;
     
+    //Protocol Workflow
+    public static final String PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME = "IRBReview";
+    
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
     public static final String COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE = "COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE";

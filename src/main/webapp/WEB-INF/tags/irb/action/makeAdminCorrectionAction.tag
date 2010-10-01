@@ -106,33 +106,28 @@
                         <kul:htmlControlAttribute property="actionHelper.protocolAdminCorrectionBean.comments" attributeEntry="${attributes.comments}" />
                         </nobr>
                     </td>
+                </tr>
+                <tr>
+                   <td width="30%">
+						Open Protocol for Administrative Correction:
+	                </td>
                     <td>
 						<div align="center" class="globalbuttons">
 							<html:image property="methodToCall.openProtocolForAdminCorrection.anchor${tabKey}"
 							            src='${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton" />
 						</div>
-	                </td>
-                </tr>
-                <tr>
-                    <th width="30%"> 
-                        <div align="right">
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.applyCorrection}" />
-                        </div>
-                    </th>
-                    <td>
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolAdminCorrectionBean.applyCorrection" attributeEntry="${attributes.applyCorrection}" />
-                        </nobr>
                     </td>
-                    <td><nobr>&nbsp;</nobr></td>
                 </tr>
                 <tr>
-					<td align="center" colspan="3">
+                   <td width="30%">
+						Apply Administrative Correction to Protocol:
+	                </td>
+                    <td>
 						<div align="center">
 							<html:image property="methodToCall.submitAdminCorrection.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
-	                </td>
+                    </td>
                 </tr>
             </tbody>
         </table>
