@@ -27,7 +27,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Protocol Request Service Implementation.
@@ -36,6 +38,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     
     private static final Log LOG = LogFactory.getLog(ProtocolRequestServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
 
@@ -56,9 +59,10 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     }
 
     /**
+     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.request.ProtocolRequestService#submitRequest(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.request.ProtocolRequestBean)
      */
-    public void submitRequest(Protocol protocol, ProtocolRequestBean requestBean) {
+    public void submitRequest(Protocol protocol, ProtocolRequestBean requestBean) throws WorkflowException {
         LOG.info("submitRequest "+ requestBean.getProtocolActionTypeCode() + " " +protocol.getProtocolDocument().getDocumentNumber());
         /*
          * The submission is created first so that its new primary key can be added
@@ -66,7 +70,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
          */
         // if doing request following 'Approve' immediately, it may get OLE issue, which is caused by saving documentheader
         // refresh ProtodolDocument to keep it uptodate
-        protocol.refreshReferenceObject("protocolDocument");
+//        protocol.refreshReferenceObject("protocolDocument");
         String prevSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
 
         ProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
@@ -85,7 +89,8 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         protocol.getProtocolActions().add(protocolAction);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        businessObjectService.save(protocol.getProtocolDocument());
+//        businessObjectService.save(protocol.getProtocolDocument());
+        documentService.saveDocument(protocol.getProtocolDocument());
         try {
             sendRequestNotification(protocol, requestBean);
         } catch (Exception e) {
@@ -124,6 +129,10 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
         this.protocolActionsNotificationService = protocolActionsNotificationService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }
