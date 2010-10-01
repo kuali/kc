@@ -117,6 +117,7 @@
 							    <noAddressBinding>true</noAddressBinding>
 							    <extraargs>
 							    	<extraarg>-verbose</extraarg>
+							    	<extraarg>-validate</extraarg>
 							    </extraargs>
 							</defaultOptions>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
