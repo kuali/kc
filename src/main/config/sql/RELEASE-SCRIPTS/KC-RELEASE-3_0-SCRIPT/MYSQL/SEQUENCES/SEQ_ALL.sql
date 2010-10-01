@@ -21,3 +21,6 @@ CREATE TABLE SEQ_VALID_SUBM_REVW_TYPE_QUAL
 	id bigint(19) not null auto_increment, primary key (id)
 ) ENGINE MyISAM
 /
+
+drop table sequence_submission_history
+/
