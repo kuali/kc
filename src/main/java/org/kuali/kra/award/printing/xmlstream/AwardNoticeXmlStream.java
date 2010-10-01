@@ -200,6 +200,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 */
 	private void initialize(Award award) {
 		this.awardDocument = award.getAwardDocument();
+		this.award = award;
 		award.refreshNonUpdateableReferences();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
