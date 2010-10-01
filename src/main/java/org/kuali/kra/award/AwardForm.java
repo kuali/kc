@@ -1122,8 +1122,10 @@ public class AwardForm extends BudgetVersionFormBase
     public List<Long> getLinkedProposals() {
         List<Long> linkedProposals = new ArrayList<Long>();
         if (this.getDocument() != null && this.getDocument().getAward() != null) {
-            for (AwardFundingProposal fundingProposal : this.getDocument().getAward().getFundingProposals()) {
-                linkedProposals.add(fundingProposal.getProposalId());
+            for (Award curAward : this.getFundingProposalBean().getAllAwardsForAwardNumber()) {
+                for (AwardFundingProposal fundingProposal : curAward.getFundingProposals()) {
+                    linkedProposals.add(fundingProposal.getProposalId());
+                }
             }
         }
         return linkedProposals;
