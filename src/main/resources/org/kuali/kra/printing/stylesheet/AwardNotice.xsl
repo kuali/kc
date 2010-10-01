@@ -5226,80 +5226,80 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 													</fo:table>
 												</xsl:for-each>
 											</xsl:for-each>
-										</xsl:if>
-										<xsl:if test="not (starts-with(  AwardDetails/PaymentScheduleIndicator  , &quot;N&quot;)) and count(  AwardPaymentSchedules/PaymentSchedule  )  &gt; 0">
-											<fo:inline font-family="Arial" font-size="9pt" font-weight="bold">
-												<xsl:text>Payment Schedule:</xsl:text>
-											</fo:inline>
-											<fo:block/>
-											<xsl:for-each select="AwardPaymentSchedules">
-												<fo:inline-container>
-													<fo:block>
-														<xsl:text>&#x2029;</xsl:text>
-													</fo:block>
-												</fo:inline-container>
-												<xsl:if test="PaymentSchedule">
-													<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
-														<fo:table-column column-width="20"/>
-														<fo:table-column column-width="proportional-column-width(1)"/>
-														<fo:table-column column-width="proportional-column-width(1)"/>
-														<fo:table-header start-indent="0pt">
-															<fo:table-row font-family="Arial" font-size="9pt" font-weight="bold">
-																<fo:table-cell padding="2pt" display-align="center">
-																	<fo:block/>
-																</fo:table-cell>
-																<fo:table-cell padding="2pt" display-align="center">
-																	<fo:block>
-																		<fo:inline font-weight="bold">
-																			<xsl:text>Due Date</xsl:text>
-																		</fo:inline>
-																	</fo:block>
-																</fo:table-cell>
-																<fo:table-cell padding="2pt" display-align="center">
-																	<fo:block>
-																		<fo:inline font-weight="bold">
-																			<xsl:text>Amount</xsl:text>
-																		</fo:inline>
-																	</fo:block>
-																</fo:table-cell>
-															</fo:table-row>
-														</fo:table-header>
-														<fo:table-body start-indent="0pt">
-															<xsl:for-each select="PaymentSchedule">
-																<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+											<xsl:if test="not (starts-with(  AwardDetails/PaymentScheduleIndicator  , &quot;N&quot;)) and count(  AwardPaymentSchedules/PaymentSchedule  )  &gt; 0">
+												<fo:inline font-family="Arial" font-size="9pt" font-weight="bold">
+													<xsl:text>Payment Schedule:</xsl:text>
+												</fo:inline>
+												<fo:block/>
+												<xsl:for-each select="AwardPaymentSchedules">
+													<fo:inline-container>
+														<fo:block>
+															<xsl:text>&#x2029;</xsl:text>
+														</fo:block>
+													</fo:inline-container>
+													<xsl:if test="PaymentSchedule">
+														<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+															<fo:table-column column-width="20"/>
+															<fo:table-column column-width="proportional-column-width(1)"/>
+															<fo:table-column column-width="proportional-column-width(1)"/>
+															<fo:table-header start-indent="0pt">
+																<fo:table-row font-family="Arial" font-size="9pt" font-weight="bold">
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block/>
 																	</fo:table-cell>
-																	<fo:table-cell font-size="9pt" padding="2pt" display-align="center">
+																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
-																			<xsl:for-each select="DueDate">
-																				<fo:inline>
-																					<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
-																					<xsl:text>/</xsl:text>
-																					<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
-																					<xsl:text>/</xsl:text>
-																					<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
-																				</fo:inline>
-																			</xsl:for-each>
+																			<fo:inline font-weight="bold">
+																				<xsl:text>Due Date</xsl:text>
+																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
-																			<xsl:for-each select="Amount">
-																				<fo:inline>
-																					<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
-																				</fo:inline>
-																			</xsl:for-each>
+																			<fo:inline font-weight="bold">
+																				<xsl:text>Amount</xsl:text>
+																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
 																</fo:table-row>
-															</xsl:for-each>
-														</fo:table-body>
-													</fo:table>
-												</xsl:if>
-											</xsl:for-each>
+															</fo:table-header>
+															<fo:table-body start-indent="0pt">
+																<xsl:for-each select="PaymentSchedule">
+																	<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																		<fo:table-cell padding="2pt" display-align="center">
+																			<fo:block/>
+																		</fo:table-cell>
+																		<fo:table-cell font-size="9pt" padding="2pt" display-align="center">
+																			<fo:block>
+																				<xsl:for-each select="DueDate">
+																					<fo:inline>
+																						<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
+																						<xsl:text>/</xsl:text>
+																						<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
+																						<xsl:text>/</xsl:text>
+																						<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
+																					</fo:inline>
+																				</xsl:for-each>
+																			</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell padding="2pt" display-align="center">
+																			<fo:block>
+																				<xsl:for-each select="Amount">
+																					<fo:inline>
+																						<xsl:value-of select="format-number(number(string(.)), '#,###,###,##0.00')"/>
+																					</fo:inline>
+																				</xsl:for-each>
+																			</fo:block>
+																		</fo:table-cell>
+																	</fo:table-row>
+																</xsl:for-each>
+															</fo:table-body>
+														</fo:table>
+													</xsl:if>
+												</xsl:for-each>
+											</xsl:if>
 										</xsl:if>
-										<xsl:if test="../PrintRequirement/PaymentRequired  = 1">
+										<xsl:if test="../PrintRequirement/OtherDataRequired  = &quot;1&quot;">
 											<fo:inline-container>
 												<fo:block>
 													<xsl:text>&#x2029;</xsl:text>

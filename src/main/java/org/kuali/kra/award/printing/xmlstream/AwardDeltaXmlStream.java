@@ -102,6 +102,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	private void initialize(Award award,
 			Map<String, Object> reportParameters) {
 		this.awardDocument = award.getAwardDocument();
+		this.award = award;
 		String awardNumber = getAwardNumberFromAward(awardDocument);
 		if (awardNumber != null) {
 			List<VersionHistory> awardSequenceHistoryList = versionHistoryService
