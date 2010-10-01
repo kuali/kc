@@ -50,6 +50,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -83,6 +84,7 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     private ProtocolRequestServiceImpl protocolRequestService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;   
+    private DocumentService documentService;   
    
     @Before
     public void setUp() throws Exception {
@@ -91,8 +93,10 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         protocolRequestService = new ProtocolRequestServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         protocolRequestService.setBusinessObjectService(businessObjectService);
         protocolRequestService.setProtocolActionService(protocolActionService);
+        protocolRequestService.setDocumentService(documentService);
     }
 
     @After
@@ -149,21 +153,21 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         
         List<DocumentNextvalue> documentNextvalues = new ArrayList<DocumentNextvalue>();
         DocumentNextvalue dnv1 = new DocumentNextvalue();
-        dnv1.setDocumentKey("submissionNumber");
+        dnv1.setDocumentKey("123456");
         dnv1.setPropertyName("submissionNumber");
         dnv1.setAutoIncrementSet(true);
         dnv1.setNextValue(new Integer(1));
         documentNextvalues.add(dnv1);
         
         DocumentNextvalue dnv2 = new DocumentNextvalue();
-        dnv2.setDocumentKey("submissionDocId");
+        dnv2.setDocumentKey("123456");
         dnv2.setPropertyName("submissionDocId");
         dnv2.setAutoIncrementSet(true);
         dnv2.setNextValue(new Integer(1));
         documentNextvalues.add(dnv2);
         
         DocumentNextvalue dnv3 = new DocumentNextvalue();
-        dnv3.setDocumentKey("actionId");
+        dnv3.setDocumentKey("123456");
         dnv3.setPropertyName("actionId");
         dnv3.setAutoIncrementSet(true);
         dnv3.setNextValue(new Integer(1));
