@@ -141,6 +141,10 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
             allowing(service).isInWorkflow(protocolDocument); will(returnValue(isInWorkflow)); 
         }});
         
+        context.checking(new Expectations() {{
+            allowing(service).hasWorkflowPermission(USERNAME, protocolDocument); will(returnValue(isInWorkflow)); 
+        }});
+        
         return service;
     }
     

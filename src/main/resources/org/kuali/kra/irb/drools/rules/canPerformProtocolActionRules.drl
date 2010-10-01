@@ -25,7 +25,7 @@ then
 	setAction(protocolAction, true);
 end
 
-rule "Deffer Protocol"
+rule "Defer Protocol"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "201", submissionStatusCode in ("100","101"))

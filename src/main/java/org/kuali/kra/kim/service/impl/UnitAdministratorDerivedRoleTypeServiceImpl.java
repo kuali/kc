@@ -15,11 +15,15 @@
  */
 package org.kuali.kra.kim.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -36,11 +40,12 @@ public class UnitAdministratorDerivedRoleTypeServiceImpl extends KimDerivedRoleT
             String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
         
         String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
-        
-        List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
-        for (UnitAdministrator unitAdministrator : unitAdministrators) {
-            if (unitAdministrator.getPersonId().equals(principalId)) {
-                return true;
+        if (StringUtils.isNotBlank(unitNumber)) {
+            List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
+            for (UnitAdministrator unitAdministrator : unitAdministrators) {
+                if (unitAdministrator.getPersonId().equals(principalId)) {
+                    return true;
+                }
             }
         }
         
@@ -51,4 +56,20 @@ public class UnitAdministratorDerivedRoleTypeServiceImpl extends KimDerivedRoleT
         this.unitService = unitService;
     }
     
+    @Override
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
+        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        
+        if (StringUtils.isNotBlank(unitNumber)) {
+            List<UnitAdministrator> unitAdministrators = unitService.retrieveUnitAdministratorsByUnitNumber(unitNumber);
+            for ( UnitAdministrator unitAdministrator : unitAdministrators ) {
+                if ( StringUtils.isNotBlank(unitAdministrator.getPersonId()) ) {
+                    members.add( new RoleMembershipInfo(null, null, unitAdministrator.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+                }
+            }
+        }
+            
+        return members;
+    }
 }

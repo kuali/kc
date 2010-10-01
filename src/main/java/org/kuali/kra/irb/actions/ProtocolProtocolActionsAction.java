@@ -173,10 +173,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
-        ((ProtocolForm) form).getActionHelper().prepareView();
+        ProtocolForm protocolForm =  (ProtocolForm) form;
+        protocolForm.getActionHelper().prepareView();
         // submit action may change "submission details", so re-initializa it
-        ((ProtocolForm) form).getActionHelper().initSubmissionDetails();
+        protocolForm.getActionHelper().initSubmissionDetails();
         return actionForward;
     }
 
@@ -1700,7 +1700,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward disapproveAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1725,7 +1725,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward addDisapproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1748,7 +1748,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward deleteDisapproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1766,7 +1766,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward moveUpDisapproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveUpDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1784,7 +1784,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    public ActionForward moveDownDisapproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveDownDisapproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -2013,20 +2013,29 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }  
     
-    @Override
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    /**
+     * Perform Protocol Approve Action - maps to IRBReview RouteNode 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward approveAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         if (hasPermission(TaskName.APPROVE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
             if (applyRules(new ProtocolApproveEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper()
                     .getProtocolApproveBean()))) {
+                forward = super.approve(mapping, protocolForm, request, response);
                 ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolApproveBean();
                 getProtocolApproveService().approve(protocolForm.getProtocolDocument(), actionBean);
                 if (protocolForm.getProtocolDocument().getProtocol().isAmendment() || protocolForm.getProtocolDocument().getProtocol().isRenewal()) {
                     forward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
                     
-                }
+                } 
                 persistReviewComments(protocolForm, actionBean);
             }
         }
@@ -2105,7 +2114,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward addApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -2119,7 +2128,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward deleteApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -2127,7 +2136,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward moveUpApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveUpApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -2135,7 +2144,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward moveDownApproveReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveDownApproveActionReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;

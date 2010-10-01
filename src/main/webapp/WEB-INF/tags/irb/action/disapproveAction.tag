@@ -69,7 +69,7 @@
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.disapprove.anchor${tabKey}"
+                            <html:image property="methodToCall.disapproveAction.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
