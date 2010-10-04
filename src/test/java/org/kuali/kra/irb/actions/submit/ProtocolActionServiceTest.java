@@ -523,9 +523,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolStatusCode("304");
         assertTrue(protocolActionService.canPerformAction("305", protocol));
 
-        protocol.setProtocolStatusCode("305");
-        assertTrue(protocolActionService.canPerformAction("305", protocol));
-
         protocol.setProtocolStatusCode("308");
         assertTrue(protocolActionService.canPerformAction("305", protocol));
 
