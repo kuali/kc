@@ -15,14 +15,11 @@
  */
 package org.kuali.kra.irb.protocol.funding;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * 

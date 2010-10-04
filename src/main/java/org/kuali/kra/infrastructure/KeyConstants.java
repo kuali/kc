@@ -608,7 +608,7 @@ public final class KeyConstants {
     
     // IRB Protocol Funding Sources Validation Messages
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingSourceType.notFound";
-    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND = "error.protocolFundingSource.fundingSourceNumber.notFound";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE = "error.protocolFundingSource.fundingSourceNumber.invalidForType";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_DUPLICATE = "error.protocolFundingSource.fundingSource.duplicate";
