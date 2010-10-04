@@ -129,7 +129,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -2317,14 +2316,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward suspendByDmsb(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward suspendByDsmb(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         
         if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB, protocolForm.getProtocolDocument().getProtocol())) {
         
-            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
+            ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
             getProtocolGenericActionService().suspendByDsmb(protocolForm.getProtocolDocument().getProtocol(), actionBean);
             persistReviewComments(protocolForm, actionBean);
             
@@ -2334,12 +2333,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward addSuspendByDmsbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionHelper actionHelper = protocolForm.getActionHelper();
-        ReviewerComments actionBean = actionHelper.getProtocolSuspendByDmsbBean().getReviewComments();
+        ReviewerComments actionBean = actionHelper.getProtocolSuspendByDsmbBean().getReviewComments();
         
         actionBean.setProtocolId(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         addReviewComment(actionBean, protocolForm.getProtocolDocument(), actionHelper.getProtocol(), 
@@ -2348,27 +2347,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    public ActionForward deleteSuspendByDmsbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
         return deleteReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward moveUpSuspendByDmsbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveUpSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
         return moveUpReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
-    public ActionForward moveDownSuspendByDmsbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward moveDownSuspendByDsmbReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDmsbBean();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
         return moveDownReviewComment(mapping, actionBean.getReviewComments(), request);
     }
     
@@ -3409,7 +3408,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolForm.getActionHelper().getProtocolReopenBean().initComments();
         protocolForm.getActionHelper().getProtocolCloseEnrollmentBean().initComments();
         protocolForm.getActionHelper().getProtocolSuspendBean().initComments();
-        protocolForm.getActionHelper().getProtocolSuspendByDmsbBean().initComments();
+        protocolForm.getActionHelper().getProtocolSuspendByDsmbBean().initComments();
         protocolForm.getActionHelper().getProtocolCloseBean().initComments();
         protocolForm.getActionHelper().getProtocolExpireBean().initComments();
         protocolForm.getActionHelper().getProtocolTerminateBean().initComments();
