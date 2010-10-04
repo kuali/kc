@@ -382,7 +382,11 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
                 if (protocolPerson.getAffiliationType() != null) {
                     keyStudyPerson.setAffiliation(protocolPerson.getAffiliationType().getDescription());
                 }
-                keyStudyPerson.setRole(protocolPerson.getRolodex().getPrimaryTitle());
+                if(protocolPerson.getRolodex()!=null){
+                    keyStudyPerson.setRole(protocolPerson.getRolodex().getPrimaryTitle());
+                }else if(protocolPerson.getPerson()!=null){
+                    keyStudyPerson.setRole(protocolPerson.getPerson().getDirectoryTitle());
+                }
                 getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             }
             else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
