@@ -10,6 +10,11 @@
       <param-value>${bootstrap.spring.file}</param-value>
     </context-param>
 
+    <context-param>
+      <param-name>kc.bootstrap.spring.file</param-name>
+      <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
+    </context-param>
+
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
@@ -127,7 +132,26 @@
   </filter-mapping>
 
   <!-- ******************* End Logging Filters ********************* -->
-  
+
+<!--<context-param>-->
+<!--     <param-name>contextConfigLocation</param-name>-->
+<!--     <param-value>-->
+<!--     	classpath:SpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/awardtimeandmoney/TimeAndMoneySpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/irb/IrbSpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/award/AwardSpringBeans.xml -->
+<!--     	classpath:org/kuali/kra/budget/BudgetSpringBeans.xml-->
+<!--     </param-value>-->
+<!--</context-param>-->
+<!--<listener>-->
+<!--   <listener-class>-->
+<!--      org.springframework.web.context.ContextLoaderListener-->
+<!--   </listener-class>-->
+<!--</listener>  -->
+
   <listener>
     <listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
   </listener>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="org/kuali/kra/RiceOverridesSpringBeans.xml" />
+	<import resource="org/kuali/kra/CoreSpringBeans.xml" />
+	<import resource="org/kuali/kra/proposaldevelopment/ProposalDevelopmentSpringBeans.xml" />
+	<import resource="org/kuali/kra/s2s/S2SSpringBeans.xml" />
+	<import resource="org/kuali/kra/awardtimeandmoney/TimeAndMoneySpringBeans.xml" /> 
+	<import resource="org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/irb/IrbSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/committee/CommitteeSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/award/AwardSpringBeans.xml" /> 
+	<import resource="org/kuali/kra/budget/BudgetSpringBeans.xml" /> 
+
+</beans>
