@@ -71,7 +71,11 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
+        if (containsProtocolAction(protocol, ProtocolActionType.REQUEST_TO_CLOSE)) {
+            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_BY_INVESTIGATOR);
+        } else {
+            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
+        }
     }
     
     /**{@inheritDoc}**/
@@ -196,6 +200,19 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         newDocument.getProtocol().setProtocolSubmission(null);
         
         return newDocument;
+    }
+    
+    private boolean containsProtocolAction(Protocol protocol, String protocolActionTypeCode) {
+        boolean containsAction = false;
+        
+        for (ProtocolAction action : protocol.getProtocolActions()) {
+            if (protocolActionTypeCode.equals(action.getProtocolActionTypeCode())) {
+                containsAction = true;
+            }
+            break;
+        }
+        
+        return containsAction;
     }
     
 }
