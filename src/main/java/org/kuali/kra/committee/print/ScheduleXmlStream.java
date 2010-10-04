@@ -49,6 +49,7 @@ import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.service.KcPersonService;
 
 import edu.mit.irb.irbnamespace.ScheduleDocument;
+import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
@@ -219,7 +220,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             for (ProtocolPerson protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
-                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, protocolSummary.addNewInvestigator().addNewPerson());
+                    Investigator investigator = protocolSummary.addNewInvestigator();
+                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
+                        investigator.setPIFlag(true);
+                    }
                 }
             }
 
