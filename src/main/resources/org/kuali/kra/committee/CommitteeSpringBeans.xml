@@ -38,7 +38,7 @@
 	</bean>
 
 	<bean id="committeePrintingService"
-		class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl">
+		class="org.kuali.kra.committee.service.impl.CommitteePrintingServiceImpl" scope="prototype">
 		<property name="committeeTemplatePrint" ref="committeeTemplatePrint" />
 		<property name="scheduleTemplatePrint" ref="scheduleTemplatePrint" />
 		<property name="protocolCorrespondenceTemplatePrint" ref="protocolCorrespondenceTemplatePrint" />
@@ -67,7 +67,7 @@
 
 	<bean id="scheduleTemplatePrint" class="org.kuali.kra.committee.print.ScheduleTemplatePrint"
 		scope="prototype" parent="templatePrint">
-		<property name="xmlStream" ref="committeeXmlStream" />
+		<property name="xmlStream" ref="scheduleXmlStream" />
 	</bean>
 
 	<bean id="protocolCorrespondenceTemplatePrint"

@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
@@ -64,8 +65,7 @@ public class MeetingActionsAction extends MeetingAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
 
-        List<Printable> printableArtifactList = getPrintableArtifacts(((MeetingForm) form).getMeetingHelper()
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), AGENDA_TYPE);
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.scheduleAgenda",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
@@ -89,12 +89,15 @@ public class MeetingActionsAction extends MeetingAction {
     /*
      * get the printable and add to printable list. 
      */
-    private List<Printable> getPrintableArtifacts(CommitteeDocument document, String protoCorrespTypeCode) {
-
-        Printable printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
-        ((AbstractPrint) printable).setPrintableBusinessObject(document.getCommittee());
+    private List<Printable> getPrintableArtifacts(MeetingHelper meetingHelper, String protoCorrespTypeCode) {
+//        meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument()
+        AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
+        Committee committee = meetingHelper.getCommitteeSchedule().getCommittee();
+        printable.setPrintableBusinessObject(committee);
+        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put("committeeId", document.getCommittee().getCommitteeId());
+        reportParameters.put("committeeId", committee.getCommitteeId());
+        reportParameters.put("scheduleId", meetingHelper.getCommitteeSchedule().getScheduleId());
         reportParameters.put("protoCorrespTypeCode", protoCorrespTypeCode);
         ((AbstractPrint) printable).setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
@@ -130,8 +133,7 @@ public class MeetingActionsAction extends MeetingAction {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
-        List<Printable> printableArtifactList = getPrintableArtifacts(((MeetingForm) form).getMeetingHelper()
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument(), MEETING_MINUTE_TYPE);
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.meetingMinute",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
