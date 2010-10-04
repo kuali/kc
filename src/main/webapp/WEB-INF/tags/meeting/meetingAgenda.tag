@@ -40,7 +40,9 @@
 						<c:out value="${agenda.agendaNumber}" />
 					</th>
 	                <td align="left" valign="middle">
-	                    <div align="left"><fmt:formatDate value="${agenda.createTimestamp}" pattern="MM/dd/yyyy" /> </div>
+	                    <div align="left">
+	                    	<fmt:formatDate type="both" value="${agenda.createTimestamp}" /> 
+	                    </div>
 					</td>
 						<td>
 							<div align="center">&nbsp;					

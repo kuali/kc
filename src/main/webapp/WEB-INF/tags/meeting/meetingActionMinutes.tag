@@ -42,7 +42,7 @@
 						<c:out value="${minute.minuteNumber}" />
 					</th>
 	                <td align="left" valign="middle">
-	                    <div align="left"><fmt:formatDate value="${minute.createTimestamp}" pattern="MM/dd/yyyy" /> </div>
+	                    <div align="left"><fmt:formatDate type="both" value="${minute.createTimestamp}" /> </div>
 					</td>
 						<td>
 							<div align=center>&nbsp;					
