@@ -28,7 +28,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,16 +39,16 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.WebUtils;
 
 public class PrintingUtils {
 
-	private static final String KEY_COUNTRY_CODE = "countryCode";
-	private static final String KEY_STATE_CODE = "stateCode";
 	private static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KC-PD";
 	private static final String PARAMETER_COMPONENT_DOCUMENT = "A";
 	private static String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
@@ -224,10 +223,8 @@ public class PrintingUtils {
 	 */
 	public static Country getCountryFromCode(String countryCode,
 			BusinessObjectService businessObjectService) {
-		Map<String, String> countryMap = new HashMap<String, String>();
-		countryMap.put(KEY_COUNTRY_CODE, countryCode);
-		Country country = (Country) businessObjectService.findByPrimaryKey(
-				Country.class, countryMap);
+	    CountryService countryService = KraServiceLocator.getService(CountryService.class);
+	    Country country = countryService.getByAlternatePostalCountryCode(countryCode);
 		return country;
 	}
 	

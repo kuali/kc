@@ -22,7 +22,6 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 
 import org.apache.commons.lang.WordUtils;
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 
 public class GlobalLibraryV2_0Generator {
@@ -55,9 +55,9 @@ public class GlobalLibraryV2_0Generator {
 		Country country = s2sUtilService.getCountryFromCode(countryCode);
 		if (country != null) {
 			StringBuilder countryDetail = new StringBuilder();
-			countryDetail.append(country.getCountryCode());
+			countryDetail.append(country.getAlternatePostalCountryCode());
 			countryDetail.append(": ");
-			countryDetail.append(country.getCountryName().toUpperCase());
+			countryDetail.append(country.getPostalCountryName().toUpperCase());
 			countryCodeDataType = CountryCodeDataType.Enum
 					.forString(countryDetail.toString());
 		}
