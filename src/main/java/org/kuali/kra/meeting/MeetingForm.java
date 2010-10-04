@@ -19,7 +19,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kim.util.KimConstants;
@@ -78,7 +77,6 @@ public class MeetingForm extends KualiForm {
     @Override
     public void reset(final ActionMapping mapping, final HttpServletRequest request) {
         super.reset(mapping, request);
-//        resetCheckBox(mapping, request);
         this.getMeetingHelper().setAbsenteeList("");
     }
 
@@ -90,28 +88,6 @@ public class MeetingForm extends KualiForm {
         this.readOnly = readOnly;
     }
     
-    private void resetCheckBox(ActionMapping mapping, HttpServletRequest request) {
-        // fix for KULRICE-2525
-        if (request.getParameter("checkboxToReset") != null) {
-            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
-                for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
-                    if ( StringUtils.isNotBlank(propertyName) ) {
-                        try {
-                            PropertyUtils.setNestedProperty(this, propertyName, false);
-                        } catch (Exception ex) {
-//                            LOG.warn("Invalid property name present in the 'checkboxToReset' fields." );
-//                            LOG.warn("Class: " + this.getClass().getName() + " Property: '" + propertyName + "'", ex );
-                        }
-                    } else {
-//                        LOG.warn( "Blank property name present in the 'checkboxToReset' fields." );
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
@@ -128,6 +104,7 @@ public class MeetingForm extends KualiForm {
      * 
      * @param request the request to populate
      */
+    @SuppressWarnings("unchecked")
     private void populateFalseCheckboxes(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (parameterMap.get("checkboxToReset") != null) {
