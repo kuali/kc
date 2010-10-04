@@ -428,7 +428,9 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
             }
             protocolActionsType.setProtocolNumber(protocolActionsBean.getProtocolNumber());
             protocolActionsType.setSequenceNumber(protocolActionsBean.getSequenceNumber());
-            protocolActionsType.setSubmissionNumber(protocolActionsBean.getSubmissionNumber());
+            if(protocolActionsBean.getSubmissionNumber()!=null){
+                protocolActionsType.setSubmissionNumber(protocolActionsBean.getSubmissionNumber());
+            }
             protocolActionsType.setUpdateUser(protocolActionsBean.getUpdateUser());
             if (protocol.getApprovalDate()!=null) {
                 protocolActionsType.setApprovalDate(convertDateToCalendar(protocol.getApprovalDate()));
