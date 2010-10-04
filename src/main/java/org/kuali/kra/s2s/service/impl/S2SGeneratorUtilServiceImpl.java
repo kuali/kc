@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -35,8 +34,10 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SGeneratorUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.StateService;
@@ -55,7 +56,6 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     private static final String YNQ_QUESTION_ID_TYPE_EQ = "EQ";
     private static final String YNQ_NOT_REVIEWED = "N";
     private static final String DATE_FORMAT = "MM/dd/yyyy";
-    private static final String KEY_COUNTRY_CODE = "countryCode";
 
     /**
      * 
@@ -189,12 +189,17 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      */
     public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode) {
         CountryCodeDataType.Enum countryCodeDataType = null;
-        Map<String, String> countryMap = new HashMap<String, String>();
-        countryMap.put(KEY_COUNTRY_CODE, countryCode);
-        Country country = (Country) businessObjectService.findByPrimaryKey(Country.class, countryMap);
-        countryCodeDataType = CountryCodeDataType.Enum.forString(country.getCountryCode() + ": "
-                + country.getCountryName().toUpperCase());
+        
+        Country country = getCountryService().getByAlternatePostalCountryCode(countryCode);
+        if (country != null) {
+            countryCodeDataType = CountryCodeDataType.Enum.forString(country.getAlternatePostalCountryCode() + ": " + country.getPostalCountryName().toUpperCase());
+        }
+
         return countryCodeDataType;
+    }
+    
+    private static CountryService getCountryService() {
+        return KraServiceLocator.getService(CountryService.class);
     }
 
     /**

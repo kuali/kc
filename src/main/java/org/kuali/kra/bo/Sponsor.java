@@ -37,7 +37,6 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
 	private String state;
 	private String createUser;
     private SponsorType sponsorType;
-    private Country country;
 
     private Unit unit;
     private Rolodex rolodex;
@@ -218,20 +217,7 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
         super.setUpdateUser(updateUser);
         setCreateUser(updateUser);
     }
-    /**
-     * Gets the country attribute. 
-     * @return Returns the country.
-     */
-    public Country getCountry() {
-        return country;
-    }
-    /**
-     * Sets the country attribute value.
-     * @param country The country to set.
-     */
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+
     public Rolodex getRolodex() {
         return rolodex;
     }

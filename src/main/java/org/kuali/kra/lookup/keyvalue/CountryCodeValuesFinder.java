@@ -16,27 +16,28 @@
 package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 
 public class CountryCodeValuesFinder extends KeyValuesBase{
 
-    public List<KeyLabelPair> getKeyValues() {      
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection Countries = keyValuesService.findAllOrderBy(Country.class,"countryName",true);
+    public List<KeyLabelPair> getKeyValues() {
+        CountryService countryService = KraServiceLocator.getService(CountryService.class);
+        List<Country> countries = countryService.findAllCountries();
+        Country defaultCountry = countryService.getDefaultCountry();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select: "));
-        for (Iterator iter = Countries.iterator(); iter.hasNext();) {
+        if (defaultCountry != null) keyValues.add(new KeyLabelPair(defaultCountry.getAlternatePostalCountryCode(), defaultCountry.getPostalCountryName()));
+        for (Iterator<Country> iter = countries.iterator(); iter.hasNext();) {
             Country country = (Country) iter.next();
-            keyValues.add(new KeyLabelPair(country.getCountryCode(), country.getCountryName())); 
+            keyValues.add(new KeyLabelPair(country.getAlternatePostalCountryCode(), country.getPostalCountryName())); 
          }
         return keyValues;
         

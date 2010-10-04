@@ -445,26 +445,6 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.Country" table="COUNTRY_CODE">
-		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="countryName" column="COUNTRY_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.bo.CountryCode" table="KC_COUNTRY_CODES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="KC_COUNTRY_CODES_SEQ" autoincrement="true" />
-		<field-descriptor name="countryName" column="COUNTRY_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="twoCharacterCountryCode" column="TWO_CHAR_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="threeCharacterCountryCode" column="THREE_CHAR_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
     <class-descriptor class="org.kuali.kra.bo.PersonEditableField" table="PERSON_EDITABLE_FIELDS">
         <field-descriptor name="fieldName" column="FIELD_NAME" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -1258,11 +1238,7 @@
 		<collection-descriptor name="Template" proxy="true" element-class-ref="org.kuali.kra.bo.Template" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
--->
-		<reference-descriptor name="country" class-ref="org.kuali.kra.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="countryCode"/>
-		</reference-descriptor>
-		<!-- <reference-descriptor name="Rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="Rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 -->
