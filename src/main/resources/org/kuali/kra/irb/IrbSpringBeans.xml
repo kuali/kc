@@ -45,6 +45,20 @@
             </list>
         </property>
     </bean>
+
+    <bean id="protocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+    <bean id="batchCorrespondenceDetailAuthorizationService" class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+
+
+
     <!-- Protocol Services -->
     <bean id="protocolReferenceService" class="org.kuali.kra.irb.protocol.reference.ProtocolReferenceServiceImpl">
     </bean> 

@@ -18,15 +18,14 @@ package org.kuali.kra.infrastructure;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Service locator used for research administration.
  */
 public final class KraServiceLocator {
+    
+    private static ApplicationContext appContext;
 
     /**
      * private utility class ctor.
@@ -36,60 +35,25 @@ public final class KraServiceLocator {
         throw new UnsupportedOperationException("do not call");
     }
     
+    
     /**
-     * This class follows the "Initialization on demand holder idiom."  It is a thread-safe way
-     * to lazily init a resource.
+     * Sets the appContext attribute value.
+     * @param appContext The appContext to set.
      */
-    private static final class ContextHolder {
-        
-        private static final String COMMON_SPRING_BEANS = "SpringBeans.xml";
-        private static final String AWARD_SPRING_BEANS = "org/kuali/kra/awardtimeandmoney/TimeAndMoneySpringBeans.xml";
-        private static final String INSTITUTIONAL_PROPOSAL_SPRING_BEANS = "org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml";
-        private static final String IRB_SPRING_BEANS = "org/kuali/kra/irb/IrbSpringBeans.xml";
-        private static final String COMMITTEE_SPRING_BEANS = "org/kuali/kra/committee/CommitteeSpringBeans.xml";
-        private static final String QUESTIONNAIRE_SPRING_BEANS = "org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
-        private static final String TIME_AND_MONEY_SPRING_BEANS = "org/kuali/kra/award/AwardSpringBeans.xml";
-        private static final String BUDGET_SPRING_BEANS = "org/kuali/kra/budget/BudgetSpringBeans.xml";
-        
-        private static String[] springFiles = new String[] {COMMON_SPRING_BEANS,BUDGET_SPRING_BEANS, AWARD_SPRING_BEANS,
-            IRB_SPRING_BEANS, COMMITTEE_SPRING_BEANS, INSTITUTIONAL_PROPOSAL_SPRING_BEANS, QUESTIONNAIRE_SPRING_BEANS,
-            TIME_AND_MONEY_SPRING_BEANS
-        };
-        
-        private static final Log LOG = LogFactory.getLog(ContextHolder.class);
-        
-        private static final ConfigurableApplicationContext APP_CONTEXT;
-        static {
-            //logging here because sometime startup errors are swallowed
-            try {
-                APP_CONTEXT = new ClassPathXmlApplicationContext(springFiles);
-            } catch (RuntimeException e) {
-                LOG.fatal("error during startup", e);
-                throw e;
-            } catch (Error e) {
-                LOG.fatal("error during startup", e);
-                throw e;
-            }
-        }
-        
-        /**
-         * private utility class ctor.
-         * @throws UnsupportedOperationException if called
-         */
-        private ContextHolder() {
-            throw new UnsupportedOperationException("do not call");
-        }
-        
+    public static void setAppContext(ApplicationContext appContext) {
+        KraServiceLocator.appContext = appContext;
     }
 
+
     /**
-     * Gets the application context.
-     * @return the application context
+     * Gets the appContext attribute. 
+     * @return Returns the appContext.
      */
-    public static ConfigurableApplicationContext getAppContext() {
-        return ContextHolder.APP_CONTEXT;
+    public static ApplicationContext getAppContext() {
+        return appContext;
     }
-    
+
+
     /**
      * Lookups a service by name.
      * 
