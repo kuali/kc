@@ -94,6 +94,7 @@
                     </dl>
                 </div>
             </div>
+            
             <c:set var="errorKey" value="meetingHelper"/>
             <div class="msg-excol">
 				<div class="left-errmsg">
@@ -108,6 +109,13 @@
 					<kul:messages/>
 					<kul:lockMessages/>
 				</div>
+            </div>
+            
+            <div class="right">
+                <div class="excol">
+                    <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="return expandAllTab();" />
+                    <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="return collapseAllTab();" />
+                </div>
             </div>
 
             <table width="100%" cellpadding="0" cellspacing="0">
