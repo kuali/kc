@@ -184,7 +184,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.lookup.keyvalue.AbstractTypeValuesFinderTest.class,
     org.kuali.kra.award.AwardAmountInfoServiceImplTest.class,
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleHelperIntegrationTest.class,
-    org.kuali.kra.service.impl.CountryCodeServiceImplTest.class,
     org.kuali.kra.lookup.keyvalue.NsfCodeValuesFinderTest.class,
     org.kuali.kra.service.impl.AwardCustomAttributeServiceImplTest.class,
     org.kuali.kra.budget.bo.BudgetUnrecoveredFandATest.class,

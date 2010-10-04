@@ -24,7 +24,6 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.CountryCodeService;
 import org.kuali.rice.kim.bo.entity.KimEntity;
 import org.kuali.rice.kim.bo.entity.KimEntityAddress;
 import org.kuali.rice.kim.bo.entity.KimEntityAffiliation;
@@ -43,7 +42,9 @@ import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 
 /**
  * Represents a person in KC.
@@ -59,9 +60,9 @@ public class KcPerson implements Contactable, BusinessObject {
     
     private transient BusinessObjectService boService;
     private KcPersonExtendedAttributes extendedAttributes;
-
-    private transient CountryCodeService countryCodeService;
     
+    private transient CountryService countryService;
+
     /**
      * When using this ctor {@link #setPersonId(String)} must be call else this call is in an invalid state.
      */
@@ -892,14 +893,14 @@ public class KcPerson implements Contactable, BusinessObject {
     }
     
     /**
-     * Gets the {@link CountryCodeService CountryCodeService}.
-     * @return Gets the CountryCodeService
+     * Gets the {@link CountryService CountryService}.
+     * @return Gets the CountryService
      */
-    CountryCodeService getCountryCodeService() {
-        if (this.countryCodeService == null) {
-            this.countryCodeService = KraServiceLocator.getService(CountryCodeService.class);
+    CountryService getCountryService() {
+        if (this.countryService == null) {
+            this.countryService = KraServiceLocator.getService(CountryService.class);
         }
-        return this.countryCodeService;
+        return this.countryService;
     }
     
     /**
@@ -1014,8 +1015,8 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the 3 digit code
      */
     private String convert2DigitCountryCodeTo3Digit(String digit2) {
-        final CountryCode countryCode = this.getCountryCodeService().getCountryCodeByTwoCharacterCode(digit2);
-        return countryCode != null && countryCode.getThreeCharacterCountryCode() != null ? countryCode.getThreeCharacterCountryCode() : "";
+        final Country country = this.getCountryService().getByPrimaryId(digit2);
+        return country != null && country.getAlternatePostalCountryCode() != null ? country.getAlternatePostalCountryCode() : "";
     }
     
     /**

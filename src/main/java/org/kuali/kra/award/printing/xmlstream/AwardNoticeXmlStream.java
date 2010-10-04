@@ -65,7 +65,6 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.AccountType;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -89,7 +88,9 @@ import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -1085,17 +1086,18 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * This method will get the description for given countryCode
 	 */
 	private String getCountryDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(COUNTRY)) {
-			Map<String, String> countryMap = new HashMap<String, String>();
-			countryMap.put(COUNTRY_CODE_PARAMETER, value);
-			List<Country> countries = (List<Country>) businessObjectService
-					.findMatching(Country.class, countryMap);
-			if (countries != null && !countries.isEmpty()) {
-				description = countries.get(0).getCountryName();
-			}
-		}
-		return description;
+	    String description = null;
+        if (lookupReturn.equals(COUNTRY)) {
+            Country country = getCountryService().getByAlternatePostalCountryCode(value);
+            if (country != null) {
+                description = country.getPostalCountryName();
+            }
+        }
+        return description;
+    }
+
+	private CountryService getCountryService() {
+	    return KraServiceLocator.getService(CountryService.class);
 	}
 
 	/*

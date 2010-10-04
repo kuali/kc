@@ -378,11 +378,11 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.Country"
+            p:businessObjectClass="org.kuali.rice.kns.bo.Country"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
             p:includeKeyInLabel="false"
-            p:keyAttribute="countryCode"
-            p:labelAttribute="countryName" />
+            p:keyAttribute="alternatePostalCountryCode"
+            p:labelAttribute="postalCountryName" />
     </property>
     <property name="summary" value="Country Code" />
     <property name="description" value="Country Code" />

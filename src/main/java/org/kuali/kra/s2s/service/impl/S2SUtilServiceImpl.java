@@ -33,7 +33,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -63,8 +62,10 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -91,8 +92,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
 	private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
 	private static final String YNQ_NOT_REVIEWED = "X";
-	private static final String KEY_COUNTRY_CODE = "countryCode";
-	private static final String KEY_STATE_CODE = "stateCode";
 	private static final int DIVISION_NAME_MAX_LENGTH = 30;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     private static final String CONTACT_TYPE_O = "O";
@@ -634,11 +633,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	 * @see org.kuali.kra.s2s.service.S2SUtilService#getCountryFromCode(java.lang.String)
 	 */
 	public Country getCountryFromCode(String countryCode) {
-		Map<String, String> countryMap = new HashMap<String, String>();
-		countryMap.put(KEY_COUNTRY_CODE, countryCode);
-		Country country = (Country) businessObjectService.findByPrimaryKey(
-				Country.class, countryMap);
+		Country country = getCountryService().getByAlternatePostalCountryCode(countryCode);
 		return country;
+	}
+	
+	private static CountryService getCountryService() {
+	    return KraServiceLocator.getService(CountryService.class);
 	}
 
 	/**
