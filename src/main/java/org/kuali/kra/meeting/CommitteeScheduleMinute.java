@@ -483,7 +483,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      * @return whether the current user can view this comment
      */
     public boolean getCanView() {
-        boolean isCurrentUserCreateUser = StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), createUser);
+        boolean isCurrentUserCreateUser = StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(), createUser);
         return !getPrivateCommentFlag() || isCurrentUserCreateUser;
     }
 
