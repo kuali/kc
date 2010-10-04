@@ -216,6 +216,8 @@ public class AddProtocolFundingSourceTest {
           will(returnValue(true));
           one(protocolFundingSourceService).isValidIdForType(badFundingSource); 
           will(returnValue(false));
+          allowing(protocolFundingSourceService).updateSourceNameEditable(fundingSource.getFundingSourceTypeCode().toString());
+          will(returnValue(true));
         }});
         return protocolFundingSourceService;
     }
