@@ -18,9 +18,9 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
-<kra:permission value="${KualiForm.actionHelper.canSuspendByDmsb}">
+<kra:permission value="${KualiForm.actionHelper.canSuspendByDsmb}">
 
-<kul:innerTab tabTitle="Suspend By DMSB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSuspendByDmsbBean*">
+<kul:innerTab tabTitle="Suspend By DSMB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSuspendByDsmbBean*">
    
    <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -36,7 +36,7 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolSuspendByDmsbBean.comments" attributeEntry="${attributes.comments}" />
+                            <kul:htmlControlAttribute property="actionHelper.protocolSuspendByDsmbBean.comments" attributeEntry="${attributes.comments}" />
                         </nobr>
                     </td>
                 </tr>
@@ -51,17 +51,17 @@
                     </th>
                     <td>
                         <nobr>
-                            <kul:htmlControlAttribute property="actionHelper.protocolSuspendByDmsbBean.actionDate" attributeEntry="${attributes.actionDate}"  />
+                            <kul:htmlControlAttribute property="actionHelper.protocolSuspendByDsmbBean.actionDate" attributeEntry="${attributes.actionDate}"  />
                         </nobr>
                     </td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendByDmsbBean.reviewComments}"
-                                                       property="actionHelper.protocolSuspendByDmsbBean.reviewComments"
+                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendByDsmbBean.reviewComments}"
+                                                       property="actionHelper.protocolSuspendByDsmbBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="SuspendByDmsb"
+                                                       actionName="SuspendByDsmb"
                                                        allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
@@ -69,7 +69,7 @@
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.suspendByDmsb.anchor${tabKey}"
+                            <html:image property="methodToCall.suspendByDsmb.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>

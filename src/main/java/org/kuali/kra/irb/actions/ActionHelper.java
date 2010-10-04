@@ -132,7 +132,7 @@ public class ActionHelper implements Serializable {
     private boolean canReopen = false;
     private boolean canCloseEnrollment = false;
     private boolean canSuspend = false;
-    private boolean canSuspendByDmsb = false;
+    private boolean canSuspendByDsmb = false;
     private boolean canClose = false;
     private boolean canExpire = false;
     private boolean canTerminate = false;
@@ -172,7 +172,7 @@ public class ActionHelper implements Serializable {
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
-    private ProtocolGenericActionBean protocolSuspendByDmsbBean;
+    private ProtocolGenericActionBean protocolSuspendByDsmbBean;
     private ProtocolGenericActionBean protocolCloseBean;
     private ProtocolGenericActionBean protocolExpireBean;
     private ProtocolGenericActionBean protocolTerminateBean;
@@ -261,7 +261,7 @@ public class ActionHelper implements Serializable {
         protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, protocolActions, currentSubmission);
         protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, protocolActions, currentSubmission);
         protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, protocolActions, currentSubmission);
-        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, protocolActions, currentSubmission);
+        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, protocolActions, currentSubmission);
         protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, protocolActions, currentSubmission);
         protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, protocolActions, currentSubmission);
         protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, protocolActions, currentSubmission);
@@ -523,7 +523,7 @@ public class ActionHelper implements Serializable {
         canReopen = hasReopenPermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
         canSuspend = hasSuspendPermission();
-        canSuspendByDmsb = hasSuspendByDmsbPermission();
+        canSuspendByDsmb = hasSuspendByDsmbPermission();
         canClose = hasClosePermission();
         canExpire = hasExpirePermission();
         canTerminate = hasTerminatePermission();
@@ -556,7 +556,7 @@ public class ActionHelper implements Serializable {
         protocolReopenBean.initComments();
         protocolCloseEnrollmentBean.initComments();
         protocolSuspendBean.initComments();
-        protocolSuspendByDmsbBean.initComments();
+        protocolSuspendByDsmbBean.initComments();
         protocolCloseBean.initComments();
         protocolExpireBean.initComments();
         protocolTerminateBean.initComments();
@@ -699,7 +699,7 @@ public class ActionHelper implements Serializable {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
     
-    private boolean hasSuspendByDmsbPermission() {
+    private boolean hasSuspendByDsmbPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
     }
     
@@ -904,8 +904,8 @@ public class ActionHelper implements Serializable {
         return protocolSuspendBean;
     }
     
-    public ProtocolGenericActionBean getProtocolSuspendByDmsbBean() {
-        return protocolSuspendByDmsbBean;
+    public ProtocolGenericActionBean getProtocolSuspendByDsmbBean() {
+        return protocolSuspendByDsmbBean;
     }
     
     public ProtocolGenericActionBean getProtocolCloseBean() {
@@ -1040,8 +1040,8 @@ public class ActionHelper implements Serializable {
         return canSuspend;
     }
     
-    public boolean getCanSuspendByDmsb() {
-        return canSuspendByDmsb;
+    public boolean getCanSuspendByDsmb() {
+        return canSuspendByDsmb;
     }
     
     public boolean getCanClose() {

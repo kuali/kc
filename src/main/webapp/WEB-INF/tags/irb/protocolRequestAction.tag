@@ -54,7 +54,7 @@
             <kra-irb-action:reopenAction />
             <kra-irb-action:permitDataAnalysisAction />
             <kra-irb-action:suspendAction />
-            <kra-irb-action:suspendByDmsbAction />
+            <kra-irb-action:suspendByDsmbAction />
             <kra-irb-action:closeAction />
             <kra-irb-action:expireAction />
             <kra-irb-action:terminateAction />
