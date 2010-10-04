@@ -51,6 +51,59 @@
         </property>
 	</bean>
 	
+		<!-- Institute Proposal Service Configuration Start -->
+		<bean id="institutionalProposalPersonService"
+			class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPersonServiceImpl">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+		</bean>
+		<bean id="institutionalProposalXmlStream"
+			class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+			<property name="institutionalProposalPersonService">
+				<ref bean="institutionalProposalPersonService" />
+			</property>
+		</bean>
+		<bean id="institutionalProposalPrint"
+			class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint">
+			<property name="xmlStream" ref="institutionalProposalXmlStream" />
+		</bean>
+		<bean id="institutionalProposalPrintingService"
+			class="org.kuali.kra.institutionalproposal.printing.service.impl.InstitutionalProposalPrintingServiceImpl">
+			<property name="institutionalProposalPrint"
+				ref="institutionalProposalPrint" />
+			<property name="printingService" ref="printingService" />
+		</bean>
+		<bean id="proposalLogPrint"
+			class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogPrint">
+			<property name="xmlStream" ref="proposalLogXmlStream" />
+		</bean>		
+        <bean id="proposalLogXmlStream"
+              class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream">
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>
+			<property name="dateTimeService">
+				<ref bean="dateTimeService" />
+			</property>
+        </bean>
+		<bean id="proposalLogPrintingService"
+			class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPrintingServiceImpl">
+			<property name="proposalLogPrint"
+				ref="proposalLogPrint" />
+			<property name="printingService" ref="printingService" />
+			<property name="businessObjectService">
+				<ref bean="businessObjectService" />
+			</property>			
+		</bean>
+		<!-- Institute Proposal Service Configuration End -->
+
 	<bean id="institutionalProposalCustomAttributeService" class="org.kuali.kra.service.impl.InstitutionalProposalCustomAttributeServiceImpl">
 		<property name="businessObjectService">
 		    <ref bean="businessObjectService" />
@@ -110,5 +163,16 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+	<bean id="proposalLogPiDerivedRoleTypeService"
+		class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl">
+	</bean>
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="proposalLogPiDerivedRoleTypeService"
+				p:localServiceName="proposalLogPiDerivedRoleTypeService" />
+		</property>
+	</bean>
+
     
 </beans>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2010 The Kuali Foundation.
+
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.opensource.org/licenses/ecl1.php
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.5.xsd"> 
+
+
+		<bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="s2sOpportunityLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.lookup.S2sOpportunityLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService"> 
+ 		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+  	</bean>		
+	 
+	
+	<bean id="s2SFormGeneratorService"
+		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
+	</bean>
+
+	<bean id="s2SValidatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SValidatorServiceImpl">
+	</bean>
+
+	<bean id="s2SProposalValidatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SProposalValidatorServiceImpl">
+	</bean>
+	
+	
+	<bean id="s2SService"
+		class="org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="s2SFormGeneratorService">
+			<ref bean="s2SFormGeneratorService" />
+		</property>
+		<property name="s2SProposalValidatorService">
+			<ref bean="s2SProposalValidatorService" />
+		</property>
+		<property name="s2SValidatorService">
+			<ref bean="s2SValidatorService" />
+		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="printService">
+			<ref bean="printService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="grantsGovConnectorService">
+			<ref bean="grantsGovConnectorService" />
+		</property>
+	</bean>
+
+	<bean id="printService"
+		class="org.kuali.kra.s2s.service.impl.PrintServiceImpl">
+		<property name="s2SFormGeneratorService">
+			<ref bean="s2SFormGeneratorService" />
+		</property>
+		<property name="s2SValidatorService">
+			<ref bean="s2SValidatorService" />
+		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="printingService" ref="printingService" />
+
+	</bean>
+	<bean id="s2SUtilService"
+		class="org.kuali.kra.s2s.service.impl.S2SUtilServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="proposalDevelopmentService">
+			<ref bean="proposalDevelopmentService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+		<property name="sponsorService">
+			<ref bean="sponsorService" />
+		</property>
+		<property name="narrativeService">
+			<ref bean="narrativeService" />
+		</property>
+		
+	</bean>
+
+	<bean id="s2SBudgetCalculatorService"
+		class="org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+		<property name="rolodexService">
+			<ref bean="rolodexService" />
+		</property>
+	</bean>
+
+	<bean id="grantsGovConnectorService"
+		class="org.kuali.kra.s2s.service.impl.GrantsGovConnectorServiceImpl">
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<!--  S2S Scheduler configuration start -->
+	<bean id="preValidationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+		<property name="stopPollInterval" value="4320" />
+		<property name="mailInterval" value="20" />
+		<property name="statusMap">
+			<map>
+				<entry key="1" value="Submitted to Grants.Gov" />
+				<entry key="2" value="Receiving" />
+				<entry key="3" value="Received" />
+				<entry key="4" value="Processing" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="validationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+		<property name="stopPollInterval" value="1440" />
+		<property name="mailInterval" value="120" />
+		<property name="statusMap">
+			<map>
+				<entry key="5" value="Validated" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="postValidationTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+		<property name="stopPollInterval" value="1440" />
+		<property name="mailInterval" value="240" />
+		<property name="statusMap">
+			<map>
+				<entry key="6" value="Received by Agency" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+	<bean id="errorOutTask"
+		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+		<property name="stopPollInterval" value="24" />
+		<property name="mailInterval" value="40" />
+		<property name="statusMap">
+			<map>
+				<entry key="10" value="Grants.Gov Submission Error" />
+			</map>
+		</property>
+		<property name="mailInfoList">
+			<list>
+				<ref bean="mailInfo" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mailInfo" class="org.kuali.kra.s2s.polling.MailInfo">
+		<property name="dunsNumber" value="" />
+		<property name="to" value="" />
+		<property name="cc" value="" />
+		<property name="bcc" value="" />
+		<property name="footer" value="" />
+		<property name="message" value="Grants.Gov Submissions" />
+		<property name="subject" value="Grants.Gov Submissions" />
+	</bean>
+		<bean id="preValidation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="preValidationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="validation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="validationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="postValidation"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="postValidationTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="errorOut"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="errorOutTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="preValidationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="preValidation" />
+		<property name="parameterService"
+			ref="parameterService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.preValidation.cronExpression">
+		</property>
+	</bean>
+	<bean id="validationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="validation" />
+		<property name="parameterService"
+			ref="parameterService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.validation.cronExpression">
+		</property>
+	</bean>
+	<bean id="postValidationTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="postValidation" />
+		<property name="parameterService"
+			ref="parameterService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.postValidation.cronExpression">
+		</property>
+	</bean>
+	<bean id="errorOutTrigger"
+		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
+		<property name="jobDetail" ref="errorOut" />
+		<property name="parameterService"
+			ref="parameterService" />
+		<property name="cronExpressionParameterName"
+			value="s2sScheduler.errorOut.cronExpression">
+		</property>
+	</bean>
+	
+	<bean id="s2SSchedulerStarter"
+		class="org.kuali.kra.s2s.polling.S2SSchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="preValidationTrigger" />
+				<ref bean="validationTrigger" />
+				<ref bean="postValidationTrigger" />
+				<ref bean="errorOutTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!--  S2S Scheduler configuration end -->
+	
+
+	
+</beans>

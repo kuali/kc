@@ -46,6 +46,24 @@
 		</property>
 	</bean>
 	
+	<bean id="awardService" class="org.kuali.kra.award.home.AwardServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
+	<bean id="awardHierarchyUIService" class="org.kuali.kra.service.impl.AwardHierarchyUIServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="activePendingTransactionsService">
+			<ref bean="activePendingTransactionsService" />
+		</property>
+		<property name="awardHierarchyService">
+			<ref bean="awardHierarchyService" />
+		</property>        
+	</bean>
+
 	<bean id="parentAwardAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />

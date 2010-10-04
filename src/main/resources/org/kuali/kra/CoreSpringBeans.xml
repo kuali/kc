@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2005-2010 The Kuali Foundation.
+
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.opensource.org/licenses/ecl1.php
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.5.xsd"> 
+                           
+	<bean id="baseModuleConfiguration" parent="baseModuleConfiguration-parentBean" />
+
+	<bean id="baseModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration"
+		abstract="true">
+		<property name="initializeDataDictionary" value="true" />
+
+		<!-- Rice hack this isn't really the right namespace but we cannot set 
+			it correctly until we address modularity (breaking up our DD files, SpringBeans, 
+			namespaces, etc. -->
+		<property name="namespaceCode" value="KC-SYS" />
+		<property name="packagePrefixes" ref="kcPackages" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/kra/datadictionary</value>
+				<value>org/kuali/kra/datadictionary/docs</value>
+			<!-- <value>${kc.additional.datadictionary.location}</value> -->
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>repository.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
+
+	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition"
+		abstract="true">
+		<!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
+		<property name="serviceNameSpaceURI" value="" />
+		<property name="retryAttempts" value="0" />
+	</bean>
+
+		<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+      <property name="sponsorHierarchyDao">
+        <ref bean="sponsorHierarchyDao" />
+      </property>
+    </bean>
+    
+    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb"/>	
+	
+		<bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+	 	<bean id="rolodexService" class="org.kuali.kra.service.impl.RolodexServiceImpl">
+ 		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="rolodexDao">
+            <ref bean="rolodexDao" />
+        </property>
+ 	</bean>
+
+
+	<!--  Authorization Services -->	
+	<bean id="systemAuthorizationService" class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
+		</property>
+	</bean>
+
+	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
+		<property name="unitService">
+			<ref bean="unitService" />
+		</property>
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
+		<property name="identityManagementService">
+			<ref bean="identityManagementService" />
+		</property>		
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
+		</property>
+	</bean>
+	
+	<bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
+		<property name="unitAuthorizationService">
+			<ref bean="unitAuthorizationService" />
+		</property>
+		<property name="kcPersonService">
+			<ref bean="kcPersonService" />
+		</property>
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
+		</property>
+		<property name="identityManagementService">
+			<ref bean="identityManagementService" />
+		</property>
+	</bean>	
+
+    <!-- Application Task Authorizers -->
+     <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="application" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.authorizer.CreateProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createProposal" />
+                </bean>
+                <bean class="org.kuali.kra.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createProtocol" />
+                </bean>
+                 <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="addCommittee" />
+                </bean>
+                <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createAward" />
+                </bean>
+                <bean class="org.kuali.kra.authorizer.CreateTimeAndMoneyAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createTimeAndMoney" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="unitAclLoadService" class="org.kuali.kra.service.impl.UnitAclLoadServiceImpl">
+	    <property name="kraAuthorizationService">
+	        <ref bean="kraAuthorizationService" />
+	    </property>
+		<property name="roleManagementService">
+			<ref bean="roleManagementService" />
+		</property>
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
+	</bean>
+
+	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
+		<property name="routeHeaderService">
+			<ref bean="routeHeaderService"/>
+		</property>
+	</bean>
+	
+	    <!-- Task Authorization Service -->
+
+    <bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
+        <property name="taskAuthorizerGroups">
+            <list>
+                <ref bean="applicationTaskAuthorizers" />
+                <ref bean="proposalTaskAuthorizers" />
+                <ref bean="narrativeTaskAuthorizers" />
+                <ref bean="budgetTaskAuthorizers" />
+                <ref bean="awardBudgetTaskAuthorizers" />
+                <ref bean="protocolTaskAuthorizers" />
+                <ref bean="committeeTaskAuthorizers" />
+                <ref bean="awardTaskAuthorizers" />
+                <ref bean="timeAndMoneyTaskAuthorizers" />
+                <ref bean="protocolOnlineReviewTaskAuthorizers"/>
+            </list>
+        </property>
+    </bean>
+    
+	    <bean id="parentTaskFactory" abstract="true">
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+    </bean>
+
+	    <bean id="webAuthorizationService" class="org.kuali.kra.web.struts.authorization.impl.WebAuthorizationServiceImpl">
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+        <property name="webAuthorizers">
+            <list>
+                <ref bean="proposalDevelopmentWebAuthorizer" />
+                <ref bean="abstractsAttachmentsWebAuthorizer" />
+                <ref bean="proposalPermissionsWebAuthorizer" />
+                <ref bean="proposalGrantsGovWebAuthorizer" />
+                <ref bean="proposalKeyPersonnelWebAuthorizer" />
+                <ref bean="proposalActionsWebAuthorizer" />
+                <ref bean="proposalBudgetVersionsWebAuthorizer" />
+                <ref bean="budgetWebAuthorizer" />
+                <ref bean="budgetActionsWebAuthorizer" />
+                <ref bean="budgetVersionsWebAuthorizer" />
+                <ref bean="awardBudgetsWebAuthorizer" />
+            </list>
+        </property>
+    </bean>
+
+		<bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="countryCodeService" class="org.kuali.kra.service.impl.CountryCodeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+    <bean id="argValueLookupService" class="org.kuali.kra.service.impl.ArgValueLookupServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+	<!--  Lookupable Helper for Rolodexes -->
+
+    <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
+    </bean>
+    	
+    <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
+        scope="prototype" parent="lookupableHelperService">
+        <property name="rolodexDao" ref="rolodexDao" /> 
+        <property name="lookupService" ref="lookupService" />
+    </bean> 
+
+    <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
+    </bean>   
+
+	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="lookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="sponsorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="sponsorLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="sponsorLookupableHelperService" class="org.kuali.kra.lookup.SponsorLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="lookupableHelperService">
+  	</bean>
+	
+		<bean id="kcPessimisticLockService" class="org.kuali.kra.service.impl.KcPessimisticLockServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+	<bean id="kcLockJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="kcPessimisticLockService" />
+		<property name="targetMethod" value="clearExpiredLocks" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="kcCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+		<property name="jobDetail" ref="kcLockJobDetail" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="kcCronTrigger" />
+			</list>
+		</property>
+	</bean>
+	<bean id="researchAreasService" class="org.kuali.kra.service.impl.ResearchAreasServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="researchAreaDao">
+            <ref bean="researchAreaDao" />
+        </property>
+	</bean>
+
+    <bean id="researchAreaDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.ResearchAreaDaoOjb">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
+
+    <!--  the following are called by irb for now.  move to irb -->
+	<bean id="organizationService" class="org.kuali.kra.service.impl.OrganizationServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+    </bean>
+
+	<bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl">
+	</bean>
+	
+	<bean id="kraLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.KraLookupDaoOjb">
+    </bean>
+	    
+ 	<bean id="fundingSourceTypeService" class="org.kuali.kra.service.impl.FundingSourceTypeServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+	
+	<bean id="scheduleService" class="org.kuali.kra.scheduling.service.impl.ScheduleServiceImpl">
+	</bean>
+	
+	
+	<!--  try override docsearchlookupable to handle extra 'copyDocument' link result column-->
+    <bean id="kraDocSearchCriteriaDTOLookupHelperService" class="org.kuali.kra.lookup.KraDocSearchCriteriaDTOLookupableHelperServiceImpl" scope="prototype"/>
+
+    <bean id="docSearchCriteriaDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+      <property name="lookupableHelperService">
+        <ref local="kraDocSearchCriteriaDTOLookupHelperService" />
+      </property>
+    </bean>
+	
+	<bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
+	
+	<bean id="kraPessimisticLockLookupableHelperService" class="org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImpl">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+	
+	<bean id="pessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="kraPessimisticLockLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="kraDocumentService" class="org.kuali.kra.service.impl.KraDocumentServiceImpl">
+ 	</bean>
+
+	<bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+	</bean>
+	<bean id = "kraDocumentRejectionService" class = "org.kuali.kra.kew.KraDocumentRejectionServiceImpl">
+		<property name = "documentService">
+			<ref bean = "documentService"/>
+		</property>
+	</bean>
+
+	<bean id="printingService" class="org.kuali.kra.printing.service.impl.PrintingServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+	<bean id="printBaseXmlStream" class="org.kuali.kra.printing.xmlstream.PrintBaseXmlStream"
+		abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+    
+	<bean id="unitAdministratorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="unitAdministratorLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="unitAdministratorLookupableHelperService"
+		class="org.kuali.kra.service.impl.UnitAdministratorLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="customAttributeDocumentLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="customAttributeDocumentLookupableHelperService"
+		class="org.kuali.kra.lookup.CustomAttributeLookupHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="noEditLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="deepCopyPostProcessor" class="org.kuali.kra.service.impl.DeepCopyPostProcessorImpl" />
+
+	<bean id="messageOfTheDayService" class="org.kuali.kra.service.impl.MessageOfTheDayServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl"
+				parent="lookupableHelperService">
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="unitRoleTypeService"
+				p:localServiceName="unitRoleTypeService" />
+		</property>
+	</bean>
+
+	<bean id="unitHierarchyRoleTypeService"
+		class="org.kuali.kra.kim.service.impl.UnitHierarchyRoleTypeServiceImpl">
+		<property name="unitService">
+			<ref bean="unitService" />
+		</property>
+	</bean>
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="unitHierarchyRoleTypeService"
+				p:localServiceName="unitHierarchyRoleTypeService" />
+		</property>
+	</bean>
+
+	<bean id="unitAdministratorDerivedRoleTypeService"
+		class="org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl">
+		<property name="unitService" ref="unitService" />
+	</bean>
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="unitAdministratorDerivedRoleTypeService"
+				p:localServiceName="unitAdministratorDerivedRoleTypeService" />
+		</property>
+	</bean>
+
+
+	<bean id="institutionalUnitService"
+		class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
+		<property name="unitService" ref="unitService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="accountCreationClient"
+		class="org.kuali.kra.external.award.impl.AccountCreationClientImpl">
+		<property name="documentService" ref="documentService" />
+	</bean>
+
+	<bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.JavaServiceDefinition">
+				<property name="service" ref="institutionalUnitService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="institutionalUnitService" />
+				<property name="serviceInterface"
+					value="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
+				<property name="busSecurity" value="false" />
+				<property name="retryAttempts" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="service" ref="institutionalUnitService" />
+				<property name="serviceNameSpaceURI" value="KC" />
+				<property name="localServiceName" value="institutionalUnitSoapService" />
+				<property name="busSecurity" value="false" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
+		<property name="identityManagementService" ref="identityManagementService" />
+	</bean>
+
+	<bean id="medusaService" class="org.kuali.kra.medusa.service.MedusaServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="awardAmountInfoService" ref="awardAmountInfoService" />
+		<property name="versionHistoryService" ref="versionHistoryService" />
+	</bean>
+
+	<bean id="notificationService"
+		class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="notificationService" />
+	</bean>
+
+
+
+
+
+</beans>
