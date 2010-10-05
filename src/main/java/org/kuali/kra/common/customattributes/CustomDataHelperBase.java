@@ -67,17 +67,28 @@ public abstract class CustomDataHelperBase implements Serializable {
                 getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
             }
 
-            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(customAttrGroupName);
 
             if (customAttributeDocumentList == null) {
                 customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, customAttributeDocumentList);
+                customAttributeGroups.put(customAttrGroupName, customAttributeDocumentList);
             }
             customAttributeDocumentList.add(customAttributeDocument);
         }
 
         setCustomAttributeGroups(customAttributeGroups);
+    }
+    
+    /**
+     * 
+     * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
+     * Note, data entry may create a null group name, which is invalid with the Map funcitons.
+     * @param groupName
+     * @return
+     */
+    public String getValidCustomAttributeGroupName(String groupName) {
+        return groupName != null ? groupName : "Custom Data Group";
     }
     
     /**
