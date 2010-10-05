@@ -109,10 +109,12 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        if (isIrbAdministrator()) {
-            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
-        } else {
+        if (ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
+            //if previous action is request to suspend then the new status is suspend by investigator
             performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI);
+        } else {
+            //else suspend by IRB
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
         }
     }
     

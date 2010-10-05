@@ -24,6 +24,8 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
@@ -135,12 +137,41 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     
     @Test
     public void testSuspendByPI() throws Exception {
-        //quickstart is a PI
         Protocol prot = getNewProtocol();
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.REQUEST_FOR_SUSPENSION);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(prot.getProtocolId());
+        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setActionId(123);
+        prot.getProtocolActions().add(pa);
+        
         ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
         businessObjectService.save(prot);
         genericActionService.suspend(prot, actionBean);
         String expected = ProtocolStatus.SUSPENDED_BY_PI;
+        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testSuspendByIRB() throws Exception {
+        Protocol prot = getNewProtocol();
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.APPROVED);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(prot.getProtocolId());
+        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setActionId(1234);
+        prot.getProtocolActions().add(pa);
+        
+        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
+        businessObjectService.save(prot);
+        genericActionService.suspend(prot, actionBean);
+        String expected = ProtocolStatus.SUSPENDED_BY_IRB;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
 
