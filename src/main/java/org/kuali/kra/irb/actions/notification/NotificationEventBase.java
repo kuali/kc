@@ -87,7 +87,7 @@ public abstract class NotificationEventBase {
 
         }
         // Based on kcirb-252 : no Irb Admin for release 3.  may added later.
-//        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
+        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
         getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol());
 
     }
