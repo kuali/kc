@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.notification;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,11 +75,13 @@ public abstract class NotificationEventBase {
      */
     public void getRecipients(Element recipients) {
         // TODO : based on kcirb-252 : all protocolperson but "SP" are default recipients
+        List<String> userNames = new ArrayList<String>();
         try {
             for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
                 if (!"SP".equals(protocolPerson.getProtocolPersonRoleId()) && StringUtils.isNotBlank(protocolPerson.getPersonId())) {
                     // rolodex does not have username
                     XmlHelper.appendXml(recipients, "<user>" + protocolPerson.getPerson().getUserName() + "</user>");
+                    userNames.add(protocolPerson.getPerson().getUserName());
                     // recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName());
                 }
             }
@@ -87,8 +90,8 @@ public abstract class NotificationEventBase {
 
         }
         // Based on kcirb-252 : no Irb Admin for release 3.  may added later.
-        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol());
-        getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol());
+        getProtocolActionsNotificationService().addIrbAdminToRecipients(recipients, getProtocol(), userNames);
+        getProtocolActionsNotificationService().addInitiatorToRecipients(recipients, getProtocol(), userNames);
 
     }
 

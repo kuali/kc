@@ -116,7 +116,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addIrbAdminToRecipients(org.w3c.dom.Element,
      *      org.kuali.kra.irb.Protocol)
      */
-    public void addIrbAdminToRecipients(Element recipients, Protocol protocol) {
+    public void addIrbAdminToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
         Collection<String> ids = kimRoleManagementService
                 .getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR, null);
         for (String id : ids) {
@@ -125,7 +125,10 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
                 if (StringUtils.isNotBlank(kcPersons.getUserName())
                         && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName()
                                 .equals(protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                    XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                    if (!userNames.contains(kcPersons.getUserName())) {
+                        XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                        userNames.add(kcPersons.getUserName());
+                    }
                 }
             }
             catch (Exception e) {
@@ -139,7 +142,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addInitiatorToRecipients(org.w3c.dom.Element, org.kuali.kra.irb.Protocol)
      */
-    public void addInitiatorToRecipients(Element recipients, Protocol protocol) {
+    public void addInitiatorToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
         try {
             if (protocol.getProtocolDocument().getDocumentHeader() == null) {
                 ProtocolDocument retrievedDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
@@ -151,7 +154,10 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
             if (StringUtils.isNotBlank(kcPersons.getUserName())
                     && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName().equals(
                             protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                if (!userNames.contains(kcPersons.getUserName())) {
+                    XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                    userNames.add(kcPersons.getUserName());
+                }
             }
         }
         catch (Exception e) {
