@@ -96,7 +96,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
      * @param doc the document
      * @return the workflow document or null if there is none
      */
-    private KualiWorkflowDocument getWorkflowDocument(Document doc) {
+    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
         KualiWorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();
@@ -119,7 +119,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
      * @param principalId The principalId to use getting the document.  This impacts the return values for isApprovalRequested, etc.
      * @return
      */
-    private WorkflowDocument getWorkflowDocument(Document doc, String principalId) {
+    protected WorkflowDocument getWorkflowDocument(Document doc, String principalId) {
         WorkflowDocument workDoc = null;
         try {
             workDoc = new WorkflowDocument(principalId, doc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());

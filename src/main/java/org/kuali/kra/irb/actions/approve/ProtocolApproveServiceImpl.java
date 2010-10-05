@@ -73,7 +73,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
      * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
+    protected void generateCorrespondenceDocumentAndAttach(Protocol protocol) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(ProtocolActionType.APPROVED);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);

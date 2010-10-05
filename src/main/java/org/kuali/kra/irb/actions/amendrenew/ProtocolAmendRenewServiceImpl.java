@@ -148,7 +148,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @return
      * @throws WorkflowException 
      */
-    private String createAmendment(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument,
+    protected String createAmendment(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument,
                                    ProtocolAmendmentBean amendmentBean) throws WorkflowException {
 
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, amendmentBean.getSummary());
@@ -168,7 +168,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocolDocument
      * @return
      */
-    private String generateProtocolAmendmentNumber(ProtocolDocument protocolDocument) {
+    protected String generateProtocolAmendmentNumber(ProtocolDocument protocolDocument) {
         return generateProtocolNumber(protocolDocument, AMEND_ID, AMEND_NEXT_VALUE);
     }
     
@@ -179,7 +179,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocolDocument
      * @return
      */
-    private String generateProtocolRenewalNumber(ProtocolDocument protocolDocument) {
+    protected String generateProtocolRenewalNumber(ProtocolDocument protocolDocument) {
         return generateProtocolNumber(protocolDocument, RENEW_ID, RENEW_NEXT_VALUE);
     }
     
@@ -188,7 +188,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocolDocument
      * @return
      */
-    private String generateProtocolNumber(ProtocolDocument protocolDocument, String letter, String nextValueKey) {
+    protected String generateProtocolNumber(ProtocolDocument protocolDocument, String letter, String nextValueKey) {
         String protocolNumber = protocolDocument.getProtocol().getProtocolNumber();
         Integer nextValue = protocolDocument.getDocumentNextValue(nextValueKey);
         String s = nextValue.toString();
@@ -206,7 +206,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param amendmentBean the user form containing the summary and modules to be amended
      * @return
      */
-    private ProtocolAmendRenewal createAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument, String summary) {
+    protected ProtocolAmendRenewal createAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument, String summary) {
         ProtocolAmendRenewal protocolAmendRenewal = new ProtocolAmendRenewal();
         protocolAmendRenewal.setProtoAmendRenNumber(amendProtocolDocument.getProtocol().getProtocolNumber());
         protocolAmendRenewal.setDateCreated(new Date(System.currentTimeMillis()));
@@ -223,7 +223,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param amendmentEntry
      * @param amendmentBean
      */
-    private void addModules(ProtocolAmendRenewal amendmentEntry, ProtocolAmendmentBean amendmentBean) {
+    protected void addModules(ProtocolAmendRenewal amendmentEntry, ProtocolAmendmentBean amendmentBean) {
         if (amendmentBean.getGeneralInfo()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.GENERAL_INFO));
         }
@@ -271,7 +271,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param moduleTypeCode
      * @return
      */
-    private ProtocolAmendRenewModule createModule(ProtocolAmendRenewal amendmentEntry, String moduleTypeCode) {
+    protected ProtocolAmendRenewModule createModule(ProtocolAmendRenewal amendmentEntry, String moduleTypeCode) {
         ProtocolAmendRenewModule module = new ProtocolAmendRenewModule();
         module.setProtocolAmendRenewalNumber(amendmentEntry.getProtoAmendRenNumber());
         module.setProtocolAmendRenewal(amendmentEntry);
@@ -287,7 +287,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocolNumber protocol number of the amendment
      * @return a protocol action
      */
-    private ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
+    protected ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
         protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
@@ -299,7 +299,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocolNumber protocol number of the renewal
      * @return a protocol action
      */
-    private ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
+    protected ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.RENEWAL_CREATED);
         protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
         return protocolAction;
@@ -317,7 +317,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     @SuppressWarnings("unchecked")
-    private Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
+    protected Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
         List<Protocol> amendments = new ArrayList<Protocol>();
         Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
         for (Protocol protocol : protocols) {
@@ -328,7 +328,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
 
     @SuppressWarnings("unchecked")
-    private Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
+    protected Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
         List<Protocol> renewals = new ArrayList<Protocol>();
         Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
         for (Protocol protocol : protocols) {
@@ -369,7 +369,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * Get the list of all of the module type codes.
      * @return
      */
-    private List<String> getAllModuleTypeCodes() {
+    protected List<String> getAllModuleTypeCodes() {
         List<String> moduleTypeCodes = new ArrayList<String>();
         moduleTypeCodes.add(ProtocolModule.GENERAL_INFO);
         moduleTypeCodes.add(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
@@ -389,7 +389,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param protocol
      * @return
      */
-    private boolean isAmendmentCompleted(Protocol protocol) {
+    protected boolean isAmendmentCompleted(Protocol protocol) {
         KualiWorkflowDocument workflowDocument = getWorkflowDocument(protocol.getProtocolDocument());
         if (workflowDocument != null) {
             return workflowDocument.stateIsApproved() ||
@@ -406,7 +406,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param doc the document
      * @return the workflow document or null if there is none
      */
-    private KualiWorkflowDocument getWorkflowDocument(Document doc) {
+    protected KualiWorkflowDocument getWorkflowDocument(Document doc) {
         KualiWorkflowDocument workflowDocument = null;
         if (doc != null) {
             DocumentHeader header = doc.getDocumentHeader();

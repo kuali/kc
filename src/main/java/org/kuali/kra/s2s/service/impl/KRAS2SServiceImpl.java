@@ -191,7 +191,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *            {@link GetApplicationListResponse} response from Grants Gov
 	 * @throws S2SException
 	 */
-	private void saveGrantsGovStatus(ProposalDevelopmentDocument pdDoc,
+	protected void saveGrantsGovStatus(ProposalDevelopmentDocument pdDoc,
 			GetApplicationListResponse applicationListResponse)
 			throws S2SException {
 		S2sAppSubmission appSubmission = null;
@@ -431,7 +431,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return {@link GrantApplicationDocument} populated with forms
 	 * @throws S2SException
 	 */
-	private GrantApplicationDocument getGrantApplicationDocument(
+	protected GrantApplicationDocument getGrantApplicationDocument(
 			ProposalDevelopmentDocument pdDoc, Forms forms) throws S2SException {
 		GrantApplicationDocument grantApplicationDocument = GrantApplicationDocument.Factory
 				.newInstance();
@@ -505,7 +505,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @param s2sAppAttachmentList
 	 *            {@link S2sAppAttachments} attachments included in submission
 	 */
-	private void saveSubmissionDetails(ProposalDevelopmentDocument pdDoc,
+	protected void saveSubmissionDetails(ProposalDevelopmentDocument pdDoc,
 			S2sAppSubmission appSubmission, SubmitApplicationResponse response,
 			String grantApplicationXml,
 			List<S2sAppAttachments> s2sAppAttachmentList) {
@@ -574,7 +574,7 @@ public class KRAS2SServiceImpl implements S2SService {
 				auditErrors);
 	}
 
-	private boolean generateAndValidateForms(Forms forms,
+	protected boolean generateAndValidateForms(Forms forms,
 			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
 		return generateAndValidateForms(forms, attList, pdDoc,
@@ -594,7 +594,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return validation result true if valid false otherwise.
 	 * @throws S2SException
 	 */
-	private boolean generateAndValidateForms(Forms forms,
+	protected boolean generateAndValidateForms(Forms forms,
 			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc,
 			List<AuditError> auditErrors) throws S2SException {
 		boolean validationSucceeded = true;
@@ -661,7 +661,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @param formObject
 	 *            xml object representing the grants.gov form.
 	 */
-	private void setFormObject(Forms forms, XmlObject formObject) {
+	protected void setFormObject(Forms forms, XmlObject formObject) {
 		// Create a cursor from the grants.gov form
 		XmlCursor formCursor = formObject.newCursor();
 		formCursor.toStartDoc();
@@ -683,7 +683,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *            List of validation errors which has to be displayed on UI.
 	 */
 
-	private void setValidationErrorMessage(List<AuditError> errors) {
+	protected void setValidationErrorMessage(List<AuditError> errors) {
 		LOG.info("Error list size:" + errors.size() + errors.toString());
 		List<AuditError> auditErrors = new ArrayList<AuditError>();
 		for (AuditError error : errors) {
@@ -707,7 +707,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return ArrayList<OpportunityInfo> containing all form information
 	 */
 
-	private ArrayList<S2sOpportunity> convertToArrayList(
+	protected ArrayList<S2sOpportunity> convertToArrayList(
 			GetOpportunityListResponse resList) {
 		ArrayList<S2sOpportunity> convList = new ArrayList<S2sOpportunity>();
 		if (resList == null || resList.getOpportunityInformation() == null) {
@@ -728,7 +728,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return OpportunityInfo containing Opportunity information corresponding
 	 *         to the OpportunityInformationType object.
 	 */
-	private S2sOpportunity convert2S2sOpportunity(
+	protected S2sOpportunity convert2S2sOpportunity(
 			OpportunityInformationType oppInfoType) {
 		S2sOpportunity s2Opportunity = new S2sOpportunity();
 		s2Opportunity.setCfdaNumber(oppInfoType.getCFDANumber());

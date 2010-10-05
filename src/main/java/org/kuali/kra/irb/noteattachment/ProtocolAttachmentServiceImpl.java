@@ -179,7 +179,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * This method is to get the current protocol.  The protocol with the highest sequence number.
      */
     @SuppressWarnings("unchecked")
-    private Protocol getActiveProtocol(String protocolNumber) {
+    protected Protocol getActiveProtocol(String protocolNumber) {
         Map keyMap = new HashMap();
         keyMap.put("protocolNumber", protocolNumber);
         List<Protocol> protocols = (List <Protocol>)this.boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
@@ -208,7 +208,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
      * @return the BO
      * @throws IllegalArgumentException if the code or type is null.
      */
-    private <T extends PersistableBusinessObject> T getCodeType(final Class<T> type, final String code) {
+    protected <T extends PersistableBusinessObject> T getCodeType(final Class<T> type, final String code) {
         if (type == null) {
             throw new IllegalArgumentException("the type is null");
         }

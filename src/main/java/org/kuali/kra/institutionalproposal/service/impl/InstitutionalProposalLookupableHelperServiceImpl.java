@@ -132,13 +132,13 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         return InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING;
     }
     
-    private boolean lookupIsFromAward(Map<String, String> fieldValues) {
+    protected boolean lookupIsFromAward(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
         return returnLocation != null && returnLocation.contains(AWARD_HOME_ACTION);
     }
     
     @SuppressWarnings("unchecked")
-    private void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
+    protected void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
         List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
         if (linkedProposals == null) { return; }
         int indexToRemove = -1;
@@ -160,7 +160,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * This method is filter out INSP which is generated from PD whose ProposeStateType is "Approval Pending Submitted"
      */
-    private void filterApprovedPendingSubmitProposals(List<? extends BusinessObject> searchResults) {
+    protected void filterApprovedPendingSubmitProposals(List<? extends BusinessObject> searchResults) {
         List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
         for (int j = 0; j < searchResults.size(); j++) {
             if (isDevelopmentProposalAppPendingSubmitted((InstitutionalProposal) searchResults.get(j))) {
@@ -175,7 +175,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * This method is to filter for valid status codes of 1,2,6
      */
-    private void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
+    protected void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
         List<BusinessObject> removeResults = new ArrayList<BusinessObject>();
         String[] validStatuses = new String[] {"1","2","6"};        
         List<String> validCodesToFilter = Arrays.asList(validStatuses);   
@@ -192,7 +192,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * Find if any proposal associate with this INSP has 'Approval Pending Submitted' proposal state type
      */
-    private boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
+    protected boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
         boolean isApprovePending = false;
         Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(ip);
         for (DevelopmentProposal developmentProposal : devProposals) {
@@ -207,7 +207,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * find any version of IP that has PD with approve pending
      */
-    private Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
+    protected Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
         //find any dev prop linked to any version of this inst prop
         Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
         Collection<InstitutionalProposal> proposalVersions = businessObjectService.findMatching(InstitutionalProposal.class, getFieldValues("proposalNumber", instProposal.getProposalNumber()));
@@ -221,7 +221,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         return devProposals;
     }
 
-    private Map<String, Object> getFieldValues(String key, Object value){
+    protected Map<String, Object> getFieldValues(String key, Object value){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(key, value);
         return fieldValues;
@@ -230,7 +230,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /* 
      * Determine whether lookup is being called from a location that shouldn't include the custom action links
      */
-    private void configureCustomActions(Map<String, String> fieldValues) {
+    protected void configureCustomActions(Map<String, String> fieldValues) {
         String returnLocation = fieldValues.get(KNSConstants.BACK_LOCATION);
         if (returnLocation != null) {
             if (returnLocation.contains(AWARD_HOME_ACTION)) {
@@ -249,7 +249,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         }
     }
     
-    private AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
+    protected AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("select");
         Properties parameters = new Properties();

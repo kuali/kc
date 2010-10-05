@@ -78,7 +78,7 @@ public class VersioningServiceImpl implements VersioningService {
      * Gets the current time in nanos.
      * @return the current time.
      */
-    private static long getCurrentTime() {
+    protected static long getCurrentTime() {
         return System.nanoTime();
     }
     
@@ -88,7 +88,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param endTime the end time in nanos
      * @return the time in seconds
      */
-    private static double calcElapsedTimeInSeconds(long startTime, long endTime) {
+    protected static double calcElapsedTimeInSeconds(long startTime, long endTime) {
         return (endTime - startTime) / NANOS_PER_SECOND;
     }
     
@@ -97,7 +97,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param o the object
      * @return the non-qualified class name
      */
-    private static String getNonQualifiedClassName(Object o) {
+    protected static String getNonQualifiedClassName(Object o) {
         final String name = o.getClass().getName();
         return name.substring(name.lastIndexOf(PERIOD) + 1);
     }
@@ -107,7 +107,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param oldVersion
      * @param newVersion
      */
-    private void logVersionOperation(long startTime, Sequenceable oldVersion, Sequenceable newVersion) {
+    protected void logVersionOperation(long startTime, Sequenceable oldVersion, Sequenceable newVersion) {
         this.logVersionOperation(startTime, Collections.singletonList(oldVersion), Collections.singletonList(newVersion));
     }
     
@@ -116,7 +116,7 @@ public class VersioningServiceImpl implements VersioningService {
      * @param oldVersion
      * @param newVersion
      */
-    private <T extends Sequenceable> void logVersionOperation(long startTime, List<T> oldVersions, List<T> newVersions) {
+    protected <T extends Sequenceable> void logVersionOperation(long startTime, List<T> oldVersions, List<T> newVersions) {
         if (LOG.isInfoEnabled()) {
             final double seconds = calcElapsedTimeInSeconds(startTime, getCurrentTime());
             

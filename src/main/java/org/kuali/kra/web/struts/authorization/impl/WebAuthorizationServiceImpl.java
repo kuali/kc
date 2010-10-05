@@ -92,7 +92,7 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
      * @param classname the Struts Action classname
      * @return the corresponding Web Authorizer or null if not found
      */
-    private WebAuthorizer getWebAuthorizer(String classname) {
+    protected WebAuthorizer getWebAuthorizer(String classname) {
         for (WebAuthorizer webAuthorizer : webAuthorizers) {
             if (StringUtils.equals(webAuthorizer.getClassname(), classname)) {
                 return webAuthorizer;

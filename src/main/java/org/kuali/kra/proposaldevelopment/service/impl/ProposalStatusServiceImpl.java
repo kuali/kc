@@ -107,7 +107,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
      * @param proposalNumber
      * @return ProposalStatus
      */
-    private ProposalBudgetStatus getProposalStatus(String proposalNumber) {
+    protected ProposalBudgetStatus getProposalStatus(String proposalNumber) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
@@ -115,7 +115,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         return proposalStatus;
     }
     
-    private BudgetVersionOverview getBudgetVersion(BudgetVersionOverview version) {
+    protected BudgetVersionOverview getBudgetVersion(BudgetVersionOverview version) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("budgetId", version.getBudgetId());

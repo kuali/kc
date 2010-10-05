@@ -120,7 +120,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
      * Gets the businessObjectService attribute. 
      * @return Returns the businessObjectService.
      */
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

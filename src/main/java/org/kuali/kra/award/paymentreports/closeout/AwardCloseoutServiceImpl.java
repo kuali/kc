@@ -201,7 +201,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
      *  
      * @param awardReportTerms
      */
-    private void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
+    protected void refreshAwardReportTerms(List<AwardReportTerm> awardReportTerms) {
         List<AwardReportTerm> persistableObjects = new ArrayList<AwardReportTerm>();
         List<String> referenceObjectNames = new ArrayList<String>();
         List<String> referenceObjectNames1 = new ArrayList<String>();

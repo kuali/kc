@@ -32,7 +32,7 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);
     }
 
-    private String getUserName() {
+    protected String getUserName() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 

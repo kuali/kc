@@ -80,7 +80,7 @@ public class AwardNumberServiceImpl implements AwardNumberService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private String lookupLikeAwardNumbers(String lookupLike) {
+    protected String lookupLikeAwardNumbers(String lookupLike) {
         DecimalFormat formatter = new DecimalFormat("00000");
         List<Award> awardList = 
             (List<Award>) kraLookupDao.findCollectionUsingWildCard(Award.class, "awardNumber", lookupLike, Boolean.TRUE);
@@ -92,7 +92,7 @@ public class AwardNumberServiceImpl implements AwardNumberService {
      * @param awardList
      * @return
      */
-    private Long getHighestSequenceNode(List<Award> awardList) {
+    protected Long getHighestSequenceNode(List<Award> awardList) {
         Long returnValue = null;
         for (Award loopAward : awardList) {
             String[] splitAwardNumber = loopAward.getAwardNumber().split("-");

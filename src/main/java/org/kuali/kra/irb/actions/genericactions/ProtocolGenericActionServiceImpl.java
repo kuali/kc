@@ -101,7 +101,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
     
-    private boolean isIrbAdministrator() {
+    protected boolean isIrbAdministrator() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         Collection<String> ids = this.kimRoleManagementService.getRoleMemberPrincipalIds(NAMESPACE, RoleConstants.IRB_ADMINISTRATOR, null);
         return ids.contains(principalId);
@@ -162,7 +162,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
      * @param newProtocolStatus
      * @throws Exception
      */
-    private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
+    protected void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
             String protocolActionType, String newProtocolStatus) throws Exception {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
@@ -176,14 +176,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         createCorrespondenceAndAttach(protocol, protocolActionType);
     }
     
-    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+    protected void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }    
     
-    private void performDisapprove(Protocol protocol) throws Exception {
+    protected void performDisapprove(Protocol protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {
             KualiWorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
             if (currentWorkflowDocument != null) {
@@ -192,7 +192,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         }    
     }
     
-    private ProtocolDocument performVersioning(Protocol protocol) throws Exception {
+    protected ProtocolDocument performVersioning(Protocol protocol) throws Exception {
         documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
         protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review finalized - protocol has been returned for revisions.");
         
@@ -216,7 +216,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 
-    private boolean containsProtocolAction(Protocol protocol, String protocolActionTypeCode) {
+    protected boolean containsProtocolAction(Protocol protocol, String protocolActionTypeCode) {
         boolean containsAction = false;
         
         for (ProtocolAction action : protocol.getProtocolActions()) {

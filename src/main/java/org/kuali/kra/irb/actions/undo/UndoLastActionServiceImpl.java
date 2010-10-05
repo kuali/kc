@@ -47,7 +47,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         this.documentService = documentService;
     }
     
-    private void removeAttachedCorrespondences(ProtocolAction protocolAction) {
+    protected void removeAttachedCorrespondences(ProtocolAction protocolAction) {
         if(protocolAction != null) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
@@ -84,7 +84,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         return updatedDocument;
     }
     
-    private void resetProtocolStatus(Protocol protocol) {
+    protected void resetProtocolStatus(Protocol protocol) {
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
         String prevProtocolStatusCode = (protocolNumberUpper.contains(AMEND) ? ProtocolStatus.AMENDMENT_IN_PROGRESS : (protocolNumberUpper.contains(RENEW) ? ProtocolStatus.RENEWAL_IN_PROGRESS
                 : ProtocolStatus.IN_PROGRESS));
@@ -92,7 +92,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         protocol.setActive(true);
     }
     
-    private ProtocolDocument undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
+    protected ProtocolDocument undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
         KualiWorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
         
         //Do we need additional check to see if this is not a Renewal/Amendment Approval? since we already eliminated those options within Authz Logic

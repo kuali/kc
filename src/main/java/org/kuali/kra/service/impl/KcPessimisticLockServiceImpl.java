@@ -94,7 +94,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @return all of the pessimistic locks
      */
     @SuppressWarnings("unchecked")
-    private Collection<PessimisticLock> getAllLocks() {
+    protected Collection<PessimisticLock> getAllLocks() {
         return businessObjectService.findAll(PessimisticLock.class);
     }
     
@@ -102,7 +102,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get the current time in milliseconds.
      * @return the current time in milliseconds
      */
-    private long getCurrentTime() {
+    protected long getCurrentTime() {
         return dateTimeService.getCurrentTimestamp().getTime();
     }
     
@@ -110,7 +110,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get the timeout period in milliseconds.
      * @return the timeout period in milliseconds
      */
-    private long getExpirationAgeMillis() {
+    protected long getExpirationAgeMillis() {
         return getLockExpirationAge() * MINUTES_TO_MILLISECONDS;
     }
     
@@ -118,7 +118,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * Get the Lock Expiration Age parameter value from the system parameters.
      * @return the Lock Expiration Age value in minutes
      */
-    private int getLockExpirationAge() {
+    protected int getLockExpirationAge() {
         try {
             String timeoutStr = getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_EXPIRATION_AGE);
             return Integer.parseInt(timeoutStr);
@@ -132,7 +132,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @param key the key (name) of the parameter
      * @return the parameter's value
      */
-    private String getParameterValue(String key) {
+    protected String getParameterValue(String key) {
         return this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, key);
     }
 }

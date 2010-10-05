@@ -128,7 +128,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param scope The scope
      * @return The array of scopes that will be synchronized.
      */
-    private AwardTemplateSyncScope[] getScopeArray( AwardTemplateSyncScope scope ) {
+    protected AwardTemplateSyncScope[] getScopeArray( AwardTemplateSyncScope scope ) {
         AwardTemplateSyncScope[] scopes =  {scope};
         if( scope.equals(AwardTemplateSyncScope.FULL) ) scopes = AwardTemplateSyncScope.values();
         return scopes;
@@ -141,7 +141,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * 
      * @return a new Stack of AwardTemplateSyncScope 
      */
-    private Stack<AwardTemplateSyncScope[]> createScopeStack() {
+    protected Stack<AwardTemplateSyncScope[]> createScopeStack() {
         return new Stack<AwardTemplateSyncScope[]>();
     }
     
@@ -151,7 +151,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param awardTemplateObject
      * @param awardObject
      */
-    private boolean syncTargetCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
+    protected boolean syncTargetCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
         throws Exception {
         List<Field> allFields = new ArrayList<Field>();
         findAllFields(awardObject.getClass(), allFields);
@@ -200,7 +200,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param field
      * @throws Exception
      */
-    private boolean checkTargetField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
+    protected boolean checkTargetField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
         boolean result = false;
         if (field.isAnnotationPresent(AwardSyncable.class)){
             if( ObjectUtils.getPropertyValue(awardObject, field.getName()) == null ) result =  false;
@@ -218,7 +218,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param awardTemplateObject
      * @param awardObject
      */
-    private boolean syncSourceCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
+    protected boolean syncSourceCheck(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) 
         throws Exception {
         List<Field> allFields = new ArrayList<Field>();
         findAllFields(awardObject.getClass(), allFields);
@@ -259,7 +259,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         return result;
     }
     
-    private boolean checkSourceField(Object awardTemplateObject, Object awardObject, Field field,
+    protected boolean checkSourceField(Object awardTemplateObject, Object awardObject, Field field,
             Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) {
             boolean result = false;
             if( ObjectUtils.isNotNull( ObjectUtils.getPropertyValue( awardTemplateObject, field.getName() ) ) && field.getAnnotation(AwardSyncable.class).impactSourceScopeEmpty()) result = true;
@@ -268,7 +268,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
 
 
 
-    private boolean checkSourceList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes,
+    protected boolean checkSourceList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes,
             Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
         field.setAccessible(true);
         boolean result = false;
@@ -295,7 +295,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private void extractListFromParentAndSync(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
+    protected void extractListFromParentAndSync(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
         field.setAccessible(true);
         List<Object> awardTemplateObjectList = (List)ObjectUtils.getPropertyValue(awardTemplateObject, field.getName());
         AwardSyncableList awardSyncableList = field.getAnnotation(AwardSyncableList.class);
@@ -319,7 +319,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @return An array representing the effective scope to be used.
      * @throws IllegalStateException if there is no array in the stack that contains a scope other than CONTAINING_CLASS_INHERIT.
      */
-    private AwardTemplateSyncScope[] getEffectiveScope( Stack<AwardTemplateSyncScope[]> scopeStack )
+    protected AwardTemplateSyncScope[] getEffectiveScope( Stack<AwardTemplateSyncScope[]> scopeStack )
         throws IllegalStateException {
         AwardTemplateSyncScope[] effectiveScope = null;
         
@@ -347,7 +347,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private void invokeMethodToSync(Award awardObject, List awardTemplateObjectList,String syncMethodName,AwardTemplateSyncScope[] scopes, Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception{
+    protected void invokeMethodToSync(Award awardObject, List awardTemplateObjectList,String syncMethodName,AwardTemplateSyncScope[] scopes, Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception{
         Method syncMethod = getClass().getMethod(syncMethodName, new Class[]{Award.class,List.class,Stack.class, Award.class, AwardTemplate.class});
         syncMethod.invoke(this, new Object[]{awardObject,awardTemplateObjectList,scopeStack, award, awardTemplate});
     }
@@ -360,7 +360,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param awardTemplateObject
      * @param awardObject
      */
-    private void sync(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception{
+    protected void sync(Object awardTemplateObject, Object awardObject,AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception{
         List<Field> allFields = new ArrayList<Field>();
         findAllFields(awardObject.getClass(), allFields);
         
@@ -406,7 +406,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param allFields
      */
     @SuppressWarnings("unchecked")
-    private void findAllFields(Class klass, List<Field> allFields) {
+    protected void findAllFields(Class klass, List<Field> allFields) {
         Field[] fields = klass.getDeclaredFields();
         allFields.addAll(Arrays.asList(fields));
         klass = klass.getSuperclass();
@@ -426,7 +426,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param field
      * @throws Exception
      */
-    private void copyField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
+    protected void copyField(Object awardTemplateObject, Object awardObject, Field field, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate) throws Exception {
         if (field.isAnnotationPresent(AwardSyncable.class)){
             Object value = ObjectUtils.getPropertyValue(awardTemplateObject, field.getName());
             ObjectUtils.setObjectProperty(awardObject, field.getName(), value);
@@ -443,7 +443,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private boolean checkTargetList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
+    protected boolean checkTargetList(Object awardTemplateObject, Object awardObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate ) throws Exception {
         field.setAccessible(true);
         boolean result = false;
         List<Object> awardObjectList = (List)ObjectUtils.getPropertyValue(awardObject, field.getName());
@@ -472,7 +472,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private void syncListObjects(Object awardObject, List<Object> listObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate  ) 
+    protected void syncListObjects(Object awardObject, List<Object> listObject, Field field, AwardTemplateSyncScope[] scopes, java.util.Stack<AwardTemplateSyncScope[]> scopeStack, Award award, AwardTemplate awardTemplate  ) 
     throws Exception{
         AwardSyncableList awardSyncableList = field.getAnnotation(AwardSyncableList.class);
         String parentPropertyName = awardSyncableList.parentPropertyName();
@@ -540,7 +540,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param syncSourceClass - The class you wish to find the method for.  If a specific method for this class does not exist, the generic method is returned.
      * @return The best match for the method.
      */
-    private Method getCreateNewListElementMethod( Class syncSourceClass ) {
+    protected Method getCreateNewListElementMethod( Class syncSourceClass ) {
         
         //Try to get the method that is specific for the source class.
         try {
@@ -563,7 +563,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         }
     }
     
-    private Method getClearExistingElementMethod( Class targetClass ) {
+    protected Method getClearExistingElementMethod( Class targetClass ) {
         Method m = null;
         try {
             m = AwardTemplateSyncServiceImpl.class.getDeclaredMethod("clearListElement", targetClass, Class.class, Award.class, AwardTemplate.class );
@@ -576,7 +576,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         return m;
     }
     
-    private Method getFindSourceListElementFromTargetMethod( Class targetClass ) {
+    protected Method getFindSourceListElementFromTargetMethod( Class targetClass ) {
         Method m = null;
         try {
             m = AwardTemplateSyncServiceImpl.class.getDeclaredMethod("findSourceListElementFromTarget", targetClass, Map.class, Award.class, AwardTemplate.class );
@@ -591,24 +591,24 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private Object getOrCreateNewListElementObject( Object sourceObject, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
+    protected Object getOrCreateNewListElementObject( Object sourceObject, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
         return createNew?ObjectUtils.createNewObjectFromClass(syncClass):null; 
     }
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private AwardComment getOrCreateNewListElementObject( AwardTemplateComment sourceComment, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
+    protected AwardComment getOrCreateNewListElementObject( AwardTemplateComment sourceComment, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
         AwardComment comment = award.getAwardCommentByType(sourceComment.getCommentTypeCode(), sourceComment.getChecklistPrintFlag(), createNew );
         return comment;
     }
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private AwardComment clearListElement( AwardComment comment, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate) {
+    protected AwardComment clearListElement( AwardComment comment, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate) {
         comment.setComments(null);
         return comment;
     }
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private AwardTemplateComment findSourceListElementFromTarget( AwardComment comment, Map<Object,Object> sourceToTargetMap, Award award, AwardTemplate awardTemplate) {
+    protected AwardTemplateComment findSourceListElementFromTarget( AwardComment comment, Map<Object,Object> sourceToTargetMap, Award award, AwardTemplate awardTemplate) {
         AwardTemplateComment result = null;
         if( sourceToTargetMap != null && sourceToTargetMap.values() != null ) {
             for( Object tc : (sourceToTargetMap.keySet()) ) {
@@ -623,13 +623,13 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     }
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private AwardSponsorTerm getOrCreateNewListElementObject( AwardTemplateTerm sponsorTerm, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
+    protected AwardSponsorTerm getOrCreateNewListElementObject( AwardTemplateTerm sponsorTerm, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
         AwardSponsorTerm term = award.getAwardSponsorTermByTemplateTerm( sponsorTerm, createNew );
         return term;
     }
     
     @SuppressWarnings({ "unused", "unchecked" })
-    private AwardReportTermRecipient getOrCreateNewListElementObject( AwardTemplateReportTermRecipient recipient, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
+    protected AwardReportTermRecipient getOrCreateNewListElementObject( AwardTemplateReportTermRecipient recipient, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
         AwardReportTermRecipient newRecipient = new AwardReportTermRecipient();
         recipient.refreshReferenceObject("rolodex");
         recipient.refreshReferenceObject("contactType");
@@ -642,7 +642,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     }
     
     @SuppressWarnings("all")
-    private Method findIsInScopeMethodForClass( Class clazz ) {
+    protected Method findIsInScopeMethodForClass( Class clazz ) {
         Class klass = AwardTemplateSyncScope.class;
         Method result = null;
         try {
@@ -665,7 +665,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
      * @param Award object
      * @return AwardTemplate object
      */
-    private AwardTemplate fetchAwardTemplate(Award award) {
+    protected AwardTemplate fetchAwardTemplate(Award award) {
         award.refreshReferenceObject("awardTemplate");
         AwardTemplate awardTemplate = award.getAwardTemplate();
         if (awardTemplate == null && award.getTemplateCode() != null) {

@@ -132,7 +132,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      * @param appointment
      * @return true if the appointment start or end date is inside the budget period
      */
-    private boolean isAppointmentApplicableToBudget(Budget budget, PersonAppointment appointment) {
+    protected boolean isAppointmentApplicableToBudget(Budget budget, PersonAppointment appointment) {
         Calendar budgetStart = Calendar.getInstance();
         Calendar budgetEnd = Calendar.getInstance();
         Calendar apptStart = Calendar.getInstance();
@@ -156,7 +156,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
     }
     
-    private void populatePersonDefaultDataIfEmpty(Budget budget, BudgetPerson budgetPerson) {
+    protected void populatePersonDefaultDataIfEmpty(Budget budget, BudgetPerson budgetPerson) {
         BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
         if (proposal != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
             budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
@@ -209,7 +209,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         this.businessObjectService = businessObjectService;
     }
 
-    private KcPersonService getKcPersonService() {
+    protected KcPersonService getKcPersonService() {
         return kcPersonService;
     }
 

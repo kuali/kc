@@ -106,7 +106,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     /*
      * when version committee, the minutes also versioned.  This is to get the current one.
      */
-    private boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
+    protected boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
             Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
@@ -152,7 +152,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     /*
      * if this is IRB acknowledgement and loaded from protocol submission or notification.
      */
-    private ProtocolSubmission getSubmission(Protocol protocol) {
+    protected ProtocolSubmission getSubmission(Protocol protocol) {
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
         if (protocol.getNotifyIrbSubmissionId() != null) {
             // not the current submission, then check programically

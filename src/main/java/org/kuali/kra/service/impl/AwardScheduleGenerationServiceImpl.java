@@ -158,7 +158,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         return dates;
     }
 
-    private void reportError(String errorKey) {
+    protected void reportError(String errorKey) {
         new ErrorReporter().reportSoftError(errorKey, KeyConstants.ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE);
         
     }
@@ -171,7 +171,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      *                                      This is to filter the special report class for payment panel. 
      * @return
      */
-    private boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
+    protected boolean canGenerateSchedules(AwardReportTerm awardReportTerm, boolean isThisNotPaymentPanel) {
         return isThisNotPaymentPanel || StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), getParameterService().getParameterValue(AwardDocument.class, KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));
     }    
     

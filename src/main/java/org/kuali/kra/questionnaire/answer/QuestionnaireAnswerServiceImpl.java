@@ -51,7 +51,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
-    private List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, boolean finalDoc) {
+    protected List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, boolean finalDoc) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, coeusModule);
 
@@ -81,7 +81,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * set up answer headers for the initial load of module questionnaire answers
      */
-    private List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean,
+    protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean,
             Map<Integer, AnswerHeader> answerHeaderMap, boolean finalDoc) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(), finalDoc)) {
@@ -164,7 +164,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     }
     
-    private List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    protected List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
         fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
@@ -172,7 +172,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
     
-    private List<Integer> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    protected List<Integer> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<Integer> questionnaireIds = new ArrayList<Integer>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(), moduleQuestionnaireBean.isFinalDoc())) {
             questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
@@ -181,7 +181,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     }
 
-    private boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
+    protected boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId().toString());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
@@ -246,7 +246,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * if maxanswer > 1. Then make sure non-blank answers are moved to top of the answer array. This is for coeus equivalency
      */
-    private void moveAnswer(List<Answer> answers, int index) {
+    protected void moveAnswer(List<Answer> answers, int index) {
         int i = 0;
         while (i < answers.get(index).getQuestion().getMaxAnswers() - 1) {
             if (StringUtils.isBlank(answers.get(index + i).getAnswer())) {
@@ -267,7 +267,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * 
      */
-    private void copyChildAnswer(Answer oldAnswer, List<List<Answer>> oldParentAnswers, AnswerHeader newAnswerHeader,
+    protected void copyChildAnswer(Answer oldAnswer, List<List<Answer>> oldParentAnswers, AnswerHeader newAnswerHeader,
             List<List<Answer>> newParentAnswers) {
         for (Answer newAnswer : newAnswerHeader.getAnswers()) {
             if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
@@ -285,7 +285,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * go up the question answer hierarchy till the first level. make sure all question are matched with same version.
      */
-    private boolean isSameLevel(Answer oldAnswer, List<List<Answer>> oldParentAnswers, Answer newAnswer,
+    protected boolean isSameLevel(Answer oldAnswer, List<List<Answer>> oldParentAnswers, Answer newAnswer,
             List<List<Answer>> newParentAnswers) {
         boolean questionHierarchyMatched = true;
         Answer oAnswer = oldAnswer;
@@ -306,7 +306,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * set up the parent answer for a child question answer. Parent question may contain multiple answers, so a 'List' type is
      * needed.
      */
-    private List<List<Answer>> setupParentAnswers(List<Answer> answers) {
+    protected List<List<Answer>> setupParentAnswers(List<Answer> answers) {
         List<List<Answer>> parentAnswers = initParentAnswers(answers);
         for (Answer answer : answers) {
             parentAnswers.get(answer.getQuestionNumber()).add(answer);
@@ -317,7 +317,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * init parent answers array with empty array
      */
-    private List<List<Answer>> initParentAnswers(List<Answer> answers) {
+    protected List<List<Answer>> initParentAnswers(List<Answer> answers) {
         int maxQuestionNumber = 0;
         List<List<Answer>> parentAnswers = new ArrayList<List<Answer>>();
         for (Answer answer : answers) {
@@ -340,7 +340,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * initialize answer fields based on question
      */
-    private AnswerHeader setupAnswerForQuestionnaire(Questionnaire questionnaire, ModuleQuestionnaireBean moduleQuestionnaireBean) {
+    protected AnswerHeader setupAnswerForQuestionnaire(Questionnaire questionnaire, ModuleQuestionnaireBean moduleQuestionnaireBean) {
         AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefId());
         answerHeader.setQuestionnaire(questionnaire);
         List<Answer> answers = new ArrayList<Answer>();
@@ -359,7 +359,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Load the descendant questions for this questionnaire question.
      */
-    private List<Answer> getChildQuestions(Questionnaire questionnaire, QuestionnaireQuestion question) {
+    protected List<Answer> getChildQuestions(Questionnaire questionnaire, QuestionnaireQuestion question) {
         List<Answer> answers = new ArrayList<Answer>();
         for (QuestionnaireQuestion questionnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
             if (questionnaireQuestion.getParentQuestionNumber() != 0
@@ -375,7 +375,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Utility method to really fill the answer fields from question.
      */
-    private List<Answer> setupAnswersForQuestion(QuestionnaireQuestion questionnaireQuestion) {
+    protected List<Answer> setupAnswersForQuestion(QuestionnaireQuestion questionnaireQuestion) {
         List<Answer> answers = new ArrayList<Answer>();
         int maxAnswers = 1;
         if (questionnaireQuestion.getQuestion().getMaxAnswers() != null) {
@@ -435,7 +435,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * check if all the required answers are entered.
      */
-    private boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
+    protected boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
 
         boolean isComplete = true;
         for (Answer answer : answers) {
@@ -450,7 +450,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Check if parent answer : if it is not matched to be displayed or answer(s) is entered.
      */
-    private boolean isParentNotDisplayed(List<Answer> parentAnswers) {
+    protected boolean isParentNotDisplayed(List<Answer> parentAnswers) {
         boolean valid = true;
         for (Answer answer : parentAnswers) {
             // parent is not displayed
@@ -472,7 +472,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * check if any answer matched conditionvalue
      */
-    private boolean isAnyAnswerMatched(String condition, List<Answer> parentAnswers, String conditionValue) {
+    protected boolean isAnyAnswerMatched(String condition, List<Answer> parentAnswers, String conditionValue) {
         boolean valid = false;
         for (Answer answer : parentAnswers) {
             if (StringUtils.isNotBlank(answer.getAnswer())) {
@@ -491,7 +491,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * than or equals number', 'Greater than number', 'Before date', 'After date' ];
      */
 
-    private boolean isAnswerMatched(String condition, String parentAnswer, String conditionValue) {
+    protected boolean isAnswerMatched(String condition, String parentAnswer, String conditionValue) {
         boolean valid = false;
         if (ConditionType.CONTAINS_TEXT.getCondition().equals(condition)) {
             valid = StringUtils.containsIgnoreCase(parentAnswer, conditionValue);
@@ -538,7 +538,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * enum for conditions.
      */
-    private enum ConditionType {
+    protected enum ConditionType {
         CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), LESS_THAN_OR_EQUALS_NUMBER(
                 "6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE(
                 "11"), AFTER_DATE("12");

@@ -125,7 +125,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         }
     }
 
-    private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
+    protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
 //        budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
 //        budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());

@@ -198,7 +198,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         
     }
     
-    private void initFundingTypeMap() {
+    protected void initFundingTypeMap() {
         fundingEnumMap = new HashMap<Integer, FundingSourceLookup>();
         fundingEnumMap.put(FundingSourceLookup.AWARD.getTypeCode(), FundingSourceLookup.AWARD);
         fundingEnumMap.put(FundingSourceLookup.INSTITUTIONAL_PROPOSAL.getTypeCode(), FundingSourceLookup.INSTITUTIONAL_PROPOSAL);
@@ -240,7 +240,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for a Sponsor
      */
-    private ProtocolFundingSource buildSponsorFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
+    protected ProtocolFundingSource buildSponsorFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
@@ -257,7 +257,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for a Unit
      */
-    private ProtocolFundingSource buildUnitFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
+    protected ProtocolFundingSource buildUnitFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber) {
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
@@ -273,7 +273,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for any other entry
      */
-    private ProtocolFundingSource buildOtherFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
+    protected ProtocolFundingSource buildOtherFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
         ProtocolFundingSource protocolFundingSource = null;
         
         if (fundingSourceType != null && (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber))) {
@@ -289,7 +289,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for a Proposal Development
      */
-    private ProtocolFundingSource buildProposalDevelopmentFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
+    protected ProtocolFundingSource buildProposalDevelopmentFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
             String sourceName) {
         ProtocolFundingSource protocolFundingSource = null;
 
@@ -311,7 +311,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for an Institutional Proposal
      */
-    private ProtocolFundingSource buildInstitutionalProposalFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
+    protected ProtocolFundingSource buildInstitutionalProposalFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, 
             String sourceName) {
         ProtocolFundingSource protocolFundingSource = null;
         
@@ -336,7 +336,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Retrieves an Institutional Proposal, favoring the ID (source) but using the number (sourceNumber) as backup
      */
-    private InstitutionalProposal getInstitutionalProposal(String source, String sourceNumber) {
+    protected InstitutionalProposal getInstitutionalProposal(String source, String sourceNumber) {
         InstitutionalProposal institutionalProposal = null;
         if (StringUtils.isNotBlank(source) && StringUtils.isNumeric(source)) {
             institutionalProposal = getInstitutionalProposalService().getInstitutionalProposal(source);
@@ -349,7 +349,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Builds a funding source for an Award
      */
-    private ProtocolFundingSource buildAwardFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
+    protected ProtocolFundingSource buildAwardFundingSource(FundingSourceType fundingSourceType, String source, String sourceNumber, String sourceName) {
         ProtocolFundingSource protocolFundingSource = null;
         
         if (StringUtils.isNotBlank(source) || StringUtils.isNotBlank(sourceNumber)) {
@@ -373,7 +373,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
     /*
      * Retrieves a matching Award, first preferring the ID (source) and then searching the number (sourceNumber).
      */
-    private Award getAward(String source, String sourceNumber) {
+    protected Award getAward(String source, String sourceNumber) {
         Award award = null;
         if (source != null && StringUtils.isNotBlank(source) && StringUtils.isNumeric(source)) {
             award = getAwardService().getAward(Long.parseLong(source));
@@ -449,7 +449,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return boAndFields.entrySet().iterator().next();
     }
     
-    private String createCustomFieldConversions(FundingSourceLookup sourceLookup) {
+    protected String createCustomFieldConversions(FundingSourceLookup sourceLookup) {
         StringBuffer fieldConversions = new StringBuffer();
         if (sourceLookup != FundingSourceLookup.OTHER) {
             // Not all funding sources have a key code and instead use a number
@@ -526,7 +526,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * @param propertyName
      * @return
      */
-    private String buildViewMaintenanceFundingSourceUrl(BusinessObject businessObject, String propertyName) {
+    protected String buildViewMaintenanceFundingSourceUrl(BusinessObject businessObject, String propertyName) {
         HtmlData forward = getProtocolLookupableHelperService().getInquiryUrl(businessObject, propertyName);
         return Utilities.substituteConfigParameters(MAINT_DOC_LOOKUP_URL_PREFIX + ((HtmlData.AnchorHtmlData) forward).getHref());
     }
@@ -539,7 +539,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * @return
      * @throws Exception
      */
-    private String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
+    protected String buildViewTransactionalFundingSourceUrl(String documentNumber, ProtocolProtocolAction action) throws Exception {
         Document document = getDocumentService().getByDocumentHeaderId(documentNumber);
         Long routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         
@@ -558,15 +558,15 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
         return builder.toString();
     }
 
-    private boolean isDevelopmentProposalLinkEnabled() {
+    protected boolean isDevelopmentProposalLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);     
     }
     
-    private boolean isInstitionalProposalLinkEnabled() {
+    protected boolean isInstitionalProposalLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);       
     }
     
-    private boolean isAwardLinkEnabled() {
+    protected boolean isAwardLinkEnabled() {
         return this.isLinkEnabled(Constants.ENABLE_PROTOCOL_TO_AWARD_LINK);          
     }
     
@@ -575,7 +575,7 @@ public class ProtocolFundingSourceServiceImpl implements ProtocolFundingSourceSe
      * @param link the parameter name
      * @return true if link enabled, false otherwise
      */
-    private boolean isLinkEnabled(String link) {
+    protected boolean isLinkEnabled(String link) {
         assert link != null : "link is null";
         
         boolean isLinkEnabled = false;

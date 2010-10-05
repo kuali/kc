@@ -59,7 +59,7 @@ public class MeetingServiceImpl implements MeetingService {
      * 
      * @return
      */
-    private Date getAgendaGenerationDate(Long scheduleId) {
+    protected Date getAgendaGenerationDate(Long scheduleId) {
         List<ScheduleAgenda> scheduleAgendas = getAgenda(scheduleId);
         if (scheduleAgendas.isEmpty()) {
             return null;
@@ -72,7 +72,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This method is to get the generated agenda for this committee schedule.
      */
-    private List<ScheduleAgenda> getAgenda(Long scheduleId) {
+    protected List<ScheduleAgenda> getAgenda(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
         return (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(
@@ -82,7 +82,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This method is get the meeting minute documents of the selected committee schedule
      */
-    private List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
+    protected List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
         return (List<CommScheduleMinuteDoc>) businessObjectService.findMatchingOrderBy(
@@ -93,7 +93,7 @@ public class MeetingServiceImpl implements MeetingService {
      * This method is to get all protocol correspondences of the protocols that are related
      * to this committee schedule. ie, protocols that have been submitted to this committee schedule.
      */
-    private List<ProtocolCorrespondence> getCorrespondences(CommitteeSchedule committeeSchedule) {
+    protected List<ProtocolCorrespondence> getCorrespondences(CommitteeSchedule committeeSchedule) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         List<Long> protocolIds = new ArrayList<Long>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
@@ -146,7 +146,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * utility methods by adding minutes to date
      */
-    private Timestamp addHrMinToDate(Timestamp time, Time12HrFmt viewTime) {
+    protected Timestamp addHrMinToDate(Timestamp time, Time12HrFmt viewTime) {
         java.util.Date dt = new java.util.Date(0); // this is actually 12-31-1969 19:00.  its GMT time
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
         try {
@@ -187,7 +187,7 @@ public class MeetingServiceImpl implements MeetingService {
         committeeSchedule.getCommScheduleActItems().add(newOtherAction);
     }
     
-    private Long getNextCommScheduleActItemId() {
+    protected Long getNextCommScheduleActItemId() {
         Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
         return nextCommScheduleActItemId;
     }
@@ -195,7 +195,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * find the max action number and increase by one.
      */
-    private Integer getNextActionItemNumber(CommitteeSchedule committeeSchedule) {
+    protected Integer getNextActionItemNumber(CommitteeSchedule committeeSchedule) {
         Integer nextActionItemNumber = committeeSchedule.getCommScheduleActItems().size();
         for (CommScheduleActItem commScheduleActItem : committeeSchedule.getCommScheduleActItems()) {
             if (commScheduleActItem.getActionItemNumber() > nextActionItemNumber) {
@@ -252,7 +252,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This is a utility method to reset alternate flag before 'present voting'
      */
-    private boolean isAlternateForMember(CommitteeSchedule committeeSchedule,
+    protected boolean isAlternateForMember(CommitteeSchedule committeeSchedule,
             CommitteeScheduleAttendance committeeScheduleAttendance, Date scheduledDate) {
         boolean isAlternate = false;
         for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
@@ -272,7 +272,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * check if this membership is active based on schedule date
      */
-    private boolean isActiveMembership(CommitteeMembership committeeMembership, Date scheduledDate) {
+    protected boolean isActiveMembership(CommitteeMembership committeeMembership, Date scheduledDate) {
         boolean isActiveMember = !committeeMembership.getTermStartDate().after(scheduledDate)
                 && !committeeMembership.getTermEndDate().before(scheduledDate);
         if (isActiveMember) {
@@ -294,7 +294,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * check if this membership has alternate role based on schedule date.
      */
-    private boolean isAlternate(CommitteeMembership committeeMembership, Date scheduledDate) {
+    protected boolean isAlternate(CommitteeMembership committeeMembership, Date scheduledDate) {
         boolean isAlternate = false;
         for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
             if (membershipRole.getMembershipRoleCode().equals(CommitteeMembershipRole.ALTERNATE_ROLE)
@@ -309,7 +309,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * get a person's role name within this committee memberships based on schedule date.
      */
-    private void getRoleName(CommitteeScheduleAttendance committeeScheduleAttendance,
+    protected void getRoleName(CommitteeScheduleAttendance committeeScheduleAttendance,
             List<CommitteeMembership> committeeMemberships, Date scheduleDate) {
         String roleName = "";
         for (CommitteeMembership committeeMembership : committeeMemberships) {
@@ -328,7 +328,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * get rolename, concatenated with ',' separator if multiple roles exist for this membership
      */
-    private String getRoleNameForMembership(CommitteeMembership committeeMembership, Date scheduledDate) {
+    protected String getRoleNameForMembership(CommitteeMembership committeeMembership, Date scheduledDate) {
         String roleName = "";
         for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
             if (!membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
@@ -346,7 +346,7 @@ public class MeetingServiceImpl implements MeetingService {
      * Check if this member is active in this committee. Inactive scenario : - not defined in membership. - in membership, but non
      * of the memberships period cover schedule date - an 'Inactive' role period cover schedule date.
      */
-    private boolean isActiveMember(CommitteeScheduleAttendance committeeScheduleAttendance,
+    protected boolean isActiveMember(CommitteeScheduleAttendance committeeScheduleAttendance,
             List<CommitteeMembership> committeeMemberships, Date scheduleDate) {
         boolean isActiveMember = false;
         for (CommitteeMembership committeeMembership : committeeMemberships) {
@@ -400,7 +400,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @param memberAbsentBeans
      * @param otherPresentBean
      */
-    private void memberHandling(MeetingHelper meetingHelper, OtherPresentBean otherPresentBean) {
+    protected void memberHandling(MeetingHelper meetingHelper, OtherPresentBean otherPresentBean) {
         MemberAbsentBean matchedMemberAbsentBean = null;
         for (MemberAbsentBean memberAbsentBean : meetingHelper.getMemberAbsentBeans()) {
             if (isAbsentMember(memberAbsentBean, otherPresentBean)) {
@@ -419,7 +419,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This method checks if the person/rolodex is an absent member.
      */
-    private boolean isAbsentMember(MemberAbsentBean memberAbsentBean, OtherPresentBean otherPresentBean) {
+    protected boolean isAbsentMember(MemberAbsentBean memberAbsentBean, OtherPresentBean otherPresentBean) {
         boolean isPresent = false;
         if (memberAbsentBean.getAttendance().getNonEmployeeFlag() && otherPresentBean.getAttendance().getNonEmployeeFlag()
                 && memberAbsentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {
@@ -486,7 +486,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Utility method to figure out next entry number for this schedule.
      */
-    private Integer getNextMinuteEntryNumber(CommitteeSchedule committeeSchedule) {
+    protected Integer getNextMinuteEntryNumber(CommitteeSchedule committeeSchedule) {
         Integer nextMinuteEntryNumber = committeeSchedule.getCommitteeScheduleMinutes().size();
         for (CommitteeScheduleMinute committeeScheduleMinute : committeeSchedule.getCommitteeScheduleMinutes()) {
             if (committeeScheduleMinute.getEntryNumber() > nextMinuteEntryNumber) {
@@ -499,7 +499,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Adds a minute entry to an attendance minute type
      */
-    private void addAttendanceMinuteEntry(MeetingHelper meetingHelper) {
+    protected void addAttendanceMinuteEntry(MeetingHelper meetingHelper) {
         if (meetingHelper.getNewCommitteeScheduleMinute().isGenerateAttendance() && meetingHelper.isJsDisabled()) {
             // in case JS is disabled
             meetingHelper.getNewCommitteeScheduleMinute().setMinuteEntry(
@@ -513,7 +513,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This is to generate comment for minute entry Type of 'Attendance' and 'generate attendance is checked
      */
-    private String generateAttendanceComment(List<MemberPresentBean> memberPresentBeans, List<OtherPresentBean> otherPresentBeans,
+    protected String generateAttendanceComment(List<MemberPresentBean> memberPresentBeans, List<OtherPresentBean> otherPresentBeans,
             CommitteeSchedule committeeSchedule) {
         String comment = "";
         String eol = System.getProperty("line.separator");
@@ -539,7 +539,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Utility to get person name for 'alternate for'. This name is used when 'generate attendance' is checked.
      */
-    private String getAlternateForName(CommitteeSchedule committeeSchedule, String alternateFor) {
+    protected String getAlternateForName(CommitteeSchedule committeeSchedule, String alternateFor) {
 
         String personName = "";
         for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
@@ -557,7 +557,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Adds an action item to an action item minute type
      */
-    private void addActionItem(MeetingHelper meetingHelper) {
+    protected void addActionItem(MeetingHelper meetingHelper) {
         if (meetingHelper.getNewCommitteeScheduleMinute().getCommScheduleActItemsIdFk() != null) {
             // in case adding non-persisted action item
             meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(
@@ -570,7 +570,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Empties protocol fields if the minute type is not PROTOCOL
      */
-    private void resetProtocolFields(MeetingHelper meetingHelper) {
+    protected void resetProtocolFields(MeetingHelper meetingHelper) {
         meetingHelper.getNewCommitteeScheduleMinute().setProtocolIdFk(null);
         meetingHelper.getNewCommitteeScheduleMinute().setProtocol(null);
     }
@@ -578,7 +578,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Empties action item fields if the minute type is not ACTION_ITEM
      */
-    private void resetActionItemFields(MeetingHelper meetingHelper) {
+    protected void resetActionItemFields(MeetingHelper meetingHelper) {
         meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItemsIdFk(null);
         meetingHelper.getNewCommitteeScheduleMinute().setCommScheduleActItem(null);
     }
@@ -586,7 +586,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Utility to find a CommScheduleActItem with ID commScheduleActItemsIdFk
      */
-    private CommScheduleActItem getActionItem(Long commScheduleActItemsIdFk, List<CommScheduleActItem> commScheduleActItems) {
+    protected CommScheduleActItem getActionItem(Long commScheduleActItemsIdFk, List<CommScheduleActItem> commScheduleActItems) {
         CommScheduleActItem actionItem = null;
         
         for (CommScheduleActItem commScheduleActItem : commScheduleActItems) {
@@ -649,7 +649,7 @@ public class MeetingServiceImpl implements MeetingService {
      * set up title of the first header tab in meeting page. lineNumber is this selected schedule's item number in committee
      * schedule list
      */
-    private String getMeetingTabTitle(CommitteeSchedule committeeSchedule, int lineNumber) {
+    protected String getMeetingTabTitle(CommitteeSchedule committeeSchedule, int lineNumber) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         return committeeSchedule.getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
@@ -660,7 +660,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * populate 3 attendance form beans
      */
-    private void populateAttendanceToForm(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
+    protected void populateAttendanceToForm(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
             CommitteeSchedule commSchedule) {
         populatePresentBean(meetingHelper, committeeMemberships, commSchedule);
         populateMemberAbsentBean(meetingHelper, committeeMemberships, commSchedule);
@@ -670,7 +670,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * populate memberpresentbean & otherpresentbean
      */
-    private void populatePresentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
+    protected void populatePresentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
             CommitteeSchedule commSchedule) {
         meetingHelper.setOtherPresentBeans(new ArrayList<OtherPresentBean>());
         meetingHelper.setMemberPresentBeans(new ArrayList<MemberPresentBean>());
@@ -698,7 +698,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * populate memberabsentbean
      */
-    private void populateMemberAbsentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
+    protected void populateMemberAbsentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
             CommitteeSchedule commSchedule) {
         meetingHelper.setMemberAbsentBeans(new ArrayList<MemberAbsentBean>());
         for (CommitteeMembership committeeMembership : committeeMemberships) {
@@ -726,7 +726,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Init attendance if this meeting schedule is maintained for the first time.
      */
-    private void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CommitteeSchedule commSchedule) {
+    protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CommitteeSchedule commSchedule) {
         List<CommitteeMembership> committeeMemberships = commSchedule.getCommittee().getCommitteeMemberships();
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (isActiveMembership(committeeMembership, commSchedule.getScheduledDate())) {
@@ -757,7 +757,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * check if person is in member present.
      */
-    private boolean isInMemberPresent(List<MemberPresentBean> memberPresentBeans, CommitteeMembership committeeMembership) {
+    protected boolean isInMemberPresent(List<MemberPresentBean> memberPresentBeans, CommitteeMembership committeeMembership) {
         boolean isPresent = false;
         for (MemberPresentBean memberPresentBean : memberPresentBeans) {
             if (memberPresentBean.getAttendance().getNonEmployeeFlag() && StringUtils.isBlank(committeeMembership.getPersonId())
@@ -777,7 +777,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * check if person is in other present
      */
-    private boolean isInOtherPresent(List<OtherPresentBean> otherPresentBeans, CommitteeMembership committeeMembership) {
+    protected boolean isInOtherPresent(List<OtherPresentBean> otherPresentBeans, CommitteeMembership committeeMembership) {
         boolean isPresent = false;
         for (OtherPresentBean otherPresentBean : otherPresentBeans) {
             if (otherPresentBean.getAttendance().getNonEmployeeFlag() && StringUtils.isBlank(committeeMembership.getPersonId())

@@ -37,15 +37,15 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         this.unitService = unitService;
     }
     
-    private boolean roleQualifiedByAwardKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByAwardKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.AWARD);
     }
     
-    private boolean roleQualifiedByTimeAndMoneyKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByTimeAndMoneyKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.TIMEANDMONEY);
     }
 
-    private boolean performWildCardAwardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performWildCardAwardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
         String awardKeyFromroleQualifier = roleQualifier.get(KcKimAttributes.AWARD);
         String awardKeyFromroleQualification = qualification.get(KcKimAttributes.AWARD);
         
@@ -88,15 +88,15 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return validationErrors;
     }
     
-    private boolean roleQualifiedByUnitHierarchy(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByUnitHierarchy(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && roleQualifier.containsKey(KcKimAttributes.SUBUNITS);
     }
     
-    private boolean unitQualifierMatches(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean unitQualifierMatches(AttributeSet qualification, AttributeSet roleQualifier) {
         return StringUtils.equals(qualification.get(KcKimAttributes.UNIT_NUMBER), roleQualifier.get(KcKimAttributes.UNIT_NUMBER));
     }
     
-    private boolean unitQualifierMatchesHierarchy(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean unitQualifierMatchesHierarchy(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean qualifierMatches = false;
         String unitNumber = qualification.get(KcKimAttributes.UNIT_NUMBER);
         
@@ -116,7 +116,7 @@ public class UnitHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return qualifierMatches;
     }
     
-    private boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
         if(qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*")) {
             return true;
         }

@@ -63,7 +63,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         this.committeeService = committeeService;        
     }
 
-    private ProtocolSubmission findSubmission(Protocol protocol) {
+    protected ProtocolSubmission findSubmission(Protocol protocol) {
         ProtocolSubmission returnSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if ((StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
@@ -123,7 +123,7 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
         return returnAction;
     }
 
-    private ProtocolAction getSubmitToIrbProtocolAction(Protocol protocol) {
+    protected ProtocolAction getSubmitToIrbProtocolAction(Protocol protocol) {
         Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
         ProtocolAction returnAction = null;
         while (i.hasNext()) {

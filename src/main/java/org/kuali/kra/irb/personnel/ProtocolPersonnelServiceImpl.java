@@ -118,7 +118,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPersonId the person id that is deleted.
      * @param toDelete the Collection to delete from.
      */
-    private void deleteAssociatedPersonnelAttachments(Integer protocolPersonId, Collection<ProtocolAttachmentPersonnel> toDelete) {
+    protected void deleteAssociatedPersonnelAttachments(Integer protocolPersonId, Collection<ProtocolAttachmentPersonnel> toDelete) {
         
         for (final Iterator<ProtocolAttachmentPersonnel> i = toDelete.iterator(); i.hasNext();) {
             final ProtocolAttachmentPersonnel attachment = i.next();
@@ -188,7 +188,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPersons
      * @return int
      */
-    private int getPIOrCoIChanged(List<ProtocolPerson> protocolPersons) {
+    protected int getPIOrCoIChanged(List<ProtocolPerson> protocolPersons) {
         int roleChanged = ROLE_UNCHANGED;
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if(isRoleChangedToNewRole(protocolPerson, getPrincipalInvestigatorRole())) {
@@ -207,7 +207,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @param targetRole
      */
-    private void updatePersonRole(ProtocolPerson protocolPerson, String targetRole) {
+    protected void updatePersonRole(ProtocolPerson protocolPerson, String targetRole) {
         if(protocolPerson != null) {
             protocolPerson.setProtocolPersonRoleId(targetRole);
             protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
@@ -221,7 +221,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param newRole
      * @return true / false
      */
-    private boolean isRoleChangedToNewRole(ProtocolPerson protocolPerson, String newRole) {
+    protected boolean isRoleChangedToNewRole(ProtocolPerson protocolPerson, String newRole) {
         return ((!StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
                 && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), newRole));
     }
@@ -233,7 +233,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param role
      * @return ProtocolPerson - Investigator or Co-Investigator
      */
-    private ProtocolPerson getPreviousInvestigator(List<ProtocolPerson> protocolPersons, String role) {
+    protected ProtocolPerson getPreviousInvestigator(List<ProtocolPerson> protocolPersons, String role) {
         for(ProtocolPerson protocolPerson : protocolPersons) {
             if((StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
                     && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), role)) {
@@ -276,7 +276,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * selected unit.
      * @param protocolPerson
      */
-    private void setLeadUnit(ProtocolPerson protocolPerson) {
+    protected void setLeadUnit(ProtocolPerson protocolPerson) {
         if(protocolPerson.getProtocolUnits().size() > 0) {
             protocolPerson.resetAllProtocolLeadUnits();
             setLeadUnitFlag(protocolPerson);
@@ -290,7 +290,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @return boolean true / false
      */
-    private boolean isUnitDetailsRequired(ProtocolPerson protocolPerson) {
+    protected boolean isUnitDetailsRequired(ProtocolPerson protocolPerson) {
         boolean unitDetailsRequried = true;
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         if (!protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
@@ -307,7 +307,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @return
      */
-    private boolean isAffiliationDetailsRequired(ProtocolPerson protocolPerson) {
+    protected boolean isAffiliationDetailsRequired(ProtocolPerson protocolPerson) {
         boolean affiliationDetailsRequried = true;
         if (!protocolPerson.getProtocolPersonRole().isAffiliationDetailsRequired()) {
             affiliationDetailsRequried = false;
@@ -319,7 +319,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * This method is to set lead unit flag
      * @param protocolPerson
      */
-    private void setLeadUnitFlag(ProtocolPerson protocolPerson) {
+    protected void setLeadUnitFlag(ProtocolPerson protocolPerson) {
         protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(LEAD_UNIT_FLAG_ON);
     }
     
@@ -423,7 +423,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @return true / false
      */
-    private boolean isCoInvestigator(ProtocolPerson protocolPerson) {
+    protected boolean isCoInvestigator(ProtocolPerson protocolPerson) {
         boolean isCoI = false;
         if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getCoInvestigatorRole())) {
             isCoI = true;
@@ -545,7 +545,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @return true / false
      */
-    private boolean isAffiliationStudentInvestigatorOrFacultySupervisor(ProtocolPerson protocolPerson) {
+    protected boolean isAffiliationStudentInvestigatorOrFacultySupervisor(ProtocolPerson protocolPerson) {
         if(protocolPerson.getAffiliationTypeCode() != null &&
              ((protocolPerson.getAffiliationTypeCode().compareTo(getStudentAffiliationType()) == 0 || 
                  protocolPerson.getAffiliationTypeCode().compareTo(getFacultySupervisorAffiliationType()) == 0))) {
@@ -559,7 +559,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * @param protocolPerson
      * @param investigatorAffiliation
      */
-    private void updateAffiliationCount(ProtocolPerson protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
+    protected void updateAffiliationCount(ProtocolPerson protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
         Integer totalCountForAffiliation = 0;
         totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationTypeCode());
         if(totalCountForAffiliation == null) {
@@ -593,7 +593,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * This method is to get principal investigator role
      * @return String - PI role
      */
-    private String getPrincipalInvestigatorRole() {
+    protected String getPrincipalInvestigatorRole() {
         return Constants.PRINCIPAL_INVESTIGATOR_ROLE;
     }
 
@@ -601,7 +601,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * This method is to get co-investigator role
      * @return String - CO-Investigator role
      */
-    private String getCoInvestigatorRole() {
+    protected String getCoInvestigatorRole() {
         return Constants.CO_INVESTIGATOR_ROLE;
     }
 
@@ -609,7 +609,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * This method is to get student investigator affiliation type
      * @return Integer
      */
-    private Integer getStudentAffiliationType() {
+    protected Integer getStudentAffiliationType() {
         return Constants.AFFILIATION_STUDENT_INVESTIGATOR_TYPE;
     }
 
@@ -617,7 +617,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
      * This method is to get faculty supervisor affiliation type
      * @return
      */
-    private Integer getFacultySupervisorAffiliationType() {
+    protected Integer getFacultySupervisorAffiliationType() {
         return Constants.AFFILIATION_FACULTY_SUPERVISOR_TYPE;
     }
 

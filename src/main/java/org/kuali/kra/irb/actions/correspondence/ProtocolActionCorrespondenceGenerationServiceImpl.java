@@ -42,7 +42,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         this.businessObjectService = businessObjectService;
     }
     
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
     
@@ -54,7 +54,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     }
     
     
-    private void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
+    protected void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
         
         ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
         protocolCorrespondence.setProtocol(protocol);
