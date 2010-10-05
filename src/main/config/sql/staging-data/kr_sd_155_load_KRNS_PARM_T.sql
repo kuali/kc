@@ -1,0 +1,2 @@
+UPDATE KRNS_PARM_T SET TXT='Y' where parm_nm = 'SHOW_BACK_DOOR_LOGIN_IND';
+
