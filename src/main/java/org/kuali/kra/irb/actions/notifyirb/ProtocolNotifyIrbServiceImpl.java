@@ -27,7 +27,9 @@ import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * Protocol Request Service Implementation.
@@ -36,6 +38,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     
     private static final Log LOG = LogFactory.getLog(ProtocolNotifyIrbServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
 
@@ -51,9 +54,10 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     }
 
     /**
+     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService#submitIrbNotification(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean)
      */
-    public void submitIrbNotification(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) {
+    public void submitIrbNotification(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) throws WorkflowException {
         /*
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
@@ -63,7 +67,8 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         protocolAction.setComments(notifyIrbBean.getComment());
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        businessObjectService.save(protocol.getProtocolDocument());
+//        businessObjectService.save(protocol.getProtocolDocument());
+        documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
         try {
             //sendNotifyIrbNotification(protocol, notifyIrbBean);
@@ -101,5 +106,8 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
 
     public void setProtocolActionsNotificationService(ProtocolActionsNotificationService protocolActionsNotificationService) {
         this.protocolActionsNotificationService = protocolActionsNotificationService;
+    }
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }
