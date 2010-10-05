@@ -187,8 +187,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 				.newInstance();
 		initialize((Award) printableBusinessObject);
 		if (award != null) {
-			awardNoticeDocument
-					.setAwardNotice(getAwardNotice(reportParameters));
+			awardNoticeDocument.setAwardNotice(getAwardNotice(reportParameters));
 		}
 		xmlObjectList.put(AwardPrintType.AWARD_NOTICE_REPORT
 				.getAwardPrintType(), awardNoticeDocument);
@@ -381,31 +380,23 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * finally returns AwardBudgetDetails Xml object
 	 */
 	private AwardBudgetDetails getAwardBudgetDetails() {
-		AwardBudgetDetails awardBudgetDetails = AwardBudgetDetails.Factory
-				.newInstance();
+		AwardBudgetDetails awardBudgetDetails = AwardBudgetDetails.Factory.newInstance();
 		List<BudgetDetails> budgetDetailsList = new ArrayList<BudgetDetails>();
 		BudgetDocument budgetDocument = getBudgetDocument();
 
 		if (budgetDocument != null) {
-			for (BudgetLineItem budgetLineItem : budgetDocument.getBudget()
-					.getBudgetPeriod(0).getBudgetLineItems()) {
-				BudgetDetails budgetDetails = BudgetDetails.Factory
-						.newInstance();
+			for (BudgetLineItem budgetLineItem : budgetDocument.getBudget().getBudgetPeriod(0).getBudgetLineItems()) {
+				BudgetDetails budgetDetails = BudgetDetails.Factory.newInstance();
 				budgetDetails.setAwardNumber(award.getAwardNumber());
 				budgetDetails.setSequenceNumber(award.getSequenceNumber());
-				budgetDetails.setLineItemNumber(budgetLineItem
-						.getLineItemNumber());
-				budgetDetails.setCostElementCode(budgetLineItem
-						.getCostElement());
-				budgetDetails.setCostElementDescription(budgetLineItem
-						.getCostElementBO().getDescription());
-				budgetDetails.setLineItemDescription(budgetLineItem
-						.getLineItemDescription());
+				budgetDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
+				budgetDetails.setCostElementCode(budgetLineItem.getCostElement());
+				budgetDetails.setCostElementDescription(budgetLineItem.getCostElementBO().getDescription());
+				budgetDetails.setLineItemDescription(budgetLineItem.getLineItemDescription());
 				budgetDetailsList.add(budgetDetails);
 			}
 		}
-		awardBudgetDetails.setBudgetDetailsArray(budgetDetailsList
-				.toArray(new BudgetDetails[0]));
+		awardBudgetDetails.setBudgetDetailsArray(budgetDetailsList.toArray(new BudgetDetails[0]));
 		return awardBudgetDetails;
 	}
 
