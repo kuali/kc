@@ -28,6 +28,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -40,7 +41,9 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
     
+    private static final String APPROVE_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of approve action on protocol.";
    
     /**{@inheritDoc}**/
     public void approve(ProtocolDocument protocolDocument, ProtocolApproveBean actionBean) throws Exception {
@@ -60,6 +63,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         }
         protocol.setExpirationDate(actionBean.getExpirationDate());
         protocol.refreshReferenceObject("protocolStatus");
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), APPROVE_FINALIZE_OLR_ANNOTATION);
         documentService.saveDocument(protocolDocument);
         generateCorrespondenceDocumentAndAttach(protocol); 
     }
@@ -86,5 +90,13 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
+
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     } 
 }

@@ -17,7 +17,9 @@ package org.kuali.kra.meeting;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 
 /**
@@ -154,5 +156,15 @@ public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBas
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
+    
+    public boolean isCommitteeMember(CommitteeMembership membership) {
+        if (getNonEmployeeFlag() && membership.getPersonId() == null) {
+            return ObjectUtils.equals(Integer.parseInt(getPersonId()), membership.getRolodexId());
+        } else if (!getNonEmployeeFlag() && membership.getPersonId()!=null) {
+            return getPersonId().equals(membership.getPersonId());
+        }
+        return false;
+    }
+    
     
 }

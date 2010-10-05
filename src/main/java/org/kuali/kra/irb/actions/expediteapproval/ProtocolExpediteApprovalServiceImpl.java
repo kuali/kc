@@ -25,6 +25,7 @@ import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGene
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
 import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
 
@@ -36,6 +37,9 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
+    
+    private static final String EXPIDITE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of expidite approval action on protocol.";
 
     /**
      * Set the document service.
@@ -79,7 +83,15 @@ public class ProtocolExpediteApprovalServiceImpl implements ProtocolExpediteAppr
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
         generateCorrespondenceDocumentAndAttach(protocol); 
-        
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), EXPIDITE_APPROVAL_FINALIZE_OLR_ANNOTATION);
+    }
+
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 }

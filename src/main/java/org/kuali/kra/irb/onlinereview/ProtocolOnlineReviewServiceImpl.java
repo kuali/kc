@@ -31,18 +31,23 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
@@ -58,6 +63,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     private CommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
     private ProtocolFinderDao protocolFinderDao;
+    private ReviewerCommentsService reviewerCommentsService;
     
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -385,16 +391,38 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 ||
                 protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()
                 ) {
-                
-                getDocumentService().superUserCancelDocument(protocolOnlineReviewDocument, annotation);
+                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                workflowDocument.superUserCancel(String.format("Review Cancelled from assign reviewers action by %s", GlobalVariables.getUserSession().getPrincipalId()));
             }
         } catch(WorkflowException e) {
-            String errorMessage = String.format("Workflow exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
+            String errorMessage = String.format("Workflow exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage,e);
         }
     }
     
+    private void finalizeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
+        
+        try {
+            if (protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 
+            ||
+            protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+            ||
+            protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+            ) {
+                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                workflowDocument.superUserApprove(annotation);
+            }
+        } catch(WorkflowException e) {
+            String errorMessage = String.format("Workflow exception generated while executing superUserApprove on document %s in finalizeOnlineReviewDocument. Message:%s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage,e);
+        }
+        
+    }
+        
     /**
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#removeOnlineReviewDocument(java.lang.String, boolean, org.kuali.kra.irb.actions.submit.ProtocolSubmission, java.lang.String)
      */
@@ -423,6 +451,10 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             }
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            
+            ReviewerComments comments = submissionsProtocolOnlineReview.getReviewerComments();
+            comments.deleteAllComments();
+            getReviewerCommentsService().persistReviewerComments(comments, submission.getProtocol());
             if (submissionsProtocolOnlineReview.getCommitteeScheduleMinutes()!=null) {
                 submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
             }
@@ -433,7 +465,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }
     }
+
     
+    /**
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission)
+     */
+    public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation) {
+        //get the online reviews, loop through them and finalize them if necessary.
+        for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+            finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
+        }
+    }
     
     /*
      * Getters and setters for needed services.
@@ -572,6 +614,15 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.protocolFinderDao = protocolFinderDao;
     }
 
+    public ReviewerCommentsService getReviewerCommentsService() {
+        return reviewerCommentsService;
+    }
+
+    public void setReviewerCommentsService(ReviewerCommentsService reviewerCommentsService) {
+        this.reviewerCommentsService = reviewerCommentsService;
+    }
+
+    
 
 
 }

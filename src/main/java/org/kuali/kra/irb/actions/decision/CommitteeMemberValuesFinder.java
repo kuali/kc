@@ -86,10 +86,9 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
         if (prot != null) {
             List<CommitteeScheduleAttendance> attendees = prot.getProtocolSubmission().getCommitteeSchedule().getCommitteeScheduleAttendances();
             for (CommitteeScheduleAttendance attendee : attendees) {
-                if (member.getPersonId().equals(attendee.getPersonId())) {
+                if (attendee.isCommitteeMember(member)) {
                     return true;
                 }
-                
             }
         }
         return retVal;

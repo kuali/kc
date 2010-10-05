@@ -138,8 +138,16 @@
    		<property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
    		<property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
    		<property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
+   		<property name = "reviewerCommentsService" ref = "reviewerCommentsService"/>
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
     </bean>
+    
+    <!--  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="protocolOnlineReviewService"
+	      p:localServiceName="protocolOnlineReviewService" />
+	  </property>
+	</bean> -->
     
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
@@ -491,7 +499,8 @@
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolActionsNotificationService" ref="protocolActionsNotificationService" />
-		<property name="identityManagementService" ref = "identityManagementService"/>
+		<property name="identityManagementService" ref="identityManagementService"/>
+		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
@@ -538,6 +547,7 @@
     <bean id="protocolDeleteService" class="org.kuali.kra.irb.actions.delete.ProtocolDeleteServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolFinderDao" class="org.kuali.kra.irb.ProtocolFinderDaoOjb" parent="platformAwareDao" />
@@ -586,6 +596,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolResponseApprovalService" class="org.kuali.kra.irb.actions.responseapproval.ProtocolResponseApprovalServiceImpl">
@@ -615,6 +626,7 @@
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolVersionService" ref="protocolVersionService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
         <property name="documentService" ref="documentService" />
     </bean>
     
@@ -622,6 +634,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolReviewNotRequiredService" class="org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredServiceImpl">
