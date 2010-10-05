@@ -352,8 +352,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         boolean isReviewable = false;
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         if (submission != null) {
-            isReviewable = StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) 
-                || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+            isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
+            isReviewable &= StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                 || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA);
         }
         return isReviewable;
