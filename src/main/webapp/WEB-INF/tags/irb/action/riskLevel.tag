@@ -110,8 +110,9 @@
 			        </td>
 			        <td align="left" valign="middle">
 			            <div align="left">
-			                 <kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].comments" 
-			                                           attributeEntry="${attributes.comments}" readOnly="true" />
+			                 <%--<kul:htmlControlAttribute property="document.protocol.protocolRiskLevels[${status.index}].comments" 
+			                                           attributeEntry="${attributes.comments}" readOnly="true" />--%>
+			                 <kra:truncateComment textAreaFieldName="document.protocol.protocolRiskLevels[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${attributes.comments.label}" textValue="${KualiForm.document.protocolList[0].protocolRiskLevels[status.index].comments}" displaySize="200"/>
 			            </div>
 			        </td>
 			        <td align="left" valign="middle">
