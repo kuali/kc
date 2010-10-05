@@ -245,6 +245,7 @@ public class ActionHelper implements Serializable {
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
+        assignToAgendaBean.initComments();
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
