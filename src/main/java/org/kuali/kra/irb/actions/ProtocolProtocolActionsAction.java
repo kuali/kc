@@ -3396,25 +3396,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     private void persistReviewComments(ProtocolForm protocolForm, ReviewerCommentsBean actionBean) throws Exception { 
         getReviewerCommentsService().persistReviewerComments(actionBean.getReviewComments(), 
-                protocolForm.getProtocolDocument().getProtocol());
-        protocolForm.getActionHelper().getIrbAcknowledgementBean().initComments();
-        protocolForm.getActionHelper().getAssignToAgendaBean().initComments();
-        protocolForm.getActionHelper().getProtocolApproveBean().initComments();
-        protocolForm.getActionHelper().getCommitteeDecision().initComments();
-        protocolForm.getActionHelper().getProtocolApproveBean().initComments();
-        protocolForm.getActionHelper().getProtocolDisapproveBean().initComments();
-        protocolForm.getActionHelper().getProtocolSMRBean().initComments();
-        protocolForm.getActionHelper().getProtocolSRRBean().initComments();
-        protocolForm.getActionHelper().getProtocolReopenBean().initComments();
-        protocolForm.getActionHelper().getProtocolCloseEnrollmentBean().initComments();
-        protocolForm.getActionHelper().getProtocolSuspendBean().initComments();
-        protocolForm.getActionHelper().getProtocolSuspendByDsmbBean().initComments();
-        protocolForm.getActionHelper().getProtocolCloseBean().initComments();
-        protocolForm.getActionHelper().getProtocolExpireBean().initComments();
-        protocolForm.getActionHelper().getProtocolTerminateBean().initComments();
-        protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean().initComments();
-        protocolForm.getActionHelper().getProtocolGrantExemptionBean().initComments();
-        protocolForm.getActionHelper().getProtocolManageReviewCommentsBean().initComments();            
+                protocolForm.getProtocolDocument().getProtocol());           
+        protocolForm.getActionHelper().prepareCommentsView();
     }
 
     

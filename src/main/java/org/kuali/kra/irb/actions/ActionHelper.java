@@ -543,6 +543,9 @@ public class ActionHelper implements Serializable {
         initFilterDatesView();
     }
     
+    /**
+     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+     */
     public void prepareCommentsView() {
         assignToAgendaBean.initComments();
         protocolGrantExemptionBean.initComments();

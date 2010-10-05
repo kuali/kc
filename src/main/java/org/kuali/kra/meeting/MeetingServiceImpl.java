@@ -36,6 +36,7 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -47,6 +48,8 @@ public class MeetingServiceImpl implements MeetingService {
     BusinessObjectService businessObjectService;
     
     SequenceAccessorService sequenceAccessorService;
+    
+    DateTimeService dateTimeService;
 
     /*
      * 
@@ -165,6 +168,10 @@ public class MeetingServiceImpl implements MeetingService {
     
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
+    }
+    
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
     /**
@@ -449,10 +456,18 @@ public class MeetingServiceImpl implements MeetingService {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("minuteEntryType");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("protocol");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("commScheduleActItem");
-        meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(meetingHelper.getCommitteeSchedule().getId());
-        meetingHelper.getNewCommitteeScheduleMinute().setEntryNumber(getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule()));
-        
+        ProtocolSubmission submission = meetingHelper.getNewCommitteeScheduleMinute().getProtocol().getProtocolSubmission();
+        CommitteeSchedule schedule = meetingHelper.getCommitteeSchedule();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
         String minuteEntryTypeCode = meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode();
+        
+        meetingHelper.getNewCommitteeScheduleMinute().setSubmissionIdFk(submission.getSubmissionId());
+        meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(schedule.getId());
+        meetingHelper.getNewCommitteeScheduleMinute().setEntryNumber(getNextMinuteEntryNumber(schedule));
+        meetingHelper.getNewCommitteeScheduleMinute().setCreateUser(principalName);
+        meetingHelper.getNewCommitteeScheduleMinute().setUpdateUser(principalName);
+        meetingHelper.getNewCommitteeScheduleMinute().setCreateTimestamp(dateTimeService.getCurrentTimestamp());
+        
         if (MinuteEntryType.ATTENDANCE.equals(minuteEntryTypeCode)) {
             addAttendanceMinuteEntry(meetingHelper);
         } else if (MinuteEntryType.ACTION_ITEM.equals(minuteEntryTypeCode)) {
