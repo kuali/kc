@@ -114,7 +114,26 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     }
     
 
+    protected enum ProtocolSubmissionRequiredFields {
+        SUBMISSION_TYPE_CODE("actionHelper.protocolSubmitAction.submissionTypeCode", "100"),
+        PROTOCOL_REVIEW_TYPE_CODE("actionHelper.protocolSubmitAction.protocolReviewTypeCode", "1");
 
+        private final String code;
+        private final String value;
+        
+        ProtocolSubmissionRequiredFields(String code, String value){
+            this.code = code;
+            this.value = value;          
+        }
+
+        public String getCode() {   
+            return code; 
+        }
+
+        public String getValue() { 
+            return value; 
+        }
+    }
     
     private HtmlPage protocolHomePage;    
 
@@ -320,6 +339,34 @@ public abstract class ProtocolWebTestBase extends IrbWebTestBase {
     protected void validateSavedPage(HtmlPage page) throws Exception {
         assertDoesNotContain(page, ERRORS_FOUND_ON_PAGE);
         assertContains(page,SAVE_SUCCESS_MESSAGE);        
+    }
+    
+    protected final HtmlPage getProtocolSubmittedRequiredSubmissionFieldsPage() throws Exception {
+        HtmlPage protocolActionsPage = getActionsPage();
+        setProtocolRequiredSubmissionFields(protocolActionsPage);
+        HtmlPage submissionPage = clickOn(protocolActionsPage, "methodToCall.submitForReview.anchor:SubmitforReview");
+        validateSubmittedPage(submissionPage);
+        
+        String documentNumber = getDocNbr(protocolActionsPage);
+        HtmlPage protocolPage = docSearch(documentNumber);
+        return clickOnTab(protocolPage, PROTOCOL_ACTIONS_LINK_NAME);
+    }
+    
+    protected void setProtocolRequiredSubmissionFields(HtmlPage page) {
+        setFieldValues(page, getProtocolSubmissionRequiredFieldsMap());
+    }
+    
+    protected Map<String,String> getProtocolSubmissionRequiredFieldsMap(){
+        Map<String, String> requiredFieldMap = new HashMap<String, String>(); 
+        for (ProtocolSubmissionRequiredFields protocolSubmissionRequiredFields : ProtocolSubmissionRequiredFields.values()) {
+            requiredFieldMap.put(protocolSubmissionRequiredFields.getCode(), protocolSubmissionRequiredFields.getValue());
+        }
+        return requiredFieldMap;
+    }
+    
+    protected void validateSubmittedPage(HtmlPage page) throws Exception {
+        assertNotNull(page);
+        assertDoesNotContain(page, ERRORS_FOUND_ON_PAGE);
     }
 
     /**

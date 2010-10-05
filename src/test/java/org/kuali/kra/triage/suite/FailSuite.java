@@ -106,7 +106,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolNotifyIrbWebTest.class,
     org.kuali.kra.irb.web.ProtocolRequestWebTest.class,
     org.kuali.kra.irb.web.ProtocolSummaryWebTest.class,
-    org.kuali.kra.irb.web.ProtocolWithdrawWebTest.class,
     org.kuali.kra.lookup.keyvalue.ProposalTypeValuesFinderTest.class,
     org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocumentTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinderTest.class,
