@@ -83,7 +83,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
     }
 
-    private Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+    protected Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
@@ -97,7 +97,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         });
         return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleNumber().intValue()+1;
     }
-    private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+    protected Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
@@ -122,7 +122,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param narrative the narrative to add the users to
      */  
-    private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument, Narrative narrative) {
+    protected void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument, Narrative narrative) {
         List<KcPerson> persons = getPersons(proposalDevelopmentDocument);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (KcPerson person : persons) {
@@ -147,7 +147,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param narrativeUserRights the list of narrative user rights
      * @return true if the person is in the list; otherwise false
      */
-    private boolean isPersonInNarrativeRights(KcPerson person, List<NarrativeUserRights> narrativeUserRights) {
+    protected boolean isPersonInNarrativeRights(KcPerson person, List<NarrativeUserRights> narrativeUserRights) {
         for (NarrativeUserRights right : narrativeUserRights) {
             if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
                 return true;
@@ -161,7 +161,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @return the list of persons (see Permission's page)
      */
-    private List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         
         KraAuthorizationService kraAuthorizationService = getKraAuthorizationService();
@@ -184,7 +184,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @param persons the list of persons
      * @return true if the person is in the list; otherwise false
      */
-    private boolean isPersonInList(KcPerson person, List<KcPerson> persons) {
+    protected boolean isPersonInList(KcPerson person, List<KcPerson> persons) {
         for (KcPerson p : persons) {
             if (StringUtils.equals(p.getPersonId(), person.getPersonId())) {
                 return true;
@@ -201,7 +201,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments(), lineToDelete);
     }
 
-    private void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
+    protected void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
         Narrative narrative = narratives.get(lineToDelete);
         getBusinessObjectService().delete(narrative);
         NarrativeAttachment narrAtt = new NarrativeAttachment();
@@ -270,7 +270,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * Update the User and Timestamp for the business object.
      * @param doc the business object
      */
-    private void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
+    protected void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
     
         // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
@@ -464,7 +464,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         this.systemAuthorizationService = systemAuthorizationService;
     }
 
-    private PersonService<Person> getPersonService() {
+    protected PersonService<Person> getPersonService() {
         return personService;
     }
 

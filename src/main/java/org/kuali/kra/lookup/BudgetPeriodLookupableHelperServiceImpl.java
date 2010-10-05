@@ -57,12 +57,12 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
         return budgetPeriods;
     }
     @SuppressWarnings("unchecked")
-    private List findObjectsWithSingleKey(Class clazz,String key, Object value){
+    protected List findObjectsWithSingleKey(Class clazz,String key, Object value){
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         fieldValues.put(key, value);
         return (List)getBusinessObjectService().findMatching(clazz, fieldValues);
     }
-    private List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
+    protected List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
         BusinessObjectService businessObjectService = getBusinessObjectService();
         List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         List<Award> awardVersions = findObjectsWithSingleKey(Award.class, "awardNumber", awardNumber);

@@ -80,7 +80,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
         return "protocolOnlineReviewId";
     }
     
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
    }
 
@@ -104,7 +104,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        return dictionaryValidationService;
    }
 
-   private boolean validateDate(String dateFieldName, String dateFieldValue) {
+   protected boolean validateDate(String dateFieldName, String dateFieldValue) {
        try{
            KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
            return true;
@@ -172,7 +172,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        return filterResults(results);
    }
 
-   private List<ProtocolOnlineReview> filterResults(List<ProtocolOnlineReview> results) {
+   protected List<ProtocolOnlineReview> filterResults(List<ProtocolOnlineReview> results) {
        List<ProtocolOnlineReview> onlineReviews = new ArrayList<ProtocolOnlineReview>();
        for (ProtocolOnlineReview review : results) {
            if (review.getProtocolOnlineReviewDocument() != null) {

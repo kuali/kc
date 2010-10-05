@@ -99,7 +99,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		return source;
 	}
 
-	private String getReportName(KraPersistableBusinessObjectBase printableBusinessObject,
+	protected String getReportName(KraPersistableBusinessObjectBase printableBusinessObject,
 			String reportName) {
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		String proposalNumber = developmentProposal.getProposalNumber();
@@ -185,7 +185,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * @return Collection<SponsorFormTemplateList> collection of
 	 *         SponsorFormTemplateList for the given sponsor code.
 	 */
-	private Collection<SponsorFormTemplateList> getSponsorTemplatesList(
+	protected Collection<SponsorFormTemplateList> getSponsorTemplatesList(
 			String sponsorCode) {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(SPONSOR_CODE_DB_KEY, sponsorCode);
@@ -201,7 +201,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * @param sponsorFormTemplates
 	 *            list of SponsorFormTemplateList.
 	 */
-	private void resetSelectedFormList(
+	protected void resetSelectedFormList(
 			List<SponsorFormTemplateList> sponsorFormTemplates) {
 		for (SponsorFormTemplateList sponsorFormTemplateList : sponsorFormTemplates) {
 			sponsorFormTemplateList.setSelectToPrint(false);
@@ -285,7 +285,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	 * @return Collection<SponsorFormTemplate> collection of
 	 *         SponsorFormTemplate for the given sponsor code.
 	 */
-	private Collection<SponsorFormTemplate> getSponsorTemplates(
+	protected Collection<SponsorFormTemplate> getSponsorTemplates(
 			String sponsorCode) {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(SPONSOR_CODE_DB_KEY, sponsorCode);

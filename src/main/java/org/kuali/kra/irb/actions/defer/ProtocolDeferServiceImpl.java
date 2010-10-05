@@ -129,11 +129,11 @@ public class ProtocolDeferServiceImpl implements ProtocolDeferService {
      * @param protocol
      * @throws WorkflowException
      */
-    private void cancelWorkflow(Protocol protocol) throws WorkflowException {
+    protected void cancelWorkflow(Protocol protocol) throws WorkflowException {
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
   
-    private void cancelWorkflow(ProtocolOnlineReview review) {
+    protected void cancelWorkflow(ProtocolOnlineReview review) {
         final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
         try {
             WorkflowDocument workflowDocument = new WorkflowDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());

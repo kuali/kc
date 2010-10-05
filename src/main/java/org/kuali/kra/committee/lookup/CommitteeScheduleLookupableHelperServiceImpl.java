@@ -70,7 +70,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    private List<CommitteeSchedule> trimResult(List<CommitteeSchedule> result, Integer trimSize) {
+    protected List<CommitteeSchedule> trimResult(List<CommitteeSchedule> result, Integer trimSize) {
         List<CommitteeSchedule> trimedResult = new ArrayList<CommitteeSchedule>();
         for (CommitteeSchedule committeeSchedule : result) {
             if (trimedResult.size() < trimSize) {
@@ -84,7 +84,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
      * get the schedules of active committee
      */
     @SuppressWarnings("unchecked")
-    private List<? extends BusinessObject> getActiveList(List<? extends BusinessObject> searchResults) {
+    protected List<? extends BusinessObject> getActiveList(List<? extends BusinessObject> searchResults) {
 
         List<CommitteeSchedule> uniqueResults = new ArrayList<CommitteeSchedule>();
         List<Long> activeCommitteePks = getActiveCommitteePks();
@@ -115,14 +115,14 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         return htmlDataList;
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     /*
      * This is a utility method to set up url to edit or view meeting schedule
      */
-    private AnchorHtmlData getLink(CommitteeSchedule committeeSchedule, boolean isEdit) {
+    protected AnchorHtmlData getLink(CommitteeSchedule committeeSchedule, boolean isEdit) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         Properties parameters = new Properties();
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "start");
@@ -160,12 +160,12 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         }
     }
 
-    private boolean canModifySchedule(CommitteeSchedule committeeSchedule) {
+    protected boolean canModifySchedule(CommitteeSchedule committeeSchedule) {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
     }
 
-    private boolean canViewSchedule(CommitteeSchedule committeeSchedule) {
+    protected boolean canViewSchedule(CommitteeSchedule committeeSchedule) {
         CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee());
         return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
     }
@@ -197,7 +197,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     /*
      * get the active committee pks, and put in a list
      */
-    private List<Long> getActiveCommitteePks() {
+    protected List<Long> getActiveCommitteePks() {
         List<Committee> committees = (List<Committee>) businessObjectService.findAll(Committee.class);
         List<String> committeeIds = new ArrayList<String>();
         List<Long> activeCommitteePks = new ArrayList<Long>();

@@ -72,14 +72,14 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
         documentService.saveDocument(protocolDocument);
     }
     
-    private void deleteExistingCheckBoxes(ProtocolSubmission submission) {
+    protected void deleteExistingCheckBoxes(ProtocolSubmission submission) {
         this.businessObjectService.delete(submission.getExemptStudiesCheckList());
         this.businessObjectService.delete(submission.getExpeditedReviewCheckList());
         submission.getExemptStudiesCheckList().clear();
         submission.getExpeditedReviewCheckList().clear();
     }
     
-    private void proccessNewReviewType(ProtocolSubmission submission, String newReviewType) {
+    protected void proccessNewReviewType(ProtocolSubmission submission, String newReviewType) {
         Map fieldValues = new HashMap();
         fieldValues.put("PROTOCOL_REVIEW_TYPE_CODE", newReviewType);
         ProtocolReviewType newType = (ProtocolReviewType) this.businessObjectService.findByPrimaryKey(ProtocolReviewType.class, fieldValues);
@@ -87,7 +87,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
         submission.setProtocolReviewTypeCode(newType.getReviewTypeCode());
     }
     
-    private void proccessExemptStudiesCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
+    protected void proccessExemptStudiesCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
         for (ExemptStudiesCheckListItem beanItem : bean.getExemptStudiesCheckList()) {
             if (beanItem.getChecked()) {
                 ProtocolExemptStudiesCheckListItem newItem = new ProtocolExemptStudiesCheckListItem();
@@ -104,7 +104,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
         }
     }
     
-    private void proccessExpeditedReviewCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
+    protected void proccessExpeditedReviewCheckBoxes(ProtocolSubmission submission, ProtocolModifySubmissionBean bean) {
         for (ExpeditedReviewCheckListItem beanItem : bean.getExpeditedReviewCheckList()) {
             if (beanItem.getChecked()) {
                 ProtocolExpeditedReviewCheckListItem newItem = new ProtocolExpeditedReviewCheckListItem();

@@ -181,7 +181,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * This method will generate a correspondence document, and attach it to the protocol.
      * @param protocol a Protocol object.
      */
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
+    protected void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
         WithdrawCorrespondence correspondence = withdrawBean.getCorrespondence();
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
@@ -194,7 +194,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @param protocol
      * @throws WorkflowException
      */
-    private void cancelWorkflow(Protocol protocol) throws WorkflowException {
+    protected void cancelWorkflow(Protocol protocol) throws WorkflowException {
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
   
@@ -221,7 +221,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @param protocol
      * @return
      */
-    private ProtocolSubmission getSubmission(Protocol protocol) {
+    protected ProtocolSubmission getSubmission(Protocol protocol) {
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (isWithdrawable(submission)) {
                 return submission;
@@ -239,7 +239,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @param submission
      * @return
      */
-    private boolean isWithdrawable(ProtocolSubmission submission) {
+    protected boolean isWithdrawable(ProtocolSubmission submission) {
         return isAllowedStatus(submission) && isNormalSubmission(submission);
     }
     
@@ -248,7 +248,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @param submission
      * @return true if withdrawable; otherwise false
      */
-    private boolean isAllowedStatus(ProtocolSubmission submission) {
+    protected boolean isAllowedStatus(ProtocolSubmission submission) {
         return StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
     }
@@ -258,7 +258,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @param submission
      * @return true if withdrawable; otherwise false
      */
-    private boolean isNormalSubmission(ProtocolSubmission submission) {
+    protected boolean isNormalSubmission(ProtocolSubmission submission) {
         return StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.AMENDMENT) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.INITIAL_SUBMISSION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.CONTINUATION) ||

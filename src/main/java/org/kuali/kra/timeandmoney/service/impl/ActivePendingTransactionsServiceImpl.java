@@ -227,7 +227,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param doc
      * @param pendingTransactionsToBeDeleted
      */
-    private void deletePendingTransactions(TimeAndMoneyDocument doc, List<PendingTransaction> pendingTransactionsToBeDeleted) {
+    protected void deletePendingTransactions(TimeAndMoneyDocument doc, List<PendingTransaction> pendingTransactionsToBeDeleted) {
         for(PendingTransaction pendingTransaction: pendingTransactionsToBeDeleted){
             doc.getPendingTransactions().remove(pendingTransaction);
         }
@@ -238,7 +238,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardAmountTransactionItems
      * @return
      */
-    private List<AwardAmountTransaction> prepareAwardAmountTransactionsListForPersistence(
+    protected List<AwardAmountTransaction> prepareAwardAmountTransactionsListForPersistence(
             Map<String, AwardAmountTransaction> awardAmountTransactionItems) {
         List<AwardAmountTransaction> awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
         for(Entry<String, AwardAmountTransaction> awardAmountTransaction:awardAmountTransactionItems.entrySet()){
@@ -255,7 +255,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardItems
      * @param awardAmountTransactions
      */
-    private void performSave(TimeAndMoneyDocument doc, List<TransactionDetail> transactionDetailItems, List<Award> awardItems,
+    protected void performSave(TimeAndMoneyDocument doc, List<TransactionDetail> transactionDetailItems, List<Award> awardItems,
             List<AwardAmountTransaction> awardAmountTransactions) {
         businessObjectService.save(transactionDetailItems);
         businessObjectService.save(awardAmountTransactions);
@@ -277,7 +277,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param sourceAwardNode
      * @param destinationAwardNode
      */
-    private void processPendingTransactionWithIndirectRelationship(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction
+    protected void processPendingTransactionWithIndirectRelationship(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction
             , List<PendingTransaction> updatedPendingTransactions, List<TransactionDetail> transactionDetailItems
             , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, PendingTransaction pendingTransaction
             , AwardHierarchyNode sourceAwardNode, AwardHierarchyNode destinationAwardNode) {
@@ -310,7 +310,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardHierarchyNodes
      * @param destinationAwardNode
      */
-    private void processPendingTransactionWhenSourceIsExternal(TimeAndMoneyDocument doc,
+    protected void processPendingTransactionWhenSourceIsExternal(TimeAndMoneyDocument doc,
             AwardAmountTransaction newAwardAmountTransaction, List<PendingTransaction> updatedPendingTransactions,
             List<TransactionDetail> transactionDetailItems, Map<String, AwardAmountTransaction> awardAmountTransactionItems,
             List<Award> awardItems, PendingTransaction pendingTransaction, Map<String, AwardHierarchyNode> awardHierarchyNodes,
@@ -354,7 +354,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param awardHierarchyNodes
      * @param destinationAwardNode
      */
-    private void processPendingTransactionWhenDestinationIsExternal(TimeAndMoneyDocument doc,
+    protected void processPendingTransactionWhenDestinationIsExternal(TimeAndMoneyDocument doc,
             AwardAmountTransaction newAwardAmountTransaction, List<PendingTransaction> updatedPendingTransactions,
             List<TransactionDetail> transactionDetailItems, Map<String, AwardAmountTransaction> awardAmountTransactionItems,
             List<Award> awardItems, PendingTransaction pendingTransaction, Map<String, AwardHierarchyNode> awardHierarchyNodes,
@@ -611,7 +611,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param updatedPendingTransactions
      * @param newAwardAmountTransaction
      */
-    private void createIntermediateTransactionsWhenParentIsExternal(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems
+    protected void createIntermediateTransactionsWhenParentIsExternal(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems
             , List<Award> awardItems, PendingTransaction pendingTransaction, String destinationAwardNumber, String parentAwardNumber, String defaultExternalAwardNumber
             , boolean direction, List<TransactionDetail> transactionDetailItems, List<PendingTransaction> updatedPendingTransactions
             , AwardAmountTransaction newAwardAmountTransaction) {
@@ -651,7 +651,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param updatedPendingTransactions
      * @param newAwardAmountTransaction
      */
-    private void createIntermediateTransactionsWhenDestinationIsExternal(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems
+    protected void createIntermediateTransactionsWhenDestinationIsExternal(TimeAndMoneyDocument doc, Map<String, AwardAmountTransaction> awardAmountTransactionItems
             , List<Award> awardItems, PendingTransaction pendingTransaction, String sourceAwardNumber, String parentOfSourceAwardNumber, String destinationAwardNumber
             , boolean direction, List<TransactionDetail> transactionDetailItems, List<PendingTransaction> updatedPendingTransactions
             , AwardAmountTransaction newAwardAmountTransaction) {               
@@ -802,7 +802,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @param currentAwardNumber
      * @return
      */
-    private void buildListOfParents(Map<String, AwardHierarchyNode> awardHierarchyNodes, List<String> listOfParentsOfSource,
+    protected void buildListOfParents(Map<String, AwardHierarchyNode> awardHierarchyNodes, List<String> listOfParentsOfSource,
              String currentAwardNumber, String rootAwardNumber) {
         String parentAwardNumber;
         while(!StringUtils.equalsIgnoreCase(currentAwardNumber,rootAwardNumber)){
@@ -813,7 +813,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     }
    
     
-    private void handleDestinationNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleDestinationNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -823,7 +823,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         awardItems.add(award);
     }
     
-    private void handleDestinationNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleDestinationNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -837,7 +837,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedDestinationDownNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedDestinationDownNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -870,7 +870,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedDestinationUpNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedDestinationUpNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -900,7 +900,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     }
     
     
-    private void handleSourceNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleSourceNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -910,7 +910,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         awardItems.add(award);
     }
     
-    private void handleSourceNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleSourceNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -924,7 +924,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedSourceDownNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedSourceDownNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -957,7 +957,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedSourceUpNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedSourceUpNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -987,7 +987,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     }
     
     
-    private void handleIntermediateNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleIntermediateNodeDownTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -997,7 +997,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         awardItems.add(award);
     }
     
-    private void handleIntermediateNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
+    protected void handleIntermediateNodeUpTransaction(PendingTransaction pendingTransaction, String awardNumber, 
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
@@ -1011,7 +1011,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedIntermediateDownNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedIntermediateDownNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -1041,7 +1041,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getUpdatedIntermediateUpNodeAmountInfo(PendingTransaction pendingTransaction, 
+    protected AwardAmountInfo getUpdatedIntermediateUpNodeAmountInfo(PendingTransaction pendingTransaction, 
             AwardAmountInfo awardAmountInfo, Map<String, AwardAmountTransaction> awardAmountTransactionItems, 
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber, Award award) {
         
@@ -1141,7 +1141,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * That's why we will maintain a map of AwardAmountTransaction Objects with awardNumber as the key. If the key is present, we won't
      * add a new entry here, otherwise we will. We will persist all awardAmountTransaction objects later.
      */
-    private void addAwardAmountTransaction(String awardNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
+    protected void addAwardAmountTransaction(String awardNumber, Map<String, AwardAmountTransaction> awardAmountTransactionItems, AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         if(!awardAmountTransactionItems.containsKey(awardNumber)){
             AwardAmountTransaction newAwardAmountTransaction1 = new AwardAmountTransaction(); 
             newAwardAmountTransaction1.setAwardNumber(awardNumber);
@@ -1179,7 +1179,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         return award;
     }
     
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
+    protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
         return map;
@@ -1237,7 +1237,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     }
     
 
-    private Map<String, String> getHashMap(String goToAwardNumber) {
+    protected Map<String, String> getHashMap(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
         return map;

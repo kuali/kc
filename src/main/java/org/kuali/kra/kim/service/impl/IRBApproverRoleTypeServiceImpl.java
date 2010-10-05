@@ -32,7 +32,7 @@ public class IRBApproverRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return false; 
     }
 
-    private boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROTOCOL);
     }
 

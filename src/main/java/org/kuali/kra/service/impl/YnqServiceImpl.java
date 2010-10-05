@@ -92,7 +92,7 @@ public class YnqServiceImpl implements YnqService {
     /**
      * Compares two YNQs by groupName.
      */
-    private class GroupNameComparator implements Comparator<Ynq> {
+    protected class GroupNameComparator implements Comparator<Ynq> {
 
         public int compare(Ynq o1, Ynq o2) {
             int retValue;
@@ -167,7 +167,7 @@ public class YnqServiceImpl implements YnqService {
     }
     
     /* add proposal certification questions */
-    private void addCertificationQuestions(List<Ynq> ynqs, ProposalPerson proposalPerson) {
+    protected void addCertificationQuestions(List<Ynq> ynqs, ProposalPerson proposalPerson) {
         for (Ynq type : ynqs) {
             ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
             proposalPersonYnq.setQuestionId(type.getQuestionId());
@@ -178,7 +178,7 @@ public class YnqServiceImpl implements YnqService {
     
     
     /* set required fields comments - check question configuration to figure out required fields */
-    private void setRequiredFields(Ynq type, ProposalYnq proposalYnq) {
+    protected void setRequiredFields(Ynq type, ProposalYnq proposalYnq) {
         /* check Date required for column in required */
         if(type.getDateRequiredFor() == null) {
             proposalYnq.setReviewDateRequired(false);
@@ -195,7 +195,7 @@ public class YnqServiceImpl implements YnqService {
  
     
     /* get group name from existing proposal questions */
-    private void getGroupNames(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
+    protected void getGroupNames(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
         for (ProposalYnq type : proposalYnqs) {
             setRequiredFields(type.getYnq(), type);
             /* add distinct group names */
@@ -204,7 +204,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /* get questions from YNQ configuration */
-    private void getProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, List<Ynq> ynqs) {
+    protected void getProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, List<Ynq> ynqs) {
         for (Ynq type : ynqs) {
             ProposalYnq proposalYnq = new ProposalYnq();
             proposalYnq.setQuestionId(type.getQuestionId());
@@ -218,7 +218,7 @@ public class YnqServiceImpl implements YnqService {
 
     
     /* set group name */
-    private void setGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
+    protected void setGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
         /* add distinct group names */
         if(!isDuplicateGroupName(groupName, ynqGroupNames)) {
             YnqGroupName ynqGroupName = new YnqGroupName();
@@ -255,7 +255,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /* check existing proposal YNQ and add new questions if exists */
-    private void addNewProposalQuestions(List<ProposalYnq> proposalYnqs, List<Ynq> ynqs, List<YnqGroupName> ynqGroupNames) {
+    protected void addNewProposalQuestions(List<ProposalYnq> proposalYnqs, List<Ynq> ynqs, List<YnqGroupName> ynqGroupNames) {
         List<Ynq> newYnqs = new ArrayList<Ynq>();
         Set<String> proposalQuestionIds = new HashSet<String>();
         
@@ -274,7 +274,7 @@ public class YnqServiceImpl implements YnqService {
     }
     
     
-    private boolean isDocumentSubmitted(ProposalDevelopmentDocument document) {
+    protected boolean isDocumentSubmitted(ProposalDevelopmentDocument document) {
         boolean submitted = false;
         KualiWorkflowDocument wfd = document.getDocumentHeader().getWorkflowDocument();
         document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
@@ -287,7 +287,7 @@ public class YnqServiceImpl implements YnqService {
         return submitted;
     }
     
-    private boolean isDuplicateGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
+    protected boolean isDuplicateGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
         boolean duplicateGroupName = false;
         for (YnqGroupName type : ynqGroupNames) {
             if(type.getGroupName().equalsIgnoreCase(groupName)) {
@@ -299,7 +299,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /* get ynq explanation required / review date required column label */
-    private String getYnqRequiredLabel(String ynqCode) {
+    protected String getYnqRequiredLabel(String ynqCode) {
         String retValue = null;
         for (YnqConstants ynqConstants : YnqConstants.values()) {
             if(ynqConstants.code().equalsIgnoreCase(ynqCode)) {

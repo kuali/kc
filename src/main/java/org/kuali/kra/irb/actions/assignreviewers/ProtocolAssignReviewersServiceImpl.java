@@ -62,11 +62,11 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         }
     }
     
-    private void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+    protected void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
-    private void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
+    protected void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
         String principalId = protocolReviewerBean.getPersonId();
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
         String reviewerTypeCode = protocolReviewerBean.getReviewerTypeCode();
@@ -87,7 +87,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
     }
     
-    private void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
+    protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
         ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
         businessObjectService.save(reviewer);

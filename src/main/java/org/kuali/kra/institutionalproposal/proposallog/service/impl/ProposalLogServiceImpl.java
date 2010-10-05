@@ -49,7 +49,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogSubmittedStatusCode());
     }
     
-    private void updateProposalLogStatus(String proposalNumber, String logStatus) {
+    protected void updateProposalLogStatus(String proposalNumber, String logStatus) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("proposalNumber", proposalNumber);
         ProposalLog proposalLog = 

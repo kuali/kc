@@ -40,7 +40,7 @@ public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
         }
     }
 
-    private PersonService<Person> getPersonService() {
+    protected PersonService<Person> getPersonService() {
         return personService;
     }
 

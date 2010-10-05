@@ -78,7 +78,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    private List<Protocol> trimResult(List<Protocol> result, Integer trimSize) {
+    protected List<Protocol> trimResult(List<Protocol> result, Integer trimSize) {
         List<Protocol> trimedResult = new ArrayList<Protocol>();
         for (Protocol protocol : result) {
             if (trimedResult.size()< trimSize) {
@@ -103,7 +103,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         }
     }
     
-    private boolean validateDate(String dateFieldName, String dateFieldValue) {
+    protected boolean validateDate(String dateFieldName, String dateFieldValue) {
         try{
             KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
             return true;
@@ -251,7 +251,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
         return "protocolNumber"; 
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 

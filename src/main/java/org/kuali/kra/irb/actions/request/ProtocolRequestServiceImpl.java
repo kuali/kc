@@ -104,7 +104,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
      * @param requestBean the request data
      * @return a protocol submission
      */
-    private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolRequestBean requestBean) {
+    protected ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolRequestBean requestBean) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, requestBean.getSubmissionTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
@@ -118,7 +118,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
      * send Request notification for different event
      * TODO : can we share this method with withdraw notification and other action notification ?
      */
-    private void sendRequestNotification(Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
+    protected void sendRequestNotification(Protocol protocol, ProtocolRequestBean requestBean) throws Exception {
 
         RequestActionType requestActionType = RequestActionType.getRequestActionType(requestBean.getProtocolActionTypeCode());
         NotificationEventBase event = requestActionType.getEventClass().newInstance();

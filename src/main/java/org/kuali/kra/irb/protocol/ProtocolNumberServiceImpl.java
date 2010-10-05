@@ -51,7 +51,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * @param calendar the current time
      * @return the year as 2 digits as a string
      */
-    private String getYear(Calendar calendar) {
+    protected String getYear(Calendar calendar) {
         int year = calendar.get(Calendar.YEAR);
         String s = Integer.toString(year).substring(2);
         if (s.length() == 1) {
@@ -65,7 +65,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * @param calendar the current time
      * @return the month as 2 digits, e.g. 03 is March
      */
-    private String getMonth(Calendar calendar) {
+    protected String getMonth(Calendar calendar) {
         int month = calendar.get(Calendar.MONTH) + 1;
         String s = Integer.toString(month);
         if (s.length() == 1) {
@@ -79,7 +79,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * including leading zeros.  
      * @return the next sequence number
      */
-    private String getNextNumber() {
+    protected String getNextNumber() {
         Long nextNumber = getSequenceNumber() % MAX_NUMBER;
         String s = nextNumber.toString();
         int length = s.length();
@@ -96,7 +96,7 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * possible conflicts.
      * @return the next database sequence number
      */
-    private synchronized Long getSequenceNumber() {
+    protected synchronized Long getSequenceNumber() {
         return sequenceAccessorService.getNextAvailableSequenceNumber(SEQUENCE_NAME);
     }
 }

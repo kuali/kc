@@ -101,7 +101,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
 
-    private void proccessAbstainers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
+    protected void proccessAbstainers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
             Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {       
         if (!committeeDecision.getAbstainers().isEmpty()) {
             //there are abstainers, lets save them
@@ -133,7 +133,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         
     }
     
-    private void proccessRecusers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
+    protected void proccessRecusers(CommitteeDecision committeeDecision, List<CommitteeMembership> committeeMemberships, 
             Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {     
         
         if (!committeeDecision.getRecused().isEmpty()) {
@@ -166,7 +166,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         }
     }
     
-    private void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+    protected void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         voter.setProtocol(protocol);
         voter.setProtocolIdFk(protocol.getProtocolId());
         voter.setSubmissionIdFk(submissionIdFk);
@@ -176,7 +176,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         businessObjectService.save(voter);
     }
     
-    private Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+    protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
         //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
@@ -186,7 +186,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         return fieldValues;
     }
 
-    private ProtocolSubmission getSubmission(Protocol protocol) {
+    protected ProtocolSubmission getSubmission(Protocol protocol) {
         // There are 'findCommission' in other classes.  Consider to create a utility static method for this
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
@@ -200,7 +200,7 @@ public class CommitteeDecisionServiceImpl implements CommitteeDecisionService {
         return protocolSubmission;
     }
     
-    private void addReviewerComments(ProtocolSubmission submission, ReviewerComments reviewComments) {
+    protected void addReviewerComments(ProtocolSubmission submission, ReviewerComments reviewComments) {
         int nextEntryNumber = 0;
         for (CommitteeScheduleMinute minute : reviewComments.getComments()) {
             minute.setEntryNumber(nextEntryNumber);

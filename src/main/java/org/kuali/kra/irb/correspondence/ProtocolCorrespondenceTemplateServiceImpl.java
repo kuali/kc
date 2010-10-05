@@ -42,7 +42,7 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
 
-    private void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
+    protected void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
             ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
 

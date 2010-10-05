@@ -38,7 +38,7 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);
 
     }
-    private String getUserName() {
+    protected String getUserName() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
     

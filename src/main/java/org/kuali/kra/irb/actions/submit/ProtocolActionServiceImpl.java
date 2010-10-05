@@ -135,7 +135,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user is authorized to perform action of 'actionTypeCode'
      */
-    private boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
+    protected boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
         boolean flag = false;
         ActionRightMapping rightMapper = new ActionRightMapping();
 
@@ -173,7 +173,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /*
      * This method is to check if user has permission in lead unit
      */
-    private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
@@ -183,7 +183,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission to submit
      */
-    private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
@@ -193,7 +193,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission in committee home unit
      */
-    private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
@@ -205,14 +205,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission for special cases.
      */
-    private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
                 KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId(); 
     }
 
@@ -298,7 +298,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         this.loadRules(ruleFiles);
     }
 
-    private void loadRules(List<String> ruleFiles) {
+    protected void loadRules(List<String> ruleFiles) {
         rulesList = new ArrayList<DroolsRuleHandler>();
         for (String ruleFile : ruleFiles) {
             rulesList.add(new DroolsRuleHandler(ruleFile));

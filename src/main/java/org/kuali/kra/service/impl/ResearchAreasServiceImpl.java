@@ -50,7 +50,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
     /*
      * call businessobjectservice to get a list of sub research areas of 'researchareacode'
      */
-    private List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
+    protected List<ResearchArea> getSubResearchAreas(String researchAreaCode) {
         List<ResearchArea> researchAreasList = new ArrayList<ResearchArea>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentResearchAreaCode", researchAreaCode);
@@ -87,7 +87,7 @@ public class ResearchAreasServiceImpl implements ResearchAreasService {
      * This method is a recursive call to check whether the new 'researchAreaCode' matched
      * raCode's Descendants' code
      */
-    private boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
+    protected boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
         boolean isExist = false;
         for (ResearchArea researchArea : getSubResearchAreas(raCode)) {
             if (researchAreaCode.equals(researchArea.getResearchAreaCode())) {

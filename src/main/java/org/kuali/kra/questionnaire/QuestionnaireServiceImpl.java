@@ -88,7 +88,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         this.businessObjectService = businessObjectService;
     }
 
-    private void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
+    protected void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
         dest.setQuestionnaireId(null);

@@ -82,7 +82,7 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
      * Method is linked to organization service.
      * @return Organization
      */
-    private Organization getOrganization(String organizationId) {
+    protected Organization getOrganization(String organizationId) {
         return organizationService.getOrganization(organizationId);
     }
     

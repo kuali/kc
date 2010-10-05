@@ -74,7 +74,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * This string will be parsed by the java script in the UI for display.  
      *  
      */
-    private String buildCompleteRecord(String awardNumber, AwardHierarchyNode aNode) throws ParseException {
+    protected String buildCompleteRecord(String awardNumber, AwardHierarchyNode aNode) throws ParseException {
         StringBuilder sb = new StringBuilder();
         
         if(aNode!=null){
@@ -120,7 +120,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     /*
      * This method appends a date field to string buffer object for view.
      */
-    private void appendString(String str, StringBuilder sb, String delimiter) {
+    protected void appendString(String str, StringBuilder sb, String delimiter) {
         if(str!=null){
             sb.append(KNSConstants.BLANK_SPACE).append(delimiter).append(KNSConstants.BLANK_SPACE).append(str);
         }else{
@@ -131,7 +131,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     /*
      * This method formats and appends a date field to stringbuffer object for view.
      */
-    private void appendDate(Date date, StringBuilder sb) {
+    protected void appendDate(Date date, StringBuilder sb) {
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
         sb.append(KNSConstants.BLANK_SPACE).append(COLUMN_CODE).append(KNSConstants.BLANK_SPACE);
         if(date!=null){
@@ -154,7 +154,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     /*
      * call businessobjectservice to get a list of children award nodes 'awardNumber'
      */
-    private List<AwardHierarchy> getChildrenNodes(String awardNumber) {
+    protected List<AwardHierarchy> getChildrenNodes(String awardNumber) {
         List<AwardHierarchy> awardHierarchyList = new ArrayList<AwardHierarchy>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(FIELD_NAME_PARENT_AWARD_NUMBER, awardNumber);
@@ -162,7 +162,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return awardHierarchyList;
     }
     
-    private boolean canUseExistingTMSessionObject(String awardNumber) {
+    protected boolean canUseExistingTMSessionObject(String awardNumber) {
         String sessionObjectKey = GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION;
         String prefix = null;
         
@@ -183,7 +183,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return true;
     }
     
-    private Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber, String currentAwardNumber, String currentSequenceNumber){
+    protected Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber, String currentAwardNumber, String currentSequenceNumber){
         if(awardHierarchyNodes==null || awardHierarchyNodes.size()==0 || StringUtils.endsWithIgnoreCase(LAST_5_CHARS_OF_ROOT, awardNumber.substring(8))){            
             if(canUseExistingTMSessionObject(awardNumber)){ 
                 awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(

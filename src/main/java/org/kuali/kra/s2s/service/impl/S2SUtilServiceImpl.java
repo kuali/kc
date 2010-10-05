@@ -363,7 +363,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param federalId
      * @return
      */
-	private String fromatFederalId(String federalId) {
+	protected String fromatFederalId(String federalId) {
 	    if(federalId.length()>7){
 	        int in = federalId.indexOf('-', 8);
 	        if(in!=-1)
@@ -372,7 +372,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return federalId;
     }
 
-    private boolean isSubmissionTypeChangeCorrected(String submissionTypeCode) {
+    protected boolean isSubmissionTypeChangeCorrected(String submissionTypeCode) {
 	    return StringUtils.equalsIgnoreCase(submissionTypeCode, getParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_CHANGEDCORRECTED));
     }
 
@@ -395,7 +395,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		return parameterValue;
 	}
 
-    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
         String proposalTypeCodeRenewal = 
             parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         String proposalTypeCodeRevision = 
@@ -414,7 +414,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param proposalTypeCode proposal type code
      * @return true or false
      */
-    private boolean isProposalTypeResubmission(String proposalTypeCode) {
+    protected boolean isProposalTypeResubmission(String proposalTypeCode) {
         String proposalTypeCodeResubmission = 
             parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
          
@@ -427,7 +427,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param proposalTypeCode proposal type code
      * @return true or false
      */
-    private boolean isProposalTypeNew(String proposalTypeCode) {
+    protected boolean isProposalTypeNew(String proposalTypeCode) {
         String proposalTypeCodeNew = 
             parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
          
@@ -637,7 +637,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		return country;
 	}
 	
-	private static CountryService getCountryService() {
+	protected static CountryService getCountryService() {
 	    return KraServiceLocator.getService(CountryService.class);
 	}
 
@@ -654,7 +654,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 		return state;
 	}
 	
-	private static StateService getStateService() {
+	protected static StateService getStateService() {
         return KraServiceLocator.getService(StateService.class);
     }
 
@@ -779,7 +779,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 	 * Finds the {@link Questionnaire} with Highest Sequence Number
 	 * 
 	 */
-	private Questionnaire getHighestSequenceNumberQuestionnair(
+	protected Questionnaire getHighestSequenceNumberQuestionnair(
 			Integer questionnaireId) {
 		Questionnaire highestQuestionnairSequenceNumber = null;
 		Map<String, Object> fieldValues = new HashMap<String, Object>();

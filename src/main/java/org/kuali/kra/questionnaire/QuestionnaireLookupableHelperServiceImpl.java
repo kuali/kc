@@ -65,7 +65,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     }
 
     // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
-    private Questionnaire getQuestionnaireById(Integer questionnaireId) {
+    protected Questionnaire getQuestionnaireById(Integer questionnaireId) {
         Questionnaire questionnaire = null;
         if (questionnaireId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -110,7 +110,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return htmlDataList;
     }
 
-    private AnchorHtmlData getViewLink(BusinessObject businessObject) {
+    protected AnchorHtmlData getViewLink(BusinessObject businessObject) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         String workflowUrl = getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY);
         htmlData.setHref(String.format(DOCHANDLER_VIEW_LINK, workflowUrl, ((Questionnaire) businessObject).getDocumentNumber()));
@@ -119,7 +119,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return htmlData;        
     }
         
-    private AnchorHtmlData getHtmlData(BusinessObject businessObject, String methodToCall, List pkNames) {
+    protected AnchorHtmlData getHtmlData(BusinessObject businessObject, String methodToCall, List pkNames) {
         AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
         htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
         return htmlData;        
@@ -130,7 +130,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
      * If questionnaire is being edited, then it should not allow 'edit' until this is approved or cancelled 
      * Call this method one time for each search because this list maybe changed from search to search.
      */
-    private List<Integer> getQuestionnaireDocs() {
+    protected List<Integer> getQuestionnaireDocs() {
         List<Integer> questionnaireDocs = new ArrayList<Integer>();
         Map<String, String> fieldValues = new HashMap<String, String>();
 

@@ -64,31 +64,31 @@ public class UnitRoleTypeServiceImpl extends KimRoleTypeServiceBase {
         return false; 
     }
 
-    private boolean roleQualifiedByProposalKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProposalKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROPOSAL);
     }
     
-    private boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByProtocolKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROTOCOL);
     }
     
-    private boolean roleQualifiedByCommitteeKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByCommitteeKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.COMMITTEE);
     }
     
-    private boolean roleQualifiedByAwardKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByAwardKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.AWARD);
     }
     
-    private boolean roleQualifiedByTimeAndMoneyKey(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByTimeAndMoneyKey(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.TIMEANDMONEY);
     }
     
-    private boolean roleQualifiedByUnitOnly(AttributeSet roleQualifier) {
+    protected boolean roleQualifiedByUnitOnly(AttributeSet roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && !roleQualifier.containsKey(KcKimAttributes.SUBUNITS);
     }
     
-    private boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performWildCardMatching(AttributeSet qualification, AttributeSet roleQualifier) {
         if(qualification.containsKey(KcKimAttributes.UNIT_NUMBER) && qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*") && roleQualifier.containsKey(KcKimAttributes.UNIT_NUMBER) ) {
             return true;
         }

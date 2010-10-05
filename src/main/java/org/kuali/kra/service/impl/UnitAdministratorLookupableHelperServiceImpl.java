@@ -104,7 +104,7 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
      * This method is primarily to match person username.
      * kcperson is not in unitadministrator table, so generic getsearchresults is not working properly.
      */
-    private List<UnitAdministrator> filterSearchResults(List<UnitAdministrator> searchResults, String userName) {
+    protected List<UnitAdministrator> filterSearchResults(List<UnitAdministrator> searchResults, String userName) {
         List<UnitAdministrator> filteredList = new ArrayList<UnitAdministrator>();
         
         String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";

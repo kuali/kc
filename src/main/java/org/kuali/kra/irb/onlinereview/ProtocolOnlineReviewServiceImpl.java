@@ -130,7 +130,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @return
      * @throws WorkflowException
      */
-    private ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission, 
+    protected ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission, 
                                                                             ProtocolReviewer protocolReviewer, 
                                                                             String documentDescription,
                                                                             String documentExplanation,
@@ -370,7 +370,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * @return
      */
     @SuppressWarnings("unchecked")
-    private List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
+    protected List<ProtocolOnlineReview> findProtocolOnlineReviews(Long protocolId,
                                                                  Long submissionIdFk) {
         List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
         if (protocolId != null && submissionIdFk != null) {
@@ -382,7 +382,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return reviews;
     }
 
-    private void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
+    protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
         try {
             
             if (protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 
@@ -402,7 +402,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         }
     }
     
-    private void finalizeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
+    protected void finalizeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
         
         try {
             if (protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 

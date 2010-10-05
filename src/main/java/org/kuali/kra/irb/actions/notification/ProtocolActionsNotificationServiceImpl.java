@@ -188,7 +188,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     /*
      * call transformer to convert xml to html based on the xsl template
      */
-    private String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
+    protected String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
 
         String XML = protocolXmlStream.generateXmlStreamForNotification(protocol);
         XML = XML.replace("<Protocol xmlns=\"http://irb.mit.edu/irbnamespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Protocol xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
@@ -206,7 +206,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     /*
      * 
      */
-    private String getUserTag() {
+    protected String getUserTag() {
         Person person = GlobalVariables.getUserSession().getPerson();
         StringBuffer sb = new StringBuffer();
         sb = sb.append("<user><firstName>").append(person.getFirstName()).append("</firstName>").append("<lastName>")

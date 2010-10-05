@@ -39,7 +39,7 @@ public class ProtocolNotificationTemplateAuthorizationServiceImpl implements Pro
 
     }
 
-    private String getUserName() {
+    protected String getUserName() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 

@@ -107,7 +107,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * and sets the default district if there is one defined for the Organization.
      * @param organizationId
      */
-    private ProposalSite createProposalSite(String organizationId, int siteNumber) {
+    protected ProposalSite createProposalSite(String organizationId, int siteNumber) {
         ProposalSite proposalSite = new ProposalSite();
         proposalSite.setOrganizationId(organizationId);
         proposalSite.refreshReferenceObject("organization");
@@ -116,7 +116,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return proposalSite;
     }
       
-    private int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
     }
     
@@ -136,7 +136,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @param unitNumbers varargs representation of unitNumber array
      * @return Collection<Unit>
      */
-    private Collection<Unit> getUnitsWithNumbers(String... unitNumbers) {
+    protected Collection<Unit> getUnitsWithNumbers(String... unitNumbers) {
         Collection<Unit> retval = new ArrayList<Unit>();
 
         for (String unitNumber : unitNumbers) {
@@ -178,14 +178,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
     }
     
-    private ProposalOverview getProposalOverview(String proposalNumber) {
+    protected ProposalOverview getProposalOverview(String proposalNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("proposalNumber", proposalNumber);
         ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class, primaryKeys);
         return currentProposal;
     }
 
-    private String getLookupDisplayValue(String lookupClassName, String value, String displayAttributeName) {
+    protected String getLookupDisplayValue(String lookupClassName, String value, String displayAttributeName) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;
@@ -273,7 +273,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     
     
     
-    private String getPropertyValue(BusinessObject businessObject, String fieldName) {
+    protected String getPropertyValue(BusinessObject businessObject, String fieldName) {
         String displayValue = "";
         try {
             displayValue = (String) ObjectUtils.getPropertyValue(businessObject, fieldName);
@@ -296,7 +296,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return fieldValue;
     }
     
-    private String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
+    protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
         String returnValue = "";
         if(GlobalVariables.getErrorMap() != null) {
             GlobalVariables.getErrorMap().clear();

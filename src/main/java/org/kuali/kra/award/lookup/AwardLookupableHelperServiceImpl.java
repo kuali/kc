@@ -177,14 +177,14 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }
     
     
-    private void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
+    protected void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
         AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
         AwardDocument document = ((Award) businessObject).getAwardDocument();
         htmlData.setHref(String.format(hrefPattern, document.getDocumentNumber(), getDocumentTypeName()));
         htmlDataList.add(htmlData);
     }
     
-    private HtmlData getOspAdminNameInquiryUrl(Award award) {
+    protected HtmlData getOspAdminNameInquiryUrl(Award award) {
         KcPerson ospAdministrator = award.getOspAdministrator();
         if (ospAdministrator != null) {
             final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(ospAdministrator.getPersonId());
@@ -194,7 +194,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         }
     }
 
-    private HtmlData getPrincipalInvestigatorNameInquiryUrl(Award award) {
+    protected HtmlData getPrincipalInvestigatorNameInquiryUrl(Award award) {
         HtmlData inquiryUrl = null;
         AwardPerson principalInvestigator = award.getPrincipalInvestigator();
         if (principalInvestigator != null) {
@@ -219,7 +219,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
      * @param propertyName
      * @return
      */
-    private HtmlData getUnitNumberInquiryUrl(Award award) {
+    protected HtmlData getUnitNumberInquiryUrl(Award award) {
         Unit inqBo = new Unit();
         Unit leadUnit = award.getLeadUnit();
         inqBo.setUnitNumber(leadUnit != null ? leadUnit.getUnitNumber() : null);
@@ -251,7 +251,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         return "awardId";
     }   
     
-    private List<Award> filterForActiveAwards(Collection<Award> collectionByQuery) {
+    protected List<Award> filterForActiveAwards(Collection<Award> collectionByQuery) {
         Set<String> awardNumbers = new TreeSet<String>();
         for(Award award: collectionByQuery) {
             awardNumbers.add(award.getAwardNumber());

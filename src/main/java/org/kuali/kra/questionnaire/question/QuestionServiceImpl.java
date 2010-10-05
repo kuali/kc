@@ -108,7 +108,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @return true if this is the active questionnaire, false otherwise
      */
     @SuppressWarnings("unchecked")
-    private boolean isActiveQuestionnaire(Questionnaire questionnaire) {
+    protected boolean isActiveQuestionnaire(Questionnaire questionnaire) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireId());
         Collection<Questionnaire> questionnaires = businessObjectService.findMatching(Questionnaire.class, fieldValues);
