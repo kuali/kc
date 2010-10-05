@@ -27,6 +27,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -44,6 +45,8 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     private ProtocolVersionService protocolVersionService;
     private DocumentService documentService;
     private RoleService kimRoleManagementService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
+    
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
@@ -189,6 +192,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     private ProtocolDocument performVersioning(Protocol protocol) throws Exception {
         documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review finalized - protocol has been returned for revisions.");
         
         ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newDocument.getProtocol().setApprovalDate(null);
@@ -202,6 +206,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         return newDocument;
     }
     
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
     private boolean containsProtocolAction(Protocol protocol, String protocolActionTypeCode) {
         boolean containsAction = false;
         

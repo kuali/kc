@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.delete;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -28,6 +29,9 @@ public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
 
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
+    
+    private static final String DELETE_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -57,5 +61,14 @@ public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
          * is removed from the user's action list.
          */
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
+    }
+
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 }

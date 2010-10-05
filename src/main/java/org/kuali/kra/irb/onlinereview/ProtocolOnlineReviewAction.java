@@ -453,6 +453,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String disapprovalNoteText = "";
         String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+       
+        //the data gets saved here, need to validate the save ok.
+        if (!this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,prDoc.getProtocolOnlineReview().getReviewerComments().getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
         
         // start in logic for confirming the disapproval
         if (question == null) {
@@ -581,7 +587,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm)form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        if ( !this.applyRules(new AddProtocolOnlineReviewCommentEvent(prDoc,comments.getNewComment(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+        if ( !(this.applyRules(new AddProtocolOnlineReviewCommentEvent(prDoc,comments.getNewComment(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))
+                && this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,prDoc.getProtocolOnlineReview().getReviewerComments().getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))))
+        {
             //nothing to do, we failed validation return them to the screen.
         } else {
             comments.addNewComment(protocolForm.getProtocolDocument().getProtocol(),prDoc.getProtocolOnlineReview() );
@@ -611,10 +619,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm)form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        comments.moveUp(onlineReviewCommentIndex, onlineReviewCommentIndex);
-        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-        documentService.saveDocument(prDoc);
-        //protocolForm.getOnlineReviewsActionHelper().init(true); 
+        
+        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            comments.moveUp(onlineReviewCommentIndex, onlineReviewCommentIndex);
+            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+        } 
+        protocolForm.getOnlineReviewsActionHelper().init(true); 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
@@ -638,10 +649,12 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
       
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        comments.moveDown(onlineReviewCommentIndex, onlineReviewCommentIndex);
-        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-        documentService.saveDocument(prDoc);
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
+        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            comments.moveDown(onlineReviewCommentIndex, onlineReviewCommentIndex);
+            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+        }
+        protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 
@@ -663,9 +676,14 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         ProtocolForm protocolForm = (ProtocolForm)form;
         ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) documentService.getByDocumentHeaderId(onlineReviewDocumentNumber);
         ReviewerComments comments = protocolForm.getOnlineReviewsActionHelper().getReviewerCommentsFromHelperMap(onlineReviewDocumentNumber);
-        comments.deleteComment(onlineReviewCommentIndex);
-        reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
+        
+        if (this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc,comments.getComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            comments.deleteComment(onlineReviewCommentIndex);
+            reviewerCommentsService.persistReviewerComments(comments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
+            documentService.saveDocument(prDoc);
+        }
+        
+        protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     

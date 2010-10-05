@@ -35,6 +35,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
@@ -56,7 +57,10 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolActionsNotificationService protocolActionsNotificationService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
     private IdentityManagementService identityManagementService;
+    
+    private static final String WITHDRAW_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
     
     /**
      * Set the document service.
@@ -102,6 +106,7 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
      * @see org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService#withdraw(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean)
      */
     public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
+        ProtocolSubmission submission = getSubmission(protocol);
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
@@ -110,27 +115,24 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
               || ProtocolStatus.SUBMITTED_TO_IRB.equals(protocol.getProtocolStatusCode());
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
 
-        ProtocolSubmission submission = getSubmission(protocol);
+       
         if (submission != null) {
             submission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
             submission.setSubmissionStatusCode(ProtocolSubmissionStatus.WITHDRAWN);
+            // need to finalize any outstanding review documents.
+            protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
         }
         businessObjectService.save(protocol.getProtocolDocument());
         // sendWithdrawNotification(protocol);
         protocolActionsNotificationService.sendActionsNotification(protocol, new WithdrawEvent(protocol));
-
+        
         if (isVersion) {
             /*
              * Cancelling the workflow document is how we withdraw it.
              */
             cancelWorkflow(protocol);
 
-            // need to cancel any outstanding review documents
-            for (ProtocolOnlineReview review : protocol.getProtocolOnlineReviews()) {
-                cancelWorkflow(review);
-            }
-
-
+            
             /*
              * Create a new protocol document for the user to edit so they can re-submit at a later time.
              */
@@ -196,18 +198,21 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
     }
   
-    private void cancelWorkflow(ProtocolOnlineReview review) {
-        final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
-        try {
-            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-            workflowDocument.superUserCancel("Review cancelled - protocol has been withdrawn.");
-        }
-        catch (WorkflowException e) {
-           LOG.error(String.format("WorkflowException generated when cancel called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
-           throw new RuntimeException(String.format("WorkflowException generated when cancel called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
-        }
-    }
-    
+//    private void cancelWorkflow(ProtocolOnlineReview review) {
+//        final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+//        try {
+//            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+//            if (workflowDocument.stateIsEnroute()) {
+//                workflowDocument.superUserApprove("Review finalized - protocol has been withdrawn.");
+//            }
+//            
+//        }
+//        catch (WorkflowException e) {
+//           LOG.error(String.format("WorkflowException generated when super user approve called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
+//           throw new RuntimeException(String.format("WorkflowException generated when super user approve called on protocolOnlineReview document number:%s", review.getProtocolOnlineReviewDocument().getDocumentNumber(), e));
+//        }
+//    }
+//    
 
     /**
      * Get the submission that is being withdrawn.  Since a protocol can have
@@ -266,5 +271,13 @@ public class ProtocolWithdrawServiceImpl implements ProtocolWithdrawService {
 
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;
+    }
+
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
 }

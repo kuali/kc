@@ -157,4 +157,13 @@ public interface ProtocolOnlineReviewService {
      */
     public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
     
+    /**
+     * Finalizes all online review documents associated with the submission.
+     * 
+     * 
+     * @param submission
+     * 
+     */
+    public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
+    
 }
