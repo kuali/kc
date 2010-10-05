@@ -2435,7 +2435,7 @@
 										<xsl:if test="../PrintRequirement/HierarchyInfoRequired   = &quot;1&quot;">
 											<xsl:if test="count(    ChildAwardDetails/ChildAward )  &gt; 0">
 												<fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
-													<xsl:text>Distributions:</xsl:text>
+													<xsl:text>Hierarchy Distributions:</xsl:text>
 												</fo:inline>
 												<fo:block/>
 												<xsl:for-each select="ChildAwardDetails">
@@ -2463,28 +2463,28 @@
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>Account Number</xsl:text>
+																				<xsl:text>Account ID</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>Start Date</xsl:text>
+																				<xsl:text>Obligation Start</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>End Date</xsl:text>
+																				<xsl:text>Obligation End</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>Total</xsl:text>
+																				<xsl:text>Obligation Total</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
