@@ -1122,8 +1122,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
                 getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 persistReviewComments(protocolForm, actionBean);
-                protocolForm.getActionHelper().getProtocolApproveBean().initComments();
-                protocolForm.getActionHelper().getCommitteeDecision().initComments();
                 
                 recordProtocolActionSuccess("Assign to Agenda");
             }
@@ -2886,10 +2884,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                     protocolForm.getActionHelper().getCommitteeDecision());
             
             persistReviewComments(protocolForm, protocolForm.getActionHelper().getCommitteeDecision());
-            protocolForm.getActionHelper().getProtocolApproveBean().initComments();
-            protocolForm.getActionHelper().getProtocolDisapproveBean().initComments();
-            protocolForm.getActionHelper().getProtocolSMRBean().initComments();
-            protocolForm.getActionHelper().getProtocolSRRBean().initComments();
 
             recordProtocolActionSuccess("Record Committee Decision");
         }

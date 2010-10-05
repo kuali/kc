@@ -121,7 +121,6 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
                 this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(protocol);
             }
         }
-        initComments();
         
         /*
          * The Assign to Agenda has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
