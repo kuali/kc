@@ -184,7 +184,8 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
             for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
-                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3")) {
+                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
+                        !minuteEntryInfoBean.getPrivateCommentFlag()) {
                     addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
                 }
             }
