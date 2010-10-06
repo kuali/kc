@@ -29,6 +29,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -204,6 +206,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private String principalInvestigatorName;
     private String statusDescription;
     private String sponsorName;
+    
+    private transient boolean awardInMultipleNodeHierarchy;
 
     private transient boolean sponsorIsNih;
     private transient Map<String, String> nihDescriptions;
@@ -212,10 +216,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     // transient for award header label
     private transient String docIdStatus;
-    private transient String awardIdAccount;   
+    private transient String awardIdAccount; 
     
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
+    private transient AwardHierarchyService awardHierarchyService;
     
     private transient List<AwardUnitContact> centralAdminContacts;
 
@@ -334,7 +339,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
         AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(this);
         int index = 0;
-        if(!(aai.getAwardAmountInfoId() == null)) {
+        if(aai.getAwardAmountInfoId() != null && this.isAwardInMultipleNodeHierarchy()) {
             this.refreshReferenceObject("awardAmountInfos");
         }
         for(AwardAmountInfo awardAmountInfo : getAwardAmountInfos()) {
@@ -356,6 +361,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public AwardAmountInfoService getAwardAmountInfoService() {
         awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         return awardAmountInfoService;
+    }
+    
+    public AwardHierarchyService getAwardHierarchyService() {
+        if (awardHierarchyService == null) {
+            awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
+        }
+        return awardHierarchyService;
     }
 
     /**
@@ -2897,6 +2909,14 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                 centralAdminContacts.add(newAwardUnitContact);
             }
         }
+    }
+
+    public boolean isAwardInMultipleNodeHierarchy() {
+        return awardInMultipleNodeHierarchy;
+    }
+
+    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
+        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
     }
 
 }
