@@ -56,7 +56,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
@@ -115,12 +115,16 @@
 							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<defaultOptions>
 							    <noAddressBinding>true</noAddressBinding>
+							    <extraargs>
+							    	<extraarg>-verbose</extraarg>
+							    	<extraarg>-validate</extraarg>
+							    </extraargs>
 							</defaultOptions>
 							<!-- maven 3 conventions - works with current m2Eclipse -->
 							<wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
-						  <includes>
+						    <includes>
 						      <include>ApplicantIntegrationServices-V1_1.wsdl</include>
-						  </includes>
+						    </includes>
 						</configuration>
 						<goals>
 							<goal>wsdl2java</goal>
@@ -514,6 +518,10 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
+			<!--
+			cannot update to 1.2 b/c api is not compatible with junit 4.8.x
+			http://github.com/KentBeck/junit/issues#issue/36
+			 -->
 			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
@@ -844,7 +852,7 @@
 	</dependencies>
 
 	<profiles>
-	
+
 		<!-- 
 			This profile handles unpacking and cleaning of the rice web content and is on by default but can be
 			turned off by toggling the activeByDefault flag.  This is useful to test changes to rice files locally.
@@ -937,6 +945,8 @@
 		            							<include>ksb/</include>
 		            							<include>rice-portal/</include>
 		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
+		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
+		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
 		            							<include>WEB-INF/tags/kew/</include>
 		            							<include>WEB-INF/tags/kim/</include>
 		            							<include>WEB-INF/tags/kr/</include>
@@ -1134,7 +1144,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<!--
 						looks like there are some bugs related to the suppression file location - using a nonstandard property.
@@ -1185,12 +1195,11 @@
 		<jstl.version>1.1.2</jstl.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3-09</rice.version>
+		<rice.version>1.0.3-10</rice.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
 		<struts.version>1.2.9</struts.version>
-		<tomcat.version>5.5.23</tomcat.version>
 		
 		<!-- Checkstyle config -->
 		<checkstyle.config.location>${basedir}/src/main/config/KC_Checkstyle.xml</checkstyle.config.location>
@@ -1202,7 +1211,7 @@
     	<!-- defaults to dev unless overriden -->
     	<build.environment>dev</build.environment>
     	<default.context.path>/kc-${build.environment}</default.context.path>
-    	
+
     	<rice.web.excludes>
 			META-INF/,
           	WEB-INF/classes/,
