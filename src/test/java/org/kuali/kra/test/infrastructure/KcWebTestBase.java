@@ -1135,11 +1135,13 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
      * @throws Exception
      */
     protected void backdoorLogin(String username) throws Exception {
-        HtmlPage portal = getPortalPage();
-        portal = clickOn(portal, "Click to logout.");
-        portal = clickOn(portal, "Researcher");
-        setFieldValue(portal, "__login_user", username);
-        clickOn(portal, "buttonRow");
+        HtmlPage portal = this.getPortalPage();
+        HtmlElement element = getElement(portal, "backdoorId");
+        if (element == null) {
+            portal = clickOn(portal, "Researcher");
+        }
+        setFieldValue(portal, "backdoorId", username);
+        clickOn(portal, "imageField");
     }
     
     /**

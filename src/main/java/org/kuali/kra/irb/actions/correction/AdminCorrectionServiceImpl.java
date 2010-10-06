@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -39,7 +40,12 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
         try {
             notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
             Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName()); 
+            ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
+            if (!principalInvestigator.isNonEmployee()) {
+                recipientUser.setTextContent(principalInvestigator.getPerson().getUserName());
+            } else {
+                recipientUser.setTextContent(principalInvestigator.getRolodex().getFullName());
+            }
 
             Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
             sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
