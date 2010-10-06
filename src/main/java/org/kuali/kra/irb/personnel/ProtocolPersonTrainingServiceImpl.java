@@ -28,8 +28,10 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonTrainingServiceImpl.class);
-    private BusinessObjectService businessObjectService;
     private static final String PERSON_ID_FIELD = "personId";
+    private static final String ACTIVE_FLAG_FIELD = "active";
+    private static final String IS_ACTIVE_VALUE = "Y";
+    private BusinessObjectService businessObjectService;
     
     
     /**
@@ -48,6 +50,7 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
         if (StringUtils.isNotEmpty(protocolPerson.getPersonId())) {
             Map<String, Object> matchingKeys = new HashMap<String, Object>();
             matchingKeys.put(PERSON_ID_FIELD, protocolPerson.getPersonId());
+            matchingKeys.put(ACTIVE_FLAG_FIELD, IS_ACTIVE_VALUE);
             Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatching(PersonTraining.class, matchingKeys);
             protocolPerson.setTrained(personTrainings.size() > 0 ? true : false);
         }

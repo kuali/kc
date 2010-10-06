@@ -37,6 +37,7 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 	private Date followupDate; 
 	private String score; 
 	private String comments; 
+	private boolean active;
 
 	private Training training;
 	private transient KcPersonService kcPersonService;
@@ -125,6 +126,14 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 		this.comments = comments;
 	}
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 	@Override 
 	protected LinkedHashMap<String,Object> toStringMapper() {
 		LinkedHashMap<String,Object> hashMap = new LinkedHashMap<String,Object>();
@@ -138,6 +147,7 @@ public class PersonTraining extends KraPersistableBusinessObjectBase {
 		hashMap.put("followupDate", getFollowupDate());
 		hashMap.put("score", getScore());
 		hashMap.put("comments", getComments());
+		hashMap.put("active", isActive());
 		return hashMap;
 	}
 
