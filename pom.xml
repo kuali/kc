@@ -56,7 +56,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
@@ -518,6 +518,10 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
+			<!--
+			cannot update to 1.2 b/c api is not compatible with junit 4.8.x
+			http://github.com/KentBeck/junit/issues#issue/36
+			 -->
 			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
@@ -1145,7 +1149,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<!--
 						looks like there are some bugs related to the suppression file location - using a nonstandard property.
@@ -1189,14 +1193,14 @@
 	</ciManagement>
 
 	<properties>
-		<cxf.version>2.2.10</cxf.version>
+		<cxf.version>2.2.9</cxf.version>
 		<drools.version>5.1.1</drools.version>
 		<jetty.version>7.1.6.v20100715</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
 		<jstl.version>1.1.2</jstl.version>
 		<mysql.version>5.1.13</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>1.0.3-09</rice.version>
+		<rice.version>1.0.3-10</rice.version>
 		<servlet.version>2.4</servlet.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<springframework.version>2.5.6</springframework.version>
