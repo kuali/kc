@@ -46,12 +46,13 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
-				<role name="DepartmentReview">
-					<qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver>
+				<requests name="DepartmentReview">
+					<!-- <qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver> -->
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
 					<ruleTemplate>UnitApproval</ruleTemplate>
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-	            </role>				
+	            </requests>				
                 <role name="IRBReview">
 					<qualifierResolver>ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
                     <activationType>S</activationType>
@@ -104,6 +105,7 @@
             </routingConfig>
         </ruleAttribute>
         
+        <!-- 
         <ruleAttribute>
 			<name>UnitRouting-XPathQualifierResolver</name>
 			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
@@ -116,7 +118,7 @@
 					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
 				</qualifier>
 			</resolverConfig>
-		</ruleAttribute>
+		</ruleAttribute> -->
 		
         <ruleAttribute>
 			<name>ProtocolUnitApprovalAttribute</name>
@@ -142,6 +144,18 @@
 				</fieldDef>
 			</routingConfig>
 		</ruleAttribute>
+		
+		<!-- Role attribute -->
+		<ruleAttribute>
+			<name>UnitAdministratorRoleAttribute</name>
+			<className>
+				org.kuali.kra.workflow.UnitAdministratorRoleAttribute
+			</className>
+			<label>Protocol Unit Routing</label>
+			<description>Protocol Unit Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		
         
     </ruleAttributes>
     
@@ -173,6 +187,10 @@
 			<attributes>
 				<attribute>
 					<name>ProtocolUnitApprovalAttribute</name>
+					<required>false</required>
+				</attribute>
+				<attribute>
+					<name>UnitAdministratorRoleAttribute</name>
 					<required>false</required>
 				</attribute>
 			</attributes>
@@ -223,7 +241,7 @@
         <rule>
 			<documentType>ProtocolDocument</documentType>
 			<ruleTemplate>UnitApproval</ruleTemplate>
-			<description>Unit Approval Routing Rule for BL-IIDC</description>
+			<description>Unit Approval Routing Rule for IN-CARD</description>
 			<ruleExtensions>
 				<ruleExtension>
 					<attribute>ProtocolUnitApprovalAttribute</attribute>
@@ -236,6 +254,15 @@
 					</ruleExtensionValues>
 				</ruleExtension>
 			</ruleExtensions>
+			
+			<responsibilities>
+		  		<responsibility>
+		    			<roleName attributeClassName="org.kuali.kra.workflow.UnitAdministratorRoleAttribute">UnitAdministratorRoleAttribute!UnitAdministrator</roleName>
+		    			<approvePolicy>F</approvePolicy>
+		    			<actionRequested>A</actionRequested>
+		    			<priority>1</priority>
+		  		</responsibility>
+			</responsibilities>
 		</rule>
 		
     </rules>
