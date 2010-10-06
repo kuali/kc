@@ -508,15 +508,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the awardInMultipleNodeHierarchy.
      */
     public boolean isAwardInMultipleNodeHierarchy() {
-        return awardInMultipleNodeHierarchy;
-    }
-
-    /**
-     * Sets the awardInMultipleNodeHierarchy attribute value.
-     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
-     */
-    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
-        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+        return this.getAwardDocument().getAward().isAwardInMultipleNodeHierarchy();
     }
     
     /**
