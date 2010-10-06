@@ -1509,7 +1509,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             attachmentSummary.setAttachmentId(attachment.getId());
             attachmentSummary.setFileType(attachment.getFile().getType());
             attachmentSummary.setFileName(attachment.getFile().getName());
-            attachmentSummary.setAttachmentType(attachment.getType().getDescription());
+            attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
             attachmentSummary.setDescription(attachment.getDescription());
             attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
             protocolSummary.add(attachmentSummary);
@@ -1519,7 +1519,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             attachmentSummary.setAttachmentId(attachment.getId());
             attachmentSummary.setFileType(attachment.getFile().getType());
             attachmentSummary.setFileName(attachment.getFile().getName());
-            attachmentSummary.setAttachmentType(attachment.getType().getDescription());
+            attachmentSummary.setAttachmentType(attachment.getPerson().getPersonName() + ": " + attachment.getType().getDescription());
             attachmentSummary.setDescription(attachment.getDescription());
             attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
             protocolSummary.add(attachmentSummary);
