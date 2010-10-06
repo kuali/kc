@@ -64,41 +64,44 @@
 	</bean>
 
 	<bean id="ProtocolPersonRole-description" parent="ProtocolPersonRole-description-parentBean" />
-	<bean id="ProtocolPersonRole-description-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="description" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
+	<bean id="ProtocolPersonRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" >
 		<property name="maxLength" value="250" />
-		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
 	</bean>
 
   	<bean id="ProtocolPersonRole-unitDetailsRequired" parent="ProtocolPersonRole-unitDetailsRequired-parentBean" />
   	<bean id="ProtocolPersonRole-unitDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     	<property name="name" value="unitDetailsRequired" />
+        <property name="label" value="Unit Details Required" />
+        <property name="shortLabel" value="Unit Details Required" />
+        <property name="summary" value="Unit Details Required" />
+        <property name="description" value="Unit Details Required" />
   	</bean>
 
   	<bean id="ProtocolPersonRole-affiliationDetailsRequired" parent="ProtocolPersonRole-affiliationDetailsRequired-parentBean" />
   	<bean id="ProtocolPersonRole-affiliationDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     	<property name="name" value="affiliationDetailsRequired" />
+        <property name="label" value="Affiliation Details Required" />
+        <property name="shortLabel" value="Affiliation Details Required" />
+        <property name="summary" value="Affiliation Details Required" />
+        <property name="description" value="Affiliation Details Required" />
   	</bean>
 
   	<bean id="ProtocolPersonRole-trainingDetailsRequired" parent="ProtocolPersonRole-trainingDetailsRequired-parentBean" />
   	<bean id="ProtocolPersonRole-trainingDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     	<property name="name" value="trainingDetailsRequired" />
+        <property name="label" value="Training Details Required" />
+        <property name="shortLabel" value="Training Details Required" />
+        <property name="summary" value="Training Details Required" />
+        <property name="description" value="Training Details Required" />
   	</bean>
 
     <bean id="ProtocolPersonRole-commentsDetailsRequired" parent="ProtocolPersonRole-commentsDetailsRequired-parentBean" />
     <bean id="ProtocolPersonRole-commentsDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="commentsDetailsRequired" />
+        <property name="label" value="Comments Details Required" />
+        <property name="shortLabel" value="Comments Details Required" />
+        <property name="summary" value="Comments Details Required" />
+        <property name="description" value="Comments Details Required" />
     </bean>
 
 	<bean id="ProtocolPersonRole-versionNumber" parent="ProtocolPersonRole-versionNumber-parentBean" />
