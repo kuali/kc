@@ -70,7 +70,8 @@
 				<ref bean="Protocol-protocolType.description" />
 				<ref bean="Protocol-protocolStatus.description" />
 				<ref bean="Protocol-updateTimestamp" />
-				
+				<ref bean="Protocol-initiatorLastUpdated" />
+				<ref bean="Protocol-protocolSubmissionStatus" />
 			</list>
 		</property>
 		
@@ -681,6 +682,25 @@
 		<property name="shortLabel" value="Last Updated" />
 	</bean>
     
+   	<bean id="Protocol-initiatorLastUpdated" parent="Protocol-initiatorLastUpdated-parentBean" />
+	<bean id="Protocol-initiatorLastUpdated-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="initiatorLastUpdated" />
+		<property name="label" value="Initiator:Last Updated" />
+		<property name="shortLabel" value="Initiator:Last Updated" />
+	    <property name="maxLength" value="30" />
+	   	<property name="required" value="false" />
+	   	<property name="control" >
+	    	<bean parent="TextControlDefinition" p:size="30" />
+	   	</property>
+		<property name="summary" value="Label for Protocol header fields" />
+		<property name="description" value="Label for Protocol header fields" />
+	</bean>
+	
+	<bean id="Protocol-protocolSubmissionStatus" parent="Protocol-protocolSubmissionStatus-parentBean" />
+	<bean id="Protocol-protocolSubmissionStatus-parentBean" abstract="true" parent="ProtocolSubmission-submissionStatus.description-parentBean">
+		<property name="name" value="protocolSubmissionStatus" />
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
 	<bean id="Protocol-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">

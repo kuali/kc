@@ -181,6 +181,19 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     // this link is from protocosubmission or notify irb message
     private transient Long notifyIrbSubmissionId;
     
+    // transient for protocol header combined label
+    private transient String initiatorLastUpdated;
+    private transient String protocolSubmissionStatus;
+    
+    public String getInitiatorLastUpdated() {
+        return initiatorLastUpdated;
+    }
+
+    public String getProtocolSubmissionStatus() {
+        return protocolSubmissionStatus;
+    }
+
+
     /**
      * 
      * Constructs an Protocol BO.

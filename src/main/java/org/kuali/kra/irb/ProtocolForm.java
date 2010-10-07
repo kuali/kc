@@ -232,11 +232,25 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
         }
         
-        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.Protocol.attributes.updateTimestamp", lastUpdatedDateStr);
-        getDocInfo().set(3, lastUpdatedDate);
+        if(getDocInfo().size() > 2) {
+            HeaderField initiatorField = getDocInfo().get(2);
+            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
+            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
+                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
+            }
+            getDocInfo().set(2, new HeaderField("DataDictionary.Protocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
+        }
+        
+        String protocolSubmissionStatusStr = null;
+        if(pd != null && pd.getProtocol() != null && pd.getProtocol().getProtocolSubmission() != null) {
+            pd.getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
+            protocolSubmissionStatusStr = pd.getProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
+        }
+        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.Protocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
+        getDocInfo().set(3, protocolSubmissionStatus);
         
         getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
-        
+
         String expirationDateStr = null;
         if(pd != null && pd.getProtocol().getExpirationDate() != null) {
             expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
