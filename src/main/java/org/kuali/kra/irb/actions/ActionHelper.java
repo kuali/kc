@@ -1153,8 +1153,6 @@ public class ActionHelper implements Serializable {
     
     /**
      * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
-     * @param startDate
-     * @param endDate
      */
     public void initFilterDatesView() {
         java.util.Date dayBeforeStartDate = null;
@@ -1162,7 +1160,7 @@ public class ActionHelper implements Serializable {
         
         if (filteredHistoryStartDate != null && filteredHistoryEndDate != null) {
             dayBeforeStartDate = DateUtils.addDays(filteredHistoryStartDate, -1);
-            dayAfterEndDate = DateUtils.addDays(filteredHistoryStartDate, 1);
+            dayAfterEndDate = DateUtils.addDays(filteredHistoryEndDate, 1);
         }
         
         for (ProtocolAction protocolAction : getSortedProtocolActions()) {            
