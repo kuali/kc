@@ -181,12 +181,12 @@ public class SpecialReviewRuleBase<T extends AbstractSpecialReview<? extends Abs
         if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
             isValid = false;
             reportErrorWithoutFullErrorPath(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, 
-                    PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+                    APPLICATION_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
         }
         if (approval.isApprovalDateFlag() && specialReview.getApprovalDate() == null) {
             isValid = false;
             reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, 
-                    PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+                    APPROVAL_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
         }
         if (approval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null && specialReview.getExemptionTypeCodes().isEmpty()) {
             isValid = false;
