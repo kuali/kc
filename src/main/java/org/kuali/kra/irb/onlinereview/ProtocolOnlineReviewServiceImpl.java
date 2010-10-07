@@ -458,9 +458,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             if (submissionsProtocolOnlineReview.getCommitteeScheduleMinutes()!=null) {
                 submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
             }
-            submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
             getBusinessObjectService().save(submissionsProtocolOnlineReview);
-        
         } else {
             LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }

@@ -330,7 +330,9 @@ public class ProtocolSubmission extends ProtocolAssociate {
         List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews();
         if (reviews != null) {
             for (ProtocolOnlineReview review : reviews) {
-                reviewers.add(review.getProtocolReviewer());
+                if (review.isActive()) {
+                    reviewers.add(review.getProtocolReviewer());
+                }
             }
         }
         
