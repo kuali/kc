@@ -1206,6 +1206,30 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
          assertTrue(protocolActionService.canPerformAction("116", protocol));
     }
     
+    @Test
+    public void testIsApproveActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("1");
+        assertTrue(protocolActionService.isActionOpenForFollowup("204", protocol));
+    }
+    
+    @Test
+    public void testIsDisapproveActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("2");
+        assertTrue(protocolActionService.isActionOpenForFollowup("304", protocol));
+    }
+    
+    @Test
+    public void testIsReturnForSMRActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("3");
+        assertTrue(protocolActionService.isActionOpenForFollowup("203", protocol));
+    }
+    
+    @Test
+    public void testIsReturnForSRRActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("4");
+        assertTrue(protocolActionService.isActionOpenForFollowup("202", protocol));
+    }
+    
     private List<String> getRuleFiles() {
         List<String>ruleFiles = new ArrayList<String>();
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
@@ -1214,6 +1238,8 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl");
         return ruleFiles;
     }
 }

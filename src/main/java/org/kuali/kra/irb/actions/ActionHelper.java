@@ -58,6 +58,7 @@ import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -146,6 +147,11 @@ public class ActionHelper implements Serializable {
     private boolean canDefer = false;
     private boolean canReviewNotRequired = false;
     private boolean canManageReviewComments = false;
+
+    private boolean isApproveOpenForFollowup;
+    private boolean isDisapproveOpenForFollowup;
+    private boolean isReturnForSMROpenForFollowup;
+    private boolean isReturnForSRROpenForFollowup;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -193,6 +199,7 @@ public class ActionHelper implements Serializable {
     private transient ProtocolAmendRenewService protocolAmendRenewService;
     private transient ProtocolVersionService protocolVersionService;
     private transient ProtocolSubmitActionService protocolSubmitActionService;
+    private transient ProtocolActionService protocolActionService;
     
     /*
      * Identifies the protocol "document" to print.
@@ -538,6 +545,11 @@ public class ActionHelper implements Serializable {
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         canReviewNotRequired = hasReviewNotRequiredPermission();
         canManageReviewComments = hasManageReviewCommentsPermission();
+
+        isApproveOpenForFollowup = hasApproveFollowupAction();
+        isDisapproveOpenForFollowup = hasDisapproveFollowupAction();
+        isReturnForSMROpenForFollowup = hasReturnForSMRFollowupAction();
+        isReturnForSRROpenForFollowup = hasReturnForSRRFollowupAction();
         
         initSummaryDetails();
         initSubmissionDetails();
@@ -582,6 +594,13 @@ public class ActionHelper implements Serializable {
             protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
         }
         return protocolSubmitActionService;
+    }
+    
+    private ProtocolActionService getProtocolActionService() {
+        if (protocolActionService == null) {
+            protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        }
+        return protocolActionService;
     }
 
     private String getParameterValue(String parameterName) {
@@ -771,6 +790,22 @@ public class ActionHelper implements Serializable {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
         boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         return retVal;
+    }
+    
+    private boolean hasApproveFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.APPROVED, getProtocol());
+    }
+    
+    private boolean hasDisapproveFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.DISAPPROVED, getProtocol());
+    }
+    
+    private boolean hasReturnForSMRFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, getProtocol());
+    }
+    
+    private boolean hasReturnForSRRFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, getProtocol());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -1098,6 +1133,22 @@ public class ActionHelper implements Serializable {
 
     public boolean getCanManageReviewComments() {  
         return canManageReviewComments;
+    }
+    
+    public boolean getIsApproveOpenForFollowup() {
+        return isApproveOpenForFollowup;
+    }
+    
+    public boolean getIsDisapproveOpenForFollowup() {
+        return isDisapproveOpenForFollowup;
+    }
+    
+    public boolean getIsReturnForSMROpenForFollowup() {
+        return isReturnForSMROpenForFollowup;
+    }
+    
+    public boolean getIsReturnForSRROpenForFollowup() {
+        return isReturnForSRROpenForFollowup;
     }
 
     public void setPrintTag(String printTag) {
