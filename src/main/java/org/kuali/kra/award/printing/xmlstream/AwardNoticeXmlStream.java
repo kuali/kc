@@ -72,6 +72,7 @@ import org.kuali.kra.bo.OrganizationTypeList;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorType;
 import org.kuali.kra.bo.Training;
 import org.kuali.kra.bo.Unit;
@@ -201,7 +202,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private void initialize(Award award) {
 		this.awardDocument = award.getAwardDocument();
 		this.award = award;
-		award.refreshNonUpdateableReferences();
+//		award.refreshNonUpdateableReferences();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
 			awardAmountInfo = awardAmountInfos.get(0);
