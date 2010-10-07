@@ -17,11 +17,12 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="openForFollowup" value="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
 <c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
 
 <kra:permission value="${KualiForm.actionHelper.canApprove}">
 
-<kul:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean*">
+<kul:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="${openForFollowup}" tabErrorKey="actionHelper.protocolApproveBean*">
    
    <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 

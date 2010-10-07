@@ -531,6 +531,7 @@
                 <value>org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/updateProtocolRules.drl</value>
                 <value>org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl</value>
+                <value>org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl</value>
             </list>
         </property>
     </bean>

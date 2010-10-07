@@ -17,10 +17,11 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="openForFollowup" value="${KualiForm.actionHelper.isDisapproveOpenForFollowup}" />
 
 <kra:permission value="${KualiForm.actionHelper.canDisapprove}">
 
-<kul:innerTab tabTitle="Disapprove" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolDisapproveBean*">
+<kul:innerTab tabTitle="Disapprove" parentTab="" defaultOpen="${openForFollowup}" tabErrorKey="actionHelper.protocolDisapproveBean*">
    
     <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 

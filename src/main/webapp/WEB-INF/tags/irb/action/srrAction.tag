@@ -17,10 +17,11 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="openForFollowup" value="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
 
 <kra:permission value="${KualiForm.actionHelper.canReturnForSRR}">
 
-<kul:innerTab tabTitle="Return for Substantive Revisions Required" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSRRBean*">
+<kul:innerTab tabTitle="Return for Substantive Revisions Required" parentTab="" defaultOpen="${openForFollowup}" tabErrorKey="actionHelper.protocolSRRBean*">
    
    <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
