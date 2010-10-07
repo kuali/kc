@@ -134,6 +134,7 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -150,6 +151,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
     private static final String CONIFRM_REMOVE_REVIEWER_KEY="confirmRemoveReviewer";
+    private static final String CONFIRM_REMOVE_EXISTING_REVIEWS_KEY="confirmRemoveExistingReviews";
+    private static final String SCHEDULE_CHANGE_REMOVE_ONLINE_REVIEW_ANNOTATION="Online Review removed due to submission committee or schedule change.";
+    
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
@@ -1198,33 +1202,59 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        final String callerString = "assignCommitteeSchedule";
         ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
+       
         if (isAuthorized(task)) {
             ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
             if (applyRules(new ProtocolAssignCmtSchedEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
-                    return confirm(buildAssignToCmtSchedConfirmationQuestion(mapping, form, request, response),
-                            CONFIRM_ASSIGN_CMT_SCHED_KEY, "");
-                }
-                getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 
-                recordProtocolActionSuccess("Assign to Committee and Schedule");
+                if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
+                    boolean performAssignment = false;
+                    Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                    Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+                
+                    if ((CONFIRM_REMOVE_EXISTING_REVIEWS_KEY.equals(question) || actionBean.scheduleHasChanged() && getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(protocolForm.getProtocolDocument().getProtocol()).size()>0)) {
+                        //There are existing reviews and we are changing schedules
+                        //need to verify with the user that they want to remove the existing reviews before proceeding.
+                        if (question==null || !CONFIRM_REMOVE_EXISTING_REVIEWS_KEY.equals(question)) {
+                            return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_REMOVE_EXISTING_REVIEWS_KEY,
+                                    getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CONFIRM_SCHEDULE_CHANGE_REMOVE_EXISTING_REVIEWS), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
+                        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+                               getProtocolOnlineReviewService().removeOnlineReviews(protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission(),SCHEDULE_CHANGE_REMOVE_ONLINE_REVIEW_ANNOTATION);
+                        } else {
+                            return mapping.findForward(Constants.MAPPING_BASIC);
+                        }
+                    }
+                
+                    if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
+                        //There are existing reviews and we are changing schedules
+                        //need to verify with the user that they want to remove the existing reviews before proceeding.
+                        if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
+                            return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
+                                    getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "" );
+                        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+                            performAssignment = true;
+                        } else {
+                            //nothing to do, answered no.
+                        }
+                    } else {
+                        performAssignment = true;
+                    }
+    
+                    if (performAssignment) {
+                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                        recordProtocolActionSuccess("Assign to Committee and Schedule");
+                    }
+                    ((ProtocolForm)form).getActionHelper().prepareView();
+                }
             }
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /*
-     * Builds the confirmation question to verify if the user wants to assign the protocol to the committee.
-     */
-    private StrutsConfirmation buildAssignToCmtSchedConfirmationQuestion(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
-                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
-    }
-    
-    /**
+     /**
      * 
      * Builds the confirmation question to verify if the user wants to assign the protocol to the committee.
      * @param mapping
@@ -1239,34 +1269,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_ASSIGN_TO_AGENDA_KEY,
                 KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
     }
-
-    /**
-     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
-     * when a "yes" condition is met.
-     * 
-     * @param mapping The mapping associated with this action.
-     * @param form The Protocol form.
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the destination (always the original Protocol Document web page that caused this action to be invoked)
-     * @throws Exception
-     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
-     */
-    public ActionForward confirmAssignCmtSched(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
-
-        if (CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
-            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-            
-            recordProtocolActionSuccess("Assign to Committee and Schedule");
-        }
-
-        return mapping.findForward(MAPPING_BASIC);
-    }
-    
+   
     public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);

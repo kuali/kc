@@ -384,15 +384,16 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
 
     protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
         try {
+           
+            final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(protocolOnlineReviewDocument.getDocumentNumber()));
             
-            if (protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 
+            if (workflowDocument.stateIsEnroute() 
                 ||
-                protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+                workflowDocument.stateIsInitiated()
                 ||
-                protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+                workflowDocument.stateIsSaved()
                 ) {
-                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
-                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
                 workflowDocument.superUserCancel(String.format("Review Cancelled from assign reviewers action by %s", GlobalVariables.getUserSession().getPrincipalId()));
             }
         } catch(WorkflowException e) {
@@ -405,14 +406,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     protected void finalizeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
         
         try {
-            if (protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 
+
+            final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
+            WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.parseLong(protocolOnlineReviewDocument.getDocumentNumber()));
+
+            
+            if (workflowDocument.stateIsEnroute()
             ||
-            protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+            workflowDocument.stateIsInitiated()
             ||
-            protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+            workflowDocument.stateIsSaved()
             ) {
-                final String principalId = identityManagementService.getPrincipalByPrincipalName(KNSConstants.SYSTEM_USER).getPrincipalId();
-                WorkflowDocument workflowDocument = new WorkflowDocument(principalId, protocolOnlineReviewDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
                 workflowDocument.superUserApprove(annotation);
             }
         } catch(WorkflowException e) {
@@ -421,6 +425,33 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             throw new RuntimeException(errorMessage,e);
         }
         
+    }
+    
+    protected void removeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
+
+        if (protocolOnlineReviewDocument != null) {
+            if(LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
+            }
+            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
+            protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            
+            ReviewerComments comments = protocolOnlineReviewDocument.getProtocolOnlineReview().getReviewerComments();
+            comments.deleteAllComments();
+            getReviewerCommentsService().persistReviewerComments(comments, submission.getProtocol());
+            if (protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes()!=null) {
+                protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes().clear();
+            }
+//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
+//                    protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().setSubmissionIdFk(null);
+//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
+//                }
+//            }
+            submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
+            getBusinessObjectService().save(protocolOnlineReviewDocument.getProtocolOnlineReview());
+        } 
+                
     }
         
     /**
@@ -432,7 +463,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         ProtocolOnlineReview submissionsProtocolOnlineReview = null;
         for (ProtocolOnlineReview rev : submission.getProtocolOnlineReviews()) {
             if (rev.getProtocolOnlineReviewId().equals(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId())) {
-                submissionsProtocolOnlineReview =  rev;
+                submissionsProtocolOnlineReview = rev;
                 break;
             }
         }
@@ -458,7 +489,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             if (submissionsProtocolOnlineReview.getCommitteeScheduleMinutes()!=null) {
                 submissionsProtocolOnlineReview.getCommitteeScheduleMinutes().clear();
             }
+            
+//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
+//                    submissionsProtocolOnlineReview.getProtocolReviewer().setSubmissionIdFk(null);
+//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
+//                    LOG.info(success);
+//                }
+//            }
+//            
             getBusinessObjectService().save(submissionsProtocolOnlineReview);
+        
         } else {
             LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }
@@ -474,6 +515,17 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
     }
+    
+    /**
+     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission)
+     */
+    public void removeOnlineReviews(ProtocolSubmission submission, String annotation) {
+        //get the online reviews, loop through them and finalize them if necessary.
+        for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+            removeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
+        }
+    }
+    
     
     /*
      * Getters and setters for needed services.
