@@ -49,7 +49,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 
 	//alert (" set up "+vers+"-"+dispans+"-"+ansmax+"-"+maxlength)
 	var qnaireid = "qnaireid" + i
-	var question = $('<li class="closed"></li>').attr("id", qnaireid);
+	var question = $('<li class="closed expandable"></li>').attr("id", qnaireid);
 	var divId = "listcontent" + i;
 
 	var div62 = $('<div/>');
@@ -1489,7 +1489,8 @@ function addToGroup(listitem) {
 	if ($(".group" + groupid).size() >= 20) {
 		groupid++;
 	}
-	$(listitem).attr("class", "group" + groupid);
+	var currentClass = $(listitem).attr("class");
+	$(listitem).attr("class", "group" + groupid +" " + currentClass);
 	// $(listitem).addClass("group" + groupid);
 	if (curgroup != groupid) {
 		$(listitem).hide();
