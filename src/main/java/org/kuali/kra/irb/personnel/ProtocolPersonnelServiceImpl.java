@@ -256,15 +256,22 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         personRoleMappings.addAll(getBusinessObjectService().findMatching(ProtocolPersonRoleMapping.class, matchingKeys));
         return personRoleMappings;
     }
+    
+    /**
+     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#getProtocolPersonRole(java.lang.String)
+     */
+    public ProtocolPersonRole getProtocolPersonRole(String sourceRoleId) {
+        return getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRole.class, sourceRoleId);
+    }
 
     /**
      * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
      */
     public void syncProtocolPersonRoleChanges(List<ProtocolPerson> protocolPersons) {
-        for(ProtocolPerson protocolPerson : protocolPersons) {
-            if(!isUnitDetailsRequired(protocolPerson)) {
+        for (ProtocolPerson protocolPerson : protocolPersons) {
+            if (!isUnitDetailsRequired(protocolPerson)) {
                 protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
-            }else {
+            } else {
                 setLeadUnit(protocolPerson);
             }
             syncPersonRoleAndAffiliation(protocolPerson);
