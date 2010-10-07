@@ -105,6 +105,9 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>        
     </bean> 
     
     <bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">

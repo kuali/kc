@@ -23,6 +23,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
 
 
 public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
@@ -30,8 +32,10 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonTrainingServiceImpl.class);
     private static final String PERSON_ID_FIELD = "personId";
     private static final String ACTIVE_FLAG_FIELD = "active";
+    private static final String FOLLOWUP_DATE_FIELD = "followupDate";
     private static final String IS_ACTIVE_VALUE = "Y";
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
     
     
     /**
@@ -47,13 +51,28 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
      * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.personnel.ProtocolPerson)
      */
     public void setTrainedFlag(ProtocolPerson protocolPerson) {
-        if (StringUtils.isNotEmpty(protocolPerson.getPersonId())) {
+        protocolPerson.setTrained(isTrained(protocolPerson.getPersonId()));
+    }
+    
+    /**
+     * This method verifies that the person is trained.
+     * @param personId
+     * @return true if the person is trained, false otherwise.
+     */
+    @SuppressWarnings("unchecked")
+    private boolean isTrained(String personId) {
+        if (StringUtils.isNotEmpty(personId)) {
             Map<String, Object> matchingKeys = new HashMap<String, Object>();
-            matchingKeys.put(PERSON_ID_FIELD, protocolPerson.getPersonId());
+            matchingKeys.put(PERSON_ID_FIELD, personId);
             matchingKeys.put(ACTIVE_FLAG_FIELD, IS_ACTIVE_VALUE);
-            Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatching(PersonTraining.class, matchingKeys);
-            protocolPerson.setTrained(personTrainings.size() > 0 ? true : false);
+            Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatchingOrderBy(PersonTraining.class, matchingKeys, FOLLOWUP_DATE_FIELD, false);
+            for (PersonTraining personTraining : personTrainings) {
+                if (getDateTimeService().getCurrentDate().before(personTraining.getFollowupDate())) {
+                    return true;
+                }
+            }
         }
+        return false;        
     }
     
     /**
@@ -72,6 +91,24 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    /**
+     * Gets the dateTimeService attribute.
+     * 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
     
 }
