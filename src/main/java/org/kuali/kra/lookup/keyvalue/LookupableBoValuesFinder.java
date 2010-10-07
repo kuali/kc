@@ -41,7 +41,14 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
 
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
     	for (String businessObject: businessObjectEntries.keySet()) {
-    	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) && (businessObject.startsWith("org.kuali.kra"))) {
+    	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) 
+    	            && (businessObject.startsWith("org.kuali.kra") 
+    	                    || businessObject.equals("org.kuali.rice.kns.bo.CampusImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CampusTypeImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CountryImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.StateImpl"))) {
         		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup"));
         		if (!keyValues.contains(keyLabelPair)) {
         		    keyValues.add(keyLabelPair);
