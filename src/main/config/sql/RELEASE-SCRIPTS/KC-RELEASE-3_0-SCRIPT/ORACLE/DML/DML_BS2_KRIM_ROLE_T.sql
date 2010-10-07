@@ -10,4 +10,6 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_
 VALUES (KRIM_ROLE_ID_S.NEXTVAL, 'ProtocolApprover', 'KC-PROTOCOL', 'This role exists primarily to grant implicit Cancel permission to Protocol Aggregators and Admins', 
 (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KC_SYS' AND NM = 'IRBApprover-Nested'), 'Y', SYSDATE, SYS_GUID(), 1);
 
+UPDATE KRIM_ROLE_T SET NMSPC_CD = 'KC-WKFLW' WHERE ROLE_NM = 'Unit Administrator' AND NMSPC_CD = 'KC-IP';
+
 COMMIT;
