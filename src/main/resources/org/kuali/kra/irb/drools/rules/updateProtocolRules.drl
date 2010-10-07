@@ -395,7 +395,7 @@ when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "211", submissionTypeCode != "111")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "211");
+	setProtocolSubmissionStatusCode(protocolAction, "222");
 	setProtocolStatusCode(protocolAction, "202");
 end
 
@@ -415,7 +415,7 @@ when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "212", submissionTypeCode != "115")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "211");
+	setProtocolSubmissionStatusCode(protocolAction, "221");
 	setProtocolStatusCode(protocolAction, "200");
 end
 
