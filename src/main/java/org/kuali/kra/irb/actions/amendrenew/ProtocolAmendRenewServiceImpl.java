@@ -248,7 +248,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERSONNEL));
         }
         
-        if (amendmentBean.getProtocolReferences()) {
+        if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_REFERENCES));
         }
         

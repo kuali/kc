@@ -26,7 +26,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     
     private boolean generalInfo = false;
     private boolean fundingSource = false;
-    private boolean protocolReferences = false;
+    private boolean protocolReferencesAndOtherIdentifiers = false;
     private boolean protocolOrganizations = false;
     private boolean subjects = false;
     private boolean addModifyAttachments = false;
@@ -63,12 +63,12 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
         this.fundingSource = fundingSource;
     }
 
-    public boolean getProtocolReferences() {
-        return protocolReferences;
+    public boolean getProtocolReferencesAndOtherIdentifiers() {
+        return protocolReferencesAndOtherIdentifiers;
     }
 
-    public void setProtocolReferences(boolean protocolReferences) {
-        this.protocolReferences = protocolReferences;
+    public void setProtocolReferencesAndOtherIdentifiers(boolean protocolReferencesAndOtherIdentifiers) {
+        this.protocolReferencesAndOtherIdentifiers = protocolReferencesAndOtherIdentifiers;
     }
 
     public boolean getProtocolOrganizations() {
@@ -135,7 +135,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
                getOthers() ||
                getProtocolOrganizations() ||
                getProtocolPersonnel() ||
-               getProtocolReferences() ||
+               getProtocolReferencesAndOtherIdentifiers() ||
                getSpecialReview() ||
                getSubjects();
     }

@@ -10,7 +10,10 @@
 <c:set var="className" value="${KualiForm.document.class.name}" />
 
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
+
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
+<c:set var="readOnlymodifyReferences" value="${!KualiForm.protocolHelper.modifyReferences}"/>
+
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.PROTOCOL_REFERENCE_COMMENT_LENGTH%>" />
 
 <kul:tab tabTitle="Additional Information" defaultOpen="false" tabErrorKey="document.protocolList[0].fda*,document.protocolList[0].billable*,document.protocolList[0].referenceNumber*,document.protocolList[0].description*,document.protocolList[0].protocolReferences*,newProtocolReference*" auditCluster="additionalInformationAuditErrors" tabAuditKey="document.protocolList[0].newDescription*" useRiceAuditMode="true">
@@ -81,7 +84,7 @@
                     <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />
                   </div></th>
                 <td width="26%">
-                	<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnlymodifyReferences}" />
                 </td>
                 <th width="23%">
  				</th>
@@ -93,13 +96,13 @@
                     ${KualiForm.protocolHelper.referenceId1Label}:
                   </div></th>
                 <td align=left valign=middle><span> <span>
-                  	<kul:htmlControlAttribute property="document.protocolList[0].referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" readOnly="${readOnly}" />
+                  	<kul:htmlControlAttribute property="document.protocolList[0].referenceNumber1" attributeEntry="${protocolAttributes.referenceNumber1}" readOnly="${readOnlymodifyReferences}" />
                  </span></span></td>
                 <th><div align="right">
                     ${KualiForm.protocolHelper.referenceId2Label}:
                   </div></th>
                 <td align=left valign=middle><span>
-                  <kul:htmlControlAttribute property="document.protocolList[0].referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" readOnly="${readOnly}" />
+                  <kul:htmlControlAttribute property="document.protocolList[0].referenceNumber2" attributeEntry="${protocolAttributes.referenceNumber2}" readOnly="${readOnlymodifyReferences}" />
                  </span></td>
               </tr>
               <tr>
@@ -112,7 +115,7 @@
                         <tr>
                             <td style="border:none;">
 
-								<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnly}" />
+								<kul:htmlControlAttribute property="document.protocolList[0].description" attributeEntry="${protocolAttributes.description}" readOnly="${readOnlymodifyReferences}" />
                             </td>
                         </tr>
                     </table>
@@ -144,20 +147,20 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-         	<kra:permission value="${KualiForm.protocolHelper.modifyReferences}">
+         	<kra:permission value="${!readOnlymodifyReferences}">
                 <tr>
                     <th class="infoline" rowspan="2">add:</th>
                     <td class="infoline" style="text-align:center;">
-						<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" />
+						<kul:htmlControlAttribute property="newProtocolReference.protocolReferenceTypeCode" attributeEntry="${protocolReferenceAttributes.protocolReferenceTypeCode}" readOnly="${readOnlymodifyReferences}" />
                     </td>
                     <td class="infoline" style="text-align:center;">
-                        <kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" />
+                        <kul:htmlControlAttribute property="newProtocolReference.referenceKey" attributeEntry="${protocolReferenceAttributes.referenceKey}" readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" style="text-align:center;">
-						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}"  />
+						<kul:htmlControlAttribute property="newProtocolReference.applicationDate" attributeEntry="${protocolReferenceAttributes.applicationDate}"  readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" style="text-align:center;">
-                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}"  />
+                        <kul:htmlControlAttribute property="newProtocolReference.approvalDate" attributeEntry="${protocolReferenceAttributes.approvalDate}"  readOnly="${readOnlymodifyReferences}"/>
                     </td>
                     <td class="infoline" rowspan="2" style="text-align:center;">
                         <div align=center>
@@ -174,7 +177,7 @@
 
                             <tr>
                                 <td style="border:none; background:none;">
-                                	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" />
+                                	<kul:htmlControlAttribute property="newProtocolReference.comments" attributeEntry="${protocolReferenceAttributes.comments}" readOnly="${readOnlymodifyReferences}"/>
                                 </td>
                             </tr>
 
@@ -217,7 +220,7 @@
 	                													readOnly="true"	attributeEntry="${protocolReferenceAttributes.approvalDate}"  /> </div>
 					</td>
 					
-                    <c:if test="${!readOnly}">
+                    <c:if test="${!readOnlymodifyReferences}">
 						<td rowspan="2">
 							<div align=center>&nbsp;
 								<kra:permission value="${KualiForm.protocolHelper.modifyReferences}">  

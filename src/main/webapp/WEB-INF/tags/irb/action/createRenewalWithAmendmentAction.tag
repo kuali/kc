@@ -78,10 +78,10 @@
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolReferences" 
-	            					                              attributeEntry="${attributes.protocolReferences}" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolReferencesAndOtherIdentifiers" 
+	            					                              attributeEntry="${attributes.protocolReferencesAndOtherIdentifiers}" 
 	            					                              disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.protocolReferencesEnabled}" />
-	            					    Protocol References
+	            					    Protocol References &amp; Other Identifiers
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.specialReview" 

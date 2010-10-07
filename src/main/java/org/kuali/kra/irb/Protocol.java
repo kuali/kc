@@ -1285,7 +1285,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     @SuppressWarnings("unchecked")
     private void mergeReferences(Protocol amendment) {
+        System.err.print("***************merge references");
         setProtocolReferences((List<ProtocolReference>) deepCopy(amendment.getProtocolReferences()));
+        
+        this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
+        this.referenceNumber1 = amendment.getReferenceNumber1();
+        this.referenceNumber2 = amendment.getReferenceNumber2();
+        this.description = amendment.getDescription();
     }
     
     @SuppressWarnings("unchecked")
