@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -299,7 +300,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
                 String callerString = String.format("approveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
                 if(question == null){
-                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,"Before submitting review to the IRB Administrator, the review status must be marked final.  Do you wish to change the review status to final and submit the review to the IRB Administrator? " , KNSConstants.CONFIRMATION_QUESTION, callerString, "");
+                   return this.performQuestionWithoutInput(mapping, form, request, response, UPDATE_REVIEW_STATUS_TO_FINAL,getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KNSConstants.CONFIRMATION_QUESTION, callerString, "");
                  } 
                 else if((UPDATE_REVIEW_STATUS_TO_FINAL.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
                     //nothing to do.
@@ -704,10 +705,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     private ReviewerCommentsService getReviewerCommentsService() {
         return KraServiceLocator.getService(ReviewerCommentsService.class);
-    }
-    
-    private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
     }
     
     private KraAuthorizationService getKraAuthorizationService() {

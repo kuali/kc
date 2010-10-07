@@ -716,6 +716,8 @@ public final class KeyConstants {
     
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
+    public static final String QUESTION_CONFIRM_SCHEDULE_CHANGE_REMOVE_EXISTING_REVIEWS = "question.protocol.confirmRemoveExistingReviews";
+    public static final String QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL="question.protocol.onlineReview.confirmUpdateToFinal";
    
     // Questionnaire
     public static final String ERROR_QUESTION_STATUS_IN_USE = "error.question.status.in.use";

@@ -47,6 +47,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (bean.getChecked()) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
+                        
                         createReviewer(protocolSubmission, bean);
                     } else {
                         updateReviewer(protocolSubmission, bean);
@@ -58,6 +59,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
                     }
                 }
             }
+           
             businessObjectService.save(protocolSubmission);
         }
     }

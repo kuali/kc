@@ -20,11 +20,9 @@ import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.rules.ErrorReporter;
 
 
 
@@ -155,7 +153,19 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * @param annotation
      */
-    public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
+    void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
+    
+    /*
+     * Remove all online reviews associated with the submission.
+     * If an online review document is enroute it will be cancelled.  
+     * If an online review is final no action will be taken on the document.
+     * In both cases, the status will be set to X and the comments ( if any ) will be removed.
+     * 
+     * @param ProtocolSubmission the submission you want to remove all of the online reviews on.
+     * @param annotation  The annotation to be applied to the workflow document when we cancel.
+     *  
+     */
+    void removeOnlineReviews(ProtocolSubmission submission, String annotation);
     
     /**
      * Finalizes all online review documents associated with the submission.
@@ -164,6 +174,6 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * 
      */
-    public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
+    void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
     
 }
