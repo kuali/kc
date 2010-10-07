@@ -129,6 +129,7 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1506,8 +1507,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         persistReviewComments(protocolForm, actionBean);
         
         recordProtocolActionSuccess("Expedited Approval");
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);            
     }
     
     /**

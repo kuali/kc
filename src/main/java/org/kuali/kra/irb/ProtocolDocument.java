@@ -298,11 +298,12 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         
         ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
+        newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
         try {
             getDocumentService().saveDocument(newProtocolDocument);
             // blanket approve to make the new protocol document 'final'
-            newProtocolDocument.getDocumentHeader().getWorkflowDocument().blanketApprove(type + "-" + getProtocolNumberIndex() + ": merged");
+            newProtocolDocument.getDocumentHeader().getWorkflowDocument().routeDocument(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
@@ -406,7 +407,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Contains all the property names in this class.
      */
     public static enum ProtocolWorkflowType {
-        NORMAL("Normal"), APPROVED_AMENDMENT("ApprovedAmendment");
+        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
         
         private final String name;
         

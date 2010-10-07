@@ -67,7 +67,7 @@
 	
 		<ruleAttribute>
 			<name>ProtocolApprover-XPathQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<className>org.kuali.kra.irb.ProtocolQualifierResolver</className>
 			<label>ProtocolApprover-XPathQualifierResolver</label>
 			<description>To limit the Approval Request to be routed to ProtocolApprovers for this protocol only</description>
 			<type>QualifierResolver</type>
@@ -138,7 +138,8 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-						  	wf:xstreamsafe('//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]')= wf:ruledata('leadUnitNumber')
+						  	wf:xstreamsafe('//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]')= wf:ruledata('leadUnitNumber') and
+						  	wf:xstreamsafe('//document/protocolWorkflowType') = wf:ruledata('protocolWorkflowType')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -239,6 +240,7 @@
         </rule>
         
         <rule>
+            <name>UnitApproval</name>
 			<documentType>ProtocolDocument</documentType>
 			<ruleTemplate>UnitApproval</ruleTemplate>
 			<description>Unit Approval Routing Rule for IN-CARD</description>
