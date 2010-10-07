@@ -352,40 +352,38 @@ public abstract class AwardBaseStream implements XmlStream {
 		return paymentSchedule;
 	}
 
-	/**
-	 * <p>
-	 * This method will set the values to transferring sponsor XmlObject and
-	 * return it
-	 * </p>
-	 * 
-	 * @param awardTransferringSponsor
-	 *            it contains information about the award transferring sponsor
-	 *            {@link AwardTransferringSponsor}
-	 * @return awardTransferringSponsor xmlObject
-	 */
-	protected TransferringSponsor getAwardTransferringSponsor(
-			AwardTransferringSponsor awardTransferringSponsor) {
-		TransferringSponsor transferringSponsor = TransferringSponsor.Factory
-				.newInstance();
-		if (awardTransferringSponsor.getAwardNumber() != null) {
-			transferringSponsor.setAwardNumber(awardTransferringSponsor
-					.getAwardNumber());
-		}
-		if (awardTransferringSponsor.getSequenceNumber() != null) {
-			transferringSponsor.setSequenceNumber(awardTransferringSponsor
-					.getSequenceNumber());
-		}
-		if (awardTransferringSponsor.getSponsorCode() != null) {
-			transferringSponsor.setSponsorCode(new StringBuilder(
-					SPONSOR_CODE_ADDED_INDICATOR).append(
-					awardTransferringSponsor.getSponsorCode()).toString());
-		}
-		Sponsor sponsor = awardTransferringSponsor.getSponsor();
-		if (sponsor != null && sponsor.getSponsorName() != null) {
-			transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
-		}
-		return transferringSponsor;
-	}
+    /**
+     * <p>
+     * This method will set the values to transferring sponsor XmlObject and
+     * return it
+     * </p>
+     * 
+     * @param awardTransferringSponsor
+     *            it contains information about the award transferring sponsor
+     *            {@link AwardTransferringSponsor}
+     * @return awardTransferringSponsor xmlObject
+     */
+    protected TransferringSponsor getAwardTransferringSponsor(
+            AwardTransferringSponsor awardTransferringSponsor) {
+        TransferringSponsor transferringSponsor = TransferringSponsor.Factory
+                .newInstance();
+        if (awardTransferringSponsor.getAwardNumber() != null) {
+            transferringSponsor.setAwardNumber(awardTransferringSponsor
+                    .getAwardNumber());
+        }
+        if (awardTransferringSponsor.getSequenceNumber() != null) {
+            transferringSponsor.setSequenceNumber(awardTransferringSponsor
+                    .getSequenceNumber());
+        }
+        if (awardTransferringSponsor.getSponsorCode() != null) {
+            transferringSponsor.setSponsorCode(awardTransferringSponsor.getSponsorCode());
+        }
+        Sponsor sponsor = awardTransferringSponsor.getSponsor();
+        if (sponsor != null && sponsor.getSponsorName() != null) {
+            transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
+        }
+        return transferringSponsor;
+    }
 
 	/**
 	 * <p>
