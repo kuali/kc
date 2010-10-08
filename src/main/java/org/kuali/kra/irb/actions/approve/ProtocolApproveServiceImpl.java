@@ -17,7 +17,8 @@ package org.kuali.kra.irb.actions.approve;
 
 import java.sql.Timestamp;
 
-import org.kuali.kra.infrastructure.TaskName;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -25,12 +26,11 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
-import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * 
@@ -42,6 +42,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
+    private ParameterService parameterService;
     
     private static final String APPROVE_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of approve action on protocol.";
    
@@ -61,7 +62,11 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         if (protocol.isRenewal()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
-        protocol.setExpirationDate(actionBean.getExpirationDate());
+        
+        String exemptProtocolTypeCode = parameterService.getParameterValue(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
+        if(!StringUtils.equals(exemptProtocolTypeCode, protocol.getProtocolTypeCode())) {
+            protocol.setExpirationDate(actionBean.getExpirationDate());
+        }
         protocol.refreshReferenceObject("protocolStatus");
         protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), APPROVE_FINALIZE_OLR_ANNOTATION);
         documentService.saveDocument(protocolDocument);
@@ -99,4 +104,8 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     } 
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }
