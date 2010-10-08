@@ -106,7 +106,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			List<VersionHistory> awardSequenceHistoryList = versionHistoryService.loadVersionHistory(Award.class, awardNumber);
 			int sequenceNumber = 0;
 			int prevSequenceNumber = 0;
-			Long transactionId = 0l;
+			Long transactionId = new Long(0);
 			long prevTransactionId = 0;
 			if (reportParameters.get(SEQUENCE_NUMBER) != null) {
 				sequenceNumber = (Integer) reportParameters.get(SEQUENCE_NUMBER);
