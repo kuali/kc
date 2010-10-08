@@ -180,12 +180,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
             ProtocolReviewer reviewer = getProtocolOnlineReviewService().createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, submission);
             
-            getProtocolOnlineReviewService().createAndRouteProtocolOnlineReviewDocument(submission, reviewer, 
+            ProtocolOnlineReviewDocument document = getProtocolOnlineReviewService().createAndRouteProtocolOnlineReviewDocument(submission, reviewer, 
                     onlineReviewHelper.getNewReviewDocumentDescription(), onlineReviewHelper.getNewReviewExplanation(), 
                     onlineReviewHelper.getNewReviewOrganizationDocumentNumber(), null, true, onlineReviewHelper.getNewReviewDateRequested(), 
                     onlineReviewHelper.getNewReviewDateDue(), GlobalVariables.getUserSession().getPrincipalId());
 
             protocolForm.getOnlineReviewsActionHelper().init(true);
+            recordOnlineReviewActionSuccess("created", document);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -324,8 +325,14 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             documentService.saveDocument(prDoc);
             documentService.approveDocument(prDoc, "", null);
             protocolForm.getOnlineReviewsActionHelper().init(true);
+            recordOnlineReviewActionSuccess("approved", prDoc);
+            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+            }
         }
         
+        
+       
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
@@ -379,6 +386,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             getBusinessObjectService().save(reviewer);
             getReviewerCommentsService().persistReviewerComments(reviewComments, protocolForm.getProtocolDocument().getProtocol(), prDoc.getProtocolOnlineReview());
             documentService.saveDocument(prDoc);
+            recordOnlineReviewActionSuccess("saved", prDoc);
             protocolForm.getOnlineReviewsActionHelper().init(true);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -421,6 +429,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         {
             getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
             protocolForm.getOnlineReviewsActionHelper().init(true);
+            recordOnlineReviewActionSuccess("returned to reviewer", prDoc);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
@@ -505,11 +514,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 GlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
                 kualiDocumentFormBase.setAnnotation("");
                 protocolForm.getOnlineReviewsActionHelper().init(true);
+                recordOnlineReviewActionSuccess("disapproved", prDoc);
                 
                 if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                     //redirect to the actual online review document page.
                     //response.sendRedirect(String.format("protocolOnlineReviewRedirect.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER,prDoc.getDocumentNumber()));
-                    return super.returnToSender(request, mapping, protocolForm);
+                    //return super.returnToSender(request, mapping, protocolForm);
+                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
                 }
                 
                 
@@ -714,5 +725,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     private KraWorkflowService getKraWorkflowService() {
         return KraServiceLocator.getService(KraWorkflowService.class);
     }
-
+    
+    protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {
+        String documentInfo = String.format("document number:%s, reviewer:%s", document.getDocumentNumber(), document.getProtocolOnlineReview().getProtocolReviewer().getFullName());
+        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED,onlineReviewActionName, documentInfo);
+    }
 }
