@@ -672,6 +672,27 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         this.reviewerCommentsService = reviewerCommentsService;
     }
 
+    public String getProtocolOnlineReviewDocumentDescription(String protocolNumber, String piName) {
+        final int fieldLimit = 40;
+        int pilen = piName!=null?piName.length():0;
+        int pnlen = protocolNumber!=null?protocolNumber.length():0;
+        int ttlLength =  pilen + pnlen
+                + ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT.length() -4;
+        String piNameToUse = piName;
+        
+        if ( ttlLength > fieldLimit && piName!=null ) {
+            int charsToTrim = ttlLength - fieldLimit;
+            piNameToUse = piName.substring(0, Math.max(piName.length() - charsToTrim -1,0));
+        }
+        String init = String.format( ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT, piNameToUse,protocolNumber);
+        if (init.length() > fieldLimit ) {
+            return init.substring(0, fieldLimit-1);
+        } else {
+            return init;
+        }
+        
+    }
+
     
 
 

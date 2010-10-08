@@ -75,7 +75,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         ProtocolReviewer reviewer = protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
         ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
         String protocolNumber = protocolSubmission.getProtocol().getProtocolNumber();
-        String description = String.format("%s/Protocol# %s", protocolPerson.getLastName(), protocolNumber);
+        String description = protocolOnlineReviewService.getProtocolOnlineReviewDocumentDescription(protocolNumber, protocolPerson.getLastName());
         String explanation = Constants.EMPTY_STRING;
         String organizationDocumentNumber = Constants.EMPTY_STRING;
         String routeAnnotation = "Online Review Requested by PI during protocol submission.";
