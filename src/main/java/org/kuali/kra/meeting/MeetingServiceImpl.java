@@ -456,17 +456,23 @@ public class MeetingServiceImpl implements MeetingService {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("minuteEntryType");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("protocol");
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("commScheduleActItem");
-        ProtocolSubmission submission = meetingHelper.getNewCommitteeScheduleMinute().getProtocol().getProtocolSubmission();
-        CommitteeSchedule schedule = meetingHelper.getCommitteeSchedule();
+        
+        Long submissionId = null;
+        if (meetingHelper.getNewCommitteeScheduleMinute().getProtocol() != null) {
+            submissionId = meetingHelper.getNewCommitteeScheduleMinute().getProtocol().getProtocolSubmission().getSubmissionId();
+        }
+        Long scheduleId = meetingHelper.getCommitteeSchedule().getId();
+        Integer entryNumber = getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule());
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
         String minuteEntryTypeCode = meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode();
+        Timestamp createTimestamp = dateTimeService.getCurrentTimestamp();
         
-        meetingHelper.getNewCommitteeScheduleMinute().setSubmissionIdFk(submission.getSubmissionId());
-        meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(schedule.getId());
-        meetingHelper.getNewCommitteeScheduleMinute().setEntryNumber(getNextMinuteEntryNumber(schedule));
+        meetingHelper.getNewCommitteeScheduleMinute().setSubmissionIdFk(submissionId);
+        meetingHelper.getNewCommitteeScheduleMinute().setScheduleIdFk(scheduleId);
+        meetingHelper.getNewCommitteeScheduleMinute().setEntryNumber(entryNumber);
         meetingHelper.getNewCommitteeScheduleMinute().setCreateUser(principalName);
         meetingHelper.getNewCommitteeScheduleMinute().setUpdateUser(principalName);
-        meetingHelper.getNewCommitteeScheduleMinute().setCreateTimestamp(dateTimeService.getCurrentTimestamp());
+        meetingHelper.getNewCommitteeScheduleMinute().setCreateTimestamp(createTimestamp);
         
         if (MinuteEntryType.ATTENDANCE.equals(minuteEntryTypeCode)) {
             addAttendanceMinuteEntry(meetingHelper);
