@@ -134,7 +134,6 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 
 /**
@@ -1099,9 +1098,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         fieldValues.put(SUBMISSION_ID, request.getParameter(SUBMISSION_ID));
         ProtocolSubmission protocolSubmission = (ProtocolSubmission) getBusinessObjectService().findByPrimaryKey(ProtocolSubmission.class, fieldValues);
         protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
-        ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
-                protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber()));
-        ((ProtocolForm) form).initialize();
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.setDocId(protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber());
+        loadDocument(protocolForm);
+        protocolForm.initialize();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
