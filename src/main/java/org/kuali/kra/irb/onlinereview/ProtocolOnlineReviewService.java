@@ -31,6 +31,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
  */
 public interface ProtocolOnlineReviewService {
     
+    static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/Protocol# %s";
     
     /**
      * Document type code for online review.
@@ -41,6 +42,7 @@ public interface ProtocolOnlineReviewService {
      * Name of the online review document.
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
+    
     
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
@@ -176,4 +178,14 @@ public interface ProtocolOnlineReviewService {
      */
     void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
     
+    /**
+     * Generate the standard document description for OLR documents.
+     * Gurantees it will be less than or equal to the 40 char limit
+     * by truncating the PI name.
+     * 
+     * @param protocolNumber the protocol number to add to the description
+     * @param piName The name of the pi to add to the description.
+     * @return String to be used in the description.
+     */
+    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
 }

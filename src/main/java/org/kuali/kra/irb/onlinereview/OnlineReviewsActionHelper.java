@@ -108,7 +108,7 @@ public class OnlineReviewsActionHelper implements Serializable {
 
                 if (principalInvestigator != null ) {
                     String piLastName = principalInvestigator.getLastName();
-                    this.newReviewDocumentDescription = String.format(REVIEW_DOCUMENT_DESCRIPTION_FORMAT,piLastName, protocolDocument.getProtocol().getProtocolNumber());
+                    this.newReviewDocumentDescription = getProtocolOnlineReviewService().getProtocolOnlineReviewDocumentDescription(protocolDocument.getProtocol().getProtocolNumber(),piLastName);
                 } 
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
                     Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
