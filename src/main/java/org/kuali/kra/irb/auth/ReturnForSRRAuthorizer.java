@@ -19,6 +19,7 @@ import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
@@ -41,11 +42,24 @@ public class ReturnForSRRAuthorizer extends ProtocolAuthorizer {
         boolean canPerform = false;
         
         if (lastAction != null && lastSubmission != null) {
-            canPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
-                      && CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
+            
+            boolean normalCanPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode()) 
+            && CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
+            
+            boolean exemptExpeditePerform = false;
+            if (lastSubmission.getProtocolReviewType() != null){
+                exemptExpeditePerform =  isExpeditedOrExempt(lastSubmission.getProtocolReviewType().getReviewTypeCode()) && ProtocolActionType.SUBMIT_TO_IRB.equals(lastAction.getProtocolActionTypeCode());
+            }
+            
+            canPerform = normalCanPerform || exemptExpeditePerform;
         }
         
         return canPerform;
+    }
+    
+    private boolean isExpeditedOrExempt(String reviewTypeCode){
+        return ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(reviewTypeCode) 
+        || ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(reviewTypeCode);
     }
     
 }
