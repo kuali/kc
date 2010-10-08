@@ -640,6 +640,7 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
+        <property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean id="protocolReviewNotRequiredService" class="org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredServiceImpl">
