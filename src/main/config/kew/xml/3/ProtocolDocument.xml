@@ -253,6 +253,10 @@
 							<key>leadUnitNumber</key>
 							<value>IN-CARD</value>
 						</ruleExtensionValue>
+                <ruleExtensionValue>
+                  <key>protocolWorkflowType</key>
+                  <value>Normal</value>
+                </ruleExtensionValue>
 					</ruleExtensionValues>
 				</ruleExtension>
 			</ruleExtensions>
