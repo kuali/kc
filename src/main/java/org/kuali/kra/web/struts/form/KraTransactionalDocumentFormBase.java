@@ -30,6 +30,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.kns.web.ui.ExtraButton;
   
 /**
  * This class isbase class for KC Transactional Documents ...
@@ -193,4 +194,24 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setMedusaOpenedDoc(boolean medusaOpenedDoc) {
         this.medusaOpenedDoc = medusaOpenedDoc;
     }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
+    }
+
 }

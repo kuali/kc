@@ -147,6 +147,7 @@ public class ActionHelper implements Serializable {
     private boolean canDefer = false;
     private boolean canReviewNotRequired = false;
     private boolean canManageReviewComments = false;
+    private boolean canApproveOther = false;
 
     private boolean isApproveOpenForFollowup;
     private boolean isDisapproveOpenForFollowup;
@@ -551,6 +552,7 @@ public class ActionHelper implements Serializable {
         isReturnForSMROpenForFollowup = hasReturnForSMRFollowupAction();
         isReturnForSRROpenForFollowup = hasReturnForSRRFollowupAction();
         
+        canApproveOther = hasApproveOtherPermission();
         initSummaryDetails();
         initSubmissionDetails();
         initFilterDatesView();
@@ -764,6 +766,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasManageReviewCommentsPermission() {
         return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
+    }
+    
+    private boolean hasApproveOtherPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     private boolean hasPermission(String taskName) {
@@ -1135,6 +1142,10 @@ public class ActionHelper implements Serializable {
         return canManageReviewComments;
     }
     
+    public boolean getCanApproveOther() {
+        return canApproveOther;
+    }
+
     public boolean getIsApproveOpenForFollowup() {
         return isApproveOpenForFollowup;
     }

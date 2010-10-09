@@ -283,6 +283,10 @@
 		<property name="serviceName" value="enDocumentRouteHeaderService" />
 	</bean>
 	
+	<bean id="workflowUtilityService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="enWorkflowUtilityService" />
+	</bean>
+	
 	<bean id="persistenceService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="persistenceService" />
 	</bean>

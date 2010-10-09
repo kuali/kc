@@ -49,8 +49,11 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -467,6 +470,16 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
             && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
         
+    }
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        ProtocolDocument doc = this.getDocument();
+        String externalImageURL = KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
+        String sendAdHocRequestsImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+        addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+        return extraButtons;
     }
 
 }
