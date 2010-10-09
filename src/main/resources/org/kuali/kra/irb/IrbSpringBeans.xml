@@ -353,7 +353,10 @@
                 </bean>    
                 <bean class="org.kuali.kra.irb.auth.ManageReviewCommentsAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageReviewComments" />
-                </bean>                
+                </bean>           
+                <bean class="org.kuali.kra.irb.auth.ProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolApproveOther" />
+                </bean>    
             </list>
         </property>
     </bean>

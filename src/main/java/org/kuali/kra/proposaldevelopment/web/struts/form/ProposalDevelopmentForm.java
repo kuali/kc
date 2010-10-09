@@ -1122,25 +1122,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     /**
-     * This is a utility method to add a new button to the extra buttons
-     * collection.
-     *   
-     * @param property
-     * @param source
-     * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText){
-        
-        ExtraButton newButton = new ExtraButton();
-        
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-        
-        extraButtons.add(newButton);
-    }
-
-    /**
      * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
      * 
      * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#processValidationFail()

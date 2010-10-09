@@ -120,6 +120,7 @@ public interface TaskName {
     public static final String DEFER_PROTOCOL = "protocolDefer";
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
     public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS = "protocolManageReviewComments";
+    public static final String PROTOCOL_APPROVE_OTHER = "protocolApproveOther";
     
     /*
      * Protocol - Online Review Tasks

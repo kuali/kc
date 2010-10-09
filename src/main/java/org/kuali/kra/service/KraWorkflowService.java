@@ -64,6 +64,14 @@ public interface KraWorkflowService {
     public boolean isUserApprovalRequested(Document doc,String principalId);
     
     /**
+     * Determine if the user has an outstanding review action request (A/F/K).
+     * @param doc the document
+     * @param principalId the principalId of the user
+     * @return true if the user has an action request pending on the document.
+     */
+    public boolean isUserActionRequested(Document doc, String principalId);
+    
+    /**
      * Determine if the document is on a particular node.
      * @param doc the document
      * @param nodeName the name of the node.
@@ -71,6 +79,12 @@ public interface KraWorkflowService {
      */
     public boolean isDocumentOnNode(Document doc,String nodeName);
 
-    
+    /**
+     * Determine if the user has an outstanding adHoc request.
+     * @param doc the document
+     * @param principalId the principalId of the user
+     * @return true if the user has an adHoc action request pending on the document.
+     */
+    public boolean isUserAdHocRequestRecipient(Document doc, String principalId, String nodeName);    
     
 }

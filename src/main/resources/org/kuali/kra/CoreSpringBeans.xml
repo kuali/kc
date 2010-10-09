@@ -61,7 +61,9 @@
 		</property>
 	</bean>
 
-    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
+    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" >                    
+    	<property name="workflowUtility" ref="workflowUtilityService" />
+    </bean>
 
 	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition"
 		abstract="true">
