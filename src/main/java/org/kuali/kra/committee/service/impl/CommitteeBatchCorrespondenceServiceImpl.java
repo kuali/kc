@@ -223,13 +223,17 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
         
         if (StringUtils.equals(ProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
-            protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            if (protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument() == null) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
             protocolGenericActionService.suspend(protocol, actionBean);
             finalActionCounter++;
         }
         
         if (StringUtils.equals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, batchCorrespondence.getFinalActionTypeCode())) {
-            protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            if (protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument() == null) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
             protocolGenericActionService.close(protocol, actionBean);
             finalActionCounter++;
         }
