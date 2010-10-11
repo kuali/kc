@@ -152,6 +152,18 @@ public abstract class PermissionsHelperBase implements Serializable {
     }
     
     /**
+     * Set the roles, this is for classes that
+     * have to override the buildRoles or otherwise
+     * need to set the List.
+     *
+     */
+    
+    protected void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
+    
+    /**
      * Get the form data for editing the roles for a user.
      * @return the EditRoles form data
      */
@@ -301,7 +313,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     /*
      * Build the list of roles for the document.
      */
-    private void buildRoles(String roleType) {
+    protected void buildRoles(String roleType) {
         roles = new ArrayList<Role>();
         List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
@@ -319,7 +331,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * is shown first, followed by the standard roles, and then by the user-defined roles.
      * @return the sorted list of KIM roles
      */
-    private List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
+    protected List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
         
         List<org.kuali.rice.kim.bo.Role> sortedKimRoles = new ArrayList<org.kuali.rice.kim.bo.Role>();
         List<org.kuali.rice.kim.bo.Role> kimRoles = getKimRoles(roleType);
@@ -506,7 +518,7 @@ public abstract class PermissionsHelperBase implements Serializable {
         return this.kcPersonService;
     }
     
-    private PermissionService getKimPermissionService() {
+    protected PermissionService getKimPermissionService() {
         return KraServiceLocator.getService("kimPermissionService");
     }
 
