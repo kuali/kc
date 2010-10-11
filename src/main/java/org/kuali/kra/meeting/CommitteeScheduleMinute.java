@@ -480,14 +480,14 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
      * 
      * This is true either if 
      *   1) The current user has the role IRB Administrator
-     *   2) The current user does not have the role IRB Administrator but the comment is not private
-     *   3) The current user does not have the role IRB Administrator, the comment is private, but the current user is the comment creator
+     *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
+     *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
      * @return whether the current user can view this comment
      */
     public boolean getCanView() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        return isIrbAdministrator(principalId) || !getPrivateCommentFlag() || StringUtils.equals(principalName, createUser);
+        return isIrbAdministrator(principalId) || StringUtils.equals(principalName, createUser) || (!getPrivateCommentFlag() && isFinalFlag());
     }
 
     private boolean isIrbAdministrator(String principalId) {

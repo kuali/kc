@@ -154,6 +154,9 @@ public class ActionHelper implements Serializable {
     private boolean isReturnForSMROpenForFollowup;
     private boolean isReturnForSRROpenForFollowup;
     
+    private boolean canViewOnlineReviewers;
+    private boolean canViewOnlineReviewerComments;
+    
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
@@ -546,13 +549,16 @@ public class ActionHelper implements Serializable {
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         canReviewNotRequired = hasReviewNotRequiredPermission();
         canManageReviewComments = hasManageReviewCommentsPermission();
-
+        canApproveOther = hasApproveOtherPermission();
+        
         isApproveOpenForFollowup = hasApproveFollowupAction();
         isDisapproveOpenForFollowup = hasDisapproveFollowupAction();
         isReturnForSMROpenForFollowup = hasReturnForSMRFollowupAction();
         isReturnForSRROpenForFollowup = hasReturnForSRRFollowupAction();
         
-        canApproveOther = hasApproveOtherPermission();
+        canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
+        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
+        
         initSummaryDetails();
         initSubmissionDetails();
         initFilterDatesView();
@@ -813,6 +819,14 @@ public class ActionHelper implements Serializable {
     
     private boolean hasReturnForSRRFollowupAction() {
         return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, getProtocol());
+    }
+    
+    private boolean hasCanViewOnlineReviewersPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
+    }
+    
+    private boolean hasCanViewOnlineReviewerCommentsPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -1160,6 +1174,14 @@ public class ActionHelper implements Serializable {
     
     public boolean getIsReturnForSRROpenForFollowup() {
         return isReturnForSRROpenForFollowup;
+    }
+    
+    public boolean getCanViewOnlineReviewers() {
+        return canViewOnlineReviewers;
+    }
+    
+    public boolean getCanViewOnlineReviewerComments() {
+        return canViewOnlineReviewerComments;
     }
 
     public void setPrintTag(String printTag) {
