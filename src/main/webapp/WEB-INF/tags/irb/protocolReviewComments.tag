@@ -14,6 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<kra:permission value="${KualiForm.actionHelper.canViewOnlineReviewerComments}">
+
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
           	<tr>
            		<td class="tab-subhead" colspan="2" scope="row">
@@ -79,4 +82,6 @@
                         </div>         
                     </kul:innerTab>  
 	            </td>
-             </tr>    
+             </tr>
+
+</kra:permission>

@@ -20,10 +20,34 @@ import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 public interface ReviewerCommentsService {
+    
+    /**
+     * Determines whether the given principal can view the list of online reviewer comments for the given protocol submission.
+     * 
+     * This is true when 
+     *   1) The principal is an IRB Administrator
+     *   2) The principal is an online reviewer of the given protocol submission
+     *   3) The protocol submission processing has been completed
+     * @param principalId the id of the user
+     * @param protocolSubmission the protocol submission
+     * @return true if the principal can view the list of online reviewer comments for the given protocol submission, false otherwise
+     */
+    boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission);
+    
+    /**
+     * Determines whether the given principal can view the list of online reviewers for the given protocol submission.
+     * 
+     * This is true when the principal is an IRB Administrator or an online reviewer of the given protocol submission.
+     * @param principalId the id of the user
+     * @param protocolSubmission the protocol submission
+     * @return true if the principal can view the list of online reviewers, false otherwise
+     */
+    boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission);    
     
     /**
      * Finds and returns the reviewer comments for a protocol number and a certain submission.
@@ -33,9 +57,6 @@ public interface ReviewerCommentsService {
      */
     List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
     
-    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
-    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
-
     /**
      * 
      * This method is to get a list or protocol reviewers for this submission.
@@ -44,5 +65,8 @@ public interface ReviewerCommentsService {
      * @return
      */
     List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
+    
+    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol);
+    void persistReviewerComments(ReviewerComments reviewComments, Protocol protocol, ProtocolOnlineReview protocolOnlineReview);
 
 }
