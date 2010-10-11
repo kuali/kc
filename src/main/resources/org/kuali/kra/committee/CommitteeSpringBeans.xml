@@ -78,7 +78,7 @@
 	<bean id="protocolBatchCorrespondencePrint"
 		class="org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint"
 		scope="prototype" parent="templatePrint">
-		<property name="xmlStream" ref="protocolXmlStream" />
+		<property name="xmlStream" ref="correspondenceXmlStream" />
 	</bean>
 
 	<bean id="committeeRosterPrint" class="org.kuali.kra.committee.print.CommitteeRosterPrint"
