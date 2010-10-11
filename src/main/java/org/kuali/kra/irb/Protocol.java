@@ -1524,14 +1524,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-            AttachmentSummary attachmentSummary = new AttachmentSummary();
-            attachmentSummary.setAttachmentId(attachment.getId());
-            attachmentSummary.setFileType(attachment.getFile().getType());
-            attachmentSummary.setFileName(attachment.getFile().getName());
-            attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
-            attachmentSummary.setDescription(attachment.getDescription());
-            attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
-            protocolSummary.add(attachmentSummary);
+            if (!StringUtils.equals(attachment.getDocumentStatusCode(), "3")) {
+                AttachmentSummary attachmentSummary = new AttachmentSummary();
+                attachmentSummary.setAttachmentId(attachment.getId());
+                attachmentSummary.setFileType(attachment.getFile().getType());
+                attachmentSummary.setFileName(attachment.getFile().getName());
+                attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
+                attachmentSummary.setDescription(attachment.getDescription());
+                attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
+                protocolSummary.add(attachmentSummary);
+            }
         }
         for (ProtocolAttachmentPersonnel attachment : getAttachmentPersonnels()) {
             AttachmentSummary attachmentSummary = new AttachmentSummary();
@@ -1684,8 +1686,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
             if ("1".equals(attachment1.getDocumentStatusCode())) {
                 activeAttachments.add(attachment1);
-            }
-            else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
+            } else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
             //else if ("2".equals(attachment1.getDocumentStatusCode())) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocol attachment2 : getAttachmentProtocols()) {
