@@ -32,7 +32,8 @@ public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizer {
 
         return kraWorkflowService.isUserActionRequested(protocolDocument, userId) && 
             (!kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) || 
-                    kraWorkflowService.isUserAdHocRequestRecipient(protocolDocument, userId, null));
+                    (kraWorkflowService.isUserAdHocRequestRecipient(protocolDocument, userId, null) && !kraWorkflowService.isUserRouteRespRequestRecipient(protocolDocument, userId, null))
+            );
     }
 
     
