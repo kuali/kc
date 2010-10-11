@@ -53,8 +53,8 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
             message.setTextContent("The IRB Protocol " + DOC_LINK + protocol.getProtocolDocument().getDocumentNumber() + "\">" 
-                    + protocol.getProtocolNumber() + "</a> has the following administrative correction made to it. <br/>" 
-                    + adminCorrectionBean.getComments());
+                    + protocol.getProtocolNumber() + "</a> has administrative correction made to it. <br/>" 
+                    + " Comments : " + adminCorrectionBean.getComments());
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
             title.setTextContent("Administrative Correction has been made to Protocol " + protocol.getProtocolNumber());
