@@ -204,6 +204,8 @@
 		
 
 			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+				 <table cellpadding="0" cellspacing="0" class="datatable">
+				 <tr><td>
 				<c:set var = "viewOnly" value = "false"/>
 				
 				<c:set var="documentTypeName" value="${kualiForm.docTypeName}" />
@@ -217,7 +219,7 @@
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveOnlineReview.${documentNumber}.anchor${tabKey}" title="save" alt="save"/>
 	            			</c:if>
 	            			<c:if test="${(!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE]) and not suppressRoutingControls}">
-	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif" styleClass="globalbuttons" property="methodToCall.approveOnlineReview.${documentNumber}.anchor${tabKey}" title="approve" alt="approve"/>
+	            				<html:image src="static/images/${kualiForm.approveImageName}" styleClass="globalbuttons" property="methodToCall.approveOnlineReview.${documentNumber}.anchor${tabKey}" title="approve" alt="approve"/>
 	            			</c:if>
 	            			<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_DISAPPROVE] and not suppressRoutingControls}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif" styleClass="globalbuttons" property="methodToCall.disapproveOnlineReview.${documentNumber}.anchor${tabKey}" title="disapprove" alt="disapprove"/>
@@ -231,9 +233,10 @@
         							<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}.${documentNumber}.anchor${tabKey}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"  onclick="${extraButton.extraButtonOnclick}"/>
 		        				</c:forEach>
 	        				</c:if>
-	        
-	            			
+	        			
+	            				
 	        			</div>
+	        			</td></tr></table>
         			</c:if>
 			</kul:innerTab>
         </div>

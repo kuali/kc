@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +40,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -54,6 +58,18 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     
     ProtocolOnlineReviewDocument document;
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewForm.class);
+    
+    private static final Map<String,String> ONLINE_REVIEW_APPROVE_BUTTON_MAP;
+    
+    static {
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP = new HashMap<String,String>();
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
+    }
+    
+    private static final String DEFAULT_APPROVE_BUTTON = "buttonsmall_approve_this_review.gif";
+    
     
     public ProtocolOnlineReviewForm() throws Exception {
         super();
@@ -166,7 +182,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
                
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))) {
-            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject.gif";
+            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_reject_review.gif";
             addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Reject");
         }
         
@@ -200,6 +216,28 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     
     public boolean getIrbAdminFieldsEditable() {
         return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+    }
+    
+    public List<String> getCurrentRouteNodes() {
+        List<String> nodes;
+        try {
+            nodes = Arrays.asList(getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames());
+        } catch (WorkflowException e) {
+            LOG.warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
+            nodes = new ArrayList<String>();
+        }
+        return nodes;
+    }
+
+    public String getApproveImageName() {
+        //we take the first route node the document is on.
+        List<String> routeNodes = getCurrentRouteNodes();
+        String routeNodeName = routeNodes.size()==0?null:routeNodes.get(0);
+        if (routeNodeName!=null) {
+            return ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName)!=null?ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName):DEFAULT_APPROVE_BUTTON;
+        } else {
+            return DEFAULT_APPROVE_BUTTON;
+        }
     }
     
     

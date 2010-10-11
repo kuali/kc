@@ -550,7 +550,11 @@ public interface Constants {
     
     //Online Review
     public static final String PROTOCOL_ONLINE_REVIEW_KEY="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
-    
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW="IRBAdminInitialReview";
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER="OnlineReviewer";
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW="IRBAdminReview";
+  
+  
     
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
