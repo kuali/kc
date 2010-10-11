@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,10 +27,9 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
-import org.kuali.rice.core.util.CollectionUtils;
 
+import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
 import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
 import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
@@ -48,6 +46,7 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
+        RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;
         RenewalReminder renewalReminder = RenewalReminder.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
@@ -85,7 +84,8 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
                                                    (Integer)reportParameters.get("submissionNumber"))) ;
        }
        Map<String,XmlObject> xmlObjectMap = new HashMap<String,XmlObject>();
-       xmlObjectMap.put("Renewal reminder", renewalReminder);
+       renewalReminderDocument.setRenewalReminder(renewalReminder);
+       xmlObjectMap.put("Renewal reminder", renewalReminderDocument);
        return xmlObjectMap;
     }
 
