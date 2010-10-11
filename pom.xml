@@ -1376,7 +1376,7 @@
     	<checkstyle.plugin.version>2.6</checkstyle.plugin.version>
     	<javadoc.plugin.version>2.7</javadoc.plugin.version>
     	<project.info.reports.plugin.version>2.2</project.info.reports.plugin.version>
-    	<surefire.version>2.6</surefire.version>
+    	<surefire.plugin.version>2.6</surefire.plugin.version>
     	<surefire.usefile>false</surefire.usefile>
     	<surefire.testFailureIgnore>false</surefire.testFailureIgnore>
 		<surefire.test>PassSuite</surefire.test>
