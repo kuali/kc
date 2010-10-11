@@ -61,7 +61,7 @@
     <li>Schedule Status</li>
     <li>Submission Status</li>
     <li>Submission Type</li>
-    <li>Submission Type Qualifier</li>
+    <li><portal:portalLink displayTitle="true" title="Submission Type Qualifier" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Unit Correspondents</li>
     <li><portal:portalLink displayTitle="true" title="Valid Protocol Submission Review Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.actions.submit.ValidProtoSubRevType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="Valid Protocol Submission Type Qualifier" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQual&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
