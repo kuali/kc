@@ -111,10 +111,8 @@
 			      <configuration>
 			        <rules>
 			          <requireMavenVersion>
-			            <!-- enforces maven2 -->
-					    <!-- <version>[2.0,3.0)</version>-->
-					    <!-- enforces maven3 -->
-					    <version>[3.0,4.0)</version>
+			            <!-- enforces maven2 or maven3-->
+					    <version>[2.0,4.0)</version>
 					  </requireMavenVersion>
 					  
 					  <!--
