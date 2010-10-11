@@ -82,28 +82,48 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.printTag")}
                 </td>
             </tr>
 	        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocols) > 0}">
-            <tr>
-                <td class="tab-subhead" colspan="2">Attachments</td>
+	            <tr>
+	                <td class="tab-subhead" colspan="2">Protocol Attachments</td>
+	            </tr>
+	
+	            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocols}" varStatus="status">
+	                <tr>
+	                    <td>
+	                        ${protocolAttachment.description} - ${protocolAttachment.status.description} (${protocolAttachment.file.name})
+	                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
+	                                                  attributeEntry="${protocolAttachmentBaseAttributes.description}"
+	                                                  readOnly="true" /> --%>
+	                    </td>
+			            <td align="center" valign="middle">
+	                        <div align="center">
+	                             <html:image property="methodToCall.viewProtocolAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+										alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
+						     </div>
+					     </td>
+	                    
+	                </tr>     
+	            </c:forEach>
+           </c:if>
+           <c:if test="${fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+           	<tr>
+                <td class="tab-subhead" colspan="2">Personnel Attachments</td>
             </tr>
-
-            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocols}" varStatus="status">
-                <tr>
-                    <td>
-                        ${protocolAttachment.description} - ${protocolAttachment.status.description} (${protocolAttachment.file.name})
-                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
-                                                  attributeEntry="${protocolAttachmentBaseAttributes.description}"
-                                                  readOnly="true" /> --%>
-                    </td>
-		            <td align="center" valign="middle">
-                        <div align="center">
-                             <html:image property="methodToCall.viewProtocolAttachment.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-									alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
-					     </div>
-				     </td>
-                    
-                </tr>     
-            </c:forEach>
+           	<c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
+           		<tr>
+	                    <td>
+	                        ${attachmentPersonnel.description} - ${attachmentPersonnel.type.description} (${attachmentPersonnel.file.name})
+	                    </td>
+			            <td align="center" valign="middle">
+	                        <div align="center">
+	                             <html:image property="methodToCall.viewProtocolPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
+										alt="View Attachment" onclick="excludeSubmitRestriction = true;" styleClass="tinybutton"/>
+						     </div>
+					     </td>
+	                    
+	                </tr>
+	          </c:forEach>
            </c:if>
         </table>
     </div>
