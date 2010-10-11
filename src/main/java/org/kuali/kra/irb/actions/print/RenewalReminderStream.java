@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.print;
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,17 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
         RenewalReminder renewalReminder = RenewalReminder.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
-        Committee committee = getBusinessObjectService().findBySinglePrimaryKey(Committee.class, committeeId);
+        Committee committee = null;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("committeeId", committeeId);
+        Collection<Committee> committees = getBusinessObjectService().findMatching(Committee.class, fieldValues);
+        if (committees.size() > 0) {
+            /*
+             * Return the most recent approved committee (i.e. the committee version with the highest 
+             * sequence number that is approved/in the database).
+             */
+            committee = (Committee) Collections.max(committees);
+        }
         CommitteeMasterData committeeMasterData = CommitteeMasterData.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
