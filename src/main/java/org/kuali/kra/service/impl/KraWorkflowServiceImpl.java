@@ -181,7 +181,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         try {
             ActionRequestDTO[] actionRequestsForCurrentUser = workflowUtility.getActionRequests(Long.parseLong(document.getDocumentNumber()), nodeName, principalId);
             for(ActionRequestDTO actionRequest : actionRequestsForCurrentUser) {
-                if(actionRequest.isAdHocRequest()) {
+                if(actionRequest.isAdHocRequest() && actionRequest.isPending()) { 
                     return true;
                 }
             }
@@ -191,5 +191,20 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         }
         return false;
     }
+    
+    public boolean isUserRouteRespRequestRecipient(Document document, String principalId, String nodeName) {
+        try {
+            ActionRequestDTO[] actionRequestsForCurrentUser = workflowUtility.getActionRequests(Long.parseLong(document.getDocumentNumber()), nodeName, principalId);
+            for(ActionRequestDTO actionRequest : actionRequestsForCurrentUser) {
+                if(actionRequest.isPending() && actionRequest.isRouteModuleRequest()) { 
+                    return true;
+                }
+            }
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return false;
+    }    
     
 }

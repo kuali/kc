@@ -85,6 +85,14 @@ public interface KraWorkflowService {
      * @param principalId the principalId of the user
      * @return true if the user has an adHoc action request pending on the document.
      */
-    public boolean isUserAdHocRequestRecipient(Document doc, String principalId, String nodeName);    
+    public boolean isUserAdHocRequestRecipient(Document doc, String principalId, String nodeName);
+    
+    /**
+     * Determine if the user has an outstanding action request though pre-configured responsibility
+     * @param doc the document
+     * @param principalId the principalId of the user
+     * @return true if the user has a action request pending on the document.
+     */
+    public boolean isUserRouteRespRequestRecipient(Document doc, String principalId, String nodeName);
     
 }
