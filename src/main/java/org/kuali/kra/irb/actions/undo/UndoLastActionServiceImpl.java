@@ -18,9 +18,11 @@ package org.kuali.kra.irb.actions.undo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -38,6 +40,7 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
+    private ProtocolVersionService protocolVersionService;
     
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
@@ -47,6 +50,10 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         this.documentService = documentService;
     }
     
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
+
     protected void removeAttachedCorrespondences(ProtocolAction protocolAction) {
         if(protocolAction != null) {
             Map<String, String> fieldValues = new HashMap<String, String>();
@@ -62,26 +69,29 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
         //Undo Protocol Status and Submission Status update
         Protocol protocol = protocolDocument.getProtocol();
         undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
+        ProtocolDocument updatedDocument = null;
         
         ProtocolAction lastActionPerformed = undoLastActionBean.getLastPerformedAction();
         if(lastActionPerformed != null) {
             protocolActionService.resetProtocolStatus(lastActionPerformed, protocol);
+            protocolDocument.setProtocol(protocol);
+            
+            //Revert any correspondence that was sent out
+            removeAttachedCorrespondences(lastActionPerformed); 
+            
+            //Clear the Audit trail - Action history created
+            if(!protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                protocol.getProtocolActions().remove(undoLastActionBean.getLastPerformedAction());
+            }
+            
+            //Undo possible workflow actions
+            updatedDocument = undoWorkflowRouting(protocolDocument, lastActionPerformed);
+            
+            //Save the updated Protocol object
+            documentService.saveDocument(updatedDocument);
         }
         
-        //Undo possible workflow actions
-        ProtocolDocument updatedDocument = undoWorkflowRouting(protocolDocument, lastActionPerformed);
-        
-        //Revert any correspondence that was sent out
-        removeAttachedCorrespondences(lastActionPerformed); 
-        
-        //Clear the Audit trail - Action history created
-        if(!protocolDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            protocol.getProtocolActions().remove(undoLastActionBean.getLastPerformedAction());
-        }
-        
-        //Save the updated Protocol object
-        documentService.saveDocument(updatedDocument);
-        return updatedDocument;
+        return (updatedDocument != null? updatedDocument : protocolDocument); 
     }
     
     protected void resetProtocolStatus(Protocol protocol) {
@@ -94,13 +104,27 @@ public class UndoLastActionServiceImpl implements UndoLastActionService {
     
     protected ProtocolDocument undoWorkflowRouting(ProtocolDocument protocolDocument, ProtocolAction lastPerformedAction) throws Exception {
         KualiWorkflowDocument currentWorkflowDocument = protocolDocument.getDocumentHeader().getWorkflowDocument();
+        ProtocolCopyService protocolCopyService = KraServiceLocator.getService(ProtocolCopyService.class);
         
         //Do we need additional check to see if this is not a Renewal/Amendment Approval? since we already eliminated those options within Authz Logic
         if (currentWorkflowDocument.stateIsCanceled()) {
-            protocolDocument = KraServiceLocator.getService(ProtocolCopyService.class).copyProtocol(protocolDocument);
+            protocolDocument = protocolCopyService.copyProtocol(protocolDocument);
             resetProtocolStatus(protocolDocument.getProtocol());
-        } else if(currentWorkflowDocument != null && lastPerformedAction != null && ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode())) {
-            currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
+        } else if(currentWorkflowDocument != null && currentWorkflowDocument.stateIsFinal() && lastPerformedAction != null && ProtocolActionType.APPROVED.equals(lastPerformedAction.getProtocolActionTypeCode())) {
+            //currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
+            protocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
+            protocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
+            
+            // to force it to retrieve from list.
+            protocolDocument.getProtocol().setProtocolSubmission(null);
+            // update some info
+            protocolDocument.getProtocol().setApprovalDate(null);
+            protocolDocument.getProtocol().setLastApprovalDate(null);
+            protocolDocument.getProtocol().setExpirationDate(null);
+            
+            protocolDocument.setReRouted(true);
+            documentService.saveDocument(protocolDocument);
+            documentService.routeDocument(protocolDocument, Constants.PROTOCOL_UNDO_APPROVE_ANNOTATION, null);
         } 
         
         return protocolDocument;

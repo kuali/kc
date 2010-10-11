@@ -157,7 +157,31 @@
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 		
-        
+        <ruleAttribute>
+			<name>ProtocolReRouteAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>ProtocolReRouteAttribute</label>
+			<description>ProtocolReRouteAttribute - Indicates if the document is being rerouted</description>
+			<type>RuleXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<routingConfig>
+				<fieldDef name="reRouted" title="Re-Routed"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+						  	wf:xstreamsafe('//document/reRouted')= wf:ruledata('reRouted')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+		        
     </ruleAttributes>
     
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
@@ -194,6 +218,10 @@
 					<name>UnitAdministratorRoleAttribute</name>
 					<required>false</required>
 				</attribute>
+				<attribute>
+					<name>ProtocolReRouteAttribute</name>
+					<required>true</required>
+				</attribute>				
 			</attributes>
 		</ruleTemplate>
 
@@ -253,11 +281,25 @@
 							<key>leadUnitNumber</key>
 							<value>IN-CARD</value>
 						</ruleExtensionValue>
-                <ruleExtensionValue>
-                  <key>protocolWorkflowType</key>
-                  <value>Normal</value>
-                </ruleExtensionValue>
-					</ruleExtensionValues>
+			            <ruleExtensionValue>
+				            <key>protocolWorkflowType</key>
+				            <value>Normal</value>
+			            </ruleExtensionValue>
+			            <ruleExtensionValue>
+				            <key>reRouted</key>
+				            <value>false</value>
+			            </ruleExtensionValue>
+			            </ruleExtensionValues>
+				</ruleExtension>
+				<ruleExtension>
+					<attribute>ProtocolReRouteAttribute</attribute>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+					<ruleExtensionValues>
+			            <ruleExtensionValue>
+				            <key>reRouted</key>
+				            <value>false</value>
+			            </ruleExtensionValue>
+			        </ruleExtensionValues>
 				</ruleExtension>
 			</ruleExtensions>
 			
