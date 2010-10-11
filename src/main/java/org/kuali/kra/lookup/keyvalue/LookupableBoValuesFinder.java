@@ -17,6 +17,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,9 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
         // this only has entries that have been loaded - force load?
 
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
+    	
+    	Map<String, Integer> labelCounts = getLabelCounts(businessObjectEntries);
+    	
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) 
     	            && (businessObject.startsWith("org.kuali.kra") 
@@ -49,7 +53,15 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
                             || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
                             || businessObject.equals("org.kuali.rice.kns.bo.StateImpl"))) {
-        		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup"));
+    	        Object key = businessObject;
+    	        
+    	        String label = StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup");
+    	        
+    	        if (labelCounts.get(label) > 1){
+    	            label = label + " (" + key.toString().substring(key.toString().lastIndexOf(".") + 1) + ")";
+    	        }
+
+        		KeyLabelPair keyLabelPair = new KeyLabelPair(key, label);
         		if (!keyValues.contains(keyLabelPair)) {
         		    keyValues.add(keyLabelPair);
         		}
@@ -61,6 +73,31 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
         keyValues.add(0, new KeyLabelPair("", "select"));
 
     	return keyValues;
+    }
+    
+    public Map<String, Integer> getLabelCounts(Map<String, BusinessObjectEntry> businessObjectEntries){
+        Map<String, Integer> labels = new HashMap<String, Integer>();
+        
+        for (String businessObject: businessObjectEntries.keySet()) {
+            if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) 
+                    && (businessObject.startsWith("org.kuali.kra") 
+                            || businessObject.equals("org.kuali.rice.kns.bo.CampusImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CampusTypeImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CountryImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
+                            || businessObject.equals("org.kuali.rice.kns.bo.StateImpl"))) {
+                String label = StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle().trim()," Lookup");
+                if(labels.containsKey(label)){
+                    Integer count = labels.get(label) + 1;
+                    labels.put(label, count);
+                } else {
+                    labels.put(label, 1);
+                }
+            }
+        }
+        
+        return labels;
     }
 
 }
