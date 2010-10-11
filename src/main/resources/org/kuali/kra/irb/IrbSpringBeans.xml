@@ -221,7 +221,7 @@
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
-                <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />
                 </bean>
                 
