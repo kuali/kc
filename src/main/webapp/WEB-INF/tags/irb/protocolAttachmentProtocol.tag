@@ -340,7 +340,7 @@
 						         						</td>
 														<td style="width: 60%">
 														   <div align="left">
-						         							${attachmentProtocolVersion.comments}
+						         							${attachmentProtocolVersion.description}
 						         							</div>
 						         						</td>
 						         					</tr>
