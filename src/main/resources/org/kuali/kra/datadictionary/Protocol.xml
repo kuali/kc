@@ -72,6 +72,8 @@
 				<ref bean="Protocol-updateTimestamp" />
 				<ref bean="Protocol-initiatorLastUpdated" />
 				<ref bean="Protocol-protocolSubmissionStatus" />
+				<ref bean="Protocol-lookupPendingProtocol" />
+				<ref bean="Protocol-lookupPendingPIActionProtocol" />
 			</list>
 		</property>
 		
@@ -701,6 +703,25 @@
 		<property name="name" value="protocolSubmissionStatus" />
 	</bean>
 	
+	<!-- Custom Lookup Fields -->
+	<bean id="Protocol-lookupPendingProtocol" parent="Protocol-lookupPendingProtocol-parentBean" />
+    <bean id="Protocol-lookupPendingProtocol-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="lookupPendingProtocol" />
+        <property name="label" value="Pending Protocols" />
+        <property name="shortLabel" value="Pending Protocols" />
+        <property name="summary" value="Pending Protocols" />
+        <property name="description" value="Pending Protocols" />
+    </bean>
+    
+    <bean id="Protocol-lookupPendingPIActionProtocol" parent="Protocol-lookupPendingPIActionProtocol-parentBean" />
+    <bean id="Protocol-lookupPendingPIActionProtocol-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="lookupPendingPIActionProtocol" />
+        <property name="label" value="Protocols Pending PI Action" />
+        <property name="shortLabel" value="Protocols Pending PI Action" />
+        <property name="summary" value="Protocols Pending PI Action" />
+        <property name="description" value="Protocols Pending PI Action" />
+    </bean>
+	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
 	<bean id="Protocol-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -817,6 +838,11 @@
 					p:attributeName="leadUnitName" />
 				<bean parent="FieldDefinition"
 				    p:attributeName="active"  p:defaultValue="Y" />
+				<bean parent="FieldDefinition" 
+                    p:attributeName="lookupPendingProtocol" p:noLookup="true" p:hidden="true" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="lookupPendingPIActionProtocol" p:noLookup="true" p:hidden="true" />
+                    
 				<!-- bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"
@@ -868,7 +894,7 @@
 					p:attributeName="leadUnitName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="active" />
-					
+                    
 				<!-- <bean parent="FieldDefinition"
 					p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"

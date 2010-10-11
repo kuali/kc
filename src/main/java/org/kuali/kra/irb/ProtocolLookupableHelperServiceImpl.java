@@ -17,10 +17,12 @@ package org.kuali.kra.irb;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.ResearchArea;
@@ -28,6 +30,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
@@ -45,11 +48,25 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 
 /**
- * 
- * This class handles searching for protocoles.
+ * This class handles searching for protocols.
  */
 public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
+    private static final String PENDING_PROTOCOL_LOOKUP = "lookupPendingProtocol";
+    private static final String PENDING_PI_ACTION_PROTOCOL_LOOKUP = "lookupPendingPIActionProtocol";
+    
+    private static final String[] PENDING_PROTOCOL_STATUS_CODES = { ProtocolStatus.IN_PROGRESS, 
+                                                                    ProtocolStatus.SUBMITTED_TO_IRB, 
+                                                                    ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+                                                                    ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
+                                                                    ProtocolStatus.AMENDMENT_IN_PROGRESS, 
+                                                                    ProtocolStatus.RENEWAL_IN_PROGRESS, 
+                                                                    ProtocolStatus.WITHDRAWN };
+    
+    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = { ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+                                                                              ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,  
+                                                                              ProtocolStatus.EXPIRED };
+    
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
     private DictionaryValidationService dictionaryValidationService;
@@ -61,14 +78,47 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         validateSearchParameters(fieldValues);
         // need to set backlocation & docformkey here. Otherwise, they are empty
-        super.setBackLocationDocFormKey(fieldValues);        
-        List<Protocol> protocols = protocolDao.getProtocols(fieldValues);
-        Long matchingResultsCount = new Long(protocols.size());
+        super.setBackLocationDocFormKey(fieldValues);
+        
+        List<? extends BusinessObject> searchResults = null;
+        
+        if (BooleanUtils.toBoolean(fieldValues.get(PENDING_PROTOCOL_LOOKUP))) {
+            searchResults = filterProtocols(fieldValues, PENDING_PROTOCOL_STATUS_CODES);
+        } else if (BooleanUtils.toBoolean(fieldValues.get(PENDING_PI_ACTION_PROTOCOL_LOOKUP))) {
+            searchResults = filterProtocols(fieldValues, PENDING_PI_ACTION_PROTOCOL_STATUS_CODES);
+        } else {
+            searchResults = filterProtocols(fieldValues);
+        }
+        
+        return searchResults;
+    }
+    
+    /**
+     * Filters the unbounded list of protocols by the given field values and protocol status codes.
+     * @param fieldValues the field values form a normal protocol search
+     * @param protocolStatusCodes the list of protocol status codes that should be included in the search result
+     * @return a list of all protocols filtered by the given field values and having statuses in protocolStatusCodes
+     */
+    private List<? extends BusinessObject> filterProtocols(Map<String, String> fieldValues, String... protocolStatusCodes) {
+        List<Protocol> filteredProtocols = new ArrayList<Protocol>();
+        
+        fieldValues.remove(PENDING_PROTOCOL_LOOKUP);
+        fieldValues.remove(PENDING_PI_ACTION_PROTOCOL_LOOKUP);
+        
+        List<String> protocolStatusCodeList = Arrays.asList(protocolStatusCodes);
+        for (Protocol protocol : protocolDao.getProtocols(fieldValues)) {
+            String statusCode = protocol.getProtocolStatusCode();
+            if (protocolStatusCodeList.isEmpty() || protocolStatusCodeList.contains(statusCode)) {
+                filteredProtocols.add(protocol);
+            }
+        }
+        
+        Long matchingResultsCount = new Long(filteredProtocols.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Protocol.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete(protocols, new Long(0));
+            return new CollectionIncomplete<Protocol>(filteredProtocols, new Long(0));
         } else {
-            return new CollectionIncomplete(trimResult(protocols, searchResultsLimit), matchingResultsCount);
+            return new CollectionIncomplete<Protocol>(trimResult(filteredProtocols, searchResultsLimit), matchingResultsCount);
         }
     }
     
