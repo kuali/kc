@@ -16,6 +16,7 @@
 package org.kuali.kra.meeting;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,10 +29,12 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -81,10 +84,7 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     private transient String createUserFullName;
     @SkipVersioning
     private transient String updateUserFullName;
-    
-    private transient KcPersonService kcPersonService;
-    
-    
+
     
     public CommitteeScheduleMinute() { 
 
@@ -478,14 +478,22 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
     /**
      * Returns whether the current user can view this comment.
      * 
-     * This is true either if the comment is not private or if the comment is private and the user is the comment creator 
-     * (commentIsPrivate => currentUserIsCreateUser).
+     * This is true either if 
+     *   1) The current user has the role IRB Administrator
+     *   2) The current user does not have the role IRB Administrator but the comment is not private
+     *   3) The current user does not have the role IRB Administrator, the comment is private, but the current user is the comment creator
      * @return whether the current user can view this comment
      */
     public boolean getCanView() {
-        boolean isCurrentUserCreateUser = StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(), createUser);
-        return !getPrivateCommentFlag() || isCurrentUserCreateUser;
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        return isIrbAdministrator(principalId) || !getPrivateCommentFlag() || StringUtils.equals(principalName, createUser);
     }
 
-        
+    private boolean isIrbAdministrator(String principalId) {
+        RoleService roleService = KraServiceLocator.getService(RoleManagementService.class);
+        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
+        return ids.contains(principalId);
+    }
+
 }
