@@ -31,7 +31,8 @@ import org.xml.sax.InputSource;
 public class AdminCorrectionServiceImpl implements AdminCorrectionService {
     private NotificationService notificationService;
     private List<String> notificationTemplates;
-
+    private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
+    
     public void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception {
         String adminCorrectionNotificationTemplate = notificationTemplates.get(0);
         InputStream is = this.getClass().getResourceAsStream(adminCorrectionNotificationTemplate);
@@ -51,7 +52,9 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
             sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
-            message.setTextContent(adminCorrectionBean.getComments());
+            message.setTextContent("The IRB Protocol " + DOC_LINK + protocol.getProtocolDocument().getDocumentNumber() + "\">" 
+                    + protocol.getProtocolNumber() + "</a> has the following administrative correction made to it. <br/>" 
+                    + adminCorrectionBean.getComments());
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
             title.setTextContent("Administrative Correction has been made to Protocol " + protocol.getProtocolNumber());
