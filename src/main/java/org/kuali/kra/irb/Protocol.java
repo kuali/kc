@@ -185,6 +185,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private transient String initiatorLastUpdated;
     private transient String protocolSubmissionStatus;
     
+    // Custom Protocol lookup fields
+    private transient boolean lookupPendingProtocol;
+    private transient boolean lookupPendingPIActionProtocol;
+    
     public String getInitiatorLastUpdated() {
         return initiatorLastUpdated;
     }
@@ -1731,4 +1735,21 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setNotifyIrbSubmissionId(Long notifyIrbSubmissionId) {
         this.notifyIrbSubmissionId = notifyIrbSubmissionId;
     }
+
+    public boolean isLookupPendingProtocol() {
+        return lookupPendingProtocol;
+    }
+
+    public void setLookupPendingProtocol(boolean lookupPendingProtocol) {
+        this.lookupPendingProtocol = lookupPendingProtocol;
+    }
+
+    public boolean isLookupPendingPIActionProtocol() {
+        return lookupPendingPIActionProtocol;
+    }
+
+    public void setLookupPendingPIActionProtocol(boolean lookupPendingPIActionProtocol) {
+        this.lookupPendingPIActionProtocol = lookupPendingPIActionProtocol;
+    }
+
 }
