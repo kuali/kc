@@ -323,7 +323,7 @@
 					         							Last Modified Date
 					         						</th>
 					         						<th style="width: 60%">
-					         							Comments
+					         							Description
 					         						</th>
 					         					</tr>
 							         			<c:forEach var="attachmentProtocolVersion" items="${attachmentProtocol.versions}" varStatus="innerItrStatus">
