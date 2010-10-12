@@ -24,8 +24,8 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl;
 import org.kuali.kra.committee.test.CommitteeTestHelper;
@@ -61,12 +61,13 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
      * This method tests the creation of batch correspondence
      * @throws Exception
      */
-    @Ignore
     @Test
     public void testGenerateBatchCorrespondenceForRenewalReminders() throws Exception {
         String batchCorrespondenceTypeCode = Constants.PROTOCOL_RENEWAL_REMINDERS;
-        final String committeeId = null;
-        final Date startDate = Date.valueOf("2010-06-01");
+        Committee committee = 
+            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+        final String committeeId = committee.getCommitteeId();
+            final Date startDate = Date.valueOf("2010-06-01");
         final Date endDate = Date.valueOf("2010-06-15");
 
         committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
@@ -103,11 +104,12 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
      * This method tests the creation of batch correspondence
      * @throws Exception
      */
-    @Ignore
-    @Test
+   @Test
     public void testGenerateBatchCorrespondenceForIrbNotifications() throws Exception {
         String batchCorrespondenceTypeCode = Constants.REMINDER_TO_IRB_NOTIFICATIONS;
-        final String committeeId = null;
+        Committee committee = 
+            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+        final String committeeId = committee.getCommitteeId();
         final Date startDate = Date.valueOf("2010-06-01");
         final Date endDate = Date.valueOf("2010-06-15");
 
