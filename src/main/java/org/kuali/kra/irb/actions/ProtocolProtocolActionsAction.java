@@ -2855,14 +2855,23 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        protocolDocument.getProtocol().setCorrectionMode(false); 
-        AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
-        protocolForm.getProtocolDocument().updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
-         
-        AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
-        adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
-        
-        recordProtocolActionSuccess("Submit Administrative Correction");
+        protocolForm.setAuditActivated(true);
+
+        AuditActionHelper auditActionHelper = new AuditActionHelper();
+        if (auditActionHelper.auditUnconditionally(protocolDocument)) {
+            protocolDocument.getProtocol().setCorrectionMode(false); 
+            AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
+            protocolForm.getProtocolDocument().updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
+             
+            AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
+            adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
+            
+            recordProtocolActionSuccess("Submit Administrative Correction");
+            protocolForm.setAuditActivated(false);
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_ADMIN_CORRECTION_SUBMISSION,  new String[] {});
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);  
     }
