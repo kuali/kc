@@ -37,7 +37,7 @@
 				<ref bean="ProtocolOnlineReview-determinationRecommendationCode"/>
 				<ref bean="ProtocolOnlineReview-determinationRecommendation.description"/>
 				<!--  Lookup fields -->
-				<ref bean="ProtocolOnlineReview-lookupProtocolNumber"/>
+				<ref bean="ProtocolOnlineReview-lookupProtocol.protocolNumber"/>
 				<ref bean="ProtocolOnlineReview-lookupReviewerRolodexId"/>
 				<ref bean="ProtocolOnlineReview-lookupReviwerRolodex.lastName"/>
 				<!--  <ref bean="ProtocolOnlineReview-lookupReviewerRolodex"/> -->
@@ -49,6 +49,9 @@
 				<ref bean="ProtocolOnlineReview-protocol.principalInvestigator.personName"/>
 				<ref bean="ProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
 				<ref bean="ProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
+				
+				<ref bean="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode"/>
+				
 			</list>
 		</property>
 		 
@@ -81,6 +84,16 @@
             			</list>
           			</property> -->
         		</bean>
+        		
+        		<bean parent="RelationshipDefinition">
+          			<property name="objectAttributeName" value="lookupProtocol"/>
+	          		<property name="primitiveAttributes">
+            			<list>
+              				<bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/>
+            			</list>
+          			</property>
+        		</bean>
+        		
 			</list>
 		</property>	
 		
@@ -260,6 +273,31 @@
 
 
 	<!-- Lookup fields -->
+	
+	<bean id="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode" parent="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean" />
+	<bean id="ProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="lookupProtocolOnlineReviewStatusCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Online Review Status" />
+		<property name="shortLabel" value="Status" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"
+				p:includeKeyInLabel="false" p:keyAttribute="statusCode"
+				p:labelAttribute="description" />
+		</property>
+		<property name="summary" value="Protocol Review Status Code" />
+		<property name="description" value="The status of the protocol review." />
+	</bean>
+	
+	
+	
 	<bean id="ProtocolOnlineReview-lookupReviewerRolodexId" parent="ProtocolOnlineReview-lookupReviewerRolodexId-parentBean" />
 	<bean id="ProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="lookupReviewerRolodexId" />
@@ -316,9 +354,9 @@
   	</bean>
 	
 		
-	<bean id="ProtocolOnlineReview-lookupProtocolNumber" parent="ProtocolOnlineReview-lookupProtocolNumber-parentBean" />
-	<bean id="ProtocolOnlineReview-lookupProtocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="lookupProtocolNumber" />
+	<bean id="ProtocolOnlineReview-lookupProtocol.protocolNumber" parent="ProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" />
+	<bean id="ProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="lookupProtocol.protocolNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Protocol Number" />
 		<property name="shortLabel" value="Protocol Number" />
@@ -473,6 +511,9 @@
 		</property>
 	</bean>
 
+	
+
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="ProtocolOnlineReview-lookupDefinition" parent="ProtocolOnlineReview-lookupDefinition-parentBean"/>
 	<bean abstract="true" id="ProtocolOnlineReview-lookupDefinition-parentBean" parent="LookupDefinition">
@@ -486,13 +527,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
-				<bean p:attributeName="protocolId" p:forceInquiry="true" parent="FieldDefinition"/>
-				<bean p:attributeName="submissionIdFk" p:forceInquiry="true" parent="FieldDefinition"/>
-				<bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" />
-				<!--  <bean p:attributeName="lookupReviewerRolodex.lastName" parent="FieldDefinition" /> -->
-				<bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition"/>
-				<!--  <bean p:attributeName="lookupReviewerPerson.lastName" parent="FieldDefinition"/> -->
-				<bean p:attributeName="lookupProtocolNumber" parent="FieldDefinition"/>
+				<bean p:attributeName="lookupProtocol.protocolNumber" parent="FieldDefinition"/>
+				<bean p:attributeName="lookupProtocolOnlineReviewStatusCode" parent="FieldDefinition"/>
+				<bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" p:hidden = "true" />
+				<bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition" p:hidden = "true" />
 				<bean p:attributeName="dateRequested" parent="FieldDefinition"/>
 				<bean p:attributeName="dateDue" parent="FieldDefinition"/>
 			</list>
@@ -500,7 +538,7 @@
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="protocol.principalInvestigator.personName" parent = "FieldDefinition"/>
-				<bean p:attributeName="lookupProtocolNumber" parent = "FieldDefinition"/>
+				<bean p:attributeName="protocol.protocolNumber" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.submissionNumber" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.protocolSubmissionType.description" parent = "FieldDefinition"/>
 				<bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
