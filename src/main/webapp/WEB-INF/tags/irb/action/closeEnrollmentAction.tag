@@ -56,15 +56,17 @@
                     </td>
                 </tr>
                 
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean.reviewComments}"
-                                                       property="actionHelper.protocolCloseEnrollmentBean.reviewComments"
-                                                       action="${action}"
-                                                       actionName="CloseEnrollment"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
-                   </td>
-                </tr>
+                <c:if test="${KualiForm.actionHelper.canAddCloseEnrollmentReviewerComments}">
+	                <tr>
+	                    <td colspan="2">
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean.reviewComments}"
+	                                                       property="actionHelper.protocolCloseEnrollmentBean.reviewComments"
+	                                                       action="${action}"
+	                                                       actionName="CloseEnrollment"
+	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+	                   </td>
+	                </tr>
+	            </c:if>
                 
                 <tr>
                     <td align="center" colspan="2">

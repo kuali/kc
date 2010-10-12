@@ -157,6 +157,13 @@ public class ActionHelper implements Serializable {
     private boolean canViewOnlineReviewers;
     private boolean canViewOnlineReviewerComments;
     
+    private boolean canAddCloseReviewerComments;
+    private boolean canAddCloseEnrollmentReviewerComments;
+    private boolean canAddDataAnalysisReviewerComments;
+    private boolean canAddReopenEnrollmentReviewerComments;
+    private boolean canAddSuspendReviewerComments;
+    private boolean canAddTerminateReviewerComments;
+    
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
     private ProtocolRequestBean protocolCloseRequestBean;
@@ -562,6 +569,13 @@ public class ActionHelper implements Serializable {
         canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
         canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
         
+        canAddCloseReviewerComments = hasCloseRequestLastAction();
+        canAddCloseEnrollmentReviewerComments = hasCloseEnrollmentRequestLastAction();
+        canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
+        canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
+        canAddSuspendReviewerComments = hasSuspendRequestLastAction();
+        canAddTerminateReviewerComments = hasTerminateRequestLastAction();
+        
         initSummaryDetails();
         initSubmissionDetails();
         initFilterDatesView();
@@ -830,6 +844,30 @@ public class ActionHelper implements Serializable {
     
     private boolean hasCanViewOnlineReviewerCommentsPermission() {
         return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
+    }
+    
+    private boolean hasCloseRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_CLOSE.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasCloseEnrollmentRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasDataAnalysisRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasReopenEnrollmentRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasSuspendRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasTerminateRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -1185,6 +1223,30 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanViewOnlineReviewerComments() {
         return canViewOnlineReviewerComments;
+    }
+
+    public boolean getCanAddCloseReviewerComments() {
+        return canAddCloseReviewerComments;
+    }
+
+    public boolean getCanAddCloseEnrollmentReviewerComments() {
+        return canAddCloseEnrollmentReviewerComments;
+    }
+
+    public boolean getCanAddDataAnalysisReviewerComments() {
+        return canAddDataAnalysisReviewerComments;
+    }
+
+    public boolean getCanAddReopenEnrollmentReviewerComments() {
+        return canAddReopenEnrollmentReviewerComments;
+    }
+
+    public boolean getCanAddSuspendReviewerComments() {
+        return canAddSuspendReviewerComments;
+    }
+
+    public boolean getCanAddTerminateReviewerComments() {
+        return canAddTerminateReviewerComments;
     }
 
     public void setPrintTag(String printTag) {

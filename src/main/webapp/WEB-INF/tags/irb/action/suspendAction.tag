@@ -56,15 +56,17 @@
                     </td>
                 </tr>
                 
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendBean.reviewComments}"
-                                                       property="actionHelper.protocolSuspendBean.reviewComments"
-                                                       action="${action}"
-                                                       actionName="Suspend" 
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
-                   </td>
-                </tr>
+                <c:if test="${KualiForm.actionHelper.canAddSuspendReviewerComments}">
+	                <tr>
+	                    <td colspan="2">
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendBean.reviewComments}"
+	                                                       property="actionHelper.protocolSuspendBean.reviewComments"
+	                                                       action="${action}"
+	                                                       actionName="Suspend" 
+	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
+	                   </td>
+	                </tr>
+	            </c:if>
                 
                 <tr>
                     <td align="center" colspan="2">
