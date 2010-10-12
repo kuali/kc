@@ -263,6 +263,11 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         if (amendmentBean.getOthers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.OTHERS));
         }
+        
+        if (amendmentBean.getProtocolPermissions()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERMISSIONS));
+        }
+        
     }
     
     /**
@@ -381,6 +386,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
         moduleTypeCodes.add(ProtocolModule.PROTOCOL_REFERENCES);
         moduleTypeCodes.add(ProtocolModule.SPECIAL_REVIEW);
         moduleTypeCodes.add(ProtocolModule.SUBJECTS);
+        moduleTypeCodes.add(ProtocolModule.PROTOCOL_PERMISSIONS);
         return moduleTypeCodes;
     }
 

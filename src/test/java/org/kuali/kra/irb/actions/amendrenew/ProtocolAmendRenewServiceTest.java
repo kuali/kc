@@ -237,7 +237,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules("0906000001");
-        assertEquals(7, modules.size());
+        assertEquals(8, modules.size());
         assertTrue(modules.contains(ProtocolModule.FUNDING_SOURCE));
         assertTrue(modules.contains(ProtocolModule.GENERAL_INFO));
         assertTrue(modules.contains(ProtocolModule.OTHERS));
@@ -245,5 +245,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertTrue(modules.contains(ProtocolModule.PROTOCOL_REFERENCES));
         assertTrue(modules.contains(ProtocolModule.SPECIAL_REVIEW));
         assertTrue(modules.contains(ProtocolModule.SUBJECTS));
+        assertTrue(modules.contains(ProtocolModule.PROTOCOL_PERMISSIONS));
     }
 }

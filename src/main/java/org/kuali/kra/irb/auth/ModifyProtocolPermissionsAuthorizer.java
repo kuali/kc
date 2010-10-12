@@ -24,6 +24,6 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 public class ModifyProtocolPermissionsAuthorizer extends ModifyAmendmentAuthorizer {
 
     public ModifyProtocolPermissionsAuthorizer() {
-        super(ProtocolModule.PROTOCOL_PERSONNEL);
+        super(ProtocolModule.PROTOCOL_PERMISSIONS);
     }
 }

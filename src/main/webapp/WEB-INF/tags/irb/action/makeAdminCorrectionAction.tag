@@ -85,6 +85,11 @@
 									    <kul:htmlAttributeLabel attributeEntry="${amendmentAttributes.others}" noColon="true"/>
 									</td></tr>
 								</c:if>
+                                <c:if test="${!KualiForm.actionHelper.protocolAdminCorrectionBean.protocolPermissionsEnabled}">
+                                    <tr><td width="100%" style="border-left: 0 none; border-right: 0 none; border-bottom: 0 none;">
+                                        <kul:htmlAttributeLabel attributeEntry="${amendmentAttributes.protocolPermissions}" noColon="true"/>
+                                    </td></tr>
+                                </c:if>
 						</tbody>
    					</table>
    				
