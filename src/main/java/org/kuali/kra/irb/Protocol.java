@@ -1257,6 +1257,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.OTHERS)) {
                 mergeOthers(amendment);
             }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERMISSIONS)) {
+                mergeProtocolPermissions(amendment);
+            }
         }
         mergeProtocolSubmission(amendment);
     }
@@ -1438,6 +1441,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             CustomAttributeDocument cad = amendment.getProtocolDocument().getCustomAttributeDocuments().get(entry.getKey());
             entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
         }
+    }
+    
+    private void mergeProtocolPermissions(Protocol amendment) {
+        // ToDo: merge permissions
     }
     
     private Object deepCopy(Object obj) {

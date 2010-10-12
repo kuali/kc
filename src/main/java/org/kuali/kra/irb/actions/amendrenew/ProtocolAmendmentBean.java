@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.io.Serializable;
-
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
 @SuppressWarnings("serial")
@@ -34,6 +32,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     private boolean specialReview = false;
     private boolean protocolPersonnel = false;
     private boolean others = false;
+    private boolean protocolPermissions = false;
     
     public ProtocolAmendmentBean() {
         
@@ -127,6 +126,14 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
         this.others = others;
     }
     
+    public boolean getProtocolPermissions() {
+        return protocolPermissions;
+    }
+
+    public void setProtocolPermissions(boolean protocolPermissions) {
+        this.protocolPermissions = protocolPermissions;
+    }
+
     public boolean isSomeSelected() {
         return getAddModifyAttachments() ||
                getAreasOfResearch() ||
@@ -137,6 +144,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
                getProtocolPersonnel() ||
                getProtocolReferencesAndOtherIdentifiers() ||
                getSpecialReview() ||
-               getSubjects();
+               getSubjects() ||
+               getProtocolPermissions();
     }
 }

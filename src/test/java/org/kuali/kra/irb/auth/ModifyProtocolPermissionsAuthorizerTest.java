@@ -16,38 +16,43 @@
 package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
  * Test the Modify Protocol Permissions Authorizer.
  */
-public class ModifyProtocolPermissionsAuthorizerTest extends ProtocolAuthorizerTestBase {
-    
+public class ModifyProtocolPermissionsAuthorizerTest extends ModifyProtocolModuleAuthorizerTestBase {
     @Test
-    public void testModifyPermission() throws Exception {
-        runModifyProtocolAuthorizerTest(PROTOCOL_NUMBER, false, false, true, false, true);
+    public void testHasProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, true, true);
+    }
+
+    @Test
+    public void testHasNoProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, false, false);
     }
     
     @Test
-    public void testNotModifyPermission() throws Exception {
-        runModifyProtocolAuthorizerTest(PROTOCOL_NUMBER, false, false, false, false, false);
+    public void testHasModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", getModuleTypeCode(), true, true);
     }
-    
+
     @Test
-    public void testViewOnly() throws Exception {
-        runModifyProtocolAuthorizerTest(PROTOCOL_NUMBER, false, true, true, false, false);
+    public void testHasNoModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", ProtocolModule.ADD_MODIFY_ATTACHMENTS, true, false);
     }
     
     @Override
-    protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
-        ProtocolAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
-        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.MAINTAIN_PROTOCOL_ACCESS, hasPermission));
-        authorizer.setKraWorkflowService(buildKraWorkflowService(protocolDocument, isInWorkflow));
-        return authorizer;
+    protected ModifyAmendmentAuthorizer createModifyAmendmentAuthorizer() {
+        return new ModifyProtocolPermissionsAuthorizer();
     }
     
+    @Override
+    protected String getModuleTypeCode() {
+        return ProtocolModule.PROTOCOL_PERMISSIONS;
+    }
+
     @Override
     protected String getTaskName() {
         return TaskName.MODIFY_PROTOCOL_ROLES;

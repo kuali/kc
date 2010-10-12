@@ -494,6 +494,9 @@ public class ActionHelper implements Serializable {
         else if (StringUtils.equals(ProtocolModule.SUBJECTS,moduleTypeCode)) {
             amendmentBean.setSubjectsEnabled(true);
         }
+        else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
+            amendmentBean.setProtocolPermissionsEnabled(true);
+        }
     }
 
     private ProtocolAmendRenewService getProtocolAmendRenewService() {

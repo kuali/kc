@@ -118,6 +118,16 @@
 	            					    Others
 	            					</td>
 	            				</tr>
+                                <tr>
+                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+                                        <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.protocolPermissions" 
+                                                                  attributeEntry="${attributes.protocolPermissions}" 
+                                                                  disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.protocolPermissionsEnabled}" />
+                                        Protocol Permissions
+                                    </td>
+                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+                                    </td>
+                                </tr>
 	            			</tbody>
                 		</table>
             		</td>
