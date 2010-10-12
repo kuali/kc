@@ -239,7 +239,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.infrastructure.BudgetDecimalFormatterTest.class,
     org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersServiceTest.class,
     org.kuali.kra.committee.service.CommitteeScheduleLookupHelperServiceTest.class,
-    org.kuali.kra.committee.service.CommitteeBatchCorrespondenceServiceTest.class,
     org.kuali.kra.award.AwardSponsorTermRuleTest.class,
     org.kuali.kra.budget.bo.BudgetProjectIncomeTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYNQRuleTest.class,
@@ -409,6 +408,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.web.ProtocolActionsWebTest.class,
     org.kuali.kra.irb.web.ProtocolNoteAndAttachmentWebTest.class,
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailWebTest.class,
+    org.kuali.kra.committee.service.CommitteeBatchCorrespondenceServiceTest.class,
     org.kuali.kra.proposaldevelopment.web.AbstractsPanelWebTest.class,
     org.kuali.kra.proposaldevelopment.web.CustomDataWebTest.class,
     // Data needs to be loaded with sql loader.
