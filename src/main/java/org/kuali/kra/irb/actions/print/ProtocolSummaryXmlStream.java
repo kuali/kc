@@ -458,19 +458,24 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     }
     
     private String getFundingSourceNameOrTitle(ProtocolFundingSource fundingSourceBean){
-        fundingSourceBean.refreshNonUpdateableReferences();
+//        fundingSourceBean.refreshNonUpdateableReferences();
         String title=null;
         Integer fundingSourceTypeCode = fundingSourceBean.getFundingSourceTypeCode();
         switch(fundingSourceTypeCode){
             case(1):
+                fundingSourceBean.refreshReferenceObject("fundingSponsor");
                 return fundingSourceBean.getFundingSponsor().getSponsorName();
             case(2):
+                fundingSourceBean.refreshReferenceObject("fundingUnit");
                 return fundingSourceBean.getFundingUnit().getUnitName();
             case(4):
+                fundingSourceBean.refreshReferenceObject("fundingDevelopmentProposal");
                 return fundingSourceBean.getFundingDevelopmentProposal().getTitle();
             case(5):
+                fundingSourceBean.refreshReferenceObject("fundingInstitutionalProposal");
                 return fundingSourceBean.getFundingInstitutionalProposal().getTitle();
             case(6):
+                fundingSourceBean.refreshReferenceObject("fundingAward");
                 return fundingSourceBean.getFundingAward().getTitle();
         }
         return title;
