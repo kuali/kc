@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -146,6 +147,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         pa.setProtocolId(prot.getProtocolId());
         pa.setProtocolNumber(prot.getProtocolNumber());
         pa.setActionId(123);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         prot.getProtocolActions().add(pa);
         
         ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
@@ -166,6 +168,7 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         pa.setProtocolId(prot.getProtocolId());
         pa.setProtocolNumber(prot.getProtocolNumber());
         pa.setActionId(1234);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         prot.getProtocolActions().add(pa);
         
         ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
