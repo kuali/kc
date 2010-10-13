@@ -150,7 +150,8 @@
 		or we want to use a different implementation of a Rice service in the KC context but not override 
 		the Rice impl bean in the Rice context, we don't add it.   
 	 -->
-	<bean id="kraRootResourceLoader" class="org.kuali.kra.rice.KraResourceLoader">
+	<bean id="kraRootResourceLoader" parent="kraRootResourceLoaderParent" />
+	<bean id="kraRootResourceLoaderParent" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
 		<!-- Define service names that are overridable -->
 		<property name="overridableServices">
 			<set>
