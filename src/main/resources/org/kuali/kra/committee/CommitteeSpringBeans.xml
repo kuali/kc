@@ -163,6 +163,46 @@
 		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
 	</bean>
 
+	<bean id="activeCommitteeMemberDerivedRoleTypeService"
+			  class="org.kuali.kra.workflow.ActiveCommitteeMemberDerivedRoleTypeServiceImpl">
+		<property name="committeeService">
+			<ref bean="committeeService" />
+		</property>
+		<property name = "qualifyingCommitteeMembershipTypeCodes">
+			<set>
+				<value>1</value>
+				<value>3</value>
+			</set>	
+		</property>
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="activeCommitteeMemberDerivedRoleTypeService"
+	      p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" />
+	  </property>
+	</bean>
+    
+    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService"
+			  class="org.kuali.kra.workflow.ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl">
+		<property name="committeeService">
+			<ref bean="committeeService" />
+		</property>
+		<property name = "qualifyingCommitteeMembershipTypeCodes">
+			<set>
+				<value>1</value>
+				<value>3</value>
+			</set>	
+		</property>
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService"
+	      p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" />
+	  </property>
+	</bean>
+    	
 	<bean id="committeeMembershipService"
 		class="org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

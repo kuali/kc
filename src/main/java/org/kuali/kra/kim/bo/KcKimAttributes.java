@@ -23,6 +23,7 @@ public class KcKimAttributes extends KimAttributes {
     public static final String PROPOSAL = "proposal";
     public static final String PROTOCOL = "protocol";
     public static final String COMMITTEE = "committee";
+    public static final String COMMITTEESCHEDULE = "committeeSchedule";
     public static final String AWARD = "award";
     public static final String TIMEANDMONEY = "timeandmoney";
     public static final String UNIT_NUMBER = "unitNumber";

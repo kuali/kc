@@ -16,6 +16,8 @@
 package org.kuali.kra.meeting;
 
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.document.authorizer.CommitteeAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -28,9 +30,24 @@ public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
     public boolean isAuthorized(String username, CommitteeTask task) {
         boolean hasPermission = true;
         Committee committee = task.getCommittee();
-        hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
+        if (task instanceof CommitteeScheduleTask) {
+            hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
+        } else {
+            hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
+        }
         return hasPermission;
     }
 
+    /**
+     * Does the given user has the permission for this committee?
+     * @param username the unique username of the user
+     * @param committee the committee
+     * @param permissionName the name of the permission
+     * @return true if the person has the permission; otherwise false
+     */
+    protected final boolean hasPermission(String userId, CommitteeSchedule committeeSchedule, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, committeeSchedule, permissionName);
+    }
+    
 
 }

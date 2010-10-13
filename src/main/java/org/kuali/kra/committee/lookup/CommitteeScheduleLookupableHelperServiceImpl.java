@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.question.Question;
@@ -166,8 +167,9 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     protected boolean canViewSchedule(CommitteeSchedule committeeSchedule) {
-        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee());
-        return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
+        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        boolean result = taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
+        return result;
     }
 
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
