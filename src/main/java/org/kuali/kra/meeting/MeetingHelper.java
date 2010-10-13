@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -304,10 +305,18 @@ public class MeetingHelper implements Serializable {
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    
+    public boolean getCanModifySchedule() {
+        return  canModifySchedule();
+    }
 
     public boolean canViewSchedule() {
-        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee());
+        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    public boolean getCanViewSchedule() {
+        return canViewSchedule();
     }
 
     public boolean isModifySchedule() {

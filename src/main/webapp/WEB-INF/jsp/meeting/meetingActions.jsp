@@ -134,7 +134,7 @@
           
       <input type="hidden" name="meetingHelper.viewId" id="meetingHelper.viewId" value="${KualiForm.meetingHelper.viewId}"/>
           
-    <!-- Tabbed Panel Footer -->    
+	<!-- Tabbed Panel Footer -->    
     <div class="tab-container" align="center" id="G125" style="display: none;"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
             <tr>
@@ -148,9 +148,13 @@
         <div align="right"><br>
           * required </div>
         <div id="globalbuttons" class="globalbuttons"> 
- 	      <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+          <c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
+ 	      	<input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+ 	      </c:if>
 	      <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
-	      <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+	      <c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
+	      	<input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+	      </c:if>
        </div></td>
     <td class="column-right"><img src="static/images/pixel_clear.gif" alt="" width="20" height="20"></td>
   </tr>

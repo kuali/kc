@@ -48,6 +48,9 @@ public class PermissionsHelper extends PermissionsHelperBase {
     private static final String UNASSIGNED_NAME = "unassigned";
     
     public static final String PROTOCOL_ONLINE_REVIEW_ROLE_TYPE = "1016";
+    public static final String ACTIVE_COMMITTEE_MEMBER_ROLE_TYPE = "10002";
+    public static final String ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE_ROLE_TYPE = "10003";
+    public static final String PROTOCOL_APPROVER_ROLE_TYPE = "10001";
     
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.
@@ -56,6 +59,9 @@ public class PermissionsHelper extends PermissionsHelperBase {
     static {
         excludeRoleTypes = new HashSet<String>();
         excludeRoleTypes.add(PROTOCOL_ONLINE_REVIEW_ROLE_TYPE);
+        excludeRoleTypes.add(ACTIVE_COMMITTEE_MEMBER_ROLE_TYPE);
+        excludeRoleTypes.add(ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE_ROLE_TYPE);
+        excludeRoleTypes.add(PROTOCOL_APPROVER_ROLE_TYPE);
     }
     
     

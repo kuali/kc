@@ -22,13 +22,17 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
 import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
@@ -38,7 +42,7 @@ import org.kuali.kra.meeting.ScheduleAgenda;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public class CommitteeSchedule extends CommitteeAssociate implements Comparable<CommitteeSchedule>{ 
+public class CommitteeSchedule extends CommitteeAssociate implements Comparable<CommitteeSchedule>, Permissionable{ 
     
     private static final long serialVersionUID = -360139608123017188L;
     public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
@@ -482,6 +486,40 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 
     public void setScheduleAgendas(List<ScheduleAgenda> scheduleAgendas) {
         this.scheduleAgendas = scheduleAgendas;
+    }
+
+    //Permissionable interface
+    public String getDocumentKey() {
+        return Permissionable.COMMITTEE_SCHEDULE_KEY;
+    }
+
+    public String getDocumentNumberForPermission() {
+        return getScheduleId();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return null;
+    }
+
+    public String getLeadUnitNumber() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getNamespace() {
+        return getCommittee().getNamespace();
+    }
+
+    public List<String> getRoleNames() {
+        List<String> roleNames = new ArrayList<String>();
+        roleNames.add(RoleConstants.IRB_ADMINISTRATOR);
+        roleNames.add(RoleConstants.IRB_REVIEWER);
+        return roleNames;
+    }
+
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, getCommittee().getCommitteeId());
+        qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEESCHEDULE, this.getScheduleId());
     }
 
 }
