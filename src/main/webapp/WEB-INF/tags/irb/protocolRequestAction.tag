@@ -15,8 +15,20 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Request an Action" defaultOpen="${KualiForm.auditActivated}"  
-            tabErrorKey="">
+<c:set var="isOpen" value="${KualiForm.auditActivated}" />
+<c:forEach items="${param}" var="par">
+    <c:if test="${fn:startsWith(par.key, 'lookupActionAmendRenewProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+    <c:if test="${fn:startsWith(par.key, 'lookupActionNotifyIRBProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+    <c:if test="${fn:startsWith(par.key, 'lookupActionRequestProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+</c:forEach>
+
+<kul:tabTop tabTitle="Request an Action" defaultOpen="${isOpen}" tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Available Actions</span>

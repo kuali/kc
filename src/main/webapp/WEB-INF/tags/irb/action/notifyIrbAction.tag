@@ -18,10 +18,17 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolNotifyIrbBean.attributes}" />
 <c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+
+<c:set var="isOpen" value="false" />
+<c:forEach items="${param}" var="par">
+    <c:if test="${fn:startsWith(par.key, 'lookupActionNotifyIRBProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+</c:forEach>
                                     
 <kra:permission value="${KualiForm.actionHelper.canNotifyIrb}">
 
-<kul:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
+<kul:innerTab tabTitle="Notify IRB" parentTab="" defaultOpen="${isOpen}" tabErrorKey="actionHelper.protocolNotifyIrbBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
