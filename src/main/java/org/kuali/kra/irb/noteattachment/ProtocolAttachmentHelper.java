@@ -246,7 +246,7 @@ public class ProtocolAttachmentHelper {
                     if ("T".equals(fieldValue)) {
                         //a refresh button has been clicked, now we just need to update the appropriate attachment status code
                         int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
-                        this.getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("1");
+//                        this.getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("1");
                     }
                 }
             } catch (Exception e) {
