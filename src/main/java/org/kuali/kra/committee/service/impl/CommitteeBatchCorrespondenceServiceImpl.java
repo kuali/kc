@@ -195,7 +195,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
             BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
 
-        double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
+        //double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
+        double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getActionDate(), new Timestamp(System.currentTimeMillis()));
 
         for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (batchCorrespondenceDetail.getDaysToEvent() <= diff) { 
