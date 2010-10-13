@@ -74,6 +74,10 @@
 				<ref bean="Protocol-protocolSubmissionStatus" />
 				<ref bean="Protocol-lookupPendingProtocol" />
 				<ref bean="Protocol-lookupPendingPIActionProtocol" />
+				<ref bean="Protocol-lookupActionAmendRenewProtocol" />
+				<ref bean="Protocol-lookupActionNotifyIRBProtocol" />
+				<ref bean="Protocol-lookupActionRequestProtocol" />
+				<ref bean="Protocol-lookupProtocolPersonId" />
 			</list>
 		</property>
 		
@@ -721,6 +725,42 @@
         <property name="summary" value="Protocols Pending PI Action" />
         <property name="description" value="Protocols Pending PI Action" />
     </bean>
+    
+    <bean id="Protocol-lookupActionAmendRenewProtocol" parent="Protocol-lookupActionAmendRenewProtocol-parentBean" />
+    <bean id="Protocol-lookupActionAmendRenewProtocol-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="lookupActionAmendRenewProtocol" />
+        <property name="label" value="Amend or Renew a Protocol" />
+        <property name="shortLabel" value="Amend or Renew a Protocol" />
+        <property name="summary" value="Amend or Renew a Protocol" />
+        <property name="description" value="Amend or Renew a Protocol" />
+    </bean>
+    
+    <bean id="Protocol-lookupActionNotifyIRBProtocol" parent="Protocol-lookupActionNotifyIRBProtocol-parentBean" />
+    <bean id="Protocol-lookupActionNotifyIRBProtocol-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="lookupActionNotifyIRBProtocol" />
+        <property name="label" value="Notify IRB on a Protocol" />
+        <property name="shortLabel" value="Notify IRB on a Protocol" />
+        <property name="summary" value="Notify IRB on a Protocol" />
+        <property name="description" value="Notify IRB on a Protocol" />
+    </bean>
+    
+    <bean id="Protocol-lookupActionRequestProtocol" parent="Protocol-lookupActionRequestProtocol-parentBean" />
+    <bean id="Protocol-lookupActionRequestProtocol-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="lookupActionRequestProtocol" />
+        <property name="label" value="Request a Status Change on a Protocol" />
+        <property name="shortLabel" value="Request a Status Change on a Protocol" />
+        <property name="summary" value="Request a Status Change on a Protocol" />
+        <property name="description" value="Request a Status Change on a Protocol" />
+    </bean>
+    
+    <bean id="Protocol-lookupProtocolPersonId" parent="Protocol-lookupProtocolPersonId-parentBean" />
+    <bean id="Protocol-lookupProtocolPersonId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+        <property name="name" value="lookupProtocolPersonId" />
+        <property name="label" value="All My Protocols" />
+        <property name="shortLabel" value="All My Protocols" />
+        <property name="summary" value="All My Protocols" />
+        <property name="description" value="All My Protocols" />
+    </bean>
 	
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
@@ -842,7 +882,15 @@
                     p:attributeName="lookupPendingProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition" 
                     p:attributeName="lookupPendingPIActionProtocol" p:noLookup="true" p:hidden="true" />
-                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupActionAmendRenewProtocol" p:noLookup="true" p:hidden="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true" />
+                
 				<!-- bean parent="FieldDefinition"
 					p:attributeName="sequenceNumber" />
 				<bean parent="FieldDefinition"

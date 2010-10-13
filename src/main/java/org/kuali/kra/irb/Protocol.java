@@ -188,6 +188,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     // Custom Protocol lookup fields
     private transient boolean lookupPendingProtocol;
     private transient boolean lookupPendingPIActionProtocol;
+    private transient boolean lookupActionAmendRenewProtocol;
+    private transient boolean lookupActionNotifyIRBProtocol;
+    private transient boolean lookupActionRequestProtocol;
+    private transient boolean lookupProtocolPersonId;
     
     public String getInitiatorLastUpdated() {
         return initiatorLastUpdated;
@@ -1757,6 +1761,38 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     public void setLookupPendingPIActionProtocol(boolean lookupPendingPIActionProtocol) {
         this.lookupPendingPIActionProtocol = lookupPendingPIActionProtocol;
+    }
+
+    public boolean isLookupActionAmendRenewProtocol() {
+        return lookupActionAmendRenewProtocol;
+    }
+
+    public void setLookupActionAmendRenewProtocol(boolean lookupActionAmendRenewProtocol) {
+        this.lookupActionAmendRenewProtocol = lookupActionAmendRenewProtocol;
+    }
+
+    public boolean isLookupActionNotifyIRBProtocol() {
+        return lookupActionNotifyIRBProtocol;
+    }
+
+    public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
+        this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
+    }
+
+    public boolean isLookupActionRequestProtocol() {
+        return lookupActionRequestProtocol;
+    }
+
+    public void setLookupActionRequestProtocol(boolean lookupActionRequestProtocol) {
+        this.lookupActionRequestProtocol = lookupActionRequestProtocol;
+    }
+
+    public boolean isLookupProtocolPersonId() {
+        return lookupProtocolPersonId;
+    }
+
+    public void setLookupProtocolPersonId(boolean lookupProtocolPersonId) {
+        this.lookupProtocolPersonId = lookupProtocolPersonId;
     }
 
 }
