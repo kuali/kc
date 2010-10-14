@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
 import edu.mit.irb.irbnamespace.RenewalReminderDocument;
@@ -77,6 +80,11 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
             }
         }
 
+        if (reportParameters.get("protoCorrespTypeCode") != null &&
+                ("23".equals((String)reportParameters.get("protoCorrespTypeCode")) || "24".equals((String)reportParameters.get("protoCorrespTypeCode")))){  
+            setActionDate(protocol);
+        }
+
        if (reportParameters.get("submissionNumber") ==null ){    
           renewalReminder.setProtocol(protocolXmlStream.getProtocol(protocol)) ;
        }else{
@@ -89,6 +97,16 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
        return xmlObjectMap;
     }
 
+    private void setActionDate(Protocol protocol) {
+       for (ProtocolAction action : protocol.getProtocolActions()) {
+           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
+                   ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
+               protocol.setExpirationDate(new Date(action.getActionDate().getTime()));
+           }
+           
+       }
+    }
+    
     public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
     }
