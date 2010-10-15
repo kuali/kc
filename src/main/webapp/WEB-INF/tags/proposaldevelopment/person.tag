@@ -59,7 +59,17 @@
 
                     <td>
                       <kul:htmlControlAttribute property="${proposalPerson}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" 
-                                                readOnly="${!personEditableFields['fullName'] }"/> 
+                                                readOnly="${!personEditableFields['fullName'] }"/>
+                      <c:choose>
+                        <c:when test="${!empty KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].personId}">
+                            <input type="hidden" name="${proposalPerson}.personId" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].personId}"/>
+                            <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="${proposalPerson}.personId:personId" anchor="${tabKey}" />
+                        </c:when>
+                        <c:otherwise>
+                            <input type="hidden" name="${proposalPerson}.rolodexId" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].rolodexId}"/>
+                            <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="${proposalPerson}.rolodexId:rolodexId" anchor="${tabKey}" />
+                        </c:otherwise>
+                      </c:choose>
                     </td>
                     <th align="left" width="15%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.userName}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.userName" 
