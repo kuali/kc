@@ -16,12 +16,14 @@
 package org.kuali.kra.external.unit.service;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.kra.external.unit.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 
 /**
@@ -48,7 +50,7 @@ public interface InstitutionalUnitService {
      * @param searchCriteria Key-value pair map of search criteria.
      * @return List<UnitDTO>
      */
-    List<UnitDTO> lookupUnits( @WebParam(name="searchCriteria") HashMap<String, String> searchCriteria);
+    List<UnitDTO> lookupUnits( @WebParam(name="searchCriteria") List<HashMapElement> criteria);
     
     /**
      * Retrieve the parent units of the given unit number.  The list will be in 
