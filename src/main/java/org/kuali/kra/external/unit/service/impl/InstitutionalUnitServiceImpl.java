@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.external.unit.HashMapElement;
 import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.service.UnitService;
@@ -56,19 +57,28 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
     }
     
     /**
-     * {@inheritDoc}
+     * @see org.kuali.kra.external.unit.service.InstitutionalUnitService#lookupUnits(java.util.List)
      */
-    @SuppressWarnings("unchecked")
-    public List<UnitDTO> lookupUnits(HashMap<String, String> searchCriteria) {
-        List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
-        List<UnitDTO> unitDTO = new ArrayList<UnitDTO>();
+    public List<UnitDTO> lookupUnits(List<HashMapElement> criteria) {
         
+        HashMap<String, String> searchCriteria =  new HashMap<String, String>();
+        
+        // Reconstruct Hashmap from object list
+        for (HashMapElement element : criteria) {
+            searchCriteria.put(element.getKey(), element.getValue());  
+        }
+        
+        List<UnitDTO> unitDTO = new ArrayList<UnitDTO>();
+       
+        List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
         for (Unit unit : units) {
+            System.out.println("unit in service is " + unit.getUnitName());
             unitDTO.add(unitBoToDto(unit));
         }
        
         return unitDTO;
     }
+    
     
     /**
      * {@inheritDoc}
@@ -118,7 +128,4 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
         }
         return unitDTO;
     }
-    
-   
-    
 }
