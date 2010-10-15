@@ -32,7 +32,8 @@
     <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
-  	
+    
+  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" /></div>
 	<kra-irb:protocolQuestionnaireAnswers/>
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
    	

@@ -64,13 +64,16 @@
    <c:set var="KualiForm" value="${KualiForm}" /> 
 	<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
 
-		<a name="topOfForm"></a>
+    <a name="topOfForm"></a>
 	<%-- <div align="center" style="margin: 10px">
 	<div id="headermsg" align="left"></div>
 	<br /> --%>
 		
 <div class="headerarea" id="headerarea">
-  <h1>Meeting <a href="#"> <img src="kr/static/images/my_cp_inf.gif" alt="help" width=15 height=14 border=0 align=absmiddle onClick="MM_openBrWindow('../kra-coeus-irb/help-pop.html','','scrollbars=yes,resizable=yes,width=500,height=500')"></a></h1>
+    <h1>Meeting 
+        <a href="${pageContext.request.contextPath}/kr/help.do?methodToCall=getDocumentHelpText&amp;documentTypeName=CommitteeDocument" tabindex="1000000" target="helpWindow"  title="[Help]document help"><img src="kr/static/images/my_cp_inf.gif" alt="[Help]document help" hspace=5 border=0  align="middle">
+        </a>
+    </h1>
 </div>
 
 <!--TABBED TOP NAVIGATION-->

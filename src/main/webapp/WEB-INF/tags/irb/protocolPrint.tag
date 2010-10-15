@@ -28,7 +28,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.printTag")}
     <div class="tab-container" align="left">
         <h3>
             <span class="subhead-left">Print</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="" altText="help"/></span>
         </h3>
 
         <table cellpadding="0" cellspacing="0" summary="print forms">

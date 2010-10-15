@@ -29,6 +29,9 @@
 		<property name="lookupDefinition" >
 			<ref bean="CommSchedule-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeScheduleHelpUrl" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="scheduleId" />
 		<property name="attributes" >
 			<list>
