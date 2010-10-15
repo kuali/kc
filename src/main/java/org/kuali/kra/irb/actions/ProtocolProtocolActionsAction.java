@@ -52,6 +52,7 @@ import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementService;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.CreateRenewalEvent;
+import org.kuali.kra.irb.actions.amendrenew.ModifyAmendmentSectionsEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
@@ -620,6 +621,39 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /**
+     * Create an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward modifyAmendmentSections(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
+        if (isAuthorized(task)) {
+            if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
+                protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
+                return mapping.findForward(MAPPING_BASIC);
+            }
+
+            getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
+                    protocolForm.getActionHelper().getProtocolAmendmentBean());
+            
+            return save(mapping, protocolForm, request, response);
+        }
+            
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
      * Create a Renewal without an Amendment.
      * 
      * @param mapping
@@ -691,6 +725,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.getProtocolHelper().prepareView();
             
             recordProtocolActionSuccess("Create Renewal with Amendment");
+            
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
             
             return mapping.findForward(PROTOCOL_TAB);
         }

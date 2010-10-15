@@ -52,6 +52,7 @@
             <kra-irb-action:notifyIrbAction />
             <kra-irb-action:irbAcknowledgement />
             <kra-irb-action:createAmendmentAction />
+            <kra-irb-action:modifyAmendmentSectionsAction />
             <kra-irb-action:createRenewalWithAmendmentAction />
             <kra-irb-action:createRenewalAction />
             <kra-irb-action:closeRequestAction />
