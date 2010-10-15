@@ -148,6 +148,20 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
         return service;
     }
     
+    protected KraWorkflowService buildKraWorkflowNodeService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
+        final KraWorkflowService service = context.mock(KraWorkflowService.class);
+        
+        context.checking(new Expectations() {{
+            allowing(service).isInWorkflow(protocolDocument); will(returnValue(isInWorkflow)); 
+        }});
+        
+        context.checking(new Expectations() {{
+            allowing(service).isDocumentOnNode(protocolDocument,Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME); will(returnValue(isInWorkflow)); 
+        }});
+        
+        return service;
+    }
+
     protected ProtocolActionService buildProtocolActionService(final String protocolActionTypeCode, final ProtocolDocument protocolDocument, final boolean isActionAllowed) {
         final ProtocolActionService service = context.mock(ProtocolActionService.class);
         
