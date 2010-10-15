@@ -29,6 +29,9 @@
         <property name="lookupDefinition" >
             <ref bean="BatchCorrespondence-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeBatchCorrespondenceHelpUrl" p:parameterDetailType="D" />
+        </property>
         <property name="titleAttribute" value="batchCorrespondenceTypeCode" />
         <property name="attributes" >
             <list>

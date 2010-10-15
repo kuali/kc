@@ -32,6 +32,7 @@
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Available Actions</span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.actions.ProtocolAction" altText="help"/></span>
 		</h3>
 		<c:if test="${KualiForm.document.protocol.active and showActions}">
             <kra-irb-action:submitAction />

@@ -27,7 +27,6 @@
         <div class="tab-container" align="center">
             <h3>
                 <span class="subhead-left">Print</span>
-                <span class="subhead-right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Actions" /></span>
             </h3>
             
             <table cellpadding="0" cellspacing="0">

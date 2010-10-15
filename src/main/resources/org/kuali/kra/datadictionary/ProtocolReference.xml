@@ -29,6 +29,9 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolReference-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAdditionalInformationHelpUrl" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="protocolId" />
 		<property name="attributes" >
 			<list>

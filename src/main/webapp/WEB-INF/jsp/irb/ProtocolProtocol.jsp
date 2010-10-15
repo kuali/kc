@@ -29,7 +29,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocol">
   	
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol1" /></div>
+<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-irb:protocolRequiredFields />
 <kra-irb:protocolStatusDate />

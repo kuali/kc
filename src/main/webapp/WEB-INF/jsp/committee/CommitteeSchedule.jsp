@@ -25,6 +25,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committeeSchedule">
+
+<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Schedule" /></div>
   	 	
 <kra-committee:committeeSchedule />
 

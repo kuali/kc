@@ -10,7 +10,7 @@
 	<c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
     	<h3>
         	<span class="subhead-left"> Minutes </span>
-        	<span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        	<span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleMinuteDoc" altText="help"/> </span>
     	</h3>
     
         	<table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
@@ -29,7 +29,7 @@
    </c:if>       
    <h3>
         <span class="subhead-left"> View Minutes </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleMinuteDoc" altText="help"/> </span>
     </h3>
         <table id="viewMinutes-table" cellpadding=0 cellspacing=0 class="datatable" summary="View Minutes Docs">
         
