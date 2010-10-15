@@ -1,5 +1,5 @@
 set define off;
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 1,'DEFAULT','DEFAULT-1-ApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 1,'DEFAULT','DEFAULT-1-ApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -1071,7 +1071,7 @@ DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
 set define off;
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 10,'DEFAULT','DEFAULT-10-ScheduleMinutes.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 10,'DEFAULT','DEFAULT-10-ScheduleMinutes.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -1627,7 +1627,7 @@ buffer := 'align="before" number-columns-spanned="5" width="66pt" padding-start=
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 15,'DEFAULT','DEFAULT-15-CommitteeRosterReport.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 15,'DEFAULT','DEFAULT-15-CommitteeRosterReport.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -2239,7 +2239,7 @@ buffer := '"text" select="$text-after-bs"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 16,'DEFAULT','DEFAULT-16-WithdrawalNotice.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 16,'DEFAULT','DEFAULT-16-WithdrawalNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -2250,8 +2250,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="1.0in">
-                <fo:region-before extent="0.79in" />
                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -2291,7 +2291,9 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -2300,9 +2302,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
+buffer := '                        <fo:block color="black" space-before.optimum="-8pt">
                             <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
                         </fo:block>
                         <fo:block>
@@ -2341,16 +2341,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                         </xsl:for-each>
                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                             <fo:block>
-                                                           ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                     <xsl:for-each select="n1:OfficeLocation">
+                                                                                <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
@@ -2359,7 +2350,16 @@ buffer := '                     <xsl:for-each select="n1:OfficeLocation">
                                                                         </fo:block>
                                                                     </xsl:for-each>
                                                                 </xsl:if>
-                                                            </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                            </xsl:for-each>
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
@@ -2388,16 +2388,7 @@ buffer := '                     <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
-                                                                             ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '   </xsl:for-each>
+                                                                                </xsl:for-each>
                                                                             </xsl:for-each>
                                                                         </xsl:if>
                                                                     </xsl:for-each>
@@ -2416,7 +2407,16 @@ buffer := '   </xsl:for-each>
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
                                                                                 </xsl:if>
-                                                                            </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                            </xsl:for-each>
                                                                         </xsl:for-each>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
@@ -2437,16 +2437,7 @@ buffer := '   </xsl:for-each>
                                                             <fo:inline font-size="10pt">
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                             </fo:inline>
@@ -2473,7 +2464,16 @@ buffer := '-number(number(substring(string(.), 9, 2)), ''00'')" />
                                             <fo:block>
                                                 <xsl:text>&#xA;</xsl:text>
                                             </fo:block>
-                                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:table-column column-width="127pt" />
                                                 <fo:table-column column-width="461pt" />
                                                 <fo:table-body>
@@ -2486,16 +2486,7 @@ buffer := '-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                         </fo:table-cell>
                                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
-                                                              ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '  <xsl:for-each select="n1:Protocol">
+                                                                <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                                         <xsl:for-each select="n1:ProtocolNumber">
                                                                             <fo:inline font-size="10pt">
@@ -2530,16 +2521,7 @@ buffer := '  <xsl:for-each select="n1:Protocol">
                                                     </fo:table-row>
                                                 </fo:table-body>
                                             </fo:table>
-                                            <fo:block>
-                                                <xsl:text>&#xA;</xsl:text>
-                                            </fo:block>
-                                        </fo:block>
-                                    </fo:block>
-                                </fo:block>
-                            </fo:block>
-                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                <fo:block>
-      ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -2548,7 +2530,16 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                              <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+buffer := '                                            <fo:block>
+                                                <xsl:text>&#xA;</xsl:text>
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:block>
+                                </fo:block>
+                            </fo:block>
+                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                <fo:block>
+                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                         <fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block />
@@ -2587,16 +2578,7 @@ buffer := '                              <fo:block space-before.optimum="1pt" sp
                                             </fo:block>
                                         </fo:block>
                                     </fo:block>
-                                </fo:block>
-                            </fo:block>
-                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                <fo:block>
-                                    <fo:block>
-                                        <fo:leader leader-pattern="space" />
-                                    </fo:block>
-                                    <fo:block>
-                                        <fo:leader leader-pattern="space" />
- ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -2605,7 +2587,16 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  16 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                   </fo:block>
+buffer := '                                </fo:block>
+                            </fo:block>
+                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                <fo:block>
+                                    <fo:block>
+                                        <fo:leader leader-pattern="space" />
+                                    </fo:block>
+                                    <fo:block>
+                                        <fo:leader leader-pattern="space" />
+                                    </fo:block>
                                     <fo:block>
                                         <fo:leader leader-pattern="space" />
                                     </fo:block>
@@ -2654,7 +2645,7 @@ buffer := '                                   </fo:block>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 17,'DEFAULT','DEFAULT-17-GrantExemptionNotice.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 17,'DEFAULT','DEFAULT-17-GrantExemptionNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -2665,8 +2656,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="0.6in">
-                <fo:region-before extent="0.79in" />
                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -2706,7 +2697,9 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -2715,9 +2708,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
+buffer := '                        <fo:block color="black" space-before.optimum="-8pt">
                             <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
                         </fo:block>
                         <fo:block>
@@ -2756,16 +2747,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                         </xsl:for-each>
                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                             <fo:block>
-               ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                 <xsl:for-each select="n1:OfficeLocation">
+                                                                                <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
@@ -2774,7 +2756,16 @@ buffer := '                                                                 <xsl
                                                                         </fo:block>
                                                                     </xsl:for-each>
                                                                 </xsl:if>
-                                                            </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                            </xsl:for-each>
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
@@ -2803,16 +2794,7 @@ buffer := '                                                                 <xsl
                                                                             <xsl:for-each select="n1:LastName">
                                                                                 <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                     <fo:inline font-size="10pt">
-             ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                           <xsl:apply-templates />
+                                                                                        <xsl:apply-templates />
                                                                                     </fo:inline>
                                                                                 </xsl:if>
                                                                             </xsl:for-each>
@@ -2831,7 +2813,16 @@ buffer := '                                                                     
                                                                                 <xsl:if test="../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
-                                                                                    </fo:inline>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                    </fo:inline>
                                                                                 </xsl:if>
                                                                             </xsl:for-each>
                                                                         </xsl:for-each>
@@ -2852,16 +2843,7 @@ buffer := '                                                                     
                                                     <fo:block>
                                                         <xsl:for-each select="n1:CurrentDate">
                                                             <fo:inline font-size="8pt">
-                                                                <xsl:v';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'alue-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
@@ -2888,7 +2870,16 @@ buffer := 'alue-of select="format-number(number(substring(string(.), 6, 2)), ''0
                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                         <fo:block text-align="justify">
                                             <fo:block>
-                                                <xsl:text>&#xA;</xsl:text>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                <xsl:text>&#xA;</xsl:text>
                                             </fo:block>
                                             <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:table-column column-width="proportional-column-width(24)" />
@@ -2901,16 +2892,7 @@ buffer := 'alue-of select="format-number(number(substring(string(.), 6, 2)), ''0
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell font-size="10pt" bord';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'er-style="solid" border-width="1pt" border-color="white" display-align="before" width="76%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                        <fo:table-cell font-size="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" width="76%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:Submissions">
@@ -2944,7 +2926,8 @@ buffer := 'er-style="solid" border-width="1pt" border-color="white" display-alig
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                                         <xsl:for-each select="n1:ProtocolNumber">
-                              ';
+                                                                            <fo:inline font-size="10pt">
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -2953,8 +2936,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                              <fo:inline font-size="10pt">
-                                                                                <xsl:apply-templates />
+buffer := '                                                                                <xsl:apply-templates />
                                                                             </fo:inline>
                                                                         </xsl:for-each>
                                                                     </xsl:for-each>
@@ -2995,7 +2977,14 @@ buffer := '                                              <fo:inline font-size="1
                                         <fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block>
-                                                    <fo:inline font-size="10pt">The above-referenced protocol is considered exempt after review by the Committee on the Use of H';
+                                                    <fo:inline font-size="10pt">The above-referenced protocol is considered exempt after review by the Committee on the Use of Humans as Experimental Subjects pursuant to Federal regulations, 45 CFR Part 46.101(b)</fo:inline>
+                                                    <xsl:for-each select="n1:Protocol">
+                                                        <xsl:for-each select="n1:Submissions">
+                                                            <xsl:for-each select="n1:SubmissionDetails">
+                                                                <xsl:for-each select="n1:SubmissionChecklistInfo">
+                                                                    <xsl:for-each select="n1:ChecklistCodesFormatted">
+                                                                        <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -3004,14 +2993,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'umans as Experimental Subjects pursuant to Federal regulations, 45 CFR Part 46.101(b)</fo:inline>
-                                                    <xsl:for-each select="n1:Protocol">
-                                                        <xsl:for-each select="n1:Submissions">
-                                                            <xsl:for-each select="n1:SubmissionDetails">
-                                                                <xsl:for-each select="n1:SubmissionChecklistInfo">
-                                                                    <xsl:for-each select="n1:ChecklistCodesFormatted">
-                                                                        <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
-                                                                            <fo:inline font-size="10pt">
+buffer := '                                                                            <fo:inline font-size="10pt">
                                                                                 <xsl:apply-templates />
                                                                             </fo:inline>
                                                                         </xsl:if>
@@ -3040,16 +3022,7 @@ buffer := 'umans as Experimental Subjects pursuant to Federal regulations, 45 CF
                                                             </fo:block>
                                                             <fo:block>
                                                                 <fo:leader leader-pattern="space" />
-                                                            </fo:block>If there';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := ' are any changes to the protocol that significantly or substantially impact the rights of human subjects you must notify the Committee before those changes are initiated.<fo:block>
+                                                            </fo:block>If there are any changes to the protocol that significantly or substantially impact the rights of human subjects you must notify the Committee before those changes are initiated.<fo:block>
                                                                 <fo:leader leader-pattern="space" />
                                                             </fo:block>
                                                             <fo:block>
@@ -3098,7 +3071,16 @@ buffer := ' are any changes to the protocol that significantly or substantially 
                             </fo:block>
                             <fo:block>
                                 <fo:leader leader-pattern="space" />
-                            </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                            </fo:block>
                             <fo:block>
                                 <fo:leader leader-pattern="space" />
                             </fo:block>
@@ -3111,16 +3093,7 @@ buffer := ' are any changes to the protocol that significantly or substantially 
                                 <fo:table-body>
                                     <fo:table-row>
                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="437pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
-          ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                  <fo:block>
+                                            <fo:block>
                                                 <fo:table width="100pt" space-before.optimum="1pt" space-after.optimum="2pt">
                                                     <fo:table-column column-width="27pt" />
                                                     <fo:table-column column-width="452pt" />
@@ -3154,7 +3127,8 @@ buffer := '                                  <fo:block>
                                                                                     </xsl:if>
                                                                                 </xsl:for-each>
                                                                             </xsl:for-each>
-                                                                        </xsl:fo';
+                                                                        </xsl:for-each>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -3163,8 +3137,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  17 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'r-each>
-                                                                    </xsl:for-each>
+buffer := '                                                                    </xsl:for-each>
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
@@ -3230,7 +3203,7 @@ buffer := 'r-each>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 20,'DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 20,'DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3520,7 +3493,7 @@ buffer := 'rsonnel associated with this study have completed the human subjects 
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 21,'DEFAULT','DEFAULT-21-RenewalReminderLetter #2.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 21,'DEFAULT','DEFAULT-21-RenewalReminderLetter #2.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3972,7 +3945,7 @@ buffer := 'ainer>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 26,'DEFAULT','DEFAULT-26-ClosureNotice.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 26,'DEFAULT','DEFAULT-26-ClosureNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3983,8 +3956,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="1.0in">
-                <fo:region-before extent="0.79in" />
                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -4024,7 +3997,9 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -4033,9 +4008,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
+buffer := '                        <fo:block color="black" space-before.optimum="-8pt">
                             <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
                         </fo:block>
                         <fo:block>
@@ -4072,16 +4045,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                                 <xsl:for-each select="n1:LastName">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
-                                                                                    </fo:inline>';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '
+                                                                                    </fo:inline>
                                                                                 </xsl:for-each>
                                                                                 <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                     <fo:block>
@@ -4092,7 +4056,16 @@ buffer := '
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
                                                                                 </fo:block>
-                                                                            </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                            </xsl:for-each>
                                                                         </xsl:if>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
@@ -4117,16 +4090,7 @@ buffer := '
                                                                                             <fo:inline font-size="10pt">
                                                                                                 <xsl:apply-templates />
                                                                                             </fo:inline>
-                                                            ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                            </xsl:for-each>
+                                                                                        </xsl:for-each>
                                                                                         <fo:inline font-size="10pt">&#160;</fo:inline>
                                                                                         <xsl:for-each select="n1:LastName">
                                                                                             <fo:inline font-size="10pt">
@@ -4149,7 +4113,16 @@ buffer := '                            </xsl:for-each>
                                                                                         <xsl:if test="../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                             <fo:inline font-size="10pt">
                                                                                                 <xsl:apply-templates />
-                                                                                            </fo:inline>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                            </fo:inline>
                                                                                         </xsl:if>
                                                                                     </xsl:for-each>
                                                                                 </xsl:for-each>
@@ -4163,16 +4136,7 @@ buffer := '                            </xsl:for-each>
                                                     <fo:table-row>
                                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" height="19pt" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
-                                                                <fo:inline font-size="10pt" font-weight="bold">Date:</fo:inline';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '>
+                                                                <fo:inline font-size="10pt" font-weight="bold">Date:</fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
                                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" height="19pt" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
@@ -4206,11 +4170,7 @@ buffer := '>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block text-align="justify">
                                                     <fo:block>
-                                                        <xsl:text>&#xA;</xsl:text>
-                                                    </fo:block>
-                                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                                        <fo:table-column column-width="127pt" />
-                                                        <fo:table-column column-wid';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -4219,7 +4179,11 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'th="461pt" />
+buffer := '                                                        <xsl:text>&#xA;</xsl:text>
+                                                    </fo:block>
+                                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                        <fo:table-column column-width="127pt" />
+                                                        <fo:table-column column-width="461pt" />
                                                         <fo:table-body>
                                                             <fo:table-row>
                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
@@ -4251,16 +4215,7 @@ buffer := 'th="461pt" />
                                                                         <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
                                                                     </fo:block>
                                                                 </fo:table-cell>
-                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                                     <fo:block>
                                                                         <xsl:for-each select="n1:Protocol">
                                                                             <xsl:for-each select="n1:ProtocolMasterData">
@@ -4272,7 +4227,16 @@ buffer := 'pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-a
                                                                             </xsl:for-each>
                                                                         </xsl:for-each>
                                                                     </fo:block>
-                                                                </fo:table-cell>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                </fo:table-cell>
                                                             </fo:table-row>
                                                             <fo:table-row>
                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
@@ -4297,16 +4261,7 @@ buffer := 'pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-a
                                                             </fo:table-row>
                                                         </fo:table-body>
                                                     </fo:table>
-              ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                      <fo:block>
+                                                    <fo:block>
                                                         <xsl:text>&#xA;</xsl:text>
                                                     </fo:block>
                                                 </fo:block>
@@ -4329,7 +4284,16 @@ buffer := '                                      <fo:block>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <fo:inline font-size="10pt">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
-                                                                        <xsl:for-each select="n1:ExpirationDate">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                        <xsl:for-each select="n1:ExpirationDate">
                                                                             <fo:inline font-size="10pt">
                                                                                 <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                                 <xsl:text>/</xsl:text>
@@ -4345,16 +4309,7 @@ buffer := '                                      <fo:block>
                                                             <fo:block>
                                                                 <fo:leader leader-pattern="space" />
                                                             </fo:block>
-                          ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                  <fo:block>
+                                                            <fo:block>
                                                                 <fo:leader leader-pattern="space" />
                                                             </fo:block>
                                                             <fo:inline font-size="10pt">In accordance with MIT Policy and Federal Regulations, you may NOT continue any further research efforts covered by this protocol.&#160; If you wish to gather further research information, you must submit a new proposal for review by the Committee on the Use of Humans as Experimental Subjects.</fo:inline>
@@ -4405,16 +4360,7 @@ buffer := '                                  <fo:block>
                                                 <fo:leader leader-pattern="space" />
                                             </fo:block>
                                             <fo:block>
-                                                <fo:leader leader-pattern="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'space" />
+                                                <fo:leader leader-pattern="space" />
                                             </fo:block>
                                             <fo:block>
                                                 <fo:leader leader-pattern="space" />
@@ -4425,7 +4371,16 @@ buffer := 'space" />
                                             <fo:block>
                                                 <xsl:text>&#xA;</xsl:text>
                                             </fo:block>
-                                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:table-column column-width="3pt" />
                                                 <fo:table-column />
                                                 <fo:table-body>
@@ -4452,16 +4407,7 @@ buffer := 'space" />
                                                                             </fo:table-cell>
                                                                         </fo:table-row>
                                                                         <fo:table-row>
-                                                                            <fo:table-cell border-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                            <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                                                 <fo:block />
                                                                             </fo:table-cell>
                                                                             <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="452pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
@@ -4482,7 +4428,16 @@ buffer := 'style="solid" border-width="1pt" border-color="white" width="46pt" pa
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
-                                                                                    </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                    </xsl:for-each>
                                                                                 </fo:block>
                                                                             </fo:table-cell>
                                                                         </fo:table-row>
@@ -4498,16 +4453,7 @@ buffer := 'style="solid" border-width="1pt" border-color="white" width="46pt" pa
                                             </fo:block>
                                             <fo:inline font-size="10pt">
 </fo:inline>
-                           ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '             </fo:block>
+                                        </fo:block>
                                     </fo:block>
                                 </xsl:for-each>
                             </xsl:when>
@@ -4539,15 +4485,7 @@ buffer := '             </fo:block>
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
-                                                                                </xsl:for-each>
-                                                                                <fo:inline font-size="10pt">&#160;</fo:inline>
-                                                                                <xsl:for-each select="n1:LastName">
-                                                                                    <fo:inline font-size="10pt">
-                                                                                        <xsl:apply-templates />
-                                                                                    </fo:inline>
-                                                                                </xsl:for-each>
-                                                                                <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
-                                                 ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -4556,7 +4494,15 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                   <fo:block>
+buffer := '                                                                                </xsl:for-each>
+                                                                                <fo:inline font-size="10pt">&#160;</fo:inline>
+                                                                                <xsl:for-each select="n1:LastName">
+                                                                                    <fo:inline font-size="10pt">
+                                                                                        <xsl:apply-templates />
+                                                                                    </fo:inline>
+                                                                                </xsl:for-each>
+                                                                                <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                    <fo:block>
                                                                                         <xsl:for-each select="n1:OfficeLocation">
                                                                                             <fo:inline font-size="10pt">
                                                                                                 <xsl:apply-templates />
@@ -4592,7 +4538,11 @@ buffer := '                                   <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">Date:</fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" height="19pt" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-ali';
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" height="19pt" width="451pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                            <fo:block>
+                                                                <xsl:for-each select="n1:CurrentDate">
+                                                                    <fo:inline font-size="10pt">
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -4601,11 +4551,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'gn="center" text-align="start">
-                                                            <fo:block>
-                                                                <xsl:for-each select="n1:CurrentDate">
-                                                                    <fo:inline font-size="10pt">
-                                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+buffer := '                                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                         <xsl:text>/</xsl:text>
                                                                         <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                         <xsl:text>/</xsl:text>
@@ -4639,16 +4585,7 @@ buffer := 'gn="center" text-align="start">
                                                         <fo:table-column column-width="461pt" />
                                                         <fo:table-body>
                                                             <fo:table-row>
-                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'padding-after="3pt" text-align="start">
+                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                                     <fo:block />
                                                                 </fo:table-cell>
                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
@@ -4662,7 +4599,16 @@ buffer := 'padding-after="3pt" text-align="start">
                                                                         <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
                                                                     </fo:block>
                                                                 </fo:table-cell>
-                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                                     <fo:block>
                                                                         <xsl:for-each select="n1:Protocol">
                                                                             <xsl:for-each select="n1:ProtocolMasterData">
@@ -4681,10 +4627,208 @@ buffer := 'padding-after="3pt" text-align="start">
                                                                     <fo:block>
                                                                         <fo:inline font-size="10pt" font-weight="bold">Study Title: </fo:inline>
                                                                         <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
-                                                                    </fo:bloc';
+                                                                    </fo:block>
+                                                                </fo:table-cell>
+                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="461pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                                    <fo:block>
+                                                                        <xsl:for-each select="n1:Protocol">
+                                                                            <xsl:for-each select="n1:ProtocolMasterData">
+                                                                                <xsl:for-each select="n1:ProtocolTitle">
+                                                                                    <fo:inline font-size="10pt">
+                                                                                        <xsl:apply-templates />
+                                                                                    </fo:inline>
+                                                                                </xsl:for-each>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </fo:block>
+                                                                </fo:table-cell>
+                                                            </fo:table-row>
+                                                        </fo:table-body>
+                                                    </fo:table>
+                                                    <fo:block>
+                                                        <xsl:text>&#xA;</xsl:text>
+                                                    </fo:block>
+                                                </fo:block>
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:block>
+                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                        <fo:block>
+                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                <fo:block>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                        <fo:block>
+                                                            <fo:inline font-size="10pt">This is to notify you that the above protocol has been ADMINISTRATIVELY CLOSED effective </fo:inline>
+                                                            <xsl:for-each select="n1:CurrentDate">
+                                                                <fo:inline font-size="10pt">
+                                                                    <fo:inline font-size="10pt">
+                                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                        <xsl:text>/</xsl:text>
+                                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                                        <xsl:text>/</xsl:text>
+                                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
+                                                                    </fo:inline>
+                                                                </fo:inline>
+                                                            </xsl:for-each>
+                                                            <fo:inline font-size="10pt">&#160; as per your request.&#160;&#160; Data collected after the closed date is considered unapproved research and cannot be included with data collected during an approved period.&#160; Furthermore, data collected after termination of approval cannot be reported or published as research data.</fo:inline>
+                                                            <fo:block>
+                                                                <fo:leader leader-pattern="space" />
+                                                            </fo:block>
+                                                            <fo:block>
+                                                                <fo:leader leader-pattern="space" />
+                                                            </fo:block>
+                                                            <fo:inline font-size="10pt">In accordance with MIT Policy and Federal Regulations, you may NOT continue any further research efforts covered by this protocol. 
+If you wish to gather further research information, you must submit a new proposal for review by the Committee on the Use of Humans as Experimental Subjects.</fo:inline>
+                                                            <fo:block>
+                                                                <xsl:text>&#xA;</xsl:text>
+                                                            </fo:block>
+                                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                <fo:block>
+                                                                    <fo:inline font-size="10pt">You should retain a copy of this letter for your records.</fo:inline>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <fo:leader leader-pattern="space" />
+                                                                    </fo:block>
+                                                                    <fo:block>
+                                                                        <xsl:text>&#xA;</xsl:text>
+                                                                    </fo:block>
+                                                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                        <fo:table-column column-width="3pt" />
+                                                                        <fo:table-column />
+                                                                        <fo:table-body>
+                                                                            <fo:table-row>
+                                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="3pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                                                    <fo:block />
+                                                                                </fo:table-cell>
+                                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" text-align="left" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center">
+                                                                                    <fo:block>
+                                                                                        <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                            <fo:table-column column-width="46pt" />
+                                                                                            <fo:table-column column-width="452pt" />
+                                                                                            <fo:table-body>
+                                                                                                <fo:table-row>
+                                                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                                                        <fo:block>
+                                                                                                            <fo:inline font-size="10pt">cc</fo:inline>
+                                                                                                        </fo:block>
+                                                                                                    </fo:table-cell>
+                                                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                                                        <fo:block>
+                                                                                                            <fo:inline font-size="10pt">Tom Duff</fo:inline>
+                                                                                                        </fo:block>
+                                                                                                    </fo:table-cell>
+                                                                                                </fo:table-row>
+                                                                                                <fo:table-row>
+                                                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                                                        <fo:block />
+                                                                                                    </fo:table-cell>
+                                                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="452pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                                                                        <fo:block>
+                                                                                                            <xsl:for-each select="n1:Protocol">
+                                                                                                                <xsl:for-each select="n1:Correspondent">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  26 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                                                    <xsl:for-each select="n1:Person">
+                                                                                                                        <xsl:for-each select="n1:Fullname">
+                                                                                                                            <xsl:if test="../../n1:TypeOfCorrespondent = &apos;CRC&apos;">
+                                                                                                                                <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                                                    <fo:block>
+                                                                                                                                        <fo:inline font-size="10pt">
+                                                                                                                                            <xsl:apply-templates />
+                                                                                                                                        </fo:inline>
+                                                                                                                                    </fo:block>
+                                                                                                                                </fo:block>
+                                                                                                                            </xsl:if>
+                                                                                                                        </xsl:for-each>
+                                                                                                                    </xsl:for-each>
+                                                                                                                </xsl:for-each>
+                                                                                                            </xsl:for-each>
+                                                                                                        </fo:block>
+                                                                                                    </fo:table-cell>
+                                                                                                </fo:table-row>
+                                                                                            </fo:table-body>
+                                                                                        </fo:table>
+                                                                                    </fo:block>
+                                                                                </fo:table-cell>
+                                                                            </fo:table-row>
+                                                                        </fo:table-body>
+                                                                    </fo:table>
+                                                                </fo:block>
+                                                            </fo:block>
+                                                        </fo:block>
+                                                    </fo:block>
+                                                </fo:block>
+                                            </fo:block>
+                                        </fo:block>
+                                    </fo:block>
+                                </xsl:for-each>
+                                <fo:block>
+                                    <xsl:text>&#xA;</xsl:text>
+                                </fo:block>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </fo:flow>
+            </fo:page-sequence>
+        </fo:root>
+    </xsl:template>
+</xsl:stylesheet>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+/*
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -4900,7 +5044,8 @@ buffer := 'ch>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 3,'DEFAULT','DEFAULT-3-NoticeOfDeferral.xslt',EMPTY_CLOB(),sysdate,user);
+ */
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 3,'DEFAULT','DEFAULT-3-NoticeOfDeferral.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -5888,7 +6033,7 @@ buffer := 'ter-bs)"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 4,'DEFAULT','DEFAULT-4-SubstantiveRevisionsRequiredLetter.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 4,'DEFAULT','DEFAULT-4-SubstantiveRevisionsRequiredLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -5899,8 +6044,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="0.6in">
-                <fo:region-before extent="0.79in" />
-                <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+               <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -5944,7 +6089,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                         <fo:block color="black" space-before.optimum="-8pt">
                             <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
                         </fo:block>
-                        <fo:bloc';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -5953,7 +6098,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'k>
+buffer := '                        <fo:block>
                             <fo:leader leader-pattern="space" />
                         </fo:block>
                         <xsl:for-each select="n1:Correspondence">
@@ -5992,16 +6137,7 @@ buffer := 'k>
                                                                                 <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
-                                                                                    </fo:';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'inline>
+                                                                                    </fo:inline>
                                                                                 </xsl:for-each>
                                                                             </fo:block>
                                                                         </fo:block>
@@ -6012,7 +6148,16 @@ buffer := 'inline>
                                                     </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
-                                            <fo:table-row>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            <fo:table-row>
                                                 <fo:table-cell display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                     <fo:block>
                                                         <fo:inline font-size="10pt" font-weight="bold">From:</fo:inline>
@@ -6040,16 +6185,7 @@ buffer := 'inline>
                                                                                     </fo:inline>
                                                                                 </xsl:if>
                                                                             </xsl:for-each>
-                                          ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                              </xsl:for-each>
+                                                                        </xsl:for-each>
                                                                     </xsl:if>
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
@@ -6071,7 +6207,16 @@ buffer := '                              </xsl:for-each>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
                                                             </fo:block>
-                                                        </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                        </fo:block>
                                                     </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
@@ -6089,16 +6234,7 @@ buffer := '                              </xsl:for-each>
                                                             <xsl:text>/</xsl:text>
                                                             <xsl:value-of select="format-number(substring(., 9, 2), ''00'')" />
                                                             <xsl:text>/</xsl:text>
-                                                            <xsl:value-of select="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'format-number(substring(., 1, 4), ''0000'')" />
+                                                            <xsl:value-of select="format-number(substring(., 1, 4), ''0000'')" />
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
@@ -6130,15 +6266,7 @@ buffer := 'format-number(substring(., 1, 4), ''0000'')" />
                                                         <fo:table-cell display-align="before" width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                             <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">IRB Action Date: </fo:inline>
-                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
-                                                            </fo:block>
-                                                        </fo:table-cell>
-                                                        <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-                                                            <fo:block>
-                                                                <xsl:for-each select="n1:Protocol">
-                                                                    <xsl:for-each select="n1:Submissions">
-                                                                        <xsl:for-each select="n1:SubmissionDetails">
-                    ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6147,7 +6275,15 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                        <xsl:for-each select="n1:ActionType">
+buffer := '                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+                                                        <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block>
+                                                                <xsl:for-each select="n1:Protocol">
+                                                                    <xsl:for-each select="n1:Submissions">
+                                                                        <xsl:for-each select="n1:SubmissionDetails">
+                                                                            <xsl:for-each select="n1:ActionType">
                                                                                 <xsl:for-each select="n1:ActionDate">
                                                                                     <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                         <xsl:value-of select="format-number(substring(., 6, 2), ''00'')" />
@@ -6183,7 +6319,13 @@ buffer := '                                                        <xsl:for-each
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
                                                             </fo:block>
-                                                        </fo:tab';
+                                                        </fo:table-cell>
+                                                    </fo:table-row>
+                                                    <fo:table-row>
+                                                        <fo:table-cell width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
+                                                            <fo:block>
+                                                                <fo:inline font-size="10pt" font-weight="bold">Study Title:</fo:inline>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6192,13 +6334,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'le-cell>
-                                                    </fo:table-row>
-                                                    <fo:table-row>
-                                                        <fo:table-cell width="127pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
-                                                            <fo:block>
-                                                                <fo:inline font-size="10pt" font-weight="bold">Study Title:</fo:inline>
-                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
+buffer := '                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
                                                         <fo:table-cell display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
@@ -6238,16 +6374,7 @@ buffer := 'le-cell>
                                                 <fo:block>
                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                         <fo:block>
-        ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                    <fo:inline font-size="10pt">At its meeting on </fo:inline>
+                                                            <fo:inline font-size="10pt">At its meeting on </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
                                                                     <xsl:for-each select="n1:ScheduleMasterData">
@@ -6257,7 +6384,16 @@ buffer := '                                                    <fo:inline font-s
                                                                                 <xsl:value-of select="format-number(substring(., 6, 2), ''00'')" />
                                                                                 <xsl:text>/</xsl:text>
                                                                                 <xsl:value-of select="format-number(substring(., 9, 2), ''00'')" />
-                                                                                <xsl:text>/</xsl:text>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                <xsl:text>/</xsl:text>
                                                                                 <xsl:value-of select="format-number(substring(., 1, 4), ''0000'')" />
                                                                             </xsl:if>
                                                                         </xsl:for-each>
@@ -6265,7 +6401,7 @@ buffer := '                                                    <fo:inline font-s
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
                                                             <fo:inline font-size="10pt">, the Committee On the Use of Humans as Experimental Subjects</fo:inline>
-                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that substantive revisions are required. These revisions are noted below.&#160; If you agree with all of the committee’s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
+                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that substantive revisions are required. These revisions are noted below.&#160; If you agree with all of the committee???s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -6282,16 +6418,7 @@ buffer := '                                                    <fo:inline font-s
                                                             <fo:inline font-size="10pt"> for expeditious review.</fo:inline>
                                                         </fo:block>
                                                     </fo:block>
-                                    ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                         <fo:block>
                                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                 <fo:block>
@@ -6301,7 +6428,7 @@ buffer := '                <fo:block space-before.optimum="1pt" space-after.opti
                                                                                 <fo:block>
                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                         <fo:block>
-                                                                                            <fo:inline font-size="10pt">If you disagree with the committee’s recommendations, you may do the following:&#160; Please justify to the </fo:inline>
+                                                                                            <fo:inline font-size="10pt">If you disagree with the committee???s recommendations, you may do the following:&#160; Please justify to the </fo:inline>
                                                                                             <xsl:for-each select="n1:Protocol">
                                                                                                 <xsl:for-each select="n1:Submissions">
                                                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -6316,13 +6443,7 @@ buffer := '                <fo:block space-before.optimum="1pt" space-after.opti
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                             <fo:inline font-size="10pt"> why the revisions should not be incorporated. </fo:inline>
-                                                                                            <fo:block>
-                                                                                                <fo:leader leader-pattern="space" />
-                                                                                            </fo:block>
-                                                                                            <fo:block>
-                                                                                                <xsl:text>&#xA;</xsl:text>
-                                                                                            </fo:block>
-                                                                                            <fo:block space-before.optimum="1pt" sp';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6331,7 +6452,13 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'ace-after.optimum="2pt">
+buffer := '                                                                                            <fo:block>
+                                                                                                <fo:leader leader-pattern="space" />
+                                                                                            </fo:block>
+                                                                                            <fo:block>
+                                                                                                <xsl:text>&#xA;</xsl:text>
+                                                                                            </fo:block>
+                                                                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                 <fo:block>
                                                                                                     <fo:block color="black" space-before.optimum="-8pt">
                                                                                                         <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
@@ -6365,16 +6492,7 @@ buffer := 'ace-after.optimum="2pt">
                                                                                                 </fo:list-item-label>
                                                                                                 <fo:list-item-body start-indent="body-start()">
                                                                                                     <fo:block>
-                                      ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                  <fo:inline font-size="10pt">
+                                                                                                        <fo:inline font-size="10pt">
                                                                                                             <xsl:apply-templates />
                                                                                                         </fo:inline>
                                                                                                     </fo:block>
@@ -6384,7 +6502,16 @@ buffer := '                                                                  <fo
                                                                                     </xsl:if>
                                                                                 </fo:block>
                                                                             </fo:block>
-                                                                        </xsl:for-each>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                        </xsl:for-each>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
@@ -6416,16 +6543,7 @@ buffer := '                                                                  <fo
                                                                                                 <fo:block>
                                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                         <fo:block>
-                                                                    ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                        <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                                 <fo:block>
                                                                                                                     <fo:block>
                                                                                                                         <fo:leader leader-pattern="space" />
@@ -6443,14 +6561,7 @@ buffer := '                                        <fo:block space-before.optimu
                                                                                                                                 </fo:table-cell>
                                                                                                                                 <fo:table-cell padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                                                                                                     <fo:block />
-                                                                                                                                </fo:table-cell>
-                                                                                                                            </fo:table-row>
-                                                                                                                        </fo:table-body>
-                                                                                                                    </fo:table>
-                                                                                                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                                                                        <fo:table-column column-width="47pt" />
-                                                                                                                        <fo:table-column column-width="452pt" />
-  ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6459,7 +6570,14 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                                                                      <fo:table-body>
+buffer := '                                                                                                                                </fo:table-cell>
+                                                                                                                            </fo:table-row>
+                                                                                                                        </fo:table-body>
+                                                                                                                    </fo:table>
+                                                                                                                    <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                                        <fo:table-column column-width="47pt" />
+                                                                                                                        <fo:table-column column-width="452pt" />
+                                                                                                                        <fo:table-body>
                                                                                                                             <fo:table-row>
                                                                                                                                 <fo:table-cell width="47pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
                                                                                                                                     <fo:block>
@@ -6480,16 +6598,7 @@ buffer := '                                                                     
                                                                                                                                     <fo:block>
                                                                                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                                                             <fo:block>
-              ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                                                                                  <xsl:for-each select="n1:Protocol">
+                                                                                                                                                <xsl:for-each select="n1:Protocol">
                                                                                                                                                     <xsl:for-each select="n1:Correspondent">
                                                                                                                                                         <xsl:for-each select="n1:Person">
                                                                                                                                                             <xsl:for-each select="n1:Fullname">
@@ -6511,7 +6620,7 @@ buffer := '                                                                     
                                                                                                                                     </fo:block>
                                                                                                                                 </fo:table-cell>
                                                                                                                             </fo:table-row>
-                                                                                                              ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6520,7 +6629,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '          </fo:table-body>
+buffer := '                                                                                                                        </fo:table-body>
                                                                                                                     </fo:table>
                                                                                                                 </fo:block>
                                                                                                             </fo:block>
@@ -6552,16 +6661,7 @@ buffer := '          </fo:table-body>
                                                                                         </fo:block>
                                                                                     </fo:block>
                                                                                 </fo:block>
-                                                            ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  4 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                </fo:block>
+                                                                            </fo:block>
                                                                         </fo:block>
                                                                     </fo:block>
                                                                 </fo:block>
@@ -6585,7 +6685,7 @@ buffer := '                </fo:block>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 5,'DEFAULT','DEFAULT-5-ExpeditedApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 5,'DEFAULT','DEFAULT-5-ExpeditedApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -7705,7 +7805,7 @@ buffer := 'ing-length($text-after-bs)"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 6,'DEFAULT','DEFAULT-6-SpecificMinorRevisionsLetter.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 6,'DEFAULT','DEFAULT-6-SpecificMinorRevisionsLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -7716,8 +7816,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="0.6in">
-                <fo:region-before extent="0.79in" />
-                <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+               <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+               <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -7757,7 +7857,11 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+                        <fo:block color="black" space-before.optimum="-8pt">
+                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -7766,11 +7870,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
-                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
-                        </fo:block>
+buffer := '                        </fo:block>
                         <fo:block>
                             <fo:leader leader-pattern="space" />
                         </fo:block>
@@ -7807,16 +7907,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                         </xsl:for-each>
                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                             <fo:block>
-               ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                 <xsl:for-each select="n1:OfficeLocation">
+                                                                                <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
@@ -7829,7 +7920,16 @@ buffer := '                                                                 <xsl
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                            </fo:table-row>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            </fo:table-row>
                                             <fo:table-row>
                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
@@ -7854,16 +7954,7 @@ buffer := '                                                                 <xsl
                                                                             <xsl:for-each select="n1:LastName">
                                                                                 <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                     <fo:inline font-size="10pt">
-             ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                           <xsl:apply-templates />
+                                                                                        <xsl:apply-templates />
                                                                                     </fo:inline>
                                                                                 </xsl:if>
                                                                             </xsl:for-each>
@@ -7888,7 +7979,16 @@ buffer := '                                                                     
                                                                         </xsl:for-each>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
-                                                            </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                            </fo:block>
                                                         </fo:block>
                                                     </fo:block>
                                                 </fo:table-cell>
@@ -7903,16 +8003,7 @@ buffer := '                                                                     
                                                     <fo:block>
                                                         <xsl:for-each select="n1:CurrentDate">
                                                             <fo:inline font-size="10pt">
-                                                                <xsl:value-of select="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
@@ -7947,12 +8038,7 @@ buffer := 'format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                 <fo:table-body>
                                                     <fo:table-row>
                                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
-                                                            <fo:block>
-                                                                <fo:inline font-size="10pt" font-weight="bold">IRB Action Date </fo:inline>
-                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
-                                                            </fo:block>
-                                                        </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -7961,7 +8047,12 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '-width="1pt" border-color="white" display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+buffer := '                                                            <fo:block>
+                                                                <fo:inline font-size="10pt" font-weight="bold">IRB Action Date </fo:inline>
+                                                                <fo:inline font-size="10pt">&#160;&#160;&#160;&#160; </fo:inline>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="80%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:Submissions">
@@ -7995,16 +8086,7 @@ buffer := '-width="1pt" border-color="white" display-align="before" width="80%" 
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                                         <xsl:for-each select="n1:ProtocolNumber">
-                                                        ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                    <fo:inline font-size="10pt">
+                                                                            <fo:inline font-size="10pt">
                                                                                 <xsl:apply-templates />
                                                                             </fo:inline>
                                                                         </xsl:for-each>
@@ -8015,7 +8097,16 @@ buffer := '                    <fo:inline font-size="10pt">
                                                     </fo:table-row>
                                                     <fo:table-row>
                                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="20%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
-                                                            <fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                            <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">Study Title </fo:inline>
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
@@ -8049,16 +8140,7 @@ buffer := '                    <fo:inline font-size="10pt">
                                         <fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block />
-            ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                </fo:block>
+                                            </fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block />
                                             </fo:block>
@@ -8074,7 +8156,16 @@ buffer := '                                </fo:block>
                                                                             <xsl:if test="../../n1:CurrentSubmissionFlag =&apos;Yes&apos;">
                                                                                 <fo:inline font-size="10pt">
                                                                                     <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
-                                                                                    <xsl:text>/</xsl:text>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                    <xsl:text>/</xsl:text>
                                                                                     <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                                     <xsl:text>/</xsl:text>
                                                                                     <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
@@ -8085,23 +8176,14 @@ buffer := '                                </fo:block>
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
                                                             <fo:inline font-size="10pt">, the Committee On the Use of Humans as Experimental Subjects</fo:inline>
-                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that specific minor revisions are required. These revisions are noted&#160; below.&#160; If you agree with all of the committee’s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
+                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that specific minor revisions are required. These revisions are noted&#160; below.&#160; If you agree with all of the committee???s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
                                                                     <xsl:for-each select="n1:CommitteeMasterData">
                                                                         <xsl:for-each select="n1:CommitteeName">
                                                                             <xsl:if test="../../n1:CurrentSubmissionFlag =&apos;No&apos;">
                                                                                 <fo:inline font-size="10pt">
-                                                                                    <xsl:apply-templates />';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '
+                                                                                    <xsl:apply-templates />
                                                                                 </fo:inline>
                                                                             </xsl:if>
                                                                         </xsl:for-each>
@@ -8121,7 +8203,7 @@ buffer := '
                                                                                 <fo:block>
                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                         <fo:block>
-                                                                                            <fo:inline font-size="10pt">If you disagree with the committee’s recommendations, you may do the following:&#160; Please justify to the&#160; </fo:inline>
+                                                                                            <fo:inline font-size="10pt">If you disagree with the committee???s recommendations, you may do the following:&#160; Please justify to the&#160; </fo:inline>
                                                                                             <xsl:for-each select="n1:Protocol">
                                                                                                 <xsl:for-each select="n1:Submissions">
                                                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -8133,9 +8215,7 @@ buffer := '
                                                                                                             </xsl:if>
                                                                                                         </xsl:for-each>
                                                                                                     </xsl:for-each>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                            <fo:inline font-size="10pt"> why the revisions should not be incorporated.&#160';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8144,7 +8224,9 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '; </fo:inline>
+buffer := '                                                                                                </xsl:for-each>
+                                                                                            </xsl:for-each>
+                                                                                            <fo:inline font-size="10pt"> why the revisions should not be incorporated.&#160; </fo:inline>
                                                                                             <fo:block>
                                                                                                 <fo:leader leader-pattern="space" />
                                                                                             </fo:block>
@@ -8179,16 +8261,7 @@ buffer := '; </fo:inline>
                                                                                 <fo:block>
                                                                                     <xsl:if test="../n1:PrivateCommentFlag = &quot;false&quot; and  ../../n1:CurrentSubmissionFlag =&apos;Yes&apos;">
                                                                                         <fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm" start-indent="2mm" space-before.optimum="4pt" space-after.optimum="4pt">
-                                                   ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                         <fo:list-item>
+                                                                                            <fo:list-item>
                                                                                                 <fo:list-item-label end-indent="label-end()">
                                                                                                     <fo:block font-family="Courier" font-size="15pt" line-height="14pt" padding-before="2pt">&#x2022;</fo:block>
                                                                                                 </fo:list-item-label>
@@ -8201,7 +8274,16 @@ buffer := '                                         <fo:list-item>
                                                                                                 </fo:list-item-body>
                                                                                             </fo:list-item>
                                                                                         </fo:list-block>
-                                                                                    </xsl:if>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                                    </xsl:if>
                                                                                 </fo:block>
                                                                             </fo:block>
                                                                         </xsl:for-each>
@@ -8230,16 +8312,7 @@ buffer := '                                         <fo:list-item>
                                                                         <fo:block>
                                                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                 <fo:block>
-                                       ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                         <fo:block>
                                                                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                 <fo:block>
@@ -8260,11 +8333,7 @@ buffer := '                                             <fo:block space-before.o
                                                                                                                             <fo:table-row>
                                                                                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="31pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                                                                                                     <fo:block />
-                                                                                                                                </fo:table-cell>
-                                                                                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
-                                                                                                                                    <fo:block>
-                                                                                                                                        <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                  ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8273,7 +8342,11 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                                          <fo:block />
+buffer := '                                                                                                                                </fo:table-cell>
+                                                                                                                                <fo:table-cell border-style="solid" border-width="1pt" border-color="white" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                                                                                    <fo:block>
+                                                                                                                                        <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                                                            <fo:block />
                                                                                                                                         </fo:block>
                                                                                                                                     </fo:block>
                                                                                                                                 </fo:table-cell>
@@ -8299,16 +8372,7 @@ buffer := '                                                                     
                                                                                                                             <fo:table-row>
                                                                                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="27pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
                                                                                                                                     <fo:block>
-                                                                                                                        ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                <fo:inline font-size="10pt">cc:</fo:inline>
+                                                                                                                                        <fo:inline font-size="10pt">cc:</fo:inline>
                                                                                                                                     </fo:block>
                                                                                                                                 </fo:table-cell>
                                                                                                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="452pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
@@ -8328,8 +8392,7 @@ buffer := '                <fo:inline font-size="10pt">cc:</fo:inline>
                                                                                                                                                 <xsl:for-each select="n1:Person">
                                                                                                                                                     <xsl:for-each select="n1:Fullname">
                                                                                                                                                         <xsl:if test="../../n1:TypeOfCorrespondent = &apos;CRC&apos;">
-                                                                                                                                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                                                                                    ';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8338,7 +8401,8 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                            <fo:block>
+buffer := '                                                                                                                                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                                                                                                <fo:block>
                                                                                                                                                                     <fo:inline font-size="10pt">
                                                                                                                                                                         <xsl:apply-templates />
                                                                                                                                                                     </fo:inline>
@@ -8365,16 +8429,7 @@ buffer := '                            <fo:block>
                                                                                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                                 <fo:block>
                                                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-           ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                                                             <fo:block>
+                                                                                                                        <fo:block>
                                                                                                                             <fo:inline font-size="10pt">
 </fo:inline>
                                                                                                                         </fo:block>
@@ -8396,7 +8451,16 @@ buffer := '                                                                     
                                                         </fo:block>
                                                     </fo:block>
                                                 </fo:block>
-                                            </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            </fo:block>
                                         </fo:block>
                                     </fo:block>
                                 </fo:block>
@@ -8418,16 +8482,7 @@ buffer := '                                                                     
                                                                             <fo:block>
                                                                                 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                     <fo:block>
-                                                                                        <fo:block space';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  6 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '-before.optimum="1pt" space-after.optimum="2pt">
+                                                                                        <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                             <fo:block>
                                                                                                 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                                     <fo:block>
@@ -8464,7 +8519,7 @@ buffer := '-before.optimum="1pt" space-after.optimum="2pt">
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 7,'DEFAULT','DEFAULT-7-SuspensionNotice.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 7,'DEFAULT','DEFAULT-7-SuspensionNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -8475,8 +8530,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="0.6in">
-                <fo:region-before extent="0.79in" />
                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -8516,7 +8571,11 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+                        <fo:block color="black" space-before.optimum="-8pt">
+                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8525,11 +8584,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
-                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
-                        </fo:block>
+buffer := '                        </fo:block>
                         <fo:block>
                             <fo:leader leader-pattern="space" />
                         </fo:block>
@@ -8566,16 +8621,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                         </xsl:for-each>
                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                             <fo:block>
-              ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                  <xsl:for-each select="n1:OfficeLocation">
+                                                                                <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
@@ -8588,7 +8634,16 @@ buffer := '                                                                  <xs
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                            </fo:table-row>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            </fo:table-row>
                                             <fo:table-row>
                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="25%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
@@ -8612,16 +8667,7 @@ buffer := '                                                                  <xs
                                                                             <fo:inline font-size="10pt">&#160;</fo:inline>
                                                                             <xsl:for-each select="n1:LastName">
                                                                                 <xsl:if test="../../../n1:CurrentSubmissionFlag =&apos;No&apos;">
-                                                                            ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '        <fo:inline font-size="10pt">
+                                                                                    <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
                                                                                 </xsl:if>
@@ -8647,7 +8693,16 @@ buffer := '        <fo:inline font-size="10pt">
                                                                         </xsl:for-each>
                                                                     </xsl:for-each>
                                                                 </xsl:for-each>
-                                                            </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                            </fo:block>
                                                         </fo:block>
                                                     </fo:block>
                                                 </fo:table-cell>
@@ -8662,16 +8717,7 @@ buffer := '        <fo:inline font-size="10pt">
                                                     <fo:block>
                                                         <xsl:for-each select="n1:CurrentDate">
                                                             <fo:inline font-size="10pt">
-                                   ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                             <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
@@ -8706,9 +8752,7 @@ buffer := '                             <xsl:value-of select="format-number(numb
                                                             <fo:block>
                                                                 <fo:inline font-size="10pt" font-weight="bold">IRB Protocol #: </fo:inline>
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
-                                                            </fo:block>
-                                                        </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="75%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8717,7 +8761,9 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '="start">
+buffer := '                                                            </fo:block>
+                                                        </fo:table-cell>
+                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="75%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                             <fo:block>
                                                                 <xsl:for-each select="n1:Protocol">
                                                                     <xsl:for-each select="n1:ProtocolMasterData">
@@ -8761,7 +8807,11 @@ buffer := '="start">
                                     </fo:block>
                                 </fo:block>
                             </fo:block>
-  ';
+                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                <fo:block>
+                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                        <fo:block>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -8770,11 +8820,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                          <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                <fo:block>
-                                    <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                        <fo:block>
-                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+buffer := '                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block />
                                             </fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
@@ -8804,16 +8850,7 @@ buffer := '                          <fo:block space-before.optimum="1pt" space-
                                                                             <fo:block>
                                                                                 <fo:leader leader-pattern="space" />
                                                                             </fo:block>
-                                                                   ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '         <fo:inline font-size="10pt">IF ADDITIONAL PARTICIPANTS HAVE BEEN ENROLLED SINCE THE SUSPENSION DATE, PLEASE CONTACT THE COUHES OFFICE IMMEDIATELY.&#160;&#160;&#160; 
+                                                                            <fo:inline font-size="10pt">IF ADDITIONAL PARTICIPANTS HAVE BEEN ENROLLED SINCE THE SUSPENSION DATE, PLEASE CONTACT THE COUHES OFFICE IMMEDIATELY.&#160;&#160;&#160; 
 </fo:inline>
                                                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                 <fo:block>
@@ -8833,7 +8870,16 @@ buffer := '         <fo:inline font-size="10pt">IF ADDITIONAL PARTICIPANTS HAVE 
                                                                             </fo:block>
                                                                             <fo:inline font-size="10pt">Thank you.</fo:inline>
                                                                         </fo:block>
-                                                                    </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                    </fo:block>
                                                                 </fo:block>
                                                             </fo:block>
                                                         </fo:block>
@@ -8867,16 +8913,7 @@ buffer := '         <fo:inline font-size="10pt">IF ADDITIONAL PARTICIPANTS HAVE 
                             </fo:block>
                             <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                 <fo:table-column column-width="31pt" />
-                                <fo:table-c';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'olumn />
+                                <fo:table-column />
                                 <fo:table-body>
                                     <fo:table-row>
                                         <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="31pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
@@ -8892,7 +8929,16 @@ buffer := 'olumn />
                                                     <xsl:for-each select="n1:KeyStudyPerson">
                                                         <xsl:for-each select="n1:Person">
                                                             <xsl:for-each select="n1:Fullname">
-                                                                <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                                <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                     <fo:block>
                                                                         <fo:inline font-size="10pt">
                                                                             <xsl:apply-templates />
@@ -8924,16 +8970,7 @@ buffer := 'olumn />
                             </fo:block>
                             <fo:inline font-size="10pt">
 </fo:inline>
-                     ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  7 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '   </xsl:for-each>
+                        </xsl:for-each>
                     </fo:block>
                 </fo:flow>
             </fo:page-sequence>
@@ -8944,7 +8981,7 @@ buffer := '   </xsl:for-each>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 8,'DEFAULT','DEFAULT-8-TerminationNotice.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 8,'DEFAULT','DEFAULT-8-TerminationNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -8955,8 +8992,8 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.6in" margin-right="1.0in">
-                <fo:region-before extent="0.79in" />
-                <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+                 <fo:region-body margin-top="0.79in" margin-bottom="0.79in" />
+               <fo:region-before extent="0.79in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -8996,7 +9033,11 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block>
                         <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                            <xsl:attribute name="src">url(''<xsl:text disable-output-';
+                            <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                        </fo:external-graphic>
+                        <fo:block color="black" space-before.optimum="-8pt">
+                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -9005,10 +9046,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
-                        </fo:external-graphic>
-                        <fo:block color="black" space-before.optimum="-8pt">
-                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
+buffer := '                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
                         </fo:block>
                         <fo:block>
                             <fo:leader leader-pattern="space" />
@@ -9046,16 +9084,7 @@ buffer := 'escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/imag
                                                                         </xsl:for-each>
                                                                         <fo:block white-space-collapse="false" space-before.optimum="1pt" space-after.optimum="2pt">
                                                                             <fo:block>
-               ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                 <xsl:for-each select="n1:OfficeLocation">
+                                                                                <xsl:for-each select="n1:OfficeLocation">
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
@@ -9068,7 +9097,16 @@ buffer := '                                                                 <xsl
                                                         </xsl:for-each>
                                                     </fo:block>
                                                 </fo:table-cell>
-                                            </fo:table-row>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                            </fo:table-row>
                                             <fo:table-row>
                                                 <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="25%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
                                                     <fo:block>
@@ -9093,16 +9131,7 @@ buffer := '                                                                 <xsl
                                                                                     <fo:inline font-size="10pt">
                                                                                         <xsl:apply-templates />
                                                                                     </fo:inline>
-                                     ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                           </xsl:for-each>
+                                                                                </xsl:for-each>
                                                                             </xsl:for-each>
                                                                         </xsl:if>
                                                                     </xsl:for-each>
@@ -9127,7 +9156,16 @@ buffer := '                                           </xsl:for-each>
                                                                 </xsl:for-each>
                                                             </fo:block>
                                                         </fo:block>
-                                                    </fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                                    </fo:block>
                                                 </fo:table-cell>
                                             </fo:table-row>
                                             <fo:table-row>
@@ -9142,16 +9180,7 @@ buffer := '                                           </xsl:for-each>
                                                             <fo:inline font-size="10pt">
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                        ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
                                                                 <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                             </fo:inline>
@@ -9186,10 +9215,7 @@ buffer := '        <xsl:value-of select="format-number(number(substring(string(.
                                                                 <fo:inline font-size="10pt">&#160;&#160;&#160; </fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="75%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
-                                                            <fo:block>
-                                                                <xsl:for-each select="n1:Protocol">
-                                                                    <xsl:';
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -9198,7 +9224,10 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'for-each select="n1:ProtocolMasterData">
+buffer := '                                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="75%" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                                            <fo:block>
+                                                                <xsl:for-each select="n1:Protocol">
+                                                                    <xsl:for-each select="n1:ProtocolMasterData">
                                                                         <xsl:for-each select="n1:ProtocolNumber">
                                                                             <fo:inline font-size="10pt">
                                                                                 <xsl:apply-templates />
@@ -9242,7 +9271,10 @@ buffer := 'for-each select="n1:ProtocolMasterData">
                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                 <fo:block>
                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                     ';
+                                        <fo:block>
+                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
+                                                <fo:block />
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -9251,10 +9283,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                   <fo:block>
-                                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                <fo:block />
-                                            </fo:block>
+buffer := '                                            </fo:block>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block />
                                             </fo:block>
@@ -9293,16 +9322,7 @@ If you wish to gather further research information, you must submit a new propos
                                     </fo:block>
                                 </fo:block>
                             </fo:block>
-                            <fo:block space-before.optimum="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '1pt" space-after.optimum="2pt">
+                            <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                 <fo:block>
                                     <fo:block>
                                         <fo:leader leader-pattern="space" />
@@ -9313,7 +9333,16 @@ buffer := '1pt" space-after.optimum="2pt">
                                     <fo:block>
                                         <fo:leader leader-pattern="space" />
                                     </fo:block>
-                                    <fo:block>
+';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+buffer := '                                    <fo:block>
                                         <fo:leader leader-pattern="space" />
                                     </fo:block>
                                     <fo:block>
@@ -9359,7 +9388,11 @@ buffer := '1pt" space-after.optimum="2pt">
                                                         <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
                                                             <fo:table-column column-width="46pt" />
                                                             <fo:table-column column-width="452pt" />
-                                                            <fo:table-bod';
+                                                            <fo:table-body>
+                                                                <fo:table-row>
+                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                                                        <fo:block>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -9368,11 +9401,7 @@ BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
 WHERE
 PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := 'y>
-                                                                <fo:table-row>
-                                                                    <fo:table-cell border-style="solid" border-width="1pt" border-color="white" width="46pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
-                                                                        <fo:block>
-                                                                            <fo:inline font-size="10pt">cc</fo:inline>
+buffer := '                                                                            <fo:inline font-size="10pt">cc</fo:inline>
                                                                         </fo:block>
                                                                     </fo:table-cell>
                                                                     <fo:table-cell border-style="solid" border-width="1pt" border-color="white" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
@@ -9400,16 +9429,7 @@ buffer := 'y>
                                                                                                     </fo:block>
                                                                                                 </fo:block>
                                                                                             </xsl:if>
-                 ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE    data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE =  8 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
-buffer := '                                                                       </xsl:for-each>
+                                                                                        </xsl:for-each>
                                                                                     </xsl:for-each>
                                                                                 </xsl:for-each>
                                                                             </xsl:for-each>
@@ -9441,7 +9461,7 @@ buffer := '                                                                     
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 9,'DEFAULT','DEFAULT-9-AgendaReport.xslt',EMPTY_CLOB(),sysdate,user);
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 9,'DEFAULT','DEFAULT-9-AgendaReport.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL

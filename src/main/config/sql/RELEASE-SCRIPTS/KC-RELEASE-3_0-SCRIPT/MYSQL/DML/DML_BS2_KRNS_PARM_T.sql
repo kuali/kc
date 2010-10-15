@@ -32,4 +32,7 @@ values('KUALI', 'KC-AWARD', 'D', 'AWARD_CREATE_ACCOUNT', 1, 'CONFG', 'ON', 'Defi
 
 UPDATE KRNS_PARM_T SET TXT='N' where parm_nm = 'SHOW_BACK_DOOR_LOGIN_IND';
 
+INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD, NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, OBJ_ID, VER_NBR) 
+VALUES ('KUALI', 'KC-PROTOCOL', 'D', 'irb.protocol.protocoltype.exempt', 'CONFG', '4', 'Protocol Type Exempt', 'A', UUID(), 1);
+
 COMMIT;
