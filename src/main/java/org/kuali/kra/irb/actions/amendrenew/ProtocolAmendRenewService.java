@@ -52,6 +52,13 @@ public interface ProtocolAmendRenewService {
      * @throws Exception
      */
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+    
+    /**
+     * Update the summary and amendment sections.
+     * @param protocolDocument the protocol document of the amendment/renewal to be updated
+     * @param amendmentBean the amendment info (summary and which modules to be amended)
+     */
+    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean);
 
     /**
      * Get all of the Amendments and Renewals for a given protocol.

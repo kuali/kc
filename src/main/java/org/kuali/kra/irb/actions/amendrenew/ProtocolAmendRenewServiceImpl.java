@@ -140,6 +140,15 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     /**
+     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#updateAmendmentRenewal(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
+     */
+    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) {
+        protocolDocument.getProtocol().getProtocolAmendRenewal().setSummary(amendmentBean.getSummary());
+        protocolDocument.getProtocol().getProtocolAmendRenewal().setModules(new ArrayList<ProtocolAmendRenewModule>());
+        addModules(protocolDocument.getProtocol().getProtocolAmendRenewal(), amendmentBean);
+    }
+    
+    /**
      * Create an Amendment.  Adds an amendment entry into the database as well as the modules that
      * can be modified with this amendment.
      * @param protocolDocument the original protocol document to be amended

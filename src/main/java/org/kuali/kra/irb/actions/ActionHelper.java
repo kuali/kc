@@ -39,7 +39,9 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
@@ -110,6 +112,7 @@ public class ActionHelper implements Serializable {
     private String submissionConstraint;
     
     private boolean canCreateAmendment = false;
+    private boolean canModifyAmendmentSections = false;
     private boolean canCreateRenewal = false;
     private boolean canNotifyIrb = false;
     private boolean canWithdraw = false;
@@ -412,6 +415,11 @@ public class ActionHelper implements Serializable {
         return null;
     }
     
+    public void initAmendmentBeans() throws Exception {
+        protocolAmendmentBean = createAmendmentBean();
+        protocolRenewAmendmentBean = createAmendmentBean();
+}
+
     /**
      * Create an Amendment Bean.  The modules that can be selected depends upon the
      * current outstanding amendments.  If a module is currently being modified by a
@@ -423,9 +431,14 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolAmendmentBean createAmendmentBean() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-     
-        ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
-        List<String> moduleTypeCodes = protocolAmendRenewService.getAvailableModules(getProtocol().getProtocolNumber());
+        List<String> moduleTypeCodes;
+
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
+            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getAmendedProtocolNumber());
+            populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
+        } else {
+            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
+        }
         
         for (String moduleTypeCode : moduleTypeCodes) {
             enableModuleOption(moduleTypeCode, amendmentBean);
@@ -433,7 +446,56 @@ public class ActionHelper implements Serializable {
         
         return amendmentBean;
     }
-  
+
+    /**
+     * This method copies the settings from the ProtocolAmendRenewal bo to the amendmentBean and enables the
+     * corresponding modules. 
+     * @param amendmentBean
+     */
+    private void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
+        ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
+        amendmentBean.setSummary(protocolAmendRenewal.getSummary());
+        for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
+            //// Uncomment the next line to enable unselecting amendment sections.  Unselecting has been disabled because we
+            //// currently don't have a way to revert the data in the unselected section.
+            // moduleTypeCodes.add(module.getProtocolModuleTypeCode());
+            if (StringUtils.equals(ProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setGeneralInfo(true);
+            } 
+            else if (StringUtils.equals(ProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAddModifyAttachments(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAreasOfResearch(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setFundingSource(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setOthers(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolOrganizations(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPersonnel(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolReferencesAndOtherIdentifiers(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSpecialReview(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSubjects(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPermissions(true);
+            }
+        }
+    }
+
+
     /**
      * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
      * current outstanding amendments.  If a module is currently being modified by a
@@ -513,7 +575,7 @@ public class ActionHelper implements Serializable {
         return this.protocolAmendRenewService;
     }
 
-    public void prepareView() {
+    public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
         assignToAgendaBean.prepareView();
@@ -522,6 +584,7 @@ public class ActionHelper implements Serializable {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
+        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
         canCreateRenewal = hasCreateRenewalPermission();
         canNotifyIrb = hasNotifyIrbPermission();
         canWithdraw = hasWithdrawPermission();
@@ -579,6 +642,7 @@ public class ActionHelper implements Serializable {
         initSummaryDetails();
         initSubmissionDetails();
         initFilterDatesView();
+        initAmendmentBeans();
     }
     
     /**
@@ -639,6 +703,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasCreateAmendmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasModifyAmendmentSectionsPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -941,6 +1010,10 @@ public class ActionHelper implements Serializable {
         return protocolAmendmentBean;
     }
     
+    public void setProtocolAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean) {
+        this.protocolAmendmentBean = protocolAmendmentBean;
+    }
+    
     public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
         return protocolRenewAmendmentBean;
     }
@@ -1047,6 +1120,10 @@ public class ActionHelper implements Serializable {
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
+    }
+    
+    public boolean getCanModifyAmendmentSections() {
+        return canModifyAmendmentSections;
     }
 
     public boolean getCanCreateRenewal() {

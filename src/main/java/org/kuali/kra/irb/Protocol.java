@@ -1687,6 +1687,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     /**
+     * 
+     * If the protocol document is an amendment or renewal the parent protocol number is being returned.
+     * (i.e. the protocol number of the protocol that is being amended or renewed).
+     * 
+     * Null will be returned if the protocol is not an amendment or renewal.
+     * 
+     * @return protocolNumber of the Protocol that is being amended/renewed
+     */
+    public String getAmendedProtocolNumber() {
+        if (isAmendment()) {
+            return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
+            
+        } else if (isRenewal()) {
+            return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
+                
+        } else {
+            return null;
+        }
+    }
+    
+    /**
      * Decides whether or not the Protocol is in a state where changes will require versioning.  For example: has the protocol
      * had a change in status and not been versioned yet?
      * @return true if versioning required false if not.

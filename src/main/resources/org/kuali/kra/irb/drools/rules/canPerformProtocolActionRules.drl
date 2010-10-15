@@ -200,6 +200,14 @@ then
 	setAction(protocolAction, true);
 end
 
+rule "Modify Amendment Sections"
+salience 100
+when
+    protocolAction : ProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("105", "106"))
+then
+    setAction(protocolAction, true);
+end
+
 rule "Create new Renewal"
 salience 100
 when
