@@ -27,7 +27,7 @@
         <table cellpAdding="0" cellspacing="0" summary="">
 		  	<tr>
 		    	<th><div align="right">*Award ID:</div></th>
-		    	<td>${KualiForm.timeAndMoneyDocument.award.awardId}&nbsp;</td>
+		    	<td>${KualiForm.timeAndMoneyDocument.award.awardNumber}&nbsp;</td>
 		    	<th>
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
 		      	</th>
@@ -154,7 +154,7 @@
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
 	        	<th>
-	            	<div align="right">Approved Subawrad?</div>
+	            	<div align="right">Approved Subaward?</div>
 	        	</th>
 	        	<td>
 	        		<div align="left">
@@ -298,7 +298,7 @@
 	        	<c:forEach var="coInvestigator" items="${KualiForm.document.award.coInvestigators}" varStatus="status">
 	        	<tr>
 	        		<td>
-	        			<c:out value="${KualiForm.document.award.coInvestigators[status.index].fullName}" />&nbsp;
+	        			<c:out value="${KualiForm.document.award.coInvestigators[status.index].fullName} (Co-Investigator)" />&nbsp;
         			</td>
         			<td>
 	        			<c:forEach var="unit" items="${coInvestigator.units}" varStatus="status">
@@ -308,6 +308,18 @@
 	        	</tr>
 	        	</c:forEach>
 	        
+	        	<c:forEach var="keyPerson" items="${KualiForm.document.award.keyPersons}" varStatus="status">
+	        	<tr>
+	        		<td>
+	        			<c:out value="${KualiForm.document.award.keyPersons[status.index].fullName} (Key Person)" />&nbsp;
+        			</td>
+        			<td>
+	        			<c:forEach var="unit" items="${keyPerson.units}" varStatus="status">
+	        				<c:out value="${keyPerson.units[status.index].unit.unitName}" /><br>	        			
+	        			</c:forEach>
+        			</td>
+	        	</tr>
+	        	</c:forEach>
 	        	
 	        	
 	        </tr>	
