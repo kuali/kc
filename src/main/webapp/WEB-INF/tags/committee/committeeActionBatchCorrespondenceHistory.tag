@@ -6,7 +6,7 @@
 
 <h3>
     <span class="subhead-left">Batch Correspondence History</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" altText="help"/></span>
+    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.correspondence.BatchCorrespondence" altText="help"/></span>
 </h3>
 
 <table cellpadding="0" cellspacing="0">

@@ -93,7 +93,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private List<CustomAttributeDocument> getCustomAttributeDocuments(String documentTypeCode) {
+    protected List<CustomAttributeDocument> getCustomAttributeDocuments(String documentTypeCode) {
         List<CustomAttributeDocument> newCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
         
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -107,7 +107,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return newCustomAttributeDocuments;
     }
     
-    private CustomAttributeDocument copyCustomAttributeDocument(CustomAttributeDocument customAttributeDocument) {
+    protected CustomAttributeDocument copyCustomAttributeDocument(CustomAttributeDocument customAttributeDocument) {
         CustomAttributeDocument newCustomAttributeDocument = new CustomAttributeDocument();
         
         newCustomAttributeDocument.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
@@ -121,7 +121,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return newCustomAttributeDocument;
     }
 
-    private CustomAttribute copyCustomAttribute(CustomAttribute customAttribute) {
+    protected CustomAttribute copyCustomAttribute(CustomAttribute customAttribute) {
         CustomAttribute newCustomAttribute = new CustomAttribute();
         
         newCustomAttribute.setId(customAttribute.getId());

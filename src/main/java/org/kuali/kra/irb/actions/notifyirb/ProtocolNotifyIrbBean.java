@@ -16,8 +16,8 @@
 package org.kuali.kra.irb.actions.notifyirb;
 
 import java.io.Serializable;
-
-import org.apache.struts.upload.FormFile;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -29,8 +29,11 @@ public class ProtocolNotifyIrbBean implements Serializable{
     private String reviewTypeCode;
     private String committeeId;
     private String comment = "";
-    private String fileName;
-    private transient FormFile file;
+//    private String fileName;
+//    private transient FormFile file;
+    // add following for multiple files attachments
+    private ProtocolActionAttachment newActionAttachment;
+    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     public ProtocolNotifyIrbBean() {
         
@@ -60,21 +63,21 @@ public class ProtocolNotifyIrbBean implements Serializable{
         this.comment = comment;
     }
     
-    public FormFile getFile() {
-        return file;
-    }
-
-    public void setFile(FormFile file) {
-        this.file = file;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+//    public FormFile getFile() {
+//        return file;
+//    }
+//
+//    public void setFile(FormFile file) {
+//        this.file = file;
+//    }
+//
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
 
     public String getReviewTypeCode() {
         return reviewTypeCode;
@@ -82,5 +85,21 @@ public class ProtocolNotifyIrbBean implements Serializable{
 
     public void setReviewTypeCode(String reviewTypeCode) {
         this.reviewTypeCode = reviewTypeCode;
+    }
+
+    public List<ProtocolActionAttachment> getActionAttachments() {
+        return actionAttachments;
+    }
+
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+        this.actionAttachments = actionAttachments;
+    }
+
+    public ProtocolActionAttachment getNewActionAttachment() {
+        return newActionAttachment;
+    }
+
+    public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment) {
+        this.newActionAttachment = newActionAttachment;
     }
 }

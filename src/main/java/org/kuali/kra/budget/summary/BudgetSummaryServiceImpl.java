@@ -259,7 +259,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return lineItemExists;
     }
 
-    private void updateBudgetPeriods(List<BudgetPeriod> budgetPeriods, int checkPeriod, boolean deletePeriod) {
+    protected void updateBudgetPeriods(List<BudgetPeriod> budgetPeriods, int checkPeriod, boolean deletePeriod) {
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
             if(budPeriod >= checkPeriod) {
@@ -464,7 +464,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     }
 
-    private Date add(Date date, int days) {
+    protected Date add(Date date, int days) {
         Calendar c1 = Calendar.getInstance(); 
         c1.setTime(new java.util.Date(date.getTime()));
         c1.add(Calendar.DATE,days);
@@ -482,7 +482,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      * @param startEndDates
      * @return
      */
-    private List<Date> getNewStartEndDates(Date parentStartDate, Date oldStartDate, Date parentEndDate, Date oldEndDate, List<Date> startEndDates) {
+    protected List<Date> getNewStartEndDates(Date parentStartDate, Date oldStartDate, Date parentEndDate, Date oldEndDate, List<Date> startEndDates) {
         Date startDate = startEndDates.get(0);
         Date endDate = startEndDates.get(1);
         Date newStartDate = startDate;
@@ -619,13 +619,13 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return startEndDates;
     }
 
-    private boolean isLeapYear(Date date) {
+    protected boolean isLeapYear(Date date) {
         int year = getYear(date);
               
         return isLeapYear(year);
     }
 
-    private boolean isLeapYear(int year) {
+    protected boolean isLeapYear(int year) {
         boolean isLeapYear;
 
         isLeapYear = (year % 4 == 0);
@@ -635,14 +635,14 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     }
     
-    private int getYear(Date date) {
+    protected int getYear(Date date) {
         Calendar c1 = Calendar.getInstance(); 
         c1.setTime(new java.util.Date(date.getTime()));
         return c1.get(Calendar.YEAR);
 
     }
     
-    private Date getLeapDay(Date date) {
+    protected Date getLeapDay(Date date) {
         Calendar c1 = Calendar.getInstance(); 
         c1.clear();
         c1.set(getYear(date), 1, 29);

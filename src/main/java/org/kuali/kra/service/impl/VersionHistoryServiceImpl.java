@@ -136,7 +136,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildFieldValueMapForActiveVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
+    protected Map<String, Object> buildFieldValueMapForActiveVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
         fieldValues.put(SEQUENCE_OWNER_REFERENCE_VERSION_NAME, versionName);
@@ -149,7 +149,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
      * @param histories
      * @return
      */
-    private VersionHistory findActiveVersionHistory(List<VersionHistory> histories) {
+    protected VersionHistory findActiveVersionHistory(List<VersionHistory> histories) {
         VersionHistory activeVersionHistory = null;
         if(histories.size() > 0) {
             if(histories.size() == 1 && histories.get(0).getStatus() == VersionStatus.ACTIVE) {
@@ -167,7 +167,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     }
     
     @SuppressWarnings("unchecked")
-    private Map<Integer, SequenceOwner<? extends SequenceOwner<?>>> findSequenceOwners(Class klass, String versionField, String versionName) {
+    protected Map<Integer, SequenceOwner<? extends SequenceOwner<?>>> findSequenceOwners(Class klass, String versionField, String versionName) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(versionField, versionName);
         Collection<SequenceOwner<? extends SequenceOwner<?>>> c = bos.findMatching(klass, fieldValues);
@@ -178,7 +178,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return map;
     }
 
-    private void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
+    protected void resetExistingVersionsToArchived(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
             List<VersionHistory> versionHistories, VersionStatus versionStatus) {
         List<VersionHistory> existingEntries = loadVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner));
         for (VersionHistory versionHistory : existingEntries) {
@@ -189,7 +189,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         versionHistories.addAll(existingEntries);
     }
     
-    private String getVersionName(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {
+    protected String getVersionName(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {
         return ObjectUtils.getPropertyValue(sequenceOwner, sequenceOwner.getVersionNameField()).toString();
     }
 }

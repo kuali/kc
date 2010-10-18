@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
@@ -48,6 +49,7 @@ import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.service.KcPersonService;
 
 import edu.mit.irb.irbnamespace.ScheduleDocument;
+import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
@@ -101,16 +103,17 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
+        committeeSchedule.refreshReferenceObject("protocolSubmissions");
         List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions = committeeSchedule.getProtocolSubmissions();
         for (org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
-            protocolSubmission.refreshNonUpdateableReferences();
-            SubmissionDetails protocolSubmissionDetail = SubmissionDetails.Factory.newInstance();
-            ProtocolSummary protocolSummary = ProtocolSummary.Factory.newInstance();
-            ProtocolSubmission protocolSubmissionType = ProtocolSubmission.Factory.newInstance();
-            ProtocolMasterData protocolMaster = ProtocolMasterData.Factory.newInstance();
+//            protocolSubmission.refreshNonUpdateableReferences();
+            ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();
+            SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
+            ProtocolSummary protocolSummary = protocolSubmissionType.addNewProtocolSummary();
+            ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
 
             Protocol protocol = protocolSubmission.getProtocol();
-            protocol.refreshNonUpdateableReferences();
+//            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
             protocolMaster.setProtocolTitle(protocol.getTitle());
@@ -217,10 +220,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             for (ProtocolPerson protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
-                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, protocolSummary.addNewInvestigator().addNewPerson());
+                    Investigator investigator = protocolSummary.addNewInvestigator();
+                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
+                        investigator.setPIFlag(true);
+                    }
                 }
             }
-            protocolSummary.setProtocolMasterData(protocolMaster);
 
             List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();
             int fundingSourceTypeCode;
@@ -238,8 +244,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                     fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
                 }
             }
-            protocolSubmissionType.setProtocolSummary(protocolSummary);
-            protocolSubmissionType.setSubmissionDetails(protocolSubmissionDetail);
 
             getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
         }
@@ -325,16 +329,16 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType) {
         Person personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
-        String personId = protocolReviewer.getPersonId();
-        if (nonEmployeeFlag) {
+        if (!nonEmployeeFlag) {
+            String personId = protocolReviewer.getPersonId();
             KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
             getIrbPrintXmlUtilService().setPersonXml(person, personType);
 
-        }
-        else {
-            ProtocolPersonRolodex rolodex = getBusinessObjectService()
-                    .findBySinglePrimaryKey(ProtocolPersonRolodex.class, personId);
-            getIrbPrintXmlUtilService().setPersonXml(rolodex, personType);
+        }else {
+            Rolodex rolodex = protocolReviewer.getRolodex();
+            ProtocolPersonRolodex protocolRolodex = getBusinessObjectService()
+                    .findBySinglePrimaryKey(ProtocolPersonRolodex.class, rolodex.getRolodexId());
+            getIrbPrintXmlUtilService().setPersonXml(protocolRolodex, personType);
         }
     }
 
@@ -372,11 +376,18 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
     private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("scheduleIdFk", protocolSubmission.getScheduleIdFk());
-        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
-                "actionId", true);
-        return actions.isEmpty() ? null : actions.get(0);
+        List<ProtocolAction> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
+        for (ProtocolAction protocolAction : protocolActions) {
+            if(protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())){
+                return protocolAction;
+            }
+        }
+        return null;
+//        Map<String, Object> param = new HashMap<String, Object>();
+//        param.put("scheduleIdFk", protocolSubmission.getScheduleIdFk());
+//        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
+//                "actionId", true);
+//        return actions.isEmpty() ? null : actions.get(0);
     }
 
     private void setAttendance(CommitteeSchedule committeeSchedule, Schedule schedule) {
@@ -392,7 +403,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
         List<CommitteeMembership> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
         for (CommitteeMembership committeeMembership : committeeMemberships) {
-            if (getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
+            if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
                     committeeSchedule.getCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();
                 attendents.setAttendentName(committeeMembership.getPersonName());
@@ -432,14 +443,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                 currentSchedule.setProtocolSubDeadline(getDateTimeService().getCalendar(
                         scheduleDetailsBean.getProtocolSubDeadline()));
             }
-            else {
-                currentSchedule.setProtocolSubDeadline(null);
-            }
             if (scheduleDetailsBean.getMeetingDate() != null) {
                 currentSchedule.setMeetingDate(getDateTimeService().getCalendar(scheduleDetailsBean.getMeetingDate()));
-            }
-            else {
-                currentSchedule.setMeetingDate(null);
             }
 
             if (scheduleDetailsBean.getStartTime() != null) {
@@ -453,9 +458,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
             if (scheduleDetailsBean.getAgendaProdRevDate() != null) {
                 currentSchedule.setAgendaProdRevDate(getDateTimeService().getCalendar(scheduleDetailsBean.getAgendaProdRevDate()));
-            }
-            else {
-                currentSchedule.setAgendaProdRevDate(null);
             }
         }
         catch (ParseException e) {

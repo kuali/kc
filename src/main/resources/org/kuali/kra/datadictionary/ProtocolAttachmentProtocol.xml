@@ -29,6 +29,9 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolAttachmentProtocol-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolAddProtocolAttachmentHelpUrl" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="id" />
 		<property name="attributes" >
 			<list>
@@ -145,6 +148,9 @@
 	  <property name="name" value="contactPhoneNumber" />
 	  <property name="label" value="Phone" />
 	  <property name="shortLabel" value="Phone" />
+      <property name="validationPattern" >
+	    <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+      </property>
 	  <property name="summary" value="Phone" />
 	  <property name="description" value="Phone" />
 	</bean>

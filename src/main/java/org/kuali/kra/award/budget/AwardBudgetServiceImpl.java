@@ -98,7 +98,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * This method...
      * @param awardBudgetDocument
      */
-    private void saveDocument(AwardBudgetDocument awardBudgetDocument) {
+    protected void saveDocument(AwardBudgetDocument awardBudgetDocument) {
         try {
             getDocumentService().saveDocument(awardBudgetDocument);
         }catch (WorkflowException e) {
@@ -131,7 +131,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_SUBMITTED);
     }
     
-    private void processStatusChange(AwardBudgetDocument awardBudgetDocument,String routingStatus){
+    protected void processStatusChange(AwardBudgetDocument awardBudgetDocument,String routingStatus){
         KualiWorkflowDocument workflowDocument = getWorkflowDocument(awardBudgetDocument);
         String submittedStatusCode = getParameterValue(routingStatus);
         String submittedStatus = findStatusDescription(submittedStatusCode);
@@ -139,12 +139,12 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         workflowDocument.getRouteHeader().setAppDocStatus(submittedStatus);
     }
 
-    private String getParameterValue(String awardBudgetParameter) {
+    protected String getParameterValue(String awardBudgetParameter) {
         return  getParameterService().getParameterValue(AwardBudgetDocument.class, awardBudgetParameter);
     }
 
 
-    private String findStatusDescription(String statusCode) {
+    protected String findStatusDescription(String statusCode) {
         AwardBudgetStatus budgetStatus = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetStatus.class, statusCode);
         return budgetStatus.getDescription();
     }
@@ -241,7 +241,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return awardBudgetDocument;
     }
 
-    private AwardBudgetDocument copyPostedBudgetVersion(AwardDocument parentDocument) {
+    protected AwardBudgetDocument copyPostedBudgetVersion(AwardDocument parentDocument) {
         AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
         return (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
     }
@@ -253,7 +253,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @return
      * @throws WorkflowException
      */
-    private AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
+    protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
         AwardBudgetDocument awardBudgetDocument;
@@ -310,7 +310,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
         return awardBudgetDocument;
     }
-    private void copyObligatedAmountToLineItems(AwardBudgetDocument awardBudgetDocument,BudgetDecimal obligatedChangeAmount) {
+    protected void copyObligatedAmountToLineItems(AwardBudgetDocument awardBudgetDocument,BudgetDecimal obligatedChangeAmount) {
         AwardBudgetExt newAwardBudgetFromPosted = awardBudgetDocument.getAwardBudget();
         List<BudgetPeriod> awardBudgetPeriods = newAwardBudgetFromPosted.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
@@ -363,7 +363,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 //        getBudgetSummaryService().calculateBudget(newAwardBudgetFromPosted);
     }
 
-    private AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
+    protected AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
         List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         QueryList<AwardBudgetVersionOverviewExt> awardBudgetVersionOverviews = new QueryList<AwardBudgetVersionOverviewExt>();
         for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
@@ -388,7 +388,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return postedBudget;
     }
 
-    private BudgetDecimal getObligatedChangeAmount(AwardDocument awardDocument) {
+    protected BudgetDecimal getObligatedChangeAmount(AwardDocument awardDocument) {
         List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
         BudgetDecimal postedTotalAmount = BudgetDecimal.ZERO;
@@ -406,7 +406,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * A utility method to check whther a budget has been posted for this award, then it can be 
      * used as one of the condition to set rebudget type.
      */
-    private boolean isPostedBudgetExist(AwardDocument awardDocument) {
+    protected boolean isPostedBudgetExist(AwardDocument awardDocument) {
         boolean exist = false;
         List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
@@ -420,11 +420,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return exist;
     }
 
-    private String getAwardPostedStatusCode() {
+    protected String getAwardPostedStatusCode() {
         return this.parameterService.getParameterValue(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
 
-    private BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {
+    protected BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {
         List<BudgetDocumentVersion> awardBudgetDocumentVersions = award.getBudgetDocumentVersions();
         BudgetVersionOverview budgetVersionOverview = null;
         int versionSize = awardBudgetDocumentVersions.size();
@@ -442,7 +442,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @param budgetParent
      * @throws WorkflowException
      */
-    private void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
+    protected void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         Budget budget = budgetDocument.getBudget();
         AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
@@ -457,7 +457,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         saveDocument(awardBudgetDocument);
     }
 
-    private void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
+    protected void copyProposalBudgetLineItemsToAwardBudget(BudgetPeriod awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
         List awardBudgetLineItems = awardBudgetPeriod.getBudgetLineItems();
         List<BudgetLineItem> lineItems = proposalBudgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : lineItems) {
@@ -500,7 +500,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         }
     }
     
-    private BudgetPerson findMatchingPersonInBudget(Budget budget, BudgetPerson oldBudgetPerson, String jobCode) {
+    protected BudgetPerson findMatchingPersonInBudget(Budget budget, BudgetPerson oldBudgetPerson, String jobCode) {
         for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
         	if (budgetPerson.isSamePerson(oldBudgetPerson) && StringUtils.equals(budgetPerson.getJobCode(), jobCode)) {
         		return budgetPerson;
@@ -509,7 +509,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return null;
     }
 
-    private DeepCopyPostProcessor getDeepCopyPostProcessor() {
+    protected DeepCopyPostProcessor getDeepCopyPostProcessor() {
         return KraServiceLocator.getService(DeepCopyPostProcessor.class);
     }
 

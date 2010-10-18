@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.print.ProtocolXmlStream;
 import org.kuali.kra.service.KcPersonService;
@@ -40,6 +41,7 @@ import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -59,6 +61,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     private List<String> notificationTemplates;
     private KualiConfigurationService kualiConfigurationService;
     private ProtocolXmlStream protocolXmlStream;
+    private DocumentService documentService;
     /**
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#sendActionsNotification(org.kuali.kra.irb.Protocol,
@@ -113,7 +116,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addIrbAdminToRecipients(org.w3c.dom.Element,
      *      org.kuali.kra.irb.Protocol)
      */
-    public void addIrbAdminToRecipients(Element recipients, Protocol protocol) {
+    public void addIrbAdminToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
         Collection<String> ids = kimRoleManagementService
                 .getRoleMemberPrincipalIds("KC-UNT", RoleConstants.IRB_ADMINISTRATOR, null);
         for (String id : ids) {
@@ -122,7 +125,10 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
                 if (StringUtils.isNotBlank(kcPersons.getUserName())
                         && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName()
                                 .equals(protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                    XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                    if (!userNames.contains(kcPersons.getUserName())) {
+                        XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                        userNames.add(kcPersons.getUserName());
+                    }
                 }
             }
             catch (Exception e) {
@@ -136,14 +142,22 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
      * 
      * @see org.kuali.kra.irb.actions.notification.ProtocolActionsNotificationService#addInitiatorToRecipients(org.w3c.dom.Element, org.kuali.kra.irb.Protocol)
      */
-    public void addInitiatorToRecipients(Element recipients, Protocol protocol) {
-        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(protocol.getProtocolDocument().getDocumentHeader()
-                .getWorkflowDocument().getInitiatorPrincipalId());
+    public void addInitiatorToRecipients(Element recipients, Protocol protocol, List<String> userNames) {
         try {
+            if (protocol.getProtocolDocument().getDocumentHeader() == null) {
+                ProtocolDocument retrievedDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
+                        .getProtocolDocument().getDocumentNumber());
+                protocol.setProtocolDocument(retrievedDocument);
+            }
+            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(protocol.getProtocolDocument().getDocumentHeader()
+                    .getWorkflowDocument().getInitiatorPrincipalId());
             if (StringUtils.isNotBlank(kcPersons.getUserName())
                     && (StringUtils.isBlank(protocol.getPrincipalInvestigator().getPersonId()) || !kcPersons.getUserName().equals(
                             protocol.getPrincipalInvestigator().getPerson().getUserName()))) {
-                XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                if (!userNames.contains(kcPersons.getUserName())) {
+                    XmlHelper.appendXml(recipients, "<user>" + kcPersons.getUserName() + "</user>");
+                    userNames.add(kcPersons.getUserName());
+                }
             }
         }
         catch (Exception e) {
@@ -174,7 +188,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     /*
      * call transformer to convert xml to html based on the xsl template
      */
-    private String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
+    protected String getTransFormData(Protocol protocol, StreamSource xsltSource) throws Exception {
 
         String XML = protocolXmlStream.generateXmlStreamForNotification(protocol);
         XML = XML.replace("<Protocol xmlns=\"http://irb.mit.edu/irbnamespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Protocol xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
@@ -192,7 +206,7 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
     /*
      * 
      */
-    private String getUserTag() {
+    protected String getUserTag() {
         Person person = GlobalVariables.getUserSession().getPerson();
         StringBuffer sb = new StringBuffer();
         sb = sb.append("<user><firstName>").append(person.getFirstName()).append("</firstName>").append("<lastName>")
@@ -207,6 +221,11 @@ public class ProtocolActionsNotificationServiceImpl implements ProtocolActionsNo
 
     public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
+    }
+
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

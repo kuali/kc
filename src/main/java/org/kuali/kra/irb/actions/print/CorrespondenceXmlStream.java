@@ -20,8 +20,10 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
 import edu.mit.irb.irbnamespace.CorrespondenceDocument;
@@ -37,8 +39,14 @@ public class CorrespondenceXmlStream extends PrintBaseXmlStream {
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
-        String scheduleId = (String)reportParameters.get("scheduleId");
-        Integer submissionNumber = (Integer)reportParameters.get("submissionNumber");
+        ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
+        String scheduleId=null;
+        Integer submissionNumber = null;
+        if(protocolSubmission!=null){
+            CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
+            scheduleId = committeeSchedule!=null?committeeSchedule.getScheduleId():null;
+            submissionNumber = protocolSubmission.getSubmissionNumber();
+        }
         CorrespondenceDocument correspondenceDocument = CorrespondenceDocument.Factory.newInstance();
         correspondenceDocument.setCorrespondence(getCorrespondence(protocol, scheduleId, submissionNumber));
         Map<String,XmlObject> correspondenceStreamMap = new HashMap<String, XmlObject>();

@@ -64,13 +64,16 @@
    <c:set var="KualiForm" value="${KualiForm}" /> 
 	<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
 
-		<a name="topOfForm"></a>
+    <a name="topOfForm"></a>
 	<%-- <div align="center" style="margin: 10px">
 	<div id="headermsg" align="left"></div>
 	<br /> --%>
 		
 <div class="headerarea" id="headerarea">
-  <h1>Meeting <a href="#"> <img src="kr/static/images/my_cp_inf.gif" alt="help" width=15 height=14 border=0 align=absmiddle onClick="MM_openBrWindow('../kra-coeus-irb/help-pop.html','','scrollbars=yes,resizable=yes,width=500,height=500')"></a></h1>
+    <h1>Meeting 
+        <a href="${pageContext.request.contextPath}/kr/help.do?methodToCall=getDocumentHelpText&amp;documentTypeName=CommitteeDocument" tabindex="1000000" target="helpWindow"  title="[Help]document help"><img src="kr/static/images/my_cp_inf.gif" alt="[Help]document help" hspace=5 border=0  align="middle">
+        </a>
+    </h1>
 </div>
 
 <!--TABBED TOP NAVIGATION-->
@@ -109,6 +112,13 @@
 					<kul:lockMessages/>
 				</div>
             </div>
+            
+            <div class="right">
+                <div class="excol">
+                    <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="return expandAllTab();" />
+                    <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="return collapseAllTab();" />
+                </div>
+            </div>
 
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
@@ -127,7 +137,7 @@
           
       <input type="hidden" name="meetingHelper.viewId" id="meetingHelper.viewId" value="${KualiForm.meetingHelper.viewId}"/>
           
-    <!-- Tabbed Panel Footer -->    
+	<!-- Tabbed Panel Footer -->    
     <div class="tab-container" align="center" id="G125" style="display: none;"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
             <tr>
@@ -141,9 +151,13 @@
         <div align="right"><br>
           * required </div>
         <div id="globalbuttons" class="globalbuttons"> 
- 	      <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+          <c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
+ 	      	<input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
+ 	      </c:if>
 	      <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
-	      <input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+	      <c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
+	      	<input type="image" name="methodToCall.cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
+	      </c:if>
        </div></td>
     <td class="column-right"><img src="static/images/pixel_clear.gif" alt="" width="20" height="20"></td>
   </tr>
@@ -158,7 +172,9 @@
     $(document).ready(function()     {
        var viewId = $("#meetingHelper\\.viewId").attr("value");
        if (viewId) {
-           $("#"+viewId).click();
+         //  $("#"+viewId).click();
+           //window.open(extractUrlBase()+"/"+action+".do?methodToCall="+viewId.substr(0,viewId.length - 1)+"&line="+(viewId.substr(viewId.length - 1))+"&docFormKey=0&documentWebScope=false");
+           openNewWindow('meetingActions',viewId.substr(0,viewId.length - 1),viewId.substr(viewId.length - 1) - 1,0,'false');            
            $("#meetingHelper\\.viewId").attr("value","");
        }
     } ); 

@@ -51,7 +51,7 @@ public class ProposalLogPrintingServiceImpl implements ProposalLogPrintingServic
         return source;
     }
     
-    private Map<String, String> getFieldValues(String attr, String value) {
+    protected Map<String, String> getFieldValues(String attr, String value) {
         HashMap<String, String> retVal = new HashMap<String, String>();
         retVal.put(attr, value);
         return retVal;

@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -121,7 +122,10 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
     public void testCreateNewCustomAttribute() throws Exception {
         HtmlPage customAttributeMaintenancePage = getMaintenanceDocumentPage("Custom Attribute","org.kuali.kra.bo.CustomAttribute","Kuali :: CustomAttribute Maintenance Document");
         String documentNumber = getFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value: * Group Name: * Label: Lookup Class: select Lookup Return: select * Name");
+        
+        assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value:");
+        assertContains(customAttributeMaintenancePage,"* Label: Lookup Class: select Lookup Return: select * Name");
+        
         setFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentDescription", "Custom Attribute - test");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", ID_2);
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataLength", "8");

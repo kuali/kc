@@ -53,7 +53,7 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
      * @param researchAreas
      * @return
      */
-    private ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
+    protected ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
         ProtocolResearchArea protocolResearchAreas = new ProtocolResearchArea();
         protocolResearchAreas.setProtocol(protocol);                            
         
@@ -78,7 +78,7 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
      * @param protocolResearchAreas
      * @return
      */
-    private boolean isDuplicateResearchAreas(ResearchArea newResearchAreas, List<ProtocolResearchArea> protocolResearchAreas) {
+    protected boolean isDuplicateResearchAreas(ResearchArea newResearchAreas, List<ProtocolResearchArea> protocolResearchAreas) {
         for (ProtocolResearchArea pra  : protocolResearchAreas) {    
             if (pra.getResearchAreas().equals(newResearchAreas)) {
                 return true;

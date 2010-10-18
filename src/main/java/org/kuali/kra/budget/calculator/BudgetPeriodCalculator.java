@@ -142,7 +142,7 @@ public class BudgetPeriodCalculator {
                     budgetLineItemToBeApplied.setOnOffCampusFlag(prevBudgetLineItem.getOnOffCampusFlag());
 
                     // apply all periods : generate calamts , then update apply rate flag
-                    budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItemToBeApplied);
+                    budgetCalculationService.populateCalculatedAmount(budget, budgetLineItemToBeApplied);
                     for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItemToBeApplied.getBudgetLineItemCalculatedAmounts()) {
                             if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {

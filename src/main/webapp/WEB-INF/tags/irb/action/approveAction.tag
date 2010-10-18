@@ -17,13 +17,14 @@
 
 <c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="openForFollowup" value="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
 <c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
 
 <kra:permission value="${KualiForm.actionHelper.canApprove}">
 
-<kul:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolApproveBean*">
+<kul:innerTab tabTitle="Approve Action" parentTab="" defaultOpen="${openForFollowup}" tabErrorKey="actionHelper.protocolApproveBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
             
@@ -105,22 +106,22 @@
                         <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolApproveBean.reviewComments}"
                                                        property="actionHelper.protocolApproveBean.reviewComments"
                                                        action="${action}"
-                                                       actionName="Approve"
-                                                       allowReadOnly="${true}" />
+                                                       actionName="ApproveAction"
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
-                            <html:image property="methodToCall.approve.anchor${tabKey}"
+                            <html:image property="methodToCall.approveAction.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

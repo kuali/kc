@@ -21,10 +21,16 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="actionName" required="true" %>
 <%@ attribute name="allowReadOnly" required="true" %>
+<%@ attribute name="tabCustomTitle" required="false" %>
+<%@ attribute name="methodToCall" required="false" %>
+
+<c:if test="${empty tabCustomTitle}">
+	<c:set var="tabCustomTitle" value="Review Comments" />
+</c:if>
 
 <c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 
-<kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+<kul:innerTab tabTitle="${tabCustomTitle}" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
@@ -56,15 +62,8 @@
                     </td>
                                             
                     <td align="left" valign="middle">
-                        <c:choose>
-                            <c:when test="${empty bean.newComment.protocolContingencyCode}">
                                 <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
                                                           attributeEntry="${minutesAttributes.minuteEntry}" />
-                            </c:when>
-                            <c:otherwise>
-                                ${bean.newComment.minuteEntry}
-                            </c:otherwise>
-                        </c:choose>
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
@@ -109,10 +108,6 @@
                                 <td style="text-align:center;">
                                     n/a
                                 </td>
-                                <td>
-                                    <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
-                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
-                                </td>
                             </c:when>
                             <c:otherwise>
                                 <td style="text-align:center;">
@@ -124,12 +119,15 @@
                                         </c:when>
                                     </c:choose>
                                 </td>
-                                <td>
-                                    ${comment.minuteEntry}
-                                </td>
+                             
                             </c:otherwise>
                         </c:choose>
-                                                
+                             
+                        <td>
+                        	<kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
+                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
+                        </td>
+                                                   
                         <td style="text-align:center; vertical-align:middle">
                             <kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
                                                       attributeEntry="${minutesAttributes.privateCommentFlag}"
@@ -160,6 +158,18 @@
                         </td>
                     </tr>
                 </c:forEach>
+                
+                <c:if test="${not empty methodToCall}">
+	                <tr>
+	                	<td colspan="6">
+	                		<div align="center">
+								<html:image property="methodToCall.${methodToCall}.anchor${tabKey}"
+								            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' 
+								            styleClass="tinybutton"/>
+							</div>
+						</td>
+	                </tr>
+                </c:if>
 
             </tbody>
         </table>

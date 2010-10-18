@@ -169,7 +169,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
      * get protocolsubmissions that are assigned to this committee.
      */
     @SuppressWarnings("unchecked")
-    private List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
+    protected List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
         Map fieldMap = new HashMap();
         fieldMap.put("committeeId",committeeId);
         return (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldMap);

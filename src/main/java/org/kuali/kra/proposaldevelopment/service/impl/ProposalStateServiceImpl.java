@@ -61,7 +61,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return IN_PROGRESS
      */
-    private String computeProposalStateForInitiated(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForInitiated(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return ProposalState.IN_PROGRESS;
     }
     
@@ -70,7 +70,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return APPROVAL_NOT_INITIATED_SUBMITTED or IN_PROGRESS
      */
-    private String computeProposalStateForSaved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForSaved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         if (isSubmitted(proposalDevelopmentDocument)) {
             return ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED;
         } else {
@@ -83,7 +83,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return APPROVAL_PENDING_SUBMITTED or APPROVAL_PENDING
      */
-    private String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         if (isSubmitted(proposalDevelopmentDocument)) {
             return ProposalState.APPROVAL_PENDING_SUBMITTED;
         } else {
@@ -97,7 +97,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
      * @return APPROVED_AND_SUBMITTED, APPROVED_POST_SUBMISSION, or APPROVAL_GRANTED
      */
-    private String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+    protected String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
         if (isSubmitted(proposalDevelopmentDocument)) {
             if (isRouteStatusChanged) {
                 return ProposalState.APPROVED_POST_SUBMISSION;
@@ -115,7 +115,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
      * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
      */
-    private String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+    protected String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
         if (isSubmitted(proposalDevelopmentDocument) && isRouteStatusChanged) {
             return ProposalState.DISAPPROVED_POST_SUBMISSION;
         } else {
@@ -129,7 +129,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
      * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
      */
-    private String computeProposalStateForRejected(ProposalDevelopmentDocument proposalDevelopmentDocument ) {
+    protected String computeProposalStateForRejected(ProposalDevelopmentDocument proposalDevelopmentDocument ) {
         return ProposalState.REVISIONS_REQUESTED;
     }
    
@@ -140,7 +140,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return CANCELED
      */
-    private String computeProposalStateForCanceled(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForCanceled(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return ProposalState.CANCELED;
     }
 
@@ -150,7 +150,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return DOCUMENT_ERROR
      */
-    private String computeProposalStateForException(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected String computeProposalStateForException(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return ProposalState.DOCUMENT_ERROR;
     }
     
@@ -159,7 +159,7 @@ public class ProposalStateServiceImpl implements ProposalStateService {
      * @param proposalDevelopmentDocument the proposal development document
      * @return true if submitted to the sponsor; otherwise false
      */
-    private boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag();
     }
 

@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
  * Is the user allowed to approve protocols?
@@ -25,19 +27,25 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 public class ApproveProtocolAuthorizer extends ProtocolAuthorizer {
 
     /**
+     * {@inheritDoc}
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        ProtocolAction lastPerformedAction = task.getProtocol().getLastProtocolAction();
-        return canApprove(lastPerformedAction) && 
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
+        ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();
+        
+        return canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
     
-    private boolean canApprove(ProtocolAction lastAction) {
-        if(lastAction != null && ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
-            return true;
+    private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
+        boolean canPerform = false;
+        
+        if (lastAction != null && lastSubmission != null) {
+            canPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode()) 
+                      && CommitteeDecisionMotionType.APPROVE.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
         }
-                
-        return false;
+        
+        return canPerform;
     }
+    
 }

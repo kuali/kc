@@ -144,6 +144,13 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
        return super.canApprove(document, user);
     } 
     
+    //we only let the IRB Admin disapprove these documents.
+    protected boolean canDisapprove(Document document, Person user) {
+        boolean result = super.canDisapprove(document, user);
+        result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
+        return result;
+    }
+    
     private KraWorkflowService getKraWorkflowService() {
         if (kraWorkflowService==null) {
             kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);

@@ -18,6 +18,7 @@
 
 <c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
 <c:set var="action" value="${name}Permissions" />
+<c:set var="modifyPermissions" value="${KualiForm.permissionsHelper.modifyPermissions && (empty DocumentPessimisticLockMessages)}" />
 
 <kul:tab tabTitle="Users" defaultOpen="true"  
          tabErrorKey="document.permissionsUser*,newPermissionsUser*">
@@ -40,14 +41,13 @@
           		<th><div align="center">Unit #</div></th>
           		<th><div align="center">Unit Name</div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${permissionsUserAttributes.roleName}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<kra:permission value="${KualiForm.permissionsHelper.modifyPermissions}">
+          		<kra:permission value="${modifyPermissions}">
           		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           		</kra:permission>
           	</tr>
           	
           	<%-- The input controls for adding a new user. --%>
-
-          	<kra:permission value="${KualiForm.permissionsHelper.modifyPermissions}">
+          	<kra:permission value="${modifyPermissions}">
 	            <tr> 
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -106,7 +106,7 @@
 					       <nobr>${role.displayName}</nobr>
 					    </c:forEach>
 					</td>
-					<kra:permission value="${KualiForm.permissionsHelper.modifyPermissions}">
+					<kra:permission value="${modifyPermissions}">
 						<td align="center" valign="middle">
 						 	<div align="center">
 							<nobr>

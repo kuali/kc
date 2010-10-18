@@ -38,6 +38,7 @@
 				<ref bean="PersonTraining-followupDate"/>
 				<ref bean="PersonTraining-score"/>
 				<ref bean="PersonTraining-comments"/>
+                <ref bean="PersonTraining-active"/>
 				<ref bean="PersonTraining-versionNumber"/>
 			</list>
 		</property>
@@ -207,7 +208,16 @@
 		<property name="description" value="Comments"/>
 	</bean>
 
-	<bean id="PersonTraining-versionNumber" parent="PersonTraining-versionNumber-parentBean"/>
+    <bean id="PersonTraining-active" parent="PersonTraining-active-parentBean"/>
+    <bean abstract="true" id="PersonTraining-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="active"/>
+      <property name="label" value="Is Active"/>
+      <property name="shortLabel" value="Is Active"/>
+      <property name="summary" value="Is Active"/>
+      <property name="description" value="Is Active"/>
+    </bean>
+    
+    <bean id="PersonTraining-versionNumber" parent="PersonTraining-versionNumber-parentBean"/>
 	<bean abstract="true" id="PersonTraining-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
@@ -231,6 +241,7 @@
 							<bean p:attributeName="followupDate" parent="FieldDefinition"/>
 							<bean p:attributeName="score" parent="FieldDefinition"/>
 							<bean p:attributeName="comments" parent="FieldDefinition"/>
+                            <bean p:attributeName="active" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -258,6 +269,7 @@
 				<bean p:attributeName="followupDate" parent="FieldDefinition"/>
 				<bean p:attributeName="score" parent="FieldDefinition"/>
 				<bean p:attributeName="comments" parent="FieldDefinition"/>
+                <bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -272,6 +284,7 @@
 				<bean p:attributeName="followupDate" parent="FieldDefinition"/>
 				<bean p:attributeName="score" parent="FieldDefinition"/>
 				<bean p:attributeName="comments" parent="FieldDefinition"/>
+                <bean p:attributeName="active" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>

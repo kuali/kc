@@ -104,7 +104,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param researchArea
      * @return true if the committee has the research area; otherwise false
      */
-    private boolean hasResearchArea(Committee committee, ResearchArea researchArea) {
+    protected boolean hasResearchArea(Committee committee, ResearchArea researchArea) {
         for (CommitteeResearchArea committeeResearchArea : committee.getCommitteeResearchAreas()) {
             if (StringUtils.equals(committeeResearchArea.getResearchAreaCode(), researchArea.getResearchAreaCode())) {
                 return true;
@@ -119,7 +119,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param committee
      * @param researchArea
      */
-    private void addCommitteeResearchArea(Committee committee, ResearchArea researchArea) {
+    protected void addCommitteeResearchArea(Committee committee, ResearchArea researchArea) {
         CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
@@ -152,7 +152,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param schedule
      * @return
      */
-    private boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
+    protected boolean isOkayToScheduleReview(Committee committee, CommitteeSchedule schedule) {
         Calendar now = getCalendar(new Date());
         Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
         now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
@@ -164,7 +164,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * Create a calendar without hour, minutes, seconds, or milliseconds.
      */
-    private Calendar getCalendar(Date date) {
+    protected Calendar getCalendar(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -180,7 +180,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param schedule
      * @return
      */
-    private String getDescription(CommitteeSchedule schedule) {
+    protected String getDescription(CommitteeSchedule schedule) {
         Date date = schedule.getScheduledDate();
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
@@ -218,7 +218,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @param scheduledDate the date of the meeting
      * @return true if the member will be at the meeting; otherwise false
      */
-    private boolean isMemberAvailable(CommitteeMembership member, Date scheduledDate) {
+    protected boolean isMemberAvailable(CommitteeMembership member, Date scheduledDate) {
         java.sql.Date sqlDate = new java.sql.Date(scheduledDate.getTime());
         if (member.isActive(sqlDate)) {
             Calendar scheduleCalendar = getCalendar(scheduledDate);
@@ -271,7 +271,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * copy schedules from old committee to new committee if the old schedule has meeting data.
      * new added schedules, whose date does not exist in old committee schedules, will be automatically included in the return list.
      */
-    private List<CommitteeSchedule> copySchedules(List<CommitteeSchedule> newSchedules, List<CommitteeSchedule> oldSchedules) {
+    protected List<CommitteeSchedule> copySchedules(List<CommitteeSchedule> newSchedules, List<CommitteeSchedule> oldSchedules) {
         List<CommitteeSchedule> copiedSchedules = new ArrayList<CommitteeSchedule>();
         for (CommitteeSchedule schedule : oldSchedules) {
             if (isNotEmptyData(schedule) || isInNewCommittee(schedule, newSchedules)) {
@@ -297,7 +297,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * check if schedule contain meeting which also include whether protocol submitted.
      */
-    private boolean isNotEmptyData(CommitteeSchedule schedule) {
+    protected boolean isNotEmptyData(CommitteeSchedule schedule) {
         return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
         || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
         || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
@@ -310,7 +310,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * get schedule that will copy all meeting data from old schedule
      */
-    private CommitteeSchedule getCopiedSchedule(CommitteeSchedule schedule) {
+    protected CommitteeSchedule getCopiedSchedule(CommitteeSchedule schedule) {
         CommitteeSchedule copiedSchedule = (CommitteeSchedule) ObjectUtils.deepCopy(schedule);
         copiedSchedule.setId(null);
         schedule.getCommScheduleActItems().size();
@@ -345,7 +345,7 @@ public class CommitteeServiceImpl implements CommitteeService {
      * Since actitemid is reset, and if the act item is referenced in minute;
      * then this relationship need to be set up properly.
      */
-    private void setActItemId(CommScheduleActItem actItem, List<CommitteeScheduleMinute> minutes) {
+    protected void setActItemId(CommScheduleActItem actItem, List<CommitteeScheduleMinute> minutes) {
         Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
         for (CommitteeScheduleMinute minute : minutes) {
             if (minute.getCommScheduleActItemsIdFk() != null && actItem.getCommScheduleActItemsId().equals(minute.getCommScheduleActItemsIdFk())) {
@@ -358,7 +358,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * check if new schedule is already exist in the new copied schedule list.
      */
-    private boolean isScheduleDateMatched(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+    protected boolean isScheduleDateMatched(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
         for (CommitteeSchedule copiedSchedule : schedules) {
             if (schedule.getScheduledDate().equals(copiedSchedule.getScheduledDate())) {
                 return true;
@@ -370,7 +370,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * check if old schedule still exist in new committee
      */
-    private boolean isInNewCommittee(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+    protected boolean isInNewCommittee(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
         for (CommitteeSchedule newSchedule : schedules) {
             if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
                 return true;
@@ -382,7 +382,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     /*
      * get the matched schedule from new committee.
      */
-    private CommitteeSchedule getNewCommitteeSchedule(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
+    protected CommitteeSchedule getNewCommitteeSchedule(CommitteeSchedule schedule, List<CommitteeSchedule> schedules) {
         for (CommitteeSchedule newSchedule : schedules) {
             if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
                 return newSchedule;

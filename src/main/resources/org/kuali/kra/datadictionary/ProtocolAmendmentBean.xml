@@ -29,7 +29,7 @@
 				<ref bean="ProtocolAmendmentBean-summary" />
 				<ref bean="ProtocolAmendmentBean-generalInfo" />
 				<ref bean="ProtocolAmendmentBean-fundingSource" />
-				<ref bean="ProtocolAmendmentBean-protocolReferences" />
+				<ref bean="ProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers" />
 				<ref bean="ProtocolAmendmentBean-protocolOrganizations" />
 				<ref bean="ProtocolAmendmentBean-subjects" />
 				<ref bean="ProtocolAmendmentBean-addModifyAttachments" />
@@ -37,6 +37,7 @@
 				<ref bean="ProtocolAmendmentBean-specialReview" />
 				<ref bean="ProtocolAmendmentBean-protocolPersonnel" />
 				<ref bean="ProtocolAmendmentBean-others" />
+                <ref bean="ProtocolAmendmentBean-protocolPermissions" />
 			</list>
 		</property>
 	</bean>
@@ -78,13 +79,13 @@
 	    <property name="description" value="Funding Source" />
 	</bean>
 	
-	<bean id="ProtocolAmendmentBean-protocolReferences" parent="ProtocolAmendmentBean-protocolReferences-parentBean" />
-	<bean id="ProtocolAmendmentBean-protocolReferences-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-	    <property name="name" value="protocolReferences" />
-	    <property name="label" value="Protocol References" />
-	    <property name="shortLabel" value="Protocol References" />
-	    <property name="summary" value="Protocol References" />
-	    <property name="description" value="Protocol References" />
+	<bean id="ProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers" parent="ProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers-parentBean" />
+	<bean id="ProtocolAmendmentBean-protocolReferencesAndOtherIdentifiers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="protocolReferencesAndOtherIdentifiers" />
+	    <property name="label" value="Protocol References and Other Identifiers" />
+	    <property name="shortLabel" value="Protocol References and Other Identifiers" />
+	    <property name="summary" value="Protocol References and Other Identifiers" />
+	    <property name="description" value="Protocol References and Other Identifiers" />
 	</bean>
 	
 	<bean id="ProtocolAmendmentBean-protocolOrganizations" parent="ProtocolAmendmentBean-protocolOrganizations-parentBean" />
@@ -150,4 +151,13 @@
 	    <property name="description" value="Others" />
 	</bean>
 	
+    <bean id="ProtocolAmendmentBean-protocolPermissions" parent="ProtocolAmendmentBean-protocolPermissions-parentBean" />
+    <bean id="ProtocolAmendmentBean-protocolPermissions-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="protocolPermissions" />
+        <property name="label" value="Protocol Permissions" />
+        <property name="shortLabel" value="Protocol Permissions" />
+        <property name="summary" value="Protocol Permissions" />
+        <property name="description" value="Protocol Permissions" />
+    </bean>
+    
 </beans>

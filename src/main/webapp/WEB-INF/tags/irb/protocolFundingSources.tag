@@ -14,12 +14,23 @@
     </c:otherwise>
 </c:choose>
 
+<c:choose>
+    <c:when test="${KualiForm.protocolHelper.sourceNameEditable}">
+        <c:set var="sourceNameEditStyle" value="display: inline" />
+        <c:set var="sourceNameDisplayStyle" value="display: none" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="sourceNameEditStyle" value="display: none" />
+        <c:set var="sourceNameDisplayStyle" value="display: inline" />
+    </c:otherwise>
+</c:choose>
+
 <kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.protocol.bo.ProtocolType" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" altText="help"/></span>
         </h3>
 		
 		
@@ -27,11 +38,10 @@
         	<tr>
                 <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" /> 
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" />
-                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceNumber}" />
-                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
+                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceNumber}" forceRequired="true" />
+                <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" forceRequired="true" />
                 <kul:htmlAttributeHeaderCell attributeEntry="${protocolFundingSourceAttributes.fundingSourceTitle}" />
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
-                
             </tr>
             <c:if test="${!readOnly}">
 	        	<tr>
@@ -41,15 +51,10 @@
 	                               
 	                <td>
 	                    <div align="center">
-	                 
-	                        <input type="hidden" name="protocolHelper.editProtocolFundingSourceName" 
-	                               value="${editName}">            
-	                    
 	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceTypeCode" 
 	                                                  attributeEntry="${protocolFundingSourceAttributes.fundingSourceTypeCode}" 
 	                                                  onchange="updateSourceNameEditable(
 	                                                            'protocolHelper.newFundingSource.fundingSourceTypeCode', 
-                                                                'protocolHelper.newFundingSource.fundingSource',
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
 	                                                            'protocolHelper.newFundingSource.fundingSourceName', 
 	                                                            'protocolHelper.newFundingSource.fundingSourceTitle');" />
@@ -58,14 +63,10 @@
 	
 	                <td>
 	                   <div align="center">
-	                       ${kfunc:registerEditableProperty(KualiForm, "protocolHelper.newFundingSource.fundingSource")}                                    
-                           <input type="hidden" name="protocolHelper.newFundingSource.fundingSource" value=""/>   
-
 	                       <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceNumber" 
 	                                                 attributeEntry="${protocolFundingSourceAttributes.fundingSourceNumber}"
 	                                                 onblur="updateSourceNameEditable(
                                                                 'protocolHelper.newFundingSource.fundingSourceTypeCode', 
-                                                                'protocolHelper.newFundingSource.fundingSource',
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
                                                                 'protocolHelper.newFundingSource.fundingSourceName', 
                                                                 'protocolHelper.newFundingSource.fundingSourceTitle');" />
@@ -79,8 +80,13 @@
 	             
 	                <td>
 	                    <div align="center">
-	                        <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
-                                                      attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
+                            <div id="protocolHelper.newFundingSource.fundingSourceName.edit.div" style="${sourceNameEditStyle}">
+                                <kul:htmlControlAttribute property="protocolHelper.newFundingSource.fundingSourceName" 
+                                                          attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" />
+                            </div>
+                            <div id="protocolHelper.newFundingSource.fundingSourceName.display.div" style="${sourceNameDisplaySyle}">
+                                <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceName}" />
+                            </div>
                             
                             <div id="protocolHelper.newFundingSource.fundingSourceName.error.div" style="display: none">
                                 <span style="color: red;">not found</span>
@@ -93,10 +99,6 @@
 		                	${kfunc:registerEditableProperty(KualiForm, "protocolHelper.newFundingSource.fundingSourceTitle")}                                    
 	                        <input type="hidden" name="protocolHelper.newFundingSource.fundingSourceTitle" value=""/>
 	                        <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceTitle}" />
-		                   
-		                   	<div id="protocolHelper.newFundingSource.fundingSourceTitle.error.div" style="display: none">
-			                	<span style="color: red;">not found</span><br>
-			               	</div>
 	                    </div>
 	                </td>
 	

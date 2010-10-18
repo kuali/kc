@@ -36,10 +36,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
@@ -48,7 +48,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public abstract class PermissionsHelperBase implements Serializable {
     
-    private transient KcPersonService kcPersonService;
+    private transient KcPersonService kcPersonService; 
     
     /*
      * The form data for a new user.  See the Users panel
@@ -150,6 +150,18 @@ public abstract class PermissionsHelperBase implements Serializable {
     public List<Role> getRoles() {
         return roles;
     }
+    
+    /**
+     * Set the roles, this is for classes that
+     * have to override the buildRoles or otherwise
+     * need to set the List.
+     *
+     */
+    
+    protected void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
     
     /**
      * Get the form data for editing the roles for a user.
@@ -301,7 +313,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     /*
      * Build the list of roles for the document.
      */
-    private void buildRoles(String roleType) {
+    protected void buildRoles(String roleType) {
         roles = new ArrayList<Role>();
         List<org.kuali.rice.kim.bo.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.bo.Role kimRole : kimRoles) {
@@ -319,7 +331,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * is shown first, followed by the standard roles, and then by the user-defined roles.
      * @return the sorted list of KIM roles
      */
-    private List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
+    protected List<org.kuali.rice.kim.bo.Role> getSortedKimRoles(String roleType) {
         
         List<org.kuali.rice.kim.bo.Role> sortedKimRoles = new ArrayList<org.kuali.rice.kim.bo.Role>();
         List<org.kuali.rice.kim.bo.Role> kimRoles = getKimRoles(roleType);
@@ -386,7 +398,7 @@ public abstract class PermissionsHelperBase implements Serializable {
                 AssignedRole assignedRole = new AssignedRole(role);
                 for (UserState userState : userStates) {
                     if (userState.isRoleAssigned(role.getName())) {
-                        assignedRole.add(userState.getPerson().getFullName());
+                        assignedRole.add(new User(userState.getPerson()));
                     }
                 }
                 assignedRoles.add(assignedRole);
@@ -419,7 +431,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     }
     
     /*
-     * Sort the list of users by their Full Name.
+     * Sort the list of users by their Last Name.
      */
     @SuppressWarnings("unchecked")
     private void sortUsers(List<User> users) {
@@ -427,7 +439,7 @@ public abstract class PermissionsHelperBase implements Serializable {
             public int compare(Object o1, Object o2) {
                 User user1 = (User) o1;
                 User user2 = (User) o2;
-                return user1.getPerson().getFullName().compareTo(user2.getPerson().getFullName());
+                return user1.getPerson().getLastName().compareTo(user2.getPerson().getLastName());
             }
         });
     }
@@ -506,7 +518,7 @@ public abstract class PermissionsHelperBase implements Serializable {
         return this.kcPersonService;
     }
     
-    private PermissionService getKimPermissionService() {
+    protected PermissionService getKimPermissionService() {
         return KraServiceLocator.getService("kimPermissionService");
     }
 

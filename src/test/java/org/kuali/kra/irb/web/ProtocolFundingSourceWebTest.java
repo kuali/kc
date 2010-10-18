@@ -24,12 +24,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
     
     private static final String PROTOCOL_FUNDINGSOURCE_TYPE_FIELD = "protocolHelper.newFundingSource.fundingSourceTypeCode";
-    private static final String PROTOCOL_FUNDINGSOURCE_ID_FIELD = "protocolHelper.newFundingSource.fundingSource";
+    private static final String PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD = "protocolHelper.newFundingSource.fundingSourceNumber";
     private static final String PROTOCOL_FUNDINGSOURCE_NAME_FIELD = "protocolHelper.newFundingSource.fundingSourceName";
     
     private static final String ADD_LOCATION = "methodToCall.addProtocolFundingSource.anchorFundingSources";
-    private static final String VIEW_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor28";
-    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor28";
+    private static final String VIEW_LOCATION = "methodToCall.viewProtocolFundingSource.line0.anchor27";
+    private static final String DELETELINE_1_LOCATION = "methodToCall.deleteProtocolFundingSource.line1.anchor27";
     
     private static final String SPONSOR_FUNDINGSOURCE_VAL = "1";
     private static final String SPONSOR_FUNDINGSOURCE_ID = "005174";
@@ -62,7 +62,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
         
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, SPONSOR_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, SPONSOR_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, SPONSOR_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
         
@@ -81,7 +81,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, UNIT_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, UNIT_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, UNIT_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, UNIT_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
@@ -100,7 +100,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, OTHER_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, OTHER_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, OTHER_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, OTHER_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
@@ -116,7 +116,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, DEVPROP_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, DEVPROP_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, DEVPROP_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, DEVPROP_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
@@ -139,7 +139,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, INSTPROP_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, INSTPROP_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, INSTPROP_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, INSTPROP_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
@@ -158,7 +158,7 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
 
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, AWARD_FUNDINGSOURCE_VAL);
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, AWARD_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, AWARD_FUNDINGSOURCE_NUMBER);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, AWARD_FUNDINGSOURCE_NAME);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
 
@@ -177,12 +177,12 @@ public class ProtocolFundingSourceWebTest extends ProtocolWebTestBase {
         HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
         String documentNumber = getDocNbr(protocolPage);
         
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, SPONSOR_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, SPONSOR_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, SPONSOR_FUNDINGSOURCE_NAME);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, SPONSOR_FUNDINGSOURCE_VAL);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);
         
-        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_ID_FIELD, UNIT_FUNDINGSOURCE_ID);
+        setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NUMBER_FIELD, UNIT_FUNDINGSOURCE_ID);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_NAME_FIELD, UNIT_FUNDINGSOURCE_NAME);
         setFieldValue(protocolPage, PROTOCOL_FUNDINGSOURCE_TYPE_FIELD, UNIT_FUNDINGSOURCE_VAL);
         protocolPage = clickOn(protocolPage, ADD_LOCATION);

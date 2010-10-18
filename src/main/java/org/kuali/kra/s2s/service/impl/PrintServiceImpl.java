@@ -153,7 +153,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @param sponsorFormTemplates
 	 *            list of SponsorFormTemplateList.
 	 */
-	private void resetSelectedFormList(
+	protected void resetSelectedFormList(
 			List<SponsorFormTemplateList> sponsorFormTemplates) {
 		for (SponsorFormTemplateList sponsorFormTemplateList : sponsorFormTemplates) {
 			sponsorFormTemplateList.setSelectToPrint(false);
@@ -237,7 +237,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return Collection<SponsorFormTemplate> collection of
 	 *         SponsorFormTemplate for the given sponsor code.
 	 */
-	private Collection<SponsorFormTemplate> getSponsorTemplates(
+	protected Collection<SponsorFormTemplate> getSponsorTemplates(
 			String sponsorCode) {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(SPONSOR_CODE_DB_KEY, sponsorCode);
@@ -277,7 +277,7 @@ public class PrintServiceImpl implements PrintService {
 		return attachmentDataSource;
 	}
 
-	private String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
+	protected String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(pdDoc.getDocumentNumber());
 		fileName.append(pdDoc.getDevelopmentProposal()
@@ -296,7 +296,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return Collection<SponsorFormTemplateList> collection of
 	 *         SponsorFormTemplateList for the given sponsor code.
 	 */
-	private Collection<SponsorFormTemplateList> getSponsorTemplatesList(
+	protected Collection<SponsorFormTemplateList> getSponsorTemplatesList(
 			String sponsorCode) {
 		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
 		sponsorCodeMap.put(SPONSOR_CODE_DB_KEY, sponsorCode);
@@ -334,7 +334,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return ByteArrayOutputStream[] of the submitted application data.
 	 * @throws S2SException
 	 */
-	private List<Printable> getSubmittedPDFStream(
+	protected List<Printable> getSubmittedPDFStream(
 			ProposalDevelopmentDocument pdDoc) throws S2SException {
 		GrantApplicationDocument submittedDocument;
 		try {
@@ -413,7 +413,7 @@ public class PrintServiceImpl implements PrintService {
 		return formPrintables;
 	}
 
-	private String findSubmittedXml(S2sAppSubmission appSubmission) {
+	protected String findSubmittedXml(S2sAppSubmission appSubmission) {
 	    S2sApplication s2sApplication = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, appSubmission.getProposalNumber());
 	    return s2sApplication.getApplication();
     }
@@ -427,7 +427,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return ByteArrayOutputStream[] PDF byte Array
 	 * @throws S2SException
 	 */
-	private List<Printable> getPDFStream(ProposalDevelopmentDocument pdDoc)
+	protected List<Printable> getPDFStream(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
@@ -501,7 +501,7 @@ public class PrintServiceImpl implements PrintService {
 	 *            List of validation errors which has to be displayed on UI.
 	 */
 
-	private void setValidationErrorMessage(List<AuditError> errors) {
+	protected void setValidationErrorMessage(List<AuditError> errors) {
 		LOG.info("Error list size:" + errors.size() + errors.toString());
 		List<AuditError> auditErrors = new ArrayList<AuditError>();
 		for (AuditError error : errors) {
@@ -530,7 +530,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @throws S2SException
 	 */
 
-	private XmlObject getFormObject(GrantApplicationDocument submittedXml,
+	protected XmlObject getFormObject(GrantApplicationDocument submittedXml,
 			FormMappingInfo info) {
 		XmlObject formObject = null;
 		Forms forms = submittedXml.getGrantApplication().getForms();
@@ -561,7 +561,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return byte[] byte array of attachments based on the contentId object.
 	 */
 
-	private byte[] getAttContent(ProposalDevelopmentDocument pdDoc,
+	protected byte[] getAttContent(ProposalDevelopmentDocument pdDoc,
 			String contentId) {
 		String[] contentIds = contentId.split("-");
 		String[] contentDesc = contentIds[1].split("_");
@@ -595,7 +595,7 @@ public class PrintServiceImpl implements PrintService {
 	 *            {@link ProposalDevelopmentDocument}
 	 * @return {@link S2sAppSubmission}
 	 */
-	private S2sAppSubmission getLatestS2SAppSubmission(
+	protected S2sAppSubmission getLatestS2SAppSubmission(
 			ProposalDevelopmentDocument pdDoc) {
 		S2sAppSubmission s2sSubmission = null;
 		int submissionNo = 0;
@@ -621,7 +621,7 @@ public class PrintServiceImpl implements PrintService {
 	 *            list of S2sOppForms.
 	 * @return List<String> list of sorted name spaces.
 	 */
-	private List<String> getSortedNameSpaces(List<S2sOppForms> s2sOppForms) {
+	protected List<String> getSortedNameSpaces(List<S2sOppForms> s2sOppForms) {
 		List<String> orderedNamespaces = new ArrayList<String>();
 		List<String> namespaces;
 		FormMappingLoader formMappingLoader = new FormMappingLoader();
@@ -667,7 +667,7 @@ public class PrintServiceImpl implements PrintService {
 		this.s2SValidatorService = s2SValidatorService;
 	}
 
-	private boolean isPdfType(byte[] data) {
+	protected boolean isPdfType(byte[] data) {
 		final int ATTRIBUTE_CHUNK_SIZE = 1200;// increased for ppt
 		final String PRE_HEXA = "0x";
 
@@ -714,7 +714,7 @@ public class PrintServiceImpl implements PrintService {
 	/**
 	 * convert int to unsigned byte
 	 */
-	private static byte toUnsignedByte(int intVal) {
+	protected static byte toUnsignedByte(int intVal) {
 		byte byteVal;
 		if (intVal > 127) {
 			int temp = intVal - 256;

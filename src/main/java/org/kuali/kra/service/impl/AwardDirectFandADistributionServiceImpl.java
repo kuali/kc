@@ -44,7 +44,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
  * @param award
  * @return
  */
-   private List<AwardDirectFandADistribution> buildListBasedOnProjectStartAndEndDates(Award award) {
+   protected List<AwardDirectFandADistribution> buildListBasedOnProjectStartAndEndDates(Award award) {
        List<AwardDirectFandADistribution> awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
        Date projectStartDate = award.getBeginDate();
        Date projectEndDate = award.getProjectEndDate();

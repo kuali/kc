@@ -23,8 +23,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ProtocolCustomDataWebTest extends ProtocolWebTestBase {
 
     private static final String GROUP_NAME = "Course Related";
-    private static final String INSTRUCTOR_NAME_ID = "customDataHelper.customAttributeValues(id10)";
-    private static final String INSTRUCTOR_NAME = "Mickey Mouse";
+    private static final String INSTRUCTOR_NAME_FIELD = "customDataHelper.customAttributeValues(id10)";
+    private static final String INSTRUCTOR_NAME_LOOKUP_KEY = "personId";
+    private static final String INSTRUCTOR_NAME_LOOKUP_VALUE = "10000000004";
+    private static final String INSTRUCTOR_NAME = "Nicholas  Majors";
     private static final String COURSE_NAME_ID = "customDataHelper.customAttributeValues(id9)";
     private static final String COURSE_NAME = "Java for Dummies";
 
@@ -36,11 +38,11 @@ public class ProtocolCustomDataWebTest extends ProtocolWebTestBase {
 
         assertContains(customDataPage, GROUP_NAME);
   
-        setFieldValue(customDataPage, INSTRUCTOR_NAME_ID, INSTRUCTOR_NAME);
+        customDataPage = lookup(customDataPage, INSTRUCTOR_NAME_FIELD, INSTRUCTOR_NAME_LOOKUP_KEY, INSTRUCTOR_NAME_LOOKUP_VALUE);
         setFieldValue(customDataPage, COURSE_NAME_ID, COURSE_NAME);
         customDataPage = saveDoc(customDataPage);
         
-        assertContains(customDataPage, "Document was successfully saved.");
+        assertContains(customDataPage, SAVE_SUCCESS_MESSAGE);
         assertContains(customDataPage, INSTRUCTOR_NAME);
         assertContains(customDataPage, COURSE_NAME);
        

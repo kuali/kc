@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +55,29 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
         
         return actionForward;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.irb.ProtocolAction#preSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("Got here to presave in ProtocolSpecialReviewAction!!!!");
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getDocument();
+        for (ProtocolSpecialReview review : document.getProtocol().getSpecialReviews()) {
+            if (review.getExemptionTypeCodes() == null || review.getExemptionTypeCodes().size() == 0) {
+                review.setExemptionTypeCodes(new ArrayList<String>());
+                //delete the codes for this review
+                if (review.getProtocolSpecialReviewId() != null) {
+                    Map values = new HashMap();
+                    values.put("PROTOCOL_SPECIAL_REVIEW_ID", review.getProtocolSpecialReviewId());
+                    this.getBusinessObjectService().deleteMatching(ProtocolSpecialReviewExemption.class, values);
+                }
+            }
+        }
     }
     
     /**

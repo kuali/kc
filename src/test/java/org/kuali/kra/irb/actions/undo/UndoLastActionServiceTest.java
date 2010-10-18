@@ -167,7 +167,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
         undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-            ProtocolSubmissionType.REQUEST_TO_CLOSE);
+            ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -195,7 +195,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
         undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-            ProtocolSubmissionType.REQUEST_TO_CLOSE);
+            ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -236,7 +236,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
         undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestForSuspensionBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
-            ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
+            ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestForSuspensionBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());
@@ -264,7 +264,7 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
         UndoLastActionBean undoLastActionBean = new UndoLastActionBean();
         undoLastActionBean.setComments(COMMENTS);
         ProtocolRequestBean requestToCloseBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
-            ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
+            ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
         protocolRequestService.submitRequest(protocolDocument.getProtocol(), requestToCloseBean);
 
         assertEquals(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT, protocolDocument.getProtocol().getProtocolStatusCode());

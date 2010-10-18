@@ -23,10 +23,10 @@
 	<bean id="CommitteeDecision-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.irb.actions.decision.CommitteeDecision" />
 		<property name="objectLabel" value="Committee Decision" />
-		<property name="titleAttribute" value="CommitteeDecision-motion" />
+		<property name="titleAttribute" value="CommitteeDecision-committeeDecisionMotionTypeCode" />
 		<property name="attributes" >
 			<list>
-			    <ref bean="CommitteeDecision-motion" />
+			    <ref bean="CommitteeDecision-motionTypeCode" />
 			    <ref bean="CommitteeDecision-noCount" />
 			    <ref bean="CommitteeDecision-yesCount" />
 			    <ref bean="CommitteeDecision-abstainCount" />
@@ -38,21 +38,21 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="CommitteeDecision-motion" parent="CommitteeDecision-motion-parentBean" />
-    <bean id="CommitteeDecision-motion-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="motion" />
+	<bean id="CommitteeDecision-motionTypeCode" parent="CommitteeDecision-motionTypeCode-parentBean" />
+    <bean id="CommitteeDecision-motionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="motionTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Motion" />
-        <property name="shortLabel" value="Motion" />
+        <property name="label" value="Motion Type" />
+        <property name="shortLabel" value="Motion Type" />
         <property name="maxLength" value="3" />
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kra.irb.actions.decision.MotionValuesFinder"
+                  p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeDecisionMotionValuesFinder"
                   p:includeKeyInLabel="false" />
         </property>
-        <property name="summary" value="Motion" />
-        <property name="description" value="Motion" />
+        <property name="summary" value="Motion Type" />
+        <property name="description" value="Motion Type" />
     </bean> 
     
 	<bean id="CommitteeDecision-noCount" parent="CommitteeDecision-noCount-parentBean" />

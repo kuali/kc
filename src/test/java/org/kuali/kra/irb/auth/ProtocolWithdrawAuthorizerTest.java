@@ -15,78 +15,49 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Protocol Withdraw Authorizer.
  */
-@Ignore
-@RunWith(JMock.class)
-public class ProtocolWithdrawAuthorizerTest {
-
-    private static final String USERNAME = "quickstart";
-    private static final String PROTOCOL_NUMBER = "0906000001";
-    
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
+public class ProtocolWithdrawAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Test
-    public void testHasPermission() {
-        runTest(PROTOCOL_NUMBER, true, true, true);
+    public void testHasPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, true, true, true);
     }
     
     @Test
-    public void testNotAProtocol() {
-        runTest(PROTOCOL_NUMBER + "A001", true, true, false);
+    public void testNotAProtocol() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER + "A001", true, true, false);
     }
     
     @Test
-    public void testNoPermission() {
-        runTest(PROTOCOL_NUMBER, false, true, false);
+    public void testNoPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, false, true, false);
     }
     
     @Test
-    public void testActionNotAllowed() {
-        runTest(PROTOCOL_NUMBER, true, false, false);
+    public void testActionNotAllowed() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, true, false, false);
     }
     
-    private void runTest(final String protocolNumber, final boolean hasPermission, final boolean isActionAllowed, boolean expected) {
-//        ProtocolWithdrawAuthorizer authorizer = new ProtocolWithdrawAuthorizer();
-//        
-//        final Protocol protocol = context.mock(Protocol.class);
-//        context.checking(new Expectations() {{
-//            allowing(protocol).getProtocolNumber(); will(returnValue(protocolNumber));
-//        }});
-//        
-//        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
-//        context.checking(new Expectations() {{
-//            allowing(authorizationService).hasPermission(USERNAME, protocol, PermissionConstants.SUBMIT_PROTOCOL); will(returnValue(hasPermission));
-//        }});
-//        authorizer.setKraAuthorizationService(authorizationService);
-//        
-//        final ProtocolActionService actionService = context.mock(ProtocolActionService.class);
-//        context.checking(new Expectations() {{
-//            allowing(actionService).isActionAllowed(ProtocolActionType.WITHDRAWN, protocol); will(returnValue(isActionAllowed));
-//        }});
-//        authorizer.setProtocolActionService(actionService);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, protocol);
-//        assertEquals(expected, authorizer.isAuthorized(USERNAME, task));
+    @Override
+    protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
+        ProtocolAuthorizer authorizer = new ProtocolWithdrawAuthorizer();
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.SUBMIT_PROTOCOL, hasPermission));
+        authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.WITHDRAWN, protocolDocument, isActionAllowed));
+        authorizer.setKraWorkflowService(buildKraWorkflowNodeService(protocolDocument, isInWorkflow));
+        return authorizer;
     }
+    
+    @Override
+    protected String getTaskName() {
+        return TaskName.PROTOCOL_WITHDRAW;
+    }
+    
 }

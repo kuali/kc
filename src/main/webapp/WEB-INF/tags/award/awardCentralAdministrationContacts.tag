@@ -22,7 +22,7 @@
 <c:set var="award" value="${KualiForm.document.award}" />
  
 <%-- kra:section permission="modifyAward" --%>
-<kul:tab defaultOpen="false" tabItemCount="${KualiForm.centralAdminContactsBean.centralAdminContactsCount}" 
+<kul:tab defaultOpen="false" tabItemCount="${fn:length(KualiForm.awardDocument.award.centralAdminContacts)}" 
 				tabTitle="Central Administration Contacts" tabErrorKey="centralAdminContactsBean.newAwardContact,document.awardList[0].awardCentralAdminContacts*" >
 	<div class="tab-container" align="center">
 		<h3>
@@ -39,7 +39,7 @@
 				<th width="20%">Email</th>
 			</tr>
 				
-			<c:forEach var="awardContact" items="${KualiForm.centralAdminContactsBean.centralAdminContacts}" varStatus="awardContactRowStatus">
+			<c:forEach var="awardContact" items="${KualiForm.awardDocument.award.centralAdminContacts}" varStatus="awardContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row">
 						<c:out value="${awardContactRowStatus.index + 1}" />

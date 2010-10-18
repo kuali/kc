@@ -21,6 +21,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -28,9 +31,11 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -41,11 +46,13 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class ProtocolSubmissionBuilder {
 
+    private static final Log LOG = LogFactory.getLog(ProtocolSubmissionBuilder.class);
     private static final String NEXT_SUBMISSION_NUMBER_KEY = "submissionNumber";
     private static final String NEXT_SUBMISSION_DOCUMENT_ID_KEY = "submissionDocId";
     
     private ProtocolSubmission protocolSubmission;
     private List<FormFile> attachments = new ArrayList<FormFile>();
+    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     /**
      * Constructs a ProtocolSubmissionBuilder.
@@ -85,6 +92,8 @@ public class ProtocolSubmissionBuilder {
         } else {
             nextSubmissionNumber = protocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);
         }
+        LOG.info("nextsubmissionnumber " + protocol.getProtocolId() + " " 
+                + (CollectionUtils.isEmpty(protocol.getProtocolSubmissions()) ? 0 : protocol.getProtocolSubmissions().size()) + "-" + nextSubmissionNumber);
         return nextSubmissionNumber;
     }
     
@@ -97,8 +106,10 @@ public class ProtocolSubmissionBuilder {
             //old submission may not be found if in a unit test
             //TODO : some of these, such as scheduleid/scheduleidfk, should not be copied over.
             // need to investigate if this is good for app.
-            protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
-            protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
+            // comment scheduleid&scheduleidfk.  this will cause confusing if selected a different committee (or no committee)
+            // then this schedule will not match the selected committee
+            //protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
+            //protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
             protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
             protocolSubmission.setComments(oldSubmission.getComments());
             protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
@@ -124,7 +135,11 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionDate(new Timestamp(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
-        saveAttachments();
+//        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
+            saveAttachments();
+//        } else {
+//            saveAttachments();
+//        }
         return protocolSubmission;
     }
     
@@ -170,7 +185,8 @@ public class ProtocolSubmissionBuilder {
             protocolSubmission.setCommitteeId(committee.getCommitteeId());
             protocolSubmission.setCommitteeIdFk(committee.getId());
             protocolSubmission.setCommittee(committee);
-        }
+        }    
+        
     }
     
     /**
@@ -186,11 +202,18 @@ public class ProtocolSubmissionBuilder {
                 protocolSubmission.setCommitteeSchedule(schedule);
             } else {
                 // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
-                protocolSubmission.setScheduleId(null);
-                protocolSubmission.setScheduleIdFk(null);
-                protocolSubmission.setCommitteeSchedule(null);
+                clearCommScheduleDataFromPreviousSubmission();
             }
+        } else {
+            // this builder also copied some data from previous submission.  if it is not cleared here, then it will cause problem
+            clearCommScheduleDataFromPreviousSubmission();
         }
+    }
+    
+    private void clearCommScheduleDataFromPreviousSubmission() {
+        protocolSubmission.setScheduleId(null);
+        protocolSubmission.setScheduleIdFk(null);
+        protocolSubmission.setCommitteeSchedule(null); 
     }
     
     /**
@@ -245,30 +268,39 @@ public class ProtocolSubmissionBuilder {
      * Add an attachment to the submission.
      * @param file
      */
-    public void addAttachment(FormFile file) {
-        if (file != null) {
-            attachments.add(file);
-        }
-    }
+//    public void addAttachment(FormFile file) {
+//        if (file != null) {
+//            attachments.add(file);
+//        }
+//    }
     
     /**
      * Save the attachments to the database.
      */
-    private void saveAttachments() {
-        for (FormFile file : attachments) {
-            saveAttachment(file);
-        }
-    }
+//    private void saveAttachments() {
+//        for (FormFile file : attachments) {
+//            saveAttachment(file, "");
+//        }
+//    }
     
+    /*
+     * save notify irb attachments.
+     */
+    private void saveAttachments() {
+        for (ProtocolActionAttachment attachment : actionAttachments) {
+            saveAttachment(attachment.getFile(), attachment.getDescription());
+        }
+        
+    }
     /**
      * Save an attachment file to the database.
      * @param file
      */
-    private void saveAttachment(FormFile file) {
+    private void saveAttachment(FormFile file, String description) {
         try {
             byte[] data = file.getFileData();
             if (data.length > 0) {
-                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), data);
+                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), file.getContentType(), data, description);
                 getBusinessObjectService().save(submissionDoc);
             }
         }
@@ -287,7 +319,7 @@ public class ProtocolSubmissionBuilder {
      * @param document
      * @return
      */
-    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, byte[] document) {
+    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
         ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());
@@ -299,6 +331,8 @@ public class ProtocolSubmissionBuilder {
         submissionDoc.setDocumentId(submission.getProtocol().getNextValue(NEXT_SUBMISSION_DOCUMENT_ID_KEY));
         submissionDoc.setFileName(fileName);
         submissionDoc.setDocument(document);
+        submissionDoc.setDescription(description);
+        submissionDoc.setContentType(contentType);
         return submissionDoc;
     }
     
@@ -308,5 +342,13 @@ public class ProtocolSubmissionBuilder {
     
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    public List<ProtocolActionAttachment> getActionAttachments() {
+        return actionAttachments;
+    }
+
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+        this.actionAttachments = actionAttachments;
     }
 }

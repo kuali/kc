@@ -8,7 +8,7 @@
 
 <h3>
     <span class="subhead-left">Generate Batch Correspondence</span>
-    <span class="subhead-right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee Actions" /></span>
+    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.correspondence.BatchCorrespondence" altText="help"/></span>
 </h3>
 
 <table cellpadding="0" cellspacing="0">

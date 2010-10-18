@@ -1129,7 +1129,7 @@ public abstract class KcWebTestBase extends KcUnitTestBase {
     }
     
     /**
-     * Logs a user in via the backdoor.
+     * Logs out and then logs in a new user in via the backdoor.
      * @param username the user's username
      * @return the portal page
      * @throws Exception

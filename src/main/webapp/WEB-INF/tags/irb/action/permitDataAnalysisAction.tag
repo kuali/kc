@@ -22,7 +22,7 @@
 
 <kul:innerTab tabTitle="Data Analysis Only" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolPermitDataAnalysisBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
@@ -56,15 +56,17 @@
                     </td>
                 </tr>
                 
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewComments}"
-                                                       property="actionHelper.protocolPermitDataAnalysisBean.reviewComments"
-                                                       action="${action}"
-                                                       actionName="PermitDataAnalysis"
-                                                       allowReadOnly="${true}" />
-                   </td>
-                </tr>
+                <c:if test="${KualiForm.actionHelper.canAddDataAnalysisReviewerComments}">
+	                <tr>
+	                    <td colspan="2">
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolPermitDataAnalysisBean.reviewComments}"
+	                                                       property="actionHelper.protocolPermitDataAnalysisBean.reviewComments"
+	                                                       action="${action}"
+	                                                       actionName="PermitDataAnalysis"
+	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+	                   </td>
+	                </tr>
+	            </c:if>
                 
                 <tr>
                     <td align="center" colspan="2">
@@ -76,7 +78,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

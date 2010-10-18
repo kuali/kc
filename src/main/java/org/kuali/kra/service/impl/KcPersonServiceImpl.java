@@ -55,7 +55,7 @@ public class KcPersonServiceImpl implements KcPersonService {
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
      */
-    private void modifyFieldValues(final Map<String, String> fieldValues) {
+    protected void modifyFieldValues(final Map<String, String> fieldValues) {
         //convert username and kcpersonid to proper naming such the person service can use them
         if (StringUtils.isNotBlank(fieldValues.get("userName"))){
             String userNameSearchValue = fieldValues.get("userName");
@@ -105,7 +105,7 @@ public class KcPersonServiceImpl implements KcPersonService {
      * @param entities the list of entities
      * @return the list of Kc persons
      */
-    private List<KcPerson> createKcPersonsFrom(List<? extends KimEntity> entities) {
+    protected List<KcPerson> createKcPersonsFrom(List<? extends KimEntity> entities) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
         for (KimEntity entity : entities) {
@@ -117,7 +117,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         return persons;
     }
     
-    private List<KcPerson> createKcPersonsFromPeople(List<PersonImpl> people) {
+    protected List<KcPerson> createKcPersonsFromPeople(List<PersonImpl> people) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
         for (PersonImpl person : people) {

@@ -63,7 +63,7 @@
     <property name="shortLabel" value="Unit"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
       <bean p:size="8" parent="TextControlDefinition"/>

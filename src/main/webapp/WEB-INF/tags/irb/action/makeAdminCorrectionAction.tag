@@ -22,7 +22,7 @@
 <kra:permission value="${KualiForm.actionHelper.canMakeAdminCorrection}">
 
 <kul:innerTab tabTitle="Make Administrative Correction" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolAdminCorrectionBean.*">
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
     	<c:if test="${KualiForm.actionHelper.protocolAdminCorrectionBean.amendmentRenewalOutstanding}">
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tbody>
@@ -85,6 +85,11 @@
 									    <kul:htmlAttributeLabel attributeEntry="${amendmentAttributes.others}" noColon="true"/>
 									</td></tr>
 								</c:if>
+                                <c:if test="${!KualiForm.actionHelper.protocolAdminCorrectionBean.protocolPermissionsEnabled}">
+                                    <tr><td width="100%" style="border-left: 0 none; border-right: 0 none; border-bottom: 0 none;">
+                                        <kul:htmlAttributeLabel attributeEntry="${amendmentAttributes.protocolPermissions}" noColon="true"/>
+                                    </td></tr>
+                                </c:if>
 						</tbody>
    					</table>
    				
@@ -106,37 +111,32 @@
                         <kul:htmlControlAttribute property="actionHelper.protocolAdminCorrectionBean.comments" attributeEntry="${attributes.comments}" />
                         </nobr>
                     </td>
+                </tr>
+                <tr>
+                   <td width="30%">
+						Open Protocol for Administrative Correction:
+	                </td>
                     <td>
 						<div align="center" class="globalbuttons">
 							<html:image property="methodToCall.openProtocolForAdminCorrection.anchor${tabKey}"
 							            src='${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton" />
 						</div>
-	                </td>
-                </tr>
-                <tr>
-                    <th width="30%"> 
-                        <div align="right">
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.applyCorrection}" />
-                        </div>
-                    </th>
-                    <td>
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolAdminCorrectionBean.applyCorrection" attributeEntry="${attributes.applyCorrection}" />
-                        </nobr>
                     </td>
-                    <td><nobr>&nbsp;</nobr></td>
                 </tr>
                 <tr>
-					<td align="center" colspan="3">
+                   <td width="30%">
+						Apply Administrative Correction to Protocol:
+	                </td>
+                    <td>
 						<div align="center">
 							<html:image property="methodToCall.submitAdminCorrection.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
-	                </td>
+                    </td>
                 </tr>
             </tbody>
         </table>
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

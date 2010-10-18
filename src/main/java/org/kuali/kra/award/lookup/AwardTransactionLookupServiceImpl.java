@@ -81,7 +81,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
         return retval;
     }
     
-    private int getAwardAmountInfoIndex(Award award, Long transactionId) {
+    protected int getAwardAmountInfoIndex(Award award, Long transactionId) {
         for (int i = 0; i < award.getAwardAmountInfos().size(); i++) {
             if (ObjectUtils.equals(award.getAwardAmountInfos().get(i).getTransactionId(), transactionId)) {
                 return i;
@@ -90,7 +90,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
         return 0;
     }
     
-    private Award getAwardVersion(String awardNumber, int sequenceNumber) {
+    protected Award getAwardVersion(String awardNumber, int sequenceNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardNumber", awardNumber);
         values.put("sequenceNumber", sequenceNumber);
@@ -102,7 +102,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
         this.businessObjectService = businessObjectService;
     }
 
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

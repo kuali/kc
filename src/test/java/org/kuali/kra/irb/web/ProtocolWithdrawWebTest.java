@@ -15,67 +15,34 @@
  */
 package org.kuali.kra.irb.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
- * Test the simple Request Actions for a Protocol.  These actions are:
- * Request Close, Request a Suspension, Request Close Enrollment, Request Re-open Enrollment,
- * and Request Data Analysis.
+ * Test the Withdraw action for a Protocol
  */
 public class ProtocolWithdrawWebTest extends ProtocolWebTestBase {
 
     private static final String REASON = "this is a test";
     
-    private BusinessObjectService businessObjectService;
-    
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();    
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-    }
-    
     @Test
-    public void testWithdrawal() throws Exception {
-        HtmlPage protocolPage = getProtocolSavedRequiredFieldsPage();
-        HtmlPage protocolActionsPage = clickOnTab(protocolPage, PROTOCOL_ACTIONS_LINK_NAME);
-        
+    public void testWithdraw() throws Exception {
+        HtmlPage protocolActionsPage = getProtocolSubmittedRequiredSubmissionFieldsPage();
         setFieldValue(protocolActionsPage, "actionHelper.protocolWithdrawBean.reason", REASON);
-        
         HtmlPage resultPage = clickOn(protocolActionsPage, "methodToCall.withdrawProtocol.anchor:WithdrawProtocol");
         
         assertNotNull(resultPage);
         assertDoesNotContain(resultPage, ERRORS_FOUND_ON_PAGE);
         
-        String docNbr = this.getDocNbr(resultPage);
+        String docNbr = getDocNbr(resultPage);
         ProtocolDocument protocolDocument = (ProtocolDocument) getDocument(docNbr);
-        
-        // Verify that we created the correct protocol action BO
-        ProtocolAction protocolAction = findProtocolAction(protocolDocument.getProtocol().getProtocolId());
+        ProtocolAction protocolAction = protocolDocument.getProtocol().getLastProtocolAction();
         assertEquals(ProtocolActionType.WITHDRAWN, protocolAction.getProtocolActionTypeCode());
         assertEquals(REASON, protocolAction.getComments());
     }
-    
-    
-    @SuppressWarnings("unchecked")
-    private ProtocolAction findProtocolAction(Long protocolId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
-        
-        assertEquals(1, actions.size());
-        ProtocolAction action = actions.get(0);
-        return action;
-    }
+
 }

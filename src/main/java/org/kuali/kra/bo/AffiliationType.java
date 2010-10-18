@@ -26,6 +26,7 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -2684716208059362103L;
     private Integer affiliationTypeCode; 
 	private String description; 
+	private boolean active;
 	
 	public AffiliationType() { 
 
@@ -47,12 +48,21 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-	/**  {@inheritDoc} */
+	public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**  {@inheritDoc} */
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("affiliationTypeCode", this.getAffiliationTypeCode());
 		hashMap.put("description", this.getDescription());
+		hashMap.put("active", this.isActive());
 		return hashMap;
 	}
 
@@ -92,6 +102,10 @@ public class AffiliationType extends KraPersistableBusinessObjectBase {
             }
         } else if (!this.description.equals(other.description)) {
             return false;
+        }
+        
+        if (this.isActive() != other.isActive()) {
+           return false; 
         }
         return true;
     }

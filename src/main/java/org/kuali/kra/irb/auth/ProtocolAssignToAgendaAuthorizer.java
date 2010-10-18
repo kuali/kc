@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -30,7 +31,9 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
         Protocol protocol = task.getProtocol();
-        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) && isAssignedToCommittee(protocol)
+        return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument())
+                && kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
+                && isAssignedToCommittee(protocol)
                 && hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -53,13 +56,16 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
      */
     private ProtocolSubmission findSubmission(Protocol protocol) {
 
+        // need to loop thru to find the last submission.
+        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
+        ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
                     || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
+                protocolSubmission = submission;
             }
         }
-        return null;
+        return protocolSubmission;
     }
 
 

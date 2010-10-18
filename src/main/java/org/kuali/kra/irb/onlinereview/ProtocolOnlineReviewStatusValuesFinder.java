@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
 
@@ -34,7 +35,10 @@ public class ProtocolOnlineReviewStatusValuesFinder extends IrbActionsKeyValuesB
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
         for (ProtocolOnlineReviewStatus status : reviewStatusCodes) {
-            keyValues.add(new KeyLabelPair(status.getStatusCode(), status.getDescription()));
+            //we do not want users to assign the cancelled code.
+            if (!StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, status.getStatusCode())) {
+                keyValues.add(new KeyLabelPair(status.getStatusCode(), status.getDescription()));
+            }
         }
         return keyValues;
     }

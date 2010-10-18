@@ -48,8 +48,10 @@ public class LookupReturnValuesFinder extends KeyValuesBase {
                 GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
             }
             else {
-                lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
-                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+                if (lookupClass != null) {
+                    lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
+                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+                }
             }
         }
         catch (Exception e) {

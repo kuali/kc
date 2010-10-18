@@ -32,6 +32,7 @@ public class ProtocolModule extends KraPersistableBusinessObjectBase {
     public static final String PROTOCOL_ORGANIZATIONS = "017";
     public static final String OTHERS = "023";
     public static final String FUNDING_SOURCE = "024";
+    public static final String PROTOCOL_PERMISSIONS = "025";
     
     private String protocolModuleCode;
     

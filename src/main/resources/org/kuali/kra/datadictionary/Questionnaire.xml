@@ -29,6 +29,9 @@
         <property name="lookupDefinition" >
             <ref bean="Questionnaire-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-QUESTIONNAIRE" p:parameterName="questionnaireQuestionnaireHelpUrl" p:parameterDetailType="D" />
+        </property>
         <property name="titleAttribute" value="questionnaireId" />
         <property name="attributes" >
             <list>

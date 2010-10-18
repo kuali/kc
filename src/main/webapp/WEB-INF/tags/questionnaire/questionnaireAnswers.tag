@@ -20,8 +20,8 @@
 
 <kul:tab tabTitle="${tabTitle}"
 					 tabErrorKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}]*"
-					 auditCluster="requiredFieldsAuditErrors" 
-					 tabAuditKey="" 
+					 auditCluster="mandatoryQuestionnaireAuditErrors" 
+					 tabAuditKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[0].answer" 
 					 useRiceAuditMode="true"
 			         tabDescription=""
 			         defaultOpen="${showQuestions}" 
@@ -40,11 +40,11 @@
  	        <html:image property="methodToCall.printQuestionnaireAnswer.line${answerHeaderIndex}.anchor"
 	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
    alt="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
-   <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.answer.AnswerHeader">
+   <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
    <img styleClass="tinybutton"
   alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
    <%--  when using this tag, the 'print' and '?' is not aligning well.
-   <kul:help businessObjectClassName="org.kuali.kra.questionnaire.answer.AnswerHeader" altText="help"/>
+   <kul:help businessObjectClassName="org.kuali.kra.questionnaire.question.Question" altText="help"/>
    --%> 
    </span>
         </h3>

@@ -126,6 +126,21 @@ public class ReviewerComments implements Serializable {
     }
     
     /**
+     * Returns the comments filtered by the protocolId.
+     * @param protocolId
+     * @return
+     */
+    public List<CommitteeScheduleMinute> getCommentsForCurrentProtocol() {
+        List<CommitteeScheduleMinute> commentsForProtocol = new ArrayList<CommitteeScheduleMinute>();
+        for (CommitteeScheduleMinute comment : comments) {
+            if (protocolId.equals(comment.getProtocolId())) {
+                commentsForProtocol.add(comment);
+            }
+        }
+        return commentsForProtocol;
+    }
+    
+    /**
      * 
      * This method changes the position of one element in the collection by one value.
      * @param index the integer value of the position in the collection to act upon.

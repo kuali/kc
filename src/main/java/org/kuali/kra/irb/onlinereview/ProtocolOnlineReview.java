@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -66,12 +67,18 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
     private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
     
     //lookup fields
-    private transient String lookupProtocolNumber;
+    //private transient String lookupProtocolNumber;
+    private transient Protocol lookupProtocol;
     private transient Integer lookupReviewerRolodexId;
     private transient Rolodex lookupReviewerRolodex;
     private transient String lookupReviewerPersonId;
     private transient KcPerson lookupReviewerPerson;
-    //private transient String lookupReviewerFullName;
+    private transient String lookupProtocolOnlineReviewStatusCode;
+    
+    
+    public ProtocolOnlineReview() {
+        this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinute>();
+    }
     
     /**
      * Gets the protocolReviewId attribute. 
@@ -414,21 +421,21 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         this.protocolOnlineReviewId = null;
     }
 
-    /**
-     * Gets the lookupProtocolNumber attribute. 
-     * @return Returns the lookupProtocolNumber.
-     */
-    public String getLookupProtocolNumber() {
-        return protocol.getProtocolNumber();
-    }
-
-    /**
-     * Sets the lookupProtocolNumber attribute value.
-     * @param lookupProtocolNumber The lookupProtocolNumber to set.
-     */
-    public void setLookupProtocolNumber(String lookupProtocolNumber) {
-        this.lookupProtocolNumber = lookupProtocolNumber;
-    }
+//    /**
+//     * Gets the lookupProtocolNumber attribute. 
+//     * @return Returns the lookupProtocolNumber.
+//     */
+//    public String getLookupProtocolNumber() {
+//        return protocol.getProtocolNumber();
+//    }
+//
+//    /**
+//     * Sets the lookupProtocolNumber attribute value.
+//     * @param lookupProtocolNumber The lookupProtocolNumber to set.
+//     */
+//    public void setLookupProtocolNumber(String lookupProtocolNumber) {
+//        this.lookupProtocolNumber = lookupProtocolNumber;
+//    }
 
     /**
      * Gets the lookupReviewerRolodexId attribute. 
@@ -515,5 +522,27 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
         //this.loopReviewerFullName = loopReviewerFullName;
     }
        
-    
+    /*
+     * Returns if the review is active or not.
+     * If the review has a status code of 'X' we return false;
+     */
+    public boolean isActive() {
+        return !StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD,getProtocolOnlineReviewStatusCode());
+    }
+
+    public Protocol getLookupProtocol() {
+        return lookupProtocol;
+    }
+
+    public void setLookupProtocol(Protocol lookupProtocol) {
+        this.lookupProtocol = lookupProtocol;
+    }
+
+    public String getLookupProtocolOnlineReviewStatusCode() {
+        return lookupProtocolOnlineReviewStatusCode;
+    }
+
+    public void setLookupProtocolOnlineReviewStatusCode(String lookupProtocolOnlineReviewStatusCode) {
+        this.lookupProtocolOnlineReviewStatusCode = lookupProtocolOnlineReviewStatusCode;
+    }
 }

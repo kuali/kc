@@ -208,7 +208,7 @@ public class UnitServiceImpl implements UnitService {
         
     }
 
-    private String getSubUnits (Unit unit, int level) {
+    protected String getSubUnits (Unit unit, int level) {
         String subUnits="";
         int parentNum = numberOfUnits;
         level--;

@@ -72,7 +72,7 @@ public class CustomAttributeLookupHelperServiceImpl extends KualiLookupableHelpe
         return htmlDataList;
     }
 
-    private Map<String, String> getDocumentTypeMap() {
+    protected Map<String, String> getDocumentTypeMap() {
         Map<String, String> documentTypes = new HashMap<String, String>();
         for (String documentType : documentTypeParam) {
             String[] params = documentType.split(EQUAL_CHAR);
@@ -82,7 +82,7 @@ public class CustomAttributeLookupHelperServiceImpl extends KualiLookupableHelpe
 
     }
 
-    private Map<String, String> getReverseDocumentTypeMap() {
+    protected Map<String, String> getReverseDocumentTypeMap() {
         Map<String, String> documentTypes = new HashMap<String, String>();
         for (String documentType : documentTypeParam) {
             String[] params = documentType.split(EQUAL_CHAR);

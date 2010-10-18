@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -226,6 +226,37 @@ public class ProtocolAttachmentHelper {
         
         if (this.versioningUtil.versioningRequired()) {
             this.versioningUtil.versionExstingAttachments();
+        }
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param parameterMap
+     */
+    public void fixReloadedAttachments(Map parameterMap) {
+        Iterator keys = parameterMap.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next().toString();
+            String fieldNameStarter = "protocolRefreshButtonClicked";
+            try{
+                if (key.indexOf(fieldNameStarter) > -1) {
+                    //we have a refresh button checker field
+                    String fieldValue = ((String[]) parameterMap.get(key))[0];
+                    if ("T".equals(fieldValue)) {
+                        //a refresh button has been clicked, now we just need to update the appropriate attachment status code
+                        int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
+                        String documentStatusCode = this.getProtocol().getAttachmentProtocols().get(numericVal).getDocumentStatusCode();
+                        if (StringUtils.isBlank(documentStatusCode) || "3".equals(documentStatusCode)) {
+                            this.getProtocol().getAttachmentProtocols().get(numericVal).setDocumentStatusCode("1");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+              //we could get an exception from the getting of the integer, or from the collection not having the integer in it's index/
+              //do nothing.
+              e.printStackTrace();
+            }
         }
     }
     

@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.math.BigInteger;
+import java.sql.Date;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,11 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
-import org.kuali.rice.core.util.CollectionUtils;
 
+import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
 import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
 import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
@@ -47,10 +49,21 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Protocol protocol = (Protocol)printableBusinessObject;
+        RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;
         RenewalReminder renewalReminder = RenewalReminder.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
-        Committee committee = getBusinessObjectService().findBySinglePrimaryKey(Committee.class, committeeId);
+        Committee committee = null;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("committeeId", committeeId);
+        Collection<Committee> committees = getBusinessObjectService().findMatching(Committee.class, fieldValues);
+        if (committees.size() > 0) {
+            /*
+             * Return the most recent approved committee (i.e. the committee version with the highest 
+             * sequence number that is approved/in the database).
+             */
+            committee = (Committee) Collections.max(committees);
+        }
         CommitteeMasterData committeeMasterData = CommitteeMasterData.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
@@ -67,6 +80,11 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
             }
         }
 
+        if (reportParameters.get("protoCorrespTypeCode") != null &&
+                ("23".equals((String)reportParameters.get("protoCorrespTypeCode")) || "24".equals((String)reportParameters.get("protoCorrespTypeCode")))){  
+            setActionDate(protocol);
+        }
+
        if (reportParameters.get("submissionNumber") ==null ){    
           renewalReminder.setProtocol(protocolXmlStream.getProtocol(protocol)) ;
        }else{
@@ -74,10 +92,21 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
                                                    (Integer)reportParameters.get("submissionNumber"))) ;
        }
        Map<String,XmlObject> xmlObjectMap = new HashMap<String,XmlObject>();
-       xmlObjectMap.put("Renewal reminder", renewalReminder);
+       renewalReminderDocument.setRenewalReminder(renewalReminder);
+       xmlObjectMap.put("Renewal reminder", renewalReminderDocument);
        return xmlObjectMap;
     }
 
+    private void setActionDate(Protocol protocol) {
+       for (ProtocolAction action : protocol.getProtocolActions()) {
+           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
+                   ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
+               protocol.setExpirationDate(new Date(action.getActionDate().getTime()));
+           }
+           
+       }
+    }
+    
     public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
     }

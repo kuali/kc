@@ -81,6 +81,7 @@ import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -102,6 +103,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     private static final String PROTOCOL_PIID_FORM_ELEMENT="protocolHelper.personId";
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId";
+    private static final String PROTOCOL_DOC_LUN_FORM_ELEMENT = "document.protocolList[0].leadUnitNumber";
 
 // TODO : move these static constant up to parent 
     @Override
@@ -145,6 +147,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         retval &= new ProtocolResearchAreaAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
+        retval &= new ProtocolQuestionnaireAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         return retval;
     }
 
@@ -166,6 +169,9 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         if (StringUtils.isNotBlank(protocol.getLeadUnitNumber())) {
             Unit unit = getUnitService().getUnit(protocol.getLeadUnitNumber());
             if (unit == null) {
+                if (getErrorReporter().propertyHasErrorReported(PROTOCOL_DOC_LUN_FORM_ELEMENT)) {
+                    getErrorReporter().removeErrors(PROTOCOL_DOC_LUN_FORM_ELEMENT);
+                }
                 reportError(PROTOCOL_LUN_FORM_ELEMENT, KeyConstants.ERROR_PROTOCOL_LEAD_UNIT_NUM_INVALID);
                 isValid = false;
             }

@@ -30,6 +30,11 @@ SELECT MAX(ID), (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Open Docu
 
 INSERT INTO KRIM_PERM_ID_S VALUES (NULL);
 
+INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD, OBJ_ID)
+SELECT MAX(ID), (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Perform Document Action' AND NMSPC_CD = 'KC-IDM'), 'Protocol Review Not Required', 'permission for marking protocol as review not required', 'Y', 'KC-PROTOCOL', UUID() FROM KRIM_PERM_ID_S;
+
+INSERT INTO KRIM_PERM_ID_S VALUES (NULL);
+
 INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID) 
 SELECT MAX(ID), (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Populate Group' AND NMSPC_CD = 'KR-IDM'), 'KC-SYS', 'Populate KC Groups', 'Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KC.','Y',1,UUID() FROM KRIM_PERM_ID_S;
 

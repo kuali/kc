@@ -631,6 +631,11 @@
 		</dependency>
 		<dependency>                    
 			<groupId>org.kuali.kra.s2s</groupId>                    
+			<artifactId>gg-forms6</artifactId>             
+			<version>1.0</version>                 
+		</dependency>
+		<dependency>                    
+			<groupId>org.kuali.kra.s2s</groupId>                    
 			<artifactId>gg-system</artifactId>                    
 			<version>1.0</version>                
 		</dependency>

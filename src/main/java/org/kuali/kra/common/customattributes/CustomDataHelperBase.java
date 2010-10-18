@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
  */
 public abstract class CustomDataHelperBase implements Serializable {
-    
+        
     private SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
     private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();
    
@@ -67,17 +67,28 @@ public abstract class CustomDataHelperBase implements Serializable {
                 getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
             }
 
-            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(customAttrGroupName);
 
             if (customAttributeDocumentList == null) {
                 customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, customAttributeDocumentList);
+                customAttributeGroups.put(customAttrGroupName, customAttributeDocumentList);
             }
             customAttributeDocumentList.add(customAttributeDocument);
         }
 
         setCustomAttributeGroups(customAttributeGroups);
+    }
+    
+    /**
+     * 
+     * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
+     * Note, data entry may create a null group name, which is invalid with the Map funcitons.
+     * @param groupName
+     * @return
+     */
+    public String getValidCustomAttributeGroupName(String groupName) {
+        return groupName != null ? groupName : "Custom Data Group";
     }
     
     /**
@@ -132,6 +143,14 @@ public abstract class CustomDataHelperBase implements Serializable {
      */
     public Map<String, String[]> getCustomAttributeValues() {
         return customAttributeValues;
+    }
+    
+    /**
+     * Clears the custom attribute value for the specified customAttributeId.
+     * @param customAttributeId The customAttributeId to clear
+     */
+    public void clearCustomAttributeValue(String customAttributeId) {
+        customAttributeValues.put("id" + customAttributeId, new String[]{""});
     }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {

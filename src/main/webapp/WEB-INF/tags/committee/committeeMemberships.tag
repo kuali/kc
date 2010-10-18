@@ -92,7 +92,7 @@
                          <div class="tab-container" align="center" id="G100">
                              <h3>
                                  <span class="subhead-left"><bean:write name="KualiForm" property="${committeeMembershipProperty}.personName" /></span>
-                                 <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Committee" altText="help" /></span>
+                                 <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeMembership" altText="help" /></span>
                              </h3>
                              <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
                              <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />

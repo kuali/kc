@@ -46,7 +46,7 @@
 				  	</c:if>
 				</c:forEach>
 				<c:set var="customAttributeId" value="customDataHelper.customAttributeValues(id${customAttributeDocument.customAttributeId})" />
-          	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
+          	    <c:set var="customAttributeErrorStyle" value="" scope="request"/>
 				<c:forEach items="${ErrorPropertyList}" var="key">
 				    <c:if test="${key eq customAttributeId}">
 					  <c:set var="customAttributeErrorStyle" value="border-color: red" scope="request"/>
@@ -76,8 +76,12 @@
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
                             <c:out value="${customAttributeValue}" />
 							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
+						
+						    <c:if test="${not empty customAttributeValue}">
+                                <html:image property="methodToCall.clearLookupValue" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
+                            </c:if>
 						</c:if>
-					
+						
 						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
 				            <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${customAttributeId}_datepicker" style="cursor: pointer;"
 				             title="Date selector" alt="Date selector"
