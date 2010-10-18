@@ -1068,7 +1068,7 @@ INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,
 VALUES ('KUALI','KC-PROTOCOL','D','protocolAvailableActionsHelpUrl',1,'HELP','default.htm?turl=Documents/requestanaction.htm','Protocol Available Actions Help','A','9CA94CAF7D144927A99063000D6BDB99');
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
-VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionnaireHelp',1,'HELP','default.htm?turl=Documents/questionnaire1.htm','Questionnaire Page Help','A','A4A84A5E68C4432C8338418733EB0EC3');
+VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionnaireHelpUrl',1,'HELP','default.htm?turl=Documents/questionnaire1.htm','Questionnaire Page Help','A','A4A84A5E68C4432C8338418733EB0EC3');
 
 INSERT INTO KRNS_PARM_T (APPL_NMSPC_CD,NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,VER_NBR,PARM_TYP_CD,TXT,PARM_DESC_TXT,CONS_CD,OBJ_ID) 
 VALUES ('KUALI','KC-QUESTIONNAIRE','D','questionnaireQuestionHelpUrl',1,'HELP','default.htm?turl=Documents/question.htm','Questionnaire Question Help','A','B266CFC3582F4E8FB84EB60F267C8988');
