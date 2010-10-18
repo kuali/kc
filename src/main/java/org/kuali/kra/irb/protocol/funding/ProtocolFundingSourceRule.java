@@ -76,13 +76,13 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
         if (StringUtils.isBlank(fundingSourceNumber)) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND); 
-        }      
-        if (fundingSourceType != null && !getProtocolFundingSourceService().isValidIdForType(fundingSource)) {
+        } else if (fundingSourceType != null && !getProtocolFundingSourceService().isValidIdForType(fundingSource)) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE, 
                     fundingSource.getFundingSourceType().getDescription(), fundingSourceNumber);      
         }         
-        if (StringUtils.isBlank(fundingSourceName)) {
+        if (StringUtils.isBlank(fundingSourceName) && fundingSource.getFundingSourceTypeCode() != null 
+                && getProtocolFundingSourceService().updateSourceNameEditable(fundingSource.getFundingSourceTypeCode().toString())) {
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND);         
         }

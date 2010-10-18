@@ -27,6 +27,7 @@ public class AssignedRole {
     
     private Role role;
     private List<String> userNames = new ArrayList<String>();
+    private List<User> users = new ArrayList<User>();
     
     public AssignedRole(Role role) {
         this.role = role;
@@ -45,14 +46,15 @@ public class AssignedRole {
      * The userName is added in alphabetical order.
      * @param userName the userName to add
      */
-    public void add(String userName) {
-        int index = userNames.size();
-        for (int i = 0; i < userNames.size(); i++) {
-            if (userName.compareTo(userNames.get(i)) < 0) {
+    public void add(User user) {
+        int index = users.size();
+        for (int i = 0; i < users.size(); i++) {
+            if (user.getPerson().getLastName().compareTo(users.get(i).getPerson().getLastName())  < 0) {
                 index = i;
                 break;
             }
         }
-        userNames.add(index, userName);
+        users.add(index, user);
+        userNames.add(index, user.getPerson().getFullName());
     }
 }

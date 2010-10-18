@@ -198,7 +198,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         return countryCodeDataType;
     }
     
-    private static CountryService getCountryService() {
+    protected static CountryService getCountryService() {
         return KraServiceLocator.getService(CountryService.class);
     }
 
@@ -217,7 +217,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         return stateCodeDataType;
     }
     
-    private static StateService getStateService() {
+    protected static StateService getStateService() {
         return KraServiceLocator.getService(StateService.class);
     }
 
@@ -228,7 +228,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
      * @param format String
      * @return formatted date string
      */
-    private String formatDate(String dateStr, String formatStr) {
+    protected String formatDate(String dateStr, String formatStr) {
         int year = 0;
         int month = 0;
         int day = 0;

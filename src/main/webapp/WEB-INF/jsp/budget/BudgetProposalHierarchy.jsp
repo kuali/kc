@@ -14,14 +14,47 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ page language="java" %> 
+
+<c:set var="readOnly" value="true" scope="request" />
+<c:set var="hierarchySummaries" value="${KualiForm.hierarchyProposalSummaries}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}ProposalHierarchy"
 	documentTypeName="${KualiForm.docTypeName}"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="proposalHierarchy">
+  	headerTabActive="hierarchy"
+  	extraTopButtons="${KualiForm.extraTopButtons}"
+  	showTabButtons="false">
 
-	<center>Under Construction</center>
+<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Proposal Hierarchy" /></div>
+	
+<c:forEach var="summary" items="${hierarchySummaries}" varStatus="status">
+	<c:set var="proposalNumber" value="${KualiForm.hierarchyProposalSummaries[status.index].proposalNumber}"/>
+	<c:choose>
+		<c:when test="${status.index eq 0}">
+			<kul:tabTop tabTitle="Parent (Proposal # ${proposalNumber})" defaultOpen="false" >
+				<kra-ph:proposalSummaryBody proposalNumber="${proposalNumber}" />
+			</kul:tabTop>
+		</c:when>
+		<c:otherwise>
+			<c:choose>
+				<c:when test="${KualiForm.hierarchyProposalSummaries[status.index].synced}">
+					<c:set var="syncLabel" value="Synced" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="syncLabel" value="Not synced" />
+				</c:otherwise>
+			</c:choose>	
+			<kul:tab tabTitle="Child (Proposal # ${proposalNumber})" tabDescription="${syncLabel}" defaultOpen="false" >
+				<kra-ph:proposalSummaryBody proposalNumber="${proposalNumber}" />
+			</kul:tab>		
+		</c:otherwise>
+	</c:choose>
+</c:forEach>
+
+<kul:panelFooter />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 </kul:documentPage>

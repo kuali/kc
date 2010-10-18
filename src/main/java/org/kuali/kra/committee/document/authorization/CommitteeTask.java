@@ -23,7 +23,7 @@ import org.kuali.kra.infrastructure.TaskGroupName;
  * A Committee Task is a task that performs an action against a
  * Committee.  To assist authorization, the Committee is available.
  */
-public final class CommitteeTask extends Task {
+public class CommitteeTask extends Task {
     
     private Committee committee;
     

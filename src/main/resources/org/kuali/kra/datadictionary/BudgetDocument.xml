@@ -71,6 +71,15 @@
           <property name="headerTabDisplayName" value="Modular Budget"/>
           <property name="headerTabNavigateTo" value="modularBudget"/>
         </bean>
+        
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetBudgetHierarchyHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Proposal Hierarchy"/>
+          <property name="headerTabNavigateTo" value="hierarchy"/>
+        </bean>
+        
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetActionsHelp" p:parameterDetailType="D"/>

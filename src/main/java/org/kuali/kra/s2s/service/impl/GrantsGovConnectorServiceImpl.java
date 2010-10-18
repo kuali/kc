@@ -239,7 +239,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    private ApplicantIntegrationPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
+    protected ApplicantIntegrationPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
         Map<String, String> proposalMap = new HashMap<String, String>();
         proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
         DevelopmentProposal pdDoc = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
@@ -260,7 +260,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
      * @throws S2SException
      */
-    private ApplicantIntegrationPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
+    protected ApplicantIntegrationPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
                                                                                 throws S2SException {
         System.clearProperty("java.protocol.handler.pkgs");
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
@@ -296,7 +296,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * This method...
      * @param tlsConfig
      */
-    private void setPossibleCypherSuites(TLSClientParameters tlsConfig) {
+    protected void setPossibleCypherSuites(TLSClientParameters tlsConfig) {
         FiltersType filters = new FiltersType();
         filters.getInclude().add("SSL_RSA_WITH_RC4_128_MD5");
         filters.getInclude().add("SSL_RSA_WITH_RC4_128_SHA");
@@ -325,7 +325,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @throws FileNotFoundException
      * @throws UnrecoverableKeyException
      */
-    private void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
+    protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
             throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, FileNotFoundException,
             UnrecoverableKeyException {
         KeyStore keyStore = KeyStore.getInstance("JKS");
@@ -368,7 +368,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @throws S2SException if unable to read property file
      */
 
-    private String getS2SSoapHost() throws S2SException {
+    protected String getS2SSoapHost() throws S2SException {
         StringBuilder host = new StringBuilder();
         host.append(s2SUtilService.getProperty(GRANTS_GOV_HOST));
         String port = s2SUtilService.getProperty(GRANTS_GOV_PORT);

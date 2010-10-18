@@ -15,18 +15,16 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The View Protocol Authorizer determines if a user has the right
+ * The Add Protocol Notes Authorizer determines if a user has the right
  * to create protocol notes
  */
-public class AddProtocolNotesAuthorizer extends ProtocolAuthorizer {
+public class AddProtocolNotesAuthorizer extends ModifyAmendmentAuthorizer {
 
-    /** {@inheritDoc} */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !isPessimisticLocked(task.getProtocol().getProtocolDocument())
-               && hasPermission(userId, task.getProtocol(), PermissionConstants.ADD_PROTOCOL_NOTES);
+    protected AddProtocolNotesAuthorizer() {
+        super(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
     }
 
 }

@@ -61,7 +61,9 @@
 		</property>
 	</bean>
 
-    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
+    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" >                    
+    	<property name="workflowUtility" ref="workflowUtilityService" />
+    </bean>
 
 	<bean id="kcService" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition"
 		abstract="true">
@@ -507,7 +509,7 @@
 				<property name="localServiceName" value="institutionalUnitService" />
 				<property name="serviceInterface"
 					value="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
-				<property name="busSecurity" value="false" />
+				<property name="busSecurity" value="true" />
 				<property name="retryAttempts" value="1" />
 			</bean>
 		</property>
@@ -519,7 +521,7 @@
 				<property name="service" ref="institutionalUnitService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="institutionalUnitSoapService" />
-				<property name="busSecurity" value="false" />
+				<property name="busSecurity" value="true" />
 				<property name="jaxWsService" value="true" />
 			</bean>
 		</property>

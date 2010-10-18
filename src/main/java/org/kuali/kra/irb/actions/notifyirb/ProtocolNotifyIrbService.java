@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.notifyirb;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Protocol Notify IRB Service.
@@ -29,5 +30,5 @@ public interface ProtocolNotifyIrbService {
      * @param protocol the protocol
      * @param notifyIrbBean the irb notification data
      */
-    public void submitIrbNotification(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean);
+    public void submitIrbNotification(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) throws WorkflowException ;
 }

@@ -28,6 +28,9 @@
 		<property name="lookupDefinition">
 			<ref bean="CommitteeScheduleMinute-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingMinutesHelpUrl" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="commScheduleMinutesId" />
 		<property name="attributes">
 			<list>
@@ -233,6 +236,7 @@
 		<property name="label" value="Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="4000" />
+		<property name="required" value="true" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" 
 			      p:allowWhitespace="true" />

@@ -75,7 +75,7 @@ public class KeywordsServiceImpl implements KeywordsService {
      * @param keywords
      * @return
      */
-    private boolean isDuplicateKeyword(String newScienceKeywordCode, List<AbstractScienceKeyword> keywords) {
+    protected boolean isDuplicateKeyword(String newScienceKeywordCode, List<AbstractScienceKeyword> keywords) {
         for (AbstractScienceKeyword abstractScienceKeyword : keywords) {
             if(newScienceKeywordCode.equals(abstractScienceKeyword.getScienceKeywordCode())){
                 return true;

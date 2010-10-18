@@ -91,7 +91,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
      * @return
      */
     @SuppressWarnings("unchecked")
-    private Collection<ProtocolReviewerType> getReviewerTypesFromDatabase() {
+    protected Collection<ProtocolReviewerType> getReviewerTypesFromDatabase() {
         return businessObjectService.findAll(ProtocolReviewerType.class);
     }
     
@@ -101,7 +101,7 @@ public class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService 
      * @param ajaxList
      * @return
      */
-    private String clipLastChar(StringBuffer ajaxList) {
+    protected String clipLastChar(StringBuffer ajaxList) {
         if (ajaxList.length() == 0) {
             return ajaxList.toString();
         }

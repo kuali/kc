@@ -99,6 +99,29 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         htmlData.setHref(href);
         return htmlData;
     }
+    
+    /**
+     * 
+     * @param document
+     * @param methodToCall method to call on action
+     * @param linkName 
+     * @param readOnly whether the document should be readOnly or not
+     * @return
+     */
+    protected AnchorHtmlData getCustomLink(Document document, String methodToCall, String linkName, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(linkName);
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        parameters.put(KNSConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", document.getDocumentNumber());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+    }
 
     
     /**

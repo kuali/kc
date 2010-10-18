@@ -746,7 +746,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            Proposal Development Document.
 	 * @return {@link List} of {@link OtherPersonnelInfo}
 	 */
-	private List<OtherPersonnelInfo> getOtherPersonnel(
+	protected List<OtherPersonnelInfo> getOtherPersonnel(
 			BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc) {
 		List<OtherPersonnelInfo> cvOtherPersonnel = new ArrayList<OtherPersonnelInfo>();
 		cvOtherPersonnel.add(getOtherPersonnelDetails(budgetPeriod, pdDoc,
@@ -789,7 +789,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            role of the proposal person.
 	 * @return OtherPersonnelInfo information about the other personnel.
 	 */
-	private OtherPersonnelInfo getOtherPersonnelDetails(
+	protected OtherPersonnelInfo getOtherPersonnelDetails(
 			BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc,
 			String category, String personnelType, String role) {
 		OtherPersonnelInfo otherPersonnelInfo = new OtherPersonnelInfo();
@@ -1011,7 +1011,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 * @return IndirectCostInfo for the corresponding BudgetPeriod object.
 	 */
 	// TODO: method too long - should be broken down into smaller units.
-	private IndirectCostInfo getInDirectCosts(Budget budget,
+	protected IndirectCostInfo getInDirectCosts(Budget budget,
 			BudgetPeriod budgetPeriod) {
 		List<IndirectCostDetails> indirectCostDetailList = new ArrayList<IndirectCostDetails>();
 		IndirectCostDetails indirectCostDetails;
@@ -1154,7 +1154,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *         corresponding to the BudgetPeriod object.
 	 */
 	// TODO: method too long - should be broken down into smaller units.
-	private List<OtherDirectCostInfo> getOtherDirectCosts(
+	protected List<OtherDirectCostInfo> getOtherDirectCosts(
 			BudgetPeriod budgetPeriod, String sponsor) {
 		OtherDirectCostInfo otherDirectCostInfo = new OtherDirectCostInfo();
 
@@ -1574,7 +1574,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 * @return List<EquipmentInfo> list of equipment cost corresponding to the
 	 *         BudgetPeriod object.
 	 */
-	private List<EquipmentInfo> getEquipment(BudgetPeriod budgetPeriod) {
+	protected List<EquipmentInfo> getEquipment(BudgetPeriod budgetPeriod) {
 		List<CostInfo> cvExtraEquipment = new ArrayList<CostInfo>();
 		CostInfo equipCostInfo;
 		List<BudgetCategoryMap> budgetCategoryMapList = getBudgetCategoryMapList(
@@ -1679,7 +1679,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            number of key persons.
 	 * @return List<List<KeyPersonInfo>> list of KeyPersonInfo list.
 	 */
-	private List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriod budgetPeriod,
+	protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriod budgetPeriod,
 			ProposalDevelopmentDocument pdDoc, int numKeyPersons) {
 		List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
 		KeyPersonInfo keyPerson = new KeyPersonInfo();
@@ -1907,7 +1907,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		return listKeyPersons;
 	}
 
-	private boolean budgetPersonExistInProposalPersons(
+	protected boolean budgetPersonExistInProposalPersons(
 			BudgetPerson budgetPerson, List<ProposalPerson> propPersons) {
 		for (ProposalPerson propPerson:propPersons) {
 			if (budgetPerson.getPersonId() != null) {
@@ -1936,7 +1936,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 		return proposalPerson.getPersonId() == null;
 	}
 
-	private List<BudgetCategoryMapping> getBudgetCategoryMappings(
+	protected List<BudgetCategoryMapping> getBudgetCategoryMappings(
 			Map<String, String> conditionMap) {
 		Collection<BudgetCategoryMapping> budgetCategoryCollection = businessObjectService
 				.findMatching(BudgetCategoryMapping.class, conditionMap);
@@ -1962,7 +1962,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 * @return {@link CompensationInfo} corresponding to the
 	 *         personId,budgetPeriod and proposalNumber.
 	 */
-	private CompensationInfo getCompensation(KeyPersonInfo keyPerson,
+	protected CompensationInfo getCompensation(KeyPersonInfo keyPerson,
 			BudgetPeriod budgetPeriod, String proposalNumber) {
 		CompensationInfo compensationInfo = new CompensationInfo();
 		BudgetDecimal summerMonths = BudgetDecimal.ZERO;
@@ -2070,7 +2070,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 	 *            number of key persons that are considered as not extra persons
 	 * @return list of {@link KeyPersonInfo}
 	 */
-	private List<KeyPersonInfo> getNKeyPersons(List<KeyPersonInfo> keyPersons,
+	protected List<KeyPersonInfo> getNKeyPersons(List<KeyPersonInfo> keyPersons,
 			boolean firstN, int n) {
 		KeyPersonInfo keyPersonInfo, previousKeyPersonInfo;
 		int size = keyPersons.size();
@@ -2173,10 +2173,10 @@ public class S2SBudgetCalculatorServiceImpl implements
 			ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson)
 			throws S2SException {
 		BudgetDecimal salary = BudgetDecimal.ZERO;
-
-		Budget budgetDoc = getFinalBudgetVersion(pdDoc).getBudget();
-		if (budgetDoc != null) {
-			for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
+		BudgetDocument budgetDoc = getFinalBudgetVersion(pdDoc);
+		Budget budget = budgetDoc==null?null:budgetDoc.getBudget();
+		if (budget != null) {
+			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 				for (BudgetLineItem lineItem : budgetPeriod
 						.getBudgetLineItems()) {
 					for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem

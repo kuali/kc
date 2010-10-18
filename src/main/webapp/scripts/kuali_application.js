@@ -23,44 +23,44 @@ function jq(myid) {
 }
 
 
-function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
+function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
 	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeFieldName );
 	var allowEdit;
 	
-	clearRecipients( fundingSourceNameFieldName, "" );
-	clearRecipients( fundingSourceTitleFieldName, "" );
+	clearRecipients( fundingSourceNameFieldName);
+	clearRecipients( fundingSourceTitleFieldName);
 	if (fundingSourceTypeCode=='') {
-		clearRecipients( fundingSourceNameFieldName, "" );
-		clearRecipients( fundingSourceTitleFieldName, "" );
+		changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
 					allowEdit = data;
 					if (allowEdit == true) {
-					   	changeObjectVisibility( fundingSourceNameFieldName, "block" );
+					   	changeObjectVisibility( fundingSourceNameFieldName + ".edit.div", "block" );
+					   	changeObjectVisibility( fundingSourceNameFieldName + ".display.div", "none" );
 					} else {
-					   	changeObjectVisibility( fundingSourceNameFieldName, "none" );
+					   	changeObjectVisibility( fundingSourceNameFieldName + ".edit.div", "none" );
+					   	changeObjectVisibility( fundingSourceNameFieldName + ".display.div", "block" );
 					}
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
-				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
 			}
 		};
 		ProtocolFundingSourceService.updateSourceNameEditable(fundingSourceTypeCode, dwrReply);
-		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
+		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
 	}
 }
 
 /*
  * Load the Funding Source Name field based on the source and type passed in.
  */
-function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName ) {
+function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName ) {
 	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeField );
-	var fundingSource = DWRUtil.getValue( fundingSourceFieldName );
+	var fundingSource = "";
 	var fundingSourceNumber = DWRUtil.getValue ( fundingSourceNumberFieldName );
 	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
 	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
@@ -81,22 +81,22 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
-				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );			
 			}
 		};
 		ProtocolFundingSourceService.isLookupable(fundingSourceTypeCode, dwrReply);
 	}
 	
-	clearRecipients( fundingSourceNameFieldName, "" );
+	clearRecipients( fundingSourceNameFieldName);
+	clearRecipients( fundingSourceNameFieldName + ".display.div");
 	changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "none" );
 	clearRecipients( fundingSourceTitleFieldName, "" );
-	changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
-	if (fundingSourceTypeCode != '' && fundingSourceNumber != '') {
+	if (fundingSourceTypeCode != '' && fundingSourceTypeCode != 'select' && fundingSourceNumber != '') {
 		var dwrReply = {
 			callback:function(data) {
 				if ( data != null ) {
 					if ( data.fundingSourceName != null && data.fundingSourceName != '' ) {
 						setRecipientValue( fundingSourceNameFieldName, data.fundingSourceName );
+						setRecipientValue( fundingSourceNameFieldName + ".display.div", data.fundingSourceName );
 					} else {
 						if ( data.fundingSourceLookupable ){
 							changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
@@ -106,25 +106,18 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceFie
 					}
 					if ( data.fundingSourceTitle != null && data.fundingSourceTitle != '' ) {
 						setRecipientValue( fundingSourceTitleFieldName, data.fundingSourceTitle );
-					} else {
-						if ( data.fundingSourceLookupable ){
-							changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
-						} else {
-							changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "none" );
-						}
 					}
 				} else {
 					changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
-					changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );
 				}
 			},
 			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
-				changeObjectVisibility( fundingSourceTitleFieldName + ".error.div", "block" );			
 			}
 		};
 		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode, fundingSource, fundingSourceNumber, fundingSourceName, dwrReply);
+		
 	}
 }
  

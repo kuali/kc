@@ -30,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeScheduleMinuteService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
@@ -79,7 +78,6 @@ public class OnlineReviewsActionHelper implements Serializable {
     private boolean initComplete = false;
 
     private transient KcPersonService kcPersonService;
-    private transient CommitteeScheduleMinuteService committeeScheduleMinuteService;
     
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
@@ -107,11 +105,11 @@ public class OnlineReviewsActionHelper implements Serializable {
                 .getProtocolReviewDocumentsForCurrentSubmission(protocolDocument.getProtocol()); 
                 this.reviewerComments = new ArrayList<ReviewerComments>();
                 this.documentHelperMap = new LinkedHashMap<String,Map<String,Object>>();
+
                 if (principalInvestigator != null ) {
-                    String piLastName = principalInvestigator.getPersonId()!=null?principalInvestigator.getPerson().getLastName():principalInvestigator.getRolodex().getLastName();
-                    this.newReviewDocumentDescription = String.format(REVIEW_DOCUMENT_DESCRIPTION_FORMAT,piLastName, protocolDocument.getProtocol().getProtocolNumber());
-                }
-                
+                    String piLastName = principalInvestigator.getLastName();
+                    this.newReviewDocumentDescription = getProtocolOnlineReviewService().getProtocolOnlineReviewDocumentDescription(protocolDocument.getProtocol().getProtocolNumber(),piLastName);
+                } 
                 for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {
                     Map<String,Object> pDocMap = new LinkedHashMap<String,Object>();
                     documentHelperMap.put(pDoc.getDocumentNumber(), pDocMap);
@@ -128,7 +126,6 @@ public class OnlineReviewsActionHelper implements Serializable {
                         throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
                     }
                    
-                    getCommitteeScheduleMinuteService().setMinuteFullUserNames(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
                     ReviewerComments comments = pDoc.getProtocolOnlineReview().getReviewerComments();
                     comments.setProtocolId( pDoc.getProtocolOnlineReview().getProtocolId() );
                  
@@ -386,11 +383,11 @@ public class OnlineReviewsActionHelper implements Serializable {
         return comments;
     }
 
-    public int getDocumentIndexByReviewer(String personId) {
+    public int getDocumentIndexByReviewer(String personId, boolean nonEmployeeFlag) {
         int idx = 0;
         for (ProtocolOnlineReviewDocument reviewDocument : protocolOnlineReviewDocuments ) {
             ProtocolReviewer reviewer = reviewDocument.getProtocolOnlineReview().getProtocolReviewer();
-            if (reviewer.isPersonIdProtocolReviewer(personId)) 
+            if (reviewer.isPersonIdProtocolReviewer(personId,nonEmployeeFlag)) 
             {
                 break;
             }
@@ -399,25 +396,25 @@ public class OnlineReviewsActionHelper implements Serializable {
         return idx;
     }
     
-    public String getDocumentNumberByReviewer(String personId) {
-        int idx = getDocumentIndexByReviewer(personId);
+    public String getDocumentNumberByReviewer(String personId,boolean nonEmployeeFlag) {
+        int idx = getDocumentIndexByReviewer(personId,nonEmployeeFlag);
         return protocolOnlineReviewDocuments.get(idx).getDocumentNumber();
     }
     
-    public ProtocolOnlineReviewDocument getDocumentByReviewer(String personId) {
-        return getDocumentFromHelperMap(getDocumentNumberByReviewer(personId));
+    public ProtocolOnlineReviewDocument getDocumentByReviewer(String personId,boolean nonEmployeeFlag) {
+        return getDocumentFromHelperMap(getDocumentNumberByReviewer(personId,nonEmployeeFlag));
     }
     
     public String getDocumentNumberForCurrentUser() {
-        return getDocumentNumberByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentNumberByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     public ProtocolOnlineReviewDocument getDocumentForCurrentUser() {
-        return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     public int getDocumentIndexForCurrentUser() {
-        return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId());
+        return getDocumentIndexByReviewer(GlobalVariables.getUserSession().getPrincipalId(),false);
     }
     
     private KcPersonService getKcPersonService() {
@@ -433,13 +430,6 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     private DataDictionaryService getDataDictionaryService() {
         return KraServiceLocator.getService(DataDictionaryService.class);
-    }
-    
-    private CommitteeScheduleMinuteService getCommitteeScheduleMinuteService() {
-        if (committeeScheduleMinuteService==null) {
-            committeeScheduleMinuteService = KraServiceLocator.getService(CommitteeScheduleMinuteService.class);
-        }
-        return committeeScheduleMinuteService;
     }
     
     private boolean requiresLock(Document document) {

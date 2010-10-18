@@ -24,6 +24,7 @@ import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.rule.event.SaveSpecialReviewEvent;
+import org.springframework.util.CollectionUtils;
 
 /**
  * This class validates all rules associated with SpecialReview.
@@ -181,14 +182,14 @@ public class SpecialReviewRuleBase<T extends AbstractSpecialReview<? extends Abs
         if (approval.isApplicationDateFlag() && specialReview.getApplicationDate() == null) {
             isValid = false;
             reportErrorWithoutFullErrorPath(errorPath + DOT + APPLICATION_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, 
-                    PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+                    APPLICATION_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
         }
         if (approval.isApprovalDateFlag() && specialReview.getApprovalDate() == null) {
             isValid = false;
             reportErrorWithoutFullErrorPath(errorPath + DOT + APPROVAL_DATE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, 
-                    PROTOCOL_NUMBER_TITLE, getValidSpecialReviewApprovalErrorString(approval));
+                    APPROVAL_DATE_TITLE, getValidSpecialReviewApprovalErrorString(approval));
         }
-        if (approval.isExemptNumberFlag() && specialReview.getExemptionTypeCodes() != null && specialReview.getExemptionTypeCodes().isEmpty()) {
+        if (approval.isExemptNumberFlag() && CollectionUtils.isEmpty(specialReview.getExemptionTypeCodes())) {
             isValid = false;
             reportErrorWithoutFullErrorPath(errorPath + DOT + EXEMPTION_TYPE_CODE_FIELD, KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, 
                     EXEMPTION_TYPE_CODE_TITLE, getValidSpecialReviewApprovalErrorString(approval));

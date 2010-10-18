@@ -76,7 +76,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
     /*
      * create the view link url for protocolsubmission
      */
-    private AnchorHtmlData getViewLink(ProtocolSubmission protocolSubmission) {
+    protected AnchorHtmlData getViewLink(ProtocolSubmission protocolSubmission) {
         AnchorHtmlData viewHtmlData = super.getViewLink(protocolSubmission.getProtocol().getProtocolDocument());
         String submissionIdParam = "&submissionId=" + protocolSubmission.getSubmissionId();
         String href = viewHtmlData.getHref();
@@ -89,7 +89,7 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupable
         this.kraAuthorizationService = kraAuthorizationService;
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
 

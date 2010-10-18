@@ -88,7 +88,7 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_PASSWORD_NAME = "datasource.password";
     private static final String DATASOURCE_DRIVER_NAME = "datasource.driver.name";
     
-    private static final String[] repositoryFiles = { "repository.xml", 
+    private static final String[] repositoryFiles = { //"repository.xml", 
                                                         "org/kuali/kra/award/repository-award.xml",  
                                                         "org/kuali/kra/committee/repository-committee.xml",
                                                         "org/kuali/kra/irb/repository-irb.xml",

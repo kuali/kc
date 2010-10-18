@@ -49,8 +49,11 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -67,6 +70,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      */
     private static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
+    private static final String CUSTOM_DATA_NAV_TO = "customData";
     
     private ProtocolHelper protocolHelper;
     private PersonnelHelper personnelHelper;
@@ -151,25 +155,31 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         boolean onlineReviewTabEnabled = false;
 
-        if(getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
+        if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
-            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, submission);
+            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
             boolean isProtocolInStateToBeReviewed = onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
-            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-PROTOCOL", "IRB Administrator"); 
+            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
             onlineReviewTabEnabled = isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
         }
         
             //We have to copy the HeaderNavigation elements into a new collection as the 
             //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
-            if (!StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
-                resultList.add(nav);
-            } else {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
                 nav.setDisabled(!onlineReviewTabEnabled);
                 if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
                     resultList.add(nav);
                 }
+            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
+                nav.setDisabled(!displayTab);
+                if (displayTab) {
+                    resultList.add(nav);
+                }
+            } else {
+                resultList.add(nav);
             }
         }
         
@@ -225,11 +235,25 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             lastUpdatedDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
         }
         
-        HeaderField lastUpdatedDate = new HeaderField("DataDictionary.Protocol.attributes.updateTimestamp", lastUpdatedDateStr);
-        getDocInfo().set(3, lastUpdatedDate);
+        if(getDocInfo().size() > 2) {
+            HeaderField initiatorField = getDocInfo().get(2);
+            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
+            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
+                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
+            }
+            getDocInfo().set(2, new HeaderField("DataDictionary.Protocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
+        }
+        
+        String protocolSubmissionStatusStr = null;
+        if(pd != null && pd.getProtocol() != null && pd.getProtocol().getProtocolSubmission() != null) {
+            pd.getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
+            protocolSubmissionStatusStr = pd.getProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
+        }
+        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.Protocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
+        getDocInfo().set(3, protocolSubmissionStatus);
         
         getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
-        
+
         String expirationDateStr = null;
         if(pd != null && pd.getProtocol().getExpirationDate() != null) {
             expirationDateStr = KNSServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
@@ -434,7 +458,28 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
     
     public KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService( KraAuthorizationService.class);
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+    
+    /**
+     * 
+     * This method returns true if the risk level panel should be displayed.
+     * @return
+     */
+    public boolean getDisplayRiskLevelPanel() {
+        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
+            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
+        
+    }
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        ProtocolDocument doc = this.getDocument();
+        String externalImageURL = KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
+        String sendAdHocRequestsImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+        addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+        return extraButtons;
     }
 
 }

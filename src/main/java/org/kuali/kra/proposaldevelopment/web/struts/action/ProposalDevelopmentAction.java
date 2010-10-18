@@ -92,6 +92,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     private static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
+    private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
     
@@ -759,6 +760,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         boolean grantsGovErrorExists = false;
 
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getSelectedS2sOppForms().isEmpty()){    // error, no form is selected
+            GlobalVariables.getMessageMap().putError("noKey", ERROR_NO_GRANTS_GOV_FORM_SELECTED);
+            return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
+        }
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null || attachmentDataSource.getContent().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on

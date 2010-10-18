@@ -83,7 +83,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
      * @param budgetParent
      * @throws WorkflowException
      */
-    private void saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
+    protected void saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
     }

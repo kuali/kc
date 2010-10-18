@@ -164,6 +164,10 @@ public class ProtocolFundingSourceRuleTest {
             
             allowing(service).isValidIdForType(badFundingSourceInvalidId); 
             will(returnValue(false));
+
+            allowing(service).updateSourceNameEditable(fundingSponsorSourceType.getFundingSourceTypeCode().toString());
+            will(returnValue(true));
+
         }});
         return service;
     }

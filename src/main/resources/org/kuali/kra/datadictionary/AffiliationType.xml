@@ -37,6 +37,7 @@
 				<ref bean="KcAffiliationType-affiliationTypeCode" />
 				<ref bean="KcAffiliationType-description" />
 				<ref bean="KcAffiliationType-versionNumber" />
+				<ref bean="KcAffiliationType-active" />
 			</list>
 		</property>
 	</bean>
@@ -59,6 +60,15 @@
 		</property>
 		<property name="summary" value="Affiliation Type Code" />
 		<property name="description" value="Affiliation Type Code" />
+	</bean>
+	
+	<bean id="KcAffiliationType-active" parent="KcAffiliationType-active-parentBean"/>
+	<bean abstract="true" id="KcAffiliationType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+	    <property name="name" value="active"/>
+	    <property name="label" value="Active"/>
+	    <property name="shortLabel" value="Active"/>
+	    <property name="summary" value="Active"/>
+	    <property name="description" value="Active"/>
 	</bean>
 
 	<bean id="KcAffiliationType-description" parent="KcAffiliationType-description-parentBean" />
@@ -85,6 +95,7 @@
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 				</bean>
@@ -118,6 +129,7 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

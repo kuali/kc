@@ -20,19 +20,21 @@ import java.util.List;
 
 public enum ProtocolPrintType {
     
-    PROTOCOL_SUMMARY_VIEW_REPORT("Summary View Report", "ProtocolSummary.xsl"), 
-    PROTOCOL_FULL_PROTOCOL_REPORT("Full Protocol Report", "FullProtocolReport.xsl"),
-    PROTOCOL_PROTOCOL_HISTORY_REPORT("Protocol History Report", "ProtocolHistoryReport.xsl"), 
-    PROTOCOL_REVIEW_COMMENTS_REPORT("Review Comments Report", "ReviewCommentsReport.xsl");
+    PROTOCOL_SUMMARY_VIEW_REPORT("Summary View Report", "ProtocolSummary.xsl", "ProtocolSummary"), 
+    PROTOCOL_FULL_PROTOCOL_REPORT("Full Protocol Report", "ProtocolSummary.xsl","FullProtocolReport"),
+    PROTOCOL_PROTOCOL_HISTORY_REPORT("Protocol History Report", "ProtocolHistoryReport.xsl","ProtocolHistoryReport"), 
+    PROTOCOL_REVIEW_COMMENTS_REPORT("Review Comments Report", "ReviewCommentsReport.xsl","ProtocolReviewComments");
 
 
     
     private final String protocolPrintType;
     private final String template;
+    private final String reportName;
 
-    ProtocolPrintType(String protocolPrintType, String template) {
+    ProtocolPrintType(String protocolPrintType, String template,String reportName) {
         this.protocolPrintType = protocolPrintType;
         this.template = template;
+        this.reportName = reportName;
     }
 
     public String getProtocolPrintType() {
@@ -49,5 +51,13 @@ public enum ProtocolPrintType {
         }
         return reportTypes;
         
+    }
+
+    /**
+     * Gets the reportName attribute. 
+     * @return Returns the reportName.
+     */
+    public String getReportName() {
+        return reportName;
     }
 }

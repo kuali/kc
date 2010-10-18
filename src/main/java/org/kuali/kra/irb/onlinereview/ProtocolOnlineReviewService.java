@@ -24,11 +24,14 @@ import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
+
+
 /**
  * Protocol Online Review service provides all necessary functionality to manage the online reviews.
  */
 public interface ProtocolOnlineReviewService {
     
+    static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/Protocol# %s";
     
     /**
      * Document type code for online review.
@@ -39,6 +42,7 @@ public interface ProtocolOnlineReviewService {
      * Name of the online review document.
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
+    
     
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
@@ -101,19 +105,30 @@ public interface ProtocolOnlineReviewService {
     
     /**
      * Returns the online reviewer for the protocol submission corresponding to the principal id, if one exists.
-     * @param principalId The principalId we are checking
+     * @param personId The id of the person
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id.
      * @param protocolSubmission The protocol submission
      * @return
      */
-    ProtocolReviewer getProtocolReviewer(String principalId, ProtocolSubmission protocolSubmission);
+    ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Returns true if the principal has an online review for the protocol submission.
-     * @param principalId The principalId we are checking
+     * @param personId The personId (Rolodex or principal) we are checking
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id..
      * @param protocolSubmission The protocolSubmission
      * @return
      */
-    boolean isProtocolReviewer(String principalId, ProtocolSubmission protocolSubmission);
+    boolean isProtocolReviewer(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
+    
+    /**
+     * Returns the ProtocolOnlineReviewDocument associated with the 
+     * @param personId The personId (Rolodex or principal) we are checking
+     * @param nonEmployeeFlag Is the person an employee or not?  Determines if the personId is treated as a KIM principal or a rolodex id.
+     * @param protocolSubmission The protocolSubmission
+     * @return
+     */
+    ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Determine if the protocol is in a state that can be reviewed.  Right now checks to see if there is an active submission.
@@ -130,4 +145,47 @@ public interface ProtocolOnlineReviewService {
      */
     void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
     
+    /**
+     * Sets the status to Cancelled/Removed.  If the review document is enroute, then we do a superuser disapprove on it.  If it is in saved or initiated
+     * state, then a super user cancel is performed on it. Those two actions will cause all review comments to be deleted.  If the document is in final state
+     * we simply delete all of the review comments.
+     * 
+     * @param personId
+     * @param nonEmployeeFlag
+     * @param submission
+     * @param annotation
+     */
+    void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
+    
+    /*
+     * Remove all online reviews associated with the submission.
+     * If an online review document is enroute it will be cancelled.  
+     * If an online review is final no action will be taken on the document.
+     * In both cases, the status will be set to X and the comments ( if any ) will be removed.
+     * 
+     * @param ProtocolSubmission the submission you want to remove all of the online reviews on.
+     * @param annotation  The annotation to be applied to the workflow document when we cancel.
+     *  
+     */
+    void removeOnlineReviews(ProtocolSubmission submission, String annotation);
+    
+    /**
+     * Finalizes all online review documents associated with the submission.
+     * 
+     * 
+     * @param submission
+     * 
+     */
+    void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
+    
+    /**
+     * Generate the standard document description for OLR documents.
+     * Gurantees it will be less than or equal to the 40 char limit
+     * by truncating the PI name.
+     * 
+     * @param protocolNumber the protocol number to add to the description
+     * @param piName The name of the pi to add to the description.
+     * @return String to be used in the description.
+     */
+    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
 }

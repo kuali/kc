@@ -22,7 +22,7 @@
 
 <kul:innerTab tabTitle="Close" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
@@ -56,15 +56,17 @@
                     </td>
                 </tr>
                 
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseBean.reviewComments}"
-                                                       property="actionHelper.protocolCloseBean.reviewComments"
-                                                       action="${action}"
-                                                       actionName="Close"
-                                                       allowReadOnly="${true}" />
-                   </td>
-                </tr>
+                <c:if test="${KualiForm.actionHelper.canAddCloseReviewerComments}">
+	                <tr>
+	                    <td colspan="2">
+	                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolCloseBean.reviewComments}"
+	                                                       property="actionHelper.protocolCloseBean.reviewComments"
+	                                                       action="${action}"
+	                                                       actionName="Close"
+	                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
+	                   </td>
+	                </tr>
+                </c:if>
                 
                 <tr>
                     <td align="center" colspan="2">
@@ -76,7 +78,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

@@ -22,7 +22,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Area of Research</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.ResearchArea" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeResearchArea" altText="help"/></span>
         </h3>
         
         <table id="researchAreaTableId" cellpadding="0" cellspacing="0" summary="">

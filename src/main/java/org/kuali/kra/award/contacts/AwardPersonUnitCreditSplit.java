@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,6 +41,8 @@ public final class AwardPersonUnitCreditSplit extends KraPersistableBusinessObje
     private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
     
     private Long awardPersonUnitCreditSplitId;
+    //don't version parent bo as it leads to odd and destructive behavior in some cases
+    @SkipVersioning
     private AwardPersonUnit awardPersonUnit;
     private KualiDecimal credit = new KualiDecimal(0);
     private InvestigatorCreditType investigatorCreditType;

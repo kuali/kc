@@ -347,7 +347,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newAward;
     }
     
-    private void clearFilteredAttributes(Award newAward) {
+    protected void clearFilteredAttributes(Award newAward) {
         newAward.setAccountNumber(null);
         newAward.setNoticeDate(null);
         int sourceFundingProposalsCount = newAward.getFundingProposals().size();
@@ -386,7 +386,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newLeafNode;
     }
 
-    private AwardHierarchy getCopyOfSourceNode(AwardHierarchy sourceNode) {
+    protected AwardHierarchy getCopyOfSourceNode(AwardHierarchy sourceNode) {
          AwardHierarchy newSource = sourceNode.clone();
          return newSource;
     }
@@ -405,7 +405,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newBranchNode;  
     }
 
-    private void finalizeAward(Award newAward) {
+    protected void finalizeAward(Award newAward) {
         versionHistoryService.createVersionHistory(newAward, VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
     }
     
@@ -478,7 +478,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    private void addNewAwardToPlaceholderDocument(AwardDocument doc, AwardHierarchy node) {
+    protected void addNewAwardToPlaceholderDocument(AwardDocument doc, AwardHierarchy node) {
         Award award = node.getAward();
         if (award.isNew()) {
             doc.getAwardList().add(award);
@@ -494,7 +494,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * Both awardHierarchy and mapOfChildren are being updated in same for loop so its not possible to have two separate methods for them.
      */
     @SuppressWarnings("unchecked")
-    private Map<String, AwardHierarchy> createAwardHierarchyAndPrepareCollectionForSort(AwardHierarchy awardHierarchyRootNode,
+    protected Map<String, AwardHierarchy> createAwardHierarchyAndPrepareCollectionForSort(AwardHierarchy awardHierarchyRootNode,
                                                                                         Map<String, Collection<AwardHierarchy>> mapOfChildren) {
         Map<String, AwardHierarchy> hierarchyMap = new HashMap<String, AwardHierarchy>();
         createAwardHierarchyMap(hierarchyMap, awardHierarchyRootNode, mapOfChildren);
@@ -502,7 +502,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     // recursively walk hierarchy tree, populating maps
-    private void createAwardHierarchyMap(Map<String, AwardHierarchy> hierarchyMap, AwardHierarchy node, Map<String, Collection<AwardHierarchy>> mapOfChildren) {
+    protected void createAwardHierarchyMap(Map<String, AwardHierarchy> hierarchyMap, AwardHierarchy node, Map<String, Collection<AwardHierarchy>> mapOfChildren) {
         if(node != null) {
             hierarchyMap.put(node.getAwardNumber(), node);
             // there is a pernicious side-effect in createSortOrder that causes child collection to be cleared, so store a copy of the children collection
@@ -513,7 +513,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    private AwardHierarchy getAwardHierarchyRootNode(String someNodeAwardNumberInHierarchy) {
+    protected AwardHierarchy getAwardHierarchyRootNode(String someNodeAwardNumberInHierarchy) {
         Collection c = businessObjectService.findMatching(AwardHierarchy.class, getAwardHierarchyCriteriaMap(someNodeAwardNumberInHierarchy));
         AwardHierarchy someNodeInHierarchy = null;
         if(c.size() == 1) {
@@ -530,7 +530,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * in correct sort order.
      * The order is going to be root followed by all its children followed by all of their children until there are no children.
      */
-    private void createSortOrder(List<String> listForAwardHierarchySort, Map<String, AwardHierarchy> awardHierarchies,
+    protected void createSortOrder(List<String> listForAwardHierarchySort, Map<String, AwardHierarchy> awardHierarchies,
                                  Map<String, Collection<AwardHierarchy>> mapOfChildren, String parentAwardNumber,
                                  Collection<AwardHierarchy> ahCollection, AwardHierarchy ah1) {
 
@@ -559,23 +559,23 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     }
 
-    private Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
+    protected Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
         return ServiceHelper.getInstance().buildCriteriaMap(AwardHierarchy.UNIQUE_IDENTIFIER_FIELD, awardNumber);
     }
 
-    private void restoreOriginalAwardPropertiesAfterCopy(Award award, String originalAwardNumber, Integer originalSequenceNumber) {
+    protected void restoreOriginalAwardPropertiesAfterCopy(Award award, String originalAwardNumber, Integer originalSequenceNumber) {
         award.setAwardNumber(originalAwardNumber);
         award.setSequenceNumber(originalSequenceNumber);
     }
 
-    private void saveNodeWithAward(AwardHierarchy node, AwardDocument doc) {
+    protected void saveNodeWithAward(AwardHierarchy node, AwardDocument doc) {
         if(node.isNew()) {
             persistAwardHierarchy(node);
             addNewAwardToPlaceholderDocument(doc, node);
         }
     }
 
-    private void savePlaceholderDocument(AwardDocument doc) {
+    protected void savePlaceholderDocument(AwardDocument doc) {
         try {
             documentService.saveDocument(doc);
         } catch (WorkflowException e) {
@@ -584,11 +584,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }
     }
 
-    private RuntimeException uncheckedException(Exception e) {
+    protected RuntimeException uncheckedException(Exception e) {
         return new RuntimeException(e.getMessage(), e);
     }
 
-    private Award useOriginalAwardAsTemplateForCopy(Award award, String nextAwardNumber) throws VersionException {
+    protected Award useOriginalAwardAsTemplateForCopy(Award award, String nextAwardNumber) throws VersionException {
         award.setAwardNumber(nextAwardNumber);
         award.setSequenceNumber(0);
         return versioningService.createNewVersion(award);

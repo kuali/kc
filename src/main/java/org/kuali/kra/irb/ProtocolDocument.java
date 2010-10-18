@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.RolePersons;
@@ -43,6 +44,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -81,6 +83,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     
     private List<Protocol> protocolList;
     private String protocolWorkflowType;
+	private boolean reRouted = false;
 	
     /**
      * Constructs a ProtocolDocument object.
@@ -214,9 +217,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 else if (isRenewal()) {
                     mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
                 }
-                else {
-                    approveProtocol();
-                }
+                
                 if (!principalId.equals(asyncPrincipalId)) {
                     GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
                 }
@@ -226,36 +227,11 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             }
         }
         else if (isDisapproved(statusChangeEvent)) { 
-            if (isNormal()){
-                disapproveProtocol();
-            }
-            else {
+            if (!isNormal()){
                 this.getProtocol().setActive(false);
                 getBusinessObjectService().save(this);
             }
         }
-        // TODO : this is for testing, remove it later
-//        else if ("X".equals(statusChangeEvent.getNewRouteStatus())) {
-//            if (isAmendment()) {
-//                mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
-//            } else if (isRenewal()) {
-//                mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
-//            }
-//        }
-    }
-    
-    /**
-     * Update the protocol's status to approved.
-     */
-    private void approveProtocol() {
-        updateProtocolStatus(ProtocolActionType.APPROVED, APPROVED_COMMENT);
-    }
-    
-    /**
-     * Update the protocol's status to disapproved.
-     */
-    private void disapproveProtocol() {
-        updateProtocolStatus(ProtocolActionType.DISAPPROVED, DISAPPROVED_COMMENT);
     }
     
     /**
@@ -296,11 +272,13 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         
         ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
+        newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
+        newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         try {
             getDocumentService().saveDocument(newProtocolDocument);
             // blanket approve to make the new protocol document 'final'
-            newProtocolDocument.getDocumentHeader().getWorkflowDocument().blanketApprove(type + "-" + getProtocolNumberIndex() + ": merged");
+            newProtocolDocument.getDocumentHeader().getWorkflowDocument().routeDocument(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
@@ -394,6 +372,16 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return !isAmendment() && !isRenewal();
     }
     
+    /**
+     * Has the document been submitted to workflow now
+     * @param statusChangeEvent
+     * @return
+     */
+    private boolean isComplete(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        return (StringUtils.equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
+                StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
+    }
+
     private static class ProtocolMergeException extends RuntimeException {
         ProtocolMergeException(Throwable t) {
             super(t);
@@ -404,7 +392,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * Contains all the property names in this class.
      */
     public static enum ProtocolWorkflowType {
-        NORMAL("Normal"), APPROVED_AMENDMENT("ApprovedAmendment");
+        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
         
         private final String name;
         
@@ -455,4 +443,30 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         this.getProtocol().getLeadUnitNumber();
         return super.wrapDocumentWithMetadataForXmlSerialization();
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentNumber() + "-" + activeLockRegion; 
+        }
+
+        return null;
+    }
+    
+    public boolean getReRouted() {
+        return reRouted;
+    }
+
+    public void setReRouted(boolean reRouted) {
+        this.reRouted = reRouted;
+    }
+
 }

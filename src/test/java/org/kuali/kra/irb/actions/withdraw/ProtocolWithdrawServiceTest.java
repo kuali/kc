@@ -95,7 +95,7 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
     private ProtocolAction findProtocolAction(Long protocolId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolId", protocolId);
-        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatching(ProtocolAction.class, fieldValues);
+        List<ProtocolAction> actions = (List<ProtocolAction>) businessObjectService.findMatchingOrderBy(ProtocolAction.class, fieldValues, "actionId", true);
         
         assertEquals(2, actions.size());
         ProtocolAction action = actions.get(1);

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
@@ -42,6 +43,8 @@ public class AwardPersonUnit extends KraPersistableBusinessObjectBase implements
     private static final long serialVersionUID = 3550317176047537585L;
     
     private Long awardPersonUnitId;
+    //don't version parent bo as it leads to odd and destructive behavior in some cases
+    @SkipVersioning
     private AwardPerson awardPerson;
     private boolean leadUnit;    
     private Unit unit;

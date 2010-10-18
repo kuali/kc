@@ -238,14 +238,15 @@ public class MeetingAction extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        MeetingForm meetingForm = (MeetingForm)form;
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        if (question == null) {
+        if (question == null && meetingForm.getMeetingHelper().canModifySchedule()) {
             return performQuestionWithoutInput(mapping, form, request, response, CLOSE_QUESTION_ID, CLOSE_QUESTION,
                     KNSConstants.CONFIRMATION_QUESTION, ((MeetingForm) form).getMethodToCall(), "");
-        } else {
+        } else if (meetingForm.getMeetingHelper().canModifySchedule()) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
+                CommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
                 if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
                     ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
                     getMeetingService().saveMeetingDetails(committeeSchedule,

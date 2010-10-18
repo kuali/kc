@@ -27,7 +27,7 @@ import org.kuali.kra.service.KraAuthorizationService;
  */
 public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
     
-    private KraAuthorizationService kraAuthorizationService;
+    protected KraAuthorizationService kraAuthorizationService;
     
     /**
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)

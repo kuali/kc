@@ -62,7 +62,7 @@
 							                </c:choose>
 							                </c:forEach>
 							                </html:select>
-		            						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
+		            						<html:image property="methodToCall.updateProtocolPersonView.${protocolPerson}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
 	    								</c:otherwise>
 									</c:choose>
                    				</td>

@@ -32,7 +32,7 @@ public class CommitteeFactory {
     protected static final Integer DEFAULT_MAX_PROTOCOLS = 10;
     protected static final String DEFAULT_HOME_UNIT_NUMBER = "000001";
     protected static final Integer DEFAULT_MIN_MEMBERS_REQUIRED = 3;
-    protected static final String DEFAULT_NAME = "Committee Test";
+    protected static final String DEFAULT_NAME = "Committee Test ";
     protected static final Integer DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED = 1;
     protected static final String DEFAULT_REVIEW_TYPE_CODE = "1"; // FULL
   
@@ -55,7 +55,7 @@ public class CommitteeFactory {
         committee.setMaxProtocols(DEFAULT_MAX_PROTOCOLS);
         committee.setHomeUnitNumber(DEFAULT_HOME_UNIT_NUMBER);
         committee.setMinimumMembersRequired(DEFAULT_MIN_MEMBERS_REQUIRED);
-        committee.setCommitteeName(DEFAULT_NAME);
+        committee.setCommitteeName(DEFAULT_NAME + committeeId);
         committee.setAdvancedSubmissionDaysRequired(DEFAULT_ADV_SUBMISSION_DAYS_REQUIRED);
         committee.setReviewTypeCode(DEFAULT_REVIEW_TYPE_CODE);
     }

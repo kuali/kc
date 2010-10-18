@@ -40,6 +40,7 @@ public class MeetingAddMinuteRuleTest {
             protected void prerequisite() {   
                 CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
                 committeeScheduleMinute.setMinuteEntryTypeCode("3");
+                committeeScheduleMinute.setMinuteEntry("Text");
                 
                 MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
                 meetingHelper.setNewCommitteeScheduleMinute(committeeScheduleMinute);
@@ -59,6 +60,7 @@ public class MeetingAddMinuteRuleTest {
             protected void prerequisite() {   
                 CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
                 committeeScheduleMinute.setMinuteEntryTypeCode("3");
+                committeeScheduleMinute.setMinuteEntry("Text");
                 committeeScheduleMinute.setProtocolIdFk(1L);
                 
                 MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
@@ -79,6 +81,7 @@ public class MeetingAddMinuteRuleTest {
             protected void prerequisite() {   
                 CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute();
                 committeeScheduleMinute.setMinuteEntryTypeCode("3");
+                committeeScheduleMinute.setMinuteEntry("Text");
                 committeeScheduleMinute.setProtocolIdFk(1L);
                 ProtocolContingency protocolContingency= new ProtocolContingency();
                 protocolContingency.setProtocolContingencyCode("111");

@@ -141,7 +141,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         }
     }
 
-    private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
+    protected ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("submissionIdFk", protocolSubmission.getSubmissionId());
         List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
@@ -184,14 +184,15 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
             for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
-                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3")) {
+                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
+                        !minuteEntryInfoBean.getPrivateCommentFlag()) {
                     addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
                 }
             }
         }
     }
 
-    private void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, Minutes minutesType) {
+    protected void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, Minutes minutesType) {
         committeeScheduleMinute.refreshNonUpdateableReferences();
         minutesType.setScheduleId(committeeScheduleMinute.getScheduleIdFk().toString());
         minutesType.setEntryNumber(new BigInteger(String.valueOf(committeeScheduleMinute.getEntryNumber())));
@@ -216,7 +217,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
 
     }
 
-    private String getOtherItemDescription(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
+    protected String getOtherItemDescription(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
         List<CommScheduleActItem> actionItems = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItem commScheduleActItem : actionItems) {
             if (committeeScheduleMinute.getMinuteEntryTypeCode().equals("4")

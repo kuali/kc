@@ -32,6 +32,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     private Integer ruleId; 
     private String questionnaireLabel; 
     private Integer questionnaireSequenceNumber;
+    private boolean mandatory; 
     private CoeusModule coeusModule;
     private Questionnaire questionnaire;
     
@@ -157,6 +158,14 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         else {
             return this.getQuestionnaire().getQuestionnaireId().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId());
         }
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 
 }

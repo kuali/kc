@@ -7,27 +7,29 @@
     tabErrorKey="meetingHelper.meetingMinute">
 
 <div class="tab-container" align="center">
-    <h3>
-        <span class="subhead-left"> Minutes </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
-    </h3>
+	<c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
+    	<h3>
+        	<span class="subhead-left"> Minutes </span>
+        	<span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleMinuteDoc" altText="help"/> </span>
+    	</h3>
     
-        <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-            <tr>
-                <th align="right" valign="middle" width="145">
-                    Generate Minutes
-                </th>
-                <td align="left" valign="middle">
-					    <div align="left">
-					        <html:image property="methodToCall.generateMinutes.anchor${tabKey}"
-						    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-					    </div>
-                </td>
-             </tr>
-         </table>       
+        	<table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+            	<tr>
+                	<th align="right" valign="middle" width="145">
+                    	Generate Minutes
+                	</th>
+                	<td align="left" valign="middle">
+						    <div align="left">
+					    	    <html:image property="methodToCall.generateMinutes.anchor${tabKey}"
+							    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
+						    </div>
+        	        </td>
+            	 </tr>
+         	</table>
+   </c:if>       
    <h3>
         <span class="subhead-left"> View Minutes </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommScheduleMinuteDoc" altText="help"/> </span>
     </h3>
         <table id="viewMinutes-table" cellpadding=0 cellspacing=0 class="datatable" summary="View Minutes Docs">
         
@@ -42,7 +44,7 @@
 						<c:out value="${minute.minuteNumber}" />
 					</th>
 	                <td align="left" valign="middle">
-	                    <div align="left"><fmt:formatDate value="${minute.createTimestamp}" pattern="MM/dd/yyyy" /> </div>
+	                    <div align="left"><fmt:formatDate type="both" value="${minute.createTimestamp}" /> </div>
 					</td>
 						<td>
 							<div align=center>&nbsp;					

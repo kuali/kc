@@ -24,9 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -34,6 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
 
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
+    private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER="protocolOnlineReviewDocumentNumber";
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
@@ -47,12 +50,26 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         ProtocolOnlineReviewForm protocolOnlineReviewForm = (ProtocolOnlineReviewForm)form;
         super.loadDocument(protocolOnlineReviewForm);
         Map<String,Object> keymap = new HashMap<String,Object>();
-        keymap.put( "protocolId", protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId() );
-        Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
-        
-        response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+                if (protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().isActive()) {
+            Long protocolId = protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId();
+            keymap.put( "protocolId", protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId() );
+            Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
+            response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+        } else {
+            return mapping.findForward("displayInactive");
+        }
         return null;
-       
     }
+    
+    public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        String protocolOnlineReviewDocumentNumber = request.getParameter(PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER);
+        ((ProtocolOnlineReviewForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
+                protocolOnlineReviewDocumentNumber));
+            return mapping.findForward("displayInactive");
+    }
+
+    
     
 }

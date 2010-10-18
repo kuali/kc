@@ -201,7 +201,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     }
     
     @SuppressWarnings("unchecked")
-    private void updateDefaultSchedule(ProtocolSubmission submission) {
+    protected void updateDefaultSchedule(ProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
         fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
@@ -222,7 +222,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param origProtocolNumber
      * @throws Exception
      */
-    private void addActionToOriginalProtocol(String type, String origProtocolNumber) {
+    protected void addActionToOriginalProtocol(String type, String origProtocolNumber) {
         String protocolNumber = origProtocolNumber.substring(0, 10);
         String index = origProtocolNumber.substring(11);
         Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
@@ -238,7 +238,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submitAction the submission data
      * @return a protocol submission
      */
-    private ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolSubmitAction submitAction) {
+    protected ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolSubmitAction submitAction) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, submitAction.getSubmissionTypeCode());
         submissionBuilder.setSubmissionTypeQualifierCode(submitAction.getSubmissionQualifierTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
@@ -254,7 +254,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submissionBuilder the submission builder
      * @param submitAction the submission data
      */
-    private void setSubmissionStatus(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+    protected void setSubmissionStatus(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
             submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
         }
@@ -268,7 +268,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submissionBuilder the submission builder
      * @param submitAction the submission data
      */
-    private void setCommittee(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+    protected void setCommittee(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
     }
     
@@ -277,7 +277,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submissionBuilder the submission builder
      * @param submitAction the submission data
      */
-    private void setSchedule(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+    protected void setSchedule(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         submissionBuilder.setSchedule(submitAction.getNewScheduleId());
     }
     
@@ -288,7 +288,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submission the submission
      * @param submitAction the submission data
      */
-    private void addCheckLists(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+    protected void addCheckLists(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         if (isProtocolReviewType(submitAction, ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE)) {
             addExemptStudiesCheckList(submissionBuilder, submitAction);
         }
@@ -303,7 +303,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param protocolReviewTypeCode the protocol review type to compare against
      * @return true if the submission uses the given protocol review type; otherwise false
      */
-    private boolean isProtocolReviewType(ProtocolSubmitAction submitAction, String protocolReviewTypeCode) {
+    protected boolean isProtocolReviewType(ProtocolSubmitAction submitAction, String protocolReviewTypeCode) {
         return (StringUtils.equals(submitAction.getProtocolReviewTypeCode(), protocolReviewTypeCode));
     }
 
@@ -312,7 +312,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submission the submission
      * @param submitAction the submission data
      */
-    private void addExemptStudiesCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
+    protected void addExemptStudiesCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction submitAction) {
         for (ExemptStudiesCheckListItem item : submitAction.getExemptStudiesCheckList()) {
             if (item.getChecked()) {
                 submissionBuilder.addExemptStudiesCheckListItem(item.getExemptStudiesCheckListCode());
@@ -325,7 +325,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
      * @param submission the submission
      * @param submitAction the submission data
      */
-    private void addExpeditedReviewCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction action) {
+    protected void addExpeditedReviewCheckList(ProtocolSubmissionBuilder submissionBuilder, ProtocolSubmitAction action) {
         for (ExpeditedReviewCheckListItem item : action.getExpeditedReviewCheckList()) {
             if (item.getChecked()) {
                 submissionBuilder.addExpeditedReviewCheckListItem(item.getExpeditedReviewCheckListCode());

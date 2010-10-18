@@ -177,6 +177,7 @@
           <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
           <forward name="personnelRates" path="/WEB-INF/jsp/budget/BudgetPersonnelRates.jsp" />
           <forward name="personnelDetails" path="/WEB-INF/jsp/budget/BudgetPersonnelDetails.jsp" />
+          <forward name="hierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
       </action>
 
       <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
@@ -319,12 +320,18 @@
       </action>
       
       <action path="/protocolOnlineReview" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp"/>
+		<forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp"/>
+        <forward name="displayInactive" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>   
         &protocol_forwards;
+      </action>
+      
+      <action path="/protocolOnlineReviewInactive" name = "ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>   			   
       </action>
       
       <action path="/protocolOnlineReviewRedirect" name="ProtocolOnlineReviewForm" input="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolOnlineReview.jsp" />
+        <forward name="displayInactive" path = "/WEB-INF/jsp/irb/ProtocolOnlineReviewInactiveDisplay.jsp"/>
 	    &protocol_forwards;
       </action>
       
@@ -369,7 +376,7 @@
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
      </action>    
      
-     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" attribute="KualiForm">
+     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />

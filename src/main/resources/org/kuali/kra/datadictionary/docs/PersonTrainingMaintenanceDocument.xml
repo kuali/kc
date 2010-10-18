@@ -58,6 +58,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="followupDate"/>
 				<bean parent="MaintainableFieldDefinition" p:name="score"/>
 				<bean parent="MaintainableFieldDefinition" p:name="comments"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

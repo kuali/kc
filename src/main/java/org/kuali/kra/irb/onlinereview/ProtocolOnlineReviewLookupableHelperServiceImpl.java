@@ -51,8 +51,9 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     //field names
     private static final String REVIEWER_EMPLOYEE="lookupReviewerPersonId";
     private static final String REVIEWER_NONEMPLOYEE="lookupReviewerRolodexId";
+    private static final String LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES="lookupProtocolOnlineReviewStatusCode";
     private static final String PROTOCOL_ID="protocolId";
-    private static final String PROTOCOL_NUMBER="lookupProtocolNumber";
+    private static final String PROTOCOL_NUMBER="lookupProtocol.protocolNumber";
     private static final String SUBMISSION_ID="submissionIdFk";
     private static final String DATE_DUE="dateDue";
     private static final String DATE_REQUESTED="dateRequested";
@@ -61,7 +62,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     private static final String OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE="protocolReviewer.personId";
     private static final String OBJ_PROTOCOLREVIEWER_NONEMPLOYEE="protocolReviewer.personId";
     private static final String OBJ_PROTOCOL_PROTOCOL_NUMBER="protocol.protocolNumber";
-    
+    private static final String OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE="protocolOnlineReviewStatusCode";
     
     
     
@@ -80,7 +81,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
         return "protocolOnlineReviewId";
     }
     
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
    }
 
@@ -104,7 +105,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        return dictionaryValidationService;
    }
 
-   private boolean validateDate(String dateFieldName, String dateFieldValue) {
+   protected boolean validateDate(String dateFieldName, String dateFieldValue) {
        try{
            KNSServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
            return true;
@@ -153,6 +154,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
        List<ProtocolOnlineReview> results;
        // need to set backlocation & docformkey here. Otherwise, they are empty
        Map<String,String> formProps = new HashMap<String,String>();
+       
        if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_EMPLOYEE))) {
            fieldValues.put(OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE, fieldValues.get(REVIEWER_EMPLOYEE));
        } else if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_NONEMPLOYEE))) {
@@ -163,16 +165,20 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
            fieldValues.put( OBJ_PROTOCOL_PROTOCOL_NUMBER, fieldValues.get(PROTOCOL_NUMBER));
        }
        
+       if (!StringUtils.isEmpty(fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES))) {
+           fieldValues.put(OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE, fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES));
+       }
+       
        fieldValues.remove(REVIEWER_NONEMPLOYEE);
        fieldValues.remove(REVIEWER_EMPLOYEE);
        fieldValues.remove(PROTOCOL_NUMBER);
-       
+       fieldValues.remove(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES);
        super.setBackLocationDocFormKey(fieldValues);
        results = (List<ProtocolOnlineReview>)super.getSearchResults(fieldValues);
        return filterResults(results);
    }
 
-   private List<ProtocolOnlineReview> filterResults(List<ProtocolOnlineReview> results) {
+   protected List<ProtocolOnlineReview> filterResults(List<ProtocolOnlineReview> results) {
        List<ProtocolOnlineReview> onlineReviews = new ArrayList<ProtocolOnlineReview>();
        for (ProtocolOnlineReview review : results) {
            if (review.getProtocolOnlineReviewDocument() != null) {

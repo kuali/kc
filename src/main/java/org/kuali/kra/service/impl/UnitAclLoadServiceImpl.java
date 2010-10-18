@@ -95,7 +95,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
      * @param documentTypeCode
      * @return the access control list for the document type
      */
-    private Collection<RoleMembershipInfo> getDocumentDefaultAcl(String unitNumber, String documentTypeCode) {
+    protected Collection<RoleMembershipInfo> getDocumentDefaultAcl(String unitNumber, String documentTypeCode) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();

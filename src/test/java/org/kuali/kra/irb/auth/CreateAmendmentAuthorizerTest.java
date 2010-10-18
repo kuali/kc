@@ -15,78 +15,48 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Create Amendment Authorizer.
  */
-@Ignore
-@RunWith(JMock.class)
-public class CreateAmendmentAuthorizerTest {
+public class CreateAmendmentAuthorizerTest extends ProtocolAuthorizerTestBase {
+    
+    @Test
+    public void testHasPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, true, true, true);
+    }
+    
+    @Test
+    public void testNotAProtocol() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER + "A001", true, true, false);
+    }
+    
+    @Test
+    public void testNoPermission() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, false, true, false);
+    }
+    
+    @Test
+    public void testActionNotAllowed() throws Exception {
+        runActionAuthorizerTest(PROTOCOL_NUMBER, true, false, false);
+    }
+    
+    @Override
+    protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
+        ProtocolAuthorizer authorizer = new CreateAmendmentAuthorizer();
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_AMMENDMENT, hasPermission));
+        authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.AMENDMENT_CREATED, protocolDocument, isActionAllowed));
+        return authorizer;
+    }
+    
+    @Override
+    protected String getTaskName() {
+        return TaskName.CREATE_PROTOCOL_AMMENDMENT;
+    }
 
-    private static final String USERNAME = "quickstart";
-    private static final String PROTOCOL_NUMBER = "0906000001";
-    
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-    
-    @Test
-    public void testHasPermission() {
-        runTest(PROTOCOL_NUMBER, true, true, true);
-    }
-    
-    @Test
-    public void testNotAProtocol() {
-        runTest(PROTOCOL_NUMBER + "A001", true, true, false);
-    }
-    
-    @Test
-    public void testNoPermission() {
-        runTest(PROTOCOL_NUMBER, false, true, false);
-    }
-    
-    @Test
-    public void testActionNotAllowed() {
-        runTest(PROTOCOL_NUMBER, true, false, false);
-    }
-    
-    private void runTest(final String protocolNumber, final boolean hasPermission, final boolean isActionAllowed, boolean expected) {
-//        CreateAmendmentAuthorizer authorizer = new CreateAmendmentAuthorizer();
-//        
-//        final Protocol protocol = context.mock(Protocol.class);
-//        context.checking(new Expectations() {{
-//            allowing(protocol).getProtocolNumber(); will(returnValue(protocolNumber));
-//        }});
-//        
-//        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
-//        context.checking(new Expectations() {{
-//            allowing(authorizationService).hasPermission(USERNAME, protocol, PermissionConstants.CREATE_AMMENDMENT); will(returnValue(hasPermission));
-//        }});
-//        authorizer.setKraAuthorizationService(authorizationService);
-//        
-//        final ProtocolActionService actionService = context.mock(ProtocolActionService.class);
-//        context.checking(new Expectations() {{
-//            allowing(actionService).isActionAllowed(ProtocolActionType.AMENDMENT_CREATED, protocol); will(returnValue(isActionAllowed));
-//        }});
-//        authorizer.setProtocolActionService(actionService);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocol);
-//        assertEquals(expected, authorizer.isAuthorized(USERNAME, task));
-    }
 }

@@ -24,20 +24,13 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerComments;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.SessionDocument;
@@ -168,7 +161,11 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
             }
             ReviewerComments reviewerComments = getProtocolOnlineReview().getReviewerComments();
             reviewerComments.deleteAllComments();
+            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
             KraServiceLocator.getService(ReviewerCommentsService.class).persistReviewerComments(reviewerComments, getProtocolOnlineReview().getProtocol());
+            getProtocolOnlineReview().getCommitteeScheduleMinutes().clear();
+            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            getBusinessObjectService().save(getProtocolOnlineReview());
         }
     }
   

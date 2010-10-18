@@ -29,6 +29,9 @@
 		<property name="lookupDefinition" >
 			<ref bean="ProtocolFundingSource-lookupDefinition" />
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolFundingSourcesHelpUrl" p:parameterDetailType="D" />
+        </property>
 		<property name="titleAttribute" value="protocolFundingSourceId" />
 		<property name="attributes" >
 			<list>
@@ -167,7 +170,6 @@
 	<bean id="ProtocolFundingSource-fundingSourceNumber" parent="ProtocolFundingSource-fundingSourceNumber-parentBean" />
 	<bean id="ProtocolFundingSource-fundingSourceNumber-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fundingSourceNumber" />
-        <property name="required" value="true" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Funding Number" />
         <property name="shortLabel" value="Funding Number" />
@@ -190,7 +192,6 @@
     <bean id="ProtocolFundingSource-fundingSourceName" parent="ProtocolFundingSource-fundingSourceName-parentBean" />
     <bean id="ProtocolFundingSource-fundingSourceName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="fundingSourceName" />
-        <property name="required" value="true" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Source" />
         <property name="shortLabel" value="Source" />

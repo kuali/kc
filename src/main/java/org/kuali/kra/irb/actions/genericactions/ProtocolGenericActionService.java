@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.genericactions;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 
 /**
  * 
@@ -94,5 +95,34 @@ public interface ProtocolGenericActionService {
      * @throws Exception if there was a general problem performing the action
      */
     void defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+
+    /**
+     * Disapproves a protocol.
+     * @param protocol Protocol object
+     * @param actionBean ProtocolGenericActionBean object
+     * @throws Exception if there was a general problem performing the action
+     */
+    void disapprove(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+
+    /**
+     * Returns the protocol to the PI for specific minor revisions.
+     * @param protocol Protocol object
+     * @param actionBean ProtocolGenericActionBean object
+     * @return the newly versioned Protocol document
+     * @throws Exception if there was a general problem performing the action
+     */
+    ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+
+    /**
+     * Returns the protocol to the PI for substantial revisions.
+     * @param protocol Protocol object
+     * @param actionBean ProtocolGenericActionBean object
+     * @param return the newly versioned Protocol document
+     * @throws Exception if there was a general problem performing the action
+     */
+    ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
 }

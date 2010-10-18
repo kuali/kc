@@ -523,9 +523,6 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         protocol.setProtocolStatusCode("304");
         assertTrue(protocolActionService.canPerformAction("305", protocol));
 
-        protocol.setProtocolStatusCode("305");
-        assertTrue(protocolActionService.canPerformAction("305", protocol));
-
         protocol.setProtocolStatusCode("308");
         assertTrue(protocolActionService.canPerformAction("305", protocol));
 
@@ -788,6 +785,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
     public void testActionTypeCode210ReviewTypeCode5() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("5");
+        protocol.setProtocolStatusCode("101");
 
         protocol.getProtocolSubmission().setSubmissionStatusCode("100");
         assertTrue(protocolActionService.canPerformAction("210", protocol));
@@ -1208,6 +1206,30 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
          assertTrue(protocolActionService.canPerformAction("116", protocol));
     }
     
+    @Test
+    public void testIsApproveActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("1");
+        assertTrue(protocolActionService.isActionOpenForFollowup("204", protocol));
+    }
+    
+    @Test
+    public void testIsDisapproveActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("2");
+        assertTrue(protocolActionService.isActionOpenForFollowup("304", protocol));
+    }
+    
+    @Test
+    public void testIsReturnForSMRActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("3");
+        assertTrue(protocolActionService.isActionOpenForFollowup("203", protocol));
+    }
+    
+    @Test
+    public void testIsReturnForSRRActionOpenForFollowup() {
+        protocol.getProtocolSubmission().setCommitteeDecisionMotionTypeCode("4");
+        assertTrue(protocolActionService.isActionOpenForFollowup("202", protocol));
+    }
+    
     private List<String> getRuleFiles() {
         List<String>ruleFiles = new ArrayList<String>();
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl");
@@ -1216,6 +1238,8 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ruleFiles.add("org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl");
         ruleFiles.add("org/kuali/kra/irb/drools/rules/updateProtocolRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl");
+        ruleFiles.add("org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl");
         return ruleFiles;
     }
 }

@@ -35,13 +35,13 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
         return systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
     }
     
-    private boolean isStandardProposalRole(String roleName) {
+    protected boolean isStandardProposalRole(String roleName) {
         return StringUtils.equals(roleName, RoleConstants.AGGREGATOR)
                 || StringUtils.equals(roleName, RoleConstants.NARRATIVE_WRITER)
                 || StringUtils.equals(roleName, RoleConstants.BUDGET_CREATOR) || StringUtils.equals(roleName, RoleConstants.VIEWER);
     }
     
-    private boolean isRoleUnassigned(String roleName) {
+    protected boolean isRoleUnassigned(String roleName) {
         return StringUtils.equals(roleName, RoleConstants.UNASSIGNED);
     }
     

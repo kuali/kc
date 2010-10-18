@@ -23,7 +23,7 @@
 
 <kul:innerTab tabTitle="Response Approval" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolResponseApprovalBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
@@ -107,7 +107,7 @@
                                                        property="actionHelper.protocolResponseApprovalBean.reviewComments"
                                                        action="${action}"
                                                        actionName="ResponseApproval"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
@@ -122,7 +122,7 @@
                 
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

@@ -1096,8 +1096,19 @@
 															<fo:table-column column-width="95%"/>
 															<fo:table-body start-indent="0pt">
 																<fo:table-row>
+																	<fo:table-cell number-columns-spanned="2" padding="2pt" display-align="before">
+																	<fo:block>
+																	    <xsl:if test="printCertification/certifications[ questionID = &quot;P1&quot; and   answer = &apos;N&apos; ]">
+																			<fo:inline>
+																				<xsl:text>Please contact your department head, center or laboratory director, or Vice-President for research if you cannot certify the following:</xsl:text>
+																			</fo:inline>
+																		</xsl:if>
+																	</fo:block>
+																	</fo:table-cell>
+																</fo:table-row>															    																		
+																<fo:table-row>
 																	<fo:table-cell padding="2pt" display-align="before">
-																		<fo:block>
+																		<fo:block>		
 																			<fo:inline>
 																				<xsl:text>1</xsl:text>
 																			</fo:inline>
@@ -1115,9 +1126,6 @@
 																					</fo:inline>
 																				</xsl:when>
 																				<xsl:when test="printCertification/certifications[ questionID = &quot;P1&quot; and   answer = &apos;N&apos; ]">
-																					<fo:inline>
-																						<xsl:text>Please contact your department head, center or laboratory director, or Vice-President for research if you cannot certify the following:</xsl:text>
-																					</fo:inline>
 																					<fo:block/>
 																					<fo:inline>
 																						<xsl:text>I cannot certify that this application is true, complete and accurate to the best of my knowledge; that I understand that any false, fictitious, or fraudulent statements or claims may subject me, as the PI/Co-PI/Co-I to criminal, civil or administrative penalties or that I agree to accept responsibility for the scientific conduct of the project and to provide the required progress reports if an award is made as a result of this application.&#160; </xsl:text>
@@ -1201,12 +1209,12 @@
 																		<fo:block>
 																			<xsl:if test="printCertification/sponsor/sponsorType  = &quot;FED&quot;">
 																				<xsl:choose>
-																					<xsl:when test="printCertification/certifications[questionID = &quot;H4&quot; and   answer = &quot;N&quot;]">
+																					<xsl:when test="printCertification/certifications[questionID = &quot;P4&quot; and   answer = &quot;N&quot;]">
 																						<fo:inline>
 																							<xsl:text>I have not and will not lobby any federal agency on behalf of this proposal nor do I have any knowledge of anyone else doing so. </xsl:text>
 																						</fo:inline>
 																					</xsl:when>
-																					<xsl:when test="printCertification/certifications[questionID = &quot;H4&quot; and   answer = &quot;Y&quot;]">
+																					<xsl:when test="printCertification/certifications[questionID = &quot;P4&quot; and   answer = &quot;Y&quot;]">
 																						<fo:inline>
 																							<xsl:text>I have and/or will lobby a federal agency on behalf of this proposal or I plan to have others do so.&#160; </xsl:text>
 																						</fo:inline>
@@ -1260,7 +1268,7 @@
 																<fo:table-row>
 																	<fo:table-cell padding="2pt" display-align="before">
 																		<fo:block>
-																			<xsl:if test="printCertification/sponsor/sponsorType = &quot;FED&quot;">
+																			<xsl:if test="printCertification/sponsor/sponsorType = &quot;FED&quot; and printCertification/certifications/questionID = &quot;P6&quot;">
 																				<fo:inline>
 																					<xsl:text>6</xsl:text>
 																				</fo:inline>

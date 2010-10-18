@@ -61,7 +61,7 @@
   <bean id="SpecialReviewApprovalType-inquiryDefinition" parent="SpecialReviewApprovalType-inquiryDefinition-parentBean" />
 
   <bean id="SpecialReviewApprovalType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Special Review Approval STatus" />
+    <property name="title" value="Special Review Approval Status" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
