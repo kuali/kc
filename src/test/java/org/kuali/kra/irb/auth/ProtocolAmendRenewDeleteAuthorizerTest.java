@@ -15,67 +15,42 @@
  */
 package org.kuali.kra.irb.auth;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.service.KraAuthorizationService;
 
 /**
  * Test the Protocol/Amendment/Renewal Delete Authorizer.
  */
-@Ignore
-@RunWith(JMock.class)
-public class ProtocolAmendRenewDeleteAuthorizerTest {
-
-    private static final String USERNAME = "quickstart";
-    private static final String PROTOCOL_NUMBER = "0906000001";
-    
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
+public class ProtocolAmendRenewDeleteAuthorizerTest extends ProtocolAuthorizerTestBase {
     
     @Test
-    public void testHasPermission() {
-        runTest(PROTOCOL_NUMBER, ProtocolStatus.IN_PROGRESS, true, true);
+    public void testHasPermission() throws Exception {
+        runStatusAuthorizerTest(PROTOCOL_NUMBER, ProtocolStatus.IN_PROGRESS, true, true);
     }
     
     @Test
-    public void testNoPermission() {
-        runTest(PROTOCOL_NUMBER, ProtocolStatus.IN_PROGRESS, false, false);
+    public void testNoPermission() throws Exception {
+        runStatusAuthorizerTest(PROTOCOL_NUMBER, ProtocolStatus.IN_PROGRESS, false, false);
     }
     
     @Test
-    public void testNotInProgress() {
-        runTest(PROTOCOL_NUMBER, null, true, false);
+    public void testNotInProgress() throws Exception {
+        runStatusAuthorizerTest(PROTOCOL_NUMBER, ProtocolStatus.SUBMITTED_TO_IRB, true, false);
     }
     
-    private void runTest(final String protocolNumber, final String statusCode, final boolean hasPermission, boolean expected) {
-//        ProtocolAmendRenewDeleteAuthorizer authorizer = new ProtocolAmendRenewDeleteAuthorizer();
-//        
-//        final Protocol protocol = context.mock(Protocol.class);
-//        context.checking(new Expectations() {{
-//            allowing(protocol).getProtocolNumber(); will(returnValue(protocolNumber));
-//            allowing(protocol).getProtocolStatusCode(); will(returnValue(statusCode));
-//        }});
-//        
-//        final KraAuthorizationService authorizationService = context.mock(KraAuthorizationService.class);
-//        context.checking(new Expectations() {{
-//            allowing(authorizationService).hasPermission(USERNAME, protocol, PermissionConstants.MODIFY_PROTOCOL); will(returnValue(hasPermission));
-//        }});
-//        authorizer.setKraAuthorizationService(authorizationService);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocol);
-//        assertEquals(expected, authorizer.isAuthorized(USERNAME, task));
+    @Override
+    protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
+        ProtocolAuthorizer authorizer = new ProtocolAmendRenewDeleteAuthorizer();
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.MODIFY_PROTOCOL, hasPermission));
+        return authorizer;
     }
+    
+    @Override
+    protected String getTaskName() {
+        return TaskName.PROTOCOL_AMEND_RENEW_DELETE;
+    }
+    
 }

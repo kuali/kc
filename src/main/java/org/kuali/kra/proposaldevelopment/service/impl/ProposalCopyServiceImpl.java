@@ -158,7 +158,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      *
      * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
      */
-    private class DocProperty {
+    protected class DocProperty {
         Method getter;
         Method setter;
         
@@ -232,7 +232,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return
      * @throws Exception
      */
-    private ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
+    protected ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
         DocumentService docService = KNSServiceLocator.getDocumentService();
         ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(srcDoc.getClass());
         
@@ -258,7 +258,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param srcDoc
      * @param destDoc
      */
-    private void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
+    protected void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
         DevelopmentProposal srcDevelopmentProposal = srcDoc.getDevelopmentProposal();
         DevelopmentProposal destDevelopmentProposal = destDoc.getDevelopmentProposal();
         
@@ -288,7 +288,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param criteria the user-specified criteria.
      * @throws Exception if the copy fails for any reason.
      */
-    private void copyProposal(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, ProposalCopyCriteria criteria) throws Exception {
+    protected void copyProposal(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, ProposalCopyCriteria criteria) throws Exception {
         
         // Copy over the "normal" proposal development document properties, i.e.
         // those that are not filtered.
@@ -306,7 +306,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param dest the destination proposal development document, i.e. the new document.
      * @throws Exception if the copy fails for any reason.
      */
-    private void copyProposalProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest)  throws Exception {
+    protected void copyProposalProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest)  throws Exception {
         List<DocProperty> properties = getCopyableProperties();
         
         //We need to copy DocumentNextValues to properly handle copied collections
@@ -322,7 +322,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param oldDoc
      * @param newDoc
      */
-    private void fixNextValues(ProposalDevelopmentDocument oldDoc, ProposalDevelopmentDocument newDoc) {
+    protected void fixNextValues(ProposalDevelopmentDocument oldDoc, ProposalDevelopmentDocument newDoc) {
         List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
         List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
         for (DocumentNextvalue oldNextValue : oldNextValues) {
@@ -337,7 +337,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     //Or I could use an anonymous filter class???
             
-    private void copyProperties(DevelopmentProposal src, DevelopmentProposal dest, List<DocProperty> properties) throws Exception {
+    protected void copyProperties(DevelopmentProposal src, DevelopmentProposal dest, List<DocProperty> properties) throws Exception {
         for (DocProperty property : properties) {
             Object value = property.getter.invoke(src);
             if (value instanceof Serializable) {
@@ -370,7 +370,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      */
-    private void copyOverviewProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) {
+    protected void copyOverviewProperties(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) {
         DocumentHeader srcHdr = src.getDocumentHeader();
         DocumentHeader destHdr = dest.getDocumentHeader();
         
@@ -390,7 +390,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * 
      * @return the list of properties that can be copied.
      */
-    private List<DocProperty> getCopyableProperties() {
+    protected List<DocProperty> getCopyableProperties() {
         List<DocProperty> list = new ArrayList<DocProperty>();
         
         Method[] methods = DevelopmentProposal.class.getDeclaredMethods();
@@ -420,7 +420,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param method the setter method.
      * @return the name of the corresponding property.
      */
-    private String getPropertyName(Method method) {
+    protected String getPropertyName(Method method) {
         String name = method.getName();
         return name.substring(3);
     }
@@ -431,7 +431,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param name the name of the property.
      * @return true if filtered; otherwise false.
      */
-    private boolean isFilteredProperty(String name) {
+    protected boolean isFilteredProperty(String name) {
         for (String filteredProperty : filteredProperties) {
             if (name.equals(filteredProperty)) {
                 return true;
@@ -457,7 +457,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param methods the list of methods to look in for the getter method.
      * @return the getter method or null if not found.
      */
-    private Method getGetter(String name, Method[] methods) {
+    protected Method getGetter(String name, Method[] methods) {
         String getter = "get" + name;
         for (Method method : methods) {
             if (getter.equals(method.getName())) {
@@ -472,7 +472,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the new proposal development document
      * @param newLeadUnitNumber the new lead unit number
      */
-    private void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
+    protected void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
         Unit newLeadUnit = unitService.getUnit(newLeadUnitNumber);
         doc.getDevelopmentProposal().setOwnedByUnitNumber(newLeadUnitNumber);
@@ -484,7 +484,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param criteria the copy criteria
      * @throws Exception 
      */
-    private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
+    protected void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
         List<Object> list = new ArrayList<Object>();
         // force to materialize - jira 1644 only happen for disapproved doc ??
         for (ProposalPerson proposalperson : newDoc.getDevelopmentProposal().getProposalPersons()) {
@@ -519,7 +519,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      *
      * @param doc {@link ProposalDevelopmentDocument} to fix
      */
-    private void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
+    protected void fixOrganizationAndLocations(ProposalDevelopmentDocument doc) {
         DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
         
         Unit ownedByUnit = developmentProposal.getOwnedByUnit();
@@ -544,7 +544,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param list I assume this is the list of objects that have already been processed.
      */
     @SuppressWarnings("unchecked")
-    private void fixProposalNumbers(Object object, String proposalNumber, List<Object> list) throws Exception {
+    protected void fixProposalNumbers(Object object, String proposalNumber, List<Object> list) throws Exception {
         if (object instanceof BusinessObject) {
             if (list.contains(object)) return;
             list.add(object);
@@ -581,7 +581,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param methods the other methods in the object
      * @return true if it is property getter method; otherwise false
      */
-    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+    protected boolean isPropertyGetterMethod(Method method, Method methods[]) {
         if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
             String setterName = method.getName().replaceFirst("get", "set");
             for (Method m : methods) {
@@ -600,7 +600,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      * @throws Exception 
      */
-    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
+    protected void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
         clearCertifyQuestions(doc);
         fixKeyPersonnelUnits(doc, oldLeadUnitNumber, newLeadUnitNumber);
     }
@@ -609,7 +609,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * This method sets all congressional district ids to null, so new ids get assigned to them.
      * @param doc
      */
-    private void fixCongressionalDistricts(ProposalDevelopmentDocument doc) {
+    protected void fixCongressionalDistricts(ProposalDevelopmentDocument doc) {
         for (ProposalSite proposalSite: doc.getDevelopmentProposal().getProposalSites()) {
             for (CongressionalDistrict district: proposalSite.getCongressionalDistricts()) {
                 district.setCongressionalDistrictId(null);
@@ -623,7 +623,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param oldLeadUnitNumber the old lead unit number
      * @param newLeadUnitNumber the new lead unit number
      */
-    private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
+    protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getBudgetDocumentVersions().size() > 0) {
             String budgetStatusIncompleteCode = this.parameterService.getParameterValue(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
@@ -636,7 +636,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * Clear the Certify questions for each investigator.
      * @param doc the Proposal Development Document
      */
-    private void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
+    protected void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
         List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
             ProposalPersonRole role = person.getRole();
@@ -662,7 +662,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      * @throws Exception 
      */
-    private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
+    protected void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
        
         List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
@@ -709,7 +709,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         keyPersonnelService.populateDocument(doc);
     }
     
-    private ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
+    protected ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
         ProposalPersonUnit proposalPersonUnit = keyPersonnelService.createProposalPersonUnit(unitNumber, person);
         if (proposalPersonUnit.getUnitNumber() == null) {
             return null;
@@ -733,7 +733,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return proposalPersonUnit;
     }
     
-    private ProposalPersonUnit findProposalPersonUnit(String unitNumber, List<ProposalPersonUnit> proposalPersonUnits) {
+    protected ProposalPersonUnit findProposalPersonUnit(String unitNumber, List<ProposalPersonUnit> proposalPersonUnits) {
         for (ProposalPersonUnit proposalPersonUnit : proposalPersonUnits) {
             if (StringUtils.equals(unitNumber, proposalPersonUnit.getUnitNumber())) {
                 return proposalPersonUnit;
@@ -747,7 +747,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * is assigned the Aggregator role.
      * @param doc the proposal development document
      */
-    private void initializeAuthorization(ProposalDevelopmentDocument doc) {
+    protected void initializeAuthorization(ProposalDevelopmentDocument doc) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
@@ -762,7 +762,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      */
-    private void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
+    protected void copyAttachments(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) throws Exception {
         
         NarrativeService narrativeService = dest.getDevelopmentProposal().getNarrativeService();
         ProposalPersonBiographyService propPersonBioService = dest.getDevelopmentProposal().getProposalPersonBiographyService();
@@ -798,7 +798,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * 
      * @param doc the proposal development document to load attachment contents into.
      */
-    private void loadAttachmentContents(ProposalDevelopmentDocument doc) {
+    protected void loadAttachmentContents(ProposalDevelopmentDocument doc) {
         
         // Load personal attachments.
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
@@ -824,7 +824,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * 
      * @param narrative the narrative for which to load the contents.
      */
-    private void loadAttachmentContent(Narrative narrative){
+    protected void loadAttachmentContent(Narrative narrative){
         Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
         primaryKey.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
@@ -838,7 +838,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * 
      * @param bio the personal attachment for which to load the contents.
      */
-    private void loadBioContent(ProposalPersonBiography bio){
+    protected void loadBioContent(ProposalPersonBiography bio){
         Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, bio.getProposalNumber());
         primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
@@ -855,7 +855,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param dest the destination proposal development document, i.e. the new document.
      * @param budgetVersions
      */
-    private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
+    protected void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
             BudgetDocumentVersion finalBudgetVersion = src.getFinalBudgetVersion();
             if (finalBudgetVersion != null) {
@@ -872,7 +872,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
     }
     
-    private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
+    protected void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
         List<BudgetSubAwards> budgetSubAwards = budgetDocument.getBudget().getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAward : budgetSubAwards) {
@@ -970,7 +970,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param object the object
      * @param propertyValue 
      */
-    private void fixNumericProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
+    protected void fixNumericProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
         if(ObjectUtils.isNotNull(object) && object instanceof PersistableBusinessObject) {
             PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
             if (objectMap.get(objectWId.getObjectId()) != null) return;
@@ -1015,7 +1015,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param src
      * @param dest
      */
-    private void copyCustomData(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) {
+    protected void copyCustomData(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest) {
         for (Map.Entry<String, CustomAttributeDocument> entry: src.getCustomAttributeDocuments().entrySet()) {
             // Find the attribute value
             CustomAttributeDocument customAttributeDocument = entry.getValue();
@@ -1062,7 +1062,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * 
      * @return the Kuali Rule Service
      */
-    private KualiRuleService getKualiRuleService() {
+    protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
     
@@ -1071,7 +1071,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param proposalTypeCode proposal type code
      * @return true or false
      */
-    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
         String proposalTypeCodeRenewal = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         String proposalTypeCodeRevision = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
         String proposalTypeCodeContinuation = this.parameterService.getParameterValue(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
@@ -1082,7 +1082,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 proposalTypeCode.equals(proposalTypeCodeContinuation));
     }
 
-    private DateTimeService getDateTimeService() {
+    protected DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 

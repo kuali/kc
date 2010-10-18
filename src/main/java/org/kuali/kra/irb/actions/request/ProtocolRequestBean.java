@@ -16,8 +16,11 @@
 package org.kuali.kra.irb.actions.request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -41,12 +44,14 @@ public class ProtocolRequestBean implements Serializable {
     private String submissionTypeCode;
     private String committeeId;
     private String reason = "";
-    private String fileName;
-    private transient FormFile file;
-    
-    public ProtocolRequestBean(String protocolActionTypeCode, String submissionTypeCode) {
+    private String beanName;
+    private ProtocolActionAttachment newActionAttachment;
+    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
+
+    public ProtocolRequestBean(String protocolActionTypeCode, String submissionTypeCode, String beanName) {
         this.protocolActionTypeCode = protocolActionTypeCode;
         this.submissionTypeCode = submissionTypeCode;
+        this.beanName = beanName;
     }
 
     public void setCommitteeId(String committeeId) {
@@ -73,19 +78,28 @@ public class ProtocolRequestBean implements Serializable {
         return submissionTypeCode;
     }
     
-    public FormFile getFile() {
-        return file;
+    public ProtocolActionAttachment getNewActionAttachment() {
+        return newActionAttachment;
     }
 
-    public void setFile(FormFile file) {
-        this.file = file;
+    public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment) {
+        this.newActionAttachment = newActionAttachment;
     }
 
-    public String getFileName() {
-        return fileName;
+    public List<ProtocolActionAttachment> getActionAttachments() {
+        return actionAttachments;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+        this.actionAttachments = actionAttachments;
     }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
+    
 }

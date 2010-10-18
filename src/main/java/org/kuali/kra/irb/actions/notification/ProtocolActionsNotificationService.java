@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
+import java.util.List;
+
 import org.kuali.kra.irb.Protocol;
 import org.w3c.dom.Element;
 
@@ -39,7 +41,7 @@ public interface ProtocolActionsNotificationService {
      * @param recipients
      * @param protocol
      */
-    void addIrbAdminToRecipients(Element recipients, Protocol protocol);
+    void addIrbAdminToRecipients(Element recipients, Protocol protocol, List<String> userNames);
 
     /**
      * 
@@ -47,6 +49,6 @@ public interface ProtocolActionsNotificationService {
      * @param recipients
      * @param protocol
      */
-    void addInitiatorToRecipients(Element recipients, Protocol protocol);
+    void addInitiatorToRecipients(Element recipients, Protocol protocol, List<String> userNames);
 
 }

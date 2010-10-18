@@ -63,14 +63,14 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         return filterAwardComment((List<AwardComment>) getBusinessObjectService().findMatching(AwardComment.class, queryMap), award.getSequenceNumber());
     }
 
-    private Award getAward(String awardId) {
+    protected Award getAward(String awardId) {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(AWARD_ID, awardId);
         return (Award)getBusinessObjectService().findByPrimaryKey(Award.class, queryMap);
         
     }
     
-    private List<AwardComment> filterAwardComment(List<AwardComment> results, Integer sequenceNum) {
+    protected List<AwardComment> filterAwardComment(List<AwardComment> results, Integer sequenceNum) {
         List<AwardComment> returnList = new ArrayList<AwardComment>();
         List<String> comments = new ArrayList<String>();
         for (AwardComment awardComment : results) {

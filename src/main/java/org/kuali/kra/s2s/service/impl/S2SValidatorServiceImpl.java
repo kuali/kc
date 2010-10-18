@@ -68,7 +68,7 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
      * @param errors List list of XPaths of the error nodes.
      * @return validation result true if valid false otherwise.
      */
-    private boolean validateXml(XmlObject formObject, List<String> errors) {
+    protected boolean validateXml(XmlObject formObject, List<String> errors) {
         XmlOptions validationOptions = new XmlOptions();
         ArrayList<XmlValidationError> validationErrors = new ArrayList<XmlValidationError>();
         validationOptions.setErrorListener(validationErrors);
@@ -97,7 +97,7 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
      * @param node for which Document node has to found.
      * @return String which represents XPath of the node
      */
-    private String getXPath(Node node) {
+    protected String getXPath(Node node) {
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return "";
         }

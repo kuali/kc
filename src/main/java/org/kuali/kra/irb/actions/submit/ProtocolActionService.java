@@ -57,5 +57,13 @@ public interface ProtocolActionService {
      * @return
      */
     public boolean isActionAllowed(String actionTypeCode, Protocol protocol);
+    
+    /**
+     * Determines whether the given action in the protocol should be opened, based on whether it is a followup action.
+     * @param protocolActionTypeCode The code for the protocol action
+     * @param protocol The Protocol
+     * @return true, if the Drools rules state that the action should now be open for followup, false otherwise
+     */
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
 
 }

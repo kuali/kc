@@ -64,6 +64,9 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
      * @return the Protocol Attachment Personnel Person
      */
     public ProtocolPerson getPerson() {
+        if (person == null && personId != null) {
+            this.refreshReferenceObject("person");
+        }
         return this.person;
     }
 

@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -30,7 +31,8 @@ import org.xml.sax.InputSource;
 public class AdminCorrectionServiceImpl implements AdminCorrectionService {
     private NotificationService notificationService;
     private List<String> notificationTemplates;
-
+    private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
+    
     public void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception {
         String adminCorrectionNotificationTemplate = notificationTemplates.get(0);
         InputStream is = this.getClass().getResourceAsStream(adminCorrectionNotificationTemplate);
@@ -39,13 +41,20 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
         try {
             notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
             Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            recipientUser.setTextContent(protocol.getPrincipalInvestigator().getPerson().getUserName()); 
+            ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
+            if (!principalInvestigator.isNonEmployee()) {
+                recipientUser.setTextContent(principalInvestigator.getPerson().getUserName());
+            } else {
+                recipientUser.setTextContent(principalInvestigator.getRolodex().getFullName());
+            }
 
             Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
             sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
 
             Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
-            message.setTextContent(adminCorrectionBean.getComments());
+            message.setTextContent("The IRB Protocol " + DOC_LINK + protocol.getProtocolDocument().getDocumentNumber() + "\">" 
+                    + protocol.getProtocolNumber() + "</a> has administrative correction made to it. <br/>" 
+                    + " Comments : " + adminCorrectionBean.getComments());
 
             Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
             title.setTextContent("Administrative Correction has been made to Protocol " + protocol.getProtocolNumber());

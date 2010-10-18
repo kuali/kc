@@ -58,6 +58,10 @@ public class ProtocolAction extends ProtocolAssociate {
     private ProtocolActionType protocolActionType;
     
     private List<ProtocolCorrespondence> protocolCorrespondences;
+    @SkipVersioning
+    private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
+    
+    private transient boolean isInFilterView = true;
     
     public ProtocolAction() { 
 
@@ -97,19 +101,9 @@ public class ProtocolAction extends ProtocolAssociate {
     public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
-    
-    /**
-     * 
-     * This method sets the protocol action type code.
-     * @param protocolActionTypeCode
-     */
+
     public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
-        if (StringUtils.isBlank(protocolActionTypeCode)) {
-            protocolActionType = null;
-        } else {
-            this.refreshReferenceObject("protocolActionType");
-        }
     }
 
     public void setSubmissionNumber(Integer submissionNumber) {
@@ -123,19 +117,9 @@ public class ProtocolAction extends ProtocolAssociate {
     public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
-    
-    /**
-     * 
-     * This method set the subision id.
-     * @param submissionIdFk
-     */
+
     public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
-        if (submissionIdFk == null) {
-            protocolSubmission = null;
-        } else {
-            this.refreshReferenceObject("protocolSubmission");
-        }
     }
 
     public String getComments() {
@@ -168,11 +152,13 @@ public class ProtocolAction extends ProtocolAssociate {
     
     /**
      * 
-     * This method refreshes the protocol submission if it doesn't exist, and the returns the protcool submisison.
+     * Refreshes the protocol submission (if it doesn't exist) and returns it.
      * @return
      */
     public ProtocolSubmission getProtocolSubmission() {
-        if (submissionIdFk != null && protocolSubmission == null) {
+        if (submissionIdFk == null) {
+            protocolSubmission = null;
+        } else {
             refreshReferenceObject("protocolSubmission");
         }
         return protocolSubmission;
@@ -182,7 +168,16 @@ public class ProtocolAction extends ProtocolAssociate {
         this.protocolActionType = protocolActionType;
     }
 
+    /**
+     * Refreshes the protocol action type (if it doesn't exist) and returns it.
+     * @return
+     */
     public ProtocolActionType getProtocolActionType() {
+        if (StringUtils.isBlank(protocolActionTypeCode)) {
+            protocolActionType = null;
+        } else {
+            refreshReferenceObject("protocolActionType");
+        }
         return protocolActionType;
     }
     
@@ -353,5 +348,21 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public void setProtocolCorrespondences(List<ProtocolCorrespondence> protocolCorrespondences) {
         this.protocolCorrespondences = protocolCorrespondences;
-    }    
+    }
+
+    public List<ProtocolSubmissionDoc> getProtocolSubmissionDocs() {
+        return protocolSubmissionDocs;
+    }
+
+    public void setProtocolSubmissionDocs(List<ProtocolSubmissionDoc> protocolSubmissionDocs) {
+        this.protocolSubmissionDocs = protocolSubmissionDocs;
+    }
+    
+    public boolean getIsInFilterView() {
+        return isInFilterView;
+    }
+    
+    public void setIsInFilterView(boolean isInFilterView) {
+        this.isInFilterView = isInFilterView;
+    }
 }

@@ -15,67 +15,10 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolRequestBean.attributes}" />
-<c:set var="action" value="protocolProtocolActions" />
-                                    
-<kra:permission value="${KualiForm.actionHelper.canRequestClose}">
+  <kra-irb-action:requestAction bean="${KualiForm.actionHelper.protocolCloseRequestBean}"
+                                      permission="${KualiForm.actionHelper.canRequestClose}"
+                                                       requestAction="closeRequestProtocol"
+                                                       beanName="protocolCloseRequestBean"
+                                                       actionTypeCode="105" 
+                                                       tabTitle="Request To Close"/>
 
-<kul:innerTab tabTitle="Request to Close" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolCloseRequest*">
-    <div class="innerTab-container" align="left">
-        <table class="tab" cellpadding="0" cellspacing="0" summary="">
-            <tbody>
-                <tr>
-                    <th width="15%"> 
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
-	                        <div align="right">
-	                            <nobr>
-	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
-	                            </nobr>
-	                        </div>
-                        </c:if>
-                    </th>
-                    <td>
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
-	                        <nobr>
-	                        <kul:htmlControlAttribute property="actionHelper.protocolCloseRequestBean.committeeId" attributeEntry="${attributes.committeeId}" />
-	                        </nobr>
-                        </c:if>
-                    </td>
-                    <th>
-	          		    <div align="right">
-	          		        <kul:htmlAttributeLabel attributeEntry="${attributes.fileName}"/>
-	          		    </div>
-	          		</th>
-	                <td align="left" valign="middle">
-	                	<html:file property="actionHelper.protocolCloseRequestBean.file" />
-					</td>
-                </tr>
-                <tr>
-                    <th width="15%"> 
-                        <div align="right">
-                            <nobr>
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.reason}" />
-                            </nobr>
-                        </div>
-                    </th>
-                    <td colspan="3">
-                        <nobr>
-                        <kul:htmlControlAttribute property="actionHelper.protocolCloseRequestBean.reason" attributeEntry="${attributes.reason}" />
-                        </nobr>
-                    </td>
-                </tr>
-                <tr>
-					<td align="center" colspan="4">
-						<div align="center">
-							<html:image property="methodToCall.closeRequestProtocol.anchor${tabKey}"
-							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-						</div>
-	                </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    
-</kul:innerTab>
-
-</kra:permission>

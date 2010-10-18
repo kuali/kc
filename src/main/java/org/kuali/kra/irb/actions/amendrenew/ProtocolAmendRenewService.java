@@ -38,10 +38,11 @@ public interface ProtocolAmendRenewService {
     /**
      * Create a Renewal without an Amendment.
      * @param protocolDocument the protocol document to renew
+     * @param renewalSummary renewal summary
      * @return the renewal's document number
      * @throws Exception
      */
-    public String createRenewal(ProtocolDocument protocolDocument) throws Exception;
+    public String createRenewal(ProtocolDocument protocolDocument, String renewalSummary) throws Exception;
     
     /**
      * Create a Renewal with an Amendment.
@@ -51,6 +52,13 @@ public interface ProtocolAmendRenewService {
      * @throws Exception
      */
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+    
+    /**
+     * Update the summary and amendment sections.
+     * @param protocolDocument the protocol document of the amendment/renewal to be updated
+     * @param amendmentBean the amendment info (summary and which modules to be amended)
+     */
+    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean);
 
     /**
      * Get all of the Amendments and Renewals for a given protocol.

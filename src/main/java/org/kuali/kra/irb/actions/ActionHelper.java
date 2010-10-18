@@ -19,15 +19,19 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
@@ -35,7 +39,9 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.acknowledgement.IrbAcknowledgementBean;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
@@ -48,12 +54,13 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
-import org.kuali.kra.irb.actions.history.DateRangeFilter;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -67,8 +74,10 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -80,23 +89,19 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ActionHelper implements Serializable {
 
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
-    
-    /**
-     * These private integers will be used in a switch statement when building ProtocolGenericActionBean to pull existing data
-     */
-    private static final int EXPEDITE_APPROVAL_BEAN_TYPE = 1;
-    private static final int RESPONSE_APPROVAL_BEAN_TYPE = 11;
-    private static final int APPROVE_BEAN_TYPE = 10;
-    private static final int REOPEN_BEAN_TYPE = 2;
-    private static final int CLOSE_ENROLLMENT_BEAN_TYPE = 3;
-    private static final int SUSPEND_BEAN_TYPE = 4;
-    private static final int SUSPEND_BY_DSMB_BEAN_TYPE = 5;
-    private static final int CLOSE_BEAN_TYPE = 6;
-    private static final int EXPIRE_BEAN_TYPE = 7;
-    private static final int TERMINATE_BEAN_TYPE = 8;
-    private static final int PERMIT_DATA_ANALYSIS_BEAN_TYPE = 9;
-    private static final int DEFER_BEAN_TYPE = 10;
-    
+    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
+    static {
+        final List<String> codes = new ArrayList<String>();     
+        codes.add(ProtocolActionType.NOTIFY_IRB);
+        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
+        codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+        codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
+        codes.add(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT);
+        codes.add(ProtocolActionType.REQUEST_FOR_TERMINATION);
+        codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
+        ACTION_TYPE_SUBMISSION_DOC = codes;
+    }
+
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -107,6 +112,7 @@ public class ActionHelper implements Serializable {
     private String submissionConstraint;
     
     private boolean canCreateAmendment = false;
+    private boolean canModifyAmendmentSections = false;
     private boolean canCreateRenewal = false;
     private boolean canNotifyIrb = false;
     private boolean canWithdraw = false;
@@ -124,10 +130,13 @@ public class ActionHelper implements Serializable {
     private boolean canExpediteApproval = false;
     private boolean canApproveResponse = false;
     private boolean canApprove = false;
+    private boolean canDisapprove = false;
+    private boolean canReturnForSMR = false;
+    private boolean canReturnForSRR = false;
     private boolean canReopen = false;
     private boolean canCloseEnrollment = false;
     private boolean canSuspend = false;
-    private boolean canSuspendByDmsb = false;
+    private boolean canSuspendByDsmb = false;
     private boolean canClose = false;
     private boolean canExpire = false;
     private boolean canTerminate = false;
@@ -140,6 +149,23 @@ public class ActionHelper implements Serializable {
     private boolean canIrbAcknowledgement = false;
     private boolean canDefer = false;
     private boolean canReviewNotRequired = false;
+    private boolean canManageReviewComments = false;
+    private boolean canApproveOther = false;
+
+    private boolean isApproveOpenForFollowup;
+    private boolean isDisapproveOpenForFollowup;
+    private boolean isReturnForSMROpenForFollowup;
+    private boolean isReturnForSRROpenForFollowup;
+    
+    private boolean canViewOnlineReviewers;
+    private boolean canViewOnlineReviewerComments;
+    
+    private boolean canAddCloseReviewerComments;
+    private boolean canAddCloseEnrollmentReviewerComments;
+    private boolean canAddDataAnalysisReviewerComments;
+    private boolean canAddReopenEnrollmentReviewerComments;
+    private boolean canAddSuspendReviewerComments;
+    private boolean canAddTerminateReviewerComments;
     
     private ProtocolSubmitAction protocolSubmitAction;
     private ProtocolWithdrawBean protocolWithdrawBean;
@@ -160,10 +186,13 @@ public class ActionHelper implements Serializable {
     private ProtocolApproveBean protocolApproveBean;
     private ProtocolApproveBean protocolExpediteApprovalBean;
     private ProtocolApproveBean protocolResponseApprovalBean;
+    private ProtocolGenericActionBean protocolDisapproveBean;
+    private ProtocolGenericActionBean protocolSMRBean;
+    private ProtocolGenericActionBean protocolSRRBean;
     private ProtocolGenericActionBean protocolReopenBean;
     private ProtocolGenericActionBean protocolCloseEnrollmentBean;
     private ProtocolGenericActionBean protocolSuspendBean;
-    private ProtocolGenericActionBean protocolSuspendByDmsbBean;
+    private ProtocolGenericActionBean protocolSuspendByDsmbBean;
     private ProtocolGenericActionBean protocolCloseBean;
     private ProtocolGenericActionBean protocolExpireBean;
     private ProtocolGenericActionBean protocolTerminateBean;
@@ -175,6 +204,8 @@ public class ActionHelper implements Serializable {
     private ProtocolModifySubmissionBean protocolModifySubmissionBean;
     private ProtocolGenericActionBean protocolDeferBean;
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
+    private ProtocolGenericActionBean protocolManageReviewCommentsBean;
+    
     private boolean prevDisabled;
     private boolean nextDisabled;
     private transient ParameterService parameterService;
@@ -182,18 +213,27 @@ public class ActionHelper implements Serializable {
     private transient ProtocolAmendRenewService protocolAmendRenewService;
     private transient ProtocolVersionService protocolVersionService;
     private transient ProtocolSubmitActionService protocolSubmitActionService;
+    private transient ProtocolActionService protocolActionService;
     
     /*
      * Identifies the protocol "document" to print.
      */
     private String printTag;
     
+    private ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+
+    private Boolean summaryReport;
+    private Boolean fullReport;
+    private Boolean historyReport;
+    private Boolean reviewCommentsReport;
+    
     private ProtocolSummary protocolSummary;
     private ProtocolSummary prevProtocolSummary;
     private int currentSequenceNumber = -1;
     
     private String selectedHistoryItem;
-    private DateRangeFilter historyDateRangeFilter = new DateRangeFilter();
+    private Date filteredHistoryStartDate;
+    private Date filteredHistoryEndDate;
     
     // additional properties for Submission Details
     private ProtocolSubmission selectedSubmission;
@@ -202,8 +242,10 @@ public class ActionHelper implements Serializable {
     private List<ProtocolVoteRecused> recusers;        
     private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
+    private String renewalSummary;
     private transient KcPersonService kcPersonService;
-
+    private transient BusinessObjectService businessObjectService;
+    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
     /**
      * @throws Exception 
      * Constructs an ActionHelper.
@@ -218,23 +260,13 @@ public class ActionHelper implements Serializable {
         
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean();
-        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                           ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION, 
-                                                             ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, 
-                                                                     ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
-        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, 
-                                                                      ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
-        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, 
-                                                                  ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
-        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION, ProtocolSubmissionType.REQUEST_FOR_TERMINATION);
+        initRequestBeanAndMap();
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean();
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean();
         assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
-        assignToAgendaBean.init();
+        assignToAgendaBean.initComments();
         assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
         assignCmtSchedBean.init();
         protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
@@ -242,26 +274,53 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean.initComments();
         irbAcknowledgementBean = new IrbAcknowledgementBean(this);
         irbAcknowledgementBean.initComments();
-        protocolExpediteApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), EXPEDITE_APPROVAL_BEAN_TYPE);
-        protocolResponseApprovalBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), RESPONSE_APPROVAL_BEAN_TYPE);
-        protocolApproveBean = buildProtocolApproveBean(this.form.getProtocolDocument().getProtocol(), APPROVE_BEAN_TYPE);
-        protocolReopenBean = buildProtocolGenericActionBean(REOPEN_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(CLOSE_ENROLLMENT_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolSuspendBean = buildProtocolGenericActionBean(SUSPEND_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolSuspendByDmsbBean = buildProtocolGenericActionBean(SUSPEND_BY_DSMB_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolCloseBean = buildProtocolGenericActionBean(CLOSE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolExpireBean = buildProtocolGenericActionBean(EXPIRE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolTerminateBean = buildProtocolGenericActionBean(TERMINATE_BEAN_TYPE, protocolActions, currentSubmission);
-        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(PERMIT_DATA_ANALYSIS_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolExpediteApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, form.getProtocolDocument().getProtocol());
+        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, form.getProtocolDocument().getProtocol());
+        protocolApproveBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, form.getProtocolDocument().getProtocol());
+        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, protocolActions, currentSubmission);
+        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, protocolActions, currentSubmission);
+        protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, protocolActions, currentSubmission);
+        protocolReopenBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, protocolActions, currentSubmission);
+        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, protocolActions, currentSubmission);
+        protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, protocolActions, currentSubmission);
+        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, protocolActions, currentSubmission);
+        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, protocolActions, currentSubmission);
+        protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, protocolActions, currentSubmission);
+        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, protocolActions, currentSubmission);
+        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, protocolActions, currentSubmission);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
         committeeDecision.init();
         protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this.getProtocol().getProtocolSubmission());
-        protocolDeferBean = buildProtocolGenericActionBean(DEFER_BEAN_TYPE, protocolActions, currentSubmission);
+        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, protocolActions, currentSubmission);
         protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean();
+        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, protocolActions, currentSubmission);
+        
+        protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
     }
     
+    private void initRequestBeanAndMap() {
+        protocolCloseRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
+            ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        protocolSuspendRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_SUSPENSION,
+            ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
+        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT,
+            ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
+        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT,
+            ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
+        protocolDataAnalysisRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
+            ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
+        protocolTerminateRequestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_FOR_TERMINATION,
+            ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE, protocolCloseRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, protocolDataAnalysisRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_SUSPENSION, protocolSuspendRequestBean);
+        actionTypeRequestBeanMap.put(ProtocolActionType.REQUEST_FOR_TERMINATION, protocolTerminateRequestBean);
+
+    }
     
     /**
      *     
@@ -270,10 +329,10 @@ public class ActionHelper implements Serializable {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
-    private ProtocolGenericActionBean buildProtocolGenericActionBean(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
+    private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this);
         bean.initComments();
-        ProtocolAction protocolAction = findProtocolAction(beanType, protocolActions, currentSubmission);
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocolActions, currentSubmission);
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -283,10 +342,10 @@ public class ActionHelper implements Serializable {
         return bean;
     }
     
-    private ProtocolApproveBean buildProtocolApproveBean(Protocol protocol, int beanType) throws Exception{
+    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, Protocol protocol) throws Exception{
         ProtocolApproveBean bean = new ProtocolApproveBean(this);
         bean.initComments();
-        ProtocolAction protocolAction = findProtocolAction(beanType, protocol.getProtocolActions(), protocol.getProtocolSubmission());
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, protocol.getProtocolActions(), protocol.getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             java.sql.Date actionDate = new java.sql.Date(protocolAction.getActionDate().getYear(), protocolAction.getActionDate().getMonth(), 
@@ -344,55 +403,23 @@ public class ActionHelper implements Serializable {
         return expirationDate;
     }
 
-    private ProtocolAction findProtocolAction(int beanType, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) throws Exception {
-        String actionTypeCode;
-        switch(beanType) {
-            case EXPEDITE_APPROVAL_BEAN_TYPE:
-                actionTypeCode = ProtocolActionType.EXPEDITE_APPROVAL;
-                break;
-            case RESPONSE_APPROVAL_BEAN_TYPE:
-                actionTypeCode = ProtocolActionType.RESPONSE_APPROVAL;
-                break;
-            case APPROVE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.APPROVED;
-                break;
-            case REOPEN_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.REOPEN_ENROLLMENT;
-                break;
-            case CLOSE_ENROLLMENT_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.CLOSED_FOR_ENROLLMENT;
-                break;
-            case SUSPEND_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.SUSPENDED;
-                break;
-            case SUSPEND_BY_DSMB_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.SUSPENDED_BY_DSMB;
-                break;
-            case CLOSE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED;
-                break;
-            case EXPIRE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.EXPIRED;
-                break;
-            case TERMINATE_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.TERMINATED;
-                break;
-            case PERMIT_DATA_ANALYSIS_BEAN_TYPE:
-                actionTypeCode =  ProtocolActionType.DATA_ANALYSIS_ONLY;
-                break;
-            default:
-                //should never get here
-                throw new Exception("Invalid bean type provided");
-        }
+    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) 
+        throws Exception {
+
         for (ProtocolAction pa : protocolActions) {
             if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
-                    && ( pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
+                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
                 return pa;
             }
         }
         return null;
     }
     
+    public void initAmendmentBeans() throws Exception {
+        protocolAmendmentBean = createAmendmentBean();
+        protocolRenewAmendmentBean = createAmendmentBean();
+}
+
     /**
      * Create an Amendment Bean.  The modules that can be selected depends upon the
      * current outstanding amendments.  If a module is currently being modified by a
@@ -404,9 +431,14 @@ public class ActionHelper implements Serializable {
      */
     private ProtocolAmendmentBean createAmendmentBean() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
-     
-        ProtocolAmendRenewService protocolAmendRenewService = getProtocolAmendRenewService();
-        List<String> moduleTypeCodes = protocolAmendRenewService.getAvailableModules(getProtocol().getProtocolNumber());
+        List<String> moduleTypeCodes;
+
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
+            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getAmendedProtocolNumber());
+            populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
+        } else {
+            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
+        }
         
         for (String moduleTypeCode : moduleTypeCodes) {
             enableModuleOption(moduleTypeCode, amendmentBean);
@@ -414,7 +446,56 @@ public class ActionHelper implements Serializable {
         
         return amendmentBean;
     }
-  
+
+    /**
+     * This method copies the settings from the ProtocolAmendRenewal bo to the amendmentBean and enables the
+     * corresponding modules. 
+     * @param amendmentBean
+     */
+    private void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
+        ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
+        amendmentBean.setSummary(protocolAmendRenewal.getSummary());
+        for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
+            //// Uncomment the next line to enable unselecting amendment sections.  Unselecting has been disabled because we
+            //// currently don't have a way to revert the data in the unselected section.
+            // moduleTypeCodes.add(module.getProtocolModuleTypeCode());
+            if (StringUtils.equals(ProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setGeneralInfo(true);
+            } 
+            else if (StringUtils.equals(ProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAddModifyAttachments(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAreasOfResearch(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setFundingSource(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setOthers(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolOrganizations(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPersonnel(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolReferencesAndOtherIdentifiers(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSpecialReview(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSubjects(true);
+            }
+            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPermissions(true);
+            }
+        }
+    }
+
+
     /**
      * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
      * current outstanding amendments.  If a module is currently being modified by a
@@ -482,6 +563,9 @@ public class ActionHelper implements Serializable {
         else if (StringUtils.equals(ProtocolModule.SUBJECTS,moduleTypeCode)) {
             amendmentBean.setSubjectsEnabled(true);
         }
+        else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
+            amendmentBean.setProtocolPermissionsEnabled(true);
+        }
     }
 
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
@@ -491,14 +575,16 @@ public class ActionHelper implements Serializable {
         return this.protocolAmendRenewService;
     }
 
-    public void prepareView() {
+    public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
+        assignToAgendaBean.prepareView();
         assignCmtSchedBean.prepareView();
         protocolAssignReviewersBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
+        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
         canCreateRenewal = hasCreateRenewalPermission();
         canNotifyIrb = hasNotifyIrbPermission();
         canWithdraw = hasWithdrawPermission();
@@ -516,10 +602,13 @@ public class ActionHelper implements Serializable {
         canExpediteApproval = hasExpediteApprovalPermission();
         canApproveResponse = hasResponseApprovalPermission();
         canApprove = hasApprovePermission();
+        canDisapprove = hasDisapprovePermission();
+        canReturnForSMR = hasReturnForSMRPermission();
+        canReturnForSRR = hasReturnForSRRPermission();
         canReopen = hasReopenPermission();
         canCloseEnrollment = hasCloseEnrollmentPermission();
         canSuspend = hasSuspendPermission();
-        canSuspendByDmsb = hasSuspendByDmsbPermission();
+        canSuspendByDsmb = hasSuspendByDsmbPermission();
         canClose = hasClosePermission();
         canExpire = hasExpirePermission();
         canTerminate = hasTerminatePermission();
@@ -531,14 +620,34 @@ public class ActionHelper implements Serializable {
         canIrbAcknowledgement = hasIrbAcknowledgementPermission();
         canDefer = hasDeferPermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
-        
         canReviewNotRequired = hasReviewNotRequiredPermission();
+        canManageReviewComments = hasManageReviewCommentsPermission();
+        canApproveOther = hasApproveOtherPermission();
+        
+        isApproveOpenForFollowup = hasApproveFollowupAction();
+        isDisapproveOpenForFollowup = hasDisapproveFollowupAction();
+        isReturnForSMROpenForFollowup = hasReturnForSMRFollowupAction();
+        isReturnForSRROpenForFollowup = hasReturnForSRRFollowupAction();
+        
+        canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
+        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
+        
+        canAddCloseReviewerComments = hasCloseRequestLastAction();
+        canAddCloseEnrollmentReviewerComments = hasCloseEnrollmentRequestLastAction();
+        canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
+        canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
+        canAddSuspendReviewerComments = hasSuspendRequestLastAction();
+        canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         
         initSummaryDetails();
-        
         initSubmissionDetails();
+        initFilterDatesView();
+        initAmendmentBeans();
     }
     
+    /**
+     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+     */
     public void prepareCommentsView() {
         assignToAgendaBean.initComments();
         protocolGrantExemptionBean.initComments();
@@ -546,16 +655,20 @@ public class ActionHelper implements Serializable {
         protocolExpediteApprovalBean.initComments();
         protocolResponseApprovalBean.initComments();
         protocolApproveBean.initComments();
+        protocolDisapproveBean.initComments();
+        protocolSMRBean.initComments();
+        protocolSRRBean.initComments();
         protocolReopenBean.initComments();
         protocolCloseEnrollmentBean.initComments();
         protocolSuspendBean.initComments();
-        protocolSuspendByDmsbBean.initComments();
+        protocolSuspendByDsmbBean.initComments();
         protocolCloseBean.initComments();
         protocolExpireBean.initComments();
         protocolTerminateBean.initComments();
         protocolPermitDataAnalysisBean.initComments();
         committeeDecision.initComments();
         protocolDeferBean.initComments();
+        protocolManageReviewCommentsBean.initComments();
     }
     
     private ProtocolVersionService getProtocolVersionService() {
@@ -571,6 +684,13 @@ public class ActionHelper implements Serializable {
         }
         return protocolSubmitActionService;
     }
+    
+    private ProtocolActionService getProtocolActionService() {
+        if (protocolActionService == null) {
+            protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        }
+        return protocolActionService;
+    }
 
     private String getParameterValue(String parameterName) {
         return this.getParameterService().getParameterValue(ProtocolDocument.class, parameterName);      
@@ -583,6 +703,11 @@ public class ActionHelper implements Serializable {
     
     private boolean hasCreateAmendmentPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasModifyAmendmentSectionsPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -667,6 +792,18 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.APPROVE_PROTOCOL);
     }
     
+    private boolean hasDisapprovePermission() {
+        return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
+    }
+    
+    private boolean hasReturnForSMRPermission() {
+        return hasPermission(TaskName.RETURN_FOR_SMR);
+    }
+    
+    private boolean hasReturnForSRRPermission() {
+        return hasPermission(TaskName.RETURN_FOR_SRR);
+    }
+    
     private boolean hasReopenPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
     }
@@ -679,7 +816,7 @@ public class ActionHelper implements Serializable {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
     
-    private boolean hasSuspendByDmsbPermission() {
+    private boolean hasSuspendByDsmbPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
     }
     
@@ -719,6 +856,15 @@ public class ActionHelper implements Serializable {
         return hasPermission(TaskName.DEFER_PROTOCOL);
     }
     
+    private boolean hasManageReviewCommentsPermission() {
+        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
+    }
+    
+    private boolean hasApproveOtherPermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
     private boolean hasPermission(String taskName) {
         ProtocolTask task = new ProtocolTask(taskName, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -743,6 +889,54 @@ public class ActionHelper implements Serializable {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
         boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         return retVal;
+    }
+    
+    private boolean hasApproveFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.APPROVED, getProtocol());
+    }
+    
+    private boolean hasDisapproveFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.DISAPPROVED, getProtocol());
+    }
+    
+    private boolean hasReturnForSMRFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, getProtocol());
+    }
+    
+    private boolean hasReturnForSRRFollowupAction() {
+        return getProtocolActionService().isActionOpenForFollowup(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, getProtocol());
+    }
+    
+    private boolean hasCanViewOnlineReviewersPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
+    }
+    
+    private boolean hasCanViewOnlineReviewerCommentsPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
+    }
+    
+    private boolean hasCloseRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_CLOSE.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasCloseEnrollmentRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasDataAnalysisRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasReopenEnrollmentRequestLastAction() {
+        return ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasSuspendRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+    
+    private boolean hasTerminateRequestLastAction() {
+        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
     }
 
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -816,6 +1010,10 @@ public class ActionHelper implements Serializable {
         return protocolAmendmentBean;
     }
     
+    public void setProtocolAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean) {
+        this.protocolAmendmentBean = protocolAmendmentBean;
+    }
+    
     public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
         return protocolRenewAmendmentBean;
     }
@@ -843,7 +1041,6 @@ public class ActionHelper implements Serializable {
     public IrbAcknowledgementBean getIrbAcknowledgementBean() {
         return irbAcknowledgementBean;
     }
-    
 
     public ProtocolApproveBean getProtocolExpediteApprovalBean() {
         return protocolExpediteApprovalBean;
@@ -855,6 +1052,18 @@ public class ActionHelper implements Serializable {
 
     public ProtocolApproveBean getProtocolApproveBean() {
         return protocolApproveBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolDisapproveBean() {
+        return protocolDisapproveBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSMRBean() {
+        return protocolSMRBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSRRBean() {
+        return protocolSRRBean;
     }
     
     public ProtocolGenericActionBean getProtocolReopenBean() {
@@ -869,8 +1078,8 @@ public class ActionHelper implements Serializable {
         return protocolSuspendBean;
     }
     
-    public ProtocolGenericActionBean getProtocolSuspendByDmsbBean() {
-        return protocolSuspendByDmsbBean;
+    public ProtocolGenericActionBean getProtocolSuspendByDsmbBean() {
+        return protocolSuspendByDsmbBean;
     }
     
     public ProtocolGenericActionBean getProtocolCloseBean() {
@@ -904,9 +1113,17 @@ public class ActionHelper implements Serializable {
     public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
         return this.protocolModifySubmissionBean;
     }
+    
+    public ProtocolGenericActionBean getProtocolManageReviewCommentsBean() {
+        return protocolManageReviewCommentsBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;
+    }
+    
+    public boolean getCanModifyAmendmentSections() {
+        return canModifyAmendmentSections;
     }
 
     public boolean getCanCreateRenewal() {
@@ -977,6 +1194,18 @@ public class ActionHelper implements Serializable {
         return canApprove;
     }
     
+    public boolean getCanDisapprove() {
+        return canDisapprove;
+    }
+    
+    public boolean getCanReturnForSMR() {
+        return canReturnForSMR;
+    }
+    
+    public boolean getCanReturnForSRR() {
+        return canReturnForSRR;
+    }
+    
     public boolean getCanReopen() {
         return canReopen;
     }
@@ -989,8 +1218,8 @@ public class ActionHelper implements Serializable {
         return canSuspend;
     }
     
-    public boolean getCanSuspendByDmsb() {
-        return canSuspendByDmsb;
+    public boolean getCanSuspendByDsmb() {
+        return canSuspendByDsmb;
     }
     
     public boolean getCanClose() {
@@ -1041,6 +1270,62 @@ public class ActionHelper implements Serializable {
         return this.canReviewNotRequired;
     }
 
+    public boolean getCanManageReviewComments() {  
+        return canManageReviewComments;
+    }
+    
+    public boolean getCanApproveOther() {
+        return canApproveOther;
+    }
+
+    public boolean getIsApproveOpenForFollowup() {
+        return isApproveOpenForFollowup;
+    }
+    
+    public boolean getIsDisapproveOpenForFollowup() {
+        return isDisapproveOpenForFollowup;
+    }
+    
+    public boolean getIsReturnForSMROpenForFollowup() {
+        return isReturnForSMROpenForFollowup;
+    }
+    
+    public boolean getIsReturnForSRROpenForFollowup() {
+        return isReturnForSRROpenForFollowup;
+    }
+    
+    public boolean getCanViewOnlineReviewers() {
+        return canViewOnlineReviewers;
+    }
+    
+    public boolean getCanViewOnlineReviewerComments() {
+        return canViewOnlineReviewerComments;
+    }
+
+    public boolean getCanAddCloseReviewerComments() {
+        return canAddCloseReviewerComments;
+    }
+
+    public boolean getCanAddCloseEnrollmentReviewerComments() {
+        return canAddCloseEnrollmentReviewerComments;
+    }
+
+    public boolean getCanAddDataAnalysisReviewerComments() {
+        return canAddDataAnalysisReviewerComments;
+    }
+
+    public boolean getCanAddReopenEnrollmentReviewerComments() {
+        return canAddReopenEnrollmentReviewerComments;
+    }
+
+    public boolean getCanAddSuspendReviewerComments() {
+        return canAddSuspendReviewerComments;
+    }
+
+    public boolean getCanAddTerminateReviewerComments() {
+        return canAddTerminateReviewerComments;
+    }
+
     public void setPrintTag(String printTag) {
         this.printTag = printTag;
     }
@@ -1064,13 +1349,21 @@ public class ActionHelper implements Serializable {
     public String getSelectedHistoryItem() {
         return selectedHistoryItem;
     }
-
-    public void setHistoryDateRangeFilter(DateRangeFilter historyDateRangeFilter) {
-        this.historyDateRangeFilter = historyDateRangeFilter;
+    
+    public Date getFilteredHistoryStartDate() {
+        return filteredHistoryStartDate;
     }
-
-    public DateRangeFilter getHistoryDateRangeFilter() {
-        return historyDateRangeFilter;
+    
+    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
+        this.filteredHistoryStartDate = filteredHistoryStartDate;
+    }
+    
+    public Date getFilteredHistoryEndDate() {
+        return filteredHistoryEndDate;
+    }
+    
+    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
+        this.filteredHistoryEndDate = filteredHistoryEndDate;
     }
     
     public ProtocolAction getLastPerformedAction() {
@@ -1085,49 +1378,55 @@ public class ActionHelper implements Serializable {
     }
     
     /**
-     * Get the filtered list of protocol actions sorted by the Actual Action Date.
-     * The list is filtered based upon the current Date Range Filter.  Protocol actions
-     * that don't fall with the given range are not returned.
-     * @return the filtered list of protocol actions
+     * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
      */
-    public List<ProtocolAction> getFilteredProtocolActions() {
-        List<ProtocolAction> filteredProtocolActions = new ArrayList<ProtocolAction>();
-        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
-        for (ProtocolAction protocolAction : protocolActions) {
-            if (inDateRange(protocolAction)) {
-                filteredProtocolActions.add(protocolAction);
+    public void initFilterDatesView() {
+        java.util.Date dayBeforeStartDate = null;
+        java.util.Date dayAfterEndDate = null;
+        
+        if (filteredHistoryStartDate != null && filteredHistoryEndDate != null) {
+            dayBeforeStartDate = DateUtils.addDays(filteredHistoryStartDate, -1);
+            dayAfterEndDate = DateUtils.addDays(filteredHistoryEndDate, 1);
+        }
+        
+        for (ProtocolAction protocolAction : getSortedProtocolActions()) {            
+            Timestamp actionDate = protocolAction.getActionDate();
+            if (dayBeforeStartDate != null && dayAfterEndDate != null) {
+                protocolAction.setIsInFilterView(actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate));
+            } else {
+                protocolAction.setIsInFilterView(true);
             }
         }
-        Collections.sort(filteredProtocolActions, new Comparator<ProtocolAction>() {
+    }
+    
+    /**
+     * Prepares, sorts, and returns a list of protocol actions.
+     * @return
+     */
+    public List<ProtocolAction> getSortedProtocolActions() {
+        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
+        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
+            if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
+                protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
+            }
+            protocolActions.add(protocolAction);
+        }
+        
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
         });
      
-        return filteredProtocolActions;
+        return protocolActions;
     }
-
-    /**
-     * Is the given Protocol Action within the range of the Date Range Filter?
-     * @param protocolAction the protocol action
-     * @return true if in the range; otherwise false
-     */
-    private boolean inDateRange(ProtocolAction protocolAction) {
-        Date beginningOn = historyDateRangeFilter.getBeginningOn();
-        if (beginningOn != null) {
-            Timestamp startTimestamp = new Timestamp(beginningOn.getTime());
-            if (protocolAction.getActionDate().before(startTimestamp)) {
-                return false;
-            }
-        }
-        Date endingOn = historyDateRangeFilter.getEndingOn();
-        if (endingOn != null) {
-            Timestamp endTimestamp = new Timestamp(endingOn.getTime() + ONE_DAY - 1);
-            if (protocolAction.getActionDate().after(endTimestamp)) {
-                return false;
-            }
-        }
-        return true;
+    
+    @SuppressWarnings("unchecked")
+    private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
+        fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
+        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
     }
     
     public ProtocolAction getSelectedProtocolAction() {
@@ -1209,6 +1508,13 @@ public class ActionHelper implements Serializable {
 
     public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
         this.abstainees = abstainees;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
     
     private ReviewerCommentsService getReviewerCommentsService() {
@@ -1378,6 +1684,32 @@ public class ActionHelper implements Serializable {
         }
     }
 
+    public void addNotifyIrbAttachment() {
+        getProtocolNotifyIrbBean().getActionAttachments().add(
+                getProtocolNotifyIrbBean().getNewActionAttachment());
+        getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
+    }
+
+    public void addRequestAttachment(String actionTypeCode) {
+        getActionTypeRequestBeanMap(actionTypeCode).getActionAttachments().add(
+                getActionTypeRequestBeanMap(actionTypeCode).getNewActionAttachment());
+        getActionTypeRequestBeanMap(actionTypeCode).setNewActionAttachment(new ProtocolActionAttachment());
+    }
+
+    public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
+        
+        boolean valid = true;
+        
+        //this got much more complex using anon keys
+        if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
+            valid = false;
+            new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
+                KeyConstants.ERROR_ATTACHMENT_REQUIRED);
+        }
+        
+        return valid;
+    }
+
     public List<ProtocolVoteRecused> getRecusers() {
         return recusers;
     }
@@ -1433,4 +1765,76 @@ public class ActionHelper implements Serializable {
     public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
         this.protocolReviewers = protocolReviewers;
     }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+
+    public String getRenewalSummary() {
+        return renewalSummary;
+    }
+
+
+    public void setRenewalSummary(String renewalSummary) {
+        this.renewalSummary = renewalSummary;
+    }
+
+
+    /**
+     * Sets the protocolSummaryPrintOptions attribute value.
+     * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
+     */
+    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
+        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
+    }
+
+
+    /**
+     * Gets the protocolSummaryPrintOptions attribute. 
+     * @return Returns the protocolSummaryPrintOptions.
+     */
+    public ProtocolSummaryPrintOptions getProtocolSummaryPrintOptions() {
+        return protocolSummaryPrintOptions;
+    }
+    
+
+    public ProtocolRequestBean getActionTypeRequestBeanMap(String actionTypeCode) {
+        return actionTypeRequestBeanMap.get(actionTypeCode);
+    }
+
+    public Boolean getSummaryReport() {
+        return summaryReport;
+    }
+
+    public void setSummaryReport(Boolean summaryReport) {
+        this.summaryReport = summaryReport;
+    }
+
+    public Boolean getFullReport() {
+        return fullReport;
+    }
+
+    public void setFullReport(Boolean fullReport) {
+        this.fullReport = fullReport;
+    }
+
+    public Boolean getHistoryReport() {
+        return historyReport;
+    }
+
+    public void setHistoryReport(Boolean historyReport) {
+        this.historyReport = historyReport;
+    }
+
+    public Boolean getReviewCommentsReport() {
+        return reviewCommentsReport;
+    }
+
+    public void setReviewCommentsReport(Boolean reviewCommentsReport) {
+        this.reviewCommentsReport = reviewCommentsReport;
+    }
+
+    
 }

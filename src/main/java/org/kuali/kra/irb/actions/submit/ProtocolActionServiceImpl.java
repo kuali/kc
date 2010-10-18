@@ -26,13 +26,11 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -58,6 +56,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
     
     private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
+    
+    private static final String FOLLOWUP_FILE = "org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl";
 
     private static final int PERMISSIONS_LEADUNIT_RULE = 0;
 
@@ -72,6 +72,8 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     private static final int UPDATE_RULE = 5;
     
     private static final int UNDO_UPDATE_RULE = 6;
+    
+    private static final int FOLLOWUP_RULE = 7;
 
     private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
 
@@ -135,7 +137,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user is authorized to perform action of 'actionTypeCode'
      */
-    private boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
+    protected boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
         boolean flag = false;
         ActionRightMapping rightMapper = new ActionRightMapping();
 
@@ -173,7 +175,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /*
      * This method is to check if user has permission in lead unit
      */
-    private boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
@@ -183,7 +185,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission to submit
      */
-    private boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
@@ -193,7 +195,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission in committee home unit
      */
-    private boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
@@ -205,14 +207,14 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     /**
      * This method is to check if user has permission for special cases.
      */
-    private boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
                 KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId(); 
     }
 
@@ -278,6 +280,17 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
     }
     
     /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.Protocol)
+     */
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
+        String motionTypeCode = protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode();
+        ProtocolActionFollowupMapping mapping = new ProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
+        rulesList.get(FOLLOWUP_RULE).executeRules(mapping);
+        return mapping.getIsOpenForFollowup();
+    }
+    
+    /**
      * Compile rules if rulehandler is not set.
      */
     public DroolsRuleHandler getCanPerformRuleHandler() {
@@ -298,7 +311,7 @@ public class ProtocolActionServiceImpl implements ProtocolActionService {
         this.loadRules(ruleFiles);
     }
 
-    private void loadRules(List<String> ruleFiles) {
+    protected void loadRules(List<String> ruleFiles) {
         rulesList = new ArrayList<DroolsRuleHandler>();
         for (String ruleFile : ruleFiles) {
             rulesList.add(new DroolsRuleHandler(ruleFile));

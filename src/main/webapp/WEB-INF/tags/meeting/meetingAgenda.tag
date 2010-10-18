@@ -6,9 +6,10 @@
 <kul:tabTop defaultOpen="false" tabTitle="Agenda" tabErrorKey="meetingHelper.scheduleAgenda">
 
 <div class="tab-container" align="center">
+    <c:if test = "${KualiForm.meetingHelper.canModifySchedule}">
     <h3>
         <span class="subhead-left"> Generate Agenda </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.ScheduleAgenda" altText="help"/> </span>
     </h3>
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
             <tr>
@@ -23,9 +24,11 @@
                 </td>
              </tr>
          </table>       
+    </c:if>
+    
    <h3>
         <span class="subhead-left"> View Agenda </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeSchedule" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.ScheduleAgenda" altText="help"/> </span>
     </h3>
         <table id="viewAgenda-table" cellpadding=0 cellspacing=0 class="datatable" summary="View Agenda Docs">
         
@@ -40,7 +43,9 @@
 						<c:out value="${agenda.agendaNumber}" />
 					</th>
 	                <td align="left" valign="middle">
-	                    <div align="left"><fmt:formatDate value="${agenda.createTimestamp}" pattern="MM/dd/yyyy" /> </div>
+	                    <div align="left">
+	                    	<fmt:formatDate type="both" value="${agenda.createTimestamp}" /> 
+	                    </div>
 					</td>
 						<td>
 							<div align="center">&nbsp;					

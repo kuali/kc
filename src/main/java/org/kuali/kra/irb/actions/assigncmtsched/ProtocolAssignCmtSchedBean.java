@@ -111,4 +111,13 @@ public class ProtocolAssignCmtSchedBean implements Serializable{
     public String getNewScheduleId() {
         return newScheduleId;
     }
+    
+    public boolean committeeHasChanged() {
+        return !StringUtils.equals(getNewCommitteeId(), getCommitteeId());
+    }
+    
+    public boolean scheduleHasChanged() {
+        //depends on both committee and schedule I think
+        return committeeHasChanged() || (!StringUtils.equals(getScheduleId(), getNewScheduleId()));
+    }
 }

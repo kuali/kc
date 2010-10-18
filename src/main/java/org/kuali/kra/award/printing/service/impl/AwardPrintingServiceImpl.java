@@ -107,7 +107,7 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 		return source;
 	}
 
-	private String getReportName(KraPersistableBusinessObjectBase researchDoc,
+	protected String getReportName(KraPersistableBusinessObjectBase researchDoc,
 			String reportName) {
 		Award award = ((Award) researchDoc);
 		String awardNumber = award.getAwardNumber();

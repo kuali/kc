@@ -58,6 +58,7 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "203"; 
     public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "202";
     public static final String DEFERRED = "201";
+    public static final String MANAGE_REVIEW_COMMENTS = "310";
     
     //No corresponding actionTypeCode for this in Coeus 
     //Although we can use DISAPPROVED/SPECIFIC_MINOR_REVISIONS_REQUIRED/SUBSTANTIVE_REVISIONS_REQUIRED instead

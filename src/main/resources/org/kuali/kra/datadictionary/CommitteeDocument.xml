@@ -19,28 +19,28 @@
         <list>
             <bean parent="HeaderNavigation">
             <property name="helpDefinition">
-                <bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
+                <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeCommitteeHelp" p:parameterDetailType="D"/>
             </property>
             <property name="headerTabDisplayName" value="Committee"/>
             <property name="headerTabNavigateTo" value="committee"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
-                    <bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeMembershipHelp" p:parameterDetailType="D"/>
                 </property>
                 <property name="headerTabDisplayName" value="Members"/>
                 <property name="headerTabNavigateTo" value="committeeMembership"/>
             </bean>             
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
-                    <bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeScheduleHelp" p:parameterDetailType="D"/>
                 </property>
                 <property name="headerTabDisplayName" value="Schedule"/>
                 <property name="headerTabNavigateTo" value="committeeSchedule"/>
             </bean>             
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
-                    <bean parent="HelpDefinition" p:parameterNamespace="KC-CMT" p:parameterName="CommitteeHelp" p:parameterDetailType="D"/>
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeActionsHelp" p:parameterDetailType="D"/>
                 </property>
                 <property name="headerTabDisplayName" value="Actions"/>
                 <property name="headerTabNavigateTo" value="committeeActions"/>

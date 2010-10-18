@@ -278,16 +278,18 @@ public class AwardFundingProposalBean implements Serializable {
         String proposalNumber = newFundingProposal.getProposalNumber();
         Long proposalId = newFundingProposal.getProposalId();
         
-        Award currentAward= awardForm.getAwardDocument().getAward();
-        List<AwardFundingProposal> fundingProposals= currentAward.getFundingProposals();
-        ListIterator itr= fundingProposals.listIterator();
-        
-        while(itr.hasNext()) {
-            AwardFundingProposal currentFundingProposal= (AwardFundingProposal) itr.next();
-            Long id= currentFundingProposal.getProposalId();
+        List<Award> awardVersions = awardForm.getFundingProposalBean().getAllAwardsForAwardNumber();
+        for (Award currentAward : awardVersions) {
+            List<AwardFundingProposal> fundingProposals= currentAward.getFundingProposals();
+            ListIterator itr= fundingProposals.listIterator();
             
-            if(id.equals(proposalId)) {
-               return true;
+            while(itr.hasNext()) {
+                AwardFundingProposal currentFundingProposal= (AwardFundingProposal) itr.next();
+                Long id= currentFundingProposal.getProposalId();
+                
+                if(id.equals(proposalId)) {
+                   return true;
+                }
             }
         }
         return false;

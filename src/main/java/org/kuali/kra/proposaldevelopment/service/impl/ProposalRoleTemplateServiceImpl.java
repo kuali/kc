@@ -95,7 +95,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * @param unitNumber the lead unit of the proposal
      * @return the collection of role templates
      */
-    private Collection<RoleMembershipInfo> getRoleTemplates(String unitNumber) {
+    protected Collection<RoleMembershipInfo> getRoleTemplates(String unitNumber) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();

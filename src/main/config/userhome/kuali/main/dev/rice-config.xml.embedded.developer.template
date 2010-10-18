@@ -43,4 +43,7 @@
 	<param name="dev.mode">false</param>
 	
 	<param name="encryption.key" override="false">7IC64w6ksLU</param>
+	
+	<!-- hacky always go back to kc portal -->
+	<param name="rice.portal.logout.redirectUrl">${appserver.url}/kc-dev/logout.do</param>
 </config>

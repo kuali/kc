@@ -119,7 +119,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        doProcessingAfterPost(committeeForm, request);
+        doProcessingAfterPost(committeeForm, request);   
+        /*
         ActionForward actionForward = mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
         // only want to prompt them to save if they already can save
@@ -146,6 +147,9 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         }
 
         return actionForward;
+        */
+        
+        return super.close(mapping, committeeForm, request, response);
     }
 
     private KraDocumentServiceImpl getKraDocumentService() {

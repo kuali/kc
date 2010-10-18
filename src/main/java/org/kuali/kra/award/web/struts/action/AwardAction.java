@@ -154,7 +154,12 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         handlePlaceHolderDocument(request, awardDocument);
         awardForm.initializeFormOrDocumentBasedOnCommand();
-        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);    
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());    
+        if (!(request.getParameter("docOpenedFromAwardSearch") == null)) {
+               if (request.getParameter("docOpenedFromAwardSearch").equals("true")) {
+                   awardDocument.setDocOpenedFromAwardSearch(true);
+               }
+        }
         return forward;
     }
 
@@ -573,7 +578,7 @@ public class AwardAction extends BudgetParentActionBase {
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument, awardForm);
+        setBooleanAwardInMultipleNodeHierarchyOnForm (awardDocument.getAward());
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
         
@@ -588,23 +593,23 @@ public class AwardAction extends BudgetParentActionBase {
      * @param awardForm
      */
     @SuppressWarnings("unchecked")
-    public void setBooleanAwardInMultipleNodeHierarchyOnForm (AwardDocument awardDocument, AwardForm awardForm) {
+    public void setBooleanAwardInMultipleNodeHierarchyOnForm (Award award) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        String awardNumber = awardDocument.getAward().getAwardNumber();
+        String awardNumber = award.getAwardNumber();
         fieldValues.put("awardNumber", awardNumber);
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
         List<AwardHierarchy> awardHierarchies = (ArrayList) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (awardHierarchies.size() == 0) {
-            awardForm.setAwardInMultipleNodeHierarchy(false);
+            award.setAwardInMultipleNodeHierarchy(false);
         }else {
             Map<String, Object> newFieldValues = new HashMap<String, Object>();
             String rootAwardNumber = awardHierarchies.get(0).getRootAwardNumber();
             newFieldValues.put("rootAwardNumber", rootAwardNumber);
             int matchingValues = businessObjectService.countMatching(AwardHierarchy.class, newFieldValues);
             if (matchingValues > 1) {
-                awardForm.setAwardInMultipleNodeHierarchy(true);
+                award.setAwardInMultipleNodeHierarchy(true);
             }else {
-                awardForm.setAwardInMultipleNodeHierarchy(false);
+                award.setAwardInMultipleNodeHierarchy(false);
             }
         }
     }
@@ -623,7 +628,7 @@ public class AwardAction extends BudgetParentActionBase {
         Award award = getAward(form);
         AwardForm awardForm = (AwardForm) form;
         
-        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        award.initCentralAdminContacts();
 
         if (sponsorService.isSponsorNihMultiplePi(award)) {
             award.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));

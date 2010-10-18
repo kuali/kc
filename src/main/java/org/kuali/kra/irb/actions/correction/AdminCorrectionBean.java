@@ -38,17 +38,6 @@ public class AdminCorrectionBean extends ProtocolEditableBean {
         this.applyCorrection = applyCorrection;
     }
     
-    private boolean generalInfoEnabled = false;
-    private boolean fundingSourceEnabled = false;
-    private boolean protocolReferencesEnabled = false;
-    private boolean protocolOrganizationsEnabled = false;
-    private boolean subjectsEnabled = false;
-    private boolean addModifyAttachmentsEnabled = false;
-    private boolean areasOfResearchEnabled = false;
-    private boolean specialReviewEnabled = false;
-    private boolean protocolPersonnelEnabled = false;
-    private boolean othersEnabled = false;
-    
     public boolean isAmendmentRenewalOutstanding() {
         return !(getGeneralInfoEnabled() &&  
             getFundingSourceEnabled() && 
@@ -59,7 +48,8 @@ public class AdminCorrectionBean extends ProtocolEditableBean {
             getAreasOfResearchEnabled() && 
             getSpecialReviewEnabled() && 
             getProtocolPersonnelEnabled() && 
-            getOthersEnabled());
+            getOthersEnabled() &&
+            getProtocolPermissionsEnabled());
     }
 
 }

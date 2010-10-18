@@ -32,63 +32,63 @@
       	<list>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolProtocolHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Protocol"/>
 	          	<property name="headerTabNavigateTo" value="protocol"/>
 	        </bean>
 	        <bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="personnelHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolPersonnelHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Personnel"/>
 	          	<property name="headerTabNavigateTo" value="personnel"/>
         	</bean>
         	<bean parent="HeaderNavigation">
           		<property name="helpDefinition">
-            		<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolQuestionnaireHelp" p:parameterDetailType="D"/>
+            		<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolQuestionnaireHelp" p:parameterDetailType="D"/>
           		</property>
           		<property name="headerTabDisplayName" value="Questionnaire"/>
           		<property name="headerTabNavigateTo" value="questionnaire"/>
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="customDataHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolCustomDataHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Custom Data"/>
 	          	<property name="headerTabNavigateTo" value="customData"/>
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="specialReviewHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolSpecialReviewHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Special Review"/>
 	          	<property name="headerTabNavigateTo" value="specialReview"/>
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="permissionsHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolPermissionsHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Permissions"/>
 	          	<property name="headerTabNavigateTo" value="permissions"/>
         	</bean>
         	<bean parent="HeaderNavigation">
           		<property name="helpDefinition">
-            		<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolNoteAndAttachmentsHelp" p:parameterDetailType="D"/>
+            		<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolNotesAndAttachmentsHelp" p:parameterDetailType="D"/>
           		</property>
           		<property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
           		<property name="headerTabNavigateTo" value="noteAndAttachment"/>
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolActionsHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolActionsHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Protocol Actions"/>
 	          	<property name="headerTabNavigateTo" value="protocolActions"/>
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-IRB" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="D"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="D"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Online Review"/>
 	          	<property name="headerTabNavigateTo" value="onlineReview"/>
@@ -129,6 +129,7 @@
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
               <bean parent="WorkflowProperty" p:path="protocolWorkflowType"/>
+              <bean parent="WorkflowProperty" p:path="reRouted"/>
               <bean parent="WorkflowProperty" p:path="protocolList.protocolId"/>
               <bean parent="WorkflowProperty" p:path="protocolList.protocolNumber"/>
 			  <bean parent="WorkflowProperty" p:path="protocolList.sequenceNumber"/>

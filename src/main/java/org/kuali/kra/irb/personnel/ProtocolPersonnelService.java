@@ -142,6 +142,13 @@ public interface ProtocolPersonnelService {
      */
     public List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId);
     
+    /**
+     * This method returns the protocolPersonRole based on the sourceRoleId.
+     * @param sourceRoleId
+     * @return
+     */
+    public ProtocolPersonRole getProtocolPersonRole(String sourceRoleId);
+
 
     /**
      * This method is to check whether new unit already exists in the list

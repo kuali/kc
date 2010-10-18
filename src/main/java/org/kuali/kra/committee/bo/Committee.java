@@ -31,6 +31,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kns.util.DateUtils;
 
 /**
@@ -354,6 +355,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
      * @see org.kuali.kra.common.permissions.Permissionable#populateAdditionalQualifiedRoleAttributes(java.util.Map)
      */
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, this.getCommitteeId());
     }
 
     /**

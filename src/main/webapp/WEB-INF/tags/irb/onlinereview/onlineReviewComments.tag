@@ -66,16 +66,10 @@
                        		</c:if>
                     </td>
                                             
-                    <td align="left" valign="middle">
-                        <c:choose>
-                            <c:when test="${empty bean.newComment.protocolContingencyCode}">
+	               <td align="left" valign="middle">
                               <kul:htmlControlAttribute property="${property}.newComment.minuteEntry" 
                                                         attributeEntry="${minutesAttributes.minuteEntry}" readOnly = "${readOnly}" />
-                            </c:when>
-                            <c:otherwise>
-                                ${bean.newComment.minuteEntry}
-                            </c:otherwise>
-                        </c:choose>
+                       
                     </td>
                                      
                     <td valign="middle" style="text-align:center">
@@ -156,12 +150,13 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    ${comment.minuteEntry}
+                                    <kul:htmlControlAttribute property="${property}.comments[${status.index}].minuteEntry"
+                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
                                 </td>
                             </c:otherwise>
                         </c:choose>
                                                 
-                        <td style="text-align:center; vertical-align:middle">
+		                   <td style="text-align:center; vertical-align:middle">
                             
                             	<kul:htmlControlAttribute property="${property}.comments[${status.index}].privateCommentFlag" 
                                                       attributeEntry="${minutesAttributes.privateCommentFlag}"

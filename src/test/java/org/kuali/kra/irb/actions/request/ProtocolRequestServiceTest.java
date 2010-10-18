@@ -39,6 +39,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -49,6 +50,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -82,6 +84,7 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     private ProtocolRequestServiceImpl protocolRequestService;
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;   
+    private DocumentService documentService;   
    
     @Before
     public void setUp() throws Exception {
@@ -90,8 +93,10 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         protocolRequestService = new ProtocolRequestServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         protocolRequestService.setBusinessObjectService(businessObjectService);
         protocolRequestService.setProtocolActionService(protocolActionService);
+        protocolRequestService.setDocumentService(documentService);
     }
 
     @After
@@ -114,8 +119,9 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     @Test
     public void testRequestWithNoCommitteeNoFile() throws WorkflowException {
         ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        closeRequest.setFile(null);
+                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        
+        //closeRequest.setFile(null);
         closeRequest.setReason(REASON);
         runTest("", null, closeRequest);
     }
@@ -129,8 +135,10 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
     @Test
     public void testRequest() throws WorkflowException {
         ProtocolRequestBean closeRequest = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE, 
-                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE);
-        closeRequest.setFile(new MockFormFile());
+                                                                   ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
+        ProtocolActionAttachment attachment = new ProtocolActionAttachment();
+        attachment.setFile(new MockFormFile());
+        closeRequest.getActionAttachments().add(attachment);
         closeRequest.setCommitteeId("925");
         closeRequest.setReason(REASON);
         runTest("925", null, closeRequest);
@@ -145,21 +153,21 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
         
         List<DocumentNextvalue> documentNextvalues = new ArrayList<DocumentNextvalue>();
         DocumentNextvalue dnv1 = new DocumentNextvalue();
-        dnv1.setDocumentKey("submissionNumber");
+        dnv1.setDocumentKey("123456");
         dnv1.setPropertyName("submissionNumber");
         dnv1.setAutoIncrementSet(true);
         dnv1.setNextValue(new Integer(1));
         documentNextvalues.add(dnv1);
         
         DocumentNextvalue dnv2 = new DocumentNextvalue();
-        dnv2.setDocumentKey("submissionDocId");
+        dnv2.setDocumentKey("123456");
         dnv2.setPropertyName("submissionDocId");
         dnv2.setAutoIncrementSet(true);
         dnv2.setNextValue(new Integer(1));
         documentNextvalues.add(dnv2);
         
         DocumentNextvalue dnv3 = new DocumentNextvalue();
-        dnv3.setDocumentKey("actionId");
+        dnv3.setDocumentKey("123456");
         dnv3.setPropertyName("actionId");
         dnv3.setAutoIncrementSet(true);
         dnv3.setNextValue(new Integer(1));
@@ -239,12 +247,12 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
      */
     private void verifySubmissionDoc(ProtocolSubmission protocolSubmission, ProtocolRequestBean requestBean) {
         ProtocolSubmissionDoc doc = findSubmissionDoc(protocolSubmission);
-        if (requestBean.getFile() == null) {
+        if (requestBean.getActionAttachments().isEmpty()) {
             assertNull(doc);
         }
         else {
-            assertEquals(requestBean.getFile().getFileName(), doc.getFileName());
-            assertEquals(requestBean.getFile().getFileSize(), doc.getDocument().length);
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileName(), doc.getFileName());
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileSize(), doc.getDocument().length);
         }
     }
     

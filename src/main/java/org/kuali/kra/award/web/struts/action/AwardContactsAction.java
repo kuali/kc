@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.contacts.AwardCentralAdminContactsBean;
 import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
@@ -63,7 +62,7 @@ public class AwardContactsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         setLeadUnitOnAwardFromPILeadUnit(award, awardForm);
-        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        award.initCentralAdminContacts();
         ActionForward forward = super.save(mapping, form, request, response); 
         return forward;
     }
@@ -71,7 +70,7 @@ public class AwardContactsAction extends AwardAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         ActionForward forward = super.reload(mapping, form, request, response);
-        awardForm.getCentralAdminContactsBean().initCentralAdminContacts();
+        awardForm.getAwardDocument().getAward().initCentralAdminContacts();
 
         return forward;
     }
@@ -311,10 +310,6 @@ public class AwardContactsAction extends AwardAction {
     
     private AwardCreditSplitBean getAwardCreditSplitBean(ActionForm form) {
         return ((AwardForm) form).getAwardCreditSplitBean();
-    }
-    
-    private AwardCentralAdminContactsBean getCentralAdminContactsBean(ActionForm form) {
-        return ((AwardForm) form).getCentralAdminContactsBean();
     }
     
     private AwardProjectPersonnelBean getProjectPersonnelBean(ActionForm form) {

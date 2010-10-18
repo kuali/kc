@@ -42,7 +42,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         this.businessObjectService = businessObjectService;
     }
     
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
     
@@ -54,11 +54,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     }
     
     
-    private void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
-        //Temp code since printing impl is not in place
-        byte[] temp = {'a', 'b', 'c', 'd', 'e'};
-        data = temp;
-        //Temp code ends here - can be removed once printing logic is in place
+    protected void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
         
         ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
         protocolCorrespondence.setProtocol(protocol);
@@ -97,7 +93,11 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
             //there are templates in play, lets do some printing and attaching            
             Protocol protocol = printableCorrespondence.getProtocol();
             AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
-            buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
+            if (ads.getContent().length > 0) {
+                //only need to do this, if there is actually printable correspondence to save
+                //this may not be the case if a bad template is put in place, or under certain testing conditions.
+                buildAndAttachProtocolCorrespondence(protocol, ads.getContent(), printableCorrespondence.getProtoCorrespTypeCode());
+            }
         }
     }
     

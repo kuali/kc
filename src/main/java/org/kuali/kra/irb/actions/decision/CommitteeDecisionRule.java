@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.decision;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,7 +33,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule {
     
     private static final String DOT = ".";
-    private static final String MOTION_FIELD = "motion";
+    private static final String MOTION_FIELD = "motionTypeCode";
     private static final String YES_COUNT_FIELD = "yesCount";
     private static final String NO_COUNT_FIELD = "noCount";
     
@@ -70,14 +71,13 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     private boolean processMotion(CommitteeDecision committeeDecision) {
         boolean retVal = true;
         
-        String motionToCompareFrom = getMotionToCompareFrom(committeeDecision);
-        
-        if (StringUtils.isBlank(motionToCompareFrom)) { 
+        if (StringUtils.isBlank(committeeDecision.getMotionTypeCode())) { 
             reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
             retVal = false;
         } else {
-            if ((MotionValuesFinder.SMR.equals(motionToCompareFrom) || MotionValuesFinder.SRR.equals(motionToCompareFrom)) 
-                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getComments())) {
+            if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(committeeDecision.getMotionTypeCode()) 
+                    || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(committeeDecision.getMotionTypeCode())) 
+                    && CollectionUtils.isEmpty(committeeDecision.getReviewComments().getCommentsForCurrentProtocol())) {
                 reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + MOTION_FIELD, 
                             KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
                 retVal = false;
@@ -90,7 +90,6 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
     private boolean processCounts(ProtocolSubmission submission, CommitteeDecision committeeDecision) {
         boolean retVal = true;
         
-        String motionToCompareFrom = getMotionToCompareFrom(committeeDecision);
         String committeeId = submission.getCommittee() != null ? submission.getCommittee().getCommitteeId() : null;
         String scheduleId = submission.getScheduleId();
         int membersPresent = getAttendanceService().getActualVotingMembersCount(committeeId, scheduleId);
@@ -100,21 +99,17 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
             retVal = false;
         }
-        if (MotionValuesFinder.APPROVE.equals(motionToCompareFrom) && committeeDecision.getYesCount() == null) {
+        if (CommitteeDecisionMotionType.APPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getYesCount() == null) {
             reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + YES_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
             retVal = false;
         }
-        if (MotionValuesFinder.DISAPPROVE.equals(motionToCompareFrom) && committeeDecision.getNoCount() == null) {
+        if (CommitteeDecisionMotionType.DISAPPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getNoCount() == null) {
             reportError(Constants.PROTOCOL_RECORD_COMMITTEE_KEY + DOT + NO_COUNT_FIELD, 
                     KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
             retVal = false;
         }
         return retVal;
-    }
-    
-    private String getMotionToCompareFrom(CommitteeDecision committeeDecision) {
-        return committeeDecision.getMotion() == null ? null : committeeDecision.getMotion().trim();
     }
     
 }

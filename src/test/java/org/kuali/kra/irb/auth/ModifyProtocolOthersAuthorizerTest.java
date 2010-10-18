@@ -15,36 +15,48 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.jmock.integration.junit4.JMock;
-import org.junit.Ignore;
-import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
  * Test the Modify Protocol Others Authorizer.
  */
-@Ignore
-@RunWith(JMock.class)
-public class ModifyProtocolOthersAuthorizerTest extends ModifyProtocolModuleAuthorizerTest {
+public class ModifyProtocolOthersAuthorizerTest extends ModifyProtocolModuleAuthorizerTestBase {
 
+    @Test
+    public void testHasProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, true, true);
+    }
+
+    @Test
+    public void testHasNoProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, false, false);
+    }
+    
+    @Test
+    public void testHasModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", getModuleTypeCode(), true, true);
+    }
+
+    @Test
+    public void testHasNoModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", ProtocolModule.ADD_MODIFY_ATTACHMENTS, true, false);
+    }
+    
     @Override
-    protected ModifyAmendmentAuthorizer createAuthorizer() {
+    protected ModifyAmendmentAuthorizer createModifyAmendmentAuthorizer() {
         return new ModifyProtocolOthersAuthorizer();
     }
     
     @Override
-    protected String getTestModuleTypeCode() {
+    protected String getModuleTypeCode() {
         return ProtocolModule.OTHERS;
-    }
-    
-    @Override
-    protected String getFalseModuleTypeCode() {
-        return ProtocolModule.ADD_MODIFY_ATTACHMENTS;
     }
 
     @Override
     protected String getTaskName() {
         return TaskName.MODIFY_PROTOCOL_OTHERS;
     }
+    
 }

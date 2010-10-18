@@ -39,7 +39,8 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
                                                                                          ,RouteProtocolOnlineReviewRule
                                                                                          {
 
-    private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
+    private static final String ONLINE_REVIEW_COMMENTS_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
+    private static final String ONLINE_REVIEW_ERROR_PATH="onlineReviewsActionHelper.protocolOnlineReviewDocuments[%s].protocolOnlineReview";
     private static final String REVIEWER_APPROVAL_NODE_NAME="OnlineReviewer";
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
@@ -60,7 +61,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
             valid = false;
             GlobalVariables.getErrorMap().clearErrorPath();
-            GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
+            GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
             GlobalVariables.getErrorMap().putError("newComment.minuteEntry",  
                                                    KeyConstants.ERROR_ONLINE_REVIEW_COMMENT_REQUIRED);  
         }
@@ -70,7 +71,9 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
     public boolean processSaveProtocolOnlineReview(SaveProtocolOnlineReviewEvent event) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(String.format( ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
+        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
+        
+        ProtocolOnlineReview protocolOnlineReview = event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
         
         int index = 0;
         
@@ -83,6 +86,16 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
             index++;
         }
         
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
+        
+        if (StringUtils.isEmpty(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
+            GlobalVariables.getErrorMap().putError("protocolOnlineReviewStatusCode",  
+                    KeyConstants.ERROR_ONLINE_REVIEW_STATUS_REQUIRED);
+            valid = false;
+        }
+        
+        
         return valid;
         
     }
@@ -93,7 +106,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
         valid &= ruleService.applyRules(new SaveProtocolOnlineReviewEvent(event.getProtocolOnlineReviewDocument(),event.getMinutes(),event.getOnlineReviewIndex()));
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_ERROR_PATH, event.getOnlineReviewIndex()));
+        GlobalVariables.getErrorMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
         
         //check to see if it is on the 
         boolean isOnReviewerApproveNode = getKraWorkflowService().isDocumentOnNode(event.getProtocolOnlineReviewDocument(), REVIEWER_APPROVAL_NODE_NAME);

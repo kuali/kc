@@ -74,7 +74,7 @@ public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLo
      * @param fieldValues the values to map to modify.
      *            
      */
-    private void addSingleDayDateRange(final Map<String, String> fieldValues) {
+    protected void addSingleDayDateRange(final Map<String, String> fieldValues) {
         assert fieldValues != null : "the fieldValues is null";
 
         final String timeStamp = fieldValues.get(GEN_TIMESTAMP_NAME);
@@ -105,7 +105,7 @@ public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLo
      * @param d the date
      * @return the incremented date string
      */
-    private String getNextDateString(final Date d) {
+    protected String getNextDateString(final Date d) {
         assert d != null : "the date is null";
         
         final SimpleDateFormat sdf = new SimpleDateFormat(GEN_TIMESTAMP_FORMAT);
@@ -123,7 +123,7 @@ public class KraPessimisticLockLookupableHelperServiceImpl extends PessimisticLo
      * @param rightDate the date on the right
      * @return date range
      */
-    private String buildDateRange(final String leftDate, final String rightDate) {
+    protected String buildDateRange(final String leftDate, final String rightDate) {
         assert leftDate != null : "the leftDate is null";
         assert rightDate != null : "the rightDate is null";
         

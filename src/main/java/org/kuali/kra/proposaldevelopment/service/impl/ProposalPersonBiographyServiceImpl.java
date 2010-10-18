@@ -134,7 +134,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @param proposalPersonNumber
      * @return
      */
-    private ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
+    protected ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
         for (ProposalPerson person : proposaldevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
                 return person;

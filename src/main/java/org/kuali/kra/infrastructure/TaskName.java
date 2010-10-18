@@ -70,6 +70,7 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_ROLES = "modifyProtocolRoles";
     public static final String ADD_PROTOCOL_NOTES = "addProtocolNotes";
     public static final String CREATE_PROTOCOL_AMMENDMENT = "createAmendment";
+    public static final String MODIFY_PROTOCOL_AMMENDMENT_SECTIONS = "modifyAmendmentSections";
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
     public static final String SUBMIT_PROTOCOL = "submitProtocol";
@@ -100,6 +101,9 @@ public interface TaskName {
     public static final String EXPEDITE_APPROVAL = "protocolExpediteApproval";
     public static final String RESPONSE_APPROVAL = "protocolResponseApproval";
     public static final String APPROVE_PROTOCOL = "protocolApprove";
+    public static final String DISAPPROVE_PROTOCOL = "protocolDisapprove";
+    public static final String RETURN_FOR_SMR = "protocolReturnForSMR";
+    public static final String RETURN_FOR_SRR = "protocolReturnForSRR";
     public static final String REOPEN_PROTOCOL = "protocolReopen";
     public static final String CLOSE_ENROLLMENT_PROTOCOL = "protocolCloseEnrollment";
     public static final String SUSPEND_PROTOCOL = "protocolSuspend";
@@ -116,6 +120,8 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
     public static final String DEFER_PROTOCOL = "protocolDefer";
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS = "protocolManageReviewComments";
+    public static final String PROTOCOL_APPROVE_OTHER = "protocolApproveOther";
     
     /*
      * Protocol - Online Review Tasks

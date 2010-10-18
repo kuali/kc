@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
@@ -28,6 +29,8 @@ public class ProtocolWithdrawAuthorizer extends ProtocolAuthorizer {
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
+               kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
+               kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAWN) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);
     }

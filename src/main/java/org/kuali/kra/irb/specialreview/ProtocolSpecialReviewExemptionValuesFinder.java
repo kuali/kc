@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.specialreview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.ExemptionType;
@@ -63,7 +64,10 @@ public class ProtocolSpecialReviewExemptionValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        return finder.getKeyValues();
+        List<KeyLabelPair> keyPair = new ArrayList<KeyLabelPair>();
+        keyPair.add(new KeyLabelPair("", ""));
+        keyPair.addAll(finder.getKeyValues());
+        return keyPair;
     }
 }
 

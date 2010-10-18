@@ -16,69 +16,46 @@
 package org.kuali.kra.irb.auth;
 
 import org.junit.Test;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
-import org.kuali.kra.test.infrastructure.KcUnitTestBase;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
  * Test the Modify Protocol Permissions Authorizer.
  */
-public class ModifyProtocolPermissionsAuthorizerTest extends KcUnitTestBase {
-    //UserID for Quickstart user
-    private static final String USERID = "10000000000";
-    
+public class ModifyProtocolPermissionsAuthorizerTest extends ModifyProtocolModuleAuthorizerTestBase {
     @Test
-    public void testModifyPermission() throws WorkflowException {
-        ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
-        authorizer.setKraWorkflowService(KraServiceLocator.getService(KraWorkflowService.class));
-        
-        final Protocol protocol = createProtocol(1L, false);
-        
-        final KraAuthorizationService protocolAuthorizationService = new KraAuthorizationServiceMock(true);
-        authorizer.setKraAuthorizationService(protocolAuthorizationService);
-        
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(true, authorizer.isAuthorized(USERID, task));
+    public void testHasProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, true, true);
+    }
+
+    @Test
+    public void testHasNoProtocolPermission() throws Exception {
+        runModifyProtocolTest(PROTOCOL_NUMBER, false, false);
     }
     
     @Test
-    public void testNotModifyPermission() throws WorkflowException {
-        ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
-        authorizer.setKraWorkflowService(KraServiceLocator.getService(KraWorkflowService.class));
-        final Protocol protocol = createProtocol(1L, false);
-        
-        final KraAuthorizationService protocolAuthorizationService = new KraAuthorizationServiceMock(false);
-        authorizer.setKraAuthorizationService(protocolAuthorizationService);
-        
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(false, authorizer.isAuthorized(USERID, task));
+    public void testHasModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", getModuleTypeCode(), true, true);
     }
-    
+
     @Test
-    public void testViewOnly() throws WorkflowException {
-        ModifyProtocolPermissionsAuthorizer authorizer = new ModifyProtocolPermissionsAuthorizer();
-        
-        final Protocol protocol = createProtocol(1L, true);
-        
-        final KraAuthorizationService protocolAuthorizationService = new KraAuthorizationServiceMock(true);
-        authorizer.setKraAuthorizationService(protocolAuthorizationService);
-        
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, protocol);
-        assertEquals(false, authorizer.isAuthorized(USERID, task));
+    public void testHasNoModulePermission() throws Exception {
+        runModifyProtocolAmendmentTest(PROTOCOL_NUMBER + "A001", ProtocolModule.ADD_MODIFY_ATTACHMENTS, true, false);
     }
     
-    private Protocol createProtocol(Long id, boolean viewOnly) throws WorkflowException {
-        
-        ProtocolDocument doc = new ProtocolDocument();
-        doc.getProtocol().setProtocolId(id);
-        doc.setViewOnly(viewOnly);
-        
-        return doc.getProtocol();
+    @Override
+    protected ModifyAmendmentAuthorizer createModifyAmendmentAuthorizer() {
+        return new ModifyProtocolPermissionsAuthorizer();
     }
+    
+    @Override
+    protected String getModuleTypeCode() {
+        return ProtocolModule.PROTOCOL_PERMISSIONS;
+    }
+
+    @Override
+    protected String getTaskName() {
+        return TaskName.MODIFY_PROTOCOL_ROLES;
+    }
+
 }

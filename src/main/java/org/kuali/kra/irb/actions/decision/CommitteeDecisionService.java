@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.decision;
 import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 
@@ -32,7 +31,7 @@ public interface CommitteeDecisionService {
      * @param protocol
      * @param committeeDecision
      */
-    ProtocolDocument processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception;
+    void processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception;
     
     /**
      * Finds all of the abstainer votes for the given protocolNumber and submissionNumber.

@@ -101,7 +101,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * remove duplicates and get only the one with the highest sequence number from the search results
      */
     @SuppressWarnings("unchecked")
-    private List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
+    protected List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
 
         List<Committee> uniqueResults = new ArrayList<Committee>();
         List<String> committeeIds = new ArrayList<String>();
@@ -164,7 +164,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * get the document number of the committee that is being edited.
      */
-    private String getEditedCommitteeDocId(Committee committee) {
+    protected String getEditedCommitteeDocId(Committee committee) {
         String docId = null;
         List<CommitteeDocument> documents = getCommitteeDocuments(committee.getCommitteeId());
         if (CollectionUtils.isNotEmpty(documents)) {
@@ -177,7 +177,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * get saved committee documents of the committeeId specified.
      * should only have one if exists
      */
-    private List<CommitteeDocument> getCommitteeDocuments(String committeeId) {
+    protected List<CommitteeDocument> getCommitteeDocuments(String committeeId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
         List<CommitteeDocument> documents = (List<CommitteeDocument>) getBusinessObjectService()
@@ -195,7 +195,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * Get the committee that is saved, but not approved yet.  basically this is sequence = 1
      */
-    private List<Committee> getUnapprovedCommittees(Map<String, String> criterias) {
+    protected List<Committee> getUnapprovedCommittees(Map<String, String> criterias) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("docStatusCode", "S");
@@ -232,7 +232,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * This is to check the committee, which is not approved yet, matches the search criteria specified.
      * This is a new committee and not persisted to DB yet.  So, this tedious criteria check is needed.
      */
-    private boolean isCriteriaMatched(Committee committee, Map<String, String> criterias) {
+    protected boolean isCriteriaMatched(Committee committee, Map<String, String> criterias) {
         boolean isMatch = isMatching(criterias.get("committeeId"), committee.getCommitteeId())
                 && isMatching(criterias.get("committeeName"), committee.getCommitteeName())
                 && isMatching(criterias.get("homeUnitNumber"), committee.getHomeUnitNumber())
@@ -277,7 +277,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * check if any member name matched the criteria
      */
-    private boolean isMemberNameMatch(String matchmember, List<CommitteeMembership> members) {
+    protected boolean isMemberNameMatch(String matchmember, List<CommitteeMembership> members) {
         boolean isMatch = false;
         for (CommitteeMembership member : members) {
             if (isMatching(matchmember, member.getPersonName())) {
@@ -291,7 +291,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * check if any member role code matched the selected role code
      */
-    private boolean isMemberRoleMatch(String matchRoleCode, List<CommitteeMembership> members) {
+    protected boolean isMemberRoleMatch(String matchRoleCode, List<CommitteeMembership> members) {
         boolean isMatch = false;
         for (CommitteeMembership member : members) {
             for (CommitteeMembershipRole role : member.getMembershipRoles()) {
@@ -307,7 +307,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * check if any committee research area code matched search criteria
      */
-    private boolean isAreaResearchMatch(String matchArea, List<CommitteeResearchArea> researchAreas) {
+    protected boolean isAreaResearchMatch(String matchArea, List<CommitteeResearchArea> researchAreas) {
         boolean isMatch = false;
         for (CommitteeResearchArea researchArea : researchAreas) {
             if (isMatching(matchArea, researchArea.getResearchAreaCode())) {
@@ -321,7 +321,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * using reg expression to check if pattern matched
      */
-    private boolean isMatching(String patternString, String value) {
+    protected boolean isMatching(String patternString, String value) {
         boolean isMatch = false;
         if (StringUtils.isBlank(patternString)) {
             isMatch = true;
@@ -346,7 +346,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * check if the selected code matched
      */
-    private boolean isMatchingCode(String selectedCode, String value) {
+    protected boolean isMatchingCode(String selectedCode, String value) {
         boolean isMatch = false;
         if (StringUtils.isBlank(selectedCode)) {
             isMatch = true;
@@ -361,7 +361,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * Create a Committee object and populate it from the xml.
      */
-    private Committee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
+    protected Committee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
         Committee committee = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
                 committee = (Committee) getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
@@ -373,7 +373,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * Retrieves substring of document contents from maintainable tag name. Then use xml service to translate xml into a business
      * object.
      */
-    private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
+    protected PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
         objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
         if (objXml.contains("itemDesctiption")) {
@@ -383,14 +383,14 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return businessObject;
     }
 
-    private KraAuthorizationService getKraAuthorizationService() {
+    protected KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
     
     /*
      * get the existing approved committee id
      */
-    private List<String> getCommitteeIds() {
+    protected List<String> getCommitteeIds() {
         List<Committee> committees = (List<Committee>) getBusinessObjectService().findAll(
                 Committee.class);
         List<String> result = new ArrayList<String>();
@@ -402,7 +402,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
         return result;
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
@@ -412,7 +412,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    private List<Committee> trimResult(List<Committee> result, Integer trimSize) {
+    protected List<Committee> trimResult(List<Committee> result, Integer trimSize) {
         List<Committee> trimedResult = new ArrayList<Committee>();
         for (Committee committee : result) {
             if (trimedResult.size()< trimSize) {

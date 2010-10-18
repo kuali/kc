@@ -29,4 +29,5 @@
 	<param name="keystore.password">r1c3pw</param>
 	
 	<param name="rice.portal.links.showRiceServerConfig">true</param>
+	<param name="rice.portal.logout.redirectUrl">${rice.app.url}/logout.do</param>
 </config>

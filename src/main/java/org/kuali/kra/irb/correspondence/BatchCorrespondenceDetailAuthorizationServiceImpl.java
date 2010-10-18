@@ -38,7 +38,7 @@ public class BatchCorrespondenceDetailAuthorizationServiceImpl implements BatchC
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
 
     }
-    private String getUserName() {
+    protected String getUserName() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
     

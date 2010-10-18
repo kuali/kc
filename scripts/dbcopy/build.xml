@@ -44,7 +44,7 @@
 	<target name="oracle-init">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://db.kc.kuali.org/userContent/extracts/devdb_oracle.zip"/>
+                <url url="http://db.kc.kuali.org/public/extracts/devdb_oracle.zip"/>
             </resources>
         </copy>
         <unzip src="devdb_oracle.zip" dest="."/>
@@ -87,7 +87,7 @@
 	<target name="mysql-init">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://db.kc.kuali.org/userContent/extracts/devdb_mysql.zip"/>
+                <url url="http://db.kc.kuali.org/public/extracts/devdb_mysql.zip"/>
             </resources>
         </copy>
         <unzip src="devdb_mysql.zip" dest="."/>

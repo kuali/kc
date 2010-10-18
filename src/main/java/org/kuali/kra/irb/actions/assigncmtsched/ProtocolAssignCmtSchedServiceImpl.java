@@ -92,14 +92,18 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * @param protocol
      * @return
      */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
+    protected ProtocolSubmission findSubmission(Protocol protocol) {
+        // need to loop thru to find the last submission.
+        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
+        ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                return submission;
+                protocolSubmission = submission;
             }
         }
-        return null;
+        return protocolSubmission;
+
     }
     
     /**
@@ -135,7 +139,7 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * TODO : copied from protocolsubmitactionservice, so this can be shared
      */
     @SuppressWarnings("unchecked")
-    private void updateDefaultSchedule(ProtocolSubmission submission) {
+    protected void updateDefaultSchedule(ProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
 //        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());

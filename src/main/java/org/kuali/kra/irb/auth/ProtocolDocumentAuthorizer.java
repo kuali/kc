@@ -151,4 +151,15 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     protected boolean canRoute(Document document, Person user) {
         return false;
     }
+    
+    /**
+     * Can the user blanket approve the given document?
+     * @param document the document
+     * @param user the user
+     * @return always false for ProtocolDocument
+     */
+    @Override
+    protected boolean canBlanketApprove(Document document, Person user) {
+        return false;
+    }
 }

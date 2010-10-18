@@ -147,7 +147,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         return units;
     }
     
-    private void addDescendantUnits(Unit parentUnit, List<Unit> units) { 
+    protected void addDescendantUnits(Unit parentUnit, List<Unit> units) { 
         List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
         if(CollectionUtils.isNotEmpty(subunits)) {
             units.addAll(subunits); 

@@ -261,7 +261,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * 
      * @param person
      */
-    private void populateCreditTypes(ProposalPerson person) {
+    protected void populateCreditTypes(ProposalPerson person) {
         if (!person.getCreditSplits().isEmpty()) {
             return;
         }
@@ -786,11 +786,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
     }
 
-    private String createRoleDescriptionParameterName(ProposalPersonRole role, String nihToken) {
+    protected String createRoleDescriptionParameterName(ProposalPersonRole role, String nihToken) {
         return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getProposalPersonRoleId().toLowerCase());
     }
     
-    private boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
+    protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         return !workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved();
     }

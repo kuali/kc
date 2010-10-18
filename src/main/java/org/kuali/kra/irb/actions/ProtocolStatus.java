@@ -45,6 +45,7 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
     public static final String EXEMPT = "203";
     public static final String DEFERRED = "103";
     public static final String IRB_REVIEW_NOT_REQUIRED = "310";
+    public static final String CLOSED_BY_INVESTIGATOR = "301";
     
 	private String protocolStatusCode; 
 	private String description; 

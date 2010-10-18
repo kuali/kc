@@ -181,6 +181,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     // this link is from protocosubmission or notify irb message
     private transient Long notifyIrbSubmissionId;
     
+    // transient for protocol header combined label
+    private transient String initiatorLastUpdated;
+    private transient String protocolSubmissionStatus;
+    
+    // Custom Protocol lookup fields
+    private transient boolean lookupPendingProtocol;
+    private transient boolean lookupPendingPIActionProtocol;
+    private transient boolean lookupActionAmendRenewProtocol;
+    private transient boolean lookupActionNotifyIRBProtocol;
+    private transient boolean lookupActionRequestProtocol;
+    private transient boolean lookupProtocolPersonId;
+    
+    public String getInitiatorLastUpdated() {
+        return initiatorLastUpdated;
+    }
+
+    public String getProtocolSubmissionStatus() {
+        return protocolSubmissionStatus;
+    }
+
+
     /**
      * 
      * Constructs an Protocol BO.
@@ -1240,6 +1261,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.OTHERS)) {
                 mergeOthers(amendment);
             }
+            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERMISSIONS)) {
+                mergeProtocolPermissions(amendment);
+            }
         }
         mergeProtocolSubmission(amendment);
     }
@@ -1285,7 +1309,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     @SuppressWarnings("unchecked")
     private void mergeReferences(Protocol amendment) {
+        System.err.print("***************merge references");
         setProtocolReferences((List<ProtocolReference>) deepCopy(amendment.getProtocolReferences()));
+        
+        this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
+        this.referenceNumber1 = amendment.getReferenceNumber1();
+        this.referenceNumber2 = amendment.getReferenceNumber2();
+        this.description = amendment.getDescription();
     }
     
     @SuppressWarnings("unchecked")
@@ -1417,6 +1447,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
     }
     
+    private void mergeProtocolPermissions(Protocol amendment) {
+        // ToDo: merge permissions
+    }
+    
     private Object deepCopy(Object obj) {
         return ObjectUtils.deepCopy((Serializable) obj);
     }
@@ -1505,11 +1539,23 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
+            if (!StringUtils.equals(attachment.getDocumentStatusCode(), "3")) {
+                AttachmentSummary attachmentSummary = new AttachmentSummary();
+                attachmentSummary.setAttachmentId(attachment.getId());
+                attachmentSummary.setFileType(attachment.getFile().getType());
+                attachmentSummary.setFileName(attachment.getFile().getName());
+                attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
+                attachmentSummary.setDescription(attachment.getDescription());
+                attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
+                protocolSummary.add(attachmentSummary);
+            }
+        }
+        for (ProtocolAttachmentPersonnel attachment : getAttachmentPersonnels()) {
             AttachmentSummary attachmentSummary = new AttachmentSummary();
             attachmentSummary.setAttachmentId(attachment.getId());
             attachmentSummary.setFileType(attachment.getFile().getType());
             attachmentSummary.setFileName(attachment.getFile().getName());
-            attachmentSummary.setAttachmentType(attachment.getType().getDescription());
+            attachmentSummary.setAttachmentType(attachment.getPerson().getPersonName() + ": " + attachment.getType().getDescription());
             attachmentSummary.setDescription(attachment.getDescription());
             attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
             protocolSummary.add(attachmentSummary);
@@ -1641,6 +1687,27 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     /**
+     * 
+     * If the protocol document is an amendment or renewal the parent protocol number is being returned.
+     * (i.e. the protocol number of the protocol that is being amended or renewed).
+     * 
+     * Null will be returned if the protocol is not an amendment or renewal.
+     * 
+     * @return protocolNumber of the Protocol that is being amended/renewed
+     */
+    public String getAmendedProtocolNumber() {
+        if (isAmendment()) {
+            return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
+            
+        } else if (isRenewal()) {
+            return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
+                
+        } else {
+            return null;
+        }
+    }
+    
+    /**
      * Decides whether or not the Protocol is in a state where changes will require versioning.  For example: has the protocol
      * had a change in status and not been versioned yet?
      * @return true if versioning required false if not.
@@ -1655,8 +1722,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
             if ("1".equals(attachment1.getDocumentStatusCode())) {
                 activeAttachments.add(attachment1);
-            }
-            else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
+            } else if ("2".equals(attachment1.getDocumentStatusCode()) || "3".equals(attachment1.getDocumentStatusCode())) {
             //else if ("2".equals(attachment1.getDocumentStatusCode())) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocol attachment2 : getAttachmentProtocols()) {
@@ -1701,4 +1767,53 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setNotifyIrbSubmissionId(Long notifyIrbSubmissionId) {
         this.notifyIrbSubmissionId = notifyIrbSubmissionId;
     }
+
+    public boolean isLookupPendingProtocol() {
+        return lookupPendingProtocol;
+    }
+
+    public void setLookupPendingProtocol(boolean lookupPendingProtocol) {
+        this.lookupPendingProtocol = lookupPendingProtocol;
+    }
+
+    public boolean isLookupPendingPIActionProtocol() {
+        return lookupPendingPIActionProtocol;
+    }
+
+    public void setLookupPendingPIActionProtocol(boolean lookupPendingPIActionProtocol) {
+        this.lookupPendingPIActionProtocol = lookupPendingPIActionProtocol;
+    }
+
+    public boolean isLookupActionAmendRenewProtocol() {
+        return lookupActionAmendRenewProtocol;
+    }
+
+    public void setLookupActionAmendRenewProtocol(boolean lookupActionAmendRenewProtocol) {
+        this.lookupActionAmendRenewProtocol = lookupActionAmendRenewProtocol;
+    }
+
+    public boolean isLookupActionNotifyIRBProtocol() {
+        return lookupActionNotifyIRBProtocol;
+    }
+
+    public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
+        this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
+    }
+
+    public boolean isLookupActionRequestProtocol() {
+        return lookupActionRequestProtocol;
+    }
+
+    public void setLookupActionRequestProtocol(boolean lookupActionRequestProtocol) {
+        this.lookupActionRequestProtocol = lookupActionRequestProtocol;
+    }
+
+    public boolean isLookupProtocolPersonId() {
+        return lookupProtocolPersonId;
+    }
+
+    public void setLookupProtocolPersonId(boolean lookupProtocolPersonId) {
+        this.lookupProtocolPersonId = lookupProtocolPersonId;
+    }
+
 }

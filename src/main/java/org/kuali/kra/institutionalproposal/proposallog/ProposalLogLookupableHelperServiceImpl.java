@@ -182,7 +182,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
     }
     
-    private void removeEditLink(List<HtmlData> htmlDataList) {
+    protected void removeEditLink(List<HtmlData> htmlDataList) {
         int editLinkIndex = -1;
         int currentIndex = 0;
         for (HtmlData htmlData : htmlDataList) {

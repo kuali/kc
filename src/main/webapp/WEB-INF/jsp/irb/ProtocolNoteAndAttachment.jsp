@@ -27,7 +27,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="noteAndAttachment">
   	
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IRB - Notes & Attachments" /></div>
+<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
 
 <kra-irb:protocolAttachment /> 
 <kra-irb:protocolNotes />

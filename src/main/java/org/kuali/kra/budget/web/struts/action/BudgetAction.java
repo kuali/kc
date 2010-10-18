@@ -62,6 +62,7 @@ import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -89,7 +90,7 @@ public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
     
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
-    
+    private ProposalHierarcyActionHelper hierarchyHelper;
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -494,6 +495,14 @@ public class BudgetAction extends BudgetActionBase {
         return mapping.findForward(Constants.PROPOSAL_HIERARCHY_PAGE);
     }
 
+    public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm)form;
+        ProposalDevelopmentDocument aDoc = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
+        
+        budgetForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchySummaries(aDoc.getDevelopmentProposal().getProposalNumber()));
+        return mapping.findForward(Constants.HIERARCHY_PAGE);
+    }
+    
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getDocument();
@@ -503,6 +512,12 @@ public class BudgetAction extends BudgetActionBase {
         return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
 
+    protected ProposalHierarcyActionHelper getHierarchyHelper() {
+        if (hierarchyHelper == null) {
+            hierarchyHelper = new ProposalHierarcyActionHelper();
+        }
+        return hierarchyHelper;
+    }
 
     /**
      * This method...

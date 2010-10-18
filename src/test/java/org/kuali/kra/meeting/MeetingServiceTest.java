@@ -26,11 +26,9 @@ import java.util.Map;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
@@ -42,11 +40,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
-@RunWith(JMock.class)
-public class MeetingServiceTest {
+public class MeetingServiceTest extends KcUnitTestBase {
     private Mockery context = new JUnit4Mockery();
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private static final String PERSON_ID = "jtester";
@@ -446,10 +445,19 @@ public class MeetingServiceTest {
     @Test
     public void testAddCommitteeScheduleMinute() throws Exception {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
-        CommitteeScheduleMinute newCommitteeScheduleMinute = getCommitteeScheduleMinute(1L, "1", 1);
+        final DateTimeService dateTimeService = context.mock(DateTimeService.class);
+        context.checking(new Expectations() {{
+            one(dateTimeService).getCurrentTimestamp();
+            will(returnValue(new Timestamp(System.currentTimeMillis())));
+        }});
+        meetingService.setDateTimeService(dateTimeService);
+        CommitteeScheduleMinute newCommitteeScheduleMinute = getCommitteeScheduleMinute(1L, "1", 1, 2L);
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         committeeSchedule.setId(1L);
         committeeSchedule.setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>());
+        List<ProtocolSubmission> protocolSubmissions = new ArrayList<ProtocolSubmission>();
+        protocolSubmissions.add(getProtocolSubmission(1L));
+        committeeSchedule.setProtocolSubmissions(protocolSubmissions);
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         meetingHelper.setNewCommitteeScheduleMinute(newCommitteeScheduleMinute);
         meetingHelper.setCommitteeSchedule(committeeSchedule);
@@ -464,9 +472,9 @@ public class MeetingServiceTest {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
         List<CommitteeScheduleMinute> items = new ArrayList<CommitteeScheduleMinute>();
         List<CommitteeScheduleMinute> deletedItems = new ArrayList<CommitteeScheduleMinute>();
-        CommitteeScheduleMinute minute1 = getCommitteeScheduleMinute(1L, "1", 1);
+        CommitteeScheduleMinute minute1 = getCommitteeScheduleMinute(1L, "1", 1, 3L);
         items.add(minute1);
-        CommitteeScheduleMinute minute2 = getCommitteeScheduleMinute(2L, "2", 2);
+        CommitteeScheduleMinute minute2 = getCommitteeScheduleMinute(2L, "2", 2, 3L);
         items.add(minute2);
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         committeeSchedule.setCommitteeScheduleMinutes(items);
@@ -481,7 +489,7 @@ public class MeetingServiceTest {
     }
 
     private CommitteeScheduleMinute getCommitteeScheduleMinute(Long commScheduleMinutesId, String minuteEntryTypeCode,
-            int entryNumber) {
+            int entryNumber, Long submissionId) {
         CommitteeScheduleMinute committeeScheduleMinute = new CommitteeScheduleMinute() {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -492,7 +500,9 @@ public class MeetingServiceTest {
 
             }
         };
-
+        
+        ProtocolSubmission submission = getProtocolSubmission(submissionId);
+        committeeScheduleMinute.setProtocol(submission.getProtocol());
         committeeScheduleMinute.setEntryNumber(entryNumber);
         committeeScheduleMinute.setMinuteEntryTypeCode(minuteEntryTypeCode);
         committeeScheduleMinute.setCommScheduleMinutesId(commScheduleMinutesId);

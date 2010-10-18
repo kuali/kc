@@ -95,13 +95,13 @@ public class ProtocolDeleteServiceTest extends KcUnitTestBase {
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
-        assertEquals(8, modules.size());
+        assertEquals(9, modules.size());
         
         ProtocolDeleteBean deleteBean = new ProtocolDeleteBean();
         deleteBean.setReason(REASON);
         protocolDeleteService.delete(amendmentDocument.getProtocol(), deleteBean);
         
         modules = protocolAmendRenewService.getAvailableModules(protocolDocument.getProtocol().getProtocolNumber());
-        assertEquals(10, modules.size());
+        assertEquals(11, modules.size());
     }
 }

@@ -57,7 +57,7 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
     }
 
-    private void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolGrantExemptionBean actionBean) throws PrintingException {
+    protected void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolGrantExemptionBean actionBean) throws PrintingException {
         
         GrantExemptionCorrespondence correspondence = actionBean.getCorrespondence();
         correspondence.setPrintableBusinessObject(protocol);
@@ -77,7 +77,7 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.refreshReferenceObject("protocolStatus");
-        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
         documentService.saveDocument(protocol.getProtocolDocument());
+        generateCorrespondenceDocumentAndAttach(protocol, actionBean); 
     }
 }

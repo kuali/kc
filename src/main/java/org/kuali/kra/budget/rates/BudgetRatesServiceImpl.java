@@ -117,7 +117,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private void syncVersionNumber(Map<String, AbstractInstituteRate> oldRateMap, List rates) {
+    protected void syncVersionNumber(Map<String, AbstractInstituteRate> oldRateMap, List rates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) rates;
         for(AbstractBudgetRate budgetRate: abstractBudgetRates) {
             AbstractInstituteRate oldRate = oldRateMap.get(budgetRate.getRateKeyAsString());
@@ -178,7 +178,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     /* verify and add activity type prefix if required for rate class type description
      * 
      * */
-    private void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
+    protected void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         //String activityTypeDescription = budget.getProposal().getActivityType().getDescription().concat(SPACE);
         Budget budget = budgetDocument.getBudget();
         String activityTypeDescription = getActivityTypeDescription(budgetDocument);
@@ -208,7 +208,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private String getActivityTypeDescription(BudgetDocument<T> budgetDocument) {
+    protected String getActivityTypeDescription(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         
@@ -265,7 +265,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * Build rates for each period.
      * @return .
      */
-    private void updateRatesForEachPeriod(Budget budget) {
+    protected void updateRatesForEachPeriod(Budget budget) {
         List<BudgetRate> budgetRates = budget.getBudgetRates();
         List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -314,7 +314,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @return
      */
     @SuppressWarnings("unchecked")
-    private Map<String, AbstractInstituteRate> mapRatesToKeys(Collection rates) {
+    protected Map<String, AbstractInstituteRate> mapRatesToKeys(Collection rates) {
         Collection<AbstractInstituteRate> abstractInstituteRates = (Collection<AbstractInstituteRate>) rates;  
         Map<String, AbstractInstituteRate> rateMap = new HashMap<String, AbstractInstituteRate>();
         for(AbstractInstituteRate abstractInstituteRate: abstractInstituteRates) {
@@ -338,7 +338,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private Unit findFirstUnitWithRates(Unit leadUnit, Class rateType) {
+    protected Unit findFirstUnitWithRates(Unit leadUnit, Class rateType) {
         Unit currentUnit = leadUnit;
         Map<String, String> currentSearchMap = new HashMap<String, String>();
         Collection currentRates = null;
@@ -354,7 +354,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private Collection<AbstractInstituteRate> getActiveInstituteRates(Class rateType, Unit unit, String activityTypeCode) {
+    protected Collection<AbstractInstituteRate> getActiveInstituteRates(Class rateType, Unit unit, String activityTypeCode) {
         Map<String, String> searchMap = new HashMap<String, String>();
         searchMap.put(UNIT_NUMBER_KEY, unit.getUnitNumber());
         searchMap.put(ACTIVITY_TYPE_CODE_KEY, activityTypeCode);
@@ -365,7 +365,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument<T> budgetDocument) {
+    protected Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument<T> budgetDocument) {
 //        Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         String unitNumber = budgetParent.getUnitNumber();                               
@@ -380,7 +380,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @return
      */
     @SuppressWarnings("unchecked")
-    private BudgetParentDocument<T> getBudgetParentDocument(Budget budget) {
+    protected BudgetParentDocument<T> getBudgetParentDocument(Budget budget) {
         BudgetDocument<T> budgetDocument = budget.getBudgetDocument();
         if(budgetDocument==null){
             budget.refreshReferenceObject("budgetDocument");
@@ -390,7 +390,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return budgetDocument.getParentDocument();
     }
 
-    private Map<String, String> getRateFilterMap(BudgetDocument<T> budgetDocument) {        
+    protected Map<String, String> getRateFilterMap(BudgetDocument<T> budgetDocument) {        
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         Map<String, String> rateFilterMap = new HashMap<String, String>();
         rateFilterMap.put(UNIT_NUMBER_KEY, budgetParent.getUnitNumber());
@@ -398,14 +398,14 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private Collection getFilteredInstituteLaRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
+    protected Collection getFilteredInstituteLaRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
         Collection abstractInstituteRates;
         abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
         return abstractInstituteRates;
     }
 
     @SuppressWarnings("unchecked")
-    private Collection getFilteredInstituteRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
+    protected Collection getFilteredInstituteRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
         Collection abstractInstituteRates;
         do {
             abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
@@ -416,7 +416,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private Collection filterForActiveRatesOnly(Collection abstractInstituteRates) {        
+    protected Collection filterForActiveRatesOnly(Collection abstractInstituteRates) {        
         List filteredList = new ArrayList();
         for(AbstractInstituteRate rate: (Collection<AbstractInstituteRate>) abstractInstituteRates) {
             if(rate.getActive()) {
@@ -430,7 +430,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return filteredList;
     }
 
-    private Unit makeParentUnitAsCurrentUnit(Unit currentUnit, Map<String, String> rateFilterMap) {
+    protected Unit makeParentUnitAsCurrentUnit(Unit currentUnit, Map<String, String> rateFilterMap) {
         Unit parentUnit = currentUnit==null?null:currentUnit.getParentUnit();
         if(parentUnit != null) {
             rateFilterMap.put(UNIT_NUMBER_KEY, parentUnit.getUnitNumber());
@@ -446,7 +446,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * This date is used to fetch inflation rates  
      * 
      * */
-    private Date getRateEffectiveStartDate(Budget budget, AbstractInstituteRate rate, Date personEffectiveDate) {
+    protected Date getRateEffectiveStartDate(Budget budget, AbstractInstituteRate rate, Date personEffectiveDate) {
         Date effectiveDate = budget.getStartDate();
         if(rate.getRateClass().getRateClassType().equalsIgnoreCase(Constants.RATE_CLASS_TYPE_FOR_INFLATION) 
                 && personEffectiveDate != null 
@@ -464,7 +464,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * 
      * */
     @SuppressWarnings("unchecked")
-    private Date getBudgetPersonSalaryEffectiveDate(Budget budget) {
+    protected Date getBudgetPersonSalaryEffectiveDate(Budget budget) {
         Map queryMap = new HashMap();
         queryMap.put("budgetId", budget.getBudgetId());
         Collection<BudgetPerson> budgetPersons =  getBusinessObjectService().findMatching(BudgetPerson.class, queryMap);
@@ -482,7 +482,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      *  
      * */
     @SuppressWarnings("unchecked")
-    private void getRatesForProjectDates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
+    protected void getRatesForProjectDates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
         List<AbstractInstituteRate> dateFilteredRates = (List<AbstractInstituteRate>) filteredRates;
         List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
         for(AbstractInstituteRate rate : allAbstractInstituteRates) {
@@ -499,7 +499,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * get the latest 
      * */
     @SuppressWarnings("unchecked")
-    private void getApplicableRates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
+    protected void getApplicableRates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
         List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
         Map<String, AbstractInstituteRate> instRates = new HashMap<String, AbstractInstituteRate>();
         for(AbstractInstituteRate instituteRate : allAbstractInstituteRates) {
@@ -523,7 +523,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         filteredRates.addAll(instRates.values());
     }
 
-    private String generateThreePartKey(AbstractInstituteRate instituteRate) {
+    protected String generateThreePartKey(AbstractInstituteRate instituteRate) {
         return new StringBuilder(instituteRate.getRateClassCode())
                 .append(instituteRate.getRateTypeCode())
                 .append(getLocationFlagAsString(instituteRate.getOnOffCampusFlag()))
@@ -534,7 +534,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * the project 
      * */
     @SuppressWarnings("unchecked")
-    private void filterRates(Budget budget, Collection allAbstractInstituteRates, Collection filteredAbstractInstituteRates) {
+    protected void filterRates(Budget budget, Collection allAbstractInstituteRates, Collection filteredAbstractInstituteRates) {
         filteredAbstractInstituteRates.clear();
         Date personSalaryEffectiveDate = getBudgetPersonSalaryEffectiveDate(budget);
         getRatesForProjectDates(budget, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
@@ -547,7 +547,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private boolean isOutOfSync(List instituteRates, List budgetRates) {
+    protected boolean isOutOfSync(List instituteRates, List budgetRates) {
         boolean outOfSync = areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(instituteRates, budgetRates);
         if(!outOfSync) {
             outOfSync = areBudgetRatesOutOfSyncWithInsttituteRates(instituteRates, budgetRates);
@@ -557,19 +557,19 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private boolean areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(List instituteRates, List budgetRates) {
+    protected boolean areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(List instituteRates, List budgetRates) {
         return instituteRates.size() != budgetRates.size();
     }
 
     @SuppressWarnings("unchecked")
-    private boolean areBudgetRatesOutOfSyncWithInsttituteRates(List instituteRates, List budgetRates) {        
+    protected boolean areBudgetRatesOutOfSyncWithInsttituteRates(List instituteRates, List budgetRates) {        
         Set<String> instituteRateKeys = storeAllKeys((List<AbstractInstituteRate>) instituteRates);
         Set<String> budgetRateKeys = storeAllKeys((List<AbstractInstituteRate>) budgetRates);
         
         return !instituteRateKeys.containsAll(budgetRateKeys);
     }
     
-    private Set<String> storeAllKeys(List<AbstractInstituteRate> rates) {
+    protected Set<String> storeAllKeys(List<AbstractInstituteRate> rates) {
         Set<String> keys = new HashSet<String>(rates.size(), 1.0f);
         for(AbstractInstituteRate rate: rates) {
             keys.add(rate.getRateKeyAsString());
@@ -578,7 +578,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private void resetAbstractBudgetApplicableRatesToInstituteRates(List budgetRates) {
+    protected void resetAbstractBudgetApplicableRatesToInstituteRates(List budgetRates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
             abstractBudgetRate.setApplicableRate(abstractBudgetRate.getInstituteRate()); 
@@ -586,7 +586,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void resetBudgetRatesForRateClassType(List<RateClass> rateClasses, String rateClassType, List budgetRates) {
+    protected void resetBudgetRatesForRateClassType(List<RateClass> rateClasses, String rateClassType, List budgetRates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         
         for(RateClass rateClass: rateClasses) {
@@ -601,7 +601,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void syncBudgetRates(List budgetRates, Collection abstractIntituteRates) {
+    protected void syncBudgetRates(List budgetRates, Collection abstractIntituteRates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         Map<String, AbstractInstituteRate> instRateMap = mapRatesToKeys(abstractIntituteRates);
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
@@ -612,7 +612,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
     }
     
-    private String getFormattedAffectedBudgetPeriod(String periodAffected) {
+    protected String getFormattedAffectedBudgetPeriod(String periodAffected) {
         String budgetPeriodAffected = periodAffected;
         if(budgetPeriodAffected != null) {
             budgetPeriodAffected = budgetPeriodAffected.trim();
@@ -623,7 +623,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void viewLocation(String viewLocation, Integer budgetPeriod, List rates) {
+    protected void viewLocation(String viewLocation, Integer budgetPeriod, List rates) {
         List<AbstractBudgetRate> budgetRates = (List<AbstractBudgetRate>) rates;
         
         for(AbstractBudgetRate budgetRate: budgetRates) {
@@ -642,16 +642,16 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
     }
     
-    private String getLocationFlagAsString(boolean onOffCampusFlag) {
+    protected String getLocationFlagAsString(boolean onOffCampusFlag) {
         return onOffCampusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
     }
     
-    private String getSeparatedBudgetPeriod(Integer budgetPeriod) {
+    protected String getSeparatedBudgetPeriod(Integer budgetPeriod) {
         return new StringBuilder(PERIOD_SEARCH_SEPARATOR).append(budgetPeriod).append(PERIOD_SEARCH_SEPARATOR).toString();
     }
     
     @SuppressWarnings("unchecked")
-    private void syncBudgetRatesForRateClassType(List<RateClass> rateClasses, String rateClassType, Collection abstractInstituteRates, List budgetRates) {
+    protected void syncBudgetRatesForRateClassType(List<RateClass> rateClasses, String rateClassType, Collection abstractInstituteRates, List budgetRates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         Map<String, AbstractInstituteRate> instRateMap = mapRatesToKeys(abstractInstituteRates);
         for(RateClass rateClass: rateClasses) {
@@ -668,7 +668,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
     }
     
-    private Map<String, RateClassType> populateExistingRateClassTypeMap(List<RateClassType> rateClassTypes) {
+    protected Map<String, RateClassType> populateExistingRateClassTypeMap(List<RateClassType> rateClassTypes) {
         Map<String, RateClassType> existingRateClassTypeMap = new HashMap<String, RateClassType>();        
         for(RateClassType rateClassType: rateClassTypes) {
             existingRateClassTypeMap.put(rateClassType.getRateClassType(), rateClassType);
@@ -676,7 +676,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return existingRateClassTypeMap;
     }
     
-    private void getBudgetRates(BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
+    protected void getBudgetRates(BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
         Budget budget = budgetDocument.getBudget();
         getBudgetRates(budget.getRateClassTypes(), budgetDocument, allInstituteRates);
     }
@@ -684,7 +684,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     /* get budget rates applicable for the proposal - based on activity type
      * and unit number 
      * */
-    private void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
+    protected void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteRate> instituteRates = budget.getInstituteRates();        
         filterRates(budget, allInstituteRates, instituteRates);        
@@ -696,12 +696,12 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
     }
     
-    private void getBudgetLaRates(BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
+    protected void getBudgetLaRates(BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
         Budget budget = budgetDocument.getBudget();
         getBudgetLaRates(budget.getRateClassTypes(), budgetDocument, allInstituteLaRates);
     }
 
-    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
+    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         getBudgetLaRates(rateClassTypes, budgetDocument, new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument)));
     }
     
@@ -711,7 +711,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @param budget
      * @param allInstituteLaRates
      */
-    private void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
+    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteLaRate> instituteLaRates = budget.getInstituteLaRates();        
         filterRates(budget, allInstituteLaRates, instituteLaRates);        
@@ -725,7 +725,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void syncBudgetRateCollections(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument,
+    protected void syncBudgetRateCollections(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument,
                                                 List abstractInstituteRates, List budgetRates) {
 
         Budget budget = budgetDocument.getBudget();
@@ -752,7 +752,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
       checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
   }
 
-    private void syncAllBudgetRatesForInstituteRateType(BudgetDocument<T> budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
+    protected void syncAllBudgetRatesForInstituteRateType(BudgetDocument<T> budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateClass() != null) {
                 budgetRates.add(generateBudgetRate(budgetDocument, abstractInstituteRate));
@@ -764,7 +764,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private void replaceRateClassesForRateClassType(String rateClassType, Budget budget, List rates) {
+    protected void replaceRateClassesForRateClassType(String rateClassType, Budget budget, List rates) {
         List<AbstractInstituteRate> instituteRates = (List<AbstractInstituteRate>) rates;
         List<RateClass> budgetRateClasses = budget.getRateClasses();        
 
@@ -772,7 +772,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         addRateClassesForRateClassType(rateClassType, instituteRates);        
     }
 
-    private void removeAllPreviouslyRegisteredRateClassesForRateClassType(String rateClassType, List<RateClass> budgetRateClasses) {
+    protected void removeAllPreviouslyRegisteredRateClassesForRateClassType(String rateClassType, List<RateClass> budgetRateClasses) {
         Iterator<RateClass> iter = budgetRateClasses.iterator();
         while(iter.hasNext()) {
             RateClass rateClass = iter.next();
@@ -782,7 +782,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
     }
 
-    private void addRateClassesForRateClassType(String rateClassType, List<AbstractInstituteRate> instituteRates) {
+    protected void addRateClassesForRateClassType(String rateClassType, List<AbstractInstituteRate> instituteRates) {
         Map<String, RateClass> mapOfMatchingRateClasses = new HashMap<String, RateClass>();
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateType() != null) {
@@ -797,7 +797,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private void replaceBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument, List existingBudgetRates, List rates) {
+    protected void replaceBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument, List existingBudgetRates, List rates) {
         List<AbstractInstituteRate> instituteRates = (List<AbstractInstituteRate>) rates; 
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) existingBudgetRates;
         
@@ -812,11 +812,11 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Collections.sort(abstractBudgetRates);
     }
 
-    private void registerNewAndUpdatedBudgetRates(List<AbstractBudgetRate> abstractBudgetRates, Map<String, AbstractBudgetRate> newBudgetRateMap) {
+    protected void registerNewAndUpdatedBudgetRates(List<AbstractBudgetRate> abstractBudgetRates, Map<String, AbstractBudgetRate> newBudgetRateMap) {
         abstractBudgetRates.addAll(newBudgetRateMap.values());
     }
 
-    private Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, BudgetDocument<T> budgetDocument, 
+    protected Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, BudgetDocument<T> budgetDocument, 
                                                                              List<AbstractInstituteRate> instituteRates,
                                                                              Map<String, AbstractBudgetRate> existingBudgetRateMap) {
         Map<String, AbstractBudgetRate> newBudgetRateMap = new HashMap<String, AbstractBudgetRate>(); 
@@ -838,7 +838,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return newBudgetRateMap;
     }
 
-    private void removeRegisteredBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
+    protected void removeRegisteredBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
         Iterator<AbstractBudgetRate> iter = abstractBudgetRates.iterator();
         while(iter.hasNext()) {
             AbstractBudgetRate budgetRate = iter.next();
@@ -848,7 +848,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
     }
 
-    private Map<String, AbstractBudgetRate> preservePersistedBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
+    protected Map<String, AbstractBudgetRate> preservePersistedBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
         Map<String, AbstractBudgetRate> existingBudgetRateMap = new HashMap<String, AbstractBudgetRate>();        
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
             if(rateClassType.equals(abstractBudgetRate.getRateClass().getRateClassType())) {
@@ -858,7 +858,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return existingBudgetRateMap;
     }
     
-    private void syncAllRateClasses(Budget budget, List<AbstractInstituteRate> instituteRates) {
+    protected void syncAllRateClasses(Budget budget, List<AbstractInstituteRate> instituteRates) {
         Map<String, RateClass> rateClassMap = new HashMap<String, RateClass>();
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateClass() != null) {
@@ -872,7 +872,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         budget.getRateClasses().addAll(rateClassMap.values());
     }
 
-    private void syncAllRateClassTypes(Budget budget, List<RateClassType> rateClassTypes, List<AbstractInstituteRate> instituteRates) {
+    protected void syncAllRateClassTypes(Budget budget, List<RateClassType> rateClassTypes, List<AbstractInstituteRate> instituteRates) {
         Map<String, RateClassType> existingRateClassTypeMap = populateExistingRateClassTypeMap(rateClassTypes);
         Map<String, RateClassType> rateClassTypeMap = new HashMap<String, RateClassType>();
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
@@ -887,17 +887,17 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         rateClassTypes.addAll(rateClassTypeMap.values());
     }
 
-    private AbstractBudgetRate generateBudgetProposalRate(BudgetDocument<T> budgetDocument, InstituteRate instituteRate) {
+    protected AbstractBudgetRate generateBudgetProposalRate(BudgetDocument<T> budgetDocument, InstituteRate instituteRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         return new BudgetRate(budgetParent.getUnitNumber(), instituteRate);
     }
     
-    private AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument<T> budgetDocument, InstituteLaRate instituteLaRate) {
+    protected AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument<T> budgetDocument, InstituteLaRate instituteLaRate) {
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         return new BudgetLaRate(budgetParent.getUnitNumber(), instituteLaRate);
     }
 
-    private AbstractBudgetRate generateBudgetRate(BudgetDocument<T> budgetDocument, AbstractInstituteRate abstractInstituteRate) {
+    protected AbstractBudgetRate generateBudgetRate(BudgetDocument<T> budgetDocument, AbstractInstituteRate abstractInstituteRate) {
         Budget budget = budgetDocument.getBudget();
         AbstractBudgetRate abstractBudgetRate = (abstractInstituteRate instanceof InstituteRate) ?
                         generateBudgetProposalRate(budgetDocument, (InstituteRate) abstractInstituteRate) :
@@ -963,7 +963,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @return
      */
     @SuppressWarnings("unchecked")
-    private boolean isOutOfSyncForRateAudit(List instituteRates, List budgetRates) {
+    protected boolean isOutOfSyncForRateAudit(List instituteRates, List budgetRates) {
         boolean outOfSync = false;
         outOfSync = !isRatesMatched(instituteRates,budgetRates) || outOfSync;
         outOfSync = !isRatesMatched(budgetRates, instituteRates) || outOfSync;
@@ -971,7 +971,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return outOfSync;
     }
     
-    private boolean isRatesMatched(List<AbstractInstituteRate> fromRates, List<AbstractInstituteRate> toRates) {
+    protected boolean isRatesMatched(List<AbstractInstituteRate> fromRates, List<AbstractInstituteRate> toRates) {
         boolean matched = true;
         for (Object rate : fromRates) {
             AbstractInstituteRate budgetRate = (AbstractInstituteRate)rate;
@@ -1014,7 +1014,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    private List<AuditError> getAuditErrors() {
+    protected List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!GlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
@@ -1028,7 +1028,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private boolean isOutOfSyncForRateAudit_org(List instituteRates, List budgetRates) {
+    protected boolean isOutOfSyncForRateAudit_org(List instituteRates, List budgetRates) {
         boolean outOfSync = areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(instituteRates, budgetRates);
         if(!outOfSync) {
             outOfSync = areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(instituteRates, budgetRates);
@@ -1038,14 +1038,14 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    private boolean areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(List instituteRates, List budgetRates) {        
+    protected boolean areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(List instituteRates, List budgetRates) {        
         Set<String> instituteRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) instituteRates);
         Set<String> budgetRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) budgetRates);
         
         return !instituteRateKeys.containsAll(budgetRateKeys);
     }
     
-    private Set<String> storeAllKeysWithRate(List<AbstractInstituteRate> rates) {
+    protected Set<String> storeAllKeysWithRate(List<AbstractInstituteRate> rates) {
         Set<String> keys = new HashSet<String>(rates.size(), 1.0f);
         for(AbstractInstituteRate rate: rates) {
             keys.add(rate.getRateKeyAsString()+rate.getInstituteRate());

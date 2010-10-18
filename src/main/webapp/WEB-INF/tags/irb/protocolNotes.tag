@@ -30,6 +30,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolNotepad" altText="help"/></span>
         </h3>
         <table id="protocol-notepad-table" cellpadding="0" cellspacing="0" summary="Protocol Notepad">
 			<tr>
@@ -82,7 +83,9 @@
 							<c:out value="${status.index+1}" />
 						</th>
 		                <td valign="middle">
-							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
+                            <c:if test="${!protocolNotepad.editable}">
+							    <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
+                            </c:if>
 						</td>
 		                <td valign="middle">
 							${KualiForm.document.protocol.notepads[status.index].updateUserFullName}

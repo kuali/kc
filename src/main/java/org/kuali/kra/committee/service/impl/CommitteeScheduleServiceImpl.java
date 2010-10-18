@@ -107,7 +107,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @param committeeSchedule
      * @return
      */
-    private Boolean isProtocolAssignedToScheduleDate(CommitteeSchedule committeeSchedule){
+    protected Boolean isProtocolAssignedToScheduleDate(CommitteeSchedule committeeSchedule){
         boolean retVal = true;
         List<Protocol> list = committeeSchedule.getProtocols();
         if(null == list || list.size() == 0)
@@ -214,7 +214,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @return
      * @throws ParseException
      */
-    private Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException{
+    protected Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException{
         Date dt  = DateUtils.round(date, Calendar.DAY_OF_MONTH);            
         dt = DateUtils.addMinutes(dt, min);
         Calendar cl = new GregorianCalendar();
@@ -231,7 +231,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @param location
      * @param skippedDates
      */
-    private void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location, List<java.sql.Date> skippedDates){
+    protected void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location, List<java.sql.Date> skippedDates){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
             
@@ -263,7 +263,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @param date
      * @return
      */
-    private Boolean isDateAvailable(List<CommitteeSchedule> committeeSchedules, java.sql.Date date) {
+    protected Boolean isDateAvailable(List<CommitteeSchedule> committeeSchedules, java.sql.Date date) {
         boolean retVal = true;
         for (CommitteeSchedule committeeSchedule : committeeSchedules) {
             Date scheduledDate = committeeSchedule.getScheduledDate();
@@ -281,7 +281,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @param days
      * @return
      */
-    private java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
+    protected java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
         Date deadlineDate = DateUtils.addDays(startDate, -days);
         return new java.sql.Date(deadlineDate.getTime());
     }
@@ -291,7 +291,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private ScheduleStatus getDefaultScheduleStatus(){
+    protected ScheduleStatus getDefaultScheduleStatus(){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(DESCRIPTION, SCHEDULED);
         List<ScheduleStatus> scheduleStatuses = (List<ScheduleStatus>)businessObjectService.findMatching(ScheduleStatus.class, fieldValues);

@@ -17,41 +17,36 @@ package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolVersionService;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * 
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
  * state change.
  */
 public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionService {
     private static final String NAMESPACE = "KC-PROTOCOL";
-    private BusinessObjectService businessObjectService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private ProtocolActionService protocolActionService;
+    private ProtocolVersionService protocolVersionService;
+    private DocumentService documentService;
     private RoleService kimRoleManagementService;
+    private ProtocolOnlineReviewService protocolOnlineReviewService;
     
-    /**
-     * Set the business object service.
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
     
     public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
         this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
@@ -59,6 +54,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
+        this.protocolVersionService = protocolVersionService;
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
     /**
@@ -71,7 +74,11 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
+        if (containsProtocolAction(protocol, ProtocolActionType.REQUEST_TO_CLOSE)) {
+            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_BY_INVESTIGATOR);
+        } else {
+            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatus.CLOSED_ADMINISTRATIVELY);
+        }
     }
     
     /**{@inheritDoc}**/
@@ -94,7 +101,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
     }
     
-    private boolean isIrbAdministrator() {
+    protected boolean isIrbAdministrator() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         Collection<String> ids = this.kimRoleManagementService.getRoleMemberPrincipalIds(NAMESPACE, RoleConstants.IRB_ADMINISTRATOR, null);
         return ids.contains(principalId);
@@ -102,10 +109,12 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        if (isIrbAdministrator()) {
-            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
-        } else {
+        if (ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
+            //if previous action is request to suspend then the new status is suspend by investigator
             performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_PI);
+        } else {
+            //else suspend by IRB
+            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatus.SUSPENDED_BY_IRB);
         }
     }
     
@@ -124,6 +133,26 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
     }
     
+    /**{@inheritDoc}**/
+    public void disapprove(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.DISAPPROVED, ProtocolStatus.DISAPPROVED);
+        performDisapprove(protocol);
+    }
+//    
+    /**{@inheritDoc}**/
+    public ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
+        
+        return performVersioning(protocol);
+    }
+    
+    /**{@inheritDoc}**/
+    public ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
+        
+        return performVersioning(protocol);
+    }
+    
     /**
      * 
      * This method performs the Generic action persistence.  A state change, action date, and a comment, that's it
@@ -133,7 +162,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
      * @param newProtocolStatus
      * @throws Exception
      */
-    private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
+    protected void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, 
             String protocolActionType, String newProtocolStatus) throws Exception {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
@@ -143,10 +172,61 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
-        businessObjectService.save(protocol);
+        documentService.saveDocument(protocol.getProtocolDocument());
+        createCorrespondenceAndAttach(protocol, protocolActionType);
+    }
+    
+    protected void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
         ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
         correspondence.setPrintableBusinessObject(protocol);
         correspondence.setProtocol(protocol);
         protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+    }    
+    
+    protected void performDisapprove(Protocol protocol) throws Exception {
+        if (protocol.getProtocolDocument() != null) {
+            KualiWorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            if (currentWorkflowDocument != null) {
+                currentWorkflowDocument.disapprove("Protocol document disapproved after committee decision");
+            }
+        }    
     }
+    
+    protected ProtocolDocument performVersioning(Protocol protocol) throws Exception {
+        documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review finalized - protocol has been returned for revisions.");
+        
+        ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+        newDocument.getProtocol().setApprovalDate(null);
+        newDocument.getProtocol().setLastApprovalDate(null);
+        newDocument.getProtocol().setExpirationDate(null);
+       
+        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        documentService.saveDocument(newDocument);
+        newDocument.getProtocol().setProtocolSubmission(null);
+        
+        return newDocument;
+    }
+    
+    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+        this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
+    protected boolean containsProtocolAction(Protocol protocol, String protocolActionTypeCode) {
+        boolean containsAction = false;
+        
+        for (ProtocolAction action : protocol.getProtocolActions()) {
+            if (protocolActionTypeCode.equals(action.getProtocolActionTypeCode())) {
+                containsAction = true;
+            }
+            break;
+        }
+        
+        return containsAction;
+    }
+    
 }
