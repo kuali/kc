@@ -24,18 +24,18 @@
 
 <kul:innerTab tabTitle="Record Committee Decision" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.committeeDecision*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
                 <tr>
                     <th> 
                         <div align="right">
-                            <kul:htmlAttributeLabel attributeEntry="${attributes.motion}" />
+                            <kul:htmlAttributeLabel attributeEntry="${attributes.motionTypeCode}" />
                         </div>
                     </th>
                     <td>
-                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.motion" attributeEntry="${attributes.motion}" />
+                        <kul:htmlControlAttribute property="actionHelper.committeeDecision.motionTypeCode" attributeEntry="${attributes.motionTypeCode}" />
                     </td>
                     
                     <th> 
@@ -212,7 +212,7 @@
                                                        property="actionHelper.committeeDecision.reviewComments"
                                                        action="${action}"
                                                        actionName="CommitteeDecision"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
@@ -226,7 +226,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

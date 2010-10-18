@@ -22,7 +22,7 @@
 
 <kul:innerTab tabTitle="IRB Acknowledgement" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.irbAcknowledgementBean*">
    
-    <div style="padding-left: 56px" >
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                         
@@ -62,7 +62,7 @@
                                                        property="actionHelper.irbAcknowledgementBean.reviewComments"
                                                        action="${action}" 
                                                        actionName="IrbAcknowledgement"
-                                                       allowReadOnly="${true}" />
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
                    </td>
                 </tr>
                 
@@ -76,7 +76,7 @@
                 </tr>
             </tbody>
         </table>       
-    </div>
+   </kra-irb-action:padLeft>
     
 </kul:innerTab>
 

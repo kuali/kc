@@ -196,9 +196,9 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
     @SuppressWarnings("unchecked")
     public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritProtocolAction = new Criteria();
-        subCritProtocolAction.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
-        subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
+        subCritProtocolAction.addEqualToField("protocolId", Criteria.PARENT_QUERY_PREFIX + "protocolId");
+       // subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
+       // subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
         subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES);
         if (startDate != null) {
             subCritProtocolAction.addGreaterOrEqualThan(ACTUAL_ACTION_DATE, startDate);

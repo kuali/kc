@@ -48,10 +48,10 @@ public class SponsorServiceImpl implements SponsorService, Constants {
 
     private static final String sessionKey = "org.kuali.kra.service.impl.SponsorServiceImpl.actionList";
     private static final Integer HIERARCHY_MAX_HEIGHT = 10;
-    private enum SponsorActionType {
+    protected enum SponsorActionType {
         INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
     }
-    private class SponsorAction {
+    protected class SponsorAction {
         public SponsorActionType actionType;
         public String hierarchyName;
         public String sponsorCode;
@@ -363,7 +363,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     
     
     @SuppressWarnings("unchecked")
-    private void addActionToBeSaved(SponsorAction action) {
+    protected void addActionToBeSaved(SponsorAction action) {
         List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
         if (actions == null) {
             actions = new ArrayList<SponsorAction>();
@@ -421,7 +421,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
     
-    private void updateGroup(SponsorHierarchy sponsor, Integer level, String newGroupName) {
+    protected void updateGroup(SponsorHierarchy sponsor, Integer level, String newGroupName) {
         try {
             Method setLevelMethod = SponsorHierarchy.class.getMethod("setLevel" + level, new Class[]{String.class});
             setLevelMethod.invoke(sponsor, newGroupName);
@@ -431,7 +431,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
     
-    private void updateSortId(SponsorHierarchy sponsor, Integer level, Boolean moveDown) {
+    protected void updateSortId(SponsorHierarchy sponsor, Integer level, Boolean moveDown) {
         int changeBy = 1;
         if (moveDown) {
             changeBy = -1;
@@ -446,7 +446,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }    
     
-    private Integer getNewSortId(Integer currentSortId, int changeBy) {
+    protected Integer getNewSortId(Integer currentSortId, int changeBy) {
         if (currentSortId == null) {
             currentSortId = 0;
         }
@@ -454,7 +454,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         
     }
     
-    private Map<String, String> getFieldValues(SponsorAction action) {
+    protected Map<String, String> getFieldValues(SponsorAction action) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("hierarchyName", action.hierarchyName);
         if (StringUtils.isNotBlank(action.sponsorCode)) {
@@ -475,20 +475,20 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
-    private boolean evaluateWhetherSponsorHierarchyIncludesNih(SponsorHierarchy sponsorHierarchy) {
+    protected boolean evaluateWhetherSponsorHierarchyIncludesNih(SponsorHierarchy sponsorHierarchy) {
         String nihIndicator = findNihIndicatorForSponsorHierarchyLevel();
         return sponsorHierarchy.isNihSponsorInAnylevel(nihIndicator);
     }
 
-    private String findNihIndicatorForSponsorHierarchyLevel() {
+    protected String findNihIndicatorForSponsorHierarchyLevel() {
         return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_LEVEL_HIERARCHY);
     }
 
-    private String findSponsorHierarchyName() {
+    protected String findSponsorHierarchyName() {
         return parameterService.getParameterValue(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, SPONSOR_HIERARCHY_NAME );
     }
 
-    private Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {
+    protected Collection<SponsorHierarchy> loadSponsorHierarchies(String sponsorCode) {
         Map<String, String> valueMap = new HashMap<String, String>();
         valueMap.put("sponsorCode", sponsorCode);
         valueMap.put("hierarchyName", findSponsorHierarchyName());
@@ -513,7 +513,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
      * @param sponsorHierarchy The name of a sponsor hierarchy
      * @return
      */
-    private boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy) {
+    protected boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy) {
         Map<String, String> valueMap = new HashMap<String, String>();
         valueMap.put("sponsorCode", sponsorable.getSponsorCode());
         valueMap.put("hierarchyName", sponsorHierarchy);

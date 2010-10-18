@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
@@ -47,6 +48,7 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 
 /**
@@ -67,6 +69,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private ProtocolDao protocolDao;
     private ProtocolGenericActionService protocolGenericActionService;
     private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
+    private DocumentService documentService;
     private int finalActionCounter;
 
     /**
@@ -132,7 +135,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    private ProtocolCorrespondenceType getProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+    protected ProtocolCorrespondenceType getProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
 
         if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT)) {
@@ -158,7 +161,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    private ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
+    protected ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
             BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
         
@@ -188,11 +191,12 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    private ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
+    protected ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
             BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolCorrespondenceType protocolCorrespondenceType = null;
 
-        double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
+        //double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
+        double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getActionDate(), new Timestamp(System.currentTimeMillis()));
 
         for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (batchCorrespondenceDetail.getDaysToEvent() <= diff) { 
@@ -215,16 +219,28 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @param batchCorrespondence
      * @throws Exception
      */
-    private void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+    protected void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
         ProtocolGenericActionBean actionBean = new ProtocolGenericActionBean(null);
         actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
         
         if (StringUtils.equals(ProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            }
+            catch (RuntimeException ex) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
             protocolGenericActionService.suspend(protocol, actionBean);
             finalActionCounter++;
         }
         
         if (StringUtils.equals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            }
+            catch (RuntimeException ex) {
+                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
             protocolGenericActionService.close(protocol, actionBean);
             finalActionCounter++;
         }
@@ -237,7 +253,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @param protocolCorrespondenceType
      * @return true if the correspondence has already been generated, false otherwise
      */
-    private boolean correspondencePreviouslyGenerated(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType) {
+    protected boolean correspondencePreviouslyGenerated(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber().toString());
@@ -256,7 +272,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @return the populated CommitteeBatchCorrespondenceDetail
      * @throws PrintingException 
      */
-    private CommitteeBatchCorrespondenceDetail createBatchCorrespondenceDetail(String committeeId, Protocol protocol, 
+    protected CommitteeBatchCorrespondenceDetail createBatchCorrespondenceDetail(String committeeId, Protocol protocol, 
             ProtocolCorrespondenceType protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
             String protocolActionTypeCode) throws PrintingException {
         CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail = new CommitteeBatchCorrespondenceDetail();
@@ -282,7 +298,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @param protocolActionTypeCode
      * @return the populated ProtocolAction
      */
-    private ProtocolAction createAndSaveProtocolAction(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType, 
+    protected ProtocolAction createAndSaveProtocolAction(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType, 
             String protocolActionTypeCode) {
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionTypeCode);
         protocolAction.setComments(protocolCorrespondenceType.getDescription());
@@ -300,7 +316,7 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @return the populated ProtocolCorrespondence
      * @throws PrintingException 
      */
-    private ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, Protocol protocol, 
+    protected ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, Protocol protocol, 
             ProtocolCorrespondenceType protocolCorrespondenceType, ProtocolAction protocolAction) throws PrintingException {
         ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
         
@@ -337,13 +353,13 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      * @param batchCorrespondenceTypeCode
      * @return the BatchCorrespondence business object
      */
-    private BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
+    protected BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
         return (BatchCorrespondence) businessObjectService.findByPrimaryKey(BatchCorrespondence.class, fieldValues);
     }
     
-    private CommitteePrintingService getCommitteePrintingService() {
+    protected CommitteePrintingService getCommitteePrintingService() {
         return KraServiceLocator.getService(CommitteePrintingService.class);
     }
 
@@ -377,6 +393,14 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      */
     public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
         this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
+    }
+
+    /**
+     * Populated by Spring Beans.
+     * @param documentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

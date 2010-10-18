@@ -175,7 +175,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @return List<Date> of valid schedule dates between start and end date.
      * @throws ParseException
      */
-    private List<Date> getScheduledDates(CronExpression expression, Date startDate, Date endDate, Time24HrFmt time,
+    protected List<Date> getScheduledDates(CronExpression expression, Date startDate, Date endDate, Time24HrFmt time,
             ScheduleSequence scheduleSequence) throws ParseException {
         scheduleSequence = getScheduleSequence(scheduleSequence);
         startDate = wrapTime(startDate, null);
@@ -190,7 +190,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @param time to be added to date.
      * @return wrapped date & time.
      */
-    private Date wrapTime(Date date, Time24HrFmt time) {
+    protected Date wrapTime(Date date, Time24HrFmt time) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR);
@@ -216,7 +216,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @param scheduleSequence
      * @return ScheduleSequence after sanity check.
      */
-    private ScheduleSequence getScheduleSequence(ScheduleSequence scheduleSequence) {
+    protected ScheduleSequence getScheduleSequence(ScheduleSequence scheduleSequence) {
         if (null == scheduleSequence) {
             scheduleSequence = new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence());
         }

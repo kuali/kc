@@ -79,7 +79,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * This method adds the required footer between budget period justifications
      * @param sb
      */
-    private void addBudgetPeriodFooter(StringBuilder sb) {
+    protected void addBudgetPeriodFooter(StringBuilder sb) {
         sb.append("\n");
     }
 
@@ -88,7 +88,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @param sb
      * @param budgetPeriodNumber
      */
-    private void addBudgetPeriodHeader(StringBuilder sb, int budgetPeriodNumber) {
+    protected void addBudgetPeriodHeader(StringBuilder sb, int budgetPeriodNumber) {
         sb.append("Period ");
         sb.append(budgetPeriodNumber);
         sb.append("\n");
@@ -99,7 +99,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @param budget
      * @param budgetJustificationWrapper
      */
-    private void addConsolidatedLineItemJustificationText(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) {
+    protected void addConsolidatedLineItemJustificationText(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) {
         String existingJustificationText = budgetJustificationWrapper.getJustificationText();
         StringBuilder sb = new StringBuilder();
         
@@ -122,7 +122,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @param budgetPeriod
      * @param sb
      */
-    private void addJustificationTextByBudgetPeriod(BudgetPeriod budgetPeriod, StringBuilder sb) {
+    protected void addJustificationTextByBudgetPeriod(BudgetPeriod budgetPeriod, StringBuilder sb) {
         Map<String, CostElement> costElementsMappedToCostElementCode = loadCostElements();
         
         boolean periodHeaderAdded = false;
@@ -143,7 +143,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @param lineItem
      * @return
      */
-    private boolean addLineItemJustificationText(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
+    protected boolean addLineItemJustificationText(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
                                                     int budgetPeriodNumber, boolean periodHeaderAdded, BudgetLineItem lineItem) {
         String lineItemJustification = lineItem.getBudgetJustification();
         if(!StringUtils.isEmpty(lineItemJustification)) {
@@ -164,7 +164,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @param lineItem
      * @param lineItemJustification
      */
-    private void addLineItemJustificationTextElements(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
+    protected void addLineItemJustificationTextElements(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
                                                         BudgetLineItem lineItem, String lineItemJustification) {
         sb.append(costElementsMappedToCostElementCode.get(lineItem.getCostElement()).getDescription());
         sb.append("\n");
@@ -176,7 +176,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * This method adds the required seprator text
      * @param sb
      */
-    private void addLineItemJustificationTextSeparatorText(StringBuilder sb) {
+    protected void addLineItemJustificationTextSeparatorText(StringBuilder sb) {
         sb.append("\n\n");
         sb.append("***************************");
         sb.append("\n\n");
@@ -186,7 +186,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * This method updates the Justification text meta-data with the user and date/time
      * @param budgetJustificationWrapper
      */
-    private void updateJustficationMetaData(BudgetJustificationWrapper budgetJustificationWrapper) {
+    protected void updateJustficationMetaData(BudgetJustificationWrapper budgetJustificationWrapper) {
         String updateUser = getLoggedInUserNetworkId();
         budgetJustificationWrapper.setLastUpdateUser(updateUser);
         budgetJustificationWrapper.setLastUpdateTime(new Date(System.currentTimeMillis()));

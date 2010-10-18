@@ -75,7 +75,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         this.versioningService = versioningService;
     }
     
-    private ProtocolDocument getNewProtocolDocument() throws Exception {
+    protected ProtocolDocument getNewProtocolDocument() throws Exception {
         // create a new ProtocolDocument
         ProtocolDocument newDoc = null;
         
@@ -139,7 +139,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     /*
      * seems that deepcopy is not really create new instance for copied obj.  this is really confusing
      */
-    private void materializeCollections(Protocol protocol) {
+    protected void materializeCollections(Protocol protocol) {
         checkCollection(protocol.getAttachmentProtocols());
         checkCollection(protocol.getAttachmentPersonnels());
         checkCollection(protocol.getProtocolLocations());
@@ -154,7 +154,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     /*
      * Utility method to force to materialize the proxy collection
      */
-    private void checkCollection(List<? extends PersistableBusinessObject> bos) {
+    protected void checkCollection(List<? extends PersistableBusinessObject> bos) {
         if (!bos.isEmpty()) {
             bos.get(0);
         }
@@ -163,7 +163,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     /*
      * This method is to make the document status of the attachment protocol to "finalized" 
      */
-    private void finalizeAttachmentProtocol(Protocol protocol) {
+    protected void finalizeAttachmentProtocol(Protocol protocol) {
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             attachment.setProtocol(protocol);
             if ("1".equals(attachment.getDocumentStatusCode())) {
@@ -179,7 +179,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      * But there is also a personnel attachments collection under protocol
      * This method is very similar to the one in protocolcopyservice, maybe should refactor to share.
      */
-    private void resetPersonId(Protocol protocol) {
+    protected void resetPersonId(Protocol protocol) {
         List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
         if (protocol.getProtocolPersons() != null) {
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
@@ -199,7 +199,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
 
     }
 
-    private void refreshAttachmentsPersonnels(Protocol protocol) {
+    protected void refreshAttachmentsPersonnels(Protocol protocol) {
         if (protocol.getProtocolPersons() != null) {
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
                 person.refreshReferenceObject("attachmentPersonnels");
@@ -215,7 +215,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      * @param protocolDocument
      * @param newProtocolDocument
      */
-    private void copyCustomDataAttributeValues(ProtocolDocument protocolDocument, ProtocolDocument newProtocolDocument) {
+    protected void copyCustomDataAttributeValues(ProtocolDocument protocolDocument, ProtocolDocument newProtocolDocument) {
         newProtocolDocument.initialize();
         if (protocolDocument.getCustomAttributeDocuments().isEmpty()) {
             protocolDocument.initialize();
@@ -236,7 +236,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      * @param protocol
      * @param newProtocol
      */
-    private void fixActionSequenceNumbers(Protocol protocol, Protocol newProtocol) {
+    protected void fixActionSequenceNumbers(Protocol protocol, Protocol newProtocol) {
         for (int i = 0; i < protocol.getProtocolActions().size(); i++) {
             newProtocol.getProtocolActions().get(i).setSequenceNumber(protocol.getProtocolActions().get(i).getSequenceNumber());
         }
@@ -249,7 +249,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
      * @param oldDoc
      * @param newDoc
      */
-    private void fixNextValues(ProtocolDocument oldDoc, ProtocolDocument newDoc) {
+    protected void fixNextValues(ProtocolDocument oldDoc, ProtocolDocument newDoc) {
         List<DocumentNextvalue> newNextValues = new ArrayList<DocumentNextvalue>();
         List<DocumentNextvalue> oldNextValues = oldDoc.getDocumentNextvalues();
         for (DocumentNextvalue oldNextValue : oldNextValues) {

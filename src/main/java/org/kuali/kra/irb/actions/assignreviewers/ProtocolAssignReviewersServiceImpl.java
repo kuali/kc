@@ -24,6 +24,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -34,7 +35,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
     
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolAssignReviewersServiceImpl.class);
+    
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
@@ -44,26 +46,36 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         if (protocolSubmission != null) {
             for (ProtocolReviewerBean bean : protocolReviewerBeans) {
                 if (bean.getChecked()) {
-                    if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), protocolSubmission)) {
+                    if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
+                        
                         createReviewer(protocolSubmission, bean);
                     } else {
                         updateReviewer(protocolSubmission, bean);
                     }
+                } else {
+                    //need to check if this person is currently a reviewer...
+                    if (protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
+                        removeReviewer(protocolSubmission,bean,"REVIEW REMOVED FROM ASSIGN REVIEWERS ACTION.");
+                    }
                 }
             }
+           
             businessObjectService.save(protocolSubmission);
         }
     }
     
-    private void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
+    protected void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+        protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
+    }
+    
+    protected void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
         String principalId = protocolReviewerBean.getPersonId();
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
         String reviewerTypeCode = protocolReviewerBean.getReviewerTypeCode();
         ProtocolReviewer reviewer = protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
-        
-        String piLastName = protocolSubmission.getProtocol().getPrincipalInvestigator().getPerson().getLastName();
-        String protocolNumber = protocolSubmission.getProtocolNumber();
-        String description = String.format("%s/Protocol# %s", piLastName, protocolNumber);
+        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
+        String protocolNumber = protocolSubmission.getProtocol().getProtocolNumber();
+        String description = protocolOnlineReviewService.getProtocolOnlineReviewDocumentDescription(protocolNumber, protocolPerson.getLastName());
         String explanation = Constants.EMPTY_STRING;
         String organizationDocumentNumber = Constants.EMPTY_STRING;
         String routeAnnotation = "Online Review Requested by PI during protocol submission.";
@@ -77,8 +89,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
     }
     
-    private void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
-        ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolSubmission);
+    protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
+        ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
         businessObjectService.save(reviewer);
     }

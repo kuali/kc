@@ -55,6 +55,24 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             valid = false;
         }
         
+        if (ObjectUtils.isNotNull(proposalLog.getPiId())) {
+            proposalLog.refreshReferenceObject("person");
+            if (proposalLog.getPerson() == null) {
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.piName", 
+                        KeyConstants.ERROR_INVALID_PI, "");
+                valid = false;
+            }
+        }
+        
+        if (ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
+            proposalLog.refreshReferenceObject("rolodex");
+            if (proposalLog.getRolodex() == null) {
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rolodexId", 
+                        KeyConstants.ERROR_INVALID_PI, "");                
+                valid = false;
+            }
+        }
+        
         if (ObjectUtils.isNotNull(proposalLog.getPiId()) && ObjectUtils.isNotNull(proposalLog.getRolodexId())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rolodexId", 
                     KeyConstants.ERROR_MULTIPLE_PRINCIPAL_INVESTIGATORS, "");

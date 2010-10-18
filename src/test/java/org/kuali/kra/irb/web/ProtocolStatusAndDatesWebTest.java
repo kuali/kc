@@ -64,8 +64,7 @@ public class ProtocolStatusAndDatesWebTest extends ProtocolWebTestBase{
         assertContains(protocolPage,"Protocol #: "+ protocolNumber +" Protocol Status: Pending/In Progress ");        
         assertContains(protocolPage,"Initial Approval Date: Generated on Approval Last Approval Date: Generated on Renewal Approval");        
         assertContains(protocolPage,"Initial Submission Date: Generated on Initial Submission Expiration Date: Generated on Approval");   
-        // How did this work before? It said date updated.
-        assertContains(protocolPage,"Risk Levels * Risk Level * Date Assigned Date Inactivated * Status Comments Additional Information"); 
+        // How did this work before? It said date updated. 
         Map<String, String> qMap = new HashMap<String, String>();
         qMap.put("documentNumber", getDocNbr(protocolPage));
         ProtocolDocument protocolDoc = (ProtocolDocument)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ProtocolDocument.class, qMap);

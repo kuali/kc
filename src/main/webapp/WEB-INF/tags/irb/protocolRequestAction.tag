@@ -15,13 +15,26 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tabTop tabTitle="Request an Action" defaultOpen="${KualiForm.auditActivated}"  
-            tabErrorKey="">
+<c:set var="isOpen" value="${KualiForm.auditActivated}" />
+<c:forEach items="${param}" var="par">
+    <c:if test="${fn:startsWith(par.key, 'lookupActionAmendRenewProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+    <c:if test="${fn:startsWith(par.key, 'lookupActionNotifyIRBProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+    <c:if test="${fn:startsWith(par.key, 'lookupActionRequestProtocol') and fn:startsWith(par.value, 'true')}">
+        <c:set var="isOpen" value="true" />
+    </c:if>
+</c:forEach>
+
+<kul:tabTop tabTitle="Request an Action" defaultOpen="${isOpen}" tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Available Actions</span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.actions.ProtocolAction" altText="help"/></span>
 		</h3>
-		<c:if test="${KualiForm.document.protocol.active}">
+		<c:if test="${KualiForm.document.protocol.active and showActions}">
             <kra-irb-action:submitAction />
             <kra-irb-action:withdrawAction />
             <kra-irb-action:modifySubmissionAction />
@@ -34,9 +47,13 @@
             <kra-irb-action:deferAction />
             <kra-irb-action:expediteApprovalAction />
             <kra-irb-action:responseApprovalAction />
+            <kra-irb-action:disapproveAction />
+            <kra-irb-action:smrAction />
+            <kra-irb-action:srrAction />
             <kra-irb-action:notifyIrbAction />
             <kra-irb-action:irbAcknowledgement />
             <kra-irb-action:createAmendmentAction />
+            <kra-irb-action:modifyAmendmentSectionsAction />
             <kra-irb-action:createRenewalWithAmendmentAction />
             <kra-irb-action:createRenewalAction />
             <kra-irb-action:closeRequestAction />
@@ -51,12 +68,13 @@
             <kra-irb-action:reopenAction />
             <kra-irb-action:permitDataAnalysisAction />
             <kra-irb-action:suspendAction />
-            <kra-irb-action:suspendByDmsbAction />
+            <kra-irb-action:suspendByDsmbAction />
             <kra-irb-action:closeAction />
             <kra-irb-action:expireAction />
             <kra-irb-action:terminateAction />
             <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
+            <kra-irb-action:manageReviewComments />
 		</c:if>
 	</div>
 </kul:tabTop>

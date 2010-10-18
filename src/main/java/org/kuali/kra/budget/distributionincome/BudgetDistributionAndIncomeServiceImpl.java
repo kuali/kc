@@ -76,7 +76,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
        }
     }
     
-    private RateDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
+    protected RateDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
         String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
         if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
             return RateDecimal.ZERO_RATE;
@@ -90,7 +90,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * Not sure to change it in 'Budget' because there are so many things unknow.
      * so create here just for UFAnd A
      */
-    private RateDecimal findApplicableRateForRateClassCodeUFAndA(Budget budget, Integer fiscalYear,
+    protected RateDecimal findApplicableRateForRateClassCodeUFAndA(Budget budget, Integer fiscalYear,
             String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
         RateDecimal applicableRate = RateDecimal.ZERO_RATE;
         BudgetRate appliedRate = null;
@@ -118,7 +118,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * @param fiscalYearSummary The fiscal year summary data 
      * @return A BudgetCostShare
      */
-    private BudgetCostShare createBudgetCostShare(FiscalYearSummary fiscalYearSummary) {
+    protected BudgetCostShare createBudgetCostShare(FiscalYearSummary fiscalYearSummary) {
         return new BudgetCostShare(fiscalYearSummary.getFiscalYear(), fiscalYearSummary.getCostShare(), new BudgetDecimal(0.00), null);
     }
     
@@ -129,7 +129,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
      * @param onCampusFlag The on-Campus flag
      * @return
      */
-    private BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, RateDecimal applicableRate, String onCampusFlag) {
+    protected BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, RateDecimal applicableRate, String onCampusFlag) {
         return new BudgetUnrecoveredFandA(fiscalYearSummary.getFiscalYear(), BudgetDecimal.ZERO, applicableRate, onCampusFlag, null);
     }
 }

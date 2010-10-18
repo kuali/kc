@@ -16,20 +16,26 @@
 package org.kuali.kra.irb.actions.reviewcomments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -39,26 +45,59 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     
-    private BusinessObjectService businessObjectService;
+    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED, 
+                                                                            ProtocolSubmissionStatus.EXEMPT, 
+                                                                            ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+                                                                            ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
+                                                                            ProtocolSubmissionStatus.DEFERRED, 
+                                                                            ProtocolSubmissionStatus.DISAPPROVED };
     
+    private BusinessObjectService businessObjectService;
     private CommitteeScheduleService committeeScheduleService;
     private CommitteeService committeeService;
     private ProtocolFinderDao protocolFinderDao;
-   
+    private RoleService roleService;
+    
     /**
-     * Set the Business Object Service.
-     * @param businessObjectService BusinessObjectService
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService#canViewOnlineReviewerComments(java.lang.String, 
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission) {
+        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission) || hasSubmissionCompleteStatus(protocolSubmission);
     }
     
     /**
-     * This method sets the committee schedule service.
-     * @param committeeScheduleService CommitteeScheduleService
+     * {@inheritDoc}
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewerCommentsService#canViewOnlineReviewers(java.lang.String, 
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
      */
-    public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
-        this.committeeScheduleService = committeeScheduleService;
+    public boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission) {
+        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission);
+    }
+    
+    private boolean isIrbAdminOrOnlineReviewer(String principalId, ProtocolSubmission submission) {
+        boolean isAdmin = false;
+        boolean isReviewer = false;
+        
+        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
+        isAdmin = ids.contains(principalId);
+        
+        if (principalId != null) {
+            List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
+            for (ProtocolReviewer reviewer : reviewers) {
+                if (StringUtils.equals(principalId, reviewer.getPersonId())) {
+                    isReviewer = true;
+                    break;
+                }
+            }
+        }
+        
+        return isAdmin || isReviewer;
+    }
+    
+    private boolean hasSubmissionCompleteStatus(ProtocolSubmission submission) {
+        return Arrays.asList(PROTOCOL_SUBMISSION_COMPLETE_STATUSES).contains(submission.getSubmissionStatusCode());
     }
     
     /**
@@ -106,7 +145,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     /*
      * when version committee, the minutes also versioned.  This is to get the current one.
      */
-    private boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
+    protected boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
             Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
@@ -152,7 +191,7 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
     /*
      * if this is IRB acknowledgement and loaded from protocol submission or notification.
      */
-    private ProtocolSubmission getSubmission(Protocol protocol) {
+    protected ProtocolSubmission getSubmission(Protocol protocol) {
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
         if (protocol.getNotifyIrbSubmissionId() != null) {
             // not the current submission, then check programically
@@ -176,12 +215,25 @@ public class ReviewerCommentsServiceImpl implements ReviewerCommentsService {
         persistReviewerComments(reviewComments, protocol );
     }
 
-
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
-
+    
+    public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
+        this.committeeScheduleService = committeeScheduleService;
+    }
+    
     public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
     }
+    
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
+    }
+    
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+    
 }

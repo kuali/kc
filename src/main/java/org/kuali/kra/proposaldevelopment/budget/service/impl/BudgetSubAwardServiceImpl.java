@@ -111,7 +111,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     /**
      * This method return loggedin user id
      */
-    private String getLoggedInUserNetworkId() {
+    protected String getLoggedInUserNetworkId() {
         return GlobalVariables.getUserSession().getPrincipalName();
     }
 //    private List<BudgetSubAwardAttachment> getSubAwardAttachments(BudgetSubAwards budgetSubAwardBean) {
@@ -140,7 +140,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     /**
      * extracts XML from PDF
      */
-    private byte[] getXMLFromPDF(PdfReader reader)throws Exception {
+    protected byte[] getXMLFromPDF(PdfReader reader)throws Exception {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if(domDocument==null)
@@ -163,7 +163,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      */       
 
     @SuppressWarnings("unchecked")
-    private Map extractAttachments(PdfReader reader)throws IOException{
+    protected Map extractAttachments(PdfReader reader)throws IOException{
         Map fileMap = new HashMap();
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
@@ -214,7 +214,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      * @throws IOException
      */
 
-    private static Object[] unpackFile(PdfReader reader, PdfDictionary filespec)throws IOException  {
+    protected static Object[] unpackFile(PdfReader reader, PdfDictionary filespec)throws IOException  {
         Object arr[] = new Object[2]; //use to store name and file bytes
         if (filespec == null) {
             return null;
@@ -254,7 +254,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      * updates the XMl with hashcode for the files
      */
 
-  private BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean) throws Exception {
+  protected BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean) throws Exception {
 
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -378,7 +378,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     }
 
 
-    private String cleanContentId(String contentId) {
+    protected String cleanContentId(String contentId) {
         return StringUtils.replaceChars(contentId, " .%-_", "");
     }
     public void populateBudgetSubAwardAttachments(Budget budget) {
@@ -391,7 +391,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             }
         }        
     }   
-    private void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
+    protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
         NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
         
         for (int i = emptyElements.getLength()-1; i > -1; i--){
@@ -408,7 +408,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         }
     }
 
-    private Element copyElementToName(Element element,String tagName) {
+    protected Element copyElementToName(Element element,String tagName) {
         Element newElement = element.getOwnerDocument().createElement(tagName);
         NamedNodeMap attrs = element.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
@@ -420,10 +420,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         }
         return newElement;
     }
-    private HashValue getValue(byte[] fileBytes) throws Exception{
+    protected HashValue getValue(byte[] fileBytes) throws Exception{
         return createHashValueType(GrantApplicationHash.computeAttachmentHash(fileBytes));
     }
-    private HashValue createHashValueType(String hashValueStr) throws Exception{
+    protected HashValue createHashValueType(String hashValueStr) throws Exception{
         HashValue hashValue = HashValue.Factory.newInstance();
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
         hashValue.setStringValue(hashValueStr);

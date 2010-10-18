@@ -43,5 +43,5 @@ public interface ProtocolPrintingService {
      * @return
      * @throws PrintingException
      */
-    AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException; 
+    AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException;
 }

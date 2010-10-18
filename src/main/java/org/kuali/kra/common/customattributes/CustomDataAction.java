@@ -81,7 +81,7 @@ public class CustomDataAction {
                               new String[]{customAttributeDocValue.getValue()});
                 }
         
-                String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
+                String groupName = customDataForm.getCustomDataHelper().getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
                 List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
         
                 if (customAttributeDocumentList == null) {

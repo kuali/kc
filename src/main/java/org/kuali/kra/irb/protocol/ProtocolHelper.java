@@ -596,4 +596,12 @@ public class ProtocolHelper implements Serializable {
             return false;
         }
     }
+    
+    public boolean isSourceNameEditable() {
+        if (newFundingSource != null && newFundingSource.getFundingSourceTypeCode() != null) {
+            return getProtocolFundingSourceService().updateSourceNameEditable(newFundingSource.getFundingSourceTypeCode().toString());
+        } else {
+            return true;
+        }
+    }
 }

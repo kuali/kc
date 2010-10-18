@@ -86,12 +86,10 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 				.newInstance();
 		initialize((Award) printableBusinessObject, reportParameters);
 		if (award != null) {
-			awardNoticeDocument
-					.setAwardNotice(getAwardNotice(reportParameters));
+			awardNoticeDocument.setAwardNotice(getAwardNotice(reportParameters));
 		}
 		xmlObjectList.put(
-				AwardPrintType.AWARD_DELTA_REPORT.getAwardPrintType(),
-				awardNoticeDocument);
+				AwardPrintType.AWARD_DELTA_REPORT.getAwardPrintType(),awardNoticeDocument);
 		return xmlObjectList;
 	}
 
@@ -99,40 +97,35 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * This method initializes the awardDocument ,award , and ,awardAmountInfo
 	 * reference variables.
 	 */
-	private void initialize(Award award,
+	private void initialize(Award award1,
 			Map<String, Object> reportParameters) {
-		this.awardDocument = award.getAwardDocument();
+		this.awardDocument = award1.getAwardDocument();
+		this.award = award1;
 		String awardNumber = getAwardNumberFromAward(awardDocument);
 		if (awardNumber != null) {
-			List<VersionHistory> awardSequenceHistoryList = versionHistoryService
-					.loadVersionHistory(Award.class, awardNumber);
+			List<VersionHistory> awardSequenceHistoryList = versionHistoryService.loadVersionHistory(Award.class, awardNumber);
 			int sequenceNumber = 0;
 			int prevSequenceNumber = 0;
-			int transactionId = 0;
+			Long transactionId = new Long(0);
 			long prevTransactionId = 0;
 			if (reportParameters.get(SEQUENCE_NUMBER) != null) {
-				sequenceNumber = (Integer) reportParameters
-						.get(SEQUENCE_NUMBER);
+				sequenceNumber = (Integer) reportParameters.get(SEQUENCE_NUMBER);
 				award = getAwardForSeqenceNumber(awardNumber, sequenceNumber);
 			}
-			if (reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX
-	                .getAwardPrintParameter()) != null) {
-				int transactionIdx = (Integer) reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX
-		                .getAwardPrintParameter());
+			if (reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX.getAwardPrintParameter()) != null) {
+				int transactionIdx = (Integer) reportParameters.get(AwardPrintParameters.TRANSACTION_ID_INDEX.getAwardPrintParameter());
 				if (award != null) {
 					awardAmountInfo = award.getAwardAmountInfos().get(transactionIdx); 
-					transactionId = awardAmountInfo.getTransactionId().intValue();
+					transactionId = awardAmountInfo.getTransactionId();
 				}
 			}
 			boolean sequenceNumberFound = false;
 			for (VersionHistory versionHistory : awardSequenceHistoryList) {
-				if (sequenceNumber == versionHistory
-						.getSequenceOwnerSequenceNumber()) {
+				if (sequenceNumber == versionHistory.getSequenceOwnerSequenceNumber()) {
 					sequenceNumberFound = true;
 				}
 				if (sequenceNumberFound) {
-					prevSequenceNumber = versionHistory
-							.getSequenceOwnerSequenceNumber();
+					prevSequenceNumber = sequenceNumber-1;
 					break;
 				}
 			}
@@ -142,18 +135,17 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			List<AwardAmountTransaction> awardAmountTransactions = getAwardAmountTransactions(awardNumber);
 			boolean transactionIdFound = false;
 			for (AwardAmountTransaction timeAndMoneyActionSummary : awardAmountTransactions) {
-				if (transactionId == timeAndMoneyActionSummary
-						.getAwardAmountTransactionId()) {
+				if (transactionId.equals(timeAndMoneyActionSummary.getAwardAmountTransactionId())) {
 					transactionIdFound = true;
 				}
 				if (transactionIdFound) {
-					prevTransactionId = timeAndMoneyActionSummary
-							.getAwardAmountTransactionId();
+					prevTransactionId = transactionId-1;//timeAndMoneyActionSummary.getAwardAmountTransactionId();
 					break;
 				}
 			}
-			initializePrevAward(awardNumber, prevSequenceNumber,
-					prevTransactionId);
+			if(prevSequenceNumber!=0){
+			    initializePrevAward(awardNumber, prevSequenceNumber,prevTransactionId);
+			}
 		}
 	}
 
@@ -192,19 +184,16 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * This method initializes the prevAward and prevAwardAmountInfo reference
 	 * variables.
 	 */
-	private void initializePrevAward(String awardNumber, long sequenceNumber,
-			long transactionId) {
+	private void initializePrevAward(String awardNumber, long sequenceNumber,long transactionId) {
 		if (transactionId > 1) {
 			prevAward = award;
 			if (award != null) {
-				prevAwardAmountInfo = getPrevAwardAmountInfo(award,
-						transactionId);
+				prevAwardAmountInfo = getPrevAwardAmountInfo(award,transactionId);
 			}
 		} else {
 			prevAward = getAwardForSeqenceNumber(awardNumber, sequenceNumber);
 			if (prevAward != null) {
-				List<AwardAmountInfo> awardAmountInfos = prevAward
-						.getAwardAmountInfos();
+				List<AwardAmountInfo> awardAmountInfos = prevAward.getAwardAmountInfos();
 				if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
 					prevAwardAmountInfo = awardAmountInfos.get(0);
 				}
@@ -318,68 +307,111 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * and finally returns AwardTransferringSponsors Xml object
 	 */
 	private AwardTransferringSponsors getAwardTransferringSponsors() {
-		AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory
-				.newInstance();
+		AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory.newInstance();
 		List<TransferringSponsor> transferringSponsorList = new LinkedList<TransferringSponsor>();
-		String transferSponsorIndicator = award.getTransferSponsorIndicator();
-		if (transferSponsorIndicator != null
-				&& transferSponsorIndicator.equals(EMPTY_STRING)) {
-			transferSponsorIndicator = transferSponsorIndicator.length() == 1 ? transferSponsorIndicator
-					: transferSponsorIndicator.substring(1, 2);
-			if (transferSponsorIndicator.equals(TRANSFERSPONSOR_MODIFIED_VALUE)) {
-				List<AwardTransferringSponsor> awardTransferringSponsorList = award
-						.getAwardTransferringSponsors();
-				TransferringSponsor transferringSponsor = null;
-				for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
-					transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
-					transferringSponsorList.add(transferringSponsor);
-				}
-				List<AwardTransferringSponsor> prevTransferringSponsorList = null;
-				if (prevAward != null) {
-					prevTransferringSponsorList = prevAward
-							.getAwardTransferringSponsors();
-				}
-				if (prevTransferringSponsorList != null) {
-					for (AwardTransferringSponsor awardTransferringSponsor : prevTransferringSponsorList) {
-						transferringSponsor = getPrevAwardTransferringSponsorBean(awardTransferringSponsor);
-						transferringSponsorList.add(transferringSponsor);
-					}
-				}
-			}
+		List<AwardTransferringSponsor> awardTransferringSponsorList = award.getAwardTransferringSponsors();
+        List<AwardTransferringSponsor> prevTransferringSponsorList = prevAward == null?new ArrayList<AwardTransferringSponsor>():
+                                                                        prevAward.getAwardTransferringSponsors();
+		TransferringSponsor transferringSponsor = null;
+		for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
+		    if(checkSponsorCodeChange(awardTransferringSponsor, prevTransferringSponsorList)){
+		        transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
+		    }else{
+		        transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor,SPONSOR_CODE_ADDED_INDICATOR);
+		    }
+            transferringSponsorList.add(transferringSponsor);
 		}
-		transferringSponsors
-				.setTransferringSponsorArray(transferringSponsorList
-						.toArray(new TransferringSponsor[0]));
+		for (AwardTransferringSponsor awardTransferringSponsor : prevTransferringSponsorList) {
+            if(!checkSponsorCodeChange(awardTransferringSponsor, awardTransferringSponsorList)){
+                transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor,SPONSOR_CODE_DELETED_INDICATOR);
+                transferringSponsorList.add(transferringSponsor);
+            }
+		}
+		transferringSponsors.setTransferringSponsorArray(transferringSponsorList.toArray(new TransferringSponsor[0]));
 		return transferringSponsors;
 	}
+//    private AwardTransferringSponsors getAwardTransferringSponsors() {
+//        AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory
+//                .newInstance();
+//        List<TransferringSponsor> transferringSponsorList = new LinkedList<TransferringSponsor>();
+//        String transferSponsorIndicator = award.getTransferSponsorIndicator();
+//        if (transferSponsorIndicator != null
+//                && !transferSponsorIndicator.equals(EMPTY_STRING)) {
+//            transferSponsorIndicator = transferSponsorIndicator.length() == 1 ? transferSponsorIndicator
+//                    : transferSponsorIndicator.substring(1, 2);
+//            if (transferSponsorIndicator.equals(TRANSFERSPONSOR_MODIFIED_VALUE)) {
+//                List<AwardTransferringSponsor> awardTransferringSponsorList = award
+//                        .getAwardTransferringSponsors();
+//                TransferringSponsor transferringSponsor = null;
+//                for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
+//                    transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
+//                    transferringSponsorList.add(transferringSponsor);
+//                }
+//                List<AwardTransferringSponsor> prevTransferringSponsorList = null;
+//                if (prevAward != null) {
+//                    prevTransferringSponsorList = prevAward
+//                            .getAwardTransferringSponsors();
+//                }
+//                if (prevTransferringSponsorList != null) {
+//                    for (AwardTransferringSponsor awardTransferringSponsor : prevTransferringSponsorList) {
+//                        transferringSponsor = getPrevAwardTransferringSponsorBean(awardTransferringSponsor);
+//                        transferringSponsorList.add(transferringSponsor);
+//                    }
+//                }
+//            }
+//        }
+//        transferringSponsors
+//                .setTransferringSponsorArray(transferringSponsorList
+//                        .toArray(new TransferringSponsor[0]));
+//        return transferringSponsors;
+//    }
 
-	/*
-	 * This method will set the values to TransferringSponsor attribute and
-	 * finally returns TransferringSponsor xml boject
-	 */
-	private TransferringSponsor getPrevAwardTransferringSponsorBean(
-			AwardTransferringSponsor awardTransferringSponsor) {
-		TransferringSponsor transferringSponsor = TransferringSponsor.Factory
-				.newInstance();
-		if (awardTransferringSponsor.getAwardNumber() != null) {
-			transferringSponsor.setAwardNumber(award.getAwardNumber());
-		}
-		if (awardTransferringSponsor.getSequenceNumber() != null) {
-			transferringSponsor.setSequenceNumber(award.getSequenceNumber());
-		}
-		if (awardTransferringSponsor.getSponsorCode() != null) {
-			transferringSponsor.setSponsorCode(new StringBuilder(
-					SPONSOR_CODE_DELETED_INDICATOR).append(
-					awardTransferringSponsor.getSponsorCode()).toString());
-		}
-		Sponsor sponsor = awardTransferringSponsor.getSponsor();
-		if (sponsor != null && sponsor.getSponsorName() != null) {
-			transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
-		}
-		return transferringSponsor;
-	}
+    /**
+     * This method...
+     * @param awardTransferringSponsor
+     * @param awardTransferringSponsors
+     */
+    private boolean checkSponsorCodeChange(AwardTransferringSponsor awardTransferringSponsor,
+            List<AwardTransferringSponsor> awardTransferringSponsors) {
+        for (AwardTransferringSponsor currentAwardTransferringSponsor : awardTransferringSponsors) {
+            if( awardTransferringSponsor.getSponsorCode().equals(currentAwardTransferringSponsor.getSponsorCode())){
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/*
+    /**
+     * <p>
+     * This method will set the values to transferring sponsor XmlObject and
+     * return it
+     * </p>
+     * 
+     * @param awardTransferringSponsor
+     *            it contains information about the award transferring sponsor
+     *            {@link AwardTransferringSponsor}
+     * @return awardTransferringSponsor xmlObject
+     */
+    protected TransferringSponsor getAwardTransferringSponsor(
+            AwardTransferringSponsor awardTransferringSponsor, String prefix) {
+        TransferringSponsor transferringSponsor = TransferringSponsor.Factory.newInstance();
+        if (awardTransferringSponsor.getAwardNumber() != null) {
+            transferringSponsor.setAwardNumber(awardTransferringSponsor
+                    .getAwardNumber());
+        }
+        if (awardTransferringSponsor.getSequenceNumber() != null) {
+            transferringSponsor.setSequenceNumber(awardTransferringSponsor
+                    .getSequenceNumber());
+        }
+        transferringSponsor.setSponsorCode(prefix+awardTransferringSponsor.getSponsorCode());
+        Sponsor sponsor = awardTransferringSponsor.getSponsor();
+        if (sponsor != null && sponsor.getSponsorName() != null) {
+            transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
+        }
+        return transferringSponsor;
+    }
+    
+    /*
 	 * This method will set the values to AwardOtherDatas attributes and finally
 	 * returns AwardOtherDatas Xml object
 	 */

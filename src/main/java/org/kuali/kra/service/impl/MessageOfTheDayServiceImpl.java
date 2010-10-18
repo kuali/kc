@@ -46,7 +46,7 @@ public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
     
     
     @SuppressWarnings("unused")
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
     

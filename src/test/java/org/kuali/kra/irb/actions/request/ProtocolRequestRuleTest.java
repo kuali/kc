@@ -77,7 +77,7 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
     public void testOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE);
+                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
         
         assertTrue(rule.processRules(event));
@@ -96,7 +96,7 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
         
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE);
+                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         requestBean.setCommitteeId(COMMITTEE_ID);
         ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
        
@@ -118,7 +118,7 @@ public class ProtocolRequestRuleTest extends ProtocolRuleTestBase {
         
         ProtocolDocument document = getNewProtocolDocument();
         ProtocolRequestBean requestBean = new ProtocolRequestBean(ProtocolActionType.REQUEST_TO_CLOSE,
-                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE);
+                                                                  ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
         ProtocolRequestEvent event = new ProtocolRequestEvent(document, Constants.PROTOCOL_CLOSE_REQUEST_PROPERTY_KEY, requestBean);
        
         assertFalse(rule.processRules(event));

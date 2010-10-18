@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -365,6 +366,15 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
     }
     
+    /*
+     * Get the ProtocolOnlineReviewService
+     * @return ProtocolOnlineReviewService
+     */
+    
+    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+    }
+    
     /**
      * This method gets called upon navigation to Online Review tab.
      * @param mapping the Action Mapping
@@ -380,4 +390,5 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     
 
+    
 }

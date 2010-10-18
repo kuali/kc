@@ -2435,7 +2435,7 @@
 										<xsl:if test="../PrintRequirement/HierarchyInfoRequired   = &quot;1&quot;">
 											<xsl:if test="count(    ChildAwardDetails/ChildAward )  &gt; 0">
 												<fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
-													<xsl:text>Distributions:</xsl:text>
+													<xsl:text>Hierarchy Distributions:</xsl:text>
 												</fo:inline>
 												<fo:block/>
 												<xsl:for-each select="ChildAwardDetails">

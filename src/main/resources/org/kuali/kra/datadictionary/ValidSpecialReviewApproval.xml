@@ -15,7 +15,10 @@
     <property name="lookupDefinition" >
       <ref bean="ValidSpecialReviewApproval-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="specialReviewCode" />
+<!-- This attribute is still needed for proper inquiry, but we currently do not have a key for it.
+     Uncomment when the key is added to the database, and make other appropriate changes to this DD file.
+    <property name="titleAttribute" value="validSpecialReviewApprovalId" />
+-->
     <property name="attributes" >
       <list>
         <ref bean="ValidSpecialReviewApproval-specialReviewCode" />

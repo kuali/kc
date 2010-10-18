@@ -71,6 +71,7 @@ import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -351,40 +352,38 @@ public abstract class AwardBaseStream implements XmlStream {
 		return paymentSchedule;
 	}
 
-	/**
-	 * <p>
-	 * This method will set the values to transferring sponsor XmlObject and
-	 * return it
-	 * </p>
-	 * 
-	 * @param awardTransferringSponsor
-	 *            it contains information about the award transferring sponsor
-	 *            {@link AwardTransferringSponsor}
-	 * @return awardTransferringSponsor xmlObject
-	 */
-	protected TransferringSponsor getAwardTransferringSponsor(
-			AwardTransferringSponsor awardTransferringSponsor) {
-		TransferringSponsor transferringSponsor = TransferringSponsor.Factory
-				.newInstance();
-		if (awardTransferringSponsor.getAwardNumber() != null) {
-			transferringSponsor.setAwardNumber(awardTransferringSponsor
-					.getAwardNumber());
-		}
-		if (awardTransferringSponsor.getSequenceNumber() != null) {
-			transferringSponsor.setSequenceNumber(awardTransferringSponsor
-					.getSequenceNumber());
-		}
-		if (awardTransferringSponsor.getSponsorCode() != null) {
-			transferringSponsor.setSponsorCode(new StringBuilder(
-					SPONSOR_CODE_ADDED_INDICATOR).append(
-					awardTransferringSponsor.getSponsorCode()).toString());
-		}
-		Sponsor sponsor = awardTransferringSponsor.getSponsor();
-		if (sponsor != null && sponsor.getSponsorName() != null) {
-			transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
-		}
-		return transferringSponsor;
-	}
+    /**
+     * <p>
+     * This method will set the values to transferring sponsor XmlObject and
+     * return it
+     * </p>
+     * 
+     * @param awardTransferringSponsor
+     *            it contains information about the award transferring sponsor
+     *            {@link AwardTransferringSponsor}
+     * @return awardTransferringSponsor xmlObject
+     */
+    protected TransferringSponsor getAwardTransferringSponsor(
+            AwardTransferringSponsor awardTransferringSponsor) {
+        TransferringSponsor transferringSponsor = TransferringSponsor.Factory
+                .newInstance();
+        if (awardTransferringSponsor.getAwardNumber() != null) {
+            transferringSponsor.setAwardNumber(awardTransferringSponsor
+                    .getAwardNumber());
+        }
+        if (awardTransferringSponsor.getSequenceNumber() != null) {
+            transferringSponsor.setSequenceNumber(awardTransferringSponsor
+                    .getSequenceNumber());
+        }
+        if (awardTransferringSponsor.getSponsorCode() != null) {
+            transferringSponsor.setSponsorCode(awardTransferringSponsor.getSponsorCode());
+        }
+        Sponsor sponsor = awardTransferringSponsor.getSponsor();
+        if (sponsor != null && sponsor.getSponsorName() != null) {
+            transferringSponsor.setSponsorDescription(sponsor.getSponsorName());
+        }
+        return transferringSponsor;
+    }
 
 	/**
 	 * <p>
@@ -795,22 +794,16 @@ public abstract class AwardBaseStream implements XmlStream {
 				IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
 						.newInstance();
 				indirectCostSharingItem.setAwardNumber(award.getAwardNumber());
-				indirectCostSharingItem.setSequenceNumber(award
-						.getSequenceNumber());
-				indirectCostSharingItem.setFiscalYear(String
-						.valueOf(budgetUnrecoveredFandA.getFiscalYear()));
+				indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());
+				indirectCostSharingItem.setFiscalYear(String.valueOf(budgetUnrecoveredFandA.getFiscalYear()));
 				indirectCostSharingItem
 						.setApplicableRate(budgetUnrecoveredFandA
 								.getApplicableRate().bigDecimalValue());
 				boolean campus = (budgetUnrecoveredFandA.getOnCampusFlag() != null && budgetUnrecoveredFandA
-						.getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true
-						: false;
+						.getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true: false;
 				indirectCostSharingItem.setCampus(campus);
-				indirectCostSharingItem.setSourceAccount(budgetUnrecoveredFandA
-						.getSourceAccount());
-				indirectCostSharingItem
-						.setUnderRecoveryAmount(budgetUnrecoveredFandA
-								.getAmount().bigDecimalValue());
+				indirectCostSharingItem.setSourceAccount(budgetUnrecoveredFandA.getSourceAccount());
+				indirectCostSharingItem.setUnderRecoveryAmount(budgetUnrecoveredFandA.getAmount().bigDecimalValue());
 				indirectCostSharingItems.add(indirectCostSharingItem);
 			}
 		}
@@ -2513,17 +2506,14 @@ public abstract class AwardBaseStream implements XmlStream {
 			}
 		}
 		if (award.getSpecialEbRateOffCampus() != null) {
-			otherHeaderDetails.setSpecialEBRateOffCampus(award
-					.getSpecialEbRateOffCampus().bigDecimalValue());
+			otherHeaderDetails.setSpecialEBRateOffCampus(award.getSpecialEbRateOffCampus().bigDecimalValue());
 		}
 		if (award.getSpecialEbRateOnCampus() != null) {
-			otherHeaderDetails.setSpecialEBRateOnCampus(award
-					.getSpecialEbRateOnCampus().bigDecimalValue());
+			otherHeaderDetails.setSpecialEBRateOnCampus(award.getSpecialEbRateOnCampus().bigDecimalValue());
 		}
 		if (award.getAwardSpecialRate() != null
 				&& award.getAwardSpecialRate().getComments() != null) {
-			otherHeaderDetails.setSpecialRateComments(award
-					.getAwardSpecialRate().getComments());
+			otherHeaderDetails.setSpecialRateComments(award.getAwardSpecialRate().getComments());
 		}
 		KualiDecimal bdecPreAwardAuthorizedAmt = award
 				.getPreAwardAuthorizedAmount() == null ? KualiDecimal.ZERO
@@ -2696,7 +2686,10 @@ public abstract class AwardBaseStream implements XmlStream {
 							.setAccountTypeDesc(accountTypeDescription);
 				}
 			}
-		// TODO : Need to set values for RootAccountNumber
+		String rootAccountNumber = getRootAccountNumber();
+		if(rootAccountNumber!=null){
+		    otherHeaderDetails.setRootAccountNumber(rootAccountNumber);
+		}
 		if (award.getUpdateUser() != null) {
 			otherHeaderDetails.setUpdateUser(award.getUpdateUser());
 		}
@@ -2708,7 +2701,18 @@ public abstract class AwardBaseStream implements XmlStream {
 		return otherHeaderDetails;
 	}
 
-	/*
+	private String getRootAccountNumber() {
+	    Map<String,String> param = new HashMap<String,String>();
+	    param.put("awardNumber", award.getAwardNumber());
+	    List<AwardHierarchy> awardHierarchies = (List)getBusinessObjectService().findMatching(AwardHierarchy.class, param);
+	    if(!awardHierarchies.isEmpty()){
+	        AwardHierarchy awardHierarchy = awardHierarchies.get(0);
+	        return awardHierarchy.getRootAwardNumber();
+	    }
+        return null;
+    }
+
+    /*
 	 * This method will get the award payment method description
 	 */
 	private String getAwardPaymentMethodDesc() {

@@ -656,7 +656,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
             if(!newNodeToView.isRootNode()) {
-                setMultipleNodeHierarchyOnAwardFormTrue(awardForm);  
+                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);  
             }
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
@@ -674,8 +674,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * this is handled in the docHandler and home methods of AwardAction.
      * @param awardForm
      */
-    private void setMultipleNodeHierarchyOnAwardFormTrue(AwardForm awardForm) {
-         awardForm.setAwardInMultipleNodeHierarchy(true);
+    private void setMultipleNodeHierarchyOnAwardFormTrue(Award award) {
+         award.setAwardInMultipleNodeHierarchy(true);
     }
 
     private String getHierarchyTargetAwardNumber(HttpServletRequest request) {

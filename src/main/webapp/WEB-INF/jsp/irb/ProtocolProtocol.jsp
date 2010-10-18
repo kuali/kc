@@ -18,6 +18,7 @@
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="protocolProtocol"
@@ -28,11 +29,15 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocol">
   	
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol1" /></div>
+<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-irb:protocolRequiredFields />
 <kra-irb:protocolStatusDate />
-<kra-irb:protocolRiskLevel />
+<c:choose>
+	<c:when test="${KualiForm.displayRiskLevelPanel}" > 
+		<kra-irb:protocolRiskLevel />
+	</c:when>
+</c:choose>
 <kra-irb:protocolAdditionalInformation />
 <kra-irb:protocolLocations />
 <kra-irb:protocolFundingSources />

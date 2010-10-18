@@ -77,6 +77,16 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     }
     
     /**
+     * Is the protocol an amendment protocol? 
+     * @param protocol the protocol
+     * @return true if the protocol is an amendment; otherwise false
+     */
+    protected final boolean isAmendment(Protocol protocol) {
+        return protocol.getProtocolNumber() != null &&
+               protocol.getProtocolNumber().contains("A");
+    }
+
+    /**
      * Is the protocol an amendment or renewal protocol? 
      * @param protocol the protocol
      * @return true if the protocol is an amendment or renewal; otherwise false

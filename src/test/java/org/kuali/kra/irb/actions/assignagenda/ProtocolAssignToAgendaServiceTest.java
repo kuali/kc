@@ -130,6 +130,9 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
+        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.SUBMIT_TO_IRB));
+        protocolDocument.getProtocol().setProtocolActions(actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertFalse(result);
     }
@@ -137,9 +140,9 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
     @Test
     public void testIsAssignedToAgenda2() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.IN_AGENDA);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList();
+        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA));
         protocolDocument.getProtocol().setProtocolActions(actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
@@ -151,7 +154,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         ProtocolSubmission submission = createSubmission(protocolDocument.getProtocol(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
-        List<ProtocolAction> actions = new ArrayList();
+        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
         ProtocolAction pa = new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA);
         String comments = "My test protocol action comments";
         pa.setComments(comments);

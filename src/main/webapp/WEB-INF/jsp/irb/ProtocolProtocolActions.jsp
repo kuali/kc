@@ -22,6 +22,11 @@
 </script>
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
+<c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
+<c:set var="suppressRoutingControls" value="${KualiForm.actionHelper.canApprove || !KualiForm.actionHelper.canApproveOther}" scope="request"/>
+<c:if test="${suppressRoutingControls && !empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}">
+	<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
+</c:if>	
 
 <style type="text/css">
    .compare { color: #666666 }
@@ -40,20 +45,25 @@
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolRequestAction />
+<c:if test="${showActions}" >
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+</c:if>
 <kra-irb:protocolPrint/>
 <kra-irb:protocolSummaryViewPrint/>
 <kra-irb:protocolCopyProtocol />
 <kul:routeLog /> 
+<c:if test="${showActions}" >
 <kul:adHocRecipients />
-
+</c:if>
 <kul:panelFooter />
+	            
 	<kul:documentControls 
 		transactionalDocument="true"
-		suppressRoutingControls="false"
+		suppressRoutingControls="${suppressRoutingControls}"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
+		extraButtons="${extraButtons}"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 

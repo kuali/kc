@@ -29,6 +29,7 @@ public class ProtocolEditableBean implements Serializable {
     private boolean specialReviewEnabled = false;
     private boolean protocolPersonnelEnabled = false;
     private boolean othersEnabled = false;
+    private boolean protocolPermissionsEnabled = false;
     
     public ProtocolEditableBean() {
         
@@ -113,4 +114,13 @@ public class ProtocolEditableBean implements Serializable {
     public void setOthersEnabled(boolean othersEnabled) {
         this.othersEnabled = othersEnabled;
     }
+
+    public boolean getProtocolPermissionsEnabled() {
+        return protocolPermissionsEnabled;
+    }
+
+    public void setProtocolPermissionsEnabled(boolean protocolPermissionsEnabled) {
+        this.protocolPermissionsEnabled = protocolPermissionsEnabled;
+    }
+
 }

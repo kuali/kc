@@ -30,7 +30,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -61,8 +60,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     
     private ProtocolAmendRenewServiceImpl protocolAmendRenewService;
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;   
-    private ProtocolActionService protocolActionService;
+    private DocumentService documentService;
     
     @Before
     public void setUp() throws Exception {
@@ -75,9 +73,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         protocolAmendRenewService.setDocumentService(documentService);
         protocolAmendRenewService.setProtocolCopyService(copyService);
         protocolAmendRenewService.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
-        
-        protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-        protocolAmendRenewService.setProtocolActionService(protocolActionService);
     }
 
     @After
@@ -107,14 +102,14 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     @Test
     public void testRenewal() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        String docNbr = protocolAmendRenewService.createRenewal(protocolDocument);
+        String docNbr = protocolAmendRenewService.createRenewal(protocolDocument, SUMMARY);
         
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
     
         assertEquals(protocolDocument.getProtocol().getProtocolNumber() + "R001", amendmentDocument.getProtocol().getProtocolNumber());
         
         verifyAction(protocolDocument.getProtocol(), ProtocolActionType.RENEWAL_CREATED, "Renewal-001: Created");
-        verifyAmendmentRenewal(amendmentDocument.getProtocol(), null, 0);
+        verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 0);
     }
     
     @Test
@@ -242,7 +237,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         protocolAmendRenewService.createAmendment(protocolDocument, amendmentBean);
         
         List<String> modules = protocolAmendRenewService.getAvailableModules("0906000001");
-        assertEquals(7, modules.size());
+        assertEquals(8, modules.size());
         assertTrue(modules.contains(ProtocolModule.FUNDING_SOURCE));
         assertTrue(modules.contains(ProtocolModule.GENERAL_INFO));
         assertTrue(modules.contains(ProtocolModule.OTHERS));
@@ -250,5 +245,6 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         assertTrue(modules.contains(ProtocolModule.PROTOCOL_REFERENCES));
         assertTrue(modules.contains(ProtocolModule.SPECIAL_REVIEW));
         assertTrue(modules.contains(ProtocolModule.SUBJECTS));
+        assertTrue(modules.contains(ProtocolModule.PROTOCOL_PERMISSIONS));
     }
 }

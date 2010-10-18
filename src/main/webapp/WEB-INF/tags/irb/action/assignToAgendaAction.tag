@@ -21,9 +21,9 @@
 <kra:permission value="${KualiForm.actionHelper.canAssignToAgenda}">
 
 <kul:innerTab tabTitle="Assign to Agenda" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.assignToAgendaBean*">
-    <div class="innerTab-container" align="left">
+   <kra-irb-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
-            <tbody>
+          <tbody>
 	            <tr>
 	            	<th> 
 	                    <div align="right">
@@ -107,7 +107,7 @@
                                                        property="actionHelper.assignToAgendaBean.reviewComments"
                                                        action="${action}"
                                                        actionName="AssignToAgenda" 
-                                                       allowReadOnly="${true}"/>
+                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}"/>
                    </td>
                 </tr>
 	            
@@ -123,8 +123,7 @@
 	            
             </tbody>
         </table>
-    </div>
-    
+   </kra-irb-action:padLeft>
 </kul:innerTab>
 
 </kra:permission>

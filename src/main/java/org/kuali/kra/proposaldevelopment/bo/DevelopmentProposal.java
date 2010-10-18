@@ -1532,6 +1532,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
     }
+    
+    public List<S2sOppForms> getSelectedS2sOppForms() {
+        List<S2sOppForms> aList = new ArrayList<S2sOppForms>();
+        for (S2sOppForms oppForm : s2sOppForms) {
+            if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
+                aList.add(oppForm);
+             }
+        }
+        return aList;
+    }
 
     public void setS2sOppForms(List<S2sOppForms> oppForms) {
         s2sOppForms = oppForms;

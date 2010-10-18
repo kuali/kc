@@ -16,39 +16,43 @@
 package org.kuali.kra.irb.actions.genericactions;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-//@PerSuiteUnitTestData(@UnitTestData(sqlFiles = {
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_status.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ORG_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_PERSON_ROLES.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_SUBMISSION_TYPE_QUALIFIER.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_protocol_review_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_REVIEWER_TYPE.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_committee_type.sql", delimiter = ";"),
-//        @UnitTestFile(filename = "classpath:sql/dml/load_PROTOCOL_ATTACHMENT_TYPE.sql", delimiter = ";")
-//}))
 public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     
     private BusinessObjectService businessObjectService;
+    private ProtocolSubmitActionService submitActionService;
+    private DocumentService documentService;
     private ProtocolGenericActionService genericActionService;
-    private ProtocolGenericActionServiceImpl genericActionServiceImpl;
     
     private static final String BASIC_COMMENT = "some dummy comments here";
-    private static final Date BASIC_ACTION_DATE = new Date(2010, 2, 14);
+    private static final Date BASIC_ACTION_DATE = new Date(System.currentTimeMillis());
+    
+    private static final String COMMITTEE_ID = "1285093659990";
+    private static final String SCHEDULE_ID = "10014";
 
     @Override
     @Before
@@ -56,8 +60,9 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        submitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         genericActionService = KraServiceLocator.getService(ProtocolGenericActionService.class);
-        genericActionServiceImpl = (ProtocolGenericActionServiceImpl)KraServiceLocator.getService(ProtocolGenericActionService.class);
     }
 
     @Override
@@ -65,15 +70,8 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     public void tearDown() throws Exception {
         businessObjectService = null;
         genericActionService = null;
-        genericActionServiceImpl = null;
         GlobalVariables.setUserSession(null);
         super.tearDown();
-    }
-
-    @Test
-    public void testSetBusinessObjectService() {
-        genericActionServiceImpl.setBusinessObjectService(businessObjectService);
-        assertTrue(true);
     }
 
     @Test
@@ -140,12 +138,43 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
     
     @Test
     public void testSuspendByPI() throws Exception {
-        //quickstart is a PI
         Protocol prot = getNewProtocol();
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.REQUEST_FOR_SUSPENSION);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(prot.getProtocolId());
+        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setActionId(123);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        prot.getProtocolActions().add(pa);
+        
         ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
         businessObjectService.save(prot);
         genericActionService.suspend(prot, actionBean);
         String expected = ProtocolStatus.SUSPENDED_BY_PI;
+        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+    }
+    
+    @Test
+    public void testSuspendByIRB() throws Exception {
+        Protocol prot = getNewProtocol();
+        ProtocolActionType prevType = new ProtocolActionType();
+        prevType.setProtocolActionTypeCode(ProtocolActionType.APPROVED);
+        ProtocolAction pa = new ProtocolAction();
+        pa.setProtocolActionType(prevType);
+        pa.setProtocolActionTypeCode(prevType.getProtocolActionTypeCode());
+        pa.setProtocolId(prot.getProtocolId());
+        pa.setProtocolNumber(prot.getProtocolNumber());
+        pa.setActionId(1234);
+        pa.setActualActionDate(new Timestamp(System.currentTimeMillis()));
+        prot.getProtocolActions().add(pa);
+        
+        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
+        businessObjectService.save(prot);
+        genericActionService.suspend(prot, actionBean);
+        String expected = ProtocolStatus.SUSPENDED_BY_IRB;
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
 
@@ -169,6 +198,47 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
     }
     
+    @Test
+    public void testDisapprove() throws Exception {
+        Protocol prot = getNewProtocol();
+        businessObjectService.save(prot);
+        submitActionService.submitToIrbForReview(prot, buildProtocolSubmitAction());
+        documentService.routeDocument(prot.getProtocolDocument(), "Initial Document Route", new ArrayList<AdHocRouteRecipient>());
+        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
+        genericActionService.disapprove(prot, actionBean);
+        String expected = ProtocolStatus.DISAPPROVED;
+        assertEquals(expected, prot.getProtocolStatus().getProtocolStatusCode());
+        assertTrue(prot.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsDisapproved());
+    }
+    
+    @Test
+    public void testReturnForSMR() throws Exception {
+        Protocol prot = getNewProtocol();
+        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
+        businessObjectService.save(prot);
+        ProtocolDocument oldDocument = prot.getProtocolDocument();
+        ProtocolDocument newDocument = genericActionService.returnForSMR(prot, actionBean);
+        String expectedStatus = ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED;
+        String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
+        assertEquals(expectedStatus, prot.getProtocolStatus().getProtocolStatusCode());
+        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
+    }
+    
+    @Test
+    public void testReturnForSRR() throws Exception {
+        Protocol prot = getNewProtocol();
+        ProtocolGenericActionBean actionBean = buildProtocolGenericActionBean();
+        businessObjectService.save(prot);
+        ProtocolDocument oldDocument = prot.getProtocolDocument();
+        ProtocolDocument newDocument = genericActionService.returnForSRR(prot, actionBean);
+        String expectedStatus = ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED;
+        String unexpectedDocumentNumber = oldDocument.getDocumentNumber();
+        assertEquals(expectedStatus, prot.getProtocolStatus().getProtocolStatusCode());
+        assertTrue(oldDocument.getDocumentHeader().getWorkflowDocument().stateIsCanceled());
+        assertNotSame(unexpectedDocumentNumber, newDocument.getDocumentNumber());
+    }
+    
     private Protocol getNewProtocol() throws Exception{
         Protocol prot = ProtocolFactory.createProtocolDocument().getProtocol();
         return prot;
@@ -179,6 +249,16 @@ public class ProtocolGenericActionsServiceTest extends KcUnitTestBase {
         actionBean.setComments(BASIC_COMMENT);
         actionBean.setActionDate(BASIC_ACTION_DATE);
         return actionBean;
+    }
+    
+    private ProtocolSubmitAction buildProtocolSubmitAction() {
+        ProtocolSubmitAction submitAction = new ProtocolSubmitAction(null);
+        submitAction.setSubmissionTypeCode(ProtocolSubmissionType.INITIAL_SUBMISSION);
+        submitAction.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
+        submitAction.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB);
+        submitAction.setCommitteeId(COMMITTEE_ID);
+        submitAction.setScheduleId(SCHEDULE_ID);
+        return submitAction;
     }
 
 }

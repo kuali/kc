@@ -34,6 +34,7 @@
                 <ref bean="QuestionnaireUsage-questionnaireSequenceNumber"/>
                 <ref bean="QuestionnaireUsage-ruleId"/>
                 <ref bean="QuestionnaireUsage-questionnaireLabel"/>
+                <ref bean="QuestionnaireUsage-mandatory"/>
                 <ref bean="QuestionnaireUsage-versionNumber"/>
             </list>
         </property>
@@ -92,6 +93,16 @@
         <property name="summary" value="Module Sub Item Code"/>
         <property name="description" value="Module Sub Item Code"/>
     </bean>
+
+    <bean id="QuestionnaireUsage-mandatory" parent="QuestionnaireUsage-mandatory-parentBean" />
+    <bean id="QuestionnaireUsage-mandatory-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="mandatory" />
+        <property name="label" value="Mandatory" />
+        <property name="shortLabel" value="Mandatory" />
+        <property name="summary" value="Is Mandatory" />
+        <property name="description" value="Is Mandatory" />
+    </bean>
+
 
     <bean id="QuestionnaireUsage-questionnaireRefIdFk" parent="QuestionnaireUsage-questionnaireRefIdFk-parentBean"/>
     <bean abstract="true" id="QuestionnaireUsage-questionnaireRefIdFk-parentBean" parent="AttributeDefinition">

@@ -37,6 +37,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fop.apps.FOPException;
@@ -73,8 +74,7 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class PrintingServiceImpl implements PrintingService {
 
-	private static final Log LOG = LogFactory
-			.getLog(PrintingServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
 	private DateTimeService dateTimeService = null;
 
@@ -89,7 +89,7 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @throws PrintingException
 	 *             in case of any errors occur during printing process
 	 */
-	private Map<String, byte[]> getPrintBytes(Printable printableArtifact)
+	protected Map<String, byte[]> getPrintBytes(Printable printableArtifact)
 			throws PrintingException {
 		try {
 			Map<String, byte[]> streamMap = printableArtifact.renderXML();
@@ -143,11 +143,11 @@ public class PrintingServiceImpl implements PrintingService {
      * @throws FOPException
      * @throws TransformerException
      */
-    private void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
+    protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
             int xslCount, StreamSource xslt) throws FOPException, TransformerException {
         createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt,null);
     }
-    private void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
+    protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
             int xslCount, StreamSource xslt,String bookmark) throws FOPException, TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
@@ -175,7 +175,7 @@ public class PrintingServiceImpl implements PrintingService {
      * @param xmlData
      * @return
      */
-    private String createBookMark(int xslCount, String bookmarkKey) {
+    protected String createBookMark(int xslCount, String bookmarkKey) {
         String pdfMapKey = bookmarkKey+ (xslCount == 1 ? "" : " "+xslCount);
         return pdfMapKey;
     }
@@ -245,7 +245,7 @@ public class PrintingServiceImpl implements PrintingService {
 		return printablePdf;
 	}
 
-	private boolean isPdfGoodToMerge(byte[] pdfBytes) {
+	protected boolean isPdfGoodToMerge(byte[] pdfBytes) {
 	    try {
             new PdfReader(pdfBytes);
             return true;
@@ -254,8 +254,9 @@ public class PrintingServiceImpl implements PrintingService {
         }
     }
 
-    private String getReportName() {
-		return new java.util.Date().toString();
+    public String getReportName() {
+        String dateString = getDateTimeService().getCurrentDate().toString();
+        return StringUtils.deleteWhitespace(dateString);
 	}
 
 	/**
@@ -266,7 +267,7 @@ public class PrintingServiceImpl implements PrintingService {
 	 * @return
 	 * @throws PrintingException
 	 */
-	private byte[] mergePdfBytes(List<byte[]> pdfBytesList,
+	protected byte[] mergePdfBytes(List<byte[]> pdfBytesList,
 			List<String> bookmarksList,boolean headerFooterRequired) throws PrintingException {
 		Document document = null;
 		PdfWriter writer = null;
@@ -365,7 +366,7 @@ public class PrintingServiceImpl implements PrintingService {
 		return null;
 	}
 
-	private String formateCalendar(Calendar calendar) {
+	protected String formateCalendar(Calendar calendar) {
 		DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
 		return dateFormat.format(calendar.getTime());
 	}
@@ -374,7 +375,7 @@ public class PrintingServiceImpl implements PrintingService {
 	 * 
 	 * This class populates the bytes of PDF document to be generated
 	 */
-	private class PrintableAttachment extends AttachmentDataSource {
+	protected class PrintableAttachment extends AttachmentDataSource {
 		private byte[] streamData;
 
 		public byte[] getContent() {
@@ -400,7 +401,7 @@ public class PrintingServiceImpl implements PrintingService {
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
 	}
-	private String getWhitespaceString(int length) {
+	protected String getWhitespaceString(int length) {
 		StringBuffer sb = new StringBuffer();
 		char[] whiteSpace = new char[length];
 		Arrays.fill(whiteSpace, Constants.SPACE_SEPARATOR);

@@ -480,6 +480,7 @@ public interface Constants {
     
     public static final String PROTOCOL_CREATE_AMENDMENT_KEY = "actionHelper.protocolCreateAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
+    public static final String PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY = "actionHelper.renewalSummary";
     
     // Risk Level
     public static final String PROTOCOL_APPROVAL_ENTER_RISK_LEVEL_KEY = "actionHelper.protocolApproveBean.protocolRiskLevelBean";
@@ -488,11 +489,13 @@ public interface Constants {
     
     // Review Comments
     public static final String PROTOCOL_APPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolApproveBean.reviewComments";
+    public static final String PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY = "actionHelper.protocolManageReviewCommentsBean.reviewComments";
     public static final String PROTOCOL_ASSIGN_TO_AGENDA_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.assignToAgendaBean.reviewComments";
     public static final String PROTOCOL_CLOSE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseBean.reviewComments";
     public static final String PROTOCOL_CLOSE_ENROLLMENT_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolCloseEnrollmentBean.reviewComments";
     public static final String PROTOCOL_COMMITTEE_DECISION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.committeeDecision.reviewComments";
     public static final String PROTOCOL_DEFER_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDeferBean.reviewComments";
+    public static final String PROTOCOL_DISAPPROVE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolDisapproveBean.reviewComments";
     public static final String PROTOCOL_EXPEDITE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpediteApprovalBean.reviewComments";
     public static final String PROTOCOL_EXPIRE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolExpireBean.reviewComments";
     public static final String PROTOCOL_GRANT_EXEMPTION_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolGrantExemptionBean.reviewComments";
@@ -500,6 +503,8 @@ public interface Constants {
     public static final String PROTOCOL_PERMIT_DATA_ANALYSIS_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolPermitDataAnalysisBean.reviewComments";
     public static final String PROTOCOL_REOPEN_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolReopenBean.reviewComments";
     public static final String PROTOCOL_RESPONSE_APPROVAL_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolResponseApprovalBean.reviewComments";
+    public static final String PROTOCOL_SMR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSMRBean.reviewComments";
+    public static final String PROTOCOL_SRR_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSRRBean.reviewComments";
     public static final String PROTOCOL_SUSPEND_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendBean.reviewComments";
     public static final String PROTOCOL_SUSPEND_BY_DMSB_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolSuspendByDmsbBean.reviewComments";
     public static final String PROTOCOL_TERMINATE_ENTER_REVIEW_COMMENTS_KEY = "actionHelper.protocolTerminateBean.reviewComments";
@@ -545,13 +550,25 @@ public interface Constants {
     
     //Online Review
     public static final String PROTOCOL_ONLINE_REVIEW_KEY="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[%s]";
-    
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW="IRBAdminInitialReview";
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER="OnlineReviewer";
+    public static final String ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW="IRBAdminReview";
+  
+  
     
     //Protocol Summary Print View
     public static final Integer PROTOCOL_SUMMARY_VOTINGCOMMENTS = 250;
     
+    //Protocol History View
+    public static final String PROTOCOL_HISTORY_DATE_RANGE_FILTER_START_DATE_KEY = "actionHelper.filteredHistoryStartDate";
+    public static final String PROTOCOL_HISTORY_DATE_RANGE_FILTER_END_DATE_KEY = "actionHelper.filteredHistoryEndDate";
+    
     //Protocol Attachment Notification
     public static final Integer PROTOCOL_ATTACHMENT_NOTIFICATION_COMMENTS = 250;
+    
+    //Protocol Workflow
+    public static final String PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME = "IRBReview";
+    public static final String PROTOCOL_UNDO_APPROVE_ANNOTATION = "Undoing Approve Action";
     
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
@@ -575,6 +592,8 @@ public interface Constants {
     public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
     public static final String ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK = "irb.protocol.development.proposal.linking.enabled";
     public static final String ENABLE_PROTOCOL_TO_PROPOSAL_LINK = "irb.protocol.institute.proposal.linking.enabled";
+    
+    public static final String PROTOCOL_TYPE_CODE_EXEMPT = "irb.protocol.protocoltype.exempt";
     
     // Questionnaire
     public static final String QUESTION_EXPLANATION = "E";
@@ -635,4 +654,11 @@ public interface Constants {
     public char SPACE_SEPARATOR = 32;
     
     public static String CAN_CREATE_AWARD_KEY = "canCreateAward";
+    
+    // Protocol questionnaire page audit rules
+    public static final String PROTOCOL_QUESTIONNAIRE_PAGE = "questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_PANEL_NAME = "Questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_PANEL_ANCHOR = "Questionnaire";
+    public static final String PROTOCOL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[0].answers[0].answer";
+
 }

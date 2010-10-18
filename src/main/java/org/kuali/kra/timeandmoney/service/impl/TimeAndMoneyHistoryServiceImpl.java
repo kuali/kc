@@ -214,7 +214,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }  
     }
         
-    private List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
+    protected List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
             List<AwardAmountInfo> awardAmountInfos, Award award) {
         List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
         List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
@@ -233,7 +233,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return timeAndMoneyDocumentHistoryList;
     }
     
-    private List<AwardAmountInfoHistory> retrieveAwardAmountInfosFromPrimaryTransactions(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+    protected List<AwardAmountInfoHistory> retrieveAwardAmountInfosFromPrimaryTransactions(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         List <AwardAmountInfoHistory> primaryInfos = new ArrayList<AwardAmountInfoHistory>();
         primaryInfos.addAll(captureMoneyInfos(doc, validInfos));
         primaryInfos.addAll(captureDateInfos(doc, validInfos));
@@ -242,7 +242,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
     
     @SuppressWarnings("unchecked")
-    private List<AwardAmountInfoHistory> captureMoneyInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+    protected List<AwardAmountInfoHistory> captureMoneyInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         List <AwardAmountInfoHistory> moneyInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         Map<String, Object> fieldValues1a = new HashMap<String, Object>();
@@ -286,7 +286,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         
     
     @SuppressWarnings("unchecked")
-    private List<AwardAmountInfoHistory> captureDateInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+    protected List<AwardAmountInfoHistory> captureDateInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         List <AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         for(AwardAmountInfo awardAmountInfo : validInfos){  
@@ -313,7 +313,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     
 
     @SuppressWarnings("unchecked")
-    private List<AwardAmountInfoHistory> captureInitialTransactionInfo(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+    protected List<AwardAmountInfoHistory> captureInitialTransactionInfo(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         List <AwardAmountInfoHistory> initialInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         for(AwardAmountInfo awardAmountInfo : validInfos){
@@ -340,7 +340,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return initialInfoHistoryList;  
     }
     
-    private String buildNewTimeAndMoneyDescriptionLine(TimeAndMoneyDocument doc) {
+    protected String buildNewTimeAndMoneyDescriptionLine(TimeAndMoneyDocument doc) {
         AwardAmountTransaction aat = doc.getAwardAmountTransactions().get(0);
         String noticeDate;
         String transactionTypeDescription;
@@ -359,7 +359,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     ": notice date: " + noticeDate + ", updated : " + getUpdateTimeAndUser(doc) + " Comments: " + aat.getComments();
     }
     
-    private List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
+    protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
         List<AwardAmountInfo> validInfos = new ArrayList<AwardAmountInfo>();
         for(AwardAmountInfo awardAmountInfo : awardAmountInfos) {
             if(!(awardAmountInfo.getOriginatingAwardVersion() == null)) {
@@ -371,7 +371,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return validInfos;
     }
     
-    private List<TimeAndMoneyDocument> getValidDocumentsCreatedForAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> validInfos) {
+    protected List<TimeAndMoneyDocument> getValidDocumentsCreatedForAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> validInfos) {
         List<TimeAndMoneyDocument> validDocs = new ArrayList<TimeAndMoneyDocument>();
             for(TimeAndMoneyDocument doc : docs) {
                 if(isInValidInfosCollection(doc, validInfos)) {
@@ -381,7 +381,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return validDocs;
     }
     
-    private Boolean isInValidInfosCollection(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
+    protected Boolean isInValidInfosCollection(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         Boolean valid = false;
         for(AwardAmountInfo awardAmountInfo : validInfos) {
             if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(doc.getDocumentNumber())) {
@@ -392,7 +392,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return valid;
     }
     
-    private void removeCanceledDocs(List<TimeAndMoneyDocument> docs) {
+    protected void removeCanceledDocs(List<TimeAndMoneyDocument> docs) {
         List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<TimeAndMoneyDocument>();
         for(TimeAndMoneyDocument doc : docs) {
             if(doc.getDocumentHeader().hasWorkflowDocument()) {
@@ -435,7 +435,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
     
    
-    private Award getActiveAwardVersion(String goToAwardNumber) {
+    protected Award getActiveAwardVersion(String goToAwardNumber) {
         VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
         VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
         Award award = null;
@@ -448,7 +448,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }
         return award;
     }
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
+    protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
         return map;
@@ -468,7 +468,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return returnString.toString();
     }
     
-    private String buildDocumentUrl(String documentNumber){
+    protected String buildDocumentUrl(String documentNumber){
         StringBuilder sb = new StringBuilder();
         sb.append("<a href=\"");
         sb.append("kew/");
@@ -489,7 +489,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return sb.toString();
     }
     
-    private String buildAwardDescriptionLine(Award award, AwardAmountInfo awardAmountInfo, TimeAndMoneyDocument timeAndMoneyDocument) {
+    protected String buildAwardDescriptionLine(Award award, AwardAmountInfo awardAmountInfo, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardAmountTransaction aat = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
         String noticeDate;
         String transactionTypeDescription;
@@ -513,7 +513,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
     }
     
-    private String buildNewAwardDescriptionLine(Award award) {
+    protected String buildNewAwardDescriptionLine(Award award) {
         String noticeDate;
         String transactionTypeDescription;
         String versionNumber;
@@ -535,7 +535,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     + " Comments:" + award.getAwardCurrentActionComments().getComments();
     }
     
-    private String getUpdateTimeAndUser(Award award) {
+    protected String getUpdateTimeAndUser(Award award) {
         String createDateStr = null;
         String updateUser = null;
         if (award.getUpdateTimestamp() != null) {
@@ -545,7 +545,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return createDateStr + ", " + updateUser;
     }
     
-    private String getUpdateTimeAndUser(TimeAndMoneyDocument doc) {
+    protected String getUpdateTimeAndUser(TimeAndMoneyDocument doc) {
         String createDateStr = null;
         String updateUser = null;
         if (doc.getUpdateTimestamp() != null) {

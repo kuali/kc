@@ -114,7 +114,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @return true if calculation is required false if not
      */
-    private boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
+    protected boolean isCalculationRequired(final boolean budgetLineItemDeleted, final BudgetPeriod budgetPeriod){
         assert budgetPeriod != null : "The budget period is null";
  
         if (StringUtils.equals(budgetPeriod.getBudget().getBudgetParent().getHierarchyStatus(), 
@@ -139,7 +139,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             
         return true;
     }
-    private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
+    protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
 //        budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
 //        budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
@@ -239,7 +239,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             new LineItemCalculator(budget,budgetLineItem).calculate();
         }
     }
-    private void populateRateAndBase(BudgetLineItem bli, BudgetPersonnelDetails budgetPersonnelDetails,int rateNumber) {
+    protected void populateRateAndBase(BudgetLineItem bli, BudgetPersonnelDetails budgetPersonnelDetails,int rateNumber) {
         List<BudgetRateAndBase> budgetRateAndBaseList = bli.getBudgetRateAndBaseList();
         List<BudgetPersonnelRateAndBase> budgetPersonnelRateBaseList = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
         for (BudgetPersonnelRateAndBase budgetPersonnelRateAndBase : budgetPersonnelRateBaseList) {
@@ -312,7 +312,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param budget the budget document
      */
-    private void syncCostsToBudget(final Budget budget){
+    protected void syncCostsToBudget(final Budget budget){
         assert budget != null : "The document was null";
         
         this.initCostDependentItems(budget);
@@ -326,7 +326,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param budget the budget document
      */
-    private void initCostDependentItems(final Budget document) {
+    protected void initCostDependentItems(final Budget document) {
         assert document != null : "The document was null";
         
         if (!this.isPositiveTotalUnderreoveryAmount(document)) {
@@ -344,7 +344,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param document the budget document.
      */
-    private void initUnrecoveredFandAs(final Budget document) {
+    protected void initUnrecoveredFandAs(final Budget document) {
         assert document != null : "the document was null";
         
         document.getBudgetUnrecoveredFandAs().clear();
@@ -357,7 +357,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param document the budget document.
      */
-    private void initCostSharing(final Budget document) {
+    protected void initCostSharing(final Budget document) {
         assert document != null : "the document was null";
         
         document.getBudgetCostShares().clear();
@@ -370,7 +370,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param budgetLineItemDeleted whether or not a budget line item has been deleted
      * @param currentPeriod the current period.
      */
-    private void ensureBudgetPeriodHasSyncedCosts(final Budget document) {
+    protected void ensureBudgetPeriodHasSyncedCosts(final Budget document) {
         assert document != null : "the document was null";
         
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
@@ -387,7 +387,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param document the budget document to set the costs on.
      */
-    private void setBudgetCostsFromPeriods(final Budget document) {
+    protected void setBudgetCostsFromPeriods(final Budget document) {
         assert document != null : "The document is null";
 
         document.setTotalDirectCost(document.getSumDirectCostAmountFromPeriods());
@@ -404,7 +404,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @param budgetPeriod the budget periods to set the costs on.
      */
-    private void setBudgetPeriodCostsFromLineItems(final BudgetPeriod budgetPeriod) {
+    protected void setBudgetPeriodCostsFromLineItems(final BudgetPeriod budgetPeriod) {
         assert budgetPeriod != null : "The period is null";
 
         budgetPeriod.setTotalDirectCost(budgetPeriod.getSumDirectCostAmountFromLineItems());
@@ -419,7 +419,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param document The budget Document
      * @return true if positive.
      */
-    private final boolean isPositiveTotalUnderreoveryAmount(final Budget document) {
+    protected final boolean isPositiveTotalUnderreoveryAmount(final Budget document) {
         assert document != null : "The periods is null";
         
         BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
@@ -437,7 +437,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param document The budget Document
      * @return true if positive.
      */
-    private final boolean isPositiveTotalCostSharingAmount(final Budget document) {
+    protected final boolean isPositiveTotalCostSharingAmount(final Budget document) {
         assert document != null : "The document is null";
         
         BudgetDecimal lineItemsAmount = BudgetDecimal.ZERO;
@@ -450,7 +450,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             || document.getSumCostSharingAmountFromPeriods().isPositive();
     }
 
-    private SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(Budget budget) {
+    protected SortedMap<BudgetCategoryType, List<CostElement>> categorizeObjectCodesByCategory(Budget budget) {
         SortedMap<CostElement, List<BudgetDecimal>> objectCodeTotals = budget.getObjectCodeTotals();
         SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType = new TreeMap<BudgetCategoryType, List<CostElement>>();
         
@@ -469,7 +469,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return objectCodeListByBudgetCategoryType;
     }
     
-    private BudgetCategoryType getPersonnelCategoryType() {
+    protected BudgetCategoryType getPersonnelCategoryType() {
         final Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("budgetCategoryTypeCode", "P");
         return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
@@ -643,7 +643,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         calculateNonPersonnelSummaryTotals(budget);
     }  
     
-    private void calculateNonPersonnelSummaryTotals(Budget budget) {
+    protected void calculateNonPersonnelSummaryTotals(Budget budget) {
         for(BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
             if(!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), "P")) {
                 List <BudgetDecimal> nonPersonnelTotals = new ArrayList<BudgetDecimal>();
@@ -665,7 +665,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
     }
     
-    private List<CostElement> filterObjectCodesByBudgetCategoryType(Set<CostElement> objectCodes, String budgetCategoryType) {
+    protected List<CostElement> filterObjectCodesByBudgetCategoryType(Set<CostElement> objectCodes, String budgetCategoryType) {
         List<CostElement> filteredObjectCodes = new ArrayList<CostElement>();
         for(CostElement costElement : objectCodes) {
             if(costElement.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(budgetCategoryType)) {
@@ -676,7 +676,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return filteredObjectCodes;
     }
     
-    private SortedMap<RateType, List<BudgetDecimal>> calculateExpenseTotals(Budget budget, boolean personnelFlag){
+    protected SortedMap<RateType, List<BudgetDecimal>> calculateExpenseTotals(Budget budget, boolean personnelFlag){
         SortedMap<RateType, List<BudgetDecimal>> calculatedExpenseTotals = new TreeMap <RateType, List<BudgetDecimal>> ();
         
         List <BudgetDecimal> calculatedDirectCostSummaryTotals = new ArrayList<BudgetDecimal>();
@@ -745,7 +745,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return calculatedExpenseTotals;
     }
 
-    private RateType createRateType(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
+    protected RateType createRateType(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
         RateType rateType = new RateType();
         rateType.setRateClassCode(budgetLineItemCalculatedAmount.getRateClassCode());
         rateType.setRateTypeCode(budgetLineItemCalculatedAmount.getRateTypeCode());
@@ -945,7 +945,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return retList;
     }
     
-    private void getPreviousBudgetLimits(Long budgetId, Map<String, List<BudgetDecimal>>  personnelBudgetLimits, Map<String, List<BudgetDecimal>>  nonPersonnelBudgetLimits) {
+    protected void getPreviousBudgetLimits(Long budgetId, Map<String, List<BudgetDecimal>>  personnelBudgetLimits, Map<String, List<BudgetDecimal>>  nonPersonnelBudgetLimits) {
         Map keyMap = new HashMap();
         keyMap.put("budgetId", budgetId);
         AwardBudgetExt budget = (AwardBudgetExt)getBusinessObjectService().findByPrimaryKey(AwardBudgetExt.class, keyMap);
@@ -966,7 +966,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             
         }
     }
-    private List<BudgetDecimal> initBudgetLimits() {
+    protected List<BudgetDecimal> initBudgetLimits() {
         
         List<BudgetDecimal> budgetLimits = new ArrayList<BudgetDecimal>();
         budgetLimits.add(BudgetDecimal.ZERO);
@@ -975,7 +975,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return budgetLimits;
     }
 
-    private void addTotals(Map<String, List<BudgetDecimal>> budgetLimitMap, Map<String, List<BudgetDecimal>> totalsMap) {
+    protected void addTotals(Map<String, List<BudgetDecimal>> budgetLimitMap, Map<String, List<BudgetDecimal>> totalsMap) {
         List<BudgetDecimal> budgetLimits = initBudgetLimits();
         for (Map.Entry entry : budgetLimitMap.entrySet()) {
             List<BudgetDecimal> limit = (List<BudgetDecimal>) entry.getValue();
@@ -992,13 +992,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
        // addToLimit(totalsMap.get("Totals"), totalsMap.get("FAndA"));
     }
     
-    private void addToLimit(List<BudgetDecimal> budgetLimits, List<BudgetDecimal> limits) {
+    protected void addToLimit(List<BudgetDecimal> budgetLimits, List<BudgetDecimal> limits) {
         budgetLimits.set(0, budgetLimits.get(0).add(limits.get(0)));
         budgetLimits.set(1, budgetLimits.get(1).add(limits.get(1)));
         budgetLimits.set(2, budgetLimits.get(2).add(limits.get(2)));                    
     }
     
-    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
+    protected void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
         if (isPrevBudget) {
             budgetLimits.set(1, budgetLimits.get(1).add(awardBudgetLineItem.getLineItemCost()));
         } else {
@@ -1008,7 +1008,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
     }
 
-    private void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
+    protected void addBudgetLimits(List<BudgetDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
         if (isPrevBudget) {
             budgetLimits.set(1, budgetLimits.get(1).add(awardCalcAmt.getCalculatedCost()));
         } else {
@@ -1017,7 +1017,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getCalculatedCost()));
     }
 
-    private Map <String, List<BudgetDecimal>> getNonPersonnelMap() {
+    protected Map <String, List<BudgetDecimal>> getNonPersonnelMap() {
         Map <String, List<BudgetDecimal>>  nonPersonnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
         nonPersonnelBudgetLimits.put(EQUIPMENT, initBudgetLimits());
         nonPersonnelBudgetLimits.put(TRAVEL, initBudgetLimits());
@@ -1028,7 +1028,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return nonPersonnelBudgetLimits;
     }
     
-    private Map <String, List<BudgetDecimal>> getPersonnelMap() {
+    protected Map <String, List<BudgetDecimal>> getPersonnelMap() {
         Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
         personnelBudgetLimits.put(SALARY, initBudgetLimits());
         personnelBudgetLimits.put(FRINGE, initBudgetLimits());
@@ -1037,7 +1037,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return personnelBudgetLimits;
     }
     
-    private Map <String, List<BudgetDecimal>> getTotalMap() {
+    protected Map <String, List<BudgetDecimal>> getTotalMap() {
         Map <String, List<BudgetDecimal>>  personnelBudgetLimits = new HashMap<String, List<BudgetDecimal>>();
         personnelBudgetLimits.put("Direct", initBudgetLimits());
         personnelBudgetLimits.put("FAndA", initBudgetLimits());
@@ -1045,7 +1045,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return personnelBudgetLimits;
     }
     
-    private void getFringeAndCalculatedCost(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+    protected void getFringeAndCalculatedCost(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
             AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
         for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                 calcExpenseAmount.refreshReferenceObject("rateClass");
@@ -1063,7 +1063,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
     }
 
-    private void getNonPersonnelCalAmt(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
+    protected void getNonPersonnelCalAmt(Map<String, List<BudgetDecimal>> personnelBudgetLimits,
             AwardBudgetLineItemExt awardBudgetLineItem, boolean isPrevBudget) {
         for (BudgetLineItemCalculatedAmount calcExpenseAmount : awardBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                 calcExpenseAmount.refreshReferenceObject("rateClass");

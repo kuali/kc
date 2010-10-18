@@ -147,4 +147,43 @@ public class ErrorReporter {
         GlobalVariables.getUserSession().addObject(KeyConstants.SOFT_ERRORS_KEY, softErrorMap);
         return softErrorMap;
     }
+    
+    /**
+     * Wrapper around global errorMap.put call, to allow better logging.
+     * 
+     * @param propertyName
+     * @param errorKey
+     * @param errorParams
+     */
+    public void reportWarning(String propertyName, String errorKey, String... errorParams) {
+        GlobalVariables.getMessageMap().putWarning(propertyName, errorKey, errorParams);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("rule warning at ", ExceptionUtils.describeStackLevels(1, 2)));
+        }
+    }
+
+   
+    /**
+     * Does the property have any errors in the message map?
+     * @param propertyName
+     * @return
+     */
+    public boolean propertyHasErrorReported(String propertyName) {
+        boolean result = false;
+        if( GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName) != null) {
+            result = GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName).size() > 0;
+        }
+        return result;
+    }
+    
+    /**
+     * Removed the errors in the message map for the property.
+     * @param propertyName
+     */
+    public void removeErrors(String propertyName) {
+        if(GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName)!=null) {
+            GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName).clear();
+        }
+    }
+    
 }

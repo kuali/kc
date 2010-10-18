@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,13 +83,30 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcUnitTes
     public void testGenerateCorrespondenceDocumentAndAttach() throws WorkflowException{
         try{
             WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
-            correspondence.setProtocol(ProtocolFactory.createProtocolDocument().getProtocol());
+            Protocol prot = ProtocolFactory.createProtocolDocument().getProtocol();
+            ProtocolAction pa = new ProtocolAction();
+            ProtocolActionType type = getActionType();
+            pa.setProtocolActionTypeCode(type.getProtocolActionTypeCode());
+            pa.setProtocolActionType(type);
+            prot.getProtocolActions().add(pa);
+            prot.setProtocolNumber("123");
+            pa.setProtocol(prot);
+            pa.setActionId(123456);
+            pa.setProtocolNumber(prot.getProtocolNumber());
+            this.businessObjectService.save(prot);
+            correspondence.setProtocol(prot);
             protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
             assertTrue(true);
         } catch (PrintingException e){
             assertTrue(false);
         }
           
+    }
+    
+    private ProtocolActionType getActionType() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("PROTOCOL_ACTION_TYPE_CODE", "100");
+        return (ProtocolActionType)this.businessObjectService.findByPrimaryKey(ProtocolActionType.class, fieldValues);
     }
     
     /*

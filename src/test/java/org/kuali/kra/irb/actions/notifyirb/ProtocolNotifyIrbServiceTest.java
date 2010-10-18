@@ -48,6 +48,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -72,6 +73,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
     private ProtocolNotifyIrbServiceImpl protocolNotifyIrbService;
     private BusinessObjectService businessObjectService;  
     private ProtocolActionService protocolActionService;
+    private DocumentService documentService;
     
     @Before
     public void setUp() throws Exception {
@@ -79,9 +81,11 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         protocolNotifyIrbService = new ProtocolNotifyIrbServiceImpl();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        documentService = KraServiceLocator.getService(DocumentService.class);
         protocolNotifyIrbService.setBusinessObjectService(businessObjectService);
         protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
         protocolNotifyIrbService.setProtocolActionService(protocolActionService);
+        protocolNotifyIrbService.setDocumentService(documentService);
     }
 
     @After
@@ -95,7 +99,7 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
         notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
         notifyIrbBean.setCommitteeId("");
-        notifyIrbBean.setFile(null);
+//        notifyIrbBean.setFile(null);
         notifyIrbBean.setComment(REASON);
         notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
@@ -106,7 +110,10 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
         ProtocolNotifyIrbBean notifyIrbBean = new ProtocolNotifyIrbBean();
         notifyIrbBean.setSubmissionQualifierTypeCode(ProtocolSubmissionQualifierType.AE_UADE);
         notifyIrbBean.setCommitteeId("913");
-        notifyIrbBean.setFile(new MockFormFile());
+        ProtocolActionAttachment attachment = new ProtocolActionAttachment();
+        attachment.setFile(new MockFormFile());
+        notifyIrbBean.getActionAttachments().add(attachment);
+        //notifyIrbBean.setFile(new MockFormFile());
         notifyIrbBean.setComment(REASON);
         notifyIrbBean.setReviewTypeCode("7");
         runTest(notifyIrbBean);
@@ -190,12 +197,12 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
      */
     private void verifySubmissionDoc(ProtocolSubmission protocolSubmission, ProtocolNotifyIrbBean requestBean) {
         ProtocolSubmissionDoc doc = findSubmissionDoc(protocolSubmission);
-        if (requestBean.getFile() == null) {
+        if (requestBean.getActionAttachments().isEmpty()) {
             assertNull(doc);
         }
         else {
-            assertEquals(requestBean.getFile().getFileName(), doc.getFileName());
-            assertEquals(requestBean.getFile().getFileSize(), doc.getDocument().length);
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileName(), doc.getFileName());
+            assertEquals(requestBean.getActionAttachments().get(0).getFile().getFileSize(), doc.getDocument().length);
         }
     }
     

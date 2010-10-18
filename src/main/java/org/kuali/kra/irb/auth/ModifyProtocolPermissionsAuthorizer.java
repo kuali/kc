@@ -15,18 +15,15 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
  * The Modify Protocol Permissions Authorizer checks to see if the user has 
  * permission to maintain protocol access, i.e. assign Users to Protocol Roles.
  */
-public class ModifyProtocolPermissionsAuthorizer extends ProtocolAuthorizer {
+public class ModifyProtocolPermissionsAuthorizer extends ModifyAmendmentAuthorizer {
 
-    @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !task.getProtocol().getProtocolDocument().isViewOnly() &&
-               !kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_ACCESS);
+    public ModifyProtocolPermissionsAuthorizer() {
+        super(ProtocolModule.PROTOCOL_PERMISSIONS);
     }
 }

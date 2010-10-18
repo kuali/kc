@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.printing.service;
 
-import java.io.OutputStream;
 import java.util.List;
 
 import org.kuali.kra.printing.Printable;
@@ -57,5 +56,10 @@ public interface PrintingService {
 	 */
 	public AttachmentDataSource print(List<Printable> printableArtifactList)
 			throws PrintingException;
-
+	/**
+	 * 
+	 * This method is to supply the report name. 
+	 * @return
+	 */
+	public String getReportName();
 }

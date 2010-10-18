@@ -41,14 +41,10 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         final List<ProtocolPersonRoleMapping> validPersonRoles = getProtocolPersonnelService().getPersonRoleMapping(getSourceRoleId());
-        boolean firstRole = true;
         
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        keyValues.add(new KeyLabelPair(getSourceRoleId(), getSourceRoleDescription()));
         for(ProtocolPersonRoleMapping protocolPersonRole : validPersonRoles) {
-            if(firstRole) {
-                keyValues.add(new KeyLabelPair(getSourceRoleId(), getSourceRoleDescription(protocolPersonRole)));
-                firstRole = false;
-            }
             keyValues.add(new KeyLabelPair(protocolPersonRole.getTargetRoleId(), getTargetRoleDescription(protocolPersonRole)));
         }
         Collections.sort(keyValues);
@@ -56,13 +52,11 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
     }
 
     /**
-     * This method is used to refresh source role object and return description
-     * @param protocolPersonRole
+     * This method is used to lookup the source role object and return description
      * @return String - source role name
      */
-    private String getSourceRoleDescription(ProtocolPersonRoleMapping protocolPersonRole) {
-        protocolPersonRole.refreshReferenceObject(sourceRoleReferenceObject);
-        return protocolPersonRole.getSourceRole().getDescription(); 
+    private String getSourceRoleDescription() {
+        return getProtocolPersonnelService().getProtocolPersonRole(getSourceRoleId()).getDescription();
     }
     
     /**

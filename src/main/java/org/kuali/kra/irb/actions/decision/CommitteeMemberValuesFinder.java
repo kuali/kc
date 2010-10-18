@@ -24,8 +24,10 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -49,7 +51,7 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
                 if (committee != null) {
                     List<CommitteeMembership> members = committee.getCommitteeMemberships();
                     for (CommitteeMembership member : members) {
-                        if (member.isActive()) {
+                        if (member.isActive() && isReviewerAttendingMeeting(member)) {
                             keyValues.add(new KeyLabelPair(member.getCommitteeMembershipId().toString(), member.getPersonName()));
                         }
                     }
@@ -76,5 +78,20 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
             return ((ProtocolForm) form).getProtocolDocument().getProtocol();
         }
         return null;
+    }
+    
+    private boolean isReviewerAttendingMeeting(CommitteeMembership member) {
+        Protocol prot = getProtocol();
+        boolean retVal = false;
+        if (prot != null) {
+            List<CommitteeScheduleAttendance> attendees = prot.getProtocolSubmission().getCommitteeSchedule().getCommitteeScheduleAttendances();
+            for (CommitteeScheduleAttendance attendee : attendees) {
+                if (attendee.isCommitteeMember(member)) {
+                    return true;
+                }
+            }
+        }
+        return retVal;
+        
     }
 }

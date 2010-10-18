@@ -164,7 +164,7 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @return {@link TaskInfo} array
      */
     //TODO: Declarations should be outside of the loops
-    private TaskInfo[] read(Element element) {
+    protected TaskInfo[] read(Element element) {
         NodeList taskList = element.getElementsByTagName(KEY_TASK);
         int taskSize = taskList.getLength();
         TaskInfo taskInfo[] = new TaskInfo[taskSize];

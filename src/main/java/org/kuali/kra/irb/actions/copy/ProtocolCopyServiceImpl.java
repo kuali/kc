@@ -152,7 +152,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @return
      * @throws Exception
      */
-    private ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
+    protected ProtocolDocument createNewProtocol(ProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
         DocumentService docService = KNSServiceLocator.getDocumentService();
         ProtocolDocument newDoc = (ProtocolDocument) docService.getNewDocument(srcDoc.getClass());
             
@@ -200,7 +200,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * Personnel attachment is technically belong to protocol person
      * But there is also a personnel attachments collection under protocol
      */
-    private void resetPersonId(Protocol protocol) {
+    protected void resetPersonId(Protocol protocol) {
         List <ProtocolAttachmentPersonnel> attachments = new ArrayList<ProtocolAttachmentPersonnel>();
         if (protocol.getProtocolPersons() != null) {
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
@@ -229,7 +229,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
 
     }
     
-    private void refreshAttachmentsPersonnels(Protocol protocol) {
+    protected void refreshAttachmentsPersonnels(Protocol protocol) {
         if (protocol.getProtocolPersons() != null) {
             for (ProtocolPerson person : protocol.getProtocolPersons()) {
                 person.refreshReferenceObject("attachmentPersonnels");
@@ -245,7 +245,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param src the source protocol document, i.e. the original.
      * @param dest the destination protocol document, i.e. the new document.
      */
-    private void copyOverviewProperties(ProtocolDocument src, ProtocolDocument dest) {
+    protected void copyOverviewProperties(ProtocolDocument src, ProtocolDocument dest) {
         DocumentHeader srcHdr = src.getDocumentHeader();
         DocumentHeader destHdr = dest.getDocumentHeader();
         
@@ -260,7 +260,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param srcDoc
      * @param destDoc
      */
-    private void copyRequiredProperties(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
+    protected void copyRequiredProperties(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         destDoc.getDocumentHeader().setDocumentDescription(srcDoc.getDocumentHeader().getDocumentDescription());
         destDoc.getProtocol().setProtocolTypeCode(srcDoc.getProtocol().getProtocolTypeCode());
         destDoc.getProtocol().setTitle(srcDoc.getProtocol().getTitle());
@@ -273,7 +273,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param srcDoc
      * @param destDoc
      */
-    private void copyAdditionalProperties(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
+    protected void copyAdditionalProperties(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         destDoc.getProtocol().setFdaApplicationNumber(srcDoc.getProtocol().getFdaApplicationNumber());
         destDoc.getProtocol().setReferenceNumber1(srcDoc.getProtocol().getReferenceNumber1());
         destDoc.getProtocol().setReferenceNumber2(srcDoc.getProtocol().getReferenceNumber2());
@@ -295,7 +295,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * be a Viewer again for the new protocol since they are now have the Aggregator roe.
      * @param doc the protocol document
      */
-    private void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
+    protected void initializeAuthorization(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, destDoc.getProtocol());
         kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, destDoc.getProtocol());
@@ -319,7 +319,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param destDoc
      */
     @SuppressWarnings("unchecked")
-    private void copyProtocolLists(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
+    protected void copyProtocolLists(ProtocolDocument srcDoc, ProtocolDocument destDoc) {
         Protocol srcProtocol = srcDoc.getProtocol();
         Protocol destProtocol = destDoc.getProtocol();
         destProtocol.setProtocolRiskLevels((List<ProtocolRiskLevel>) deepCopy(srcProtocol.getProtocolRiskLevels()));
@@ -335,7 +335,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
         destProtocol.setNotepads((List<ProtocolNotepad>) deepCopy(srcProtocol.getNotepads()));
     }
    
-    private Object deepCopy(Object obj) {
+    protected Object deepCopy(Object obj) {
         if (obj instanceof Serializable) {
             return ObjectUtils.deepCopy((Serializable) obj);
         }
@@ -347,7 +347,7 @@ public class ProtocolCopyServiceImpl implements ProtocolCopyService {
      * @param srcProtocolDocument
      * @param destProtocolDocument
      */
-    private void copyCustomDataAttributeValues(ProtocolDocument srcProtocolDocument, ProtocolDocument destProtocolDocument) {
+    protected void copyCustomDataAttributeValues(ProtocolDocument srcProtocolDocument, ProtocolDocument destProtocolDocument) {
         destProtocolDocument.initialize();
         for (Entry<String, CustomAttributeDocument> entry : destProtocolDocument.getCustomAttributeDocuments().entrySet()) {
             CustomAttributeDocument cad = srcProtocolDocument.getCustomAttributeDocuments().get(entry.getKey());

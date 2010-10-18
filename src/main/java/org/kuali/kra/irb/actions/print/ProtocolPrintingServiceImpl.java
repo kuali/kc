@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import java.util.List;
+
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 /**
  * 
@@ -30,6 +34,7 @@ public class ProtocolPrintingServiceImpl extends PrintingServiceImpl implements 
     private ProtocolReviewCommentsPrint protocolReviewCommentsPrint;
     private ProtocolSummaryViewPrint protocolSummaryViewPrint;
 
+    private String reportName;
     /**
      * 
      * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintable(org.kuali.kra.irb.actions.print.ProtocolPrintType)
@@ -53,7 +58,6 @@ public class ProtocolPrintingServiceImpl extends PrintingServiceImpl implements 
             default :
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
-        
         return printable;
     }
     
@@ -88,5 +92,23 @@ public class ProtocolPrintingServiceImpl extends PrintingServiceImpl implements 
     public void setProtocolSummaryViewPrint(ProtocolSummaryViewPrint protocolSummaryViewPrint) {
         this.protocolSummaryViewPrint = protocolSummaryViewPrint;
     }
+    
+    @Override
+    public String getReportName() {
+        return reportName;
+    }
 
+    /**
+     * Sets the reportName attribute value.
+     * @param reportName The reportName to set.
+     */
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
+    }
+
+    public AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException {
+        setReportName(reportName);
+        return super.print(printableArtifactList);
+    }
+    
 }

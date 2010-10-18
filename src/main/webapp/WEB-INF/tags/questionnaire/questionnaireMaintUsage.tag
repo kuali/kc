@@ -15,6 +15,7 @@
             <tr>
                 <th><div align="left">&nbsp;</div></th> 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.mandatory}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" noColon="true" /></div></th>
                 <kul:htmlAttributeHeaderCell literalLabel="Version" scope="col"/>
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
@@ -30,6 +31,11 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                     <kul:htmlControlAttribute property="newQuestionnaireUsage.moduleItemCode" attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" styleClass="fixed-size-select"/>
+                </div>
+                </td>
+                <td align="left" valign="middle" class="infoline">
+                <div align="center">
+                    <kul:htmlControlAttribute property="newQuestionnaireUsage.mandatory" attributeEntry="${questionnaireUsageAttributes.mandatory}"/>
                 </div>
                 </td>
                 <td class="infoline">

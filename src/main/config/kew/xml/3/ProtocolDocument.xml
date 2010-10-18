@@ -37,7 +37,8 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="IRBReview" />
+					<start name="Initiated" nextNode="DepartmentReview" />
+					<requests name="DepartmentReview" nextNode="IRBReview" />
 					<requests name="IRBReview" />
 				</routePath>
 			</routePaths>
@@ -45,9 +46,15 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
+				<requests name="DepartmentReview">
+					<!-- <qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver> -->
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+                    <activationType>P</activationType>
+					<finalApproval>false</finalApproval>
+	            </requests>				
                 <role name="IRBReview">
 					<qualifierResolver>ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
-					<!-- <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> --> 
                     <activationType>S</activationType>
 					<ruleTemplate>IRBReview</ruleTemplate>
 	            </role>                     
@@ -60,7 +67,7 @@
 	
 		<ruleAttribute>
 			<name>ProtocolApprover-XPathQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<className>org.kuali.kra.irb.ProtocolQualifierResolver</className>
 			<label>ProtocolApprover-XPathQualifierResolver</label>
 			<description>To limit the Approval Request to be routed to ProtocolApprovers for this protocol only</description>
 			<type>QualifierResolver</type>
@@ -97,6 +104,84 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
+        
+        <!-- 
+        <ruleAttribute>
+			<name>UnitRouting-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>UnitRouting-XPathQualifierResolver</label>
+			<description>UnitRouting-XPathQualifierResolver</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<qualifier name="unitNumber">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]</xPathExpression>
+				</qualifier>
+			</resolverConfig>
+		</ruleAttribute> -->
+		
+        <ruleAttribute>
+			<name>ProtocolUnitApprovalAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>ProtocolUnitApprovalAttribute</label>
+			<description>UnitApprovalAttribute</description>
+			<type>RuleXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<routingConfig>
+				<fieldDef name="leadUnitNumber" title="Lead Unit"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+						  	wf:xstreamsafe('//document/protocolList[1]/org.kuali.kra.irb.Protocol[1]/leadUnitNumber[1]')= wf:ruledata('leadUnitNumber') and
+						  	wf:xstreamsafe('//document/protocolWorkflowType') = wf:ruledata('protocolWorkflowType')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+		
+		<!-- Role attribute -->
+		<ruleAttribute>
+			<name>UnitAdministratorRoleAttribute</name>
+			<className>
+				org.kuali.kra.workflow.UnitAdministratorRoleAttribute
+			</className>
+			<label>Protocol Unit Routing</label>
+			<description>Protocol Unit Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		
+        <ruleAttribute>
+			<name>ProtocolReRouteAttribute</name>
+			<className>
+				org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>ProtocolReRouteAttribute</label>
+			<description>ProtocolReRouteAttribute - Indicates if the document is being rerouted</description>
+			<type>RuleXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<routingConfig>
+				<fieldDef name="reRouted" title="Re-Routed"
+					workflowType="RULE">
+					<display>
+						<type>text</type>
+					</display>
+					<validation required="false" />
+					<fieldEvaluation>
+						<xpathexpression>
+						  	wf:xstreamsafe('//document/reRouted')= wf:ruledata('reRouted')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+		        
     </ruleAttributes>
     
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
@@ -121,6 +206,25 @@
             </attributes>
         </ruleTemplate>
         
+		<ruleTemplate allowOverwrite="true">
+			<name>UnitApproval</name>
+			<description>Unit Approval Routing Rule</description>
+			<attributes>
+				<attribute>
+					<name>ProtocolUnitApprovalAttribute</name>
+					<required>false</required>
+				</attribute>
+				<attribute>
+					<name>UnitAdministratorRoleAttribute</name>
+					<required>false</required>
+				</attribute>
+				<attribute>
+					<name>ProtocolReRouteAttribute</name>
+					<required>true</required>
+				</attribute>				
+			</attributes>
+		</ruleTemplate>
+
 	</ruleTemplates>
 	
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
@@ -162,5 +266,52 @@
               </ruleExtension>            
             </ruleExtensions>
         </rule>
+        
+        <rule>
+            <name>UnitApproval</name>
+			<documentType>ProtocolDocument</documentType>
+			<ruleTemplate>UnitApproval</ruleTemplate>
+			<description>Unit Approval Routing Rule for IN-CARD</description>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>ProtocolUnitApprovalAttribute</attribute>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>leadUnitNumber</key>
+							<value>IN-CARD</value>
+						</ruleExtensionValue>
+			            <ruleExtensionValue>
+				            <key>protocolWorkflowType</key>
+				            <value>Normal</value>
+			            </ruleExtensionValue>
+			            <ruleExtensionValue>
+				            <key>reRouted</key>
+				            <value>false</value>
+			            </ruleExtensionValue>
+			            </ruleExtensionValues>
+				</ruleExtension>
+				<ruleExtension>
+					<attribute>ProtocolReRouteAttribute</attribute>
+					<ruleTemplate>UnitApproval</ruleTemplate>
+					<ruleExtensionValues>
+			            <ruleExtensionValue>
+				            <key>reRouted</key>
+				            <value>false</value>
+			            </ruleExtensionValue>
+			        </ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			
+			<responsibilities>
+		  		<responsibility>
+		    			<roleName attributeClassName="org.kuali.kra.workflow.UnitAdministratorRoleAttribute">UnitAdministratorRoleAttribute!UnitAdministrator</roleName>
+		    			<approvePolicy>F</approvePolicy>
+		    			<actionRequested>A</actionRequested>
+		    			<priority>1</priority>
+		  		</responsibility>
+			</responsibilities>
+		</rule>
+		
     </rules>
 </data>

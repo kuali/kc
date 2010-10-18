@@ -26,7 +26,6 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
 
 public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
 
@@ -163,11 +162,11 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
      * @param personId
      * @return
      */
-    public boolean isPersonIdProtocolReviewer( String personId ) {
+    public boolean isPersonIdProtocolReviewer(String personId,boolean nonEmployeeFlag) {
         boolean result = false;
-        if ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId()==null?null:getRolodexId().toString(), personId))
+        if ( (nonEmployeeFlag == getNonEmployeeFlag()) && ((getNonEmployeeFlag() && StringUtils.equals(getRolodexId()==null?null:getRolodexId().toString(), personId) && (getNonEmployeeFlag()==nonEmployeeFlag))
             ||
-            ( !getNonEmployeeFlag() && StringUtils.equals( personId, this.personId ) )) {
+            ( !getNonEmployeeFlag() && StringUtils.equals( personId, this.personId )))) {
             result = true;
         }
         return result;

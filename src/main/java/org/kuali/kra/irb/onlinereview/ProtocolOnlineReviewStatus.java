@@ -23,6 +23,7 @@ public class ProtocolOnlineReviewStatus extends KraPersistableBusinessObjectBase
 
     public static final String FINAL_STATUS_CD = "F";
     public static final String SAVED_STATUS_CD = "S";
+    public static final String REMOVED_CANCELLED_STATUS_CD = "X";
     
     private String statusCode;
     private String description;

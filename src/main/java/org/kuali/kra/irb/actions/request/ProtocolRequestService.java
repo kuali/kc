@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.request;
 
 import org.kuali.kra.irb.Protocol;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Protocol Request Service.
@@ -28,5 +29,5 @@ public interface ProtocolRequestService {
      * @param protocol the protocol
      * @param requestBean the request data
      */
-    public void submitRequest(Protocol protocol, ProtocolRequestBean requestBean);
+    public void submitRequest(Protocol protocol, ProtocolRequestBean requestBean) throws WorkflowException;
 }

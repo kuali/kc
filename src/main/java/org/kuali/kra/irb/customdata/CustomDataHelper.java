@@ -15,12 +15,20 @@
  */
 package org.kuali.kra.irb.customdata;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.CustomAttributeGroup;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
@@ -60,5 +68,28 @@ public class CustomDataHelper extends CustomDataHelperBase {
     public boolean canModifyCustomData() {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_OTHERS, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);    
+    }
+    
+    /**
+     * 
+     * This method returns true if the custom data tab should be displayed.
+     * @return
+     */
+    public boolean canDisplayCustomDataTab() {
+        boolean localCustomData = this.getCustomAttributeGroups().size() > 0;      
+        boolean anyProtocolAttr = areThereAnyProtocolCustomAttributes();
+        return localCustomData || anyProtocolAttr;        
+    }
+    
+    private boolean areThereAnyProtocolCustomAttributes() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("DOCUMENT_TYPE_CODE", "PROT");
+        fieldValues.put("ACTIVE_FLAG", "Y");
+        Collection<CustomAttributeDocument> documents = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
+        return documents.size() > 0;
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 }

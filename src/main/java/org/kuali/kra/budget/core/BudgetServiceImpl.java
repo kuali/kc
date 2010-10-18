@@ -115,7 +115,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return newBudgetDoc;
     }
 
-    private BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> parentDocument, String versionName) throws WorkflowException {
+    protected BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> parentDocument, String versionName) throws WorkflowException {
         BudgetCommonService<T> budgetCommonService = BudgetCommonServiceFactory.createInstance(parentDocument);
         return budgetCommonService.getNewBudgetVersion(parentDocument, versionName);
     }
@@ -179,7 +179,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param budgetParent
      * @throws WorkflowException
      */
-    private void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
+    protected void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
         boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
@@ -235,7 +235,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param proposalNumber the proposal number
      */
     @SuppressWarnings("unchecked")
-    private void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
+    protected void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
         if(ObjectUtils.isNotNull(object)) {
             if (object instanceof PersistableBusinessObject) {
                 PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
@@ -292,7 +292,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param methods the other methods in the object
      * @return true if it is property getter method; otherwise false
      */
-    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+    protected boolean isPropertyGetterMethod(Method method, Method methods[]) {
         if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
             String setterName = method.getName().replaceFirst("get", "set");
             for (Method m : methods) {
@@ -569,7 +569,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     @SuppressWarnings("unchecked")
-    private boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
+    protected boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument<T> budgetDocument = (BudgetDocument<T>) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
@@ -666,7 +666,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param budgetDocument
      * @param projectIncomes
      */
-    private void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
+    protected void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
         for (BudgetProjectIncome projectIncome : projectIncomes) {
             projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
             for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
@@ -685,7 +685,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * Do this so that new personnel details(or copied ones) can be calculated
      * @param budgetDocument
      */
-    private void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
+    protected void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
             if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
                 for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        

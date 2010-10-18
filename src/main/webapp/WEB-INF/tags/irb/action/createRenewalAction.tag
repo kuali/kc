@@ -16,19 +16,35 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="action" value="protocolProtocolActions" />
+<c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
 
 <kra:permission value="${KualiForm.actionHelper.canCreateRenewal}">
 
-<kul:innerTab tabTitle="Create Renewal without Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolRenewal*">
+<kul:innerTab tabTitle="Create Renewal without Amendment" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolRenewal*,actionHelper.renewalSummary">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
+                 <tr>
+                    <th width="15%"> 
+                        <div align="right">
+                            <nobr>
+                            * Renewal Summary:
+                            </nobr>
+                        </div>
+                    </th>
+                    <td>
+                        <nobr>
+                        <kul:htmlControlAttribute property="actionHelper.renewalSummary" attributeEntry="${attributes.summary}" />
+                        </nobr>
+                    </td>
+                </tr>
+ 
                 <tr>
-                    <td style="width: 50px;"></td>
-                    <td></td>
-					<td style="width: 50px; text-align: center;">
-						<html:image property="methodToCall.createRenewal.anchor${tabKey}"
+					<td align="center" colspan="2">
+						<div align="center">
+						    <html:image property="methodToCall.createRenewal.anchor${tabKey}"
 							        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-create.gif' styleClass="tinybutton"/>
+                        </div>
 	                </td>
                 </tr>
             </tbody>

@@ -314,7 +314,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return (InstitutionalProposal) results.toArray()[0];
     }
     
-    private InstitutionalProposalDocument versionProposal(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget)
+    protected InstitutionalProposalDocument versionProposal(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget)
         throws VersionException, WorkflowException {
         
         InstitutionalProposal currentVersion = getActiveInstitutionalProposal(proposalNumber);
@@ -327,7 +327,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return newInstitutionalProposalDocument;
     }
     
-    private InstitutionalProposalDocument mergeProposals(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal, Budget budget)
+    protected InstitutionalProposalDocument mergeProposals(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal, Budget budget)
         throws WorkflowException {
         
         InstitutionalProposalDocument institutionalProposalDocument = 
@@ -369,7 +369,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return institutionalProposalDocument;
     }
     
-    private void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
+    protected void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
         institutionalProposal.setProposalTypeCode(Integer.parseInt(developmentProposal.getProposalTypeCode()));
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
         institutionalProposal.setStatusCode(getDefaultStatusCode());
@@ -402,7 +402,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
     
-    private void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
+    protected void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
         Map<String, CustomAttributeDocument> dpCustomAttributes = developmentProposal.getProposalDocument().getCustomAttributeDocuments();
         Map<String, CustomAttributeDocument> ipCustomAttributes = institutionalProposalDocument.getCustomAttributeDocuments();
         List<InstitutionalProposalCustomData> ipCustomDataList = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalCustomDataList();
@@ -424,7 +424,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
 
     
-    private InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
+    protected InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (ObjectUtils.isNotNull(pdPerson.getPersonId())) {
             ipPerson.setPersonId(pdPerson.getPersonId());
@@ -471,7 +471,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return ipPerson;
     }
     
-    private InstitutionalProposalSpecialReview generateIpSpecialReview(ProposalSpecialReview dpSpecialReview) {
+    protected InstitutionalProposalSpecialReview generateIpSpecialReview(ProposalSpecialReview dpSpecialReview) {
         InstitutionalProposalSpecialReview ipSpecialReview = new InstitutionalProposalSpecialReview();
         ipSpecialReview.setApplicationDate(dpSpecialReview.getApplicationDate());
         ipSpecialReview.setApprovalDate(dpSpecialReview.getApprovalDate());
@@ -491,7 +491,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return ipSpecialReview;
     }
     
-    private void doBudgetDataFeed(InstitutionalProposal institutionalProposal, Budget budget) {
+    protected void doBudgetDataFeed(InstitutionalProposal institutionalProposal, Budget budget) {
      // Base fields from Budget
         institutionalProposal.setRequestedStartDateInitial(budget.getBudgetPeriods().get(0).getStartDate());
         institutionalProposal.setRequestedEndDateInitial(budget.getBudgetPeriods().get(0).getEndDate());
@@ -532,11 +532,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
     
-    private Integer getDefaultStatusCode() {
+    protected Integer getDefaultStatusCode() {
         return 1;
     }
     
-    private Integer getDefaultCostShareTypeCode() {
+    protected Integer getDefaultCostShareTypeCode() {
         return 1;
     }
     

@@ -212,6 +212,7 @@ public final class KeyConstants {
     public static final String SESSION_EXPIRED_IND = "sessionExpired";
     public static final String ERROR_INACTIVE_CUSTOM_ATT_DOC = "error.inactive.customAttributeDocument";
     public static final String ERROR_WORKFLOW_SUBMISSION = "error.workflow.submission";
+    public static final String ERROR_ADMIN_CORRECTION_SUBMISSION = "error.admin.correction.submission";
     
     //Budget Expense
     public static final String ERROR_BUDGET_PERIOD_NOT_SELECTED = "error.viewBudgetPeriod.notSelected";
@@ -528,6 +529,10 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_REVIEW_TYPE_MUST_BE_FYI = "error.protocol.reviewTypeCode.mustbe.fyi";
     public static final String ERROR_PROTOCOL_REVIEWER_NO_TYPE_BUT_REVIEWER_CHECKED = "error.protocol.reviewerTypeCode.notFoundButReviewerChecked";
     public static final String ERROR_PROTOCOL_REVIEWER_NOT_CHECKED_BUT_TYPE_SELECTED = "error.protocol.reviewerTypeCode.selectedButReviewerUnchecked";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_FINAL = "warning.protocol.reviewer.removeReview.cannotRemoveFinalReview";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_EXISTING_COMMENTS = "warning.protocol.reviewer.removeReview.cannotRemoveReviewWithComments";
+    public static final String ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_FINAL_REVIEW = "warning.protocol.reviewer.removeReview.cannotRemoveFinalReview";
+    public static final String MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS="message.protocol.reviewer.removeReview.removeReviewWithComments";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_INVALID = "error.protocol.reviewerTypeCode.invalid";
     public static final String ERROR_PROTOCOL_REVIEWER_TYPE_ALREADY_USED = "error.protocol.reviewerTypeCode.used";
     public static final String ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM = "error.protocol.checkList.one";
@@ -547,14 +552,18 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS = "error.protocol.recordcommittee.no.smrssr.reviewer.comments";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";
     
+    public static final String MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.action.successfully.completed";
+    public static final String MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.onlinereview.document.action.successfully.completed";
+    
     //IRB Protocol Online Review Required Fields Validation Messages
     public static final String ERROR_ONLINE_REVIEW_COMMENT_REQUIRED = "error.protocol.onlinereview.comment.required";
     public static final String ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE = "error.protocol.onlinereview.comments.final.after.reviewer.route";
     public static final String ERROR_ONLINE_REVIEW_ALL_COMMENTS_NOT_FINAL = "error.protocol.onlinereview.all.comments.not.final";
-    
+    public static final String ERROR_ONLINE_REVIEW_STATUS_REQUIRED = "error.protocol.onlinereview.status.required";
     
     //  Committee Messages
     public static final String ERROR_COMMITTEE_DUPLICATE_ID = "error.committee.duplicateId";
+    public static final String ERROR_COMMITTEE_DUPLICATE_NAME = "error.committee.duplicateName";
     public static final String ERROR_COMMITTEE_INVALID_ID = "error.committee.invalidId";
     
     //CommitteeMembership Messages
@@ -601,7 +610,7 @@ public final class KeyConstants {
     
     // IRB Protocol Funding Sources Validation Messages
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_TYPE_NOT_FOUND = "error.protocolFundingSource.fundingSourceType.notFound";
-    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
+    public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_NOT_FOUND = "error.protocolFundingSource.fundingSourceNumber.notFound";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NUMBER_INVALID_FOR_TYPE = "error.protocolFundingSource.fundingSourceNumber.invalidForType";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND = "error.protocolFundingSource.fundingSourceName.notFound";
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_DUPLICATE = "error.protocolFundingSource.fundingSource.duplicate";
@@ -666,6 +675,7 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_LEADUNIT = "error.proposalLog.invalidLeadUnit";
     public static final String ERROR_UNAUTHORIZED_LEAD_UNIT = "error.proposalLog.unauthorizedLeadUnit";
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
+    public static final String ERROR_INVALID_PI = "error.proposalLog.invalidPi";
     public static final String ERROR_MISSING_SPONSOR_CODE = "error.proposalLog.noSponsorCode";
     
     // Institutional Proposal Actions
@@ -708,6 +718,8 @@ public final class KeyConstants {
     
     // IRB Questions
     public static final String QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW = "question.protocol.confirmExceedMaxProtocols";
+    public static final String QUESTION_CONFIRM_SCHEDULE_CHANGE_REMOVE_EXISTING_REVIEWS = "question.protocol.confirmRemoveExistingReviews";
+    public static final String QUESTION_CONFIRM_UPDATE_REVIEW_TO_FINAL="question.protocol.onlineReview.confirmUpdateToFinal";
    
     // Questionnaire
     public static final String ERROR_QUESTION_STATUS_IN_USE = "error.question.status.in.use";
@@ -821,8 +833,9 @@ public final class KeyConstants {
     public static final String ERROR_TYPE_QUALIFIER_NOT_EXISTS = "error.typequal.notexists";
     public static final String INVALID_SUBMISSION_REVIEW_TYPE = "invalid.submreviewtype";
     public static final String INVALID_SUBMISSION_TYPE_QUALIFIER = "invalid.submtypequal";
-
+    public static final String ERROR_MANDATORY_QUESTIONNAIRE = "error.mandatory.questionnaire";
     
+    public static final String ERROR_ATTACHMENT_REQUIRED = "error.attachment.required";
     public static final String PRINCIPALID_NOT_EXIST = "error.person.principalId.notExist";
     
     public static final String NSF_SPONSOR_CODE = "NSF_SPONSOR_CODE";

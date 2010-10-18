@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import java.io.Serializable;
-
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
 @SuppressWarnings("serial")
@@ -26,7 +24,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     
     private boolean generalInfo = false;
     private boolean fundingSource = false;
-    private boolean protocolReferences = false;
+    private boolean protocolReferencesAndOtherIdentifiers = false;
     private boolean protocolOrganizations = false;
     private boolean subjects = false;
     private boolean addModifyAttachments = false;
@@ -34,6 +32,7 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
     private boolean specialReview = false;
     private boolean protocolPersonnel = false;
     private boolean others = false;
+    private boolean protocolPermissions = false;
     
     public ProtocolAmendmentBean() {
         
@@ -63,12 +62,12 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
         this.fundingSource = fundingSource;
     }
 
-    public boolean getProtocolReferences() {
-        return protocolReferences;
+    public boolean getProtocolReferencesAndOtherIdentifiers() {
+        return protocolReferencesAndOtherIdentifiers;
     }
 
-    public void setProtocolReferences(boolean protocolReferences) {
-        this.protocolReferences = protocolReferences;
+    public void setProtocolReferencesAndOtherIdentifiers(boolean protocolReferencesAndOtherIdentifiers) {
+        this.protocolReferencesAndOtherIdentifiers = protocolReferencesAndOtherIdentifiers;
     }
 
     public boolean getProtocolOrganizations() {
@@ -127,6 +126,14 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
         this.others = others;
     }
     
+    public boolean getProtocolPermissions() {
+        return protocolPermissions;
+    }
+
+    public void setProtocolPermissions(boolean protocolPermissions) {
+        this.protocolPermissions = protocolPermissions;
+    }
+
     public boolean isSomeSelected() {
         return getAddModifyAttachments() ||
                getAreasOfResearch() ||
@@ -135,8 +142,9 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean {
                getOthers() ||
                getProtocolOrganizations() ||
                getProtocolPersonnel() ||
-               getProtocolReferences() ||
+               getProtocolReferencesAndOtherIdentifiers() ||
                getSpecialReview() ||
-               getSubjects();
+               getSubjects() ||
+               getProtocolPermissions();
     }
 }

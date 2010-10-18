@@ -17,6 +17,7 @@ package org.kuali.kra.irb.correspondence;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -143,6 +144,9 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     }
 
     public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
+        if (protocolCorrespondenceType == null && StringUtils.isNotBlank(protoCorrespTypeCode)) {
+            this.refreshReferenceObject("protocolCorrespondenceType");
+        }
         return protocolCorrespondenceType;
     }
 
