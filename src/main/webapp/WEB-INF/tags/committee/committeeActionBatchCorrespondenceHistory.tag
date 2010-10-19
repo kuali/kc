@@ -107,10 +107,10 @@
                 </tr>
             </c:forEach>
                 <tr>
-                    <td class="neutral" style="background-color: #e4e4e4;">
+                    <td class="neutral" width = "94%" style="background-color: #e4e4e4;">
                         &nbsp;
                     </td>
-                    <td  style="background-color: #e4e4e4;" width="63">
+                    <td  style="background-color: #e4e4e4;" >
                         <div align="center">
                             <html:image property="methodToCall.viewBatchCorrespondenceHistory"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
