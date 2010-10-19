@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -22,16 +23,19 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.home.AwardTemplateReportTerm;
+import org.kuali.kra.award.home.AwardTemplateReportTermRecipient;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.kra.bo.SponsorTerm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -70,22 +74,62 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        if(collectionName.equals("templateReportTerms")){
+        if (collectionName.equals("templateReportTerms")) {
             ErrorReporter errorReporter = new ErrorReporter();
-            AwardTemplateReportTerm awardTemplateReportTerm = (AwardTemplateReportTerm)newCollectionLines.get( collectionName );
+            AwardTemplateReportTerm awardTemplateReportTerm = (AwardTemplateReportTerm)newCollectionLines.get(collectionName );
             if ( awardTemplateReportTerm != null ) {
                 if(!isValid(awardTemplateReportTerm)){
                     reportReportTermError(errorReporter, awardTemplateReportTerm);
                 }else{
                     super.addNewLineToCollection(collectionName);
                 }
-                
             }
+        } else if (collectionName.endsWith("awardTemplateReportTermRecipients")) {
+            addNewRecipientToCollection(collectionName);
         } else {
             super.addNewLineToCollection(collectionName);
         }
     }
    
+    /**
+     * This method is for add a new AwardTemplateReportTermRecipient.
+     */
+    public void addNewRecipientToCollection(String collectionName) {
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("addNewRecipientToCollection( " + collectionName + " )");
+        }
+        // get the new line from the map
+        AwardTemplateReportTermRecipient addLine = (AwardTemplateReportTermRecipient) newCollectionLines.get(collectionName);
+        if (addLine != null) {
+            // mark the isNewCollectionRecord so the option to delete this line will be presented
+            addLine.setNewCollectionRecord(true);
+            // parse contactTypeCodeAndRolodexId to get ContactTypeCode and RolodexId separately
+            String aString = addLine.getContactTypeCodeAndRolodexId();
+            int index1 = aString.indexOf(Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR);
+            if (index1 > 0) {
+                String contactTypeCode = aString.substring(0, index1);
+                Integer rolodexId = Integer.parseInt(aString.substring(index1 + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR.length(), aString.length()));
+                addLine.setContactTypeCode(contactTypeCode);
+                addLine.setRolodexId(rolodexId);
+            }
+            // get the collection from the business object
+            Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
+            // add the line to the collection
+            maintCollection.add( addLine );
+            //refresh parent object since attributes could of changed prior to user clicking add
+            String referencesToRefresh = LookupUtils.convertReferencesToSelectCollectionToString(getAllRefreshableReferences(getBusinessObject().getClass()));
+            if (LOG.isInfoEnabled()) {
+                LOG.info("References to refresh for adding line to collection " + collectionName + ": " + referencesToRefresh);
+            }
+            refreshReferences(referencesToRefresh);
+        }
+        
+        initNewCollectionLine( collectionName );
+        
+    }
+    
+    
     @Override
     public void prepareForSave() {
         AwardTemplate awardTemplate = (AwardTemplate)this.businessObject;

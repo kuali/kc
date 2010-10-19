@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 
 public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObjectBase { 
 	
@@ -37,7 +38,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     
     private ContactType contactType;
     private Rolodex rolodex; 
-
+    private String contactTypeCodeAndRolodexId;
 	
 	public AwardTemplateReportTermRecipient() { 
 
@@ -50,7 +51,25 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 	public void setTemplateReportTermRecipientId(Integer templateReportTermRecipientId) {
 		this.templateReportTermRecipientId = templateReportTermRecipientId;
 	}
+	   
+	public String getContactTypeCodeAndRolodexId() {
+	    if (contactTypeCodeAndRolodexId == null) {
+	        this.refreshReferenceObject("contactType");
+	        if(this.getContactType() == null || this.getRolodexId() == null){
+	            contactTypeCodeAndRolodexId = "";
+	        } else {
+	        contactTypeCodeAndRolodexId = this.getContactType().getContactTypeCode()
+	            + Constants.AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR 
+	            + this.getRolodexId().toString();
+	        }
+	    }
+       return contactTypeCodeAndRolodexId;
+    }
 
+    public void setcontactTypeCodeAndRolodexId(String contactTypeCodeAndRolodexId) {
+        this.contactTypeCodeAndRolodexId = contactTypeCodeAndRolodexId;
+    }
+	
 	public Integer getTemplateReportTermId() {
 		return templateReportTermId;
 	}
@@ -65,6 +84,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("templateReportTermRecipientId", getTemplateReportTermRecipientId());
 		hashMap.put("templateReportTermId", getTemplateReportTermId());
+		hashMap.put("contactTypeCodeAndRolodexId", getContactTypeCodeAndRolodexId());
 		hashMap.put("contactTypeCode", getContactTypeCode());
 		hashMap.put("rolodexId", getRolodexId());
 		hashMap.put("numberOfCopies", getNumberOfCopies());
