@@ -93,10 +93,12 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.AccountType;
+import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorTermType;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -123,7 +125,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public abstract class AwardBaseStream implements XmlStream {
 
-	protected static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
+	private static final String INVOICE_INSTRUCTIONS_COMMENT_TYPE_CODE = "1";
+    private static final String NOT_PRESENT_INDICATOR = "N";
+    private static final String PRESENT_INDICATOR = "P";
+    protected static final String OBLIGATED_DIRECT_INDIRECT_COST_CONSTANT = "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST";
 	private static final String ON_CAMPUS_FLAG_SET = "Y";
 	private static final Log LOG = LogFactory.getLog(AwardBaseStream.class);
 	private static final String NSF_CODE_PARAMETER = "nsfCode";
@@ -505,13 +510,15 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns AwardHeaderType XmlObject
 	 */
 	protected AwardReportingDetails getAwardReportingDetails() {
-		AwardReportingDetails awardReportingDetails = AwardReportingDetails.Factory
-				.newInstance();
-		List<ReportTermType2> reportTermTypes = new ArrayList<ReportTermType2>();
+		AwardReportingDetails awardReportingDetails = AwardReportingDetails.Factory.newInstance();
+		String reportClassCode = null;
+		ReportTermType2 reportTermType = null;
 		for (AwardReportTerm awardReportTerm : award.getAwardReportTermItems()) {
-			ReportTermType2 reportTermType = ReportTermType2.Factory
-					.newInstance();
-			ReportTermDetailsType2 reportTermDetailsType = getAwardReportTermBean(awardReportTerm);
+		    if(reportClassCode==null || !reportClassCode.equals(awardReportTerm.getReportClassCode())){
+		        reportTermType = awardReportingDetails.addNewReportDetails();
+		    }
+		    reportClassCode = awardReportTerm.getReportClassCode();
+			getAwardReportTermBean(awardReportTerm,reportTermType);
 			if (awardReportTerm.getReportClass() != null) {
 				String reportTermTypeDescription = awardReportTerm
 						.getReportClass().getDescription();
@@ -519,12 +526,7 @@ public abstract class AwardBaseStream implements XmlStream {
 					reportTermType.setDescription(reportTermTypeDescription);
 				}
 			}
-			ReportTermDetailsType2[] reportTermDetailsTypes = { reportTermDetailsType };
-			reportTermType.setReportTermDetailsArray(reportTermDetailsTypes);
-			reportTermTypes.add(reportTermType);
 		}
-		awardReportingDetails.setReportDetailsArray(reportTermTypes
-				.toArray(new ReportTermType2[0]));
 		return awardReportingDetails;
 	}
 
@@ -632,11 +634,10 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	protected AwardContacts getAwardContacts() {
 		AwardContacts awardContacts = AwardContacts.Factory.newInstance();
-		ContactDetails contactDetails = ContactDetails.Factory.newInstance();
-		List<ContactDetails> awardContactDetails = new LinkedList<ContactDetails>();
 		List<AwardSponsorContact> awardSponsorContacts = award
 				.getSponsorContacts();
 		for (AwardSponsorContact awardSponsorContact : awardSponsorContacts) {
+		    ContactDetails contactDetails = awardContacts.addNewContactDetails();
 			if (award.getAwardNumber() != null) {
 				contactDetails.setAwardNumber(award.getAwardNumber());
 			}
@@ -653,10 +654,7 @@ public abstract class AwardBaseStream implements XmlStream {
 			}
 			contactDetails
 					.setRolodexDetails(getRolodexDetails(awardSponsorContact));
-			awardContactDetails.add(contactDetails);
 		}
-		awardContacts.setContactDetailsArray(awardContactDetails
-				.toArray(new ContactDetails[0]));
 		return awardContacts;
 	}
 
@@ -877,40 +875,45 @@ public abstract class AwardBaseStream implements XmlStream {
 	 */
 	protected AwardComments getAwardComments() {
 		AwardComments awardComments = AwardComments.Factory.newInstance();
-		CommentType2 commentType = CommentType2.Factory.newInstance();
-		List<CommentType2> commentTypeList = new ArrayList<CommentType2>();
-		CommentDetailsType commentDetailsType = CommentDetailsType.Factory
-				.newInstance();
+//		CommentType2 commentType = CommentType2.Factory.newInstance();
+//		List<CommentType2> commentTypeList = new ArrayList<CommentType2>();
+//		CommentDetailsType commentDetailsType = CommentDetailsType.Factory
+//				.newInstance();
 		for (AwardComment awardComment : award.getAwardComments()) {
-			if (awardComment.getAwardNumber() != null) {
-				commentDetailsType.setAwardNumber(award.getAwardNumber());
-			}
-			if (awardComment.getSequenceNumber() != null) {
-				commentDetailsType.setSequenceNumber(awardComment
-						.getSequenceNumber());
-			}
-			if (awardComment.getCommentTypeCode() != null) {
-				commentDetailsType.setCommentCode(Integer.valueOf(awardComment
-						.getCommentTypeCode()));
-				commentType.setDescription(getCommentTypeDesc(awardComment
-						.getCommentTypeCode()));
-			}
-			if (awardComment.getComments() != null) {
-				commentDetailsType.setComments(awardComment.getComments());
-			}
-			if (awardComment.getChecklistPrintFlag() != null) {
-				commentDetailsType.setPrintChecklist(awardComment
-						.getChecklistPrintFlag());
-			}
-			commentType.setCommentDetails(commentDetailsType);
-			String description = getDescriptionForAwardComment(awardComment);
-			if (description != null) {
-				commentType.setDescription(description);
-			}
-			commentTypeList.add(commentType);
+		    CommentType awardCommentType = awardComment.getCommentType();
+		    if(awardCommentType.getAwardCommentScreenFlag()){
+    		    CommentType2 commentType = awardComments.addNewComment();
+    		    CommentDetailsType commentDetailsType = commentType.addNewCommentDetails();
+    			if (awardComment.getAwardNumber() != null) {
+    				commentDetailsType.setAwardNumber(award.getAwardNumber());
+    			}
+    			if (awardComment.getSequenceNumber() != null) {
+    				commentDetailsType.setSequenceNumber(awardComment
+    						.getSequenceNumber());
+    			}
+    			if (awardComment.getCommentTypeCode() != null) {
+    				commentDetailsType.setCommentCode(Integer.valueOf(awardComment
+    						.getCommentTypeCode()));
+    				commentType.setDescription(getCommentTypeDesc(awardComment
+    						.getCommentTypeCode()));
+    			}
+    			if (awardComment.getComments() != null) {
+    				commentDetailsType.setComments(awardComment.getComments());
+    			}
+    			if (awardComment.getChecklistPrintFlag() != null) {
+    				commentDetailsType.setPrintChecklist(awardComment
+    						.getChecklistPrintFlag());
+    			}
+    			commentType.setCommentDetails(commentDetailsType);
+//			String description = getDescriptionForAwardComment(awardComment);
+//			if (description != null) {
+//				commentType.setDescription(description);
+//			}
+		    }
+//			commentTypeList.add(commentType);
 		}
-		awardComments.setCommentArray(commentTypeList
-				.toArray(new CommentType2[0]));
+//		awardComments.setCommentArray(commentTypeList
+//				.toArray(new CommentType2[0]));
 		return awardComments;
 	}
 
@@ -1096,14 +1099,22 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns Award Terms Details XmlObject
 	 */
 	protected AwardTermsDetails getAwardTermsDetails() {
-		AwardTermsDetails awardTermsDetails = AwardTermsDetails.Factory
-				.newInstance();
-		TermType2 termType = TermType2.Factory.newInstance();
-		termType.setDescription(EQUIPMENT);
-		List<TermDetailsType2> termDetailsTypes = new ArrayList<TermDetailsType2>();
+		AwardTermsDetails awardTermsDetails = AwardTermsDetails.Factory.newInstance();
+//		TermType2 termType = TermType2.Factory.newInstance();
+//		termType.setDescription(EQUIPMENT);
+//		List<TermDetailsType2> termDetailsTypes = new ArrayList<TermDetailsType2>();
+		String sponsorTermTypeCode = null; 
+        TermType2 termType = null;
 		for (AwardSponsorTerm awardSponsorTerm : award.getAwardSponsorTerms()) {
-			TermDetailsType2 detailsType = TermDetailsType2.Factory
-					.newInstance();
+		    if(sponsorTermTypeCode==null || !sponsorTermTypeCode.equals(awardSponsorTerm.getSponsorTermTypeCode())){
+		        termType = awardTermsDetails.addNewTerm();
+		    }
+            sponsorTermTypeCode = awardSponsorTerm.getSponsorTermTypeCode();
+		    String sponsorTermTypeDescription =  getSponsorTermTypeDescription(awardSponsorTerm.getSponsorTermTypeCode());
+		    if(sponsorTermTypeDescription!=null){
+		        termType.setDescription(sponsorTermTypeDescription);
+		    }
+			TermDetailsType2 detailsType = termType.addNewTermDetails();
 			if (award.getAwardNumber() != null) {
 				detailsType.setAwardNumber(award.getAwardNumber());
 			}
@@ -1121,17 +1132,16 @@ public abstract class AwardBaseStream implements XmlStream {
 				detailsType.setTermDescription(awardSponsorTerm
 						.getSponsorTerm().getDescription());
 			}
-			termDetailsTypes.add(detailsType);
 		}
-		termType.setTermDetailsArray(termDetailsTypes
-				.toArray(new TermDetailsType2[0]));
-		TermType2[] termTypes = new TermType2[1];
-		termTypes[0] = termType;
-		awardTermsDetails.setTermArray(termTypes);
 		return awardTermsDetails;
 	}
 
-	/**
+	private String getSponsorTermTypeDescription(String sponsorTermTypeCode) {
+	    SponsorTermType sposnortermType = getBusinessObjectService().findBySinglePrimaryKey(SponsorTermType.class, sponsorTermTypeCode);
+	    return sposnortermType==null?null:sposnortermType.getDescription();
+    }
+
+    /**
 	 * <p>
 	 * This method will set the values to Award Details attributes and finally
 	 * returns AwardDetails XmlObject
@@ -1172,42 +1182,20 @@ public abstract class AwardBaseStream implements XmlStream {
 		if (effectiveDate != null) {
 			awardDetailsType.setEffectiveDate(effectiveDate);
 		}
-		if (award.getApprovedEquipmentIndicator() != null) {
-			awardDetailsType.setApprvdEquipmentIndicator(award
-					.getApprovedEquipmentIndicator());
-		}
-		if (award.getApprovedForeignTripIndicator() != null) {
-			awardDetailsType.setApprvdForeginTripIndicator(award
-					.getApprovedForeignTripIndicator());
-		}
-		if (award.getSubContractIndicator() != null) {
-			awardDetailsType.setApprvdSubcontractIndicator(award
-					.getSubContractIndicator());
-		}
-		if (award.getPaymentScheduleIndicator() != null) {
-			awardDetailsType.setPaymentScheduleIndicator(award
-					.getPaymentScheduleIndicator());
-		}
-		if (award.getIdcIndicator() != null) {
-			awardDetailsType.setIDCIndicator(award.getIdcIndicator());
-		}
-		if (award.getTransferSponsorIndicator() != null) {
-			awardDetailsType.setTransferSponsorIndicator(award
-					.getTransferSponsorIndicator());
-		}
-		if (award.getCostSharingIndicator() != null) {
-			awardDetailsType.setCostSharingIndicator(award
-					.getCostSharingIndicator());
-		}
-		if (award.getSpecialReviewIndicator() != null) {
-			awardDetailsType.setSpecialReviewIndicator(award
-					.getSpecialReviewIndicator());
-		}
-		if (award.getScienceCodeIndicator() != null) {
-			awardDetailsType.setScienceCodeIndicator(award
-					.getScienceCodeIndicator());
-		}
+		awardDetailsType.setApprvdEquipmentIndicator(getIndicator(award.getApprovedEquipmentItems()));
+		awardDetailsType.setApprvdForeginTripIndicator(getIndicator(award.getApprovedForeignTravelTrips()));
+		awardDetailsType.setApprvdSubcontractIndicator(getIndicator(award.getAwardApprovedSubawards()));
+		awardDetailsType.setPaymentScheduleIndicator(getIndicator(award.getPaymentScheduleItems()));
+		awardDetailsType.setIDCIndicator(getIndicator(award.getAwardFandaRate()));
+		awardDetailsType.setTransferSponsorIndicator(getIndicator(award.getAwardTransferringSponsors()));
+		awardDetailsType.setCostSharingIndicator(getIndicator(award.getAwardCostShares()));
+		awardDetailsType.setSpecialReviewIndicator(getIndicator(award.getSpecialReviews()));
+		awardDetailsType.setScienceCodeIndicator(getIndicator(award.getKeywords()));
 		return awardDetailsType;
+	}
+	
+	private String getIndicator(List list){
+	    return list.isEmpty()?NOT_PRESENT_INDICATOR:PRESENT_INDICATOR;
 	}
 
 	/**
@@ -1484,9 +1472,8 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * 
 	 */
 	private ReportTermDetailsType2 getAwardReportTermBean(
-			AwardReportTerm awardReportTerm) {
-		ReportTermDetailsType2 reportTermDetailsType = ReportTermDetailsType2.Factory
-				.newInstance();
+			AwardReportTerm awardReportTerm, ReportTermType2 reportTermType) {
+		ReportTermDetailsType2 reportTermDetailsType = reportTermType.addNewReportTermDetails();
 		if (award.getAwardNumber() != null) {
 			reportTermDetailsType.setAwardNumber(award.getAwardNumber());
 		}
@@ -1820,7 +1807,7 @@ public abstract class AwardBaseStream implements XmlStream {
 				costSharingItem.setCostSharingDescription(awardCostShare
 						.getCostShareType().getDescription());
 			}
-			String sourceAccount = getSourceAccount();
+			String sourceAccount = awardCostShare.getSource();
 			if (sourceAccount != null) {
 				costSharingItem.setSourceAccount(sourceAccount);
 			}
@@ -1835,17 +1822,6 @@ public abstract class AwardBaseStream implements XmlStream {
 			costSharingItems.add(costSharingItem);
 		}
 		return costSharingItems.toArray(new CostSharingItem[0]);
-	}
-
-	private String getSourceAccount() {
-		String sourceAccount = null;
-		BudgetDocument budgetDocument = getBudgetDocument();
-		if (budgetDocument != null
-				&& !budgetDocument.getBudget().getBudgetCostShares().isEmpty()) {
-			sourceAccount = budgetDocument.getBudget().getBudgetCostShare(0)
-					.getSourceAccount();
-		}
-		return sourceAccount;
 	}
 
 	/*
@@ -2630,11 +2606,9 @@ public abstract class AwardBaseStream implements XmlStream {
 				}
 			}
 		}
-		if (award.getAwardComments() != null
-				&& award.getAwardComments().get(0) != null
-				&& award.getAwardComments().get(0).getComments() != null) {
-			otherHeaderDetails.setInvoiceInstructions(award.getAwardComments()
-					.get(0).getComments());
+		String invoiceInstructions = getInvoiceInstructionComments();
+		if (invoiceInstructions != null) {
+			otherHeaderDetails.setInvoiceInstructions(invoiceInstructions);
 		}
 		String fellowShipname = getFellowshipAdminName();
 		if (fellowShipname != null) {
@@ -2701,7 +2675,17 @@ public abstract class AwardBaseStream implements XmlStream {
 		return otherHeaderDetails;
 	}
 
-	private String getRootAccountNumber() {
+	private String getInvoiceInstructionComments() {
+	    List<AwardComment> awardComments = award.getAwardComments();
+	    for (AwardComment awardComment : awardComments) {
+            if(awardComment.getCommentTypeCode().equals(INVOICE_INSTRUCTIONS_COMMENT_TYPE_CODE)){
+                return awardComment.getComments();
+            }
+        }
+        return null;
+    }
+
+    private String getRootAccountNumber() {
 	    Map<String,String> param = new HashMap<String,String>();
 	    param.put("awardNumber", award.getAwardNumber());
 	    List<AwardHierarchy> awardHierarchies = (List)getBusinessObjectService().findMatching(AwardHierarchy.class, param);
@@ -2716,6 +2700,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the award payment method description
 	 */
 	private String getAwardPaymentMethodDesc() {
+	    award.refreshReferenceObject("awardMethodOfPayment");
 		String paymentMethodDesc = null;
 		if (prevAward != null) {
 			if ((award.getAwardMethodOfPayment() != null && award
@@ -2745,20 +2730,17 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * This method will get the award basis payment description.
 	 */
 	private String getAwardBasisPaymentDesc() {
+	    award.refreshReferenceObject("awardBasisOfPayment");
 		String basisPaymentDesc = null;
 		if (prevAward != null) {
-			if ((award.getAwardBasisOfPayment() != null && award
-					.getAwardBasisOfPayment().getDescription() != null)
-					&& (award.getBasisOfPaymentCode() != null && prevAward
-							.getBasisOfPaymentCode() != null)) {
+			if (award.getBasisOfPaymentCode() != null && prevAward
+							.getBasisOfPaymentCode() != null) {
 				if (award.getBasisOfPaymentCode().equals(
 						prevAward.getBasisOfPaymentCode())) {
-					basisPaymentDesc = award.getAwardBasisOfPayment()
-							.getDescription();
+					basisPaymentDesc = award.getAwardBasisOfPayment().getDescription();
 				} else {
 					basisPaymentDesc = new StringBuilder(
-							START_ASTERISK_SPACE_INDICATOR).append(
-							award.getAwardBasisOfPayment().getDescription())
+							START_ASTERISK_SPACE_INDICATOR).append(award.getAwardBasisOfPayment().getDescription())
 							.toString();
 				}
 			}
@@ -2769,7 +2751,11 @@ public abstract class AwardBaseStream implements XmlStream {
 		return basisPaymentDesc;
 	}
 
-	/*
+//	private Object getPaymentDescription(String basisOfPaymentCode) {
+//        return getBusinessObjectService().findBySinglePrimaryKey(, arg1);
+//    }
+//
+    /*
 	 * This method will get the competing renewal description
 	 */
 	private String getCompetingRenewalDesc() {
