@@ -55,17 +55,7 @@
                         </nobr>
                     </td>
                 </tr>
-                
-                <tr>
-                    <td colspan="2">
-                        <kra-irb-action:reviewComments bean="${KualiForm.actionHelper.protocolSuspendByDsmbBean.reviewComments}"
-                                                       property="actionHelper.protocolSuspendByDsmbBean.reviewComments"
-                                                       action="${action}"
-                                                       actionName="SuspendByDsmb"
-                                                       allowReadOnly="${not KualiForm.actionHelper.canManageReviewComments}" />
-                   </td>
-                </tr>
-                
+                                
                 <tr>
                     <td align="center" colspan="2">
                         <div align="center">
