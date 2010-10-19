@@ -1,5 +1,5 @@
 set define off;
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 1,'DEFAULT','DEFAULT-1-ApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 1,'DEFAULT','DEFAULT-1-ApprovalLetter.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -520,7 +520,7 @@ buffer := ' <xsl:text>Expiration Date </xsl:text>
                                         </fo:inline>
                                         <fo:block/>
                                         <fo:inline font-family="Arial" font-size="10pt">
-                                            <xsl:text>It is the Principal Investigator’s responsibility to obtain review and continued approval before the expiration date.&#160; Please allow sufficient time for continued approval.&#160; You may not continue any research activity beyond the expiration date without COUHES approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol.&#160; Information collected following suspension is unapproved research and cannot be reported or published as research data.&#160; If you do not wish continued approval, please notify the Committee of the study termination.</xsl:text>
+                                            <xsl:text>It is the Principal Investigator&apos;s responsibility to obtain review and continued approval before the expiration date.&#160; Please allow sufficient time for continued approval.&#160; You may not continue any research activity beyond the expiration date without COUHES approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol.&#160; Information collected following suspension is unapproved research and cannot be reported or published as research data.&#160; If you do not wish continued approval, please notify the Committee of the study termination.</xsl:text>
                                         </fo:inline>
                                     </xsl:when>
                                     <xsl:when test="n1:Protocol/n1:Submissions/n1:CurrentSubmissionFlag = &apos;No&apos; and  n1:Protocol/n1:Submissions/n1:SubmissionDetails/n1:SubmissionTypeCode = 101">
@@ -572,7 +572,7 @@ buffer := 'fo:block>
                                         </fo:inline>
                                         <fo:block/>
                                         <fo:inline font-family="Arial" font-size="10pt">
-                                            <xsl:text>It is the Principal Investigator’s responsibility to obtain review and continued approval before the expiration date.&#160; Please allow sufficient time for continued approval.&#160; You may not continue any research activity beyond the expiration date without COUHES approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol.&#160; Information</xsl:text>
+                                            <xsl:text>It is the Principal Investigator&apos;s responsibility to obtain review and continued approval before the expiration date.&#160; Please allow sufficient time for continued approval.&#160; You may not continue any research activity beyond the expiration date without COUHES approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol.&#160; Information</xsl:text>
                                         </fo:inline>
                                         <fo:inline font-family="Arial" font-size="10pt" font-weight="bold">
                                             <xsl:text>&#160;</xsl:text>
@@ -1071,7 +1071,7 @@ DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
 set define off;
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 10,'DEFAULT','DEFAULT-10-ScheduleMinutes.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 10,'DEFAULT','DEFAULT-10-ScheduleMinutes.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -1627,7 +1627,7 @@ buffer := 'align="before" number-columns-spanned="5" width="66pt" padding-start=
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 15,'DEFAULT','DEFAULT-15-CommitteeRosterReport.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 15,'DEFAULT','DEFAULT-15-CommitteeRosterReport.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -2239,7 +2239,7 @@ buffer := '"text" select="$text-after-bs"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 16,'DEFAULT','DEFAULT-16-WithdrawalNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 16,'DEFAULT','DEFAULT-16-WithdrawalNotice.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -2645,7 +2645,7 @@ buffer := '                                </fo:block>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 17,'DEFAULT','DEFAULT-17-GrantExemptionNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 17,'DEFAULT','DEFAULT-17-GrantExemptionNotice.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3203,7 +3203,7 @@ buffer := '                                                                    <
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 20,'DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 20,'DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3493,7 +3493,7 @@ buffer := 'rsonnel associated with this study have completed the human subjects 
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 21,'DEFAULT','DEFAULT-21-RenewalReminderLetter #2.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 21,'DEFAULT','DEFAULT-21-RenewalReminderLetter #2.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -3945,7 +3945,7 @@ buffer := 'ainer>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 26,'DEFAULT','DEFAULT-26-ClosureNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 26,'DEFAULT','DEFAULT-26-ClosureNotice.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -5045,7 +5045,7 @@ DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
  */
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 3,'DEFAULT','DEFAULT-3-NoticeOfDeferral.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 3,'DEFAULT','DEFAULT-3-NoticeOfDeferral.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -6033,7 +6033,7 @@ buffer := 'ter-bs)"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 4,'DEFAULT','DEFAULT-4-SubstantiveRevisionsRequiredLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 4,'DEFAULT','DEFAULT-4-SubstantiveRevisionsRequiredLetter.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -6401,7 +6401,7 @@ buffer := '                                                                     
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
                                                             <fo:inline font-size="10pt">, the Committee On the Use of Humans as Experimental Subjects</fo:inline>
-                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that substantive revisions are required. These revisions are noted below.&#160; If you agree with all of the committee???s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
+                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that substantive revisions are required. These revisions are noted below.&#160; If you agree with all of the committee&apos;s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -6428,7 +6428,7 @@ buffer := '                                                                     
                                                                                 <fo:block>
                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                         <fo:block>
-                                                                                            <fo:inline font-size="10pt">If you disagree with the committee???s recommendations, you may do the following:&#160; Please justify to the </fo:inline>
+                                                                                            <fo:inline font-size="10pt">If you disagree with the committee&apos;s recommendations, you may do the following:&#160; Please justify to the </fo:inline>
                                                                                             <xsl:for-each select="n1:Protocol">
                                                                                                 <xsl:for-each select="n1:Submissions">
                                                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -6685,7 +6685,7 @@ buffer := '                                                                     
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 5,'DEFAULT','DEFAULT-5-ExpeditedApprovalLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 5,'DEFAULT','DEFAULT-5-ExpeditedApprovalLetter.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -7340,7 +7340,7 @@ buffer := '
                                                     </xsl:for-each>
                                                 </xsl:for-each>
                                                 <fo:inline font-family="Arial" font-size="10pt">
-                                                    <xsl:text>.&#160; This approval does not replace any departmental or other approvals that may be required.&#160; It is the Principal Investigator’s responsibility to obtain review and continued approval of ongoing research before the expiration date noted above.&#160; Please allow sufficient ';
+                                                    <xsl:text>.&#160; This approval does not replace any departmental or other approvals that may be required.&#160; It is the Principal Investigator&apos;s responsibility to obtain review and continued approval of ongoing research before the expiration date noted above.&#160; Please allow sufficient ';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -7415,7 +7415,7 @@ buffer := 'time for reapproval.&#160; Research activity of any sort may not cont
                                                     <xsl:text>&#160;</xsl:text>
                                                 </fo:inline>
                                                 <fo:inline font-family="Arial" font-size="10pt">
-                                                    <xsl:text> This approval does not replace any departmental or other approvals that may be required.&#160; It is the Principal Investigator’s responsibility to obtain review and continued approval of ongoing res';
+                                                    <xsl:text> This approval does not replace any departmental or other approvals that may be required.&#160; It is the Principal Investigator&apos;s responsibility to obtain review and continued approval of ongoing res';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -7471,7 +7471,7 @@ buffer := 'earch before the expiration noted above.&#160; Please allow sufficien
                                                 </fo:inline>
                                                 <fo:block/>
                                                 <fo:inline font-family="Arial" font-size="10pt">
-                                                    <xsl:text>It is the Principal Investigator’s responsibility to obtain review and continued approval of ongoing research before the expiration noted above.&#160; Please allow sufficient time for reapproval.&#160; Research activity of any sort may not continue beyond the expiration date without committee approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol on the expiration date.&#160; Information</xsl:text>
+                                                    <xsl:text>It is the Principal Investigator&apos;s responsibility to obtain review and continued approval of ongoing research before the expiration noted above.&#160; Please allow sufficient time for reapproval.&#160; Research activity of any sort may not continue beyond the expiration date without committee approval.&#160; Failure to receive approval for continuation before the expiration date will result in the automatic suspension of the approval of this protocol on the expiration date.&#160; Information</xsl:text>
                                                 </fo:inline>
                                                 <fo:inline font-family="Arial" font-size="10pt" font-weight="bold">
                                                     <xsl:text>&#160;</xsl:text>
@@ -7527,7 +7527,7 @@ buffer := 'ittee of the study termination.</xsl:text>
                                                 </fo:inline>
                                                 <fo:block/>
                                                 <fo:inline font-size="10pt">
-                                                    <xsl:text>It is the Principal Investigator’s responsibility to obtain review and continued approval before the expiration date.&#160; You may not continue any research activity beyond the expiration date without approval by the Institutional Review Board.</xsl:text>
+                                                    <xsl:text>It is the Principal Investigator&apos;s responsibility to obtain review and continued approval before the expiration date.&#160; You may not continue any research activity beyond the expiration date without approval by the Institutional Review Board.</xsl:text>
                                                 </fo:inline>
                                             </xsl:otherwise>
                                         </xsl:choose>
@@ -7805,7 +7805,7 @@ buffer := 'ing-length($text-after-bs)"/>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 6,'DEFAULT','DEFAULT-6-SpecificMinorRevisionsLetter.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 6,'DEFAULT','DEFAULT-6-SpecificMinorRevisionsLetter.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -8176,7 +8176,7 @@ buffer := '                                                                     
                                                                 </xsl:for-each>
                                                             </xsl:for-each>
                                                             <fo:inline font-size="10pt">, the Committee On the Use of Humans as Experimental Subjects</fo:inline>
-                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that specific minor revisions are required. These revisions are noted&#160; below.&#160; If you agree with all of the committee???s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
+                                                            <fo:inline font-size="10pt"> reviewed the above mentioned protocol and determined that specific minor revisions are required. These revisions are noted&#160; below.&#160; If you agree with all of the committee&apos;s revisions, incorporate them in a revised protocol and/or consent form and submit it to the </fo:inline>
                                                             <xsl:for-each select="n1:Protocol">
                                                                 <xsl:for-each select="n1:Submissions">
                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -8203,7 +8203,7 @@ buffer := '                                                                     
                                                                                 <fo:block>
                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                                         <fo:block>
-                                                                                            <fo:inline font-size="10pt">If you disagree with the committee???s recommendations, you may do the following:&#160; Please justify to the&#160; </fo:inline>
+                                                                                            <fo:inline font-size="10pt">If you disagree with the committee&apos;s recommendations, you may do the following:&#160; Please justify to the&#160; </fo:inline>
                                                                                             <xsl:for-each select="n1:Protocol">
                                                                                                 <xsl:for-each select="n1:Submissions">
                                                                                                     <xsl:for-each select="n1:CommitteeMasterData">
@@ -8519,7 +8519,7 @@ buffer := '                                            </fo:block>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 7,'DEFAULT','DEFAULT-7-SuspensionNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 7,'DEFAULT','DEFAULT-7-SuspensionNotice.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -8981,7 +8981,7 @@ buffer := '                                                                <fo:b
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 8,'DEFAULT','DEFAULT-8-TerminationNotice.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 8,'DEFAULT','DEFAULT-8-TerminationNotice.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -9036,7 +9036,6 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                             <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
                         </fo:external-graphic>
                         <fo:block color="black" space-before.optimum="-8pt">
-                            <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt" />
 ';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
@@ -9461,7 +9460,7 @@ buffer := '                                                                     
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 9,'DEFAULT','DEFAULT-9-AgendaReport.xslt',EMPTY_CLOB(),sysdate,user, sys_guid());
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 9,'DEFAULT','DEFAULT-9-AgendaReport.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
@@ -10182,5 +10181,481 @@ buffer := 'e-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
 </xsl:stylesheet>
 ';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 23,'DEFAULT','DEFAULT-23-ReminderToIrbNotification#1.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+PROTO_CORRESP_TYPE_CODE =  23 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xsl:variable name="fo:layout-master-set">
+        <fo:layout-master-set>
+            <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.8in" margin-right="0.8in">
+                <fo:region-body margin-top="0.45in" margin-bottom="0.45in" />
+                <fo:region-before extent="0.79in" /> 
+            </fo:simple-page-master>
+        </fo:layout-master-set>
+    </xsl:variable>
+    <xsl:output version="1.0" encoding="UTF-8" indent="no" omit-xml-declaration="no" media-type="text/html" />
+    <xsl:template match="/">
+        <fo:root>
+            <xsl:copy-of select="$fo:layout-master-set" />
+            <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
+                <fo:flow flow-name="xsl-region-body">
+                    <fo:block>
+                        <xsl:for-each select="n1:RenewalReminder">
+                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                <fo:table-column column-width="43pt" />
+                                <fo:table-column column-width="281pt" />
+                                <fo:table-column column-width="100pt" />
+                                <fo:table-column column-width="99pt" />
+                                <fo:table-body>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" number-columns-spanned="4" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
+                                                    <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                                                </fo:external-graphic>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">To:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:Investigator">
+                                                        <xsl:for-each select="n1:Person">
+                                                            <xsl:for-each select="n1:Fullname">
+                                                                <xsl:if test="../../n1:PI_flag ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+PROTO_CORRESP_TYPE_CODE =  23 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;       
+    buffer := '=&apos;true&apos;">
+                                                                    <fo:inline font-size="10pt">
+                                                                        <xsl:apply-templates />
+                                                                    </fo:inline>
+                                                                </xsl:if>
+                                                            </xsl:for-each>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Date:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:CurrentDate">
+                                                    <fo:inline font-size="10pt">
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                        <xsl:text>/</xsl:text>
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                        <xsl:text>/</xsl:text>
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
+                                                    </fo:inline>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:Investigator">
+                                                        <xsl:for-each select="n1:Person">
+                                                            <xsl:for-each select="n1:OfficeLocation">
+                                                                <xsl:if test="../../n1:PI_flag =&apos;true&apos;">
+                                           ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+PROTO_CORRESP_TYPE_CODE =  23 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;        
+    buffer := '                         <xsl:apply-templates />
+                                                                </xsl:if>
+                                                            </xsl:for-each>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">From:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:CommitteeMasterData">
+                                                    <xsl:for-each select="n1:CommitteeName">
+                                                        <fo:inline font-size="10pt">
+                                                            <xsl:apply-templates />
+                                                        </fo:inline>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Action Date:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                              ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+PROTO_CORRESP_TYPE_CODE =  23 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;       
+    buffer := '      <xsl:for-each select="n1:ProtocolMasterData">
+                                                        <xsl:for-each select="n1:ExpirationDate">
+                                                            <fo:inline font-size="10pt">
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                <xsl:text>/</xsl:text>
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                                <xsl:text>/</xsl:text>
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
+                                                            </fo:inline>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                </fo:table-body>
+                            </fo:table>
+                            <fo:table font-size="10pt" width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                 <fo:table-column column-width="43pt" />
+                                <fo:table-column column-width="281pt" />
+                               <fo:table-body>
+                                    <fo:table-row>
+                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Re:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>Protocol #: <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:ProtocolMasterData">
+                                                        <xsl:for-each select="n1:ProtocolNumber">
+                                                            <xsl:apply-templates />
+                                                        </xsl:for-each>: <xsl:for-each select="n1:ProtocolTitle">
+                                                            <xsl:apply-templates />
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                </fo:table-body>
+                            </fo:table>
+                            <fo:inline font-size="10pt">This letter serves as an IRB notification reminder by the </fo:inline>
+                            <xsl:for-each select="n1:CommitteeMasterData">
+                                <xsl:for-each select="n1:CommitteeName">
+                                    <fo:inline font-size="10pt">
+                                        <xsl:apply-templates />
+                                    </fo:in';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+PROTO_CORRESP_TYPE_CODE =  23 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := 'line>
+                                </xsl:for-each>
+                            </xsl:for-each>
+                            <fo:inline font-size="10pt">.&#160; Recently a protocol was returned to you with a request for revision.&#160;  It is the primary responsibility of the Principal Investigator to ensure that the protocol is resubmitted with the necessary changes.&#160; </fo:inline>
+                            <fo:block>
+                                <fo:leader leader-pattern="space" />
+                            </fo:block>
+                            <fo:inline font-size="10pt">P</fo:inline>
+                            <fo:inline font-size="10pt">lease note that the level of scrutiny given to the resubmitted protocol is the same as that of any new protocol.&#160;  All requests for approval must be reviewed at a convened IRB meeting, except for those protocols that meet the criteria for expedited review.&#160;</fo:inline>
+                             <fo:block>
+                                <xsl:text>&#xA;</xsl:text>
+                            </fo:block>
+                        </xsl:for-each>
+                    </fo:block>
+                </fo:flow>
+            </fo:page-sequence>
+        </fo:root>
+    </xsl:template>
+</xsl:stylesheet>
+';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+Insert into PROTO_CORRESP_TEMPL (PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_TIMESTAMP,UPDATE_USER, OBJ_ID) values (SEQ_PROTO_CORRESP_TEMPL.nextVal, 24,'DEFAULT','DEFAULT-24-ReminderToIrbNotification#2.xsl',EMPTY_CLOB(),sysdate,user, sys_guid());
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+ PROTO_CORRESP_TYPE_CODE =  24 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+   buffer := '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xsl:variable name="fo:layout-master-set">
+        <fo:layout-master-set>
+            <fo:simple-page-master master-name="default-page" page-height="11in" page-width="8.5in" margin-left="0.8in" margin-right="0.8in">
+                <fo:region-body margin-top="0.45in" margin-bottom="0.45in" />
+                <fo:region-before extent="0.79in" /> 
+            </fo:simple-page-master>
+        </fo:layout-master-set>
+    </xsl:variable>
+    <xsl:output version="1.0" encoding="UTF-8" indent="no" omit-xml-declaration="no" media-type="text/html" />
+    <xsl:template match="/">
+        <fo:root>
+            <xsl:copy-of select="$fo:layout-master-set" />
+            <fo:page-sequence master-reference="default-page" initial-page-number="1" format="1">
+                <fo:flow flow-name="xsl-region-body">
+                    <fo:block>
+                        <xsl:for-each select="n1:RenewalReminder">
+                            <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                <fo:table-column column-width="43pt" />
+                                <fo:table-column column-width="281pt" />
+                                <fo:table-column column-width="100pt" />
+                                <fo:table-column column-width="99pt" />
+                                <fo:table-body>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" number-columns-spanned="4" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
+                                                    <xsl:attribute name="src">url(''<xsl:text disable-output-escaping="yes">/export/home/www/https/tomcat5.0.25/webapps/coeus/images/couhes_byline2.gif</xsl:text>'')</xsl:attribute>
+                                                </fo:external-graphic>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">To:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:Investigator">
+                                                        <xsl:for-each select="n1:Person">
+                                                            <xsl:for-each select="n1:Fullname">
+                                                                <xsl:if test="../../n1:PI_flag ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+ PROTO_CORRESP_TYPE_CODE =  24 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := '=&apos;true&apos;">
+                                                                    <fo:inline font-size="10pt">
+                                                                        <xsl:apply-templates />
+                                                                    </fo:inline>
+                                                                </xsl:if>
+                                                            </xsl:for-each>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Date:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:CurrentDate">
+                                                    <fo:inline font-size="10pt">
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                        <xsl:text>/</xsl:text>
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                        <xsl:text>/</xsl:text>
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
+                                                    </fo:inline>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:Investigator">
+                                                        <xsl:for-each select="n1:Person">
+                                                            <xsl:for-each select="n1:OfficeLocation">
+                                                                <xsl:if test="../../n1:PI_flag =&apos;true&apos;">
+                                           ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+ PROTO_CORRESP_TYPE_CODE =  24 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := '                         <xsl:apply-templates />
+                                                                </xsl:if>
+                                                            </xsl:for-each>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block />
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                    <fo:table-row>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">From:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:CommitteeMasterData">
+                                                    <xsl:for-each select="n1:CommitteeName">
+                                                        <fo:inline font-size="10pt">
+                                                            <xsl:apply-templates />
+                                                        </fo:inline>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" text-align="right" width="100pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Action Date:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" width="99pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>
+                                                <xsl:for-each select="n1:Protocol">
+                                              ';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+ PROTO_CORRESP_TYPE_CODE =  24 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := '      <xsl:for-each select="n1:ProtocolMasterData">
+                                                        <xsl:for-each select="n1:ExpirationDate">
+                                                            <fo:inline font-size="10pt">
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
+                                                                <xsl:text>/</xsl:text>
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
+                                                                <xsl:text>/</xsl:text>
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
+                                                            </fo:inline>
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                </fo:table-body>
+                            </fo:table>
+                            <fo:table font-size="10pt" width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+                                 <fo:table-column column-width="43pt" />
+                                <fo:table-column column-width="281pt" />
+                               <fo:table-body>
+                                    <fo:table-row>
+                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
+                                            <fo:block>
+                                                <fo:inline font-weight="bold">Re:</fo:inline>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell border-style="solid" border-width="1pt" border-color="white" display-align="before" width="281pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start">
+                                            <fo:block>Protocol #: <xsl:for-each select="n1:Protocol">
+                                                    <xsl:for-each select="n1:ProtocolMasterData">
+                                                        <xsl:for-each select="n1:ProtocolNumber">
+                                                            <xsl:apply-templates />
+                                                        </xsl:for-each>: <xsl:for-each select="n1:ProtocolTitle">
+                                                            <xsl:apply-templates />
+                                                        </xsl:for-each>
+                                                    </xsl:for-each>
+                                                </xsl:for-each>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                </fo:table-body>
+                            </fo:table>
+                            <fo:inline font-size="10pt">This letter serves as an IRB notification reminder by the </fo:inline>
+                            <xsl:for-each select="n1:CommitteeMasterData">
+                                <xsl:for-each select="n1:CommitteeName">
+                                    <fo:inline font-size="10pt">
+                                        <xsl:apply-templates />
+                                    </fo:in';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE    data CLOB; buffer VARCHAR2(32000);
+BEGIN
+    SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL 
+    WHERE 
+ PROTO_CORRESP_TYPE_CODE =  24 and COMMITTEE_ID='DEFAULT'   FOR UPDATE;
+    buffer := 'line>
+                                </xsl:for-each>
+                            </xsl:for-each>
+                            <fo:inline font-size="10pt">.&#160; Recently a protocol was returned to you with a request for revision.&#160;  It is the primary responsibility of the Principal Investigator to ensure that the protocol is resubmitted with the necessary changes.&#160; </fo:inline>
+                            <fo:block>
+                                <fo:leader leader-pattern="space" />
+                            </fo:block>
+                            <fo:inline font-size="10pt">P</fo:inline>
+                            <fo:inline font-size="10pt">lease note that the level of scrutiny given to the resubmitted protocol is the same as that of any new protocol.&#160;  All requests for approval must be reviewed at a convened IRB meeting, except for those protocols that meet the criteria for expedited review.&#160;</fo:inline>
+                             <fo:block>
+                                <xsl:text>&#xA;</xsl:text>
+                            </fo:block>
+                        </xsl:for-each>
+                    </fo:block>
+                </fo:flow>
+            </fo:page-sequence>
+        </fo:root>
+    </xsl:template>
+</xsl:stylesheet>
+';
+    DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
