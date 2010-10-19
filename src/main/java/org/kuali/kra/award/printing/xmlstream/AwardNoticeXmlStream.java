@@ -49,6 +49,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardBasisOfPayment;
+import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
 import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
@@ -202,7 +203,6 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private void initialize(Award award) {
 		this.awardDocument = award.getAwardDocument();
 		this.award = award;
-//		award.refreshNonUpdateableReferences();
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
 			awardAmountInfo = awardAmountInfos.get(0);
@@ -252,8 +252,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory
 				.newInstance();
 		List<TransferringSponsor> transferringSponsorList = new LinkedList<TransferringSponsor>();
-		List<AwardTransferringSponsor> awardTransferringSponsorList = award
-				.getAwardTransferringSponsors();
+		List<AwardTransferringSponsor> awardTransferringSponsorList = award.getAwardTransferringSponsors();
 		TransferringSponsor transferringSponsor = null;
 		for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
 			transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
@@ -270,12 +269,10 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * finally returns AwardPaymentSchedules Xml object
 	 */
 	private AwardPaymentSchedules getAwardPaymentSchedules() {
-		AwardPaymentSchedules awardPaymentSchedules = AwardPaymentSchedules.Factory
-				.newInstance();
+		AwardPaymentSchedules awardPaymentSchedules = AwardPaymentSchedules.Factory.newInstance();
 		PaymentSchedule paymentSchedule = null;
 		List<PaymentSchedule> paymentSchedulesList = new LinkedList<PaymentSchedule>();
-		for (AwardPaymentSchedule awardPaymentSchedule : award
-				.getPaymentScheduleItems()) {
+		for (AwardPaymentSchedule awardPaymentSchedule : award.getPaymentScheduleItems()) {
 			paymentSchedule = getAwardPaymentSchedule(awardPaymentSchedule);
 			paymentSchedulesList.add(paymentSchedule);
 		}
@@ -290,8 +287,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 */
 	private AwardOtherDatas getAwardOtherDatas() {
 		AwardOtherDatas awardOtherDatas = AwardOtherDatas.Factory.newInstance();
-		List<AwardCustomData> awardCustomDataList = award
-				.getAwardCustomDataList();
+		List<AwardCustomData> awardCustomDataList = award.getAwardCustomDataList();
 		OtherData otherData = null;
 		List<OtherData> otherDatas = new ArrayList<OtherData>();
 		for (AwardCustomData awardCustomData : awardCustomDataList) {
@@ -317,50 +313,41 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		String lookupReturn = null;
 		if (awardCustomData.getCustomAttribute() != null) {
 			if (awardCustomData.getCustomAttribute().getLookupClass() != null) {
-				lookupClass = awardCustomData.getCustomAttribute()
-						.getLookupClass().toUpperCase();
+				lookupClass = awardCustomData.getCustomAttribute().getLookupClass().toUpperCase();
 			}
 			if (awardCustomData.getCustomAttribute().getLookupReturn() != null) {
-				lookupReturn = awardCustomData.getCustomAttribute()
-						.getLookupReturn();
+				lookupReturn = awardCustomData.getCustomAttribute().getLookupReturn();
 			}
 		}
 		String description = null;
 		if (lookupClass != null && value != null) {
 			otherData.setColumnValue(value);
-			description = getDescriptionForLookupCode(value, lookupClass,
-					lookupReturn);
+			description = getDescriptionForLookupCode(value, lookupClass,lookupReturn);
 			if (description.length() == 0) {
 				description = null;
 			}
 		}
 		if (awardCustomData.getCustomAttribute() != null
 				&& awardCustomData.getCustomAttribute().getName() != null) {
-			otherData.setColumnName(awardCustomData.getCustomAttribute()
-					.getName());
+			otherData.setColumnName(awardCustomData.getCustomAttribute().getName());
 		}
 		OtherGroupType otherGroupType = OtherGroupType.Factory.newInstance();
 		if (description != null) {
 			otherGroupType.setDescription(description);
 		}
 		List<OtherGroupDetailsType> otherGroupDetailsTypes = new ArrayList<OtherGroupDetailsType>();
-		OtherGroupDetailsType otherGroupDetailsType = OtherGroupDetailsType.Factory
-				.newInstance();
+		OtherGroupDetailsType otherGroupDetailsType = OtherGroupDetailsType.Factory.newInstance();
 		if (awardCustomData.getCustomAttribute() != null
 				&& awardCustomData.getCustomAttribute().getName() != null) {
-			otherGroupDetailsType.setColumnName(awardCustomData
-					.getCustomAttribute().getName());
+			otherGroupDetailsType.setColumnName(awardCustomData.getCustomAttribute().getName());
 		}
 		if (awardCustomData.getValue() != null) {
-			otherGroupDetailsType.setColumnValue(awardCustomData.getValue()
-					.toUpperCase());
+			otherGroupDetailsType.setColumnValue(awardCustomData.getValue().toUpperCase());
 		}
 		otherGroupDetailsTypes.add(otherGroupDetailsType);
-		otherGroupType.setOtherGroupDetailsArray(otherGroupDetailsTypes
-				.toArray(new OtherGroupDetailsType[0]));
+		otherGroupType.setOtherGroupDetailsArray(otherGroupDetailsTypes.toArray(new OtherGroupDetailsType[0]));
 		otherGroupTypes.add(otherGroupType);
-		otherData.setOtherDetailsArray(otherGroupTypes
-				.toArray(new OtherGroupType[0]));
+		otherData.setOtherDetailsArray(otherGroupTypes.toArray(new OtherGroupType[0]));
 		return otherData;
 	}
 
@@ -369,10 +356,8 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * finally returns AwardFundingSummary Xml object
 	 */
 	private AwardFundingSummary getAwardFundingSummary() {
-		AwardFundingSummary awardFundingSummary = AwardFundingSummary.Factory
-				.newInstance();
-		awardFundingSummary.setFundingSummaryArray(getAwardAmountInfo()
-				.getAmountInfoArray());
+		AwardFundingSummary awardFundingSummary = AwardFundingSummary.Factory.newInstance();
+		awardFundingSummary.setFundingSummaryArray(getAwardAmountInfo().getAmountInfoArray());
 		return awardFundingSummary;
 	}
 
@@ -384,7 +369,6 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		AwardBudgetDetails awardBudgetDetails = AwardBudgetDetails.Factory.newInstance();
 		List<BudgetDetails> budgetDetailsList = new ArrayList<BudgetDetails>();
 		BudgetDocument budgetDocument = getBudgetDocument();
-
 		if (budgetDocument != null) {
 			for (BudgetLineItem budgetLineItem : budgetDocument.getBudget().getBudgetPeriod(0).getBudgetLineItems()) {
 				BudgetDetails budgetDetails = BudgetDetails.Factory.newInstance();
@@ -410,9 +394,12 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 				.newInstance();
 		ChildAwardType childAwardType = null;
 		List<ChildAwardType> childAwardDetailsList = new ArrayList<ChildAwardType>();
+		int awardAmountInfoSize = award.getAwardAmountInfos().size();
 		for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-			childAwardType = getChildAwardType(amountInfo);
-			childAwardDetailsList.add(childAwardType);
+		    if((awardAmountInfoSize>0 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==0){
+		        childAwardType = getChildAwardType(amountInfo);
+			    childAwardDetailsList.add(childAwardType);
+		    }
 		}
 		childAwardDetails.setChildAwardArray(childAwardDetailsList
 				.toArray(new ChildAwardType[0]));
@@ -480,7 +467,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 			Map<String, Object> reportParameters) {
 		PrintRequirement printRequirement = PrintRequirement.Factory
 				.newInstance();
-		if (reportParameters != null) {
+		if (reportParameters != null) {   
 			printRequirement
 					.setAddressListRequired(getPrintRequirementTypeRequired(
 							reportParameters, ADDRESS_LIST));
@@ -570,18 +557,18 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		description.append(getCostElementDescription(lookupClass, value));
 		description.append(getArgValueLookUp(lookupClass, value, lookupReturn));
 		if (lookupClass.equals(W_ARG_CODE_TBL)) {
-			description.append(getAbstractTypeDescription(value, lookupReturn));
-			description.append(getAccountTypeDescription(value, lookupReturn));
-			description.append(getActivityTypeDescription(value, lookupReturn));
-			description.append(getAwardStatusDescription(value, lookupReturn));
-			description.append(getAwardTypeDescription(value, lookupReturn));
-			description
-					.append(getBasisOfPaymentDescription(value, lookupReturn));
-			description.append(getBudgetCategory(value, lookupReturn));
-			description.append(getCloseoutTypeDescription(value, lookupReturn));
-			description.append(getCommentTypeDescription(value, lookupReturn));
-			description.append(getContactTypeDescription(value, lookupReturn));
-			description.append(getCostSharingTypeDesc(value, lookupReturn));
+//			description.append(getAbstractTypeDescription(value, lookupReturn));
+//			description.append(getAccountTypeDescription(value, lookupReturn));
+//			description.append(getActivityTypeDescription(value, lookupReturn));
+//			description.append(getAwardStatusDescription(value, lookupReturn));
+//			description.append(getAwardTypeDescription(value, lookupReturn));
+//			description
+//					.append(getBasisOfPaymentDescription(value, lookupReturn));
+//			description.append(getBudgetCategory(value, lookupReturn));
+//			description.append(getCloseoutTypeDescription(value, lookupReturn));
+//			description.append(getCommentTypeDescription(value, lookupReturn));
+//			description.append(getContactTypeDescription(value, lookupReturn));
+//			description.append(getCostSharingTypeDesc(value, lookupReturn));
 			description.append(getCountryDescription(value, lookupReturn));
 			description.append(getDistibutionDescription(value, lookupReturn));
 			description.append(getFinEntityRelationshipTypeDesc(value,
@@ -1095,73 +1082,85 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	/*
 	 * This method will get the description for given costShareTypeCode
 	 */
-	private String getCostSharingTypeDesc(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(COST_SHARING_TYPE)) {
-			Map<String, String> costSharingTypeMap = new HashMap<String, String>();
-			costSharingTypeMap.put(COST_SHARE_TYPE_CODE_PARAMETER, value);
-			List<CostShareType> costSharingTypes = (List<CostShareType>) businessObjectService
-					.findMatching(CostShareType.class, costSharingTypeMap);
-			if (costSharingTypes != null && !costSharingTypes.isEmpty()) {
-				description = costSharingTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getCostSharingTypeDesc(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getCostSharingTypeDesc(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(COST_SHARING_TYPE)) {
+//			Map<String, String> costSharingTypeMap = new HashMap<String, String>();
+//			costSharingTypeMap.put(COST_SHARE_TYPE_CODE_PARAMETER, value);
+//			List<CostShareType> costSharingTypes = (List<CostShareType>) businessObjectService
+//					.findMatching(CostShareType.class, costSharingTypeMap);
+//			if (costSharingTypes != null && !costSharingTypes.isEmpty()) {
+//				description = costSharingTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given contactTypeCode
 	 */
-	private String getContactTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(CONTACT_TYPE)) {
-			Map<String, String> contactTypeMap = new HashMap<String, String>();
-			contactTypeMap.put(CONTACT_TYPE_CODE_PARAMETER, value);
-			List<ContactType> contactTypes = (List<ContactType>) businessObjectService
-					.findMatching(ContactType.class, contactTypeMap);
-			if (contactTypes != null && !contactTypes.isEmpty()) {
-				description = contactTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getContactTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getContactTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(CONTACT_TYPE)) {
+//			Map<String, String> contactTypeMap = new HashMap<String, String>();
+//			contactTypeMap.put(CONTACT_TYPE_CODE_PARAMETER, value);
+//			List<ContactType> contactTypes = (List<ContactType>) businessObjectService
+//					.findMatching(ContactType.class, contactTypeMap);
+//			if (contactTypes != null && !contactTypes.isEmpty()) {
+//				description = contactTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given commentTypeCode
 	 */
-	private String getCommentTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(COMMENT_TYPE)) {
-			Map<String, String> commentTypeMap = new HashMap<String, String>();
-			commentTypeMap.put(COMMENT_TYPE_CODE_PARAMETER, value);
-			List<org.kuali.kra.bo.CommentType> commentTypes = (List<org.kuali.kra.bo.CommentType>) businessObjectService
-					.findMatching(org.kuali.kra.bo.CommentType.class,
-							commentTypeMap);
-			if (commentTypes != null && !commentTypes.isEmpty()) {
-				description = commentTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getCommentTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getCommentTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(COMMENT_TYPE)) {
+//			Map<String, String> commentTypeMap = new HashMap<String, String>();
+//			commentTypeMap.put(COMMENT_TYPE_CODE_PARAMETER, value);
+//			List<org.kuali.kra.bo.CommentType> commentTypes = (List<org.kuali.kra.bo.CommentType>) businessObjectService
+//					.findMatching(org.kuali.kra.bo.CommentType.class,
+//							commentTypeMap);
+//			if (commentTypes != null && !commentTypes.isEmpty()) {
+//				description = commentTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given closeoutReportCode
 	 */
-	private String getCloseoutTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(CLOSEOUT_TYPE)) {
-			// TODO :Need to confirm
-			Map<String, String> closeoutReportTypeMap = new HashMap<String, String>();
-			closeoutReportTypeMap.put(CLOSEOUT_REPORT_CODE_PARAMETER, value);
-			List<CloseoutReportType> closeoutReportTypes = (List<CloseoutReportType>) businessObjectService
-					.findMatching(CloseoutReportType.class,
-							closeoutReportTypeMap);
-			if (closeoutReportTypes != null && !closeoutReportTypes.isEmpty()) {
-				description = closeoutReportTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getCloseoutTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getCloseoutTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(CLOSEOUT_TYPE)) {
+//			// TODO :Need to confirm
+//			Map<String, String> closeoutReportTypeMap = new HashMap<String, String>();
+//			closeoutReportTypeMap.put(CLOSEOUT_REPORT_CODE_PARAMETER, value);
+//			List<CloseoutReportType> closeoutReportTypes = (List<CloseoutReportType>) businessObjectService
+//					.findMatching(CloseoutReportType.class,
+//							closeoutReportTypeMap);
+//			if (closeoutReportTypes != null && !closeoutReportTypes.isEmpty()) {
+//				description = closeoutReportTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given budgetCategoryCode
@@ -1183,105 +1182,121 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	/*
 	 * This method will get the description for given basisOfPaymentCode
 	 */
-	private String getBasisOfPaymentDescription(String value,
-			String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(BASIS_OF_PAYMENT)) {
-			Map<String, String> basisOfPaymentMap = new HashMap<String, String>();
-			basisOfPaymentMap.put(BASIS_OF_PAYMENT_CODE_PARAMETER, value);
-			List<AwardBasisOfPayment> basisOfPayments = (List<AwardBasisOfPayment>) businessObjectService
-					.findMatching(AwardBasisOfPayment.class, basisOfPaymentMap);
-			if (basisOfPayments != null && !basisOfPayments.isEmpty()) {
-				description = basisOfPayments.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getBasisOfPaymentDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getBasisOfPaymentDescription(String value,String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(BASIS_OF_PAYMENT)) {
+//			Map<String, String> basisOfPaymentMap = new HashMap<String, String>();
+//			basisOfPaymentMap.put(BASIS_OF_PAYMENT_CODE_PARAMETER, value);
+//			List<AwardBasisOfPayment> basisOfPayments = (List<AwardBasisOfPayment>) businessObjectService
+//					.findMatching(AwardBasisOfPayment.class, basisOfPaymentMap);
+//			if (basisOfPayments != null && !basisOfPayments.isEmpty()) {
+//				description = basisOfPayments.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given awardTypeCode
 	 */
-	private String getAwardTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(AWARD_TYPE)) {
-			Map<String, String> awardStatusMap = new HashMap<String, String>();
-			awardStatusMap.put(AWARD_TYPE_CODE_PARAMETER, value);
-			List<org.kuali.kra.award.home.AwardType> awardType = (List<org.kuali.kra.award.home.AwardType>) businessObjectService
-					.findMatching(org.kuali.kra.award.home.AwardType.class,
-							awardStatusMap);
-			if (awardType != null && !awardType.isEmpty()) {
-				description = awardType.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getAwardTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getAwardTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(AWARD_TYPE)) {
+//			Map<String, String> awardStatusMap = new HashMap<String, String>();
+//			awardStatusMap.put(AWARD_TYPE_CODE_PARAMETER, value);
+//			List<org.kuali.kra.award.home.AwardType> awardType = (List<org.kuali.kra.award.home.AwardType>) businessObjectService
+//					.findMatching(org.kuali.kra.award.home.AwardType.class,
+//							awardStatusMap);
+//			if (awardType != null && !awardType.isEmpty()) {
+//				description = awardType.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given statusCode
 	 */
-	private String getAwardStatusDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(AWARD_STATUS)) {
-			Map<String, String> awardStatusMap = new HashMap<String, String>();
-			awardStatusMap.put(STATUS_CODE_PARAMETER, value);
-			List<AwardStatus> awardStatus = (List<AwardStatus>) businessObjectService
-					.findMatching(AwardStatus.class, awardStatusMap);
-			if (awardStatus != null && !awardStatus.isEmpty()) {
-				description = awardStatus.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getAwardStatusDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getAwardStatusDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(AWARD_STATUS)) {
+//			Map<String, String> awardStatusMap = new HashMap<String, String>();
+//			awardStatusMap.put(STATUS_CODE_PARAMETER, value);
+//			List<AwardStatus> awardStatus = (List<AwardStatus>) businessObjectService
+//					.findMatching(AwardStatus.class, awardStatusMap);
+//			if (awardStatus != null && !awardStatus.isEmpty()) {
+//				description = awardStatus.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given activityTypeCode
 	 */
-	private String getActivityTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(ACTIVITY_TYPE)) {
-			Map<String, String> activityTypeMap = new HashMap<String, String>();
-			activityTypeMap.put(ACTIVITY_TYPE_CODE_PARAMETER, value);
-			List<ActivityType> activityTypes = (List<ActivityType>) businessObjectService
-					.findMatching(ActivityType.class, activityTypeMap);
-			if (activityTypes != null && !activityTypes.isEmpty()) {
-				description = activityTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getActivityTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+    }
+//	private String getActivityTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(ACTIVITY_TYPE)) {
+//			Map<String, String> activityTypeMap = new HashMap<String, String>();
+//			activityTypeMap.put(ACTIVITY_TYPE_CODE_PARAMETER, value);
+//			List<ActivityType> activityTypes = (List<ActivityType>) businessObjectService
+//					.findMatching(ActivityType.class, activityTypeMap);
+//			if (activityTypes != null && !activityTypes.isEmpty()) {
+//				description = activityTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given accountTypeCode
 	 */
-	private String getAccountTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(ACCOUNT_TYPE)) {
-			Map<String, String> accountTypeMap = new HashMap<String, String>();
-			accountTypeMap.put(ACCOUNT_TYPE_CODE_PARAMETER, value);
-			List<AccountType> accountTypes = (List<AccountType>) businessObjectService
-					.findMatching(AccountType.class, accountTypeMap);
-			if (accountTypes != null && !accountTypes.isEmpty()) {
-				description = accountTypes.get(0).getDescription();
-			}
-		}
-		return description;
-	}
+    private String getAccountTypeDescription(AwardComment awardComment) {
+        return awardComment.getComments();
+        
+    }
+//	private String getAccountTypeDescription(String value, String lookupReturn) {
+//		String description = null;
+//		if (lookupReturn.equals(ACCOUNT_TYPE)) {
+//			Map<String, String> accountTypeMap = new HashMap<String, String>();
+//			accountTypeMap.put(ACCOUNT_TYPE_CODE_PARAMETER, value);
+//			List<AccountType> accountTypes = (List<AccountType>) businessObjectService
+//					.findMatching(AccountType.class, accountTypeMap);
+//			if (accountTypes != null && !accountTypes.isEmpty()) {
+//				description = accountTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
+//	}
 
 	/*
 	 * This method will get the description for given abstractTypeCode
 	 */
-	private String getAbstractTypeDescription(String value, String lookupReturn) {
-		String description = null;
-		if (lookupReturn.equals(ABSTRACT_TYPE)) {
-			Map<String, String> abstractTypeMap = new HashMap<String, String>();
-			abstractTypeMap.put(ABSTRACT_TYPE_CODE_PARAMETER, value);
-			List<AbstractType> abstractTypes = (List<AbstractType>) businessObjectService
-					.findMatching(AbstractType.class, abstractTypeMap);
-			if (abstractTypes != null && !abstractTypes.isEmpty()) {
-				description = abstractTypes.get(0).getDescription();
-			}
-		}
-		return description;
+	private String getAbstractTypeDescription(AwardComment awardComment) {
+	    return awardComment.getComments();
+//		String description = null;
+//		if (lookupReturn.equals(ABSTRACT_TYPE)) {
+//			Map<String, String> abstractTypeMap = new HashMap<String, String>();
+//			abstractTypeMap.put(ABSTRACT_TYPE_CODE_PARAMETER, value);
+//			List<AbstractType> abstractTypes = (List<AbstractType>) businessObjectService
+//					.findMatching(AbstractType.class, abstractTypeMap);
+//			if (abstractTypes != null && !abstractTypes.isEmpty()) {
+//				description = abstractTypes.get(0).getDescription();
+//			}
+//		}
+//		return description;
 	}
 
 	/*
