@@ -50,13 +50,13 @@ public abstract class AwardContactsProjectRoleValuesFinder extends KeyValuesBase
 
     protected abstract Class<? extends ContactRole> getRoleType();
     
-    /*
-     * Build the pairs
+    /**
+     * Build the pairs.
      */
-    private List<KeyLabelPair> buildKeyLabelPairs(Collection<ContactRole> contactRoles) {
+    protected List<KeyLabelPair> buildKeyLabelPairs(Collection<ContactRole> contactRoles) {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         addEmptyKeyValuePair(keyValues);
-        for (ContactRole role: contactRoles) {
+        for (ContactRole role : contactRoles) {
             keyValues.add(new KeyLabelPair(role.getRoleCode(), role.getRoleDescription()));
         }
         return keyValues;
