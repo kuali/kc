@@ -153,11 +153,21 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
             List<ValidNarrForms>  validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
             for (ValidNarrForms validNarrForms : validNarrativeForms) {
                 if(isProposalGroup(validNarrForms)){
-                    validaNarrativeTypes.add(validNarrForms.getNarrativeType());
+                    if(!isNarrativeAlreadyAdded(validaNarrativeTypes,validNarrForms.getNarrativeType())){
+                        validaNarrativeTypes.add(validNarrForms.getNarrativeType());
+                    }
                 }
             }
         }
         return validaNarrativeTypes;
+    }
+    private boolean isNarrativeAlreadyAdded(List<NarrativeType> validaNarrativeTypes, NarrativeType validNarrativeType) {
+        for (NarrativeType narrativeType : validaNarrativeTypes) {
+            if(narrativeType.getNarrativeTypeCode().equals(validNarrativeType.getNarrativeTypeCode())){
+                return true;
+            }
+        }
+        return false;
     }
     String proposalNarrativeTypeGroup = this.getParameterService().getParameterValue(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
     /**
