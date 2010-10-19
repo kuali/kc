@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.htmlunitwebtest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.award.home.Award;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -29,7 +30,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class InstitutionalProposalFinancialWebTest extends InstitutionalProposalHomeWebTest {
 
     private static final String SAVE_METHOD = "methodToCall.save";
-    
+    private static final String AWARD_NUMBER = "100001-00001";
+    private static final String AWARD_ACCOUNT_NUMBER = "111";
+    private static final String INVALID_ACCOUNT_NUMBER = "222";
     /**
      * The set up method calls the parent super method.
      * @see org.kuali.kra.award.htmlunitwebtest.InstitutionalProposalWebTestBase#setUp()
@@ -55,7 +58,7 @@ public class InstitutionalProposalFinancialWebTest extends InstitutionalProposal
      */
     @Test
     public void testFinancialRecalculate() throws Exception{
-        
+    
         setFieldValue(proposalHomePage, "document.institutionalProposal.totalDirectCostInitial", "200000");
         setFieldValue(proposalHomePage, "document.institutionalProposal.totalIndirectCostInitial", "50000");
         setFieldValue(proposalHomePage, "document.institutionalProposal.totalDirectCostTotal", "300000");
@@ -71,5 +74,21 @@ public class InstitutionalProposalFinancialWebTest extends InstitutionalProposal
         HtmlPage institutionalProposalHomePageAfterRecalculate = 
                 clickOn(proposalHomePage,"methodToCall.recalculateTotals.anchorFinancial");
         assertContains(institutionalProposalHomePageAfterRecalculate,"125000");
+    }
+    
+    public void testAddAccountId() throws Exception {
+        Award award = new Award();
+        award.setAwardNumber(AWARD_NUMBER);
+        award.setAccountNumber(AWARD_ACCOUNT_NUMBER);
+        
+        setFieldValue(proposalHomePage, "document.institutionalProposal.currentAwardNumber", AWARD_NUMBER);
+        setFieldValue(proposalHomePage, "document.institutionalProposal.currentAccountNumber", INVALID_ACCOUNT_NUMBER); 
+        proposalHomePage = clickOn(proposalHomePage, SAVE_METHOD);
+        assertContains(proposalHomePage, 
+                "The Account ID <" + INVALID_ACCOUNT_NUMBER + "> does not exist. Please enter a valid account ID.");
+        
+        setFieldValue(proposalHomePage, "document.institutionalProposal.currentAccountNumber", AWARD_ACCOUNT_NUMBER);
+        proposalHomePage = clickOn(proposalHomePage, SAVE_METHOD);
+        assertContains(proposalHomePage, SAVE_SUCCESS_MESSAGE);
     }
 }
