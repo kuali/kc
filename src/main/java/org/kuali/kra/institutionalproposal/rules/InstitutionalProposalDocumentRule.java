@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalCustomDataAuditRule;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
@@ -27,6 +32,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonS
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataRuleImpl;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalSaveCustomDataRuleEvent;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
@@ -34,6 +40,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -83,7 +90,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
         retval &= processKeywordBusinessRule(document);
-        
+        retval &= processAccountIdBusinessRule(document);
         return retval;
     }    
     
@@ -193,6 +200,33 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         }
         return true;
     }
+    
+    private boolean processAccountIdBusinessRule(Document document) {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
+        
+        String accountNumber = institutionalProposal.getCurrentAccountNumber();
+        String awardNumber = institutionalProposal.getCurrentAwardNumber();
+        if (!StringUtils.isEmpty(awardNumber) && !StringUtils.isEmpty(accountNumber)) {
+            BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+            Map<String,String> fieldValues = new HashMap<String,String>();
+            fieldValues.put("awardNumber", awardNumber);
+            Collection awardCol = boService.findMatching(Award.class, fieldValues);
+            if ( !awardCol.isEmpty()) {
+                Award award = (Award) (awardCol.toArray())[0];
+                String awardAccountNumber = award.getAccountNumber();
+                if (!StringUtils.equalsIgnoreCase(accountNumber, awardAccountNumber)) {
+                   GlobalVariables.getMessageMap().putError(
+                           "document.institutionalProposalList.currentAccountNumber", 
+                           "error.institutionalProposal.accountNumber.invalid",
+                           accountNumber);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
      * @param proposalDevelopmentDocument
