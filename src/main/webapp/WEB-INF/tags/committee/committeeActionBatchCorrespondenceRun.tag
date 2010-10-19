@@ -12,7 +12,8 @@
               defaultOpen="false"
               useCurrentTabIndexAsKey="true" 
               tabErrorKey="">
-    <div align="left" style="padding-left: 56px;">
+<%--    <div align="left" style="padding-left: 56px;"> --%>
+   <kra-irb-action:padLeft>
         <table class=tab cellpadding=0 cellspacing="0"> 
             <tr>
                 <th>
@@ -64,6 +65,7 @@
             <tr>
                 <th width ="25">
                     <div align="center">
+                    &nbsp;
                     </div>
                 </th>
                 <th width="75">
@@ -141,5 +143,6 @@
         </c:forEach>
 
         </table>
-    </div>
+   </kra-irb-action:padLeft>
+    <%--</div> --%>
 </kul:innerTab>
