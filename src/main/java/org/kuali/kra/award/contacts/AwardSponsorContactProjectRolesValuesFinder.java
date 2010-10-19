@@ -15,14 +15,26 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.util.List;
+
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 
 /**
- * This class finds Award Unit Contact Project Roles
+ * This class finds Award Unit Contact Project Roles.
  */
 public class AwardSponsorContactProjectRolesValuesFinder extends AwardContactsProjectRoleValuesFinder {
 
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.award.contacts.AwardContactsProjectRoleValuesFinder#getKeyValues()
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List getKeyValues() {
+        return buildKeyLabelPairs(getKeyValuesService().findAllOrderBy(getRoleType(), "description", true));
+    }
+    
     @Override
     protected Class<? extends ContactRole> getRoleType() {
         return ContactType.class;
