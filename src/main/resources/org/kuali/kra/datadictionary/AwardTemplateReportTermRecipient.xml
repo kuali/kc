@@ -38,12 +38,13 @@
 				<ref bean="AwardTemplateReportTermRecipient-rolodexId" />
 				<ref bean="AwardTemplateReportTermRecipient-numberOfCopies" />
 				<ref bean="AwardTemplateReportTermRecipient-versionNumber" />
+				<ref bean="AwardTemplateReportTermRecipient-contactTypeCodeAndRolodexId" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
+
 	<bean id="AwardTemplateReportTermRecipient-templateReportTermRecipientId" parent="AwardTemplateReportTermRecipient-templateReportTermRecipientId-parentBean" />
 	<bean id="AwardTemplateReportTermRecipient-templateReportTermRecipientId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="templateReportTermRecipientId" />
@@ -101,6 +102,29 @@
 	    </property>
 		<property name="summary" value="Contact Type Code" />
 		<property name="description" value="Contact Type Code" />
+	</bean>
+
+	<bean id="AwardTemplateReportTermRecipient-contactTypeCodeAndRolodexId" parent="AwardTemplateReportTermRecipient-contactTypeCodeAndRolodexId-parentBean" />
+	<bean id="AwardTemplateReportTermRecipient-contactTypeCodeAndRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="contactTypeCodeAndRolodexId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Contact Type and Rolodex Id" />
+		<property name="shortLabel" value="Contact Type and Rolodex Id" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"	      
+	            p:businessObjectClass="org.kuali.kra.award.home.AwardTemplateContact"
+	            p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.AwardTemplateContactValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="contactTypeCodeAndRolodexId"
+	            p:labelAttribute="contactTypeCodeAndRolodexId" />
+	    </property>
+		<property name="summary" value="Contact Type And Rolodex ID" />
+		<property name="description" value="Contact Type And Rolodex ID" />
 	</bean>
 
 	<bean id="AwardTemplateReportTermRecipient-rolodexId" parent="AwardTemplateReportTermRecipient-rolodexId-parentBean" />

@@ -627,6 +627,9 @@ public interface Constants {
     //Award Hierarchy - Time And Money Constants
     public static final String AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT = "000000-00000";
     
+    //Award Template Constants
+    public static final String AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR = "***";
+    
     // Questionnaire
     public static final String PARAMETER_MODULE_QUESTIONNAIRE = "KC-QUESTIONNAIRE";
     public static final String PARAMETER_COMPONENT_PERMISSION = "P";

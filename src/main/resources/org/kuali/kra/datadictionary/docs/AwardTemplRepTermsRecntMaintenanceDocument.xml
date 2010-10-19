@@ -50,6 +50,7 @@
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient" parent="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient-parentBean"/>
 	<bean id="AwardTemplateReportTermRecipientMaintenanceDocument-EditListAwardTemplateReportTermRecipient-parentBean" abstract="true" parent="MaintainableCollectionDefinition">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardTemplateReportTermRecipient"/>
@@ -61,22 +62,19 @@
 		<property name="summaryTitle" value="Sponsor Template Report Recipient"/>
 		<property name="summaryFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"/>
-				<bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId"/>
 			</list>
 		</property>
-		<property name="attributeToHighlightOnDuplicateKey" value="contactTypeCode"/>
+		 <property name="attributeToHighlightOnDuplicateKey" value="contactTypeCodeAndRolodexId"/>
 		<property name="duplicateIdentificationFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode"/>
-				<bean parent="MaintainableFieldDefinition" p:name="rolodexId"/>
+				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId"/>
 			</list>
 		</property>
 		<property name="maintainableFields">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="numberOfCopies"/>
+				<bean parent="MaintainableFieldDefinition" p:name="contactTypeCodeAndRolodexId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="numberOfCopies" />
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
