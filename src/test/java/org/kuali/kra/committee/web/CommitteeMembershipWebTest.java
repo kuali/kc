@@ -137,7 +137,6 @@ public class CommitteeMembershipWebTest extends CommitteeWebTestBase {
          * and verify that the new roles are what we expected.
          */
         HtmlTable table = getTable(membersPage, "membership-role-table-0");
-        System.out.println(">>>" + table.asText());
         assertEquals(5, table.getRowCount());
         assertTrue(table.asText().contains("Member - Scientist"));
         assertTrue(table.asText().contains("Chair"));

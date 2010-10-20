@@ -253,7 +253,6 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * @param q the query
      */
     private static void logQuery(Query q) {
-        System.out.println("logQuery:" + q.toString());
         if (LOG.isDebugEnabled()) {
             LOG.debug(q.toString());
         }

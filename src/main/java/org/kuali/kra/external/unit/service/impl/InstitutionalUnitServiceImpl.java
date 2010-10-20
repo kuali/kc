@@ -72,7 +72,9 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
        
         List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
         for (Unit unit : units) {
-            System.out.println("unit in service is " + unit.getUnitName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("unit in service is " + unit.getUnitName());
+            }
             unitDTO.add(unitBoToDto(unit));
         }
        
