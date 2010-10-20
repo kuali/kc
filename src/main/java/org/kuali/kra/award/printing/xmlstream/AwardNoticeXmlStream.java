@@ -66,6 +66,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.AccountType;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CostShareType;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -289,66 +290,32 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		AwardOtherDatas awardOtherDatas = AwardOtherDatas.Factory.newInstance();
 		List<AwardCustomData> awardCustomDataList = award.getAwardCustomDataList();
 		OtherData otherData = null;
-		List<OtherData> otherDatas = new ArrayList<OtherData>();
+		String prevGroupName = null;
+		OtherGroupType otherGroupType = null;
 		for (AwardCustomData awardCustomData : awardCustomDataList) {
-			otherData = getOtherData(awardCustomData);
-			otherDatas.add(otherData);
+	        awardCustomData.refreshReferenceObject("customAttribute");
+	        CustomAttribute customAttribute = awardCustomData.getCustomAttribute();
+	        if (customAttribute != null) {
+	            otherData = awardOtherDatas.addNewOtherData();
+	            String groupName = customAttribute.getGroupName();
+	            String attributeLabel = customAttribute.getLabel();
+	            String attributeValue = awardCustomData.getValue();
+	            if(attributeValue!=null){
+    	            if(groupName!=null && !groupName.equals(prevGroupName)){
+    	                otherGroupType = otherData.addNewOtherDetails();
+    	                otherGroupType.setDescription(groupName);
+    	            }
+    	            prevGroupName = groupName;
+    	            if(otherGroupType!=null){
+    	                OtherGroupDetailsType otherGroupDetailsType = otherGroupType.addNewOtherGroupDetails();
+    	                otherGroupDetailsType.setColumnName(attributeLabel);
+    	                otherGroupDetailsType.setColumnValue(attributeValue);
+    	            }
+	            }
+	                
+	        }
 		}
-		awardOtherDatas.setOtherDataArray(otherDatas.toArray(new OtherData[0]));
 		return awardOtherDatas;
-	}
-
-	/*
-	 * This method will set the values to other data bean and finally returns
-	 * OtherData Xml object
-	 */
-	private OtherData getOtherData(AwardCustomData awardCustomData) {
-		OtherData otherData = OtherData.Factory.newInstance();
-		List<OtherGroupType> otherGroupTypes = new ArrayList<OtherGroupType>();
-		String value = null;
-		if (awardCustomData.getValue() != null) {
-			value = awardCustomData.getValue().toUpperCase();
-		}
-		String lookupClass = null;
-		String lookupReturn = null;
-		if (awardCustomData.getCustomAttribute() != null) {
-			if (awardCustomData.getCustomAttribute().getLookupClass() != null) {
-				lookupClass = awardCustomData.getCustomAttribute().getLookupClass().toUpperCase();
-			}
-			if (awardCustomData.getCustomAttribute().getLookupReturn() != null) {
-				lookupReturn = awardCustomData.getCustomAttribute().getLookupReturn();
-			}
-		}
-		String description = null;
-		if (lookupClass != null && value != null) {
-			otherData.setColumnValue(value);
-			description = getDescriptionForLookupCode(value, lookupClass,lookupReturn);
-			if (description.length() == 0) {
-				description = null;
-			}
-		}
-		if (awardCustomData.getCustomAttribute() != null
-				&& awardCustomData.getCustomAttribute().getName() != null) {
-			otherData.setColumnName(awardCustomData.getCustomAttribute().getName());
-		}
-		OtherGroupType otherGroupType = OtherGroupType.Factory.newInstance();
-		if (description != null) {
-			otherGroupType.setDescription(description);
-		}
-		List<OtherGroupDetailsType> otherGroupDetailsTypes = new ArrayList<OtherGroupDetailsType>();
-		OtherGroupDetailsType otherGroupDetailsType = OtherGroupDetailsType.Factory.newInstance();
-		if (awardCustomData.getCustomAttribute() != null
-				&& awardCustomData.getCustomAttribute().getName() != null) {
-			otherGroupDetailsType.setColumnName(awardCustomData.getCustomAttribute().getName());
-		}
-		if (awardCustomData.getValue() != null) {
-			otherGroupDetailsType.setColumnValue(awardCustomData.getValue().toUpperCase());
-		}
-		otherGroupDetailsTypes.add(otherGroupDetailsType);
-		otherGroupType.setOtherGroupDetailsArray(otherGroupDetailsTypes.toArray(new OtherGroupDetailsType[0]));
-		otherGroupTypes.add(otherGroupType);
-		otherData.setOtherDetailsArray(otherGroupTypes.toArray(new OtherGroupType[0]));
-		return otherData;
 	}
 
 	/*
@@ -520,6 +487,8 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 							reportParameters, REPORTING));
 			printRequirement.setCurrentDate(dateTimeService
 					.getCurrentCalendar());
+            printRequirement.setOtherDataRequired(getPrintRequirementTypeRequired(
+                    reportParameters, OTHER_DATA));
 			printRequirement
 					.setSignatureRequired(getPrintRequirementTypeRequired(
 							reportParameters, SIGNATURE_REQUIRED));
