@@ -63,8 +63,6 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("Got here to presave in ProtocolSpecialReviewAction!!!!");
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument document = protocolForm.getDocument();
         for (ProtocolSpecialReview review : document.getProtocol().getSpecialReviews()) {
