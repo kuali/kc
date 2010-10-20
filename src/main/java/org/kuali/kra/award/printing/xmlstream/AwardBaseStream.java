@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,6 +68,8 @@ import noNamespace.AwardType.AwardIndirectCosts.IndirectCostSharingItem;
 import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardSpecialItems.Equipment;
 import noNamespace.AwardType.AwardSpecialItems.ForeignTravel;
+import noNamespace.AwardType.AwardSpecialItems.Subcontract;
+import noNamespace.AwardType.AwardSpecialItems.SubcontractFundingSource;
 import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 
 import org.apache.commons.logging.Log;
@@ -83,6 +86,7 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -858,15 +862,30 @@ public abstract class AwardBaseStream implements XmlStream {
 	 * @return returns Award Special Items XmlObject
 	 */
 	protected AwardSpecialItems getAwardSpecialItems() {
-		AwardSpecialItems awardSpecialItem = AwardSpecialItems.Factory
-				.newInstance();
+		AwardSpecialItems awardSpecialItem = AwardSpecialItems.Factory.newInstance();
 		awardSpecialItem.setEquipmentArray(getEquipmentType());
 		awardSpecialItem.setForeignTravelArray(getForeignTravel());
-		// TODO :Need to implement subcontract and SubcontractFundingSource
+		setSubcontracts(awardSpecialItem);
+//		setSubcontractFundingSources(awardSpecialItem);
 		return awardSpecialItem;
 	}
 
-	/**
+//	private void setSubcontractFundingSources(AwardSpecialItems awardSpecialItem) {
+//    }
+
+    private void setSubcontracts(AwardSpecialItems awardSpecialItem) {
+        List<AwardApprovedSubaward> awardApprovedSubawards = award.getAwardApprovedSubawards();
+        for (AwardApprovedSubaward awardApprovedSubcontractBean : awardApprovedSubawards) {
+            Subcontract subcontractType = awardSpecialItem.addNewSubcontract();
+            BigDecimal bdecAmount = awardApprovedSubcontractBean.getAmount().bigDecimalValue();
+            subcontractType.setAmount(bdecAmount.setScale(2,BigDecimal.ROUND_HALF_DOWN));
+            subcontractType.setAwardNumber(awardApprovedSubcontractBean.getAwardNumber());
+            subcontractType.setSequenceNumber(awardApprovedSubcontractBean.getSequenceNumber());
+            subcontractType.setSubcontractorName(awardApprovedSubcontractBean.getOrganizationName());
+        }
+    }
+
+    /**
 	 * <p>
 	 * This method will set the values to Award Comments attributes and finally
 	 * returns Award Comments XmlObject
