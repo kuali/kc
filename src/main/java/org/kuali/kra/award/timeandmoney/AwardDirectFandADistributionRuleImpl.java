@@ -18,7 +18,9 @@ package org.kuali.kra.award.timeandmoney;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -40,7 +42,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
-    
+    transient AwardAmountInfoService awardAmountInfoService;
     /**
      *  @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
      * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
@@ -351,7 +353,9 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
      */
     boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetEndDate = awardDirectFandADistribution.getEndDate();
-        Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();
+        //Date projectEndDate = awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getProjectEndDate();
+        Date projectEndDate = getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId
+                                                            (awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getAward().getAwardAmountInfos()).getFinalExpirationDate();
         boolean valid = true;
         if (projectEndDate.before(targetEndDate)) {
             valid = false;
@@ -360,6 +364,11 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
             
         }
         return valid;
+    }
+    
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        return awardAmountInfoService;
     }
 
 
