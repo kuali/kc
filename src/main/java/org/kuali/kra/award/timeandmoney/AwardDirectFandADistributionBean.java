@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,6 +38,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
     private static final long serialVersionUID = 6274443203617122440L;
     private TimeAndMoneyForm parent;
     private AwardDirectFandADistribution newAwardDirectFandADistribution;
+    transient AwardAmountInfoService awardAmountInfoService;
     
     /**
      * Constructs a DirectFandADistributionFormHelper
@@ -134,7 +136,8 @@ public class AwardDirectFandADistributionBean implements Serializable{
         }
         else {
         //this logic for case where the target date range falls into a valid period between the last element of the list and project end date.
-            if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, thisNewAwardDirectFandADistribution, award.getProjectEndDate())){
+            if(canTargetBeInsertedIntoLastIndex(awardDirectFandADistributions, thisNewAwardDirectFandADistribution, getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId
+                    (award.getAwardAmountInfos()).getFinalExpirationDate())){
                 award.add(thisNewAwardDirectFandADistribution);
                 awardDirectFandADistributionBean.init();
             }else {
@@ -151,6 +154,11 @@ public class AwardDirectFandADistributionBean implements Serializable{
         }
     }
     
+    public AwardAmountInfoService getAwardAmountInfoService() {
+        awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        return awardAmountInfoService;
+    }
+    
     /**
      * This method for a special case where the target period falls between the last index of the list and project end date.
      * @param awardDirectFandADistributions
@@ -161,7 +169,8 @@ public class AwardDirectFandADistributionBean implements Serializable{
     private boolean canTargetBeInsertedIntoLastIndex(List<AwardDirectFandADistribution> awardDirectFandADistributions, 
                                                                 AwardDirectFandADistribution thisNewAwardDirectFandADistribution,
                                                                     Date projectEndDate) {
-        boolean isDistrEndDateBeforeProjectEndDate = thisNewAwardDirectFandADistribution.getEndDate().before(projectEndDate);
+        boolean isDistrEndDateBeforeProjectEndDate = thisNewAwardDirectFandADistribution.getEndDate().before(projectEndDate) ||
+                                                        thisNewAwardDirectFandADistribution.getEndDate().equals(projectEndDate);
         if (awardDirectFandADistributions.isEmpty()) {
             return isDistrEndDateBeforeProjectEndDate;
         }
