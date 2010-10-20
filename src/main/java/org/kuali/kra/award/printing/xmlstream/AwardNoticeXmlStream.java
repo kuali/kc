@@ -396,7 +396,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		List<ChildAwardType> childAwardDetailsList = new ArrayList<ChildAwardType>();
 		int awardAmountInfoSize = award.getAwardAmountInfos().size();
 		for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-		    if((awardAmountInfoSize>0 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==0){
+		    if((awardAmountInfoSize>1 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==1){
 		        childAwardType = getChildAwardType(amountInfo);
 			    childAwardDetailsList.add(childAwardType);
 		    }
