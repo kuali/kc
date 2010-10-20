@@ -44,6 +44,8 @@ import noNamespace.AwardType.AwardPaymentSchedules.PaymentSchedule;
 import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -357,29 +359,81 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 * finally returns ChildAwardDetails Xml object
 	 */
 	private ChildAwardDetails getChildAwardDetails() {
-		ChildAwardDetails childAwardDetails = ChildAwardDetails.Factory
-				.newInstance();
-		ChildAwardType childAwardType = null;
-		List<ChildAwardType> childAwardDetailsList = new ArrayList<ChildAwardType>();
-		int awardAmountInfoSize = award.getAwardAmountInfos().size();
-		for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-		    if((awardAmountInfoSize>1 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==1){
-		        childAwardType = getChildAwardType(amountInfo);
-			    childAwardDetailsList.add(childAwardType);
-		    }
-		}
-		childAwardDetails.setChildAwardArray(childAwardDetailsList
-				.toArray(new ChildAwardType[0]));
+		ChildAwardDetails childAwardDetails = ChildAwardDetails.Factory.newInstance();
+        ChildAwardType childAward = childAwardDetails.addNewChildAward();
+		AwardHierarchy awardHierarchy = getAwardHierarchyService().loadAwardHierarchyBranch(award.getAwardNumber());
+		setAwardHierarchy(awardHierarchy,childAward);
+		
+//		
+//		
+//		
+//		ChildAwardType childAwardType = null;
+//		List<ChildAwardType> childAwardDetailsList = new ArrayList<ChildAwardType>();
+//		int awardAmountInfoSize = award.getAwardAmountInfos().size();
+//		for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
+//		    if((awardAmountInfoSize>1 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==1){
+//		        childAwardType = getChildAwardType(amountInfo);
+//			    childAwardDetailsList.add(childAwardType);
+//		    }
+//		}
+//		childAwardDetails.setChildAwardArray(childAwardDetailsList
+//				.toArray(new ChildAwardType[0]));
 		return childAwardDetails;
 	}
 
-	/*
+	private void setAwardHierarchy(AwardHierarchy awardHierarchy, ChildAwardType childAwardType) {
+        if(awardHierarchy!=null){
+            AwardHierarchyType hierarchyType = childAwardType.addNewAwardHierarchy();
+            hierarchyType.setAwardNumber(awardHierarchy.getAwardNumber());
+            hierarchyType.setParentAwardNumber(awardHierarchy.getParentAwardNumber());
+            hierarchyType.setRootAwardNumber(awardHierarchy.getRootAwardNumber());
+            setAwardAmountInfoDetails(awardHierarchy,childAwardType);
+            List<AwardHierarchy> children = awardHierarchy.getChildren();
+            for (AwardHierarchy awardHierarchy2 : children) {
+                setAwardHierarchy(awardHierarchy2, childAwardType);
+            }
+        }
+    }
+
+    private void setAwardAmountInfoDetails(AwardHierarchy awardHierarchy, ChildAwardType childAwardType) {
+        awardHierarchy.refreshReferenceObject("award");
+        Award childAward = awardHierarchy.getAward();
+        AwardAmountInfo awardAmountInfo = childAward.getLastAwardAmountInfo();
+        if (awardHierarchy.getAward().getAccountNumber() != null) {
+            childAwardType.setAccountNumber(awardHierarchy.getAward().getAccountNumber());
+        }
+        if (awardAmountInfo.getAnticipatedTotalAmount() != null) {
+            childAwardType.setAnticipatedTotalAmt(awardAmountInfo.getAnticipatedTotalAmount().bigDecimalValue());
+        }
+        if (awardAmountInfo.getFinalExpirationDate() != null) {
+            Calendar finalExpDate = dateTimeService.getCalendar(awardAmountInfo.getFinalExpirationDate());
+            childAwardType.setFinalExpirationDate(finalExpDate);
+        }
+        if (awardAmountInfo.getCurrentFundEffectiveDate() != null) {
+            Calendar currentFundEffectiveDate = dateTimeService.getCalendar(awardAmountInfo.getCurrentFundEffectiveDate());
+            childAwardType.setCurrentFundEffectiveDate(currentFundEffectiveDate);
+        }
+        if (awardAmountInfo.getAmountObligatedToDate() != null) {
+            childAwardType.setAmtObligatedToDate(awardAmountInfo.getAmountObligatedToDate().bigDecimalValue());
+        }
+        if (awardAmountInfo.getObligationExpirationDate() != null) {
+            Calendar obligationExpirationDate = dateTimeService.getCalendar(awardAmountInfo.getObligationExpirationDate());
+            childAwardType.setObligationExpirationDate(obligationExpirationDate);
+        }
+        childAwardType.setPIName(childAward.getPrincipalInvestigator().getFullName());
+    }
+
+    private AwardHierarchyService getAwardHierarchyService() {
+        return KraServiceLocator.getService(AwardHierarchyService.class);
+    }
+
+    /*
 	 * This method will set the values to ChildAwardType attributes and finally
 	 * returns ChildAwardType Xml object
 	 */
 	private ChildAwardType getChildAwardType(AwardAmountInfo amountInfo) {
-		AwardHierarchyType awardHierarchyType;
 		ChildAwardType childAwardType = ChildAwardType.Factory.newInstance();
+        AwardHierarchyType awardHierarchyType = childAwardType.addNewAwardHierarchy();
 		if (amountInfo.getAwardAmountInfoId() != null) {
 			childAwardType.setAccountNumber(String.valueOf(amountInfo
 					.getAwardAmountInfoId()));
@@ -410,10 +464,8 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 					.setObligationExpirationDate(obligationExpirationDate);
 		}
 		KualiDecimal totalObligatedAmount = amountInfo
-				.getObligatedTotalDirect().add(
-						amountInfo.getObligatedTotalIndirect());
-		childAwardType.setTotalObligatedAmount(totalObligatedAmount
-				.bigDecimalValue());
+				.getObligatedTotalDirect().add(amountInfo.getObligatedTotalIndirect());
+		childAwardType.setTotalObligatedAmount(totalObligatedAmount.bigDecimalValue());
 		if (award.getPrincipalInvestigator() != null
 				&& award.getPrincipalInvestigator().getFullName() != null) {
 			childAwardType.setPIName(award.getPrincipalInvestigator()
@@ -422,7 +474,6 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		awardHierarchyType = AwardHierarchyType.Factory.newInstance();
 		awardHierarchyType.setAwardNumber(award.getAwardNumber());
 		// TODO : RootAwardNumber, ParentAwardNumber Not Found
-		childAwardType.setAwardHierarchy(awardHierarchyType);
 		return childAwardType;
 	}
 
