@@ -1168,7 +1168,7 @@ function getAddRequirementRow(curidx) {
 						var value = $(this).parents('tr:eq(0)').children(
 								'td:eq(1)').children('input:eq(0)').attr(
 								"value");
-						if (okToAddRequirement(response, value)) {
+						if (okToAddRequirement(response, value, idx)) {
 							/*
 							 * var opDesc; if (sequence == 1) { opDesc =
 							 * "Current Requirements:"; } else { opDesc =
@@ -1200,12 +1200,20 @@ function getAddRequirementRow(curidx) {
  * check if required fields entered for requirement to add Also, some basic
  * validation of number and date
  */
-function okToAddRequirement(response, value) {
+function okToAddRequirement(response, value, idx) {
+	$("#qnaireid"+i)
+	var stidx = $("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
+	var splitq = $("#question"+stidx).attr("value").split("#f#");
+	var qtypeid = splitq[1];
+//	alert (stidx+" -"+qtypeid);
+
 	var valid = false;
 	if (value == '') {
 		alert("Please enter a value");
 	} else if (response == 0) {
 		alert("Please select a response");
+	} else if (!isValidBranchingCondition(qtypeid, response)) {
+		alert("Invalid Branching condition");
 	} else if (response >= 5 && response <= 10 && isNaN(value)) {
 		alert("Value must be a number");
 	} else if (response > 10 && !isDate(value, 'MM/dd/yyyy')) {
@@ -1216,6 +1224,21 @@ function okToAddRequirement(response, value) {
 	return valid;
 }
 
+function isValidBranchingCondition(parentQntypeId, response) {
+	var valid = true;
+	if (response < 5 && (parentQntypeId == 3 || parentQntypeId == 4)) {
+		// yes/no question
+		valid = false;
+	} else if (response >= 5 && response <= 10 && parentQntypeId != 3) {
+		// number
+		valid = false;
+	} else if (response > 10 && parentQntypeId != 4) {
+		// date 
+		valid = false;
+	}
+	// no validation for lookup because there is not lookup return type
+	return valid;
+}
 /*
  * set the newly added requirement row with 'delete' button
  */
@@ -1853,8 +1876,15 @@ $(document).ready(function() {
                   $(this).attr("id","blanketApprove");
               } else if ($(this).attr("name") == 'methodToCall.close') {
                   $(this).attr("id","close");
-              }   
+              }
           });
+        $("#addTemplate").find('input').each(function() {
+            //alert($(this).attr("name"));
+            if ($(this).attr("name") == 'methodToCall.addTemplate') {
+                $(this).attr("id","add");
+            }  
+        });
+
     }
     if ($("#maintAction").attr("value") == 'Edit') {
         qnversion = $("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
@@ -1882,7 +1912,16 @@ $(document).ready(function() {
 		return checkBeforeSubmit();
   }); // #close
   
-  
+  $("#add").click(function() {
+		var retval = false;
+	  if ($('input[type=file]').val() == '') {
+			alert("Please select a file name");
+	  } else {
+		    retval = true;
+	  }	
+		return retval;  
+    }); // #add template
+
 }); // document.ready
 
 
