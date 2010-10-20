@@ -144,6 +144,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	private static final String INTELLECTUAL_PROPERTY = "Intellectual Property";
 	private static final String PROCUREMENT_COMMENT = "Procurement";
 	private static final String PROPERTY_COMMENT = "Property";
+    protected static final String OTHER_DATA = "otherData";
 	protected static final String SIGNATURE_REQUIRED = "signatureRequired";
 	protected static final String TRANSACTION_ID = "transactionId";
 	protected static final String ORGANIZATION_TYPE_CODE_PARAMETER = "organizationTypeCode";
