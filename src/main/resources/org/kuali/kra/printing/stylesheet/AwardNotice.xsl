@@ -2484,7 +2484,7 @@
 																	<fo:table-cell padding="2pt" display-align="center">
 																		<fo:block>
 																			<fo:inline font-weight="bold">
-																				<xsl:text>Obligation Total</xsl:text>
+																				<xsl:text>Obligated Total</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
