@@ -509,7 +509,7 @@
 				<property name="localServiceName" value="institutionalUnitService" />
 				<property name="serviceInterface"
 					value="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
-				<property name="busSecurity" value="true" />
+				<property name="busSecurity" value="false" />
 				<property name="retryAttempts" value="1" />
 			</bean>
 		</property>
@@ -521,7 +521,7 @@
 				<property name="service" ref="institutionalUnitService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="institutionalUnitSoapService" />
-				<property name="busSecurity" value="true" />
+				<property name="busSecurity" value="false" />
 				<property name="jaxWsService" value="true" />
 			</bean>
 		</property>
