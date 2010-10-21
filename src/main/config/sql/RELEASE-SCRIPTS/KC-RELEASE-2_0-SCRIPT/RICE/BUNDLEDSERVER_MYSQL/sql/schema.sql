@@ -15917,6 +15917,20 @@ ALTER TABLE NTE_ID_SEQ auto_increment = 2000
 /
 
 # -----------------------------------------------------------------------
+# SEQUENCE_AWARD_ID
+# -----------------------------------------------------------------------
+drop table if exists SEQUENCE_AWARD_ID
+/
+
+CREATE TABLE SEQUENCE_AWARD_ID
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE SEQUENCE_AWARD_ID auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
 # SEQUENCE_EN_USR
 # -----------------------------------------------------------------------
 drop table if exists SEQUENCE_EN_USR
