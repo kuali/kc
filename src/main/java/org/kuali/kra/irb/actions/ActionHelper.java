@@ -456,9 +456,7 @@ public class ActionHelper implements Serializable {
         ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
         amendmentBean.setSummary(protocolAmendRenewal.getSummary());
         for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
-            //// Uncomment the next line to enable unselecting amendment sections.  Unselecting has been disabled because we
-            //// currently don't have a way to revert the data in the unselected section.
-            // moduleTypeCodes.add(module.getProtocolModuleTypeCode());
+            moduleTypeCodes.add(module.getProtocolModuleTypeCode());
             if (StringUtils.equals(ProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setGeneralInfo(true);
             } 
