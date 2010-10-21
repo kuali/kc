@@ -335,7 +335,7 @@
                                 <xsl:for-each select="n1:Submissions">
                                     <xsl:for-each select="n1:Minutes">
                                         <xsl:choose>
-                                            <xsl:when test="n1:PrivateCommentFlag = &apos;true&apos;">
+                                            <!--<xsl:when test="n1:PrivateCommentFlag = &apos;true&apos;">
                                                 <xsl:variable name="tablewidth3" select="$maxwidth * 1.00000" />
                                                 <xsl:variable name="sumcolumnwidths3" select="$tablewidth3 * 0.02000 + 0.04167 + $tablewidth3 * 0.95000 + 0.04167" />
                                                 <xsl:variable name="factor3">
@@ -377,7 +377,7 @@
                                                     </fo:table-body>
                                                 </fo:table>
                                             </xsl:when>
-                                            <xsl:when test="n1:PrivateCommentFlag = &apos;false&apos;">
+                                            --><xsl:when test="n1:PrivateCommentFlag = &apos;false&apos;">
                                                 <xsl:variable name="tablewidth4" select="$maxwidth * 1.00000" />
                                                 <xsl:variable name="sumcolumnwidths4" select="$tablewidth4 * 0.02000 + 0.04167 + $tablewidth4 * 0.98000 + 0.04167" />
                                                 <xsl:variable name="factor4">
@@ -462,7 +462,7 @@
                                 <fo:table-column column-width="{$columnwidth5_2}in" />
                                 <fo:table-column column-width="{$columnwidth5_3}in" />
                                 <fo:table-body display-align="before">
-                                    <fo:table-row display-align="before">
+                                    <!--<fo:table-row display-align="before">
                                         <fo:table-cell font-weight="normal" display-align="after" number-columns-spanned="2" text-align="left" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline font-weight="bold">
@@ -477,7 +477,7 @@
                                             <fo:block padding-top="1pt" padding-bottom="1pt" />
                                         </fo:table-cell>
                                     </fo:table-row>
-                                    <fo:table-row display-align="before">
+                                    --><fo:table-row display-align="before">
                                         <fo:table-cell font-weight="normal" display-align="after" number-columns-spanned="2" text-align="left" padding-top="0.02083in" padding-bottom="0.02083in" padding-left="0.02083in" padding-right="0.02083in">
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <fo:inline>
