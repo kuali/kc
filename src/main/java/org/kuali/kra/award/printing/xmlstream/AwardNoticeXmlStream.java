@@ -360,29 +360,18 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	 */
 	private ChildAwardDetails getChildAwardDetails() {
 		ChildAwardDetails childAwardDetails = ChildAwardDetails.Factory.newInstance();
-        ChildAwardType childAward = childAwardDetails.addNewChildAward();
+        
 		AwardHierarchy awardHierarchy = getAwardHierarchyService().loadAwardHierarchyBranch(award.getAwardNumber());
-		setAwardHierarchy(awardHierarchy,childAward);
-		
-//		
-//		
-//		
-//		ChildAwardType childAwardType = null;
-//		List<ChildAwardType> childAwardDetailsList = new ArrayList<ChildAwardType>();
-//		int awardAmountInfoSize = award.getAwardAmountInfos().size();
-//		for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-//		    if((awardAmountInfoSize>1 & amountInfo.getTimeAndMoneyDocumentNumber()!=null) || awardAmountInfoSize==1){
-//		        childAwardType = getChildAwardType(amountInfo);
-//			    childAwardDetailsList.add(childAwardType);
-//		    }
-//		}
-//		childAwardDetails.setChildAwardArray(childAwardDetailsList
-//				.toArray(new ChildAwardType[0]));
+		List<AwardHierarchy> children = awardHierarchy.getChildren();
+        for (AwardHierarchy awardHierarchy2 : children) {
+            setAwardHierarchy(awardHierarchy2, childAwardDetails);
+        }
 		return childAwardDetails;
 	}
 
-	private void setAwardHierarchy(AwardHierarchy awardHierarchy, ChildAwardType childAwardType) {
+	private void setAwardHierarchy(AwardHierarchy awardHierarchy, ChildAwardDetails childAwardDetails) {
         if(awardHierarchy!=null){
+            ChildAwardType childAwardType = childAwardDetails.addNewChildAward();
             AwardHierarchyType hierarchyType = childAwardType.addNewAwardHierarchy();
             hierarchyType.setAwardNumber(awardHierarchy.getAwardNumber());
             hierarchyType.setParentAwardNumber(awardHierarchy.getParentAwardNumber());
@@ -390,7 +379,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
             setAwardAmountInfoDetails(awardHierarchy,childAwardType);
             List<AwardHierarchy> children = awardHierarchy.getChildren();
             for (AwardHierarchy awardHierarchy2 : children) {
-                setAwardHierarchy(awardHierarchy2, childAwardType);
+                setAwardHierarchy(awardHierarchy2, childAwardDetails);
             }
         }
     }
