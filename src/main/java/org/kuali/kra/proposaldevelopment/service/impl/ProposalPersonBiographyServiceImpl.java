@@ -85,7 +85,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
-        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+//        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         List<PersistableBusinessObject> businessObjects = new ArrayList<PersistableBusinessObject>();
         businessObjects.add(documentNextvalue);
         businessObjects.add(proposalPersonBiography);
