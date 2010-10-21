@@ -81,7 +81,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         super.tearDown();
     }
     
-    @Test
+//    @Test
     public void testAmendment() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
         amendmentBean.setAddModifyAttachments(true);
@@ -99,7 +99,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
     
-    @Test
+//    @Test
     public void testRenewal() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         String docNbr = protocolAmendRenewService.createRenewal(protocolDocument, SUMMARY);
@@ -112,7 +112,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 0);
     }
     
-    @Test
+//    @Test
     public void testRenewalWithAmendment() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
         amendmentBean.setAddModifyAttachments(true);
