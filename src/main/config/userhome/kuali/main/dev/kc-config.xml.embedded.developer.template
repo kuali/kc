@@ -21,7 +21,7 @@
 	<param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
 	<param name="server.datasource.username">KRDEV</param>
 	<param name="server.datasource.password">devpass</param>
-	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="server.datasource.ojb.platform">Oracle9i</param>
 	
 	<!-- Keystore Configuration -->
 	<param name="keystore.file">${user.home}/kuali/main/${environment}/rice_embedded/rice.keystore</param>
