@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
 
@@ -35,12 +36,12 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     private String protocolNumber; 
     private Integer sequenceNumber; 
 
-    private List<ProtocolAmendRenewModule> modules = new ArrayList<ProtocolAmendRenewModule>();
+    private List<ProtocolAmendRenewModule> modules;
     
     private Protocol protocol;
     
     public ProtocolAmendRenewal() { 
-
+        modules = new ArrayList<ProtocolAmendRenewModule>();
     } 
     
     public Long getId() {
@@ -110,6 +111,28 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
     public void addModule(ProtocolAmendRenewModule module) {
         modules.add(module);
     }
+    
+    public void removeModule(String protocolModuleTypeCode) {
+        for (ProtocolAmendRenewModule module : modules) {
+            if (StringUtils.equals(protocolModuleTypeCode, module.getProtocolModuleTypeCode())) {
+                modules.remove(module);
+            }
+        }
+    }
+
+    /**
+     * This method checks to see if the protocol amendment or renewal amends a specific module.
+     * @param protocolModuleTypeCode
+     * @return true if the module is being amended, false otherwise.
+     */
+    public boolean hasModule(String protocolModuleTypeCode) {
+        for (ProtocolAmendRenewModule module : getModules()) {
+            if (StringUtils.equals(protocolModuleTypeCode, module.getProtocolModuleTypeCode())) {
+                return true;
+            }
+        }
+        return false; 
+    }
 
     public Protocol getProtocol() {
         return protocol;
@@ -132,5 +155,5 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase {
         hashMap.put("sequenceNumber", this.getSequenceNumber());
         return hashMap;
     }
-    
+
 }
