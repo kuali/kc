@@ -610,6 +610,13 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         managedLists.add(getSpecialReviews());
         managedLists.add(getProtocolActions());
         managedLists.add(getProtocolSubmissions());
+        if (getProtocolAmendRenewal() != null) {
+            managedLists.add(getProtocolAmendRenewal().getModules());
+        } else {
+            // needed to ensure that the OjbCollectionHelper receives constant list size. 
+            managedLists.add(new ArrayList<ProtocolAmendRenewModule>());
+        }
+        managedLists.add(getProtocolAmendRenewals());
         
         List<ProtocolSpecialReviewExemption> protocolSpecialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
 
@@ -1228,44 +1235,59 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.protocolId = null;
     }
     
+    /**
+     * 
+     * This method merges the data of the amended protocol into this protocol.
+     * @param amendment
+     */
     public void merge(Protocol amendment) {
         List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
         for (ProtocolAmendRenewModule module : modules) {
-            if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.GENERAL_INFO)) {
-                mergeGeneralInfo(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.AREAS_OF_RESEARCH)) {
-                mergeResearchAreas(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.FUNDING_SOURCE)) {
-                mergeFundingSources(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
-                mergeOrganizations(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERSONNEL)) {
-                mergePersonnel(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
-                mergeAttachments(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_REFERENCES)) {
-                mergeReferences(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.SPECIAL_REVIEW)) {
-                mergeSpecialReview(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.SUBJECTS)) {
-                mergeSubjects(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.OTHERS)) {
-                mergeOthers(amendment);
-            }
-            else if (StringUtils.equals(module.getProtocolModuleTypeCode(), ProtocolModule.PROTOCOL_PERMISSIONS)) {
-                mergeProtocolPermissions(amendment);
-            }
+            merge(amendment, module.getProtocolModuleTypeCode());
         }
         mergeProtocolSubmission(amendment);
+    }
+
+    /**
+     * 
+     * This method merges the data of a specific module of the amended protocol into this protocol.
+     * @param amendment
+     * @param protocolModuleTypeCode
+     */
+    public void merge(Protocol amendment, String protocolModuleTypeCode) {
+        if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
+            mergeGeneralInfo(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
+            mergeResearchAreas(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
+            mergeFundingSources(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+            mergeOrganizations(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
+            mergePersonnel(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+            mergeAttachments(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
+            mergeReferences(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
+            mergeSpecialReview(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
+            mergeSubjects(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
+            mergeOthers(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
+            mergeProtocolPermissions(amendment);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -1283,7 +1305,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         }
     }
     
-    private void mergeGeneralInfo(Protocol amendment) {
+    public void mergeGeneralInfo(Protocol amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
         this.title = amendment.getTitle();
         this.initialSubmissionDate = amendment.getInitialSubmissionDate();

@@ -18,9 +18,7 @@ package org.kuali.kra.irb.auth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 
 /**
@@ -76,12 +74,7 @@ public abstract class ModifyAmendmentAuthorizer extends ModifyProtocolAuthorizer
      * @return true if the module can be modified; otherwise false
      */
     private boolean canModifyModule(Protocol protocol, String moduleTypeCode) {
-        for (ProtocolAmendRenewModule module : protocol.getProtocolAmendRenewal().getModules()) {
-            if (StringUtils.equals(moduleTypeCode, module.getProtocolModuleTypeCode())) {
-                return true;
-            }
-        }
-        return false; 
+        return protocol.getProtocolAmendRenewal().hasModule(moduleTypeCode);
     }
 
     public void setProtocolAmendRenewService(ProtocolAmendRenewService protocolAmendRenewService) {

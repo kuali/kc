@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Protocol Amendment/Renewal Service.
@@ -57,8 +58,9 @@ public interface ProtocolAmendRenewService {
      * Update the summary and amendment sections.
      * @param protocolDocument the protocol document of the amendment/renewal to be updated
      * @param amendmentBean the amendment info (summary and which modules to be amended)
+     * @throws WorkflowException 
      */
-    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean);
+    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException;
 
     /**
      * Get all of the Amendments and Renewals for a given protocol.

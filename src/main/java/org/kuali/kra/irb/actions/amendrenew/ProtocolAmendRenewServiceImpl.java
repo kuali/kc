@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -52,6 +53,7 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     private DocumentService documentService;
     private ProtocolCopyService protocolCopyService;
     private KraLookupDao kraLookupDao;
+    private ProtocolFinderDao protocolFinderDao;
     
     /**
      * Set the Document Service.
@@ -75,6 +77,14 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      */
     public void setKraLookupDao(KraLookupDao kraLookupDao) {
         this.kraLookupDao = kraLookupDao;
+    }
+    
+    /**
+     * Set the KRA Lookup DAO.
+     * @param kraLookupDao
+     */
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
     }
     
     /**
@@ -140,12 +150,13 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
     }
     
     /**
+     * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#updateAmendmentRenewal(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
      */
-    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) {
+    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException {
         protocolDocument.getProtocol().getProtocolAmendRenewal().setSummary(amendmentBean.getSummary());
         protocolDocument.getProtocol().getProtocolAmendRenewal().setModules(new ArrayList<ProtocolAmendRenewModule>());
-        addModules(protocolDocument.getProtocol().getProtocolAmendRenewal(), amendmentBean);
+        addModules(protocolDocument.getProtocol(), amendmentBean);
     }
     
     /**
@@ -161,8 +172,8 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
                                    ProtocolAmendmentBean amendmentBean) throws WorkflowException {
 
         ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, amendmentBean.getSummary());
-        addModules(protocolAmendRenewal, amendmentBean);
         amendProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
+        addModules(amendProtocolDocument.getProtocol(), amendmentBean);
         documentService.saveDocument(protocolDocument);
         documentService.saveDocument(amendProtocolDocument);
         
@@ -232,49 +243,83 @@ public class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService 
      * @param amendmentEntry
      * @param amendmentBean
      */
-    protected void addModules(ProtocolAmendRenewal amendmentEntry, ProtocolAmendmentBean amendmentBean) {
+    protected void addModules(Protocol protocol, ProtocolAmendmentBean amendmentBean) {
+        ProtocolAmendRenewal amendmentEntry = protocol.getProtocolAmendRenewal();
         if (amendmentBean.getGeneralInfo()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.GENERAL_INFO));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.GENERAL_INFO);
+            amendmentEntry.removeModule(ProtocolModule.GENERAL_INFO);
         }
         
         if (amendmentBean.getAddModifyAttachments()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.ADD_MODIFY_ATTACHMENTS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.ADD_MODIFY_ATTACHMENTS);
+            amendmentEntry.removeModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
         }
         
         if (amendmentBean.getAreasOfResearch()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.AREAS_OF_RESEARCH));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.AREAS_OF_RESEARCH);
+            amendmentEntry.removeModule(ProtocolModule.AREAS_OF_RESEARCH);
         }
         
         if (amendmentBean.getFundingSource()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.FUNDING_SOURCE));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.FUNDING_SOURCE);
+            amendmentEntry.removeModule(ProtocolModule.FUNDING_SOURCE);
         }
         
         if (amendmentBean.getProtocolOrganizations()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_ORGANIZATIONS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_ORGANIZATIONS);
+            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_ORGANIZATIONS);
         }
         
         if (amendmentBean.getProtocolPersonnel()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERSONNEL));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERSONNEL);
+            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERSONNEL);
         }
         
         if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_REFERENCES));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_REFERENCES);
+            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_REFERENCES);
         }
         
         if (amendmentBean.getSubjects()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SUBJECTS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SUBJECTS);
+            amendmentEntry.removeModule(ProtocolModule.SUBJECTS);
         }
         
         if (amendmentBean.getSpecialReview()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SPECIAL_REVIEW));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SPECIAL_REVIEW);
+            amendmentEntry.removeModule(ProtocolModule.SPECIAL_REVIEW);
         }
         
         if (amendmentBean.getOthers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.OTHERS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.OTHERS);
+            amendmentEntry.removeModule(ProtocolModule.OTHERS);
         }
         
         if (amendmentBean.getProtocolPermissions()) {
             amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERMISSIONS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
+            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
         }
         
     }
