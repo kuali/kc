@@ -5729,14 +5729,14 @@ or ( ../PrintRequirement/SubcontractRequired  = 1  and  starts-with(  AwardDetai
 																<fo:table-cell padding="2pt" display-align="center">
 																	<fo:block>
 																		<fo:inline font-weight="bold">
-																			<xsl:text>Special Review</xsl:text>
+																			<xsl:text>Special Review Type</xsl:text>
 																		</fo:inline>
 																	</fo:block>
 																</fo:table-cell>
 																<fo:table-cell padding="2pt" display-align="center">
 																	<fo:block>
 																		<fo:inline font-weight="bold">
-																			<xsl:text>Approval type</xsl:text>
+																			<xsl:text>Approval Status</xsl:text>
 																		</fo:inline>
 																	</fo:block>
 																</fo:table-cell>
