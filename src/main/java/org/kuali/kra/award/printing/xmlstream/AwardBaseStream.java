@@ -136,18 +136,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	private static final String ON_CAMPUS_FLAG_SET = "Y";
 	private static final Log LOG = LogFactory.getLog(AwardBaseStream.class);
 	private static final String NSF_CODE_PARAMETER = "nsfCode";
-	private static final String EQUIPMENT = "Equipment";
 	private static final String STRING_SEPARATER = ",";
-	private static final int FISCAL_REPORT_COMMENT_CODE = 3;
-	private static final int GENEREAL_COMMENT_CODE = 2;
-	private static final int INTELLECTUAL_PROPERTY_COMMENT_CODE = 4;
-	private static final int PROCUREMENT_COMMENT_CODE = 5;
-	private static final int PROPERTY_COMMENT_CODE = 6;
-	private static final String FISCAL_REPORT = "Fiscal Report";
-	private static final String GENEREAL_COMMENT = "General";
-	private static final String INTELLECTUAL_PROPERTY = "Intellectual Property";
-	private static final String PROCUREMENT_COMMENT = "Procurement";
-	private static final String PROPERTY_COMMENT = "Property";
     protected static final String OTHER_DATA = "otherData";
 	protected static final String SIGNATURE_REQUIRED = "signatureRequired";
 	protected static final String TRANSACTION_ID = "transactionId";
@@ -410,7 +399,6 @@ public abstract class AwardBaseStream implements XmlStream {
 			AwardSpecialReview awardSpecialReview) {
 		SpecialReviewType specialReviewType = SpecialReviewType.Factory
 				.newInstance();
-		// TODO :Need to implement ApprovalTypeDesc
 		if (award.getAwardNumber() != null) {
 			specialReviewType.setAwardNumber(award.getAwardNumber());
 		}
@@ -422,6 +410,10 @@ public abstract class AwardBaseStream implements XmlStream {
 			specialReviewType.setReviewType(Integer.valueOf(awardSpecialReview
 					.getSpecialReviewCode()));
 		}
+        if (awardSpecialReview.getApprovalTypeCode() != null) {
+            specialReviewType.setApprovalType(Integer.parseInt(awardSpecialReview.getApprovalTypeCode()));
+            specialReviewType.setApprovalTypeDesc(awardSpecialReview.getSpecialReviewApprovalType().getDescription());
+        }
 		if (awardSpecialReview.getApprovalTypeCode() != null) {
 			specialReviewType.setApprovalType(Integer
 					.valueOf(awardSpecialReview.getApprovalTypeCode()));
@@ -925,37 +917,9 @@ public abstract class AwardBaseStream implements XmlStream {
     						.getChecklistPrintFlag());
     			}
     			commentType.setCommentDetails(commentDetailsType);
-//			String description = getDescriptionForAwardComment(awardComment);
-//			if (description != null) {
-//				commentType.setDescription(description);
-//			}
 		    }
-//			commentTypeList.add(commentType);
 		}
-//		awardComments.setCommentArray(commentTypeList
-//				.toArray(new CommentType2[0]));
 		return awardComments;
-	}
-
-	private String getDescriptionForAwardComment(AwardComment awardComment) {
-		String description = null;
-		switch (Integer.parseInt(awardComment.getCommentTypeCode())) {
-		case FISCAL_REPORT_COMMENT_CODE:
-			description = FISCAL_REPORT;
-			break;
-		case GENEREAL_COMMENT_CODE:
-			description = GENEREAL_COMMENT;
-			break;
-		case INTELLECTUAL_PROPERTY_COMMENT_CODE:
-			description = INTELLECTUAL_PROPERTY;
-			break;
-		case PROCUREMENT_COMMENT_CODE:
-			description = PROCUREMENT_COMMENT;
-			break;
-		case PROPERTY_COMMENT_CODE:
-			description = PROPERTY_COMMENT;
-		}
-		return description;
 	}
 
 	/**
@@ -969,8 +933,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected AwardTransactionInfo getAwardTransactionInfo() {
 		AwardTransactionInfo awardTransactionInfo = AwardTransactionInfo.Factory
 				.newInstance();
-		AwardTransactionType awardTransactionType = AwardTransactionType.Factory
-				.newInstance();
+		AwardTransactionType awardTransactionType = awardTransactionInfo.addNewTransactionInfo();
 		if (award.getAwardNumber() != null) {
 			awardTransactionType.setAwardNumber(award.getAwardNumber());
 		}
@@ -989,9 +952,6 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardTransactionType.setComments(award.getAwardComments().get(0)
 					.getComments());
 		}
-		// TODO (Array of award transactions set to award type )To be fixed
-		AwardTransactionType[] awardTransactionTypes = {};
-		awardTransactionInfo.setTransactionInfoArray(awardTransactionTypes);
 		return awardTransactionInfo;
 	}
 
