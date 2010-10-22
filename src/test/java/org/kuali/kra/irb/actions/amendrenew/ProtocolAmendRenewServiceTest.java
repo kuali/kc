@@ -27,6 +27,7 @@ import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
@@ -73,6 +74,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         protocolAmendRenewService.setDocumentService(documentService);
         protocolAmendRenewService.setProtocolCopyService(copyService);
         protocolAmendRenewService.setKraLookupDao(KraServiceLocator.getService(KraLookupDao.class));
+        protocolAmendRenewService.setProtocolFinderDao(KraServiceLocator.getService(ProtocolFinderDao.class));
     }
 
     @After
@@ -81,7 +83,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         super.tearDown();
     }
     
-//    @Test
+    @Test
     public void testAmendment() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
         amendmentBean.setAddModifyAttachments(true);
@@ -99,7 +101,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 2);
     }
     
-//    @Test
+    @Test
     public void testRenewal() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         String docNbr = protocolAmendRenewService.createRenewal(protocolDocument, SUMMARY);
@@ -112,7 +114,7 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
         verifyAmendmentRenewal(amendmentDocument.getProtocol(), SUMMARY, 0);
     }
     
-//    @Test
+    @Test
     public void testRenewalWithAmendment() throws Exception {
         ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean();
         amendmentBean.setAddModifyAttachments(true);
