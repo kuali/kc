@@ -61,9 +61,9 @@ public class CommitteeActionsWebTest extends CommitteeWebTestBase {
         assertContains(actionsPage, "End date missing.");
 
         
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode", "1");
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.generateStartDate", "01/01/2010");
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.generateEndDate", "12/31/2010");
+        setFieldValue(actionsPage, "committeeHelper.generateBatchCorrespondenceTypeCode", "1");
+        setFieldValue(actionsPage, "committeeHelper.generateStartDate", "01/01/2010");
+        setFieldValue(actionsPage, "committeeHelper.generateEndDate", "12/31/2010");
         actionsPage = clickOn(getElementByName(actionsPage, "methodToCall.generateBatchCorrespondence", true));
 
         assertFalse(hasError(actionsPage));
@@ -83,9 +83,9 @@ public class CommitteeActionsWebTest extends CommitteeWebTestBase {
         assertContains(actionsPage, "Batch type missing.");
 
         
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode", "1");
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.historyStartDate", "01/01/2010");
-        setFieldValue(actionsPage, "committeeHelper.committeeActionsHelper.historyEndDate", "12/31/2010");
+        setFieldValue(actionsPage, "committeeHelper.historyBatchCorrespondenceTypeCode", "1");
+        setFieldValue(actionsPage, "committeeHelper.historyStartDate", "01/01/2010");
+        setFieldValue(actionsPage, "committeeHelper.historyEndDate", "12/31/2010");
         actionsPage = clickOn(getElementByName(actionsPage, "methodToCall.filterBatchCorrespondenceHistory", true));
 
         assertFalse(hasError(actionsPage));

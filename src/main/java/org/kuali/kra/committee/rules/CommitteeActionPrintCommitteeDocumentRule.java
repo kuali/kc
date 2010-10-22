@@ -26,7 +26,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase 
                                                        implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
-    private static final String PRINT_TYPE_FIELD = "committeeHelper.committeeActionsHelper.reportType";
+    private static final String PRINT_TYPE_FIELD = "committeeHelper.reportType";
     private static final String MEETING_PRINT_TYPE_FIELD = "meetingHelper.reportType";
 
 /**

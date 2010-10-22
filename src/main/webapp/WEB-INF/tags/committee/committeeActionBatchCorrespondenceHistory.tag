@@ -45,7 +45,7 @@
         </th> 
         <td>
             <div align="left">
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode" 
+                <kul:htmlControlAttribute property="committeeHelper.historyBatchCorrespondenceTypeCode" 
                                           attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                           readOnly="false" />
             </div>
@@ -59,11 +59,11 @@
         <td>
             <div align="left">
                 from
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyStartDate" 
+                <kul:htmlControlAttribute property="committeeHelper.historyStartDate" 
                                           attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
                                           readOnly="false" />
                 to
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyEndDate" 
+                <kul:htmlControlAttribute property="committeeHelper.historyEndDate" 
                                           attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" 
                                           readOnly="false" />
             </div>
@@ -80,29 +80,29 @@
     </tr> 
 </table>
 
-<c:if test="${not empty KualiForm.committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode}">
+<c:if test="${not empty KualiForm.committeeHelper.historyBatchCorrespondenceTypeCode}">
     <p>&nbsp;</p>
     
     <div align="left">
-        <kul:errors keyMatch="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory*" /> <br>
+        <kul:errors keyMatch="committeeHelper.batchCorrespondenceHistory*" /> <br>
     </div>
 
     <h3>
         <span class="subhead-left">
             Batch Type:
-            <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode" 
+            <kul:htmlControlAttribute property="committeeHelper.historyBatchCorrespondenceTypeCode" 
                                       attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                       readOnly="true" />
         </span>
         <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" altText="help" /></span>
     </h3>
     
-    <c:if test="${not empty KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory}">
+    <c:if test="${not empty KualiForm.committeeHelper.batchCorrespondenceHistory}">
         <table cellpadding=0 cellspacing=0 border=0>
-            <c:forEach items="${KualiForm.committeeHelper.committeeActionsHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
+            <c:forEach items="${KualiForm.committeeHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
                 <tr>
                     <td class="infoline" colspan="2">
-                        <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" committeeBatchCorrespondenceProperty="committeeHelper.committeeActionsHelper.batchCorrespondenceHistory[${status.index}]" />
+                        <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" committeeBatchCorrespondenceProperty="committeeHelper.batchCorrespondenceHistory[${status.index}]" />
                     </td>
                 </tr>
             </c:forEach>
