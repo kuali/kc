@@ -1,6 +1,6 @@
 $(document).ready( function() {
 
-	$("input[name~=toggleTab]").click( function() {
+	$("input[name*=toggleTab]").click( function() {
 		var tabBody = $(this).parents("table.tab").next().children(".tab-container");
 		if (this.title.indexOf('close')==0 && tabBody.html().indexOf('<!-- Summary Not Loaded -->')>-1) {			
 			var proposalNumber = tabBody.attr("id").split("-")[1];
@@ -11,7 +11,7 @@ $(document).ready( function() {
 				type: "POST",
 				success: function(proposalHtml) {
 					tabBody.html(proposalHtml);
-					tabBody.find("div#budgetSummaries").find("input[name~=toggleTab]").click( function() {
+					tabBody.find("div#budgetSummaries").find("input[name*=toggleTab]").click( function() {
 						var innerTabBody = $(this).parent().next().children(".innerTab-container");
 						if (this.title.indexOf('close')==0 && innerTabBody.html().indexOf('<!-- Summary Not Loaded -->')>-1) {
 							var budgetNumber = innerTabBody.attr("id").split("-")[1];
