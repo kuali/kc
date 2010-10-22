@@ -4,7 +4,7 @@
 <c:set var="batchCorrespondenceDetailAttributes" value="${DataDictionary.BatchCorrespondenceDetail.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 
-<kra:softError softErrorKey="committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode" />
+<kra:softError softErrorKey="committeeHelper.generateBatchCorrespondenceTypeCode" />
 
 <h3>
     <span class="subhead-left">Generate Batch Correspondence</span>
@@ -47,7 +47,7 @@
         </th> 
         <td>
             <div align="left">
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode" 
+                <kul:htmlControlAttribute property="committeeHelper.generateBatchCorrespondenceTypeCode" 
                                           attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                           readOnly="false" />
             </div>
@@ -61,11 +61,11 @@
         <td>
             <div align="left">
                 from
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.generateStartDate" 
+                <kul:htmlControlAttribute property="committeeHelper.generateStartDate" 
                                           attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}"
                                           readOnly="false" />
                 to
-                <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.generateEndDate" 
+                <kul:htmlControlAttribute property="committeeHelper.generateEndDate" 
                                           attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" 
                                           readOnly="false" />
             </div>
@@ -82,11 +82,11 @@
     </tr> 
 </table>
 
-<c:if test="${not empty KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence}">
+<c:if test="${not empty KualiForm.committeeHelper.generateBatchCorrespondence}">
     <p>&nbsp;</p>
         
     <div align="left">
-        <kul:errors keyMatch="committeeHelper.committeeActionsHelper.generateBatchCorrespondence" /> <br>
+        <kul:errors keyMatch="committeeHelper.generateBatchCorrespondence" /> <br>
     </div>
 
     <h3>
@@ -99,7 +99,7 @@
     <table cellpadding=0 cellspacing=0 border=0>
         <tr>
             <td class="infoline" colspan="2">
-                <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0]}" committeeBatchCorrespondenceProperty="committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0]" />
+                <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${KualiForm.committeeHelper.generateBatchCorrespondence[0]}" committeeBatchCorrespondenceProperty="committeeHelper.generateBatchCorrespondence[0]" />
             </td>
         </tr>
         <tr>
@@ -119,7 +119,7 @@
     
     <div style="center">
         Number of protocols on which final action has been performed: 
-        ${KualiForm.committeeHelper.committeeActionsHelper.generateBatchCorrespondence[0].finalActionCounter}
+        ${KualiForm.committeeHelper.generateBatchCorrespondence[0].finalActionCounter}
     </div>
 </c:if>            
 

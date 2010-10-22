@@ -86,16 +86,16 @@ public class CommitteeActionsAction extends CommitteeAction {
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         String committeeId = committeeDocument.getCommittee().getCommitteeId();
-        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondenceTypeCode();
-        Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateStartDate();
-        Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateEndDate();
+        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getGenerateBatchCorrespondenceTypeCode();
+        Date startDate = committeeForm.getCommitteeHelper().getGenerateStartDate();
+        Date endDate = committeeForm.getCommitteeHelper().getGenerateEndDate();
         
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
             if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                     batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
-                committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().clear();
-                committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getGenerateBatchCorrespondence().add(
+                committeeForm.getCommitteeHelper().getGenerateBatchCorrespondence().clear();
+                committeeForm.getCommitteeHelper().getGenerateBatchCorrespondence().add(
                         getCommitteeBatchCorrespondenceService().generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate));
             }
         }
@@ -117,14 +117,14 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
 
         CommitteeForm committeeForm = (CommitteeForm) form;
-        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryBatchCorrespondenceTypeCode();
-        Date startDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryStartDate();
-        Date endDate = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getHistoryEndDate();
+        String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getHistoryBatchCorrespondenceTypeCode();
+        Date startDate = committeeForm.getCommitteeHelper().getHistoryStartDate();
+        Date endDate = committeeForm.getCommitteeHelper().getHistoryEndDate();
         
-        committeeForm.getCommitteeHelper().getCommitteeActionsHelper().resetBatchCorrespondenceHistory(committeeForm);
+        committeeForm.getCommitteeHelper().resetBatchCorrespondenceHistory(committeeForm);
         if (applyRules(new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                 batchCorrespondenceTypeCode, startDate, endDate))) {
-            committeeForm.getCommitteeHelper().getCommitteeActionsHelper().setBatchCorrespondenceHistory(getCommitteeBatchCorrespondenceDao()
+            committeeForm.getCommitteeHelper().setBatchCorrespondenceHistory(getCommitteeBatchCorrespondenceDao()
                     .getCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, startDate, endDate));
         }
         
@@ -145,7 +145,7 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper().getCommitteeActionsHelper()
+        List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getGenerateBatchCorrespondence();
         
         return viewBatchCorrespondence(mapping, committeeForm, committeeBatchCorrespondences, true, response);
@@ -165,7 +165,7 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper().getCommitteeActionsHelper()
+        List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getBatchCorrespondenceHistory();
         
         return viewBatchCorrespondence(mapping, committeeForm, committeeBatchCorrespondences, false, response);
@@ -302,8 +302,8 @@ public class CommitteeActionsAction extends CommitteeAction {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
         CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-        Boolean printRooster = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintRooster();
-        Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getCommitteeActionsHelper().getPrintFutureScheduledMeeting();
+        Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
+        Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
         
         CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
