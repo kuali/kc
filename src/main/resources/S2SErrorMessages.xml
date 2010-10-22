@@ -559,5 +559,15 @@
 		<Message>Subaward Budget not being uploaded</Message>
 		<FixLink>budgetVersions</FixLink>
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_Budget/BudgetYear1/Equipment/EquipmentList/EquipmentItem</MessageKey>
+		<Message>A description is required for each Equipment budget line item.</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error> 
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/Equipment/EquipmentList/EquipmentItem</MessageKey>
+		<Message>A description is required for each Equipment budget line item.</Message>
+		<FixLink>budgetVersions</FixLink>
+	</Error> 
 </S2SErrors>
 
