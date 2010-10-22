@@ -62,15 +62,21 @@ public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
     public List<UnitDTO> lookupUnits(List<HashMapElement> criteria) {
         
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
+        List<UnitDTO> unitDTO = new ArrayList<UnitDTO>();
+        List<Unit> units;
         
-        // Reconstruct Hashmap from object list
-        for (HashMapElement element : criteria) {
-            searchCriteria.put(element.getKey(), element.getValue());  
+        // if the criteria passed is null, then return all units.
+        if (ObjectUtils.isNull(criteria)) {
+            units =  new ArrayList<Unit>(businessObjectService.findAll(Unit.class));
+        } else {
+                // Reconstruct Hashmap from object list
+            for (HashMapElement element : criteria) {
+                searchCriteria.put(element.getKey(), element.getValue());  
+            }
+            units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
         }
         
-        List<UnitDTO> unitDTO = new ArrayList<UnitDTO>();
-       
-        List<Unit> units =  new ArrayList<Unit>(businessObjectService.findMatching(Unit.class, searchCriteria));      
+        //converting from bo to dto
         for (Unit unit : units) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("unit in service is " + unit.getUnitName());
