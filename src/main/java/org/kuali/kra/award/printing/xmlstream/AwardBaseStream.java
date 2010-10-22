@@ -407,28 +407,28 @@ public abstract class AwardBaseStream implements XmlStream {
 					.getSequenceNumber());
 		}
 		if (awardSpecialReview.getSpecialReviewCode() != null) {
-			specialReviewType.setReviewType(Integer.valueOf(awardSpecialReview
-					.getSpecialReviewCode()));
+			specialReviewType.setReviewType(Integer.valueOf(awardSpecialReview.getSpecialReviewCode()));
 		}
         if (awardSpecialReview.getApprovalTypeCode() != null) {
             specialReviewType.setApprovalType(Integer.parseInt(awardSpecialReview.getApprovalTypeCode()));
-            specialReviewType.setApprovalTypeDesc(awardSpecialReview.getSpecialReviewApprovalType().getDescription());
+            awardSpecialReview.refreshReferenceObject("specialReviewApprovalType");
+            if(awardSpecialReview.getSpecialReviewApprovalType()!=null){
+                specialReviewType.setApprovalTypeDesc(awardSpecialReview.getSpecialReviewApprovalType().getDescription());
+            }
         }
 		if (awardSpecialReview.getApprovalTypeCode() != null) {
-			specialReviewType.setApprovalType(Integer
-					.valueOf(awardSpecialReview.getApprovalTypeCode()));
+			specialReviewType.setApprovalType(Integer.valueOf(awardSpecialReview.getApprovalTypeCode()));
 		}
 		if (awardSpecialReview.getComments() != null) {
 			specialReviewType.setComments(awardSpecialReview.getComments());
 		}
 		if (awardSpecialReview.getProtocolNumber() != null) {
-			specialReviewType.setProtocolNumber(awardSpecialReview
-					.getProtocolNumber());
+			specialReviewType.setProtocolNumber(awardSpecialReview.getProtocolNumber());
 		}
+		awardSpecialReview.refreshReferenceObject("specialReview");
 		if (awardSpecialReview.getSpecialReview() != null
 				&& awardSpecialReview.getSpecialReview().getDescription() != null) {
-			specialReviewType.setReviewTypeDesc(awardSpecialReview
-					.getSpecialReview().getDescription());
+			specialReviewType.setReviewTypeDesc(awardSpecialReview.getSpecialReview().getDescription());
 		}
 		Calendar applicationDate = getApplicationDate(awardSpecialReview);
 		if (applicationDate != null) {
