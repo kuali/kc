@@ -17,7 +17,7 @@
 
 <div id="workarea">
     <kul:tab tabTitle="Batch Correspondence"
-             tabErrorKey="committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode,committeeHelper.committeeActionsHelper.generateStartDate,committeeHelper.committeeActionsHelper.generateEndDate,committeeHelper.committeeActionsHelper.history*"
+             tabErrorKey="committeeHelper.generateBatchCorrespondenceTypeCode,committeeHelper.generateStartDate,committeeHelper.generateEndDate,committeeHelper.history*"
              auditCluster="requiredFieldsAuditErrors"  
              defaultOpen="false"
              useCurrentTabIndexAsKey="false"  

@@ -38,9 +38,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocumentRuleBase 
                                                             implements  BusinessRuleInterface<CommitteeActionGenerateBatchCorrespondenceEvent> {
 
-    private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.committeeActionsHelper.generateBatchCorrespondenceTypeCode";
-    private static final String START_DATE_FIELD = "committeeHelper.committeeActionsHelper.generateStartDate";
-    private static final String END_DATE_FIELD = "committeeHelper.committeeActionsHelper.generateEndDate";
+    private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.generateBatchCorrespondenceTypeCode";
+    private static final String START_DATE_FIELD = "committeeHelper.generateStartDate";
+    private static final String END_DATE_FIELD = "committeeHelper.generateEndDate";
     private static final String PROTO_CORRESP_TYPE_CODE = "protoCorrespTypeCode";
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
     

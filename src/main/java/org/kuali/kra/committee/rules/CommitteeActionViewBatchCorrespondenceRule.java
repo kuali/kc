@@ -29,8 +29,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeActionViewBatchCorrespondenceRule extends ResearchDocumentRuleBase 
                                                         implements BusinessRuleInterface<CommitteeActionViewBatchCorrespondenceEvent> {
     
-    private static final String BATCH_VIEW_ERROR_FIELD = "committeeHelper.committeeActionsHelper.generateBatchCorrespondence";
-    private static final String HISTORY_VIEW_ERROR_FIELD = "committeeHelper.committeeActionsHelper.batchCorrespondenceHistory";
+    private static final String BATCH_VIEW_ERROR_FIELD = "committeeHelper.generateBatchCorrespondence";
+    private static final String HISTORY_VIEW_ERROR_FIELD = "committeeHelper.batchCorrespondenceHistory";
 
     /**
      * 

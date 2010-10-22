@@ -28,8 +28,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends ResearchDocumentRuleBase 
                                                                  implements  BusinessRuleInterface<CommitteeActionFilterBatchCorrespondenceHistoryEvent> {
 
-    private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.committeeActionsHelper.historyBatchCorrespondenceTypeCode";
-    private static final String END_DATE_FIELD = "committeeHelper.committeeActionsHelper.historyEndDate";
+    private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.historyBatchCorrespondenceTypeCode";
+    private static final String END_DATE_FIELD = "committeeHelper.historyEndDate";
 
     /**
      * Process the validation rules for an <code>{@link CommitteeActionFilterBatchCorrespondenceHistoryEvent}</code>.
