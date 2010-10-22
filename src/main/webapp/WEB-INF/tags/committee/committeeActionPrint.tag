@@ -19,7 +19,7 @@
 
 <div id="workarea">
     <kul:tab tabTitle="Print" 
-             tabErrorKey="committeeHelper.committeeActionsHelper.reportType"
+             tabErrorKey="committeeHelper.reportType"
              auditCluster="requiredFieldsAuditErrors"  
              defaultOpen="false"
              useCurrentTabIndexAsKey="true"  
@@ -34,7 +34,7 @@
                     <td><div align="left">Roster</div></td> 
                     <td>
                         <div align="center">
-                            <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.printRooster" 
+                            <kul:htmlControlAttribute property="committeeHelper.printRooster" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
                                                       readOnly="false" />
                         </div>
@@ -44,7 +44,7 @@
                     <td><div align="left">Future Scheduled Meetings</div></td> 
                     <td>
                         <div align="center">
-                            <kul:htmlControlAttribute property="committeeHelper.committeeActionsHelper.printFutureScheduledMeeting" 
+                            <kul:htmlControlAttribute property="committeeHelper.printFutureScheduledMeeting" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                       readOnly="false" />
                         </div>

@@ -18,11 +18,12 @@ package org.kuali.kra.committee.web.struts.form;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
@@ -34,8 +35,8 @@ import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 
 /**
  * The CommitteeHelper corresponds to the Committee tab web page.
@@ -43,6 +44,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class CommitteeHelper implements Serializable {
     
     private static final long serialVersionUID = 1744329032797755384L;
+
+    private static final String BATCH_CORRESPONDENCE_PANEL_TITLE = "Batch Correspondence";
     
     private CommitteeForm committeeForm;
     private boolean modifyCommittee = false;
@@ -50,7 +53,16 @@ public class CommitteeHelper implements Serializable {
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
     private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
     private ScheduleData scheduleData;
-    private CommitteeActionsHelper committeeActionsHelper;
+    private String generateBatchCorrespondenceTypeCode;
+    private java.sql.Date generateStartDate;
+    private java.sql.Date generateEndDate;
+    private List<CommitteeBatchCorrespondence> generateBatchCorrespondence;
+    private String historyBatchCorrespondenceTypeCode;
+    private java.sql.Date historyStartDate;
+    private java.sql.Date historyEndDate;
+    private List<CommitteeBatchCorrespondence> batchCorrespondenceHistory;
+    private Boolean printRooster;
+    private Boolean printFutureScheduledMeeting;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
     private boolean performAction = false;
@@ -65,7 +77,8 @@ public class CommitteeHelper implements Serializable {
         this.newCommitteeMembership = new CommitteeMembership();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
         this.setScheduleData(new ScheduleData());
-        this.setCommitteeActionsHelper(new CommitteeActionsHelper());
+        this.setGenerateBatchCorrespondence(new ArrayList<CommitteeBatchCorrespondence>());
+        this.setBatchCorrespondenceHistory(new ArrayList<CommitteeBatchCorrespondence>());
         this.memberIndex = -1;
     }
     
@@ -186,12 +199,99 @@ public class CommitteeHelper implements Serializable {
         this.scheduleData = scheduleData;
     }    
     
-    public CommitteeActionsHelper getCommitteeActionsHelper() {
-        return committeeActionsHelper;
+    public String getGenerateBatchCorrespondenceTypeCode() {
+        return generateBatchCorrespondenceTypeCode;
     }
 
-    public void setCommitteeActionsHelper(CommitteeActionsHelper committeeActionsHelper) {
-        this.committeeActionsHelper = committeeActionsHelper;
+    public void setGenerateBatchCorrespondenceTypeCode(String generateBatchCorrespondenceTypeCode) {
+        this.generateBatchCorrespondenceTypeCode = generateBatchCorrespondenceTypeCode;
+    }
+
+    public java.sql.Date getGenerateStartDate() {
+        return generateStartDate;
+    }
+
+    public void setGenerateStartDate(java.sql.Date generateStartDate) {
+        this.generateStartDate = generateStartDate;
+    }
+
+    public java.sql.Date getGenerateEndDate() {
+        return generateEndDate;
+    }
+
+    public void setGenerateEndDate(java.sql.Date generateEndDate) {
+        this.generateEndDate = generateEndDate;
+    }
+
+    public String getHistoryBatchCorrespondenceTypeCode() {
+        return historyBatchCorrespondenceTypeCode;
+    }
+
+    public void setHistoryBatchCorrespondenceTypeCode(String historyBatchCorrespondenceTypeCode) {
+        this.historyBatchCorrespondenceTypeCode = historyBatchCorrespondenceTypeCode;
+    }
+
+    public java.sql.Date getHistoryStartDate() {
+        return historyStartDate;
+    }
+
+    public void setHistoryStartDate(java.sql.Date historyStartDate) {
+        this.historyStartDate = historyStartDate;
+    }
+
+    public java.sql.Date getHistoryEndDate() {
+        return historyEndDate;
+    }
+
+    public void setHistoryEndDate(java.sql.Date historyEndDate) {
+        this.historyEndDate = historyEndDate;
+    }
+
+    public List<CommitteeBatchCorrespondence> getGenerateBatchCorrespondence() {
+        return generateBatchCorrespondence;
+    }
+
+    public void setGenerateBatchCorrespondence(List<CommitteeBatchCorrespondence> generateBatchCorrespondence) {
+        this.generateBatchCorrespondence = generateBatchCorrespondence;
+    }
+
+    public List<CommitteeBatchCorrespondence> getBatchCorrespondenceHistory() {
+        Collections.sort(batchCorrespondenceHistory);
+        return batchCorrespondenceHistory;
+    }
+
+    public void setBatchCorrespondenceHistory(List<CommitteeBatchCorrespondence> batchCorrespondenceHistory) {
+        this.batchCorrespondenceHistory = batchCorrespondenceHistory;
+    }
+
+    public Boolean getPrintRooster() {
+        return printRooster;
+    }
+
+    public void setPrintRooster(Boolean printRooster) {
+        this.printRooster = printRooster;
+    }
+    
+    public Boolean getPrintFutureScheduledMeeting() {
+        return printFutureScheduledMeeting;
+    }
+
+    public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
+        this.printFutureScheduledMeeting = printFutureScheduledMeeting;
+    }
+    
+    /**
+     * 
+     * This method resets the Batch Correspondence history. 
+     * This involves clearing the previous displayed history information and collapsing all panel content with 
+     * the exception of the Batch Correspondence panel.
+     * 
+     * @param committeeForm the CommitteeForm
+     */
+    public void resetBatchCorrespondenceHistory(CommitteeForm committeeForm) {
+        setBatchCorrespondenceHistory(null);
+        committeeForm.setTabStates(new HashMap<String, String>());
+        committeeForm.getTabStates().put(WebUtils.generateTabKey(BATCH_CORRESPONDENCE_PANEL_TITLE), "OPEN");
     }
 
     public void setMemberIndex(int memberIndex) {
@@ -207,10 +307,10 @@ public class CommitteeHelper implements Serializable {
      * @param startDate
      * @param endDate
      */
-    public void prepareFilterDatesView(Date startDate, Date endDate) {
+    public void prepareFilterDatesView(java.util.Date startDate, java.util.Date endDate) {
         startDate = DateUtils.addDays(startDate, -1);
         endDate = DateUtils.addDays(endDate, 1);
-        Date scheduleDate = null;
+        java.util.Date scheduleDate = null;
         for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             scheduleDate = committeeSchedule.getScheduledDate();
             if ((scheduleDate != null) && scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
