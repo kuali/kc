@@ -43,10 +43,61 @@
             <th align="right" valign="middle" width="115">
                 <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.description}" />
             </th>
-            <td align="left" valign="middle" colspan="4">
+            <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.description" 
                                           attributeEntry="${questionnaireAttributes.description}" />
             </td>
+            <th align="right" valign="middle">
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.fileName}" />
+            </th>
+            <c:choose>
+            <c:when test="${not readOnly}" >
+                <c:set var="addStyle" value="display: none;"/>
+                <c:set var="viewStyle" value="display: block;"/>
+                <c:if test="${empty KualiForm.document.newMaintainableObject.businessObject.fileName}">
+                   <c:set var="addStyle" value="display: block;"/>
+                   <c:set var="viewStyle" value="display: none;"/>
+                </c:if>
+                    <td align="left" valign="middle">
+                        <div id = "templateFileDiv" class="addsection" style="${addStyle}">
+	                        <html:file property="templateFile" size="50" onchange="showViewFile(this)"/>
+	                    </div>
+                        <div id = "fileNameDiv" class="viewsection" style="${viewStyle}">
+	                         ${KualiForm.document.newMaintainableObject.businessObject.fileName}
+	                    </div>
+                    </td>
+	                <td class="infoline">
+	                <%--
+		                <div id="addTemplate"  class="addsection"  style="${addStyle} align="center">
+					          <html:image property="methodToCall.addTemplate"
+							        src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+				          </div>
+				      --%>     
+		                <div id="viewTemplate"  class="viewsection"  style="${viewStyle} align="center">
+									<html:image property="methodToCall.viewTemplate"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+										alt="View Protocol Attachment" onclick="excludeSubmitRestriction = true;"/>
+                        <html:image property="methodToCall.replaceTemplate"
+                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif" 
+                            title="Replace Template" 
+                            alt="Replace Template" 
+                            styleClass="tinybutton" 
+                            onclick="javascript: replaceTemplate(this);return false" />
+							  <html:image property="methodToCall.deleteTemplate"
+											    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+											    alt="Delete Template"/>
+				          </div>
+			        </td>
+             </c:when>
+             <c:otherwise>
+                    <td align="left" valign="middle">
+	                         ${KualiForm.document.newMaintainableObject.businessObject.fileName}
+                    </td>
+	                <td class="infoline">
+	                    &nbsp;
+	                </td>
+             </c:otherwise>
+            </c:choose>
         </tr>
     </table>
 	<input type="hidden" id="questionNumber" name="questionNumber" value = "${KualiForm.questionNumber}"/>
