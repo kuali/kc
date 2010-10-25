@@ -16,6 +16,11 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="name" required="true" %>
+<%@ attribute name="excludeInactive" required="false" %>
+
+<c:if test="${empty excludeInactive}" >
+	<c:set var="excludeInactive" value="false" />
+</c:if>
 
 <div id="workarea">
 	<c:set var="fieldCount" value="0" />
@@ -45,7 +50,7 @@
 		  </c:forEach>
 	   	
 	    <kul:tab tabTitle="${tabTitleName}" spanForLongTabTitle="true" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="CustomData${fn:replace(fullName,' ','')}Errors" tabErrorKey="${tabErrorKey}" tabAuditKey="${tabErrorKey}" useRiceAuditMode="true">
-			<kra-customdata:customData fullName="${fullName}" fieldCount="${fieldCount}" />
+			<kra-customdata:customData fullName="${fullName}" fieldCount="${fieldCount}" excludeInactive="${excludeInactive}" />
 	    </kul:tab>
 	   	<c:set var="fieldCount" value="${fieldCount + fn:length(customAttributeGroup.value)}" />
 	</c:forEach>
