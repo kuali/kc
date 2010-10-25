@@ -80,7 +80,7 @@ public class NSFApplicationChecklistV1_3GeneratorTest extends
 		answerHeader.setModuleItemKey(document.getDevelopmentProposal().getProposalNumber());
 		answerHeader.setModuleItemKey("");//Need to set the values
 		answerHeader.setModuleItemCode("3");
-		answerHeader.setModuleSubItemCode(0);
+		answerHeader.setModuleSubItemCode("0");
 		answerHeader.setModuleSubItemKey("0");
 		answerHeader.setQuestionnaireRefIdFk(100L);
 		answerHeader.setAnswers(getQuestionireAnswers());

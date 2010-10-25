@@ -117,6 +117,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
 //            reportParameters.put("questionnaireId", "123");
             reportParameters.put("documentNumber", createQuestionnaireMaintDocument());
             ProtocolDocument document = new ProtocolDocument();
+            document.getProtocol().setProtocolNumber("1234");
             AttachmentDataSource pdfBytes = getPrintingService().printQuestionnaireAnswer(document.getProtocol(), reportParameters);
 
             // FIXME Writing PDF to disk for testing purpose only.

@@ -39,6 +39,7 @@
                 <ref bean="Questionnaire-questionnaireId" />
                 <ref bean="Questionnaire-sequenceNumber" />
                 <ref bean="Questionnaire-name" />
+                <ref bean="Questionnaire-fileName" />
                 <ref bean="Questionnaire-description" />
                 <ref bean="Questionnaire-isFinal" />
                 <ref bean="Questionnaire-versionNumber" />
@@ -125,6 +126,25 @@
         </property>
         <property name="summary" value="Name" />
         <property name="description" value="Name" />
+    </bean>
+
+    <bean id="Questionnaire-fileName" parent="Questionnaire-fileName-parentBean" />
+    <bean id="Questionnaire-fileName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fileName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Template Name" />
+        <property name="shortLabel" value="Template Name" />
+        <property name="maxLength" value="1000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" 
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="30" />
+        </property>
+        <property name="summary" value="Template Name" />
+        <property name="description" value="Template Name" />
     </bean>
 
     <bean id="Questionnaire-description" parent="Questionnaire-description-parentBean" />

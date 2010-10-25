@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.questionnaire.print;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -42,10 +41,15 @@ public class QuestionnairePrint extends AbstractPrint {
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        Source src = new StreamSource(new PrintingUtils().getClass()
-                .getResourceAsStream(XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
         List<Source> sourceList = new ArrayList<Source>();
-        sourceList.add(src);
+        Object template = getReportParameters().get("template");
+        if (template != null && ((byte[]) template).length > 0) {
+            sourceList.add(new StreamSource(new ByteArrayInputStream((byte[]) template)));
+        } else {
+            Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(
+                    XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
+            sourceList.add(src);
+        }
         return sourceList;
     }
 

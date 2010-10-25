@@ -300,12 +300,14 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
             KraPersistableBusinessObjectBase printableBusinessObject) {
-        String moduleItemCode = null;;
+        String moduleItemCode = null;
+        String moduleSubItemCode = "0";
         String moduleItemKey = null;
         String moduleSubItemKey = null;
         if(printableBusinessObject instanceof Protocol){
             Protocol protocol = (Protocol)printableBusinessObject;
             moduleItemCode = CoeusModule.IRB_MODULE_CODE;
+            moduleSubItemCode = getProtocolSubItemCode(protocol);
             moduleItemKey = protocol.getProtocolNumber();
             moduleSubItemKey = protocol.getSequenceNumber().toString();
         }else if(printableBusinessObject instanceof DevelopmentProposal){
@@ -313,9 +315,18 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = developmentProposal.getProposalNumber();
         }
-        return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemKey, false);
+        return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
     }
+
+    private String getProtocolSubItemCode(Protocol protocol) {
+        // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
+            String subModuleCode = "0";
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                subModuleCode = "1";
+            }
+            return subModuleCode;
+        }
 
     /**
      * 
