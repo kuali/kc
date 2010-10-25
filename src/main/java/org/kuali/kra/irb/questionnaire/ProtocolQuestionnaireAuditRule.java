@@ -63,7 +63,7 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
         boolean isValid = true;
         int i = 0;
         for (AnswerHeader answerHeader : getQuestionnaireAnswerService().getQuestionnaireAnswer(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol))) {
-            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE,answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
+            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, getProtocolSubItemCode(protocol), answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
                 headers.add(i);
             }
             i++;
@@ -72,11 +72,22 @@ public class ProtocolQuestionnaireAuditRule  extends ResearchDocumentRuleBase im
 
     }
     
-    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, List<QuestionnaireUsage> questionnaireUsages) {
+    private String getProtocolSubItemCode(Protocol protocol) {
+        // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
+            String subModuleCode = "0";
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                subModuleCode = "1";
+            }
+            return subModuleCode;
+        }
+
+    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, String moduleSubItemCode, List<QuestionnaireUsage> questionnaireUsages) {
         QuestionnaireUsage usage = null;
         int version = 0;
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
+            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()))) {
+            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
+            if (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version) {
                 version = questionnaireUsage.getQuestionnaireSequenceNumber();
                 usage = questionnaireUsage;
             }            
