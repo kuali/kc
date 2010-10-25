@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -40,6 +41,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
    // private List<String> qnaireQuestions;
     private List qnaireQuestions;
     private String lookedUpCollectionName;
+    private transient FormFile templateFile;
+    private String moduleCode;
 
     /**
      * Constructs a QuestionnaireMaintenanceForm.
@@ -197,6 +200,26 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         } else {
             return super.isPropertyEditable(propertyName);
         }
+    }
+
+
+    public FormFile getTemplateFile() {
+        return templateFile;
+    }
+
+
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
+    }
+
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
 
