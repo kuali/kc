@@ -290,9 +290,6 @@ public class NIHResearchAndRelatedXmlStream extends
 		calendarStart.setTimeInMillis(startDate.getTime());
 		Calendar calendarEnd = Calendar.getInstance();
 		calendarEnd.setTimeInMillis(endDate.getTime());
-		//hacking this in.
-        //this should replace the fieldDifference in the 1.6 calendar and the ibm version
-		//that we cannot use.  Needs some testing.
 		int yd = 12*( calendarEnd.get(Calendar.YEAR) - calendarStart.get(Calendar.YEAR));
 		int md = (calendarEnd.get( Calendar.MONTH ) - calendarStart.get( Calendar.MONTH ));
 		int result = yd + md;
@@ -379,7 +376,7 @@ public class NIHResearchAndRelatedXmlStream extends
 		BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
 		BudgetDecimal academicMonths = BudgetDecimal.ZERO;
 		BudgetDecimal summerMonths = BudgetDecimal.ZERO;
-		budget.refreshNonUpdateableReferences();
+		if(budget!=null)
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			if (budgetPeriod.getBudgetPeriod().intValue() == 1) {
 				for (BudgetLineItem lineItem : budgetPeriod
@@ -946,6 +943,7 @@ public class NIHResearchAndRelatedXmlStream extends
 			throws ParseException {
 		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory
 				.newInstance();
+		developmentProposal.refreshNonUpdateableReferences();
 		researchCoverPage
 				.setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
 						developmentProposal.getActivityType().getDescription(),
