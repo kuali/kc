@@ -201,6 +201,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
     private void syncExemptNumbersToProposalExemptNumbers() {
         
         if (this.exemptNumbers == null) {
+            this.proposalExemptNumbers = new ArrayList<ProposalExemptNumber>();
             return;
         }
         
@@ -228,6 +229,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase impl
     private void syncProposalExemptNumbersToExemptNumbers() {
         
         if (this.proposalExemptNumbers == null) {
+            this.exemptNumbers = null;
             return;
         }
         
