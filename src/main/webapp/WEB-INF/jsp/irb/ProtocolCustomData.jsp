@@ -29,7 +29,7 @@
   	
   	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Custom Data" /></div>
 
-	<kra-customdata:customDataTab name="${KualiForm.actionName}" />
+	<kra-customdata:customDataTab name="${KualiForm.actionName}" excludeInactive="true" />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>
