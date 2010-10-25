@@ -16,6 +16,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="fullName" required="true"%>
 <%@ attribute name="fieldCount" required="true"%>
+<%@ attribute name="excludeInactive" required="false" %>
+
+<c:if test="${empty excludeInactive}" >
+	<c:set var="excludeInactive" value="false" />
+</c:if>
 
 <c:choose>
 		<c:when test="${fn:length(fullName) > 90}">
@@ -35,6 +40,7 @@
 	<div align="left" style="padding:12px;"><strong> Full Group Name: </strong>${fullName}</div>
 	<table cellpadding=0 cellspacing="0" class="result-table">
 		<c:forEach items="${KualiForm.customDataHelper.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
+			<c:if test="${(excludeInactive eq false) or (excludeInactive eq true && customAttributeDocument.active eq true)}">
 			<tr class="datatable">
 				<th  align="right">
 					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
@@ -100,6 +106,7 @@
 					</c:choose>
 				</td>
 			</tr>
+			</c:if>
 		</c:forEach>
 	</table>
 </div>
