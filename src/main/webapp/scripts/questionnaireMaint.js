@@ -1205,6 +1205,10 @@ function okToAddRequirement(response, value, idx) {
 	var stidx = $("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
 	var splitq = $("#question"+stidx).attr("value").split("#f#");
 	var qtypeid = splitq[1];
+	//lookup 
+	if (qtypeid == 6 && splitq[5] > 0) {
+		qtypeid = splitq[5];
+	}
 //	alert (stidx+" -"+qtypeid);
 
 	var valid = false;
@@ -1650,6 +1654,18 @@ function adjustGroupDown() {
 var moduleCodes = [ 'select', 'Award', 'Institute Proposal',
 		'Development Proposal', 'Subcontracts', 'Negotiations', 'Person',
 		'IRB', 'Annual Coi Disclosure' ];
+// TODO : initial submodule codes.  should come from DB
+var subModuleCodes = new Array(8);
+  for (i = 0; i < subModuleCodes.length; ++ i) {
+	  subModuleCodes [i] = new Array(3);
+  }
+  subModuleCodes[0][0] = '';
+  subModuleCodes[3][0] = '';
+  subModuleCodes[7][0] = '';
+  subModuleCodes[3][1] = 'Proposal Budget';
+  subModuleCodes[7][1] = 'Amendment / Renewal';
+  subModuleCodes[7][2] = 'Protocol Submission';
+//var subModuleCodes = [ 'select', 'Proposal Budget', 'Amendment / Renewal', 'Protocol Submission'];
 var opArray = [ 'select', 'and', 'or' ];
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
 		'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
@@ -1684,7 +1700,7 @@ $("#addUsage")
 				alert("Please select a module");
 			} else if ($("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") == '') {
 				alert("Please enter Label");
-			} else  if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"), qnversion)) {
+			} else  if (isDuplicateUsage($("#newQuestionnaireUsage\\.moduleItemCode").attr("value"),$("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value"), qnversion)) {
 				alert("Module is already added");
 			} else {	
 
@@ -1701,6 +1717,20 @@ $("#addUsage")
 						$("#newQuestionnaireUsage\\.moduleItemCode").attr(
 								"value"));
 				modulecode.prependTo(tdtmp);
+				tdtmp.appendTo(trtmp);
+				tdtmp = $('<td align="left" valign="middle">')
+				.html(
+						subModuleCodes[$(
+						"#newQuestionnaireUsage\\.moduleItemCode")
+						.attr("value")][$(
+								"#newQuestionnaireUsage\\.moduleSubItemCode")
+								.attr("value")]);
+				subModulecode = $('<input type="hidden"/>').attr(
+						"value",
+						$("#newQuestionnaireUsage\\.moduleSubItemCode").attr(
+								"value"));
+				subModulecode.prependTo(tdtmp);
+
 				tdtmp.appendTo(trtmp);
 				var radioChecked = $("#newQuestionnaireUsage\\.mandatory").attr('checked');
                 var mandatoryValue = "No";
@@ -1746,7 +1776,7 @@ $("#addUsage")
 		        
 		        getUsageHidden("questionnaireUsageId", "").appendTo(hidtd);
 		        getUsageHidden("moduleItemCode", $("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
-		        getUsageHidden("moduleSubItemCode", "0").appendTo(hidtd);
+		        getUsageHidden("moduleSubItemCode", $("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value")).appendTo(hidtd);
                 
 		        getUsageMandatoryHiddenTag($("#newQuestionnaireUsage\\.mandatory").attr("checked")).appendTo(hidtd);
 		        //getUsageHidden("mandatory", $("#newQuestionnaireUsage\\.mandatory").attr("value")).appendTo(hidtd);
@@ -1961,12 +1991,12 @@ function checkBeforeSubmit() {
  * This method is to check whether the new coeus module is already exist. For
  * each version of questionnaire, each module can only be added once.
  */
-function isDuplicateUsage(moduleitemcode, vers) {
+function isDuplicateUsage(moduleitemcode, modulesubitemcode, vers) {
 	var isduplicate = false;
 	var k =0;
 	$("#usage-table").children('tbody:eq(0)').children('tr').each(
 	  function() {
-        if (k++ > 0 && $(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && $(this).children('td:eq(3)').html() == vers) {
+        if (k++ > 0 && $(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && $(this).children('td:eq(1)').children('input:eq(0)').attr("value") == modulesubitemcode && $(this).children('td:eq(4)').html() == vers) {
         	isduplicate = true;
         }   
 	});
@@ -2144,6 +2174,12 @@ function loadUsages(usages) {
         var modulecode = $('<input type="hidden"/>').attr("value", field[1]);
         modulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
+        var subModulecode = $('<input type="hidden"/>').attr("value", field[4]);
+        //TODO : fix here
+        tdtmp = $('<td align="left" valign="middle">').html(
+        		subModuleCodes[field[1]][field[4]]);
+        subModulecode.appendTo(tdtmp);
+        tdtmp.appendTo(trtmp);
         var mandatoryValue = "No";
         if (field[7] == 'Y') {
             mandatoryValue = "Yes";
@@ -2242,4 +2278,43 @@ function newVersionQuestionPop(questionRefId) {
     	                               "/" + name + "directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
     	                               "&questionRefId=" + questionRefId , 
     	                               "_blank", "width=640, height=600, scrollbars=yes");
+}
+
+function showViewFile(template) {
+	if ($("#viewTemplate[style*='none']")) {
+       $('#viewTemplate').show();
+       $('#fileNameDiv').show();
+	}
+	$('#fileNameDiv').html($(template).val());
+}
+function replaceTemplate(image) {
+   $(image).hide();
+   $('#templateFileDiv').show();
+   //$('#fileNameDiv').hide();
+   $('#viewTemplate').hide();
+   
+}
+
+function moduleCodeChange(moduleCode) {
+	$.ajax( {
+		url : 'maintenanceQn.do',
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall=getSubModuleCodeList&moduleCode=' + $(moduleCode).val(),
+		cache : false,
+		async : false,
+		timeout : 1000,
+		error : function() {
+			alert('Error loading XML document');
+		},
+		success : function(xml) {
+			$(xml).find('h3').each(function() {
+				var text = $(this).html();
+				$('#submodulediv').html($(this).html());
+
+				});
+		}
+	}); // end ajax
+
+
 }

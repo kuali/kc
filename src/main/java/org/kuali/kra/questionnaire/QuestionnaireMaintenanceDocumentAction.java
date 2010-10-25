@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -65,6 +66,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String PQP = "#q#";
     private static final String PUP = "#u#";
     private static final String PFP = "#f#";
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -76,6 +78,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             newQuestionnaire.setSequenceNumber(1);
         }
         setupQuestionAndUsage(form);
+        if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
+            newQuestionnaire.setFileName(qnForm.getTemplateFile().getFileName());
+            newQuestionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
+        }
+        qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         newQuestionnaire.setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
         ActionForward forward = super.save(mapping, form, request, response);
         return forward;
@@ -173,11 +180,12 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      * get the question properties related to response
      */
     private String getQeustionResponse(Question question) {
+        // for 'lookup', there is no maxlength set up.  so, use this field for lookup return type
         String retString = "";
         if (question.getQuestionTypeId().equals(new Integer(6))) {
             String className = question.getLookupClass();
             className = className.substring(className.lastIndexOf(".") + 1);
-            retString = className + PFP + question.getMaxAnswers() + PFP + question.getLookupReturn();
+            retString = className + PFP + question.getMaxAnswers() + PFP + getLookupReturnType(question.getLookupClass(), question.getLookupReturn()) ;
 
         }
         else {
@@ -186,6 +194,28 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         return retString;
     }
 
+    /*
+     * get the lookup return field type if possible
+     * This will be passed in the 'maxlength' field, and js will use this to validate branching condition
+     */
+    private String getLookupReturnType(String className, String lookReturn) {
+        String retVal = "0";
+        String lookupReturnType = "";
+        try {
+            lookupReturnType = Class.forName(className).getDeclaredField(lookReturn).getType().getSimpleName();
+        } catch (Exception e) {
+            
+        }
+        if ("String".equals(lookupReturnType)) {
+            retVal= "5";
+        } else if ("Date".equals(lookupReturnType)) {
+            retVal= "4";
+        } else if ("Integer".equals(lookupReturnType) || "Long".equals(lookupReturnType)) {
+            retVal= "3";
+        }
+        return retVal;
+    }
+    
     /*
      * get the children questions data
      */
@@ -294,6 +324,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getBusinessObject())
         .setIsFinal(true);
         setupQuestionAndUsage(form);
+        qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         ActionForward forward = super.route(mapping, form, request, response);
         return forward;
 
@@ -383,6 +414,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                     .getNewMaintainableObject().getBusinessObject());
             questionnaire.setQuestionnaireUsages(qnForm.getQuestionnaireUsages());
             setupQuestionAndUsage(qnForm);
+            if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
+                questionnaire.setFileName(qnForm.getTemplateFile().getFileName());
+                questionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
+            }
         }
         forward = super.close(mapping, form, request, response);
         if (buttonClicked == null || ConfirmationQuestion.NO.equals(buttonClicked)) {
@@ -415,6 +450,14 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         reportParameters.put("documentNumber", qnForm.getDocument().getDocumentNumber());
+        Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                .getNewMaintainableObject().getBusinessObject());
+        if (qnForm.getTemplateFile() != null && qnForm.getTemplateFile().getFileData().length > 0) {
+            reportParameters.put("template", qnForm.getTemplateFile().getFileData());
+            
+        } else {
+           reportParameters.put("template", questionnaire.getTemplate());
+        }
         // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
         if (dataStream.getContent() != null) {
@@ -424,7 +467,50 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         return forward;
     }
 
+    public ActionForward addTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+                .getBusinessObject();
+        questionnaire.setFileName(qnForm.getTemplateFile().getFileName());
+        questionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
+            
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
 
+    public ActionForward viewTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+        .getBusinessObject();
+
+        if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
+            this.streamToResponse(qnForm.getTemplateFile().getFileData(), qnForm.getTemplateFile().getFileName(),
+                Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1, response);
+        } else {
+            this.streamToResponse(questionnaire.getTemplate(), questionnaire.getFileName(),
+                    Constants.CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1, response);
+        }
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    public ActionForward deleteTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+                .getBusinessObject();
+        questionnaire.setFileName(null);
+        questionnaire.setTemplate(null);
+        qnForm.setTemplateFile(null);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward getSubModuleCodeList(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward("ajaxQuestionnaire");
+    }
+    
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
         return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
     }
