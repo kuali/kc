@@ -132,7 +132,7 @@ public class QuestionnaireHelper implements Serializable {
     private void resetHeaderLabels() {
         List<String> labels = new ArrayList<String>();
         for (AnswerHeader answerHeader : answerHeaders) {
-            labels.add(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages()));
+            labels.add(getQuestionnaireLabel(answerHeader.getQuestionnaire().getQuestionnaireUsages(), answerHeader.getModuleSubItemCode()));
         }
         setHeaderLabels(labels);
      
@@ -141,13 +141,13 @@ public class QuestionnaireHelper implements Serializable {
     /*
      * get questionnaire display label from the appropriate questionnaire usage
      */
-    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages) {
+    private String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
            // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
-            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode())) {
+            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && moduleSubItemCode.equals(usage.getModuleSubItemCode())) {
                 return usage.getQuestionnaireLabel();
             }
         }

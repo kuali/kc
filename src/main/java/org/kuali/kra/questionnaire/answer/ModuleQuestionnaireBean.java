@@ -22,6 +22,7 @@ import org.kuali.kra.irb.Protocol;
  **/
 public class ModuleQuestionnaireBean {
     private String moduleItemCode;
+    private String moduleSubItemCode;
     private String moduleItemKey;
     private String moduleSubItemKey;
     private boolean finalDoc;
@@ -31,17 +32,28 @@ public class ModuleQuestionnaireBean {
     }
 
     public ModuleQuestionnaireBean(String moduleItemCode, Protocol protocol) {
-          this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString(),protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+          this(moduleItemCode, protocol.getProtocolNumber(), protocol.getSequenceNumber().toString(), "0", protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().stateIsApproved());
+          setProtocolSubItemCode(protocol) ;
         
     }
 
-    public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemKey, boolean finalDoc) {
+    public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         this.moduleItemCode = moduleItemCode;
+        this.moduleSubItemCode = moduleSubItemCode;
         this.moduleItemKey = moduleItemKey;
         this.moduleSubItemKey = moduleSubItemKey;
         this.finalDoc = finalDoc;
     }
 
+    private void setProtocolSubItemCode(Protocol protocol) {
+    // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
+        String subModuleCode = "0";
+        if (protocol.isAmendment() || protocol.isRenewal()) {
+            subModuleCode = "1";
+        }
+        this.moduleSubItemCode = subModuleCode;
+    }
+    
     public String getModuleItemCode() {
         return moduleItemCode;
     }
@@ -72,6 +84,14 @@ public class ModuleQuestionnaireBean {
 
     public void setFinalDoc(boolean finalDoc) {
         this.finalDoc = finalDoc;
+    }
+
+    public String getModuleSubItemCode() {
+        return moduleSubItemCode;
+    }
+
+    public void setModuleSubItemCode(String moduleSubItemCode) {
+        this.moduleSubItemCode = moduleSubItemCode;
     }
 
 }

@@ -15,6 +15,7 @@
             <tr>
                 <th><div align="left">&nbsp;</div></th> 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleSubItemCode}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.mandatory}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" noColon="true" /></div></th>
                 <kul:htmlAttributeHeaderCell literalLabel="Version" scope="col"/>
@@ -30,7 +31,24 @@
 
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
-                    <kul:htmlControlAttribute property="newQuestionnaireUsage.moduleItemCode" attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" styleClass="fixed-size-select"/>
+                    <kul:htmlControlAttribute property="newQuestionnaireUsage.moduleItemCode" attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" onchange="moduleCodeChange(this)" styleClass="fixed-size-select"/>
+                </div>
+                </td>
+                <td align="left" valign="middle" class="infoline">
+                <div id="submodulediv" align="center">
+                <%--
+							                <html:select property="newQuestionnaireUsage.moduleSubItemCode" tabindex="0">
+							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
+							                <c:choose>
+							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
+							                    <option value="${option.key}" selected>${option.label}</option>
+							                    </c:when>
+							                    <c:otherwise>
+							                    <option value="${option.key}">${option.label}</option>
+							                    </c:otherwise>
+							                </c:choose>
+							                </c:forEach>
+							                </html:select> --%>
                 </div>
                 </td>
                 <td align="left" valign="middle" class="infoline">
