@@ -374,6 +374,7 @@
      <action path="/maintenanceQn" name="QuestionnaireMaintenanceForm" attribute="KualiForm" scope="request" 
          parameter="methodToCall" validate="false" input="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAction">
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
+          <forward name="ajaxQuestionnaire" path="/WEB-INF/jsp/questionnaire/QuestionnaireAjax.jsp" />
      </action>    
      
      <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
