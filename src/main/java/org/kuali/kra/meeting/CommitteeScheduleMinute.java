@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * 
  * This is BO class for committee schedule minute. 
  */
-public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase { 
+public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase implements Cloneable { 
 
     private static final long serialVersionUID = -2294619582524055884L;
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
@@ -496,4 +496,15 @@ public class CommitteeScheduleMinute extends KraPersistableBusinessObjectBase {
         return ids.contains(principalId);
     }
 
+    public CommitteeScheduleMinute getCopy() {
+        CommitteeScheduleMinute copy = null;
+        try {
+            copy = (CommitteeScheduleMinute) this.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        
+        return copy;
+    }    
 }
