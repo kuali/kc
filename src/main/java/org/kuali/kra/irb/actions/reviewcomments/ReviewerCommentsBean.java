@@ -16,8 +16,10 @@
 package org.kuali.kra.irb.actions.reviewcomments;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -43,13 +45,23 @@ public class ReviewerCommentsBean implements Serializable {
         this.actionHelper = actionHelper;
     }
     
+    private List<CommitteeScheduleMinute> cloneMinutes(List<CommitteeScheduleMinute> minutes) {
+        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
+        if(CollectionUtils.isNotEmpty(minutes)) {
+            for(CommitteeScheduleMinute minute : minutes) {
+                clonedMinutes.add(minute.getCopy());
+            }
+        }
+        return clonedMinutes;
+    }
+    
     /**
      * Initializes the ReviewerComments.
      */
     public void initComments() {
         Long scheduleIdFk = actionHelper.getProtocol().getProtocolSubmission().getScheduleIdFk();
         List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
-        reviewComments.setComments(minutes);
+        reviewComments.setComments(cloneMinutes(minutes));
         reviewComments.setProtocolId(actionHelper.getProtocol().getProtocolId());
     }
     
