@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -35,6 +36,11 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
     private String documentNumber;
     private List<QuestionnaireQuestion> questionnaireQuestions;
     private List<QuestionnaireUsage> questionnaireUsages;
+    private String fileName;
+    private byte[] template; 
+    
+    private transient FormFile templateFile;
+
         
     public Questionnaire() { 
         super();
@@ -175,6 +181,30 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         } else {
             return this.getQuestionnaireId().compareTo(argQuestionnaire.getQuestionnaireId());
         }
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public byte[] getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(byte[] template) {
+        this.template = template;
+    }
+
+    public FormFile getTemplateFile() {
+        return templateFile;
+    }
+
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
     }
     
 }
