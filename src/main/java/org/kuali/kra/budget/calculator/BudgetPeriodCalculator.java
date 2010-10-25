@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -44,8 +42,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.ValidCeRateType;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -338,6 +334,17 @@ public class BudgetPeriodCalculator {
         return proposalRatesBean;
     }
     
+    private void resetRateClassTypeIfNeeded(List<BudgetLineItemCalculatedAmount> vecCalAmts) {
+        for(BudgetLineItemCalculatedAmount calcAmt: vecCalAmts) {
+            if(StringUtils.isEmpty(calcAmt.getRateClassType())) {
+                calcAmt.refreshReferenceObject("rateClass");
+                if(calcAmt.getRateClass() != null) {
+                    calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
+                }
+            }
+        }
+    }
+    
     public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         Equals eqBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetDetailBean.getBudgetPeriod()));
@@ -381,6 +388,8 @@ public class BudgetPeriodCalculator {
 
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
+
+        resetRateClassTypeIfNeeded(vecCalAmts); 
 
         BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
