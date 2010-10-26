@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
@@ -84,7 +85,7 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         try {
             AccountCreationServiceSOAP ss = new AccountCreationServiceSOAP(wsdlURL, SERVICE_NAME);
             AccountCreationService port = ss.getAccountCreationServicePort();             
-              
+
             AccountCreationStatusDTO createAccountResult = port.createAccount(accountParameters);
             // If the account did not get created display the errors
             if (!createAccountResult.getStatus().equals("success")) {
@@ -171,8 +172,11 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         accountParameters.setUnit(award.getUnitNumber());
        
         //Principal id
-        accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
-       
+        //accountParameters.setPrincipalId(UserSession.getAuthenticatedUser().getPrincipalId());
+        /* KFS and KC do not share a common db, so using khuntleys id
+         so it will succeed authentication by KFS.*/
+        String KHUNTLEY_ID = "6162502038";
+        accountParameters.setPrincipalId(KHUNTLEY_ID);
         // get the current FandaRate
         AwardFandaRate currentFandaRate = getCurrentFandaRate(award);
         
@@ -182,6 +186,9 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         accountParameters.setIndirectCostRate(currentFandaRate.getApplicableFandaRate() + "");
         // indirect cost type code
         accountParameters.setIndirectCostTypeCode(currentFandaRate.getFandaRateTypeCode() + "");
+        
+        //higher education function code
+        accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
     }
    
@@ -221,11 +228,12 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         if (principalInvestigator.getAddressLine3() != null) {
             streetAddress += principalInvestigator.getAddressLine3();
         }
-        
+ 
         accountParameters.setDefaultAddressStreetAddress(streetAddress);
         accountParameters.setDefaultAddressCityName(principalInvestigator.getCity());
         accountParameters.setDefaultAddressStateCode(principalInvestigator.getState());
         accountParameters.setDefaultAddressZipCode(principalInvestigator.getPostalCode());
+        
     }
     
     /**
@@ -300,10 +308,10 @@ public final class AccountCreationClientImpl implements AccountCreationClient {
         
         String incomeGuidelineText = ""; 
         if (paymentBasis != null) {
-            incomeGuidelineText += paymentBasis;
+            incomeGuidelineText += " " + paymentBasis;
         }
         if (paymentMethod != null) {
-            incomeGuidelineText += paymentMethod;
+            incomeGuidelineText += " " + paymentMethod;
         }
         accountParameters.setIncomeGuidelineText(incomeGuidelineText);
     }
